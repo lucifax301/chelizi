@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coupon.mapper.dao.CouponMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.coupon.dto.Coupon" >
+    <id column="couponTmpId" property="coupontmpid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="listBackImg" property="listbackimg" jdbcType="VARCHAR" />
+    <result column="indepentUse" property="indepentuse" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="validityPeriod" property="validityperiod" jdbcType="INTEGER" />
+    <result column="moneyValue" property="moneyvalue" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="isExist" property="isexist" jdbcType="TINYINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="useNote" property="usenote" jdbcType="VARCHAR" />
+    <result column="QRCodeUrl" property="qrcodeurl" jdbcType="VARCHAR" />
+    <result column="verify" property="verify" jdbcType="TINYINT" />
+    <result column="genRule" property="genrule" jdbcType="VARCHAR" />
+    <result column="useRule" property="userule" jdbcType="VARCHAR" />
+    <result column="createUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="jpushMsg" property="jpushmsg" jdbcType="VARCHAR" />
+    <result column="smsMsgType" property="smsmsgtype" jdbcType="INTEGER" />
+    <result column="limitValue" property="limitvalue" jdbcType="INTEGER" />
+    <result column="couponPic" property="couponpic" jdbcType="VARCHAR" />
+    <result column="couponUrl" property="couponurl" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+    <result column="maxNum" property="maxNum" jdbcType="INTEGER" />
+    <result column="isUse" property="isUse" jdbcType="INTEGER" />
+    <result column="groupType" property="groupType" jdbcType="TINYINT" />
+    <result column="course2" property="course2" jdbcType="TINYINT" />
+    <result column="course3" property="course3" jdbcType="TINYINT" />
+    <result column="courseDrive" property="courseDrive" jdbcType="TINYINT" />
+    <result column="courseEnroll" property="courseEnroll" jdbcType="TINYINT" />
+    <result column="cityId" property="cityId" jdbcType="VARCHAR" />
+    <result column="limitTime" property="limitTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    couponTmpId, name, listBackImg, indepentUse, type, validityPeriod, moneyValue, discount, 
+    isExist, icon, useNote, QRCodeUrl, verify, genRule, useRule, createUser, createTime, 
+    jpushMsg, smsMsgType, limitValue, couponPic, couponUrl, extra, expireTime, maxNum, 
+    isUse, groupType, course2, course3, courseDrive, courseEnroll, cityId, limitTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_coupon
+    where couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByExtra" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_coupon
+    where extra = #{extra,jdbcType=VARCHAR} and isExist=1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_s_coupon
+    where couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lili.coupon.dto.Coupon" >
+    insert into t_s_coupon (couponTmpId, name, listBackImg, 
+      indepentUse, type, validityPeriod, 
+      moneyValue, discount, isExist, 
+      icon, useNote, QRCodeUrl, 
+      verify, genRule, useRule, 
+      createUser, createTime, jpushMsg, 
+      smsMsgType, limitValue, couponPic, 
+      couponUrl, extra, expireTime, 
+      groupType, 
+      course2, course3, courseDrive, 
+      courseEnroll, cityId, limitTime
+      )
+    values (#{coupontmpid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{listbackimg,jdbcType=VARCHAR}, 
+      #{indepentuse,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{validityperiod,jdbcType=INTEGER}, 
+      #{moneyvalue,jdbcType=INTEGER}, #{discount,jdbcType=INTEGER}, #{isexist,jdbcType=TINYINT}, 
+      #{icon,jdbcType=VARCHAR}, #{usenote,jdbcType=VARCHAR}, #{qrcodeurl,jdbcType=VARCHAR}, 
+      #{verify,jdbcType=TINYINT}, #{genrule,jdbcType=VARCHAR}, #{userule,jdbcType=VARCHAR}, 
+      #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{jpushmsg,jdbcType=VARCHAR}, 
+      #{smsmsgtype,jdbcType=INTEGER}, #{limitvalue,jdbcType=INTEGER}, #{couponpic,jdbcType=VARCHAR}, 
+      #{couponurl,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{expireTime,jdbcType=TIMESTAMP}, 
+      #{groupType,jdbcType=TINYINT}, 
+      #{course2,jdbcType=TINYINT}, #{course3,jdbcType=TINYINT}, #{courseDrive,jdbcType=TINYINT}, 
+      #{courseEnroll,jdbcType=TINYINT}, #{cityId,jdbcType=VARCHAR}, #{limitTime,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.coupon.dto.Coupon" >
+    insert into t_s_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coupontmpid != null" >
+        couponTmpId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="listbackimg != null" >
+        listBackImg,
+      </if>
+      <if test="indepentuse != null" >
+        indepentUse,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="validityperiod != null" >
+        validityPeriod,
+      </if>
+      <if test="moneyvalue != null" >
+        moneyValue,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="isexist != null" >
+        isExist,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="usenote != null" >
+        useNote,
+      </if>
+      <if test="qrcodeurl != null" >
+        QRCodeUrl,
+      </if>
+      <if test="verify != null" >
+        verify,
+      </if>
+      <if test="genrule != null" >
+        genRule,
+      </if>
+      <if test="userule != null" >
+        useRule,
+      </if>
+      <if test="createuser != null" >
+        createUser,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="jpushmsg != null" >
+        jpushMsg,
+      </if>
+      <if test="smsmsgtype != null" >
+        smsMsgType,
+      </if>
+      <if test="limitvalue != null" >
+        limitValue,
+      </if>
+      <if test="couponpic != null" >
+        couponPic,
+      </if>
+      <if test="couponurl != null" >
+        couponUrl,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="expireTime != null" >
+        expireTime,
+      </if>
+      <if test="maxNum != null" >
+        maxNum,
+      </if>
+      <if test="isUse != null" >
+        isUse,
+      </if>
+      <if test="groupType != null" >
+        groupType,
+      </if>
+      <if test="course2 != null" >
+        course2,
+      </if>
+      <if test="course3 != null" >
+        course3,
+      </if>
+      <if test="courseDrive != null" >
+        courseDrive,
+      </if>
+      <if test="courseEnroll != null" >
+        courseEnroll,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="limitTime != null" >
+        limitTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coupontmpid != null" >
+        #{coupontmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="listbackimg != null" >
+        #{listbackimg,jdbcType=VARCHAR},
+      </if>
+      <if test="indepentuse != null" >
+        #{indepentuse,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="validityperiod != null" >
+        #{validityperiod,jdbcType=INTEGER},
+      </if>
+      <if test="moneyvalue != null" >
+        #{moneyvalue,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="isexist != null" >
+        #{isexist,jdbcType=TINYINT},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="usenote != null" >
+        #{usenote,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeurl != null" >
+        #{qrcodeurl,jdbcType=VARCHAR},
+      </if>
+      <if test="verify != null" >
+        #{verify,jdbcType=TINYINT},
+      </if>
+      <if test="genrule != null" >
+        #{genrule,jdbcType=VARCHAR},
+      </if>
+      <if test="userule != null" >
+        #{userule,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jpushmsg != null" >
+        #{jpushmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="smsmsgtype != null" >
+        #{smsmsgtype,jdbcType=INTEGER},
+      </if>
+      <if test="limitvalue != null" >
+        #{limitvalue,jdbcType=INTEGER},
+      </if>
+      <if test="couponpic != null" >
+        #{couponpic,jdbcType=VARCHAR},
+      </if>
+      <if test="couponurl != null" >
+        #{couponurl,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxNum != null" >
+        #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="isUse != null" >
+        #{isUse,jdbcType=TINYINT},
+      </if>
+      <if test="groupType != null" >
+        #{groupType,jdbcType=TINYINT},
+      </if>
+      <if test="course2 != null" >
+        #{course2,jdbcType=TINYINT},
+      </if>
+      <if test="course3 != null" >
+        #{course3,jdbcType=TINYINT},
+      </if>
+      <if test="courseDrive != null" >
+        #{courseDrive,jdbcType=TINYINT},
+      </if>
+      <if test="courseEnroll != null" >
+        #{courseEnroll,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null" >
+        #{limitTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.coupon.dto.Coupon" >
+    update t_s_coupon
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="listbackimg != null" >
+        listBackImg = #{listbackimg,jdbcType=VARCHAR},
+      </if>
+      <if test="indepentuse != null" >
+        indepentUse = #{indepentuse,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="validityperiod != null" >
+        validityPeriod = #{validityperiod,jdbcType=INTEGER},
+      </if>
+      <if test="moneyvalue != null" >
+        moneyValue = #{moneyvalue,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="isexist != null" >
+        isExist = #{isexist,jdbcType=TINYINT},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="usenote != null" >
+        useNote = #{usenote,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcodeurl != null" >
+        QRCodeUrl = #{qrcodeurl,jdbcType=VARCHAR},
+      </if>
+      <if test="verify != null" >
+        verify = #{verify,jdbcType=TINYINT},
+      </if>
+      <if test="genrule != null" >
+        genRule = #{genrule,jdbcType=VARCHAR},
+      </if>
+      <if test="userule != null" >
+        useRule = #{userule,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jpushmsg != null" >
+        jpushMsg = #{jpushmsg,jdbcType=VARCHAR},
+      </if>
+      <if test="smsmsgtype != null" >
+        smsMsgType = #{smsmsgtype,jdbcType=INTEGER},
+      </if>
+      <if test="limitvalue != null" >
+        limitValue = #{limitvalue,jdbcType=INTEGER},
+      </if>
+      <if test="couponpic != null" >
+        couponPic = #{couponpic,jdbcType=VARCHAR},
+      </if>
+      <if test="couponurl != null" >
+        couponUrl = #{couponurl,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+       <if test="expireTime != null" >
+        expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxNum != null" >
+        maxNum = #{maxNum,jdbcType=INTEGER},
+      </if>
+      <if test="isUse != null" >
+        isUse = #{isUse,jdbcType=INTEGER},
+      </if>
+      <if test="groupType != null" >
+        groupType = #{groupType,jdbcType=TINYINT},
+      </if>
+      <if test="course2 != null" >
+        course2 = #{course2,jdbcType=TINYINT},
+      </if>
+      <if test="course3 != null" >
+        course3 = #{course3,jdbcType=TINYINT},
+      </if>
+      <if test="courseDrive != null" >
+        courseDrive = #{courseDrive,jdbcType=TINYINT},
+      </if>
+      <if test="courseEnroll != null" >
+        courseEnroll = #{courseEnroll,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="limitTime != null" >
+        limitTime = #{limitTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.coupon.dto.Coupon" >
+    update t_s_coupon
+    set name = #{name,jdbcType=VARCHAR},
+      listBackImg = #{listbackimg,jdbcType=VARCHAR},
+      indepentUse = #{indepentuse,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      validityPeriod = #{validityperiod,jdbcType=INTEGER},
+      moneyValue = #{moneyvalue,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
+      isExist = #{isexist,jdbcType=TINYINT},
+      icon = #{icon,jdbcType=VARCHAR},
+      useNote = #{usenote,jdbcType=VARCHAR},
+      QRCodeUrl = #{qrcodeurl,jdbcType=VARCHAR},
+      verify = #{verify,jdbcType=TINYINT},
+      genRule = #{genrule,jdbcType=VARCHAR},
+      useRule = #{userule,jdbcType=VARCHAR},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      jpushMsg = #{jpushmsg,jdbcType=VARCHAR},
+      smsMsgType = #{smsmsgtype,jdbcType=INTEGER},
+      limitValue = #{limitvalue,jdbcType=INTEGER},
+      couponPic = #{couponpic,jdbcType=VARCHAR},
+      couponUrl = #{couponurl,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      maxNum = #{maxNum,jdbcType=INTEGER},
+      isUse = #{isUse,jdbcType=TINYINT},
+      groupType = #{groupType,jdbcType=TINYINT},
+      course2 = #{course2,jdbcType=TINYINT},
+      course3 = #{course3,jdbcType=TINYINT},
+      courseDrive = #{courseDrive,jdbcType=TINYINT},
+      courseEnroll = #{courseEnroll,jdbcType=TINYINT},
+      cityId = #{cityId,jdbcType=VARCHAR},
+      limitTime = #{limitTime,jdbcType=INTEGER}
+    where couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+</mapper>

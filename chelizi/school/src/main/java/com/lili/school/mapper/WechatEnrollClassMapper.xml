@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatEnrollClassMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatEnrollClass">
+		<id column="class_id" property="classId" jdbcType="INTEGER" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="class_name" property="className" jdbcType="VARCHAR" />
+		<result column="drtype" property="drtype" jdbcType="TINYINT" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="pre_price" property="prePrice" jdbcType="INTEGER" />
+		<result column="drtype2" property="drtype2" jdbcType="TINYINT" />
+		<result column="price2" property="price2" jdbcType="INTEGER" />
+		<result column="pre_price2" property="prePrice2" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="class_tag" property="classTag" jdbcType="VARCHAR" />
+		<result column="class_remark" property="classRemark" jdbcType="VARCHAR" />
+		<result column="order_tag" property="orderTag" jdbcType="VARCHAR" />
+		<result column="school_id" property="schoolId" jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		class_id, coach_id, class_name, drtype, price, pre_price,
+		drtype2, price2,
+		pre_price2,
+		address, class_tag, class_remark,
+		order_tag, school_id, city_id, city_name,
+		is_del,
+		ctime, mtime
+	</sql>
+
+	 <sql id="myRowBoundsSQL">
+	    <if test="myRowBounds != null">
+	        limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		 </if>
+	 </sql>
+	 
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_class
+		where class_id = #{classId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryWechatEnrollClassList" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_class
+		where is_del=0
+			 <trim suffixOverrides=",">
+				<if test="classId != null and classId != ''">
+					 and class_id = #{classId}
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+	</select>
+	
+	<select id="queryClassGroupByCoachList" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollClass">
+		select
+			class_id, coach_id, class_name, e.drtype, price, pre_price, drtype2, price2, pre_price2, address, class_tag, class_remark, 	order_tag, school_id, city_id, city_name, is_del, ctime, mtime,
+			(select count(*) from t_wechat_enroll_student s where s.class_id= e.class_id) as enrollSum
+		from t_wechat_enroll_class e LEFT JOIN t_u_coach c on c.coachId=e.coach_id
+		where  e.is_del = 0 and (c.checkDrState=2 or c.checkIdState=2)
+				<trim suffixOverrides=",">
+					<if test="cityId != null and cityId != ''">
+						 and c.cityId = #{cityId}
+					</if>
+				</trim>
+			GROUP BY e.coach_id 
+			ORDER BY enrollSum desc
+			<include refid="myRowBoundsSQL" />
+	</select>
+	
+	<select id="getMinPrice" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollClassVo">
+		select 
+				(select min(price) from t_wechat_enroll_class c where c.coach_id=ec.coach_id  and c.is_del=0 and c.price>0) as price,
+				(select min(pre_price) from t_wechat_enroll_class c where c.coach_id=ec.coach_id  and c.is_del=0 and c.pre_price>0) as pre_price,
+				(select min(price2) from t_wechat_enroll_class c where c.coach_id=ec.coach_id  and c.is_del=0 and c.price2>0) as price2,
+				(select min(pre_price2) from t_wechat_enroll_class c where c.coach_id=ec.coach_id  and c.is_del=0 and c.pre_price2>0) as pre_price2
+			from t_wechat_enroll_class ec where ec.coach_id=#{coachId} and ec.is_del = 0 limit 1
+	</select>
+	
+	<select id="queryWechatEnrollClass" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_class
+		where  is_del=0
+			 <trim suffixOverrides=",">
+				<if test="classId != null and classId != ''">
+					 and class_id = #{classId}
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_wechat_enroll_class
+		where class_id = #{classId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.school.vo.WechatEnrollClass">
+		insert into
+		t_wechat_enroll_class (class_id, coach_id, class_name,
+		drtype, price,
+		pre_price,
+		drtype2, price2, pre_price2,
+		address, class_tag,
+		class_remark,
+		order_tag, school_id, city_id,
+		city_name, is_del, ctime,
+		mtime)
+		values (#{classId,jdbcType=INTEGER}, #{coachId,jdbcType=BIGINT},
+		#{className,jdbcType=VARCHAR},
+		#{drtype,jdbcType=TINYINT},
+		#{price,jdbcType=INTEGER}, #{prePrice,jdbcType=INTEGER},
+		#{drtype2,jdbcType=TINYINT}, #{price2,jdbcType=INTEGER},
+		#{prePrice2,jdbcType=INTEGER},
+		#{address,jdbcType=VARCHAR},
+		#{classTag,jdbcType=VARCHAR}, #{classRemark,jdbcType=VARCHAR},
+		#{orderTag,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER},
+		#{cityId,jdbcType=INTEGER},
+		#{cityName,jdbcType=VARCHAR},
+		#{isDel,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatEnrollClass">
+		insert into t_wechat_enroll_class
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="classId != null">
+				class_id,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="className != null">
+				class_name,
+			</if>
+			<if test="drtype != null">
+				drtype,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="prePrice != null">
+				pre_price,
+			</if>
+			<if test="drtype2 != null">
+				drtype2,
+			</if>
+			<if test="price2 != null">
+				price2,
+			</if>
+			<if test="prePrice2 != null">
+				pre_price2,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="classTag != null">
+				class_tag,
+			</if>
+			<if test="classRemark != null">
+				class_remark,
+			</if>
+			<if test="orderTag != null">
+				order_tag,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="classId != null">
+				#{classId,jdbcType=INTEGER},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="className != null">
+				#{className,jdbcType=VARCHAR},
+			</if>
+			<if test="drtype != null">
+				#{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="prePrice != null">
+				#{prePrice,jdbcType=INTEGER},
+			</if>
+			<if test="drtype2 != null">
+				#{drtype2,jdbcType=TINYINT},
+			</if>
+			<if test="price2 != null">
+				#{price2,jdbcType=INTEGER},
+			</if>
+			<if test="prePrice2 != null">
+				#{prePrice2,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="classTag != null">
+				#{classTag,jdbcType=VARCHAR},
+			</if>
+			<if test="classRemark != null">
+				#{classRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTag != null">
+				#{orderTag,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatEnrollClass">
+		update t_wechat_enroll_class
+		<set>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="className != null">
+				class_name = #{className,jdbcType=VARCHAR},
+			</if>
+			<if test="drtype != null">
+				drtype = #{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="prePrice != null">
+				pre_price = #{prePrice,jdbcType=INTEGER},
+			</if>
+			<if test="drtype2 != null">
+				drtype2 = #{drtype2,jdbcType=TINYINT},
+			</if>
+			<if test="price2 != null">
+				price2 = #{price2,jdbcType=INTEGER},
+			</if>
+			<if test="prePrice2 != null">
+				pre_price2 = #{prePrice2,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="classTag != null">
+				class_tag = #{classTag,jdbcType=VARCHAR},
+			</if>
+			<if test="classRemark != null">
+				class_remark = #{classRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTag != null">
+				order_tag = #{orderTag,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where class_id = #{classId,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatEnrollClass">
+		update
+		t_wechat_enroll_class
+		set coach_id = #{coachId,jdbcType=BIGINT},
+		class_name = #{className,jdbcType=VARCHAR},
+		drtype =
+		#{drtype,jdbcType=TINYINT},
+		price = #{price,jdbcType=INTEGER},
+		pre_price = #{prePrice,jdbcType=INTEGER},
+		drtype2 =
+		#{drtype2,jdbcType=TINYINT},
+		price2 = #{price2,jdbcType=INTEGER},
+		pre_price2 = #{prePrice2,jdbcType=INTEGER},
+		address =
+		#{address,jdbcType=VARCHAR},
+		class_tag = #{classTag,jdbcType=VARCHAR},
+		class_remark = #{classRemark,jdbcType=VARCHAR},
+		order_tag =
+		#{orderTag,jdbcType=VARCHAR},
+		school_id = #{schoolId,jdbcType=INTEGER},
+		city_id = #{cityId,jdbcType=INTEGER},
+		city_name =
+		#{cityName,jdbcType=VARCHAR},
+		is_del = #{isDel,jdbcType=TINYINT},
+		ctime
+		= #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where class_id = #{classId,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insertEnrollClassList" parameterType="java.util.List">
+		insert into t_wechat_enroll_class (coach_id, class_name, drtype, price,pre_price,drtype2,price2,pre_price2,
+			address, class_tag, class_remark,order_tag, school_id, city_id)values
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=",">
+			(#{item.coachId},#{item.className},#{item.drtype},#{item.price},#{item.prePrice},#{item.drtype2},#{item.price2},
+			#{item.prePrice2},#{item.address},#{item.classTag},#{item.classRemark},#{item.orderTag},#{item.schoolId},#{item.cityId})
+		</foreach>
+	</insert>
+
+
+</mapper>

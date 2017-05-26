@@ -1,0 +1,232 @@
+   <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>考试管理 >> 理论课培训</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="门店名称"  ng-model="condition">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="resetForm()" data-toggle="modal" data-target=".add-modal">新增课程</button>
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <th style='text-align: center;' class="column-title">创建时间</th>
+                                    <th style='text-align: center;' class="column-title">上课日期</th>
+                                    <th style='text-align: center;' class="column-title">课程时间</th>
+                                    <th style='text-align: center;' class="column-title">课程名称</th>
+                                    <th style='text-align: center;' class="column-title">上课地点</th>
+                                    <th style='text-align: center;' class="column-title">联系人</th>
+                                    <th style='text-align: center;' class="column-title">联系电话</th>
+                                    <th style='text-align: center;' class="column-title">携带证件</th>
+                                    <th style='text-align: center;' class="column-title">已安排人数</th>
+                                    <th style='text-align: center;' class="column-title">缺勤人数</th>
+                                    <th style='text-align: center;' class="column-title">课程状态</th>
+                                    <th style='text-align: center;' class="column-title no-link last"><span class="nobr">操作</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="data in datas">
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.storename"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.storeaddress"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.tel"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.lng"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.lat"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.status | storeText"></td>
+                                    <td class=" last" style='text-align: center;'>                                    
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade add-modal" tabindex="-1" role="dialog" aria-hidden="true" id="addStore">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >新增理论课</h4>
+                </div>
+                <div class="x_panel" >
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="addform" name="addform" ng-submit="addTreoryExam()">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">上课日期 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input name="classDate" ng-model="addData.classDate" required type="text" placeholder="请选择上课日期" onclick="laydate({format: 'YYYY-MM-DD'})" class="form-control">
+                                    <span style="color:red" ng-show="addform.classDate.$error.required && addform.classDate.$dirty">请选择上课日期</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">上课时间 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                   <select name="startTime" class="form-control" ng-model="addData.startTime">
+                                        <option ng-repeat="v in timepick" value="{{ v }}"> {{ v }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                    <select name="endTime" class="form-control" ng-model="addData.endTime">
+                                        <option ng-repeat="v in timepick" value="{{ v }}"> {{ v }}</option>
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel">课程名称<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="addData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请填写课程名称">
+                                    <span style="color:red" ng-show="addform.tel.$error.required && addform.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">携带证件<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="addData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请填写携带证件">
+                                    <span style="color:red" ng-show="addform.tel.$error.required && addform.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">联系人<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="addData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请填写联系人">
+                                    <span style="color:red" ng-show="addform.tel.$error.required && addform.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">联系电话<span class="required">*</span>
+                                </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="addData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请填写联系电话">
+                                    <span style="color:red" ng-show="addform.tel.$error.required && addform.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                             <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">上课地点<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="tel" name="tel"  ng-model="addData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请填写上课地点"></textarea> 
+                                    <span style="color:red" ng-show="addform.tel.$error.required && addform.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                                    <button type="submit" ng-disabled="addform.$invalid" class="btn btn-success">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+
+    <!-- 编辑弹框-->
+    <div class="modal fade edit-store-modal" tabindex="-1" role="dialog" aria-hidden="true" id="editStore">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >编辑门店</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="editform" enctype="multipart/form-data" name="editForm">
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storename">门店名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storename"  name="storename" ng-model="editData.storename" class="form-control col-md-7 col-xs-12" required type="text">
+                                    <span style="color:red" ng-show="editForm.storename.$error.required && editForm.storename.$touched">请输入门店名称</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storeaddress">门店地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storeaddress" name="storeaddress" ng-model="editData.storeaddress" class="form-control col-md-7 col-xs-12" required type="text">
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.storeaddress.$dirty && editForm.storeaddress.$valid"></span>
+                                    <span style="color:red" ng-show="editForm.storeaddress.$error.required && editForm.storeaddress.$touched">请输入门店地址</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel">联系电话 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="editData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请输入联系电话">
+                                    <span style="color:red" ng-show="editForm.tel.$error.required && editForm.tel.$touched">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">经营状态<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select ng-model="editData.status" name="status" class="form-control">
+                                        <option value="1">建设筹备中</option>
+                                        <option value="2">开业招生中</option>
+                                        <option value="3">正常教学中</option>
+                                        <option value="4">停业整顿中</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">上传图片 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input name="token" type="hidden" >
+                                    <input name="file" type="file" />
+                                </div>
+
+                            </div> -->
+                    
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                                    <button type="submit" ng-click="submitEdit()" ng-disabled="editForm.$invalid"  class="btn btn-success">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->

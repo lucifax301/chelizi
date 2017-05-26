@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- 引入配置文件 -->
+    <properties resource="jdbc.properties"/>
+    <classPathEntry location="C:\Users\linbo\.m2\repository\mysql\mysql-connector-java\5.1.27\mysql-connector-java-5.1.27.jar"/>
+	<context id="MysqlContext" targetRuntime="MyBatis3"
+		defaultModelType="flat">
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		<!-- 注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" />
+		</commentGenerator>
+
+		<!-- jdbc连接 -->  
+        <jdbcConnection driverClass="${datasource.driverClassName}"  
+            connectionURL="${datasource.url}" userId="${datasource.username}"  
+            password="${datasource.password}">
+        </jdbcConnection>
+        
+		<javaModelGenerator targetPackage="com.lili.log.dto"
+			targetProject="log\src\main\java">
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.lili.log.mapper"
+			targetProject="log\src\main\java" />
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.lili.log.mapper.dao" targetProject="log\src\main\java" />
+		 
+	<!-- 	<table tableName="t_log_money" domainObjectName="LogMoney"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+		<table tableName="t_log_pay" domainObjectName="LogPay"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table> -->
+		<table tableName="t_log_coupon" domainObjectName="LogCoupon"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false">
+		</table>
+	</context>
+</generatorConfiguration>

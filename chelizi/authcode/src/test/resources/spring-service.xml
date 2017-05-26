@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+<!-- 配置属性文件注入 -->
+<!--<bean id="authcodeResources" class="java.util.ArrayList">  
+       <constructor-arg>  
+       <list>  
+           <value>classpath:authcode.properties</value>  
+       </list>  
+       </constructor-arg>  
+ </bean>
+ <bean id="authcodeProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+    <property name="ignoreUnresolvablePlaceholders" value="true" />   
+    <property name="locations" ref="authcodeResources" /> 
+    <property name="fileEncoding" value="UTF-8" />  
+</bean>  -->
+<bean id="authcodeProp" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	<property name="ignoreResourceNotFound" value="true"/>  
+    <property name="fileEncoding" value="UTF-8" />
+    <property name="locations">
+        <list>
+            <value>classpath:authcode.properties</value>
+            <value>classpath:mail.properties</value>
+        </list>
+    </property>  
+</bean> 
+<bean id="authcodeService" class="com.lili.authcode.service.impl.AuthcodeServiceImpl"></bean>
+ <bean id="emailService" class="com.lili.authcode.service.impl.EmailServiceImpl"></bean>
+<bean id="sms" class="com.lili.smsmessage.service.impl.SMSMessageerviceImpl"></bean>
+<bean id="noticeManager" class="com.lili.authcode.manager.impl.NoticeManagerImpl"></bean>
+
+</beans>

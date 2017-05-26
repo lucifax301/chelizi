@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="assets/common/js/jquery-2.1.4.min.js"></script>
+    <style>
+        img{ max-width:100%;}
+    </style>
+    <title>内容</title>
+</head>
+
+<body>
+<div id="content"></div>
+</body>
+<script type="text/javascript">
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+
+    var noticeId=getQueryString("noticeId");
+    //  var path="http://uattest.lilixc.com:40013/httpaccess/v1/";   //测试环境
+    var path="http://clzapp.lilixc.com:80/httpaccess/v1/";   //正式环境
+    if(window.location.host=="uatxc.lilixc.com"){
+        path="http://uattest.lilixc.com:40013/httpaccess/v1/";//测试环境
+    }
+
+    $.ajax({
+        type: "get",
+        url:path+"authcodes/getNoticeById",
+        data: {noticeId:noticeId},
+        success:function(data){
+            //  var data=JSON.parse(data.result.data)
+            var data=data.data;
+            document.getElementById("content").innerHTML=data.content;
+        }
+    });
+</script>
+</html>

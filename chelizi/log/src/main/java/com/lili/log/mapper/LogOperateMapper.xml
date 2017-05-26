@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.log.mapper.dao.LogOperateMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.log.dto.LogOperate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="userType" property="userType" jdbcType="TINYINT" />
+    <result column="requestUrl" property="requestUrl" jdbcType="VARCHAR" />
+    <result column="requestParams" property="requestParams" jdbcType="VARCHAR" />
+    <result column="requestMethod" property="requestMethod" jdbcType="VARCHAR" />
+    <result column="remoteHost" property="remoteHost" jdbcType="VARCHAR" />
+    <result column="remotePort" property="remotePort" jdbcType="INTEGER" />
+    <result column="responseCode" property="responseCode" jdbcType="INTEGER" />
+    <result column="requestTime" property="requestTime" jdbcType="TIMESTAMP" />
+    <result column="executeTime" property="executeTime" jdbcType="BIGINT" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, userId, userType, requestUrl, requestParams, requestMethod, remoteHost, remotePort, 
+    responseCode, requestTime, executeTime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.log.dto.LogOperateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_log_operate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_log_operate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_log_operate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.log.dto.LogOperateExample" >
+    delete from t_log_operate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.log.dto.LogOperate" >
+    insert into t_log_operate (id, userId, userType, 
+      requestUrl, requestParams, requestMethod, 
+      remoteHost, remotePort, responseCode, 
+      requestTime, executeTime, extra
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{userType,jdbcType=TINYINT}, 
+      #{requestUrl,jdbcType=VARCHAR}, #{requestParams,jdbcType=VARCHAR}, #{requestMethod,jdbcType=VARCHAR}, 
+      #{remoteHost,jdbcType=VARCHAR}, #{remotePort,jdbcType=INTEGER}, #{responseCode,jdbcType=INTEGER}, 
+      #{requestTime,jdbcType=TIMESTAMP}, #{executeTime,jdbcType=BIGINT}, #{extra,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.log.dto.LogOperate" >
+    insert into t_log_operate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="userType != null" >
+        userType,
+      </if>
+      <if test="requestUrl != null" >
+        requestUrl,
+      </if>
+      <if test="requestParams != null" >
+        requestParams,
+      </if>
+      <if test="requestMethod != null" >
+        requestMethod,
+      </if>
+      <if test="remoteHost != null" >
+        remoteHost,
+      </if>
+      <if test="remotePort != null" >
+        remotePort,
+      </if>
+      <if test="responseCode != null" >
+        responseCode,
+      </if>
+      <if test="requestTime != null" >
+        requestTime,
+      </if>
+      <if test="executeTime != null" >
+        executeTime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=TINYINT},
+      </if>
+      <if test="requestUrl != null" >
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParams != null" >
+        #{requestParams,jdbcType=VARCHAR},
+      </if>
+      <if test="requestMethod != null" >
+        #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteHost != null" >
+        #{remoteHost,jdbcType=VARCHAR},
+      </if>
+      <if test="remotePort != null" >
+        #{remotePort,jdbcType=INTEGER},
+      </if>
+      <if test="responseCode != null" >
+        #{responseCode,jdbcType=INTEGER},
+      </if>
+      <if test="requestTime != null" >
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeTime != null" >
+        #{executeTime,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.log.dto.LogOperateExample" resultType="java.lang.Integer" >
+    select count(*) from t_log_operate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_log_operate
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userType != null" >
+        userType = #{record.userType,jdbcType=TINYINT},
+      </if>
+      <if test="record.requestUrl != null" >
+        requestUrl = #{record.requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestParams != null" >
+        requestParams = #{record.requestParams,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestMethod != null" >
+        requestMethod = #{record.requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remoteHost != null" >
+        remoteHost = #{record.remoteHost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remotePort != null" >
+        remotePort = #{record.remotePort,jdbcType=INTEGER},
+      </if>
+      <if test="record.responseCode != null" >
+        responseCode = #{record.responseCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.requestTime != null" >
+        requestTime = #{record.requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.executeTime != null" >
+        executeTime = #{record.executeTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_log_operate
+    set id = #{record.id,jdbcType=INTEGER},
+      userId = #{record.userId,jdbcType=BIGINT},
+      userType = #{record.userType,jdbcType=TINYINT},
+      requestUrl = #{record.requestUrl,jdbcType=VARCHAR},
+      requestParams = #{record.requestParams,jdbcType=VARCHAR},
+      requestMethod = #{record.requestMethod,jdbcType=VARCHAR},
+      remoteHost = #{record.remoteHost,jdbcType=VARCHAR},
+      remotePort = #{record.remotePort,jdbcType=INTEGER},
+      responseCode = #{record.responseCode,jdbcType=INTEGER},
+      requestTime = #{record.requestTime,jdbcType=TIMESTAMP},
+      executeTime = #{record.executeTime,jdbcType=BIGINT},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.log.dto.LogOperate" >
+    update t_log_operate
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userType != null" >
+        userType = #{userType,jdbcType=TINYINT},
+      </if>
+      <if test="requestUrl != null" >
+        requestUrl = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="requestParams != null" >
+        requestParams = #{requestParams,jdbcType=VARCHAR},
+      </if>
+      <if test="requestMethod != null" >
+        requestMethod = #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="remoteHost != null" >
+        remoteHost = #{remoteHost,jdbcType=VARCHAR},
+      </if>
+      <if test="remotePort != null" >
+        remotePort = #{remotePort,jdbcType=INTEGER},
+      </if>
+      <if test="responseCode != null" >
+        responseCode = #{responseCode,jdbcType=INTEGER},
+      </if>
+      <if test="requestTime != null" >
+        requestTime = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="executeTime != null" >
+        executeTime = #{executeTime,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.log.dto.LogOperate" >
+    update t_log_operate
+    set userId = #{userId,jdbcType=BIGINT},
+      userType = #{userType,jdbcType=TINYINT},
+      requestUrl = #{requestUrl,jdbcType=VARCHAR},
+      requestParams = #{requestParams,jdbcType=VARCHAR},
+      requestMethod = #{requestMethod,jdbcType=VARCHAR},
+      remoteHost = #{remoteHost,jdbcType=VARCHAR},
+      remotePort = #{remotePort,jdbcType=INTEGER},
+      responseCode = #{responseCode,jdbcType=INTEGER},
+      requestTime = #{requestTime,jdbcType=TIMESTAMP},
+      executeTime = #{executeTime,jdbcType=BIGINT},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.log.dto.LogOperateExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_log_operate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

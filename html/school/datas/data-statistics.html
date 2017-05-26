@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="DataStatistics">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>数据统计</title>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script src="../assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">教务报表</div>
+		<ul class="table-li">
+			<li class="active"><a href="data-statistics.html">数据统计</a></li>
+			<li><a href="data-stu-statistics.html">学员统计</a></li>
+			<li><a href="data-coa-statistics.html">教练统计</a></li>
+		</ul>
+		<div class="order-table common-table data-statisti-table" ng-class="[totalData.length?'show':'hide']">
+			<div class="clearfix data-top">
+				<div class="w-20" ng-repeat="item in totalData">
+					<div class="common-data-sta">
+						<dl>
+							<dt><img src="{{item.icon}}"></dt>
+							<dd ng-bind="item.title"></dd>
+							<dd ng-bind="item.dec"></dd>
+						</dl>
+						<div ng-bind="item.totalNum"></div>
+					</div>
+				</div>
+			</div>
+			<!--<div class="table-responsive show" ng-repeat="items in tabDataList">-->
+				<!--<table class="table table-bordered table-striped ">-->
+				  <!--<tr ng-repeat="item in items">-->
+				  	<!--<td class="t-150" ng-bind="item[0]"></td>-->
+				  	<!--<td ng-bind="item[1]"></td>-->
+				  	<!--<td ng-bind="item[2]"></td>-->
+				  	<!--<td ng-bind="item[3]"></td>-->
+				  	<!--<td ng-bind="item[4]"></td>-->
+				  	<!--<td ng-bind="item[5]"></td>-->
+				  	<!--<td ng-bind="item[6]"></td>-->
+				  	<!--<td ng-bind="item[7]"></td>-->
+				  	<!--<td ng-bind="item[8]"></td>-->
+				  	<!--<td ng-bind="item[9]"></td>-->
+				  <!--</tr>-->
+				<!--</table>-->
+			<!--</div>-->
+		</div>
+	</div>
+<!-- script -->
+</div>	
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="../assets/js/ng-js/data-statistics.js"></script>
+<script>win.hideLoading()</script>
+</body>
+</html>

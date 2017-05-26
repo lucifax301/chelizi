@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.privilege.dao.PrivilegeDao">
+	<resultMap id="RoleBaseResultMap" type="com.lili.privilege.model.Role">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		
+		<result column="id" property="id" jdbcType="BIGINT" />
+
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="isGroup" property="isGroup" jdbcType="INTEGER" />
+		<result column="isAdmin" property="isAdmin" jdbcType="INTEGER" />
+		<result column="enabled" property="enabled" jdbcType="INTEGER" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="PrivilegeBaseResultMap" type="com.lili.privilege.model.Privilege">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="TINYINT" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="ajax" property="ajax" jdbcType="VARCHAR" />
+		<result column="layoutOrder" property="layoutOrder" jdbcType="INTEGER" />
+		<result column="menuOrder" property="menuOrder" jdbcType="INTEGER" />
+		<result column="enabled" property="enabled" jdbcType="TINYINT" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<sql id="Role_Base_Column_List">
+		id, level, isGroup, isAdmin, pid, schoolId, name, enabled, remark,creator,updator,createTime,updateTime
+	</sql>
+	<sql id="Privilege_Base_Column_List">
+		id, name, pid, url,ajax, type, enabled, remark,channel_type as channelType,layoutOrder,menuOrder,level
+	</sql>
+	
+
+
+	<select id="getAllPrivilege" resultMap="PrivilegeBaseResultMap"
+		>
+		select
+		<include refid="Privilege_Base_Column_List" />
+		from t_c_permission where level>=0
+		order by level asc,layoutOrder asc
+	</select>
+
+	<select id="getRole" resultMap="RoleBaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Role_Base_Column_List" />
+		from t_c_role
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<insert id="insertRole" parameterType="com.lili.privilege.model.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into t_c_role (id, level, isGroup,
+		isAdmin, pid, schoolId,
+		name, enabled, remark,creator,createTime
+		)
+		values (#{id,jdbcType=INTEGER}, #{level,jdbcType=TINYINT},
+		#{isGroup,jdbcType=TINYINT},
+		#{isAdmin,jdbcType=TINYINT}, #{pid,jdbcType=INTEGER}, #{schoolid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR}, #{enabled,jdbcType=TINYINT},
+		#{remark,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},now()
+		)
+	</insert>
+	
+	<delete id="delRole" parameterType="java.lang.Integer">
+		delete from t_c_role
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<select id="listRole" parameterType="com.lili.privilege.model.Role"
+		resultMap="RoleBaseResultMap">
+		select
+		<include refid="Role_Base_Column_List" />
+		from t_c_role
+		Where 1=1
+		<if test="enabled !=-1">
+			and enabled = #{enabled,jdbcType=TINYINT}
+		</if>
+		order by enabled asc,createTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="getRoleTotal" resultType="java.lang.Integer">
+	select
+		count(id) 
+		from t_c_role
+	Where 1=1
+		<if test="enabled !=-1">
+			and enabled = #{enabled,jdbcType=TINYINT}
+		</if>	
+	</select>
+	
+	<select id="listRolePrivilege" parameterType="java.lang.Integer"
+		resultMap="PrivilegeBaseResultMap">
+		select
+		<include refid="Privilege_Base_Column_List" />
+		from t_c_role_permission a join t_c_permission b on a.permission_id=b.id 
+		Where
+		a.role_id = #{id,jdbcType=INTEGER}
+		order by pid asc
+	</select>
+	
+	<select id="listUserPrivilege" parameterType="java.lang.Integer"
+		resultMap="PrivilegeBaseResultMap">
+		select distinct 
+		<include refid="Privilege_Base_Column_List" />
+		from t_c_user_role a join t_c_role_permission b on a.role_id=b.role_id join t_c_permission c on b.permission_id=c.id 
+		Where
+		a.user_id = #{id,jdbcType=INTEGER} and must=0 
+		union
+		select 
+		<include refid="Privilege_Base_Column_List" />
+		from t_c_permission where must=1
+		order by pid asc,menuOrder asc
+	</select>
+	
+	
+	
+	<insert id="insertRolePrivilege" parameterType="java.util.List" >
+		insert into t_c_role_permission (permission_id, role_id)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+		 (#{item.privilegeId}, #{item.roleId}	)
+		</foreach>
+	</insert>
+	
+	<delete id="delRolePrivilege" parameterType="java.lang.Integer">
+		delete from t_c_role_permission
+		where role_id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	
+	<update id="enableRole" parameterType="com.lili.privilege.model.Role">
+		update t_c_role set
+		enabled=#{enabled,jdbcType=INTEGER},
+		updator = #{updator,jdbcType=VARCHAR},
+		updateTime = #{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateRole" parameterType="com.lili.privilege.model.Role">
+		update t_c_role
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="updator != null">
+				updator = #{updator,jdbcType=VARCHAR},
+			</if>
+			
+			<if test="updateTime != null">
+				updateTime = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<insert id="insertRoleUser" parameterType="com.lili.privilege.model.RoleUser" >
+		insert into t_c_user_role (user_id,role_id)
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+		 (#{item.userId}, #{item.roleId}	)
+		</foreach>
+	</insert>
+	
+	<delete id="delRoleUser" parameterType="com.lili.privilege.model.RoleUser">
+		delete from t_c_user_role
+		where user_id = #{userId,jdbcType=INTEGER} and role_id=#{roleId,jdbcType=INTEGER}
+	</delete>
+
+	<select id="listRoleUser" resultType="map" parameterType="com.lili.privilege.model.RoleUser">
+		select a.*
+		from t_c_user a join t_c_user_role b on a.id=b.user_id
+			where role_id=#{roleId,jdbcType=INTEGER}
+			order by a.account asc
+			limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="getRoleUser" resultType="int" parameterType="com.lili.privilege.model.RoleUser">
+		select count(user_id)
+		from t_c_user_role
+			where role_id=#{roleId,jdbcType=INTEGER}
+			and user_id=#{userId,jdbcType=INTEGER}
+	</select>
+	
+	
+	<select id="listRolePrivilegeCount" resultType="map" >
+		select role_id,count(role_id) as count from t_c_role_permission where role_id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+        #{item}
+        </foreach>
+		
+		group by role_Id
+	</select>
+	
+	<select id="listRoleUserCount" resultType="map" >
+		select role_id,count(role_id) as count from t_c_user_role where role_id in
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+        #{item}
+        </foreach>
+		group by role_Id
+	</select>
+	
+	<select id="getRoleUserTotal" resultType="java.lang.Integer">
+	select
+		count(user_id) 
+		from 
+	t_c_user a join t_c_user_role b on a.id=b.user_id
+			where role_id=#{roleId,jdbcType=INTEGER}	
+	</select>
+</mapper>

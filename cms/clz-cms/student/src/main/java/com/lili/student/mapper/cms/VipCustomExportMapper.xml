@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.cms.VipCustomExportDao">
+	<resultMap id="BaseResultMap" type="com.lili.student.model.VipCustomExport">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="sum" property="sum" jdbcType="INTEGER" />
+		<result column="valid_sum" property="validSum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="verifier" property="verifier" jdbcType="VARCHAR" />
+		<result column="verifie_time" property="verifieTime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, file_name, sum, valid_sum, status, creator,
+		create_time, verifier,
+		verifie_time,
+		remark
+	</sql>
+	
+	<select id="queryList" resultMap="BaseResultMap"  parameterType="com.lili.student.model.VipCustomExport" >
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_v_custom_export
+	   		where 1=1
+			<trim suffixOverrides=",">
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+						 and DATE(create_time)  between #{startTime} and #{endTime}
+				</if>	
+			</trim>
+			order by create_time desc
+  </select>
+  
+	 <select id="queryVipCustomExport" resultMap="BaseResultMap"  parameterType="com.lili.student.model.VipCustomExport" >
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_v_custom_export
+	   		where 1=1
+			<trim suffixOverrides=",">
+				<if test="fileName != null and fileName != ''">
+					and file_name = #{fileName}
+				</if>
+			</trim>
+			order by create_time desc
+  </select>
+  
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_v_custom_export
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_v_custom_export
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.student.model.VipCustomExport">
+		insert into t_v_custom_export
+		(id, file_name, sum,
+		valid_sum, status, creator,
+		create_time, verifier,
+		verifie_time,
+		remark)
+		values (#{id,jdbcType=INTEGER},
+		#{fileName,jdbcType=VARCHAR},
+		#{sum,jdbcType=INTEGER},
+		#{validSum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+		#{creator,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{verifier,jdbcType=VARCHAR},
+		#{verifieTime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.student.model.VipCustomExport">
+		insert into t_v_custom_export
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="fileName != null">
+				file_name,
+			</if>
+			<if test="sum != null">
+				sum,
+			</if>
+			<if test="validSum != null">
+				valid_sum,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="verifier != null">
+				verifier,
+			</if>
+			<if test="verifieTime != null">
+				verifie_time,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="fileName != null">
+				#{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="sum != null">
+				#{sum,jdbcType=INTEGER},
+			</if>
+			<if test="validSum != null">
+				#{validSum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="verifier != null">
+				#{verifier,jdbcType=VARCHAR},
+			</if>
+			<if test="verifieTime != null">
+				#{verifieTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.model.VipCustomExport">
+		update t_v_custom_export
+		<set>
+			<if test="fileName != null">
+				file_name = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="sum != null">
+				sum = #{sum,jdbcType=INTEGER},
+			</if>
+			<if test="validSum != null">
+				valid_sum = #{validSum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="verifier != null">
+				verifier = #{verifier,jdbcType=VARCHAR},
+			</if>
+			<if test="verifieTime != null">
+				verifie_time = #{verifieTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.model.VipCustomExport">
+		update
+		t_v_custom_export
+		set file_name = #{fileName,jdbcType=VARCHAR},
+		sum =
+		#{sum,jdbcType=INTEGER},
+		valid_sum = #{validSum,jdbcType=INTEGER},
+		status = #{status,jdbcType=TINYINT},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		verifier =
+		#{verifier,jdbcType=VARCHAR},
+		verifie_time =
+		#{verifieTime,jdbcType=TIMESTAMP},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

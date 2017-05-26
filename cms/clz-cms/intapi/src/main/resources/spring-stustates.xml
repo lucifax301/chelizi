@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:p="http://www.springframework.org/schema/p" 
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mvc="http://www.springframework.org/schema/mvc"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd
+ 	http://www.springframework.org/schema/tx
+ 	http://www.springframework.org/schema/tx/spring-tx.xsd"
+ >
+<bean id="studentState" class="com.lili.cms.logic.StudentState">
+  
+        <!-- java.util.Map -->
+        <property name="studentStateMaps">
+            <map>
+            <!-- 资料不全 -->
+                <entry key="5,101">
+		            <list>
+		            <!-- 未收资料 -->
+		                <value>5,1</value>
+    		        <!-- 资料不全 -->
+    		            <value>5,101</value>
+		            </list>
+                </entry>
+            <!-- 资料齐全 -->
+                <entry key="5,100">
+		            <list>
+		            <!-- 未收资料 -->
+		                <value>5,1</value>
+		            <!-- 资料不全 -->
+		                <value>5,101</value>
+		            </list>
+                </entry>
+            <!-- 表已寄出 -->
+                <entry key="6,1">
+		            <list>
+		            <!-- 资料齐全 -->
+		                <value>5,100</value>
+		            </list>
+                </entry>
+                
+                
+            <!-- 已交表 -->
+                <entry key="6,100">
+		            <list>
+		    		<!-- 表已寄出 -->
+		                <value>6,1</value>
+		            <!-- 未收资料 -->
+		                <value>5,1</value>
+		            </list>
+                </entry>
+            <!-- 受理中 -->
+                <entry key="7,1">
+		            <list>
+            		<!-- 已交表 -->
+		                <value>6,100</value>
+		            </list>
+                </entry>
+            <!-- 报名成功 -->
+                <entry key="7,100">
+		            <list>
+            		<!-- 受理中 -->
+		                <value>7,1</value>
+            		<!-- 已约理论课  -->
+		                <value>101,100</value>
+		            </list>
+                </entry>
+            <!-- 报名失败 -->
+                <entry key="7,101">
+		            <list>
+            		<!-- 受理中 -->
+		                <value>7,1</value>
+		            </list>
+                </entry>
+            <!-- 缺理论课 -->
+                <entry key="101,101">
+		            <list>
+            		<!-- 已约理论课  -->
+		                <value>101,100</value>
+		            </list>
+                </entry>
+            <!-- 已约理论课 -->
+                <entry key="101,100">
+		            <list>
+            		<!-- 缺理论课  -->
+		                <value>101,101</value>
+            		<!-- 报名成功  -->
+		                <value>7,100</value>
+		            </list>
+                </entry>
+            <!-- 未模拟考试 -->
+                <entry key="201,0">
+		            <list>
+            		<!-- 已约理论课  -->
+		                <value>101,100</value>
+		            </list>
+                </entry>
+            <!-- 模拟考试达标 -->
+                <entry key="201,100">
+		            <list>
+            		<!-- 科一约考取消中 -->
+		                <value>301,101</value>
+		            </list>
+                </entry>
+            <!-- 已约考科一 -->
+                <entry key="302,0">
+		            <list>
+		            <!-- 科一约考排队中 -->
+		                <value>301,0</value>
+		            <!-- 科一约考取消中 -->
+		                <value>301,101</value>
+		            </list>
+                </entry>
+            <!-- 科一不合格 -->
+                <entry key="302,101">
+		            <list>
+		            <!-- 科一约考取消中 -->
+		                <value>301,101</value>
+		            <!-- 已约考科一 -->
+		                <value>302,0</value>
+		            </list>
+                </entry>
+            <!-- 科一合格 -->
+                <entry key="302,100">
+		            <list>
+		            <!-- 已约考科一 -->
+		                <value>302,0</value>
+    		            <!-- 科二约考取消中 -->
+    		                <value>401,101</value>
+		            </list>
+                </entry>
+            <!-- 已约考科二 -->
+                <entry key="402,0">
+		            <list>
+		            <!-- 科二约考排队中 -->
+		                <value>401,0</value>
+		            <!-- 科二约考取消中 -->
+		                <value>401,101</value>
+		            </list>
+                </entry>
+            <!-- 科二不合格 -->
+                <entry key="402,101">
+		            <list>
+		            <!-- 已约考科二 -->
+		                <value>402,0</value>
+    		            <!-- 科二约考取消中 -->
+    		                <value>401,101</value>
+		            </list>
+                </entry>
+            <!-- 科二合格 -->
+                <entry key="402,100">
+		            <list>
+		            <!-- 已约考科二 -->
+		                <value>402,0</value>
+		            <!-- 长训约考取消中 -->
+		                <value>501,101</value>
+		            </list>
+                </entry>
+            <!-- 已约考长训 -->
+                <entry key="502,0">
+		            <list>
+		            <!-- 长训约考取消中 -->
+		                <value>501,101</value>
+		            <!-- 长训约考排队中 -->
+		                <value>501,0</value>
+		            </list>
+                </entry>
+            <!-- 长训不合格 -->
+                <entry key="502,101">
+		            <list>
+		            <!-- 已约考长训 -->
+		                <value>502,0</value>
+		            </list>
+                </entry>
+            <!-- 长训合格 -->
+                <entry key="502,100">
+		            <list>
+		            <!-- 已约考长训 -->
+		                <value>502,0</value>
+    		            <!-- 科三约考取消中 -->
+    		                <value>601,101</value>
+		            </list>
+                </entry>
+            <!-- 已约考科三 -->
+                <entry key="602,0">
+		            <list>
+		            <!-- 科三约考取消中 -->
+		                <value>601,101</value>
+		            <!-- 科三约考排队中 -->
+		                <value>601,0</value>
+		            </list>
+                </entry>
+            <!-- 科三不合格 -->
+                <entry key="602,101">
+		            <list>
+		            <!-- 已约考科三 -->
+		                <value>602,0</value>
+    		            <!-- 科三约考取消中 -->
+    		                <value>601,101</value>
+		            </list>
+                </entry>
+            <!-- 已约考科四 -->
+                <entry key="701,0">
+		            <list>
+		            <!-- 已约考科三 -->
+		                <value>602,0</value>
+		            </list>
+                </entry>
+            <!-- 科四不合格 -->
+                <entry key="701,101">
+		            <list>
+           	 		<!-- 已约考科四 -->
+		                <value>701,0</value>
+		            </list>
+                </entry>
+            <!-- 已拿证 -->
+                <entry key="701,100">
+		            <list>
+           	 		<!-- 已约考科四 -->
+		                <value>701,0</value>
+		            </list>
+                </entry>
+            </map>
+        </property>
+  
+  
+    </bean>
+    
+    
+    <bean id="studentAuthState" class="com.lili.cms.logic.StudentAuthState">
+  
+        <!-- java.util.Map -->
+        <property name="studentStateMaps">
+            <map>
+            	<!-- 审核未通过 -->
+                <entry key="2">
+		            <list>
+    		        <!-- 审核中 -->
+    		            <value>1</value>
+		            </list>
+                </entry>
+            	<!-- 已认证 -->
+                <entry key="3">
+		            <list>
+    		        <!-- 审核中 -->
+    		            <value>1</value>
+		            </list>
+                </entry>
+            	<!-- 已吊销 -->
+                <entry key="5">
+		            <list>
+    		        <!-- 已认证 -->
+    		            <value>3</value>
+		            </list>
+                </entry>
+            </map>
+        </property>
+  
+  
+    </bean>
+  
+</beans>

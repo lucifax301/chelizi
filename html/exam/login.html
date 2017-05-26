@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/index.css"/>
+    <link rel="stylesheet" href="lib/common/css/ionicons.min.css">
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="js/resources/common/layer-mobile.js"></script><!--弹层 -->
+    <script src="js/resources/common/common.js"></script><!--弹层 -->
+    <script>
+        var phoneWidth = parseInt(window.screen.width);
+        var phoneScale = phoneWidth/750;
+        var userAgent = navigator.userAgent;
+        var index = userAgent.indexOf("Android");
+        if(index >= 0){
+            var androidVersion = parseFloat(userAgent.slice(index+8));
+            if(androidVersion>2.3){
+                $("head").eq(0).append("<meta name='viewport' content='width=750, initial-scale = "+phoneScale+", minimum-scale = "+phoneScale+", maximum-scale = "+phoneScale+",user-scalable=no, target-densitydpi=device-dpi'>");
+            }else{
+                $("head").eq(0).append("<meta name='viewport' content='width=750, target-densitydpi=device-dpi'>");
+            }
+
+        }else{
+            $("head").eq(0).append("<meta name='viewport' content='width=750, initial-scale = "+phoneScale+", minimum-scale = "+phoneScale+", maximum-scale = "+phoneScale+",user-scalable=no, target-densitydpi=device-dpi'>");
+        }
+    </script>
+</head>
+<body class="containerBg">
+<div class="container1 container-login">
+    <div class="y-cell">
+        <div class="cell__hd">用户名</div>
+        <div class="cell__bd">
+            <input type="text" id="username" class="y__input" placeholder="请输入用户名">
+        </div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">密&nbsp;&nbsp;&nbsp;码</div>
+        <div class="cell__bd">
+            <input type="password" id="password" class="y__input" placeholder="请输入密码">
+        </div>
+    </div>
+    <button onclick="login()" class="button-submit border-r2 clear_border" style="margin-top: 150px;">登录</button>
+</div>
+<script>
+    function login(){
+        if(!$('#username').val()){
+            Popup.alert({type:'msg',style:'width:80%',title:'请输入用户名',header:"提示"}); return false;
+        }
+        if(!$('#password').val()){
+            Popup.alert({type:'msg',style:'width:80%',title:'请输入密码',header:"提示"}); return false;
+        }
+        var username = $('#username').val().trim();
+        var password = $('#password').val().trim();
+        $.AJAX({
+            url:config.basePath+"login/check",
+            data:{account:username,password:password},
+            success:function(data){
+                console.log(data)
+                //设置浏览器cookie
+                localStorage.setItem("school-username",username);
+                //设置登录后的跳转首页 iframeSrc
+                window.location.href=window.config.baseUrl + window.config.homeUrl;
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
+

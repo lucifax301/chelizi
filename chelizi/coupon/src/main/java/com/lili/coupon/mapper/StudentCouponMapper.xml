@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coupon.mapper.dao.StudentCouponMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coupon.dto.StudentCoupon">
+		<id column="couponId" property="couponid" jdbcType="BIGINT" />
+		<result column="studentId" property="studentid" jdbcType="BIGINT" />
+		<result column="getTime" property="gettime" jdbcType="TIMESTAMP" />
+		<result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="couponTmpId" property="coupontmpid" jdbcType="VARCHAR" />
+		<result column="stockId" property="stockid" jdbcType="INTEGER" />
+		<result column="isUsed" property="isUsed" jdbcType="TINYINT" />
+		<result column="isValid" property="isValid" jdbcType="TINYINT" />
+		<result column="expireTime" property="expiretime" jdbcType="TIMESTAMP" />
+		<result column="orderId" property="orderid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		couponId, studentId, getTime, useTime, couponTmpId, stockId, isUsed,isValid,expireTime,orderId
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coupon
+		where couponId = #{0} and studentId = #{1}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_u_coupon
+		where couponId = #{couponid,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insertList" parameterType="java.util.List">
+	    insert into t_u_coupon (studentId, getTime, couponTmpId, stockId,isUsed, isValid, expireTime) values
+			<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+					(${item.studentid},now(),'${item.coupontmpid}',${item.stockid},${item.isUsed},${item.isValid},'${item.expiretimestr}')
+			</foreach>
+  </insert>
+  
+	<insert id="insert" parameterType="com.lili.coupon.dto.StudentCoupon">
+	<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="couponid">  
+          SELECT LAST_INSERT_ID() AS couponid    
+    </selectKey> 
+		insert into t_u_coupon (couponid, studentId, getTime,
+		useTime, couponTmpId, stockId,
+		isUsed, isValid, expireTime, orderId
+		)
+		values (#{couponid, jdbcType=BIGINT},#{studentid,jdbcType=BIGINT},
+		#{gettime,jdbcType=TIMESTAMP},
+		#{usetime,jdbcType=TIMESTAMP}, #{coupontmpid,jdbcType=VARCHAR}, #{stockid,jdbcType=INTEGER},
+		#{isUsed,jdbcType=TINYINT}, #{isValid,jdbcType=TINYINT}, #{expiretime,jdbcType=TIMESTAMP},
+		#{orderid,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coupon.dto.StudentCoupon">
+		insert into t_u_coupon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="couponid != null">
+				couponId,
+			</if>
+			<if test="studentid != null">
+				studentId,
+			</if>
+			<if test="gettime != null">
+				getTime,
+			</if>
+			<if test="usetime != null">
+				useTime,
+			</if>
+			<if test="coupontmpid != null">
+				couponTmpId,
+			</if>
+			<if test="stockid != null">
+				stockId,
+			</if>
+			<if test="isUsed != null">
+				isUsed,
+			</if>
+			<if test="isValid != null">
+				isValid,
+			</if>
+			<if test="expiretime != null">
+				expireTime,
+			</if>
+			<if test="orderid != null">
+				orderId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="couponid != null">
+				#{couponid,jdbcType=BIGINT},
+			</if>
+			<if test="studentid != null">
+				#{studentid,jdbcType=BIGINT},
+			</if>
+			<if test="gettime != null">
+				#{gettime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="usetime != null">
+				#{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="coupontmpid != null">
+				#{coupontmpid,jdbcType=VARCHAR},
+			</if>
+			<if test="stockid != null">
+				#{stockid,jdbcType=INTEGER},
+			</if>
+			<if test="isUsed != null">
+				#{isUsed,jdbcType=TINYINT},
+			</if>
+			<if test="isValid != null">
+				#{isValid,jdbcType=TINYINT},
+			</if>
+			<if test="expiretime != null">
+				#{expiretime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coupon.dto.StudentCoupon">
+		update t_u_coupon
+		<set>
+			<if test="studentid != null">
+				studentId = #{studentid,jdbcType=BIGINT},
+			</if>
+			<if test="gettime != null">
+				getTime = #{gettime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="usetime != null">
+				useTime = #{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="coupontmpid != null">
+				couponTmpId = #{coupontmpid,jdbcType=VARCHAR},
+			</if>
+			<if test="stockid != null">
+				stockId = #{stockid,jdbcType=INTEGER},
+			</if>
+			<if test="isUsed != null">
+				isUsed = #{isUsed,jdbcType=TINYINT},
+			</if>
+			<if test="isValid != null">
+				isValid = #{isValid,jdbcType=TINYINT},
+			</if>
+			<if test="expiretime != null">
+				expireTime = #{expiretime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderid != null">
+				orderId = #{orderid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where couponId = #{couponid,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coupon.dto.StudentCoupon">
+		update t_u_coupon
+		set studentId = #{studentid,jdbcType=BIGINT},
+		getTime = #{gettime,jdbcType=TIMESTAMP},
+		useTime = #{usetime,jdbcType=TIMESTAMP},
+		couponTmpId = #{coupontmpid,jdbcType=VARCHAR},
+		stockId = #{stockid,jdbcType=INTEGER},
+		isUsed = #{isUsed,jdbcType=TINYINT},
+		isValid = #{isValid,jdbcType=TINYINT},
+		expireTime = #{expiretime,jdbcType=TIMESTAMP},
+		orderId = #{orderid,jdbcType=VARCHAR}
+		where couponId = #{couponid,jdbcType=BIGINT}
+	</update>
+	
+	<select id="selectCurCount" resultType="java.lang.Integer">
+		select
+		count(*)
+		from t_u_coupon
+		where studentId = #{studentId} and couponTmpId = #{couponTmpId} and expireTime &gt; now() and
+		isUsed = 0 and isValid = 1
+	</select>
+	
+	<select id="selectIsExitCount" resultType="java.lang.Integer">
+		select
+		count(*)
+		from t_u_coupon
+		where studentId = #{studentId} and couponTmpId = #{couponTmpId} 
+	</select>
+	
+	<select id="selectIsUseCount" resultType="java.lang.Integer">
+		select
+		count(*)
+		from t_u_coupon
+		where couponTmpId = #{couponTmpId}  and isUsed=1
+	</select>
+
+	<select id="getAllCouponsCanUse" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coupon
+		where studentId = #{studentId, jdbcType=BIGINT} and expireTime &gt; now() and isUsed = 0 and isValid=1
+	</select>
+
+	<select id="getStudentAllCouponByPage" resultMap="BaseResultMap"
+		parameterType="com.lili.coupon.mapper.dao.CouponPage">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coupon
+		where studentId = #{studentId, jdbcType=BIGINT} and expireTime &gt; now() and
+		isUsed = #{isUsed, jdbcType=TINYINT} and isValid = #{isValid, jdbcType=TINYINT}
+		order by couponId desc limit
+		#{index, jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+	</select>
+	<update id="recoverCoupon">
+		update t_u_coupon
+		set 
+		useTime = null,
+		isUsed = 0,
+		orderId = ''
+		where couponId = #{couponId} and studentId = #{studentId}
+	</update>
+	
+	<select id="getUseableCouponCount" resultType="java.lang.Integer"
+		parameterType="java.lang.Long">
+		select
+		count(*)
+		from t_u_coupon
+		where studentId = #{studentId, jdbcType=BIGINT} and expireTime &gt; now() and isUsed = 0 and isValid = 1
+	</select>
+	<select id="checkExistCoupon" resultType="java.lang.Integer">
+	   select count(*) from t_u_coupon where studentId=#{userId} and couponTmpId in (${couponTmpIds}) 
+	</select>
+	
+</mapper>

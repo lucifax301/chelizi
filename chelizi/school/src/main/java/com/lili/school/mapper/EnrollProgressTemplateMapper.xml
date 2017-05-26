@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollProgressTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollProgressTemplate" >
+    <id column="cpid" property="cpid" jdbcType="INTEGER" />
+    <result column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="step_type" property="stepType" jdbcType="INTEGER" />
+    <result column="next_step" property="nextStep" jdbcType="INTEGER" />
+    <result column="retry_step" property="retryStep" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="dpage" property="dpage" jdbcType="VARCHAR" />
+    <result column="bpage" property="bpage" jdbcType="VARCHAR" />
+    <result column="pre_doc" property="preDoc" jdbcType="VARCHAR" />
+    <result column="none_doc" property="noneDoc" jdbcType="VARCHAR" />
+    <result column="submit_doc" property="submitDoc" jdbcType="VARCHAR" />
+    <result column="succ_doc" property="succDoc" jdbcType="VARCHAR" />
+    <result column="fail_doc" property="failDoc" jdbcType="VARCHAR" />
+    <result column="none_rec" property="noneRec" jdbcType="TINYINT" />
+    <result column="submit_rec" property="submitRec" jdbcType="TINYINT" />
+    <result column="succ_rec" property="succRec" jdbcType="TINYINT" />
+    <result column="fail_rec" property="failRec" jdbcType="TINYINT" />
+    <result column="submit_push" property="submitPush" jdbcType="VARCHAR" />
+    <result column="succ_push" property="succPush" jdbcType="VARCHAR" />
+    <result column="fail_push" property="failPush" jdbcType="VARCHAR" />
+    <result column="pre_display" property="preDisplay" jdbcType="TINYINT" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="red" property="red" jdbcType="TINYINT" />
+    <result column="reco_course" property="recoCourse" jdbcType="VARCHAR" />
+    <result column="other_course" property="otherCourse" jdbcType="VARCHAR" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+    <result column="recovery" property="recovery" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cpid, ttid, city_id, step_id, step_type, next_step, retry_step, icon, title, dpage, 
+    bpage, pre_doc, none_doc, submit_doc, succ_doc, fail_doc, none_rec, submit_rec, succ_rec, 
+    fail_rec, submit_push, succ_push, fail_push, pre_display, price, red, reco_course, 
+    other_course, order_by, recovery
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollProgressTemplateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_template
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </select>
+  
+    
+  <select id="selectByTTidStepid" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_template
+    where 1=1 
+    and ttid = #{param1,jdbcType=INTEGER}
+    and step_id = #{param2,jdbcType=INTEGER}
+    limit 1
+  </select>
+  <select id="selectByTTidNextStep" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_template
+    where 1=1 
+    and ttid = #{param1,jdbcType=INTEGER}
+    and next_step = #{param2,jdbcType=INTEGER}
+    limit 1
+  </select>
+  <select id="selectPredisplayByTTidStepid" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_template
+    where 1=1 
+    and ttid = #{ttid,jdbcType=INTEGER}
+    and pre_display = 1
+    and step_id > #{stepId,jdbcType=INTEGER}
+    order by step_id desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_progress_template
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollProgressTemplateExample" >
+    delete from t_enroll_progress_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollProgressTemplate" >
+    insert into t_enroll_progress_template (cpid, ttid, city_id, 
+      step_id, step_type, next_step, 
+      retry_step, icon, title, 
+      dpage, bpage, pre_doc, 
+      none_doc, submit_doc, succ_doc, 
+      fail_doc, none_rec, submit_rec, 
+      succ_rec, fail_rec, submit_push, 
+      succ_push, fail_push, pre_display, 
+      price, red, reco_course, 
+      other_course, order_by, recovery
+      )
+    values (#{cpid,jdbcType=INTEGER}, #{ttid,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, 
+      #{stepId,jdbcType=INTEGER}, #{stepType,jdbcType=INTEGER}, #{nextStep,jdbcType=INTEGER}, 
+      #{retryStep,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{dpage,jdbcType=VARCHAR}, #{bpage,jdbcType=VARCHAR}, #{preDoc,jdbcType=VARCHAR}, 
+      #{noneDoc,jdbcType=VARCHAR}, #{submitDoc,jdbcType=VARCHAR}, #{succDoc,jdbcType=VARCHAR}, 
+      #{failDoc,jdbcType=VARCHAR}, #{noneRec,jdbcType=TINYINT}, #{submitRec,jdbcType=TINYINT}, 
+      #{succRec,jdbcType=TINYINT}, #{failRec,jdbcType=TINYINT}, #{submitPush,jdbcType=VARCHAR}, 
+      #{succPush,jdbcType=VARCHAR}, #{failPush,jdbcType=VARCHAR}, #{preDisplay,jdbcType=TINYINT}, 
+      #{price,jdbcType=INTEGER}, #{red,jdbcType=TINYINT}, #{recoCourse,jdbcType=VARCHAR}, 
+      #{otherCourse,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{recovery,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollProgressTemplate" >
+    insert into t_enroll_progress_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cpid != null" >
+        cpid,
+      </if>
+      <if test="ttid != null" >
+        ttid,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="stepType != null" >
+        step_type,
+      </if>
+      <if test="nextStep != null" >
+        next_step,
+      </if>
+      <if test="retryStep != null" >
+        retry_step,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="dpage != null" >
+        dpage,
+      </if>
+      <if test="bpage != null" >
+        bpage,
+      </if>
+      <if test="preDoc != null" >
+        pre_doc,
+      </if>
+      <if test="noneDoc != null" >
+        none_doc,
+      </if>
+      <if test="submitDoc != null" >
+        submit_doc,
+      </if>
+      <if test="succDoc != null" >
+        succ_doc,
+      </if>
+      <if test="failDoc != null" >
+        fail_doc,
+      </if>
+      <if test="noneRec != null" >
+        none_rec,
+      </if>
+      <if test="submitRec != null" >
+        submit_rec,
+      </if>
+      <if test="succRec != null" >
+        succ_rec,
+      </if>
+      <if test="failRec != null" >
+        fail_rec,
+      </if>
+      <if test="submitPush != null" >
+        submit_push,
+      </if>
+      <if test="succPush != null" >
+        succ_push,
+      </if>
+      <if test="failPush != null" >
+        fail_push,
+      </if>
+      <if test="preDisplay != null" >
+        pre_display,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="red != null" >
+        red,
+      </if>
+      <if test="recoCourse != null" >
+        reco_course,
+      </if>
+      <if test="otherCourse != null" >
+        other_course,
+      </if>
+      <if test="orderBy != null" >
+        order_by,
+      </if>
+      <if test="recovery != null" >
+        recovery,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cpid != null" >
+        #{cpid,jdbcType=INTEGER},
+      </if>
+      <if test="ttid != null" >
+        #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="stepType != null" >
+        #{stepType,jdbcType=INTEGER},
+      </if>
+      <if test="nextStep != null" >
+        #{nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="retryStep != null" >
+        #{retryStep,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="dpage != null" >
+        #{dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="bpage != null" >
+        #{bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="preDoc != null" >
+        #{preDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="noneDoc != null" >
+        #{noneDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDoc != null" >
+        #{submitDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="succDoc != null" >
+        #{succDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="failDoc != null" >
+        #{failDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="noneRec != null" >
+        #{noneRec,jdbcType=TINYINT},
+      </if>
+      <if test="submitRec != null" >
+        #{submitRec,jdbcType=TINYINT},
+      </if>
+      <if test="succRec != null" >
+        #{succRec,jdbcType=TINYINT},
+      </if>
+      <if test="failRec != null" >
+        #{failRec,jdbcType=TINYINT},
+      </if>
+      <if test="submitPush != null" >
+        #{submitPush,jdbcType=VARCHAR},
+      </if>
+      <if test="succPush != null" >
+        #{succPush,jdbcType=VARCHAR},
+      </if>
+      <if test="failPush != null" >
+        #{failPush,jdbcType=VARCHAR},
+      </if>
+      <if test="preDisplay != null" >
+        #{preDisplay,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="red != null" >
+        #{red,jdbcType=TINYINT},
+      </if>
+      <if test="recoCourse != null" >
+        #{recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCourse != null" >
+        #{otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="recovery != null" >
+        #{recovery,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollProgressTemplateExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_progress_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_progress_template
+    <set >
+      <if test="record.cpid != null" >
+        cpid = #{record.cpid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ttid != null" >
+        ttid = #{record.ttid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepId != null" >
+        step_id = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepType != null" >
+        step_type = #{record.stepType,jdbcType=INTEGER},
+      </if>
+      <if test="record.nextStep != null" >
+        next_step = #{record.nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="record.retryStep != null" >
+        retry_step = #{record.retryStep,jdbcType=INTEGER},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpage != null" >
+        dpage = #{record.dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bpage != null" >
+        bpage = #{record.bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preDoc != null" >
+        pre_doc = #{record.preDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noneDoc != null" >
+        none_doc = #{record.noneDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitDoc != null" >
+        submit_doc = #{record.submitDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.succDoc != null" >
+        succ_doc = #{record.succDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failDoc != null" >
+        fail_doc = #{record.failDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noneRec != null" >
+        none_rec = #{record.noneRec,jdbcType=TINYINT},
+      </if>
+      <if test="record.submitRec != null" >
+        submit_rec = #{record.submitRec,jdbcType=TINYINT},
+      </if>
+      <if test="record.succRec != null" >
+        succ_rec = #{record.succRec,jdbcType=TINYINT},
+      </if>
+      <if test="record.failRec != null" >
+        fail_rec = #{record.failRec,jdbcType=TINYINT},
+      </if>
+      <if test="record.submitPush != null" >
+        submit_push = #{record.submitPush,jdbcType=VARCHAR},
+      </if>
+      <if test="record.succPush != null" >
+        succ_push = #{record.succPush,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failPush != null" >
+        fail_push = #{record.failPush,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preDisplay != null" >
+        pre_display = #{record.preDisplay,jdbcType=TINYINT},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.red != null" >
+        red = #{record.red,jdbcType=TINYINT},
+      </if>
+      <if test="record.recoCourse != null" >
+        reco_course = #{record.recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherCourse != null" >
+        other_course = #{record.otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderBy != null" >
+        order_by = #{record.orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.recovery != null" >
+        recovery = #{record.recovery,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_progress_template
+    set cpid = #{record.cpid,jdbcType=INTEGER},
+      ttid = #{record.ttid,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      step_id = #{record.stepId,jdbcType=INTEGER},
+      step_type = #{record.stepType,jdbcType=INTEGER},
+      next_step = #{record.nextStep,jdbcType=INTEGER},
+      retry_step = #{record.retryStep,jdbcType=INTEGER},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      dpage = #{record.dpage,jdbcType=VARCHAR},
+      bpage = #{record.bpage,jdbcType=VARCHAR},
+      pre_doc = #{record.preDoc,jdbcType=VARCHAR},
+      none_doc = #{record.noneDoc,jdbcType=VARCHAR},
+      submit_doc = #{record.submitDoc,jdbcType=VARCHAR},
+      succ_doc = #{record.succDoc,jdbcType=VARCHAR},
+      fail_doc = #{record.failDoc,jdbcType=VARCHAR},
+      none_rec = #{record.noneRec,jdbcType=TINYINT},
+      submit_rec = #{record.submitRec,jdbcType=TINYINT},
+      succ_rec = #{record.succRec,jdbcType=TINYINT},
+      fail_rec = #{record.failRec,jdbcType=TINYINT},
+      submit_push = #{record.submitPush,jdbcType=VARCHAR},
+      succ_push = #{record.succPush,jdbcType=VARCHAR},
+      fail_push = #{record.failPush,jdbcType=VARCHAR},
+      pre_display = #{record.preDisplay,jdbcType=TINYINT},
+      price = #{record.price,jdbcType=INTEGER},
+      red = #{record.red,jdbcType=TINYINT},
+      reco_course = #{record.recoCourse,jdbcType=VARCHAR},
+      other_course = #{record.otherCourse,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      recovery = #{record.recovery,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollProgressTemplate" >
+    update t_enroll_progress_template
+    <set >
+      <if test="ttid != null" >
+        ttid = #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null" >
+        step_id = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="stepType != null" >
+        step_type = #{stepType,jdbcType=INTEGER},
+      </if>
+      <if test="nextStep != null" >
+        next_step = #{nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="retryStep != null" >
+        retry_step = #{retryStep,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="dpage != null" >
+        dpage = #{dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="bpage != null" >
+        bpage = #{bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="preDoc != null" >
+        pre_doc = #{preDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="noneDoc != null" >
+        none_doc = #{noneDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="submitDoc != null" >
+        submit_doc = #{submitDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="succDoc != null" >
+        succ_doc = #{succDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="failDoc != null" >
+        fail_doc = #{failDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="noneRec != null" >
+        none_rec = #{noneRec,jdbcType=TINYINT},
+      </if>
+      <if test="submitRec != null" >
+        submit_rec = #{submitRec,jdbcType=TINYINT},
+      </if>
+      <if test="succRec != null" >
+        succ_rec = #{succRec,jdbcType=TINYINT},
+      </if>
+      <if test="failRec != null" >
+        fail_rec = #{failRec,jdbcType=TINYINT},
+      </if>
+      <if test="submitPush != null" >
+        submit_push = #{submitPush,jdbcType=VARCHAR},
+      </if>
+      <if test="succPush != null" >
+        succ_push = #{succPush,jdbcType=VARCHAR},
+      </if>
+      <if test="failPush != null" >
+        fail_push = #{failPush,jdbcType=VARCHAR},
+      </if>
+      <if test="preDisplay != null" >
+        pre_display = #{preDisplay,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="red != null" >
+        red = #{red,jdbcType=TINYINT},
+      </if>
+      <if test="recoCourse != null" >
+        reco_course = #{recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCourse != null" >
+        other_course = #{otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="recovery != null" >
+        recovery = #{recovery,jdbcType=TINYINT},
+      </if>
+    </set>
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollProgressTemplate" >
+    update t_enroll_progress_template
+    set ttid = #{ttid,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      step_id = #{stepId,jdbcType=INTEGER},
+      step_type = #{stepType,jdbcType=INTEGER},
+      next_step = #{nextStep,jdbcType=INTEGER},
+      retry_step = #{retryStep,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      dpage = #{dpage,jdbcType=VARCHAR},
+      bpage = #{bpage,jdbcType=VARCHAR},
+      pre_doc = #{preDoc,jdbcType=VARCHAR},
+      none_doc = #{noneDoc,jdbcType=VARCHAR},
+      submit_doc = #{submitDoc,jdbcType=VARCHAR},
+      succ_doc = #{succDoc,jdbcType=VARCHAR},
+      fail_doc = #{failDoc,jdbcType=VARCHAR},
+      none_rec = #{noneRec,jdbcType=TINYINT},
+      submit_rec = #{submitRec,jdbcType=TINYINT},
+      succ_rec = #{succRec,jdbcType=TINYINT},
+      fail_rec = #{failRec,jdbcType=TINYINT},
+      submit_push = #{submitPush,jdbcType=VARCHAR},
+      succ_push = #{succPush,jdbcType=VARCHAR},
+      fail_push = #{failPush,jdbcType=VARCHAR},
+      pre_display = #{preDisplay,jdbcType=TINYINT},
+      price = #{price,jdbcType=INTEGER},
+      red = #{red,jdbcType=TINYINT},
+      reco_course = #{recoCourse,jdbcType=VARCHAR},
+      other_course = #{otherCourse,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      recovery = #{recovery,jdbcType=TINYINT}
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </update>
+</mapper>

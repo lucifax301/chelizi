@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="upload-all" name="cms" basedir="./">
+	<description>
+	Chelizi自动编译打包脚本
+	</description>
+	<echo>Building chelizi...</echo>
+	<echo>basedir: ${basedir}</echo>
+
+	<!--发布变量设置-->
+	<property name="myhost" value="127.0.0.1" />
+	<property name="host" value="192.168.1.99" />
+	<property name="user" value="root" />
+	<property name="password" value="BUOf5x41EJqvC6L4OW" />
+
+	<!--定义相关编译变量-->
+	<property name="is-debug" value="on" />
+	<property name="java-version" value="1.7" />
+	<property name="app-version" value="0.1" />
+	<property name="webapp-version" value="0.1" />
+	<property name="exclude-svn" value="**/*.svn/*.*,servlet-api.jar" />
+	<property name="exclude-local" value="*.propertieslocal,terracotta-toolkit-1.6-runtime-5.5.0.jar" />
+
+	<!--输入变量定义-->
+	<property name="chelizi" value="${basedir}/lili-access" />
+	<property name="portal" value="${basedir}/jx-access" />
+	<property name="finance" value="${basedir}/finance" />
+	<property name="school" value="${basedir}/school" />
+	<property name="student" value="${basedir}/student" />
+	<property name="coach" value="${basedir}/coach" />
+	<property name="report" value="${basedir}/report" />
+	<property name="order" value="${basedir}/order" />
+	<property name="cms-user" value="${basedir}/cms-user" />
+	<property name="cms-log" value="${basedir}/cms-log" />
+	<property name="datasync" value="${basedir}/datasync" />
+	
+	<!-- 自动上传设置 -->
+	<property name="ftpserverdir" value="/cms" />
+	<property name="webserverdir" value="${host}:${ftpserverdir}" />
+
+	<!-- 上传chelizi -->
+	<target name="upload-chelizi">
+		<echo>==========================chelizi upload==========================</echo>
+		<!-- 上传chelizi到服务器-->
+		<scp file="${chelizi}/target/chelizi-portal.war" todir="${user}:${password}@${webserverdir}/tomcat_chelizi/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================chelizi end upload==========================</echo>
+	</target>
+
+	<target name="upload-portal">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传coach到服务器-->
+		<scp file="${portal}/target/portal.war" todir="${user}:${password}@${webserverdir}/tomcat_portal/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-finance">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${finance}/target/cms-finance.war" todir="${user}:${password}@${webserverdir}/tomcat_finance/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-coach">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-coach到服务器-->
+		<scp file="${coach}/target/cms-coach.war" todir="${user}:${password}@${webserverdir}/tomcat_coach/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-student">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${student}/target/cms-student.war" todir="${user}:${password}@${webserverdir}/tomcat_student/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-school">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${school}/target/cms-school.war" todir="${user}:${password}@${webserverdir}/tomcat_school/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-report">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${report}/target/cms-report.war" todir="${user}:${password}@${webserverdir}/tomcat_report/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-order">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${order}/target/cms-order.war" todir="${user}:${password}@${webserverdir}/tomcat_order/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+
+	<target name="upload-user">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${cms-user}/target/cms-user.war" todir="${user}:${password}@${webserverdir}/tomcat_user/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+
+	<target name="upload-log">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${cms-log}/target/cms-log.war" todir="${user}:${password}@${webserverdir}/tomcat_log/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	<target name="upload-datasync">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${datasync}/target/cms-datasync.war" todir="${user}:${password}@${webserverdir}/tomcat_datasync/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+
+	<target name="upload-all" depends="upload-chelizi, upload-portal,upload-finance,upload-order,upload-report,upload-school,upload-student,upload-coach,upload-user,upload-log,upload-datasync">
+	</target>
+</project>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.CarMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.Car">
+		<result column="carId" property="carId" jdbcType="BIGINT" />
+		<result column="carType" property="carType" jdbcType="VARCHAR" />
+		<result column="carNo" property="carNo" jdbcType="VARCHAR" />
+		<result column="driveNumber" property="driveNumber" jdbcType="VARCHAR" />
+		<result column="drivePhoto" property="drivePhoto" jdbcType="VARCHAR" />
+		<result column="UsePerson" property="UsePerson" jdbcType="VARCHAR" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="coachName" property="coachName" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="mileage" property="mileage" jdbcType="INTEGER" />
+		<result column="performance" property="performance" jdbcType="INTEGER" />
+		<result column="carLevel" property="carLevel" jdbcType="INTEGER" />
+		<result column="driveType" property="driveType" jdbcType="INTEGER" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="carId != null and carId != ''">
+				and carId = #{carId}
+			</if>
+			<if test="driveType != null and driveType != ''">
+				and driveType = #{driveType}
+			</if>
+		</trim>
+	</sql>
+
+  <select id="findOne"  resultMap="BaseResultMap">
+		select distinct
+		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance
+		,b.carLevel,b.driveType,b.schoolId,c.name as schoolName
+		from t_p_car b
+		left join t_u_coach a on a.coachCarId = b.carId
+		left join t_u_coachcar e on b.carId = e.carId and a.coachId = e.coachId
+		inner join t_s_school c on b.schoolId = c.schoolId
+	 	where b.carId = #{carId}
+  </select>
+  
+   <select id="findTotalCar"  resultType="java.lang.Integer">
+    select count(1) from t_p_car where schoolId = #{schoolId} 
+  </select>
+  
+  <select id="findOneForCoach"  resultMap="BaseResultMap">
+		select 
+		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance
+		,b.carLevel,b.driveType,b.schoolId,a.name as coachName
+		from t_p_car b
+		left JOIN t_u_coachcar e ON e.isExist = 0 and b.carId = e.carId 
+		left JOIN t_u_coach a ON a.coachId = e.coachId 
+	 	where b.carNo = #{carNo}
+		<!-- <if test="cmsChannel == 2">
+			 and b.schoolId = #{schoolId}
+		</if> -->
+  </select>
+  
+	<select id="findExportBatch" resultMap="BaseResultMap">
+		select
+		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName
+		from  t_p_car b inner join t_s_school a on a.schoolId = b.schoolId
+		Where 1=1
+		<!-- b.carId in (${carIds}) -->
+			<if test="carType != null and carType != ''">
+				and b.driveType = #{carType}
+			</if>
+			<if test="carNo != null and carNo != ''">
+				and b.carNo = #{carNo}
+			</if>
+			<if test="carLevel != null and carLevel != ''">
+				and b.carLevel = #{carLevel}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId}
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+		order by carId desc
+		limit 0,1000
+	</select>
+
+	<delete id="delCoachCar">
+		delete from t_u_coachcar where carid = (select carid from t_p_car where carno = #{carNo})
+	</delete>
+
+	<select id="findBatch" parameterType="com.lili.school.model.CarBDTO"  resultMap="BaseResultMap">
+		select
+		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age
+		,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName
+		,b.schoolId
+		from  t_p_car b inner join t_s_school a on a.schoolId = b.schoolId
+		Where 1=1
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="carType != null and carType != ''">
+				and b.driveType = #{carType}
+			</if>
+			<if test="carNo != null and carNo != ''">
+				and b.carNo = #{carNo}
+			</if>
+			<if test="carLevel != null and carLevel != ''">
+				and b.carLevel = #{carLevel}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId}
+			</if>
+			order by carId desc
+	</select>
+	
+	
+	<select id="findCar" parameterType="com.lili.school.model.CarNBDTO" resultMap="BaseResultMap">
+		select
+		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId
+		from  t_p_car 
+		Where 1=1 and
+		(
+		<if test="driveNumber != null and driveNumber != ''">
+			 driveNumber = #{driveNumber} 
+		</if>
+		
+		<if test="(driveNumber != null and driveNumber != '') and (carNo != null and carNo != '')">
+			 or
+		</if>
+		<if test="carNo != null and carNo != ''">
+			 carNo = #{carNo}
+		</if>
+		)
+			<if test="carId != null and carId != '' and carId != 0">
+				and carId != #{carId}
+			</if>
+	</select>
+	
+	<select id="findExist" parameterType="com.lili.school.model.CarNBDTO" resultType="java.lang.Integer">
+		select
+		<![CDATA[ ifnull(count(carId),0)]]>
+		from  t_p_car 
+		Where  1=1 and
+		(
+		<if test="driveNumber != null and driveNumber != ''">
+			 driveNumber = #{driveNumber} 
+		</if>
+		
+		<if test="(driveNumber != null and driveNumber != '') and (carNo != null and carNo != '')">
+			 or
+		</if>
+		<if test="carNo != null and carNo != ''">
+			 carNo = #{carNo}
+		</if>
+		)
+			<if test="carId != null and carId != '' and carId != 0">
+				and carId != #{carId}
+			</if>
+	</select>
+	
+	<insert id="insertCoachCar" parameterType="com.lili.school.model.CarNBDTO">
+		INSERT IGNORE INTO t_u_coachcar (coachId,carId)
+		(SELECT coachId,carId FROM t_u_coach, t_p_car WHERE phoneNum = #{carOwner} and carNo = #{carNo});
+	</insert>
+	
+	<insert id="insertOne" parameterType="com.lili.school.model.Car"
+		useGeneratedKeys="true" keyProperty="carId">
+		insert into t_p_car
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="carType != null">
+				carType,
+			</if>
+			<if test="carId != null">
+				carId,
+			</if>
+			<if test="carNo != null">
+				carNo,
+			</if>
+			<if test="driveNumber != null">
+				driveNumber,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="driveType != null">
+				driveType,
+			</if>
+			<if test="carLevel != null">
+				carLevel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="carType != null">
+				#{carType,jdbcType=VARCHAR},
+			</if>
+			<if test="carId != null">
+				#{carId,jdbcType=BIGINT},
+			</if>
+			<if test="carNo != null">
+				#{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="driveNumber != null">
+				#{driveNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="driveType != null">
+				#{driveType,jdbcType=INTEGER},
+			</if>
+			<if test="carLevel != null">
+				#{carLevel,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateCoachCarId"  parameterType="com.lili.school.model.CarNBDTO">
+		UPDATE t_u_coach set coachCarId = (SELECT carId from t_p_car WHERE carOwner =   #{carOwner,jdbcType=VARCHAR} limit 0,1) WHERE phoneNum =  #{carOwner,jdbcType=VARCHAR};
+	</update>
+	
+	<update id="updateOne" parameterType="com.lili.school.model.Car">
+	    update t_p_car
+	    <set >
+	      <if test="carType != null" >
+	        carType = #{carType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="age != null" >
+	        age = #{age,jdbcType=INTEGER},
+	      </if>
+	      <if test="mileage != null" >
+	        mileage = #{mileage,jdbcType=INTEGER},
+	      </if>
+	      <if test="innerEnvir != null" >
+	        innerEnvir = #{innerEnvir,jdbcType=INTEGER},
+	      </if>
+	      <if test="performance != null" >
+	        performance = #{performance,jdbcType=INTEGER},
+	      </if>
+	      <if test="carNo != null" >
+	        carNo = #{carNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carLevel != null" >
+	        carLevel = #{carLevel,jdbcType=INTEGER},
+	      </if>
+	      <if test="driveType != null" >
+	        driveType = #{driveType,jdbcType=TINYINT},
+	      </if>
+	      <if test="driveNumber != null" >
+	        driveNumber = #{driveNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="drivePhoto != null" >
+	        drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+	      </if>
+	      <if test="UsePerson != null" >
+	        UsePerson = #{UsePerson,jdbcType=VARCHAR},
+	      </if>
+	      <if test="schoolId != null" >
+	        schoolId = #{schoolId,jdbcType=INTEGER},
+	      </if>
+	      <if test="syncType != null" >
+	        syncType = #{syncType,jdbcType=TINYINT},
+	      </if>
+	      <if test="syncTime != null" >
+	        syncTime = #{syncTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="cityId != null" >
+	        cityId = #{cityId,jdbcType=INTEGER},
+	      </if>
+	      <if test="carOwner != null" >
+	        carOwner = #{carOwner,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carOwnerAddr != null" >
+	        carOwnerAddr = #{carOwnerAddr,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carUseType != null" >
+	        carUseType = #{carUseType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carEngineNo != null" >
+	        carEngineNo = #{carEngineNo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carVin != null" >
+	        carVin = #{carVin,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carRegTime != null" >
+	        carRegTime = #{carRegTime,jdbcType=DATE},
+	      </if>
+	      <if test="carIssueTime != null" >
+	        carIssueTime = #{carIssueTime,jdbcType=DATE},
+	      </if>
+	      <if test="brandId != null" >
+	        brandId = #{brandId,jdbcType=INTEGER},
+	      </if>
+	      <if test="brandName != null" >
+	        brandName = #{brandName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="carColor != null" >
+	        carColor = #{carColor,jdbcType=TINYINT},
+	      </if>
+	      <if test="carPower != null" >
+	        carPower = #{carPower,jdbcType=TINYINT},
+	      </if>
+	      <if test="carImg != null" >
+	        carImg = #{carImg,jdbcType=VARCHAR},
+	      </if>
+	      <if test="verifyStart != null" >
+	        verifyStart = #{verifyStart,jdbcType=DATE},
+	      </if>
+	      <if test="verifyEnd != null" >
+	        verifyEnd = #{verifyEnd,jdbcType=DATE},
+	      </if>
+	      <if test="verifyFee != null" >
+	        verifyFee = #{verifyFee,jdbcType=INTEGER},
+	      </if>
+	      <if test="verifyState != null" >
+	        verifyState = #{verifyState,jdbcType=TINYINT},
+	      </if>
+	      <if test="insuranceType != null" >
+	        insuranceType = #{insuranceType,jdbcType=TINYINT},
+	      </if>
+	      <if test="insuranceMoney != null" >
+	        insuranceMoney = #{insuranceMoney,jdbcType=INTEGER},
+	      </if>
+	      <if test="insuranceStart != null" >
+	        insuranceStart = #{insuranceStart,jdbcType=DATE},
+	      </if>
+	      <if test="insuranceEnd != null" >
+	        insuranceEnd = #{insuranceEnd,jdbcType=DATE},
+	      </if>
+	      <if test="insuranceCo != null" >
+	        insuranceCo = #{insuranceCo,jdbcType=VARCHAR},
+	      </if>
+	    </set>
+    	where carId = #{carId,jdbcType=INTEGER}
+	</update>
+
+	<select id="findByStudentId" resultMap="BaseResultMap">
+		SELECT 
+		t3.carId,t3.carType,t3.carNo,t3.driveNumber,t3.drivePhoto,t3.UsePerson
+		,t3.age,t3.mileage,t3.performance,t3.carLevel,t3.driveType,t3.schoolId
+		FROM t_u_mycoaches AS t1
+		JOIN t_u_coachcar AS t2 ON t1.studentid = #{studentId} AND t1.coachid = t2.coachid
+		JOIN t_p_car AS t3 ON t2.carid = t3.carid
+	</select>
+	
+   <select id="queryTotalCar"  resultType="java.lang.Integer">
+    	select count(1) from t_p_car 
+    	 <if test="cmsChannel == 2">
+	    	where  schoolId =#{schoolId}
+		</if>
+   </select>
+   
+   <resultMap id="RegCarBaseResultMap" type="com.lili.school.model.CarCheckVo">
+		<result column="carId" property="carId" jdbcType="BIGINT" />
+		<result column="drivePhoto" property="drivePhoto" jdbcType="VARCHAR" />
+		<result column="drivePhoto2" property="drivePhoto2" jdbcType="VARCHAR" />
+		<result column="isNewDrivePhoto" property="isNewDrivePhoto" jdbcType="INTEGER" />
+		<result column="carNo" property="carNo" jdbcType="VARCHAR" />
+		<result column="driveType" property="driveType" jdbcType="INTEGER" />
+		<result column="isNewCarDrive" property="isNewCarDrive" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="queryRegCarInfo" resultMap="RegCarBaseResultMap" parameterType="java.lang.Integer">
+		select
+			carId,drivePhoto,drivePhoto2,isNewDrivePhoto,carNo,driveType,isNewCarDrive
+		from  t_p_car 
+		Where  carId = #{carId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="findCoachIdbyCarId" resultType="java.lang.String" parameterType="java.lang.Integer">
+		select coachId from t_u_coachcar 
+		where isExist = 0 
+		and carId = #{carId,jdbcType=INTEGER}
+	</select>
+</mapper>

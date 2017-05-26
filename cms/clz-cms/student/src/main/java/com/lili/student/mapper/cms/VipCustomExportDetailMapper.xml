@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.cms.VipCustomExportDetailDao">
+	<resultMap id="BaseResultMap" type="com.lili.student.model.VipCustomExportDetail">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="export_id" property="exportId" jdbcType="INTEGER" />
+		<result column="cname" property="cname" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="INTEGER" />
+		<result column="cid" property="cid" jdbcType="VARCHAR" />
+		<result column="rcname" property="rcname" jdbcType="VARCHAR" />
+    	<result column="rcid" property="rcid" jdbcType="INTEGER" />
+    	<result column="coid" property="coid" jdbcType="INTEGER" />
+		<result column="company" property="company" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+    	<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+    id, export_id, cname, sex, mobile, idNumber, city, cid, rcname, rcid, coid, company, 
+    status, city_name
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_v_custom_export_detail
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryList" resultMap="BaseResultMap" parameterType="com.lili.student.model.VipCustomExportDetail">
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_v_custom_export_detail
+	    where export_id = #{exportId,jdbcType=INTEGER}
+			order by id ASC
+  </select>
+  
+   <insert id="insertList" parameterType="java.util.List" >
+	    insert into t_v_custom_export_detail (export_id, cname, sex, mobile, idNumber, city, cid, rcname,rcid,coid, company,city_name) values
+			<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+				(#{item.exportId},#{item.cname},#{item.sex},#{item.mobile},#{item.idNumber},#{item.city},#{item.cid},#{item.rcname},#{item.rcid},#{item.coid},#{item.company},#{item.cityName})
+		</foreach>
+  </insert>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_v_custom_export_detail
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.student.model.VipCustomExportDetail">
+		insert into t_v_custom_export_detail (id, export_id, cname,
+		sex, mobile, idNumber,
+		city, cid, rcname,
+      rcid, coid, company, 
+      status, city_name)
+		values (#{id,jdbcType=INTEGER}, #{exportId,jdbcType=INTEGER},
+		#{cname,jdbcType=VARCHAR},
+		#{sex,jdbcType=TINYINT}, #{mobile,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR},
+		#{city,jdbcType=INTEGER}, #{cid,jdbcType=VARCHAR},
+		#{rcname,jdbcType=VARCHAR},
+      #{rcid,jdbcType=INTEGER}, #{coid,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{cityName,jdbcType=VARCHAR})
+	</insert>
+	
+		<update id="updateByExportId" parameterType="com.lili.student.model.VipCustomExportDetail">
+		update t_v_custom_export_detail
+		<set>
+			<if test="exportId != null">
+				export_id = #{exportId,jdbcType=INTEGER},
+			</if>
+			<if test="cname != null">
+				cname = #{cname,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=TINYINT},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != null">
+				idNumber = #{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=INTEGER},
+			</if>
+			<if test="cid != null">
+				cid = #{cid,jdbcType=VARCHAR},
+			</if>
+			<if test="rcname != null">
+				rcname = #{rcname,jdbcType=VARCHAR},
+			</if>
+	      <if test="rcid != null" >
+	        rcid = #{rcid,jdbcType=INTEGER},
+	      </if>
+	      <if test="coid != null" >
+	        coid = #{coid,jdbcType=INTEGER},
+	      </if>
+			<if test="company != null">
+				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+		</set>
+		where export_id = #{exportId,jdbcType=INTEGER}
+	</update>
+	
+	<insert id="insertSelective" parameterType="com.lili.student.model.VipCustomExportDetail">
+		insert into t_v_custom_export_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="exportId != null">
+				export_id,
+			</if>
+			<if test="cname != null">
+				cname,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="idNumber != null">
+				idNumber,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="cid != null">
+				cid,
+			</if>
+			<if test="rcname != null">
+				rcname,
+      </if>
+      <if test="rcid != null" >
+        rcid,
+      </if>
+      <if test="coid != null" >
+        coid,
+			</if>
+			<if test="company != null">
+				company,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="exportId != null">
+				#{exportId,jdbcType=INTEGER},
+			</if>
+			<if test="cname != null">
+				#{cname,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=TINYINT},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != null">
+				#{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=INTEGER},
+			</if>
+			<if test="cid != null">
+				#{cid,jdbcType=VARCHAR},
+			</if>
+			<if test="rcname != null">
+				#{rcname,jdbcType=VARCHAR},
+			</if>
+      <if test="rcid != null" >
+        #{rcid,jdbcType=INTEGER},
+      </if>
+      <if test="coid != null" >
+        #{coid,jdbcType=INTEGER},
+      </if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.model.VipCustomExportDetail">
+		update t_v_custom_export_detail
+		<set>
+			<if test="exportId != null">
+				export_id = #{exportId,jdbcType=INTEGER},
+			</if>
+			<if test="cname != null">
+				cname = #{cname,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=TINYINT},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != null">
+				idNumber = #{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=INTEGER},
+			</if>
+			<if test="cid != null">
+				cid = #{cid,jdbcType=VARCHAR},
+			</if>
+			<if test="rcname != null">
+				rcname = #{rcname,jdbcType=VARCHAR},
+			</if>
+      <if test="rcid != null" >
+        rcid = #{rcid,jdbcType=INTEGER},
+      </if>
+      <if test="coid != null" >
+        coid = #{coid,jdbcType=INTEGER},
+      </if>
+			<if test="company != null">
+				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.model.VipCustomExportDetail">
+		update t_v_custom_export_detail
+		set export_id = #{exportId,jdbcType=INTEGER},
+		cname = #{cname,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=TINYINT},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		idNumber = #{idNumber,jdbcType=VARCHAR},
+		city = #{city,jdbcType=INTEGER},
+		cid = #{cid,jdbcType=VARCHAR},
+		rcname = #{rcname,jdbcType=VARCHAR},
+      rcid = #{rcid,jdbcType=INTEGER},
+      coid = #{coid,jdbcType=INTEGER},
+		company = #{company,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      city_name = #{cityName,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

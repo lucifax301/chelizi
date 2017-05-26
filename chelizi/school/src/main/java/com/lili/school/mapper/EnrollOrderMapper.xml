@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollOrder" >
+    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="drive_License" property="driveLicense" jdbcType="CHAR" />
+    <result column="dltype" property="dltype" jdbcType="TINYINT" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="card_type" property="cardType" jdbcType="TINYINT" />
+    <result column="card_id" property="cardId" jdbcType="VARCHAR" />
+    <result column="card_pic1" property="cardPic1" jdbcType="VARCHAR" />
+    <result column="card_pic2" property="cardPic2" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="office_id" property="officeId" jdbcType="VARCHAR" />
+    <result column="pay_state" property="payState" jdbcType="TINYINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="post_state" property="postState" jdbcType="TINYINT" />
+    <result column="test_state" property="testState" jdbcType="TINYINT" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="coupon" property="coupon" jdbcType="BIGINT" />
+    <result column="coupon_total" property="couponTotal" jdbcType="INTEGER" />
+    <result column="coupon_name" property="couponName" jdbcType="VARCHAR" />
+    <result column="payWay" property="payway" jdbcType="VARCHAR" />
+    <result column="pay_total" property="payTotal" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="checkouter" property="checkouter" jdbcType="VARCHAR" />
+    <result column="checkout_time" property="checkoutTime" jdbcType="TIMESTAMP" />
+    <result column="order_state" property="orderState" jdbcType="TINYINT" />
+    <result column="brokerage" property="brokerage" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.school.dto.EnrollOrder" extends="BaseResultMap" >
+    <result column="price_detail" property="priceDetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    order_id, student_id, ttid, drive_License, dltype, NAME, card_type, card_id, card_pic1, 
+    card_pic2, school_id, office_id, pay_state, pay_time, post_state, test_state, city_id, 
+    city_name, price, school_name, isdel, ctime, mtime, coupon, coupon_total, coupon_name, 
+    payWay, pay_total, extra, checkouter, checkout_time, order_state, brokerage,channel
+  </sql>
+  <sql id="Blob_Column_List" >
+    price_detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.school.dto.EnrollOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_enroll_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_enroll_order
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollOrderExample" >
+    delete from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollOrder" >
+    insert into t_enroll_order (order_id, student_id, ttid, 
+      drive_License, dltype, NAME, 
+      card_type, card_id, card_pic1, 
+      card_pic2, school_id, office_id, 
+      pay_state, pay_time, post_state, 
+      test_state, city_id, city_name, 
+      price, school_name, isdel, 
+      ctime, mtime, coupon, 
+      coupon_total, coupon_name, payWay, 
+      pay_total, extra, checkouter, 
+      checkout_time, order_state, brokerage, 
+      price_detail,channel)
+    values (#{orderId,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, #{ttid,jdbcType=INTEGER}, 
+      #{driveLicense,jdbcType=CHAR}, #{dltype,jdbcType=TINYINT}, #{name,jdbcType=VARCHAR}, 
+      #{cardType,jdbcType=TINYINT}, #{cardId,jdbcType=VARCHAR}, #{cardPic1,jdbcType=VARCHAR}, 
+      #{cardPic2,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, #{officeId,jdbcType=VARCHAR}, 
+      #{payState,jdbcType=TINYINT}, #{payTime,jdbcType=TIMESTAMP}, #{postState,jdbcType=TINYINT}, 
+      #{testState,jdbcType=TINYINT}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, #{isdel,jdbcType=TINYINT}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{coupon,jdbcType=BIGINT}, 
+      #{couponTotal,jdbcType=INTEGER}, #{couponName,jdbcType=VARCHAR}, #{payway,jdbcType=VARCHAR}, 
+      #{payTotal,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, #{checkouter,jdbcType=VARCHAR}, 
+      #{checkoutTime,jdbcType=TIMESTAMP}, #{orderState,jdbcType=TINYINT}, #{brokerage,jdbcType=INTEGER}, 
+      #{priceDetail,jdbcType=LONGVARCHAR}),#{channel,jdbcType=INTEGER}
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollOrder" >
+    insert into t_enroll_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="ttid != null" >
+        ttid,
+      </if>
+      <if test="driveLicense != null" >
+        drive_License,
+      </if>
+      <if test="dltype != null" >
+        dltype,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="cardId != null" >
+        card_id,
+      </if>
+      <if test="cardPic1 != null" >
+        card_pic1,
+      </if>
+      <if test="cardPic2 != null" >
+        card_pic2,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="officeId != null" >
+        office_id,
+      </if>
+      <if test="payState != null" >
+        pay_state,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="postState != null" >
+        post_state,
+      </if>
+      <if test="testState != null" >
+        test_state,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="coupon != null" >
+        coupon,
+      </if>
+      <if test="couponTotal != null" >
+        coupon_total,
+      </if>
+      <if test="couponName != null" >
+        coupon_name,
+      </if>
+      <if test="payway != null" >
+        payWay,
+      </if>
+      <if test="payTotal != null" >
+        pay_total,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="checkouter != null" >
+        checkouter,
+      </if>
+      <if test="checkoutTime != null" >
+        checkout_time,
+      </if>
+      <if test="orderState != null" >
+        order_state,
+      </if>
+      <if test="brokerage != null" >
+        brokerage,
+      </if>
+      <if test="priceDetail != null" >
+        price_detail,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="ttid != null" >
+        #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="driveLicense != null" >
+        #{driveLicense,jdbcType=CHAR},
+      </if>
+      <if test="dltype != null" >
+        #{dltype,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardId != null" >
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic1 != null" >
+        #{cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic2 != null" >
+        #{cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null" >
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postState != null" >
+        #{postState,jdbcType=TINYINT},
+      </if>
+      <if test="testState != null" >
+        #{testState,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coupon != null" >
+        #{coupon,jdbcType=BIGINT},
+      </if>
+      <if test="couponTotal != null" >
+        #{couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="couponName != null" >
+        #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="payTotal != null" >
+        #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="checkouter != null" >
+        #{checkouter,jdbcType=VARCHAR},
+      </if>
+      <if test="checkoutTime != null" >
+        #{checkoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderState != null" >
+        #{orderState,jdbcType=TINYINT},
+      </if>
+      <if test="brokerage != null" >
+        #{brokerage,jdbcType=INTEGER},
+      </if>
+      <if test="priceDetail != null" >
+        #{priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollOrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_order
+    <set >
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        student_id = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ttid != null" >
+        ttid = #{record.ttid,jdbcType=INTEGER},
+      </if>
+      <if test="record.driveLicense != null" >
+        drive_License = #{record.driveLicense,jdbcType=CHAR},
+      </if>
+      <if test="record.dltype != null" >
+        dltype = #{record.dltype,jdbcType=TINYINT},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null" >
+        card_type = #{record.cardType,jdbcType=TINYINT},
+      </if>
+      <if test="record.cardId != null" >
+        card_id = #{record.cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardPic1 != null" >
+        card_pic1 = #{record.cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardPic2 != null" >
+        card_pic2 = #{record.cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.officeId != null" >
+        office_id = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payState != null" >
+        pay_state = #{record.payState,jdbcType=TINYINT},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.postState != null" >
+        post_state = #{record.postState,jdbcType=TINYINT},
+      </if>
+      <if test="record.testState != null" >
+        test_state = #{record.testState,jdbcType=TINYINT},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolName != null" >
+        school_name = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.coupon != null" >
+        coupon = #{record.coupon,jdbcType=BIGINT},
+      </if>
+      <if test="record.couponTotal != null" >
+        coupon_total = #{record.couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponName != null" >
+        coupon_name = #{record.couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payway != null" >
+        payWay = #{record.payway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTotal != null" >
+        pay_total = #{record.payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkouter != null" >
+        checkouter = #{record.checkouter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkoutTime != null" >
+        checkout_time = #{record.checkoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderState != null" >
+        order_state = #{record.orderState,jdbcType=TINYINT},
+      </if>
+      <if test="record.brokerage != null" >
+        brokerage = #{record.brokerage,jdbcType=INTEGER},
+      </if>
+      <if test="record.priceDetail != null" >
+        price_detail = #{record.priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.channel != null" >
+        channel = #{record.channel,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_enroll_order
+    set order_id = #{record.orderId,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=BIGINT},
+      ttid = #{record.ttid,jdbcType=INTEGER},
+      drive_License = #{record.driveLicense,jdbcType=CHAR},
+      dltype = #{record.dltype,jdbcType=TINYINT},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=TINYINT},
+      card_id = #{record.cardId,jdbcType=VARCHAR},
+      card_pic1 = #{record.cardPic1,jdbcType=VARCHAR},
+      card_pic2 = #{record.cardPic2,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      pay_state = #{record.payState,jdbcType=TINYINT},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      post_state = #{record.postState,jdbcType=TINYINT},
+      test_state = #{record.testState,jdbcType=TINYINT},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      school_name = #{record.schoolName,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      coupon = #{record.coupon,jdbcType=BIGINT},
+      coupon_total = #{record.couponTotal,jdbcType=INTEGER},
+      coupon_name = #{record.couponName,jdbcType=VARCHAR},
+      payWay = #{record.payway,jdbcType=VARCHAR},
+      pay_total = #{record.payTotal,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      checkouter = #{record.checkouter,jdbcType=VARCHAR},
+      checkout_time = #{record.checkoutTime,jdbcType=TIMESTAMP},
+      order_state = #{record.orderState,jdbcType=TINYINT},
+      brokerage = #{record.brokerage,jdbcType=INTEGER},
+      price_detail = #{record.priceDetail,jdbcType=LONGVARCHAR},
+      channel = #{record.channel,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_order
+    set order_id = #{record.orderId,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=BIGINT},
+      ttid = #{record.ttid,jdbcType=INTEGER},
+      drive_License = #{record.driveLicense,jdbcType=CHAR},
+      dltype = #{record.dltype,jdbcType=TINYINT},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=TINYINT},
+      card_id = #{record.cardId,jdbcType=VARCHAR},
+      card_pic1 = #{record.cardPic1,jdbcType=VARCHAR},
+      card_pic2 = #{record.cardPic2,jdbcType=VARCHAR},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      pay_state = #{record.payState,jdbcType=TINYINT},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      post_state = #{record.postState,jdbcType=TINYINT},
+      test_state = #{record.testState,jdbcType=TINYINT},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      school_name = #{record.schoolName,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      coupon = #{record.coupon,jdbcType=BIGINT},
+      coupon_total = #{record.couponTotal,jdbcType=INTEGER},
+      coupon_name = #{record.couponName,jdbcType=VARCHAR},
+      payWay = #{record.payway,jdbcType=VARCHAR},
+      pay_total = #{record.payTotal,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      checkouter = #{record.checkouter,jdbcType=VARCHAR},
+      checkout_time = #{record.checkoutTime,jdbcType=TIMESTAMP},
+      order_state = #{record.orderState,jdbcType=TINYINT},
+      brokerage = #{record.brokerage,jdbcType=INTEGER},
+      channel = #{record.channel,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollOrder" >
+    update t_enroll_order
+    <set >
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="ttid != null" >
+        ttid = #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="driveLicense != null" >
+        drive_License = #{driveLicense,jdbcType=CHAR},
+      </if>
+      <if test="dltype != null" >
+        dltype = #{dltype,jdbcType=TINYINT},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardId != null" >
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic1 != null" >
+        card_pic1 = #{cardPic1,jdbcType=VARCHAR},
+      </if>
+      <if test="cardPic2 != null" >
+        card_pic2 = #{cardPic2,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null" >
+        office_id = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        pay_state = #{payState,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postState != null" >
+        post_state = #{postState,jdbcType=TINYINT},
+      </if>
+      <if test="testState != null" >
+        test_state = #{testState,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coupon != null" >
+        coupon = #{coupon,jdbcType=BIGINT},
+      </if>
+      <if test="couponTotal != null" >
+        coupon_total = #{couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="couponName != null" >
+        coupon_name = #{couponName,jdbcType=VARCHAR},
+      </if>
+      <if test="payway != null" >
+        payWay = #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="payTotal != null" >
+        pay_total = #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="checkouter != null" >
+        checkouter = #{checkouter,jdbcType=VARCHAR},
+      </if>
+      <if test="checkoutTime != null" >
+        checkout_time = #{checkoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderState != null" >
+        order_state = #{orderState,jdbcType=TINYINT},
+      </if>
+      <if test="brokerage != null" >
+        brokerage = #{brokerage,jdbcType=INTEGER},
+      </if>
+      <if test="priceDetail != null" >
+        price_detail = #{priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.school.dto.EnrollOrder" >
+    update t_enroll_order
+    set student_id = #{studentId,jdbcType=BIGINT},
+      ttid = #{ttid,jdbcType=INTEGER},
+      drive_License = #{driveLicense,jdbcType=CHAR},
+      dltype = #{dltype,jdbcType=TINYINT},
+      NAME = #{name,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=TINYINT},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      card_pic1 = #{cardPic1,jdbcType=VARCHAR},
+      card_pic2 = #{cardPic2,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      office_id = #{officeId,jdbcType=VARCHAR},
+      pay_state = #{payState,jdbcType=TINYINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      post_state = #{postState,jdbcType=TINYINT},
+      test_state = #{testState,jdbcType=TINYINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      coupon = #{coupon,jdbcType=BIGINT},
+      coupon_total = #{couponTotal,jdbcType=INTEGER},
+      coupon_name = #{couponName,jdbcType=VARCHAR},
+      payWay = #{payway,jdbcType=VARCHAR},
+      pay_total = #{payTotal,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      checkouter = #{checkouter,jdbcType=VARCHAR},
+      checkout_time = #{checkoutTime,jdbcType=TIMESTAMP},
+      order_state = #{orderState,jdbcType=TINYINT},
+      brokerage = #{brokerage,jdbcType=INTEGER},
+      price_detail = #{priceDetail,jdbcType=LONGVARCHAR},
+      channel = #{channel,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollOrder" >
+    update t_enroll_order
+    set student_id = #{studentId,jdbcType=BIGINT},
+      ttid = #{ttid,jdbcType=INTEGER},
+      drive_License = #{driveLicense,jdbcType=CHAR},
+      dltype = #{dltype,jdbcType=TINYINT},
+      NAME = #{name,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=TINYINT},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      card_pic1 = #{cardPic1,jdbcType=VARCHAR},
+      card_pic2 = #{cardPic2,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      office_id = #{officeId,jdbcType=VARCHAR},
+      pay_state = #{payState,jdbcType=TINYINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      post_state = #{postState,jdbcType=TINYINT},
+      test_state = #{testState,jdbcType=TINYINT},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      coupon = #{coupon,jdbcType=BIGINT},
+      coupon_total = #{couponTotal,jdbcType=INTEGER},
+      coupon_name = #{couponName,jdbcType=VARCHAR},
+      payWay = #{payway,jdbcType=VARCHAR},
+      pay_total = #{payTotal,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      checkouter = #{checkouter,jdbcType=VARCHAR},
+      checkout_time = #{checkoutTime,jdbcType=TIMESTAMP},
+      order_state = #{orderState,jdbcType=TINYINT},
+      brokerage = #{brokerage,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=INTEGER}
+    where order_id = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.lili.school.dto.EnrollOrderExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollOrderExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

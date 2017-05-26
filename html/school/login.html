@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>喱喱云平台</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="login-body">
+    <div class="login-logo z-tc"><img src="assets/img/lililogo.png" alt=""></div>
+	<div class="admin">
+		<div class="login">
+			<div class="welcome z-font-yh z-tl z-font22 z-mb30">欢迎回来 <span class="z-font16 z-fr" style="margin-top: 5px;">新驾校？<a href="regist.html">立即申请驾校</a></span></div>
+			<form id="loginForm">
+				<div class="input-text">
+					<span class="icon-user-info ion-ios-person-outline"></span>
+					<input type="text" name="username" placeholder="用户名" id="username" datatype="*" errormsg="请输入用户名" nullmsg="请输入用户名">
+				</div>
+				<div class="input-text">
+					<span class="icon-user-info ion-ios-locked-outline"></span>
+					<input type="password" name="password" placeholder="密码" id="password" datatype="*" errormsg="请输入密码" nullmsg="请输入密码">
+				</div>
+                <div class="z-mt10  z-mb30"><input type="checkbox" class="z-mr10" >记住帐号</div>
+				<a id="admin-submit" type="button" class="btn btn-primary btn-block submit">登录</a>
+                <p class="z-mt10 z-mb10 z-fontgray z-tc">如登录出现异常请联系客服：400-666-6666</p>
+			</form>
+		</div>
+	</div>
+    <p class="z-pt20 z-tc z-font14 z-fontgray">粤ICP15101713号 -1 \ 车厘子网络科技 \ Copyright©2016</p>
+</body>
+<script src="assets/common/js/jquery-1.11.3.min.js"></script>
+<script src="assets/common/js/Validform_v5.3.2_min.js"></script>
+<script src="assets/common/js/common.js"></script>
+<script src="assets/common/js/PopLayer.js"></script>
+<script src="assets/common/jiami/sha1.js"></script>
+<script src="assets/js/function.js"></script>
+<!-- 主要js开始 -->
+<script src="assets/js/login.js"></script>
+</html>	

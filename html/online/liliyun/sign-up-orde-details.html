@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="signUpOrderDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<!-- <ol class="breadcrumb">
+		  <li><a href="order.html">订单</a></li>
+		  <li><a href="" onclick="location.href=window.location.href;">订单详情</a></li>
+		</ol> -->
+		<div class="top">
+			<div class="order-id">
+				<span class="light">订单号：</span>
+				<span id="orderId" ng-bind="data.orderId"></span>
+				<!-- <span class="payment" id="payment" ng-bind="data.payState | payStateTex"></span> -->
+			</div>
+			<div class="order-id">
+				<span class="light">支付状态：</span>
+				<span id="orderId" ng-bind="data.payState | signUpPayStateTex"></span>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active">订单信息</li>
+			<!-- <li ng-click="tableSwitch($event)">操作日志</li> -->
+		</ul>
+		<div class="order-table" id="order-table">
+			<!-- 订单信息 -->
+			<div>
+				<table class="table table-bordered table-with-style">
+				  <tr>
+				  	<td class="t-150"><b>姓名</b></td>
+				  	<td><a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.name?data.name:'喱喱同学'"></a></td>
+				  	<td class="t-150"><b>性别</b></td>
+				  	<td ng-bind="data.sex | sexText"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>年龄</b></td>
+				  	<td ng-bind="data.age"></td>
+				  	<td class="t-150"><b>电话号</b></td>
+				  	<td ng-bind="data.phoneNum"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>户籍</b></td>
+				  	<td ng-bind="data.hometown"></td>
+				  	<td class="t-150"><b>身份证号码</b></td>
+				  	<td ng-bind="data.idNumber"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>报考证件号码</b></td>
+				  	<td ng-bind="data.cardId"></td>
+				  	<td class="t-150"><b>报考类型</b></td>
+				  	<td ng-bind="data.dltype | applyCarTypeTex"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>报名总价</b></td>
+				  	<td> <span ng-bind="data.price | priceTex"></span> 元</td>
+				  	<td class="t-150"><b>报名时间</b></td>
+				  	<td ng-bind="data.mtime | timeTex"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>报考驾校</b></td>
+				  	<td ng-bind="data.schoolName"></td>
+				  	<td class="t-150"><b>报考城市</b></td>
+				  	<td ng-bind="data.region"></td>
+				  </tr>	
+				  <tr>
+				  	<td class="t-150"><b>车管所报名流水号</b></td>
+				  	<td ng-bind="data.officeId"></td>
+				  	<td class="t-150"><b>资料邮寄状态</b></td>
+				  	<td ng-bind="data.postState | postStateTex"></td>
+				  </tr>
+				</table><!-- 订单信息结束 -->
+			</div>
+			<!-- 操作日志 -->
+			<div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td class="w-20"><b>更新时间</b></td>
+					  	<td class="w-10"><b>操作人</b></td>
+					  	<td><b>操作内容</b></td>
+					  </tr>
+					  <tr ng-repeat="data in orderLogs">
+					  	<td ng-bind="data.operateTime | timeTex"></td>
+					  	<td ng-bind="data.userName"></td>
+					  	<td ng-bind="data.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="log-page" class="copot-page"></div>
+				</div><!-- 操作日志结束 -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/sign-up-order-details.js?v=8e65fae2481473298817690"></script>
+</body>
+</html>

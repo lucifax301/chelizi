@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CoachServiceTag">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>教练服务评价标签</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<div id="content" class="content main-content" >
+	<div class="common-style withdraw-cash order-detail">
+	<ul class="table-li" id="table-li">
+		<li><a href="">取消订单标签</a></li>
+		<li class="active"><a href="coach-service-tag-5star.html">教练服务评价标签</a></li>
+		<li><a href="">学员技能标签</a></li>
+	</ul> 
+	<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header header-tab" id="header-table">
+				<li ><a href="coach-service-tag-5star.html">五星</a></li>
+				<li class="active"><a href="coach-service-tag-4star.html">四星</a></li>
+				<li><a href="coach-service-tag-3star.html">三星</a></li>
+				<li><a href="coach-service-tag-2star.html">二星</a></li>
+				<li><a href="coach-service-tag-1star.html">一星</a></li>
+			</div>
+			<div class="content table-qie">
+				<a class="btn btn-primary margin-top-10">新增标签</a>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-xs-offset=8 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<table class="table table-bordered table-striped">
+				  <tr>
+				  	<td><b>标签</b></td>
+				  	<td><b>是否启用</b></td>
+				  	<td><b>操作</b></td>
+				  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td ng-model=""></td>
+					  	<td ng-model=""></td>
+					  	<td class="operation"><a href="javascript:void(0)" class="edit" 
+					  	ng-click="">编辑</a></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<!-- script -->
+
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/coach-service-tag.js"></script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.file.mapper.FeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.file.dto.Feedback" >
+    <id column="fbid" property="fbid" jdbcType="INTEGER" />
+    <result column="fbtitle" property="fbtitle" jdbcType="VARCHAR" />
+    <result column="fbpicture" property="fbpicture" jdbcType="VARCHAR" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="usertype" property="usertype" jdbcType="TINYINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="userphone" property="userphone" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.file.dto.Feedback" extends="BaseResultMap" >
+    <result column="fbcontent" property="fbcontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    fbid, fbtitle, fbpicture, userid, usertype, username, userphone, ctime, mtime, state, 
+    extra
+  </sql>
+  <sql id="Blob_Column_List" >
+    fbcontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.file.dto.FeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_u_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.file.dto.FeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_u_feedback
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_u_feedback
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.file.dto.FeedbackExample" >
+    delete from t_u_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.file.dto.Feedback" >
+    insert into t_u_feedback (fbid, fbtitle, fbpicture, 
+      userid, usertype, username, 
+      userphone, ctime, mtime, 
+      state, extra, fbcontent
+      )
+    values (#{fbid,jdbcType=INTEGER}, #{fbtitle,jdbcType=VARCHAR}, #{fbpicture,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=BIGINT}, #{usertype,jdbcType=TINYINT}, #{username,jdbcType=VARCHAR}, 
+      #{userphone,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=TINYINT}, #{extra,jdbcType=VARCHAR}, #{fbcontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.file.dto.Feedback" >
+    insert into t_u_feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fbid != null" >
+        fbid,
+      </if>
+      <if test="fbtitle != null" >
+        fbtitle,
+      </if>
+      <if test="fbpicture != null" >
+        fbpicture,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="usertype != null" >
+        usertype,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="userphone != null" >
+        userphone,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="fbcontent != null" >
+        fbcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fbid != null" >
+        #{fbid,jdbcType=INTEGER},
+      </if>
+      <if test="fbtitle != null" >
+        #{fbtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fbpicture != null" >
+        #{fbpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=TINYINT},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphone != null" >
+        #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="fbcontent != null" >
+        #{fbcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.file.dto.FeedbackExample" resultType="java.lang.Integer" >
+    select count(*) from t_u_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_u_feedback
+    <set >
+      <if test="record.fbid != null" >
+        fbid = #{record.fbid,jdbcType=INTEGER},
+      </if>
+      <if test="record.fbtitle != null" >
+        fbtitle = #{record.fbtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbpicture != null" >
+        fbpicture = #{record.fbpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.usertype != null" >
+        usertype = #{record.usertype,jdbcType=TINYINT},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userphone != null" >
+        userphone = #{record.userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbcontent != null" >
+        fbcontent = #{record.fbcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_u_feedback
+    set fbid = #{record.fbid,jdbcType=INTEGER},
+      fbtitle = #{record.fbtitle,jdbcType=VARCHAR},
+      fbpicture = #{record.fbpicture,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=BIGINT},
+      usertype = #{record.usertype,jdbcType=TINYINT},
+      username = #{record.username,jdbcType=VARCHAR},
+      userphone = #{record.userphone,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=TINYINT},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      fbcontent = #{record.fbcontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_u_feedback
+    set fbid = #{record.fbid,jdbcType=INTEGER},
+      fbtitle = #{record.fbtitle,jdbcType=VARCHAR},
+      fbpicture = #{record.fbpicture,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=BIGINT},
+      usertype = #{record.usertype,jdbcType=TINYINT},
+      username = #{record.username,jdbcType=VARCHAR},
+      userphone = #{record.userphone,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=TINYINT},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.file.dto.Feedback" >
+    update t_u_feedback
+    <set >
+      <if test="fbtitle != null" >
+        fbtitle = #{fbtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fbpicture != null" >
+        fbpicture = #{fbpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        usertype = #{usertype,jdbcType=TINYINT},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="userphone != null" >
+        userphone = #{userphone,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="fbcontent != null" >
+        fbcontent = #{fbcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.file.dto.Feedback" >
+    update t_u_feedback
+    set fbtitle = #{fbtitle,jdbcType=VARCHAR},
+      fbpicture = #{fbpicture,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=BIGINT},
+      usertype = #{usertype,jdbcType=TINYINT},
+      username = #{username,jdbcType=VARCHAR},
+      userphone = #{userphone,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=TINYINT},
+      extra = #{extra,jdbcType=VARCHAR},
+      fbcontent = #{fbcontent,jdbcType=LONGVARCHAR}
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.file.dto.Feedback" >
+    update t_u_feedback
+    set fbtitle = #{fbtitle,jdbcType=VARCHAR},
+      fbpicture = #{fbpicture,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=BIGINT},
+      usertype = #{usertype,jdbcType=TINYINT},
+      username = #{username,jdbcType=VARCHAR},
+      userphone = #{userphone,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=TINYINT},
+      extra = #{extra,jdbcType=VARCHAR}
+    where fbid = #{fbid,jdbcType=INTEGER}
+  </update>
+</mapper>

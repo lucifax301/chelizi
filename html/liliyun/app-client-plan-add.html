@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="AddRechargePrivePlan">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新建充值送方案</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="add-recharge-privi-plan-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="withdraw-cash">
+        <div class="z-common-head">
+            <div class="z-title"><a href="app-client-plan.html">充值送方案</a> > 新建充值送方案</div>
+        </div>
+        <div class="z-common-content z-add-recharge-pri-plan">
+            <h2 class="z-mt0 z-common-h2">充值送方案设置</h2>
+            <form class="z-valid-form">
+                <!--方案基本信息-->
+                <table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0 z-td-p0" cellpadding="20" border="1">
+                    <tr>
+                        <td width="15%" align="right"><label>充值送方案名称：</label></td>
+                        <td width="42.5%">
+                            <div class="z-form-group">
+                                <input type="text" class="z-w-per80 form-control z-valid z-required z-required-2-20-special" placeholder="请输入充值送名称" ng-model="editData.rcname">
+                            </div>
+                        </td>
+                        <td width="42.5%"></td>
+                    </tr>
+                    
+                   
+                </table>
+                <!--方案充值档位(比例赠送)-->
+                <div class="z-border-box z-p20 z-mb20 z-privi-type z-privi-type0 z-td-p0">
+                	<table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0 item-auto-wrap" cellpadding="20" border="1">
+                		<tbody ng-repeat="item in editData.rechargeGearList">
+	                    <tr class="item-auto-item form-group">
+	                        <td width="15%" align="right" rowspan="2">
+	                        	<a href="javascript:" ng-click="zItemRemove($index)" ng-if="$index>0"><i class="glyphicon glyphicon-remove"></i></a>
+	                        	<label class="z-mt20">
+	                        	充值档位{{$index + 1}}：
+	                        	</label>
+	                        </td>
+	                        <td width="35%" rowspan="2">
+	                        	
+	                            <div class="z-form-group z-auto-hide z-mt20">
+	                                <input type="text" class="form-control z-valid z-required z-required-moneystep z-fl step-min per-min" placeholder="请输入金额档位" ng-model="item.pmin">
+	                                <input type="text" class="form-control z-valid z-required z-required-moneystep z-fl step-max per-max" placeholder="请输入金额档位" ng-model="item.pmax">
+	                            </div>
+	                        </td>
+	                        <td width="10%">
+	                        	<label class="z-mt20">
+	                        		<input type="checkbox" class="z-mt0 z-mr10" ng-model="item.PriviType_money" ng-click="privitype($index,'money')"/>赠送金额：
+	                        	</label>
+	                        </td>
+	                        <td width="40%">
+	                        	<element ng-if="(item.PriviType_money)">
+	                        	<div class="row">
+	                        		<div class="col-sm-1"></div>
+		                        	<div class="line col-sm-8 z-form-group z-auto-hide">
+										<div class="input-group search-more-condition z-mt20">
+										  <select ng-model="item.zsType" class="form-control" id="search_type" ng-change="changeType($index)">
+											<option value="0" selected="selected">比例赠送</option>
+											<option value="1">金额赠送</option>
+										  </select>
+										  <input ng-if="(item.zsType == 0)" type="text" ng-model="item.percent" class="form-control z-valid z-required z-required-per" placeholder="输入赠送百分比">
+										  <input type="text" ng-if="(item.zsType == 1)" ng-model="item.money" class="form-control z-valid z-required z-required-plus" placeholder="输入赠送金额">
+										  <span class="input-group-btn">
+											<a class="btn btn-default" ng-if="(item.zsType == 0)">%</a>
+											<a class="btn btn-default" ng-if="(item.zsType == 1)">元</a>
+										  </span>
+										</div>
+									</div>
+								</div>
+								</element>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                    	<td width="10%">
+	                    		<label>
+	                    			<input type="checkbox" class="z-mt0 z-mr10" ng-model="item.PriviType_yhq" ng-click="privitype($index,'yhq')"/>
+	                    			赠送优惠券：
+	                    		</label>
+	                    	</td>
+	                        <td width="40%" data-id="{{$index}}">
+	                        	<element ng-if="(item.PriviType_yhq)">
+	                        	<div ng-repeat="x in item.couponList" class="row" ng-class="{true:'z-mt20'}[PriviType == 1]">
+	                        		<div class="col-sm-1">
+	                        			<a href="javascript:" ng-click="zItemYHQRemove($event,$index)" ng-if="$index>0"><i class="glyphicon glyphicon-remove"></i></a>
+	                        		</div>
+	                        		<div class="col-sm-6">
+		                        		<div class="input-group " >
+										  <input type="text" ng-model="x.couponId" class="form-control z-required ng-pristine ng-valid ng-touched" placeholder="优惠券ID">
+									      <span class="input-group-btn">
+									        <a class="btn btn-default" ng-click="searchyhq($event)">搜索</a>
+									      </span>
+										</div>
+									</div>
+									<div class="col-sm-5 z-form-group z-auto-hide">
+										<div class = "fl" style="width: 20%;">
+											<label>数量:</label>	
+										</div>
+										<div class="fl" style="width: 80%;">
+											<input type="num" ng-model="x.couponNum" class="form-control z-valid z-required-plus"/>
+										</div>
+									</div>
+	                        	</div>
+	                        	<div class="row">
+	                        		<div class="col-sm-1"></div>
+	                        		<div class="col-sm-11">
+	                        			<button ng-click="zItemYHQAdd($index)" type="button" class="btn btn-primary btn-sm btn-genrule z-mb20"><span>⊕</span>增加优惠券</button>
+	                        		</div>
+	                        	</div>
+	                        	
+	                        	</element>
+	                        </td>
+	                    </tr>
+	                    </tbody>
+	                    <tr>
+	                        <td></td>
+	                        <td colspan="2">
+	                            <button ng-click="zItemAdd()" type="button" class="btn btn-primary btn-sm btn-genrule z-mt20"><span>⊕</span>增加充值档位</button>
+	                        </td>
+	                    </tr>
+                	</table>
+				</div>
+             
+                <!--方案生效条件-->
+                <div class="z-border-box z-p10 z-mb20"><table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0">
+                    <tr>
+                        <td width="15%" align="right"><label>生效条件：</label></td>
+                        <td>
+                            <div class="check-box-item">
+                            	<label>
+                                <input type="radio" name="enroll" ng-model="editData.enroll" value="0" checked="checked">无
+                                </label>
+                            </div>
+                            <div class="check-box-item">
+                            	<label>
+                                <input type="radio" name="enroll" ng-model="editData.enroll" value="1">已报名
+                                </label>
+                            </div>
+                            <div class="check-box-item cityWrap" ng-if="(editData.enroll == 1)">
+                                <span class="z-fl z-fontgray">（留空为所有城市）</span>
+                                <!--<div class="check-box-item">-->
+                                    <!--<input type="checkbox" id="cityAll" ng-click="citySelAll($event)">全选-->
+                                <!--</div>-->
+                                <div class="check-box-item cityWrapItem" ng-repeat="item in citys">
+                                    <input confirmTxt="{{item.region}}" type="checkbox" name="cityBox" ng-click="citySelItem($event)" ng-value="{{item.rid}}" class="cityItem">{{item.region}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table></div>
+                <!--方案有效时间-->
+                <div class="z-border-box z-p10 z-mb20"><table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0">
+                    <tr>
+                        <td width="15%" align="right">
+                            <label>设置有效时间：</label>
+                        </td>
+                        <td valign="top" colspan="2">
+                            <div class="check-box-item">
+                                <label><input type="radio" name="timeType" ng-model="timeType" value="0"  checked>指定时间段</label><br>
+                                <label><input type="radio" name="timeType" ng-model="timeType" value="1" >无时间限制</label>
+                            </div>
+                            <div class="privi-time-wrap" ng-show="timeType == 0">
+                                <label class="privi-time-label">开始时间：</label>
+                                <div class="privi-time-start">
+                                    <div class="input-prepend input-group z-form-group">
+                                        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                        <input type="text" name="reservStart" id="reservStart" class="form-control z-valid" placeholder="选择开始时间" ng-model="editData.tstart"/>
+                                    </div>
+                                </div>
+                                <label class="privi-time-label">终止时间：</label>
+                                <div class="privi-time-end">
+                                    <div class="input-prepend input-group">
+                                        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                        <input type="text" name="reservEnd" id="reservEnd" class="form-control z-valid" placeholder="选择结束时间" ng-model="editData.tend"  class="z-valid z-required" />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table></div>
+                <!--方案到帐方式-->
+                <div class="z-border-box z-p10 z-mb20"><table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0">
+                    <tr>
+                        <td width="15%" align="right"><label>到帐方式：</label></td>
+                        <td>
+                            <div class="check-box-item">
+                                <label><input type="radio" name="auto" ng-model="editData.auto" value="1" checked >自动到帐</label>
+                            </div>
+                            <div class="check-box-item">
+                                <label><input type="radio" name="auto" ng-model="editData.auto" value="0">需要财务审核</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table></div>
+                 <!--赠送报名券-->
+                <div class="z-border-box z-p10 z-mb20"><table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0">
+                    <tr>
+                        <td width="15%" align="right"><label>赠送报名券：</label></td>
+                        <td>
+                            <div class="input-group col-sm-5 z-mb20" >
+							  <input type="text" ng-model="editData.couponTemplate" class="form-control ng-pristine ng-valid ng-touched" placeholder="请填写优惠券ID">
+						      <span class="input-group-btn">
+						        <a class="btn btn-default" ng-click="searchyhq($event)">搜索</a>
+						      </span>
+							</div>
+							注：不填则不赠送优惠券
+                        </td>
+                    </tr>
+                </table></div>
+                
+                <div class="z-border-box z-p10 z-mb20"><table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0">
+                    <tr>
+                        <td width="15%" align="right"><label>关联优惠方案：</label></td>
+                        <td>
+               				 <div class="z-form-group">
+								<select ng-model="editData.rercid" class="form-control" id="searchCity" >
+									<option value="">选择优惠方案</option>
+									<option ng-repeat="x in planList" value="{{x.rcid}}" ng-bind="x.rcname" dataName="{{x.rcname}}"></option>
+								</select>
+               				 </div>
+                        </td>
+                        <td width="15%" align="right"><label>设定充值次数启动关联方案：</label></td>
+                        <td>
+                        	<div class="input-group" style="max-width: 200px;">
+							  <input type="text" ng-model="editData.regNum" class="form-control z-valid z-required-plus" placeholder="">
+						      <span class="input-group-btn">
+						        <a class="btn btn-default" >次</a>
+						      </span>
+							</div>
+                        </td>
+                    </tr>
+                </table></div>
+                
+									
+									
+                <!--方案消息模板-->
+                <table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0 z-td-p0" cellpadding="20">
+                    <tr>
+                        <td width="15%" align="right"><label>极光推送消息：</label></td>
+                        <td>
+                            <div class="z-form-group">
+                                <textarea class="form-control recharge-privi-desc z-valid z-required z-required-gt-10" rows="3" placeholder="请填写极光推送消息" ng-model="editData.jpush"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="15%" align="right"><label>使用规则：</label></td>
+                        <td>
+                            <div class="z-form-group">
+                                <textarea class="form-control recharge-privi-desc z-valid z-required z-required-gt-10" rows="6" placeholder="请填写使用规则" ng-model="editData.agreement"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="z-caozuo">
+            <a href="javascript:;" class="btn btn-primary btn-md" role="button" ng-click="submitAddPlan()">提交</a>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script>window.hideLoading()</script>
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/big-client-plan-add.js"></script>
+</body>
+</html>

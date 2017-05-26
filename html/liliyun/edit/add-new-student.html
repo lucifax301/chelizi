@@ -1,0 +1,64 @@
+<div class="edit-alert edit-big-size add-new-student">
+<div class="mask"></div>
+<div class="main">
+<div id="add-new-student" class="content">
+	<div class="title">分配新学员 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div class="order-table common-table">
+			<div class="search">
+				<!-- <div class="line">
+					<div>学习进度</div>
+					<ul>
+						<li ng-click="getDataForJid($event,'')" class="active">全部</li>
+						<li ng-click="getDataForJid($event,1)">科目二</li>
+						<li ng-click="getDataForJid($event,3)">长训</li>
+						<li ng-click="getDataForJid($event,2)">科目三</li>
+					</ul>
+				</div> -->
+				<div class="line">
+					<div>姓名查询</div>
+					<div class="input-group">
+				      <input type="text" ng-model="newStudent" class="form-control name-search" placeholder="输入学员姓名">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" ng-click="getNewStudentDataForSearch(newStudent)" type="button">搜索</button>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div class="table-responsive show">
+				<table class="table table-bordered table-striped">
+				  <tr>
+				  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll1" ng-click="selectionAll($event)"></td>
+				  	<td><b>姓名</b></td>
+				  	<td><b>性别</b></td>
+				  	<td><b>年龄</b></td>
+				  	<td><b>电话</b></td>
+				  	<td><b>所学车型</b></td>
+				  	<td><b>身份证号</b></td>
+				  	<!-- <td><b>学习进度</b></td> -->
+				  </tr>
+				  <tr ng-repeat="data in newStudentDatas">
+				  	<td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)" ></td>
+				  	<td ng-bind="data.name?data.name:'喱喱同学'"></td>
+				  	<td ng-bind="data.sex | sexText"></td>
+				  	<td ng-bind="data.age"></td>
+				  	<td ng-bind="data.phoneNum"></td>
+				  	<td ng-bind="data.applyCarType | applyCarTypeTex"></td>
+				  	<td ng-bind="data.idNumber"></td>
+				  	<!-- <td ng-bind="data.schoolName"></td> -->
+				  </tr>
+				</table>
+			</div>
+			<div class="page show">
+				<div id="new-student-page" class="copot-page"></div>
+			</div>
+			<div class="chaozuo show margin-top-50" >
+				<button type="button" class="btn btn-sm btn-default closeAlert">取消</button>
+				<button type="button" ng-click="submitStudentMsg($event)" class="btn btn-sm btn-primary">确认</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+

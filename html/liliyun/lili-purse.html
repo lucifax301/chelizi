@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="purse">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>喱喱钱包</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/monthpicker.css">
+    <style>
+        .d-statistics .top{ overflow: visible;}
+        .monthPickerWrap{ font-size: 16px; padding: 0 20px;}
+        #monthpicker{ line-height: 40px;}
+        .monthpicker{ right: 20px; top: 50px;}
+        .monthpicker:before,.monthpicker:after{ left: auto; right: 20px;}
+        .monthpickerico{ color: #59a3f9; font-size: 14px; margin-left: 5px;}
+    </style>
+	<script src="assets/common/js/commonStart.js"></script>
+    <script src="assets/common/daterangepicker/js/monthpicker.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">喱喱钱包</div>
+		<ul class="table-li">
+			<li class="active"><a href="javascript:void(0)">资金统计</a></li>
+		</ul>
+		<div class="padding-20 margin-top-20">
+			<!--月度盈亏统计-->
+			<div class="d-statistics">
+				<div class="top">
+					<span>月度盈亏统计</span>
+					<!--<select class="form-control">-->
+						<!--<option>1月</option>-->
+						<!--<option>2月</option>-->
+						<!--<option>3月</option>-->
+						<!--<option>4月</option>-->
+						<!--<option>5月</option>-->
+						<!--<option>6月</option>-->
+						<!--<option>7月</option>-->
+						<!--<option>8月</option>-->
+						<!--<option>9月</option>-->
+						<!--<option>10月</option>-->
+						<!--<option>11月</option>-->
+						<!--<option>12月</option>-->
+					<!--</select>-->
+					<!--<select class="form-control">-->
+						<!--<option>2013</option>-->
+						<!--<option>2014</option>-->
+						<!--<option>2015</option>-->
+						<!--<option>2016</option>-->
+					<!--</select>-->
+                    <div class="monthPickerWrap" style="text-align: right;"><a href="#monthpicker" id="monthpicker"></a><i class="monthpickerico ion-chevron-down"></i></div>
+				</div>
+				<div class="profit">
+					<dl>
+						<dt>喱喱收入</dt>
+						<dt><span ng-bind="income/100"></span></dt>
+						<dt ng-if="131103|isAccessShow"><a href="lili-account-income-detail.html">收入明细</a></dt>
+					</dl>
+					<dl>
+						<dt>喱喱费用</dt>
+						<dt><span ng-bind="expense/100"></span></dt>
+						<dt ng-if="131104|isAccessShow"><a href="lili-account-cost-detail.html">费用明细</a></dt>
+					</dl>
+					<dl>
+						<dt>月盈亏</dt>
+						<dt><span ng-bind="profitLoss/100"></span></dt>
+						<!--<dt><a href="#">盈亏走势</a></dt>-->
+					</dl>
+					<div class="d-c-b"></div>
+				</div>
+			</div>
+			<!--余额账户-->
+			<div class="d-statistics">
+				<div class="top"><span>余额账户</span></div>
+				<div class="profit">
+					<div class="borderRadiusBd">
+						<label>平台总余额<br><b ng-bind="totalMoney"></b>(万)</label><!-- -->
+						<div id="mainA" class="borderRadius"></div>
+					</div>
+					<div class="nav">
+						<li>
+							<span ng-bind="liliPer+'%'"></span>
+							<dl>
+								<dt>喱喱余额<a href="lili-account-balance-bill.html" ng-if="131105|isAccessShow">账单明细</a></dt>
+								<dd ng-bind="liliMoney/100+'元'"></dd>
+							</dl>
+						</li>
+						<li>
+							<span ng-bind="studentPer+'%'"></span>
+							<dl>
+								<dt>学员总余额</dt>
+								<dd ng-bind="studentMoney/100+'元'"></dd>
+							</dl>
+						</li>
+						<li>
+							<span ng-bind="schoolPer+'%'"></span>
+							<dl>
+								<dt>驾校总余额</dt>
+								<dd ng-bind="schoolMoney/100+'元'"></dd>
+							</dl>
+						</li>
+						<li>
+							<span ng-bind="coachPer+'%'"></span>
+							<dl>
+								<dt>教练总余额</dt>
+								<dd ng-bind="coachMoney/100+'元'"></dd>
+							</dl>
+						</li>
+					</div>
+					<div class="d-c-b"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- script -->
+</div>
+<script src="assets/js/ng-js/lili-purse.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.ExerciseCollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.ExerciseCollection" >
+    <id column="studentId" property="studentId" jdbcType="BIGINT" />
+    <id column="qid" property="qid" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="INTEGER" />
+    <result column="chapter" property="chapter" jdbcType="INTEGER" />
+    <result column="ansSta" property="ansSta" jdbcType="INTEGER" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    studentId, qid, subject, chapter, ansSta, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.student.dto.ExerciseCollectionKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_exercise_collection
+    where studentId = #{studentId,jdbcType=BIGINT}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStudentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from t_u_exercise_collection
+    where studentId = #{studentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lili.student.dto.ExerciseCollectionKey" >
+    delete from t_u_exercise_collection
+    where studentId = #{studentId,jdbcType=BIGINT}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.ExerciseCollection" >
+    insert into t_u_exercise_collection (
+      studentId,
+      qid,
+      subject,
+      chapter,
+      ansSta,
+      updateTime
+      )
+    values (
+      #{studentId,jdbcType=BIGINT},
+      #{qid,jdbcType=VARCHAR},
+      #{subject,jdbcType=INTEGER},
+      #{chapter,jdbcType=INTEGER},
+      #{ansSta,jdbcType=INTEGER},
+      #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.ExerciseCollection" >
+    insert into t_u_exercise_collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="qid != null" >
+        qid,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="chapter != null" >
+        chapter,
+      </if>
+      <if test="ansSta != null" >
+        ansSta,
+      </if>
+      <if test="updateTime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="qid != null" >
+        #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null" >
+        #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="ansSta != null" >
+        #{ansSta,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.ExerciseCollection" >
+    update t_u_exercise_collection
+    <set >
+      <if test="subject != null" >
+        subject = #{subject,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null" >
+        chapter = #{chapter,jdbcType=INTEGER},
+      </if>
+      <if test="ansSta != null" >
+        ansSta = #{ansSta,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where studentId = #{studentId,jdbcType=BIGINT}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.ExerciseCollection" >
+    update t_u_exercise_collection
+    set subject = #{subject,jdbcType=INTEGER},
+      chapter = #{chapter,jdbcType=INTEGER},
+      ansSta = #{ansSta,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where studentId = #{studentId,jdbcType=BIGINT}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </update>
+</mapper>

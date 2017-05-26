@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- rocketmq属性文件注入 -->
+	<bean id="jprmqResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath:jpush-rmq.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>  
+    
+	<bean id="jprmqprop" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="12" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="jprmqResources" />  
+    </bean>
+	<bean id="allocateMessageQueueAveragely" class="com.alibaba.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely"></bean>
+	<bean id="stuJPushListener" class="com.lili.jpush.rmq.StuJPushListener"></bean>
+	<bean id="coachJPushListener" class="com.lili.jpush.rmq.CoachJPushListener"></bean>
+	<bean id="stuJPushConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="${jprmq.instanceName}"></property>
+		<property name="clientCallbackExecutorThreads" value="${jprmq.CallbackExecutorThreads}"></property>
+		<property name="pollNameServerInteval" value="${jprmq.pollNameServerInteval}"></property>
+		<property name="heartbeatBrokerInterval" value="${jprmq.heartbeatBrokerInterval}"></property>
+		<property name="persistConsumerOffsetInterval" value="${jprmq.persistConsumerOffsetInterval}"></property>
+		<property name="consumerGroup" value="${jprmq.consumerGroup}"></property>
+		<property name="messageModel" value="${jprmq.messageModel}"></property>
+		<property name="consumeFromWhere" value="${jprmq.consumeFromWhere}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="${jprmq.subscriptionkey}" value="${jprmq.subscriptionvalue}"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="stuJPushListener"></property>
+		<property name="consumeThreadMin" value="${jprmq.consumeThreadMin}"></property>
+		<property name="consumeThreadMax" value="${jprmq.consumeThreadMax}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="${jprmq.consumeConcurrentlyMaxSpan}"></property>
+		<property name="pullThresholdForQueue" value="${jprmq.pullThresholdForQueue}"></property>
+		<property name="pullInterval" value="${jprmq.pullInterval}"></property>
+		<property name="consumeMessageBatchMaxSize" value="${jprmq.consumeMessageBatchMaxSize}"></property>
+		<property name="pullBatchSize" value="${jprmq.pullBatchSize}"></property>
+	</bean>
+	<bean id="coachJPushConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="${jprmq.instanceName}"></property>
+		<property name="clientCallbackExecutorThreads" value="${jprmq.CallbackExecutorThreads}"></property>
+		<property name="pollNameServerInteval" value="${jprmq.pollNameServerInteval}"></property>
+		<property name="heartbeatBrokerInterval" value="${jprmq.heartbeatBrokerInterval}"></property>
+		<property name="persistConsumerOffsetInterval" value="${jprmq.persistConsumerOffsetInterval}"></property>
+		<property name="consumerGroup" value="coachjpush_group"></property>
+		<property name="messageModel" value="${jprmq.messageModel}"></property>
+		<property name="consumeFromWhere" value="${jprmq.consumeFromWhere}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="jpush_topic" value="coach_jpush"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="coachJPushListener"></property>
+		<property name="consumeThreadMin" value="${jprmq.consumeThreadMin}"></property>
+		<property name="consumeThreadMax" value="${jprmq.consumeThreadMax}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="${jprmq.consumeConcurrentlyMaxSpan}"></property>
+		<property name="pullThresholdForQueue" value="${jprmq.pullThresholdForQueue}"></property>
+		<property name="pullInterval" value="${jprmq.pullInterval}"></property>
+		<property name="consumeMessageBatchMaxSize" value="${jprmq.consumeMessageBatchMaxSize}"></property>
+		<property name="pullBatchSize" value="${jprmq.pullBatchSize}"></property>
+	</bean>
+	<bean id="jpushProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" init-method="start" >
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="${jprmq.instanceName}"></property>
+		<property name="clientCallbackExecutorThreads" value="${jprmq.CallbackExecutorThreads}"></property>
+		<property name="pollNameServerInteval" value="${jprmq.pollNameServerInteval}"></property>
+		<property name="heartbeatBrokerInterval" value="${jprmq.heartbeatBrokerInterval}"></property>
+		<property name="persistConsumerOffsetInterval" value="${jprmq.persistConsumerOffsetInterval}"></property>
+		<property name="producerGroup" value="${jprmq.producerGroup}"></property>
+		<property name="createTopicKey" value="${jprmq.createTopicKey}"></property>
+		<property name="defaultTopicQueueNums" value="${jprmq.defaultTopicQueueNums}"></property>
+		<property name="sendMsgTimeout" value="${jprmq.sendMsgTimeout}"></property>
+		<property name="compressMsgBodyOverHowmuch" value="${jprmq.compressMsgBodyOverHowmuch}"></property>
+		<property name="retryAnotherBrokerWhenNotStoreOK" value="${jprmq.retryAnotherBrokerWhenNotStoreOK}"></property>
+		<property name="maxMessageSize" value="${jprmq.maxMessageSize}"></property>
+	</bean>
+	
+</beans>

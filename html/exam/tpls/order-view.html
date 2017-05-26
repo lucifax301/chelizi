@@ -1,0 +1,68 @@
+<div class="container1 container-order-paystate text-center mb20">
+    <i ng-class="payInfo.class" style="color: {{payInfo.color}}"></i>
+    <p class="f20 mt10" ng-bind="payInfo.msg"></p>
+</div>
+<div class="container2 container-vieworder">
+    <div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>订单金额</span></div>
+            <div class="cell__ft" ng-bind="data.priceTotal/100 | number:2"></div>元
+        </div>
+        <div class="y-cell clear_border" ng-if="data.state == 4">
+            <div class="cell__bd color_title"><span>退款金额</span></div>
+            <div class="cell__ft" ng-bind="'-'+(data.refundTotal)/100 | number:2"></div>元
+        </div>
+        <div class="y-cell clear_border" ng-if="data.state == 4">
+            <div class="cell__bd color_title"><span>违约金收入</span></div>
+            <div class="cell__ft" ng-bind="data.payTotal/100 | number:2"></div>元
+        </div>
+        <div class="y-cell clear_border" ng-if="data.state==3">
+            <div class="cell__bd color_title"><span>返现奖励支出</span></div>
+            <div class="cell__ft" ng-bind="'-'+data.refundTotal/100 | number:2"></div>元
+        </div>
+        <div class="y-cell clear_border" ng-if="data.state>=3">
+            <div class="cell__bd color_title"><span>收入合计</span></div>
+            <div class="cell__ft" ng-bind="data.payTotal/100 |number:2"></div>元
+        </div>
+        <div class="y-cell" style="border:none;border-top:1px solid #E7E7E7;">
+            <div class="cell__bd color_title"><span>交易类型</span></div>
+            <div class="cell__ft">教练约考场</div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>交易时间</span></div>
+            <div class="cell__ft" ng-bind="data.payTime|timeTex"></div>
+        </div>
+        <div class="y-cell">
+            <div class="cell__bd color_title"><span>订单号</span></div>
+            <div class="cell__ft">
+                <span ng-click="showOrderId(data.orderId)" ng-bind="(data.orderId|limitTo:16)+'...'"></span>
+            </div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>教练姓名</span></div>
+            <div class="cell__ft" ng-bind="data.coachName"></div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>教练手机号</span></div>
+            <div class="cell__ft" ng-bind="data.coachMobile"></div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>约考场次</span></div>
+            <div class="cell__ft" ng-bind="pTime"></div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>约考车辆</span></div>
+            <div class="cell__ft" ng-bind="'C'+data.drtype + '(' + data.carNo + ')'"></div>
+        </div>
+        <div class="y-cell clear_border">
+            <div class="cell__bd color_title"><span>验证码</span></div>
+            <div class="cell__ft" ng-bind="(data.state==0||data.state==4)?'无验证码':data.code"></div>
+        </div>
+    </div>
+</div>
+<style>
+    .content{word-break: break-all;}
+</style>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+
+

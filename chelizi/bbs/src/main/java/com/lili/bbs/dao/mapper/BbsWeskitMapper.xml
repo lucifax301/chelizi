@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.bbs.dao.mapper.BbsWeskitMapper">
+	<resultMap id="BaseResultMap" type="com.lili.bbs.dto.BbsWeskit">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_type" property="userType" jdbcType="TINYINT" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="head_icon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="bbs_num" property="bbsNum" jdbcType="INTEGER" />
+		<result column="reply_num" property="replyNum" jdbcType="INTEGER" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="cuid" property="cuid" jdbcType="BIGINT" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="muid" property="muid" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, user_id, user_type, channel, user_name, sex, head_icon, city_name, bbs_num,
+		reply_num,
+		is_del, ctime, cuid, mtime, muid
+	</sql>
+
+	<sql id="myRowBoundsSQL">
+		<if test="myRowBounds != null">
+			limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		</if>
+	</sql>
+
+	<select id="countBbsWeskitSize" resultType="java.lang.Integer"
+		parameterType="com.lili.bbs.dto.BbsWeskit">
+		select count(*) from t_s_bbs_weskit where is_del = 0
+	</select>
+
+	<select id="countBbsUnPraiseWeskitSize" resultType="java.lang.Integer"
+		parameterType="com.lili.bbs.dto.BbsWeskit">
+		select count(*) from t_s_bbs_weskit where is_del = 0 and
+		user_id not in (select user_id from t_s_bbs_praise where bbs_id =
+		#{bbsId,jdbcType=INTEGER} and user_type=#{userType,jdbcType=INTEGER})
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs_weskit
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryWeskit" resultMap="BaseResultMap"
+		parameterType="com.lili.bbs.dto.BbsWeskit">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs_weskit
+		where is_del=0
+		<trim suffixOverrides=",">
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</select>
+
+	<select id="queryWeskitList" resultMap="BaseResultMap"
+		parameterType="com.lili.bbs.dto.BbsWeskit">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs_weskit
+		where is_del=0
+		<trim suffixOverrides=",">
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+		</trim>
+		order by ctime desc
+		<include refid="myRowBoundsSQL" />
+	</select>
+
+	<select id="queryUnPraiseWeskitList" resultMap="BaseResultMap"
+		parameterType="com.lili.bbs.dto.BbsWeskit">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs_weskit
+		where is_del=0 and user_id not in
+		(select user_id from t_s_bbs_praise where bbs_id = #{bbsId,jdbcType=INTEGER}
+		and user_type=#{userType,jdbcType=INTEGER})
+		order by ctime desc
+		<include refid="myRowBoundsSQL" />
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_bbs_weskit
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.bbs.dto.BbsWeskit">
+		insert into t_s_bbs_weskit
+		(id, user_id, user_type,channel,
+		user_name, sex, head_icon,
+		city_name, bbs_num, reply_num,
+		is_del, ctime, cuid,
+		mtime, muid)
+		values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT},
+		#{userType,jdbcType=TINYINT},#{channel,jdbcType=TINYINT},
+		#{userName,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{headIcon,jdbcType=VARCHAR},
+		#{cityName,jdbcType=VARCHAR}, #{bbsNum,jdbcType=INTEGER},
+		#{replyNum,jdbcType=INTEGER},
+		#{isDel,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, #{cuid,jdbcType=BIGINT},
+		#{mtime,jdbcType=TIMESTAMP}, #{muid,jdbcType=BIGINT})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lili.bbs.dto.BbsWeskit">
+		insert into t_s_bbs_weskit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="channel != null">
+				channel,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="headIcon != null">
+				head_icon,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="bbsNum != null">
+				bbs_num,
+			</if>
+			<if test="replyNum != null">
+				reply_num,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				#{channel,jdbcType=TINYINT},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=TINYINT},
+			</if>
+			<if test="headIcon != null">
+				#{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="bbsNum != null">
+				#{bbsNum,jdbcType=INTEGER},
+			</if>
+			<if test="replyNum != null">
+				#{replyNum,jdbcType=INTEGER},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.bbs.dto.BbsWeskit">
+		update t_s_bbs_weskit
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=TINYINT},
+			</if>
+			<if test="headIcon != null">
+				head_icon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="bbsNum != null">
+				bbs_num = #{bbsNum,jdbcType=INTEGER},
+			</if>
+			<if test="replyNum != null">
+				reply_num = #{replyNum,jdbcType=INTEGER},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.bbs.dto.BbsWeskit">
+		update
+		t_s_bbs_weskit
+		set user_id = #{userId,jdbcType=BIGINT},
+		user_type = #{userType,jdbcType=TINYINT},
+		channel = #{channel,jdbcType=TINYINT},
+		user_name = #{userName,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=TINYINT},
+		head_icon = #{headIcon,jdbcType=VARCHAR},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		bbs_num =
+		#{bbsNum,jdbcType=INTEGER},
+		reply_num = #{replyNum,jdbcType=INTEGER},
+		is_del = #{isDel,jdbcType=TINYINT},
+		ctime =
+		#{ctime,jdbcType=TIMESTAMP},
+		cuid = #{cuid,jdbcType=BIGINT},
+		mtime =
+		#{mtime,jdbcType=TIMESTAMP},
+		muid = #{muid,jdbcType=BIGINT}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

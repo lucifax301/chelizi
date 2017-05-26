@@ -1,0 +1,11 @@
+package com.lili.proto.pb;
+
+option java_package = "com.lili.proto.java";
+option java_outer_classname = "CoachReportProto";
+
+message CoachReportMsg
+{
+	required double lge = 1;
+	required double lae = 2;
+	required float dir = 3;
+}

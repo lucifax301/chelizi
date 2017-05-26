@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- rocketmq属性文件注入 -->
+	<bean id="couponrmqResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath:coupon-rmq.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>
+    <bean id="couponrmqProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="52" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="couponrmqResources" />  
+    </bean> 
+    
+	<bean id="allocateMessageQueueAveragely" class="com.alibaba.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely"></bean>
+	<bean id="studentOperateListener" class="com.lili.coupon.listener.StudentOperateListener"></bean>
+
+	<bean id="couponConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="${rmq.instanceName}"></property>
+		<property name="clientCallbackExecutorThreads" value="${rmq.CallbackExecutorThreads}"></property>
+		<property name="pollNameServerInteval" value="${rmq.pollNameServerInteval}"></property>
+		<property name="heartbeatBrokerInterval" value="${rmq.heartbeatBrokerInterval}"></property>
+		<property name="persistConsumerOffsetInterval" value="${rmq.persistConsumerOffsetInterval}"></property>
+		<property name="consumerGroup" value="${rmq.consumerGroup}"></property>
+		<property name="messageModel" value="${rmq.messageModel}"></property>
+		<property name="consumeFromWhere" value="${rmq.consumeFromWhere}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="student_operate_topic" value="rmq_student_register_value"></entry>
+				<entry key="rmq_school_key" value="rmq_school_value"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="studentOperateListener"></property>
+		<property name="consumeThreadMin" value="${rmq.consumeThreadMin}"></property>
+		<property name="consumeThreadMax" value="${rmq.consumeThreadMax}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="${rmq.consumeConcurrentlyMaxSpan}"></property>
+		<property name="pullThresholdForQueue" value="${rmq.pullThresholdForQueue}"></property>
+		<property name="pullInterval" value="${rmq.pullInterval}"></property>
+		<property name="consumeMessageBatchMaxSize" value="${rmq.consumeMessageBatchMaxSize}"></property>
+		<property name="pullBatchSize" value="${rmq.pullBatchSize}"></property>
+	</bean>
+</beans>

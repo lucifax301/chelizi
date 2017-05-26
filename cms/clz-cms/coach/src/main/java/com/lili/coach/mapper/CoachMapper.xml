@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.model.Coach">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="coachCarId" property="coachCarId" jdbcType="INTEGER" />
+		<result column="drLicence" property="drLicence" jdbcType="VARCHAR" />
+	    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="coachLevel" property="coachLevel" jdbcType="INTEGER" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="courses" property="courses" jdbcType="VARCHAR" />
+		<result column="coursesDesc" property="coursesDesc" jdbcType="VARCHAR" />
+		<result column="acceptOrderDis" property="acceptOrderDis" jdbcType="INTEGER" />
+		<result column="wstate" property="wstate" jdbcType="INTEGER" />
+		<result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="coachCard" property="coachCard" jdbcType="VARCHAR" />
+		<result column="coachCardDate" property="coachCardDate" jdbcType="VARCHAR" />
+		<result column="bankcardNum" property="bankcardNum" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="bankAccName" property="bankAccName" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="carInfo" property="carInfo" jdbcType="VARCHAR" />
+		<result column="StuCoachID" property="StuCoachID" jdbcType="INTEGER" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="drType" property="drType" jdbcType="INTEGER" />
+		<result column="starLevel" property="starLevel" jdbcType="INTEGER" />
+		<result column="drPhoto" property="carInfo" jdbcType="VARCHAR" />
+		<result column="drPhoto2" property="carInfo" jdbcType="VARCHAR" />
+		<result column="isNewDrPhoto" property="isNewDrPhoto" jdbcType="INTEGER" />
+		<result column="checkDrState" property="checkDrState" jdbcType="INTEGER" />
+		<result column="checkDrRemark" property="checkDrRemark" jdbcType="VARCHAR" />
+		<result column="onlineTime" property="onlineTime" jdbcType="INTEGER" />
+		<result column="workTime" property="workTime" jdbcType="INTEGER" />
+		<result column="teachTime" property="teachTime" jdbcType="INTEGER" />
+		<result column="classTime" property="classTime" jdbcType="INTEGER" />
+		<result column="classCount" property="classCount" jdbcType="INTEGER" />
+		<result column="listenTime" property="listenTime" jdbcType="INTEGER" />
+		<result column="outCount" property="outCount" jdbcType="INTEGER" />
+		<result column="loginCount" property="loginCount" jdbcType="INTEGER" />
+		<result column="lastCalculateDate" property="lastCalculateDate" jdbcType="TIMESTAMP" />
+		<result column="firstLogin" property="firstLogin" jdbcType="TIMESTAMP" />
+		<result column="lastLogin" property="lastLogin" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="VoResultMap" type="com.lili.coach.model.CoachVo">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="studentAmount" property="studentAmount" jdbcType="INTEGER" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		coachId,schoolId,coachCarId,drLicence,cityId,coachLevel,idNumber,name,sex,age,hometown,phoneNum,mailBox,headIcon,
+		courses,coursesDesc,acceptOrderDis,performance,wstate,registerTime,coachCard,coachCardDate,bankcardNum,
+		bankName,bankAccName,idPhotoFront,idPhotoBack,isImport,importSrc,StuCoachID,checkIdState,drType,starLevel,lastCalculateDate,loginCount,inCount,
+		outCount,listenTime,classCount,classTime,teachTime,workTime,onlineTime,firstLogin,lastLogin
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="idNumber != null and idNumber != ''">
+				and idNumber = #{idNumber}
+			</if>
+		</trim>
+	</sql>
+	
+  <select id="findOne"  resultMap="BaseResultMap">
+    select 
+	 <include refid="Base_Column_List" />
+    from t_u_coach
+    where coachId = #{coachId}
+  </select>
+  
+   <select id="findTotalCoach"  resultType="java.lang.Integer">
+    select count(1) from t_u_coach 
+    	 <if test="cmsChannel == 2">
+	    	where  schoolId =#{schoolId}
+		</if>
+  </select>
+  
+  <select id="findByStudent"  resultMap="BaseResultMap">
+    select 
+	 <include refid="Base_Column_List" />
+    from t_u_coach
+	 where 
+	 phoneNum = #{phoneNum}
+			<if test="coachId != null and coachId != ''">
+				and coachId != #{coachId}
+			</if>
+  </select>
+  <update id="updateStates" parameterType="java.lang.String" >
+    update t_u_coach
+    set 
+    wstate=0 
+		WHERE 
+			<if test="_parameter != null and _parameter != ''">
+				 coachId in (${_parameter})
+			</if>
+			<if test="_parameter == null or _parameter == ''">
+				 coachId in ('')
+			</if>
+  </update>
+  
+  <select id="findByPhone"  resultMap="BaseResultMap">
+	    select 
+		 <include refid="Base_Column_List" />
+	    from t_u_coach
+		 where  phoneNum = #{phoneNum}
+  </select>
+  
+  <select id="getCoach"  resultMap="BaseResultMap" parameterType="com.lili.coach.model.CoachBDTO">
+	    select 
+		 <include refid="Base_Column_List" />
+	    from t_u_coach
+		 where  1=1 
+			<trim suffixOverrides=",">
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+		</trim>
+  </select>
+  
+  
+  <select id="findByNums" resultMap="BaseResultMap">
+	    select 
+		 <include refid="Base_Column_List" />
+	    from t_u_coach
+		where
+		 (phoneNum = #{phoneNum} 
+		or idNumber = #{idNumber}) 
+			<if test="coachId != null and coachId != ''">
+				and coachId != #{coachId}
+			</if>
+  </select>
+  
+	<select id="findMID" resultType="java.lang.Long">
+		select 
+		coachId
+		from t_u_coach 
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="isImport != null and isImport != '' or isImport==0">
+				and isImport = #{isImport}
+			</if>
+		</trim>
+		order by coachId desc
+		limit #{rowNum},1
+	</select>
+	
+	<select id="findBatchTotal" resultType="java.lang.Long">
+		select
+		count(a.coachId) 
+		from t_u_coach a 
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="isImport != null and isImport != '' or isImport==0">
+				and a.isImport = #{isImport}
+			</if>
+			<if test="state != null and state != '' or state==0">
+				and a.state = #{state}
+			</if>
+		</trim>
+			<!-- and e.status = 0 -->
+	</select>
+  
+	<select id="findCoachCar" resultType="com.lili.coach.model.CCOVo" >
+		SELECT
+		carID,carNo,carType,driveType,SUM(pOrderNum) pOrderNum,SUM(pOrderTime) pOrderTime,SUM(nOrderNum) nOrderNum,SUM(nOrderTime) nOrderTime
+		FROM
+		(
+		SELECT b.carID,c.carNo AS carNo,c.carType AS carType,c.driveType AS
+		driveType,COUNT(a.order_id) AS nOrderNum,0 AS pOrderNum
+		,SUM(MOD(HOUR(TIMEDIFF(rend, rstart)), 24)) AS pOrderTime,0 AS
+		nOrderTime
+		FROM
+		t_u_coachcar b
+		INNER JOIN t_p_car c ON b.carId = c.carId
+		LEFT JOIN t_order a ON otype = 1 AND a.car_id = c.carId
+		WHERE
+		  b.coachid = #{coachId}
+	 	and b.isExist = 0
+		GROUP BY c.carId
+	
+		UNION
+	
+		SELECT b.carID,c.carNo AS carNo,c.carType AS carType,c.driveType AS driveType ,0 AS
+		nOrerNum,COUNT(a.order_id) AS nOrderNum,0 AS pOrderTime
+		,SUM(MOD(HOUR(TIMEDIFF(rend, rstart)), 24)) AS nOrderTime
+		FROM
+		t_u_coachcar b
+		INNER JOIN t_p_car c ON b.carId = c.carId
+		LEFT JOIN t_order a ON otype = 3 AND a.car_id = c.carId
+		WHERE
+		 b.coachid = #{coachId}
+	 	and b.isExist = 0
+		GROUP BY c.carId
+		) AS t
+		GROUP BY carNo,carType,driveType,carID
+	</select>
+	
+
+	<select id="findBatch" resultMap="VoResultMap">
+		select
+			a.coachId,a.name,a.age,b.driveType,a.sex,a.phoneNum,a.idNumber
+			,c.schoolId,c.name as schoolName,count(e.id) as studentAmount
+			,a.state,a.reviveTime,a.registerTime,a.starLevel,a.drType
+		from t_u_coach a
+			LEFT JOIN t_u_coachcar f ON a.`coachId` = f.`coachId`
+			LEFT JOIN t_p_car b ON f.`carId` = b.carId
+			LEFT JOIN t_u_mycoaches e ON a.coachId = e.coachId and e.status = 0
+			INNER JOIN t_s_school c ON a.schoolId = c.schoolId
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '') ">
+				<![CDATA[and a.coachId >#{min_id} and a.coachId <= #{max_id} ]]>  
+			</if>
+			<if test="sex != null and sex != ''">
+				and a.sex = #{sex}
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and a.cityId = #{cityId}
+			</if>
+			<if test="state != null and state != '' or state==0">
+				and a.state = #{state}
+			</if>
+			<if test="checkDrState != null and checkDrState != ''">
+				and a.checkDrState = #{checkDrState}
+			</if>
+			<if test="isImport != null and isImport != '' or isImport==0">
+				and a.isImport = #{isImport}
+			</if>
+		</trim>
+		GROUP BY a.coachId
+		order by a.coachId desc
+	</select>
+	
+	<resultMap id="coachAccount" type="com.lili.coach.model.CoachAccountVo">
+		<result column="coachId" property="totalCoach" jdbcType="BIGINT" />
+		<result column="money" property="totalMoney" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<select id="findAccountVo" resultMap="coachAccount">
+		select
+		sum(money) totalMoney,count(coachId) totalCoach
+		from t_u_coachaccount
+	</select>
+	
+	<resultMap id="CoachAccountMap" type="com.lili.coach.model.CoachAccountBalance">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="accountState" property="accountState" jdbcType="VARCHAR" />
+		<result column="balance" property="balance" jdbcType="BIGINT" />
+	</resultMap>
+	
+	
+  <select id="findOneDetails"  resultMap="BaseResultMap">
+	 SELECT 
+		a.coachId,coachCarId,drLicence,cityId,coachLevel,idNumber,a.name,sex,a.age,hometown,phoneNum,mailBox,headIcon,
+		courses,coursesDesc,acceptOrderDis,a.performance,wstate,a.registerTime,coachCard,coachCardDate,bankcardNum,checkIdState
+		bankName,bankAccName,idPhotoFront,idPhotoBack,StuCoachID,d.name as schoolName,CONCAT(CONCAT(c.carType,":"),c.carNo) as carInfo
+	 FROM 
+	 t_u_coach a  
+	 left join t_u_coachcar b on a.coachId = b.coachId
+ 	 left join t_p_car c on b.carId = c.carId
+ 	 left join t_s_school d on a.schoolId = d.schoolId
+ 	 where 
+ 	 a.coachId = #{coachId}
+
+	 and b.isExist = 0
+  </select>
+  
+  <update id="updateOne" parameterType="com.lili.coach.model.Coach">
+		update t_u_coach
+		<set>
+				phoneNum = #{phoneNum,jdbcType=VARCHAR},
+				idNumber = #{idNumber,jdbcType=VARCHAR},
+				name = #{name,jdbcType=VARCHAR},
+				sex = #{sex,jdbcType=INTEGER},
+			<!-- <if test="coachCarId != null">
+				coachCarId = #{coachCarId,jdbcType=INTEGER},
+			</if>
+			<if test="drLicence != null">
+				drLicence = #{drLicence,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="coachLevel != null">
+				coachLevel = #{coachLevel,jdbcType=INTEGER},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="hometown != null">
+				hometown = #{hometown,jdbcType=VARCHAR},
+			</if>
+			<if test="mailBox != null">
+				mailBox = #{mailBox,jdbcType=VARCHAR},
+			</if>
+			<if test="acceptOrderDis != null">
+				acceptOrderDis = #{acceptOrderDis,jdbcType=INTEGER},
+			</if>
+			<if test="registerTime != null">
+				registerTime = #{registerTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="coachCard != null">
+				coachCard = #{coachCard,jdbcType=VARCHAR},
+			</if>
+			<if test="coachCardDate != null">
+				coachCardDate = #{coachCardDate,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcardNum != null">
+				bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bankName = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccName != null">
+				bankAccName = #{bankAccName,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoFront != null">
+				idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoBack != null">
+				idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+			</if>
+			<if test="StuCoachID != null">
+				StuCoachID = #{StuCoachID,jdbcType=INTEGER},
+			</if>
+			<if test="checkIdState != null">
+				checkIdState = #{checkIdState,jdbcType=INTEGER},
+			</if> -->
+		</set>
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="findCCRelation" resultType="java.lang.Integer">
+	    select 1 from t_u_coachcar 
+	    where  coachId = #{coachId,jdbcType=BIGINT}
+		and carId =  #{carId,jdbcType=BIGINT}
+	</select>
+	
+	
+  <update id="deleteCCRelation">
+		update t_u_coachcar
+		set isExist = 1
+		where coachId = #{coachId,jdbcType=BIGINT}
+		and carId =  #{carId,jdbcType=BIGINT}
+	</update>
+  
+  <update id="updateCCRelation" >
+		update t_u_coachcar
+			set	carid = #{c_carId,jdbcType=BIGINT},isExist = 0
+		where coachId = #{coachId,jdbcType=BIGINT}
+		and carid =  #{o_carId,jdbcType=BIGINT}
+		<!-- and not exists 
+		(
+		select 1 from (
+		select carId from t_u_coachcar where  coachId = #{coachId,jdbcType=BIGINT}
+		and carid =  #{c_carId,jdbcType=BIGINT}
+		) t
+		) -->
+	</update>
+	
+  
+  <update id="updateOCCRelation" >
+		update t_u_coachcar
+			set	isExist = 0
+		where coachId = #{coachId,jdbcType=BIGINT}
+		and carid =  #{c_carId,jdbcType=BIGINT}
+		<!-- and not exists 
+		(
+		select 1 from (
+		select carId from t_u_coachcar where  coachId = #{coachId,jdbcType=BIGINT}
+		and carid =  #{c_carId,jdbcType=BIGINT}
+		) t
+		) -->
+	</update>
+  
+	<insert id="insertCCRelation" >
+		insert into t_u_coachcar
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="c_carId != null">
+				carId,
+			</if>
+			<if test="coachId != null">
+				coachId,
+			</if>
+		</trim>
+		select
+		<trim prefix=" " suffix=" " suffixOverrides=",">
+			<if test="c_carId != null">
+				#{c_carId,jdbcType=BIGINT},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+		</trim>
+		FROM DUAL
+		where not exists
+		(select 1 from t_u_coachcar where coachId = #{coachId,jdbcType=BIGINT}
+		and carId = #{c_carId,jdbcType=BIGINT} )
+	</insert>
+  
+	
+	<insert id="insertCSRelation"  parameterType="java.util.List">
+		insert into t_u_mycoaches (studentId,coachId) values
+		<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+				(#{item.studentId},#{item.coachId})
+		</foreach>
+	</insert>
+	
+	
+	<insert id="insertSelective" parameterType="com.lili.coach.model.Coach" useGeneratedKeys="true" keyProperty="coachId">
+		insert into t_u_coach
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="idNumber != null">
+				idNumber,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="idNumber != null">
+				#{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<resultMap id="AccountResultMap" type="com.lili.coach.model.CoachAccount">
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="leftAccount" property="leftAccount" jdbcType="INTEGER" />
+		<result column="saveMoney" property="saveMoney" jdbcType="INTEGER" />
+		<result column="saveAccount" property="saveAccount" jdbcType="INTEGER" />
+		<result column="expendAccount" property="expendAccount" jdbcType="INTEGER" />
+		<result column="expendMoney" property="expendMoney" jdbcType="INTEGER" />
+	</resultMap>
+	
+	 <select id="findCoachInfo"  resultMap="AccountResultMap" parameterType="com.lili.coach.model.CoachBDTO" >
+		SELECT 	money,
+					1-(select count(1) from t_u_deposit d where d.user_type=1 and d.check_status!=2 and d.user_id= c.coachId and DATE(d.apply_time) between #{startTimeW} and 	#{endTimeW}) as leftAccount,
+					<![CDATA[ (select count(1) from t_u_money where userId=c.coachId and userType=1 and changeValue > 0
+							and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as saveAccount,
+					(select sum(changeValue) from t_u_money where userId=c.coachId and userType=1 and changeValue > 0
+							and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as saveMoney,
+					(select count(1) from t_u_money where userId=c.coachId and userType=1 and changeValue < 0
+							and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as expendAccount,
+					(select sum(changeValue) from t_u_money where userId=c.coachId and userType=1 and changeValue < 0
+							and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as expendMoney ]]>  
+			FROM t_u_coachaccount c where  
+	 	 c.coachId = #{coachId}
+  	 </select>
+  	 
+  	 
+	<update id="updateSC"  parameterType="com.lili.student.model.StudentNBDTO">
+		UPDATE t_u_student set stuCoachEmpID = (select coachid from t_u_coach where phoneNum = #{coachPhoneNum,jdbcType=VARCHAR})  where phoneNum = #{phoneNum,jdbcType=VARCHAR};
+	</update>
+	
+	<delete id="delSC">
+		delete from t_u_mycoaches where studentid = (select studentid from t_u_student where phonenum =  #{phoneNum,jdbcType=VARCHAR}) and status = 0 and type = 1;
+	</delete>
+	
+	<insert id="insertSC" parameterType="com.lili.student.model.StudentNBDTO">
+		INSERT IGNORE INTO  t_u_mycoaches (studentId,coachId) SELECT studentId,stuCoachEmpID  from t_u_student a WHERE phoneNum =#{phoneNum,jdbcType=VARCHAR};
+	</insert>
+	
+	<update id="addCoachTeachTime"  parameterType="com.lili.coach.model.Coach">
+		update t_u_coach
+		set teachTime=teachTime+#{teachTime,jdbcType=INTEGER},classCount=classCount+#{classCount},classTime=classTime+#{classTime},lastCalculateDate=#{lastCalculateDate}
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+  
+  <select id="getCoachClassTime"  resultType="int" parameterType="com.lili.coach.model.CoachBDTO">
+	    SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE,cstart,cend)),0)  sumTime FROM t_coach_class WHERE coach_id =#{coachId,jdbcType=BIGINT}  AND isdel = 0
+	    <if test="startTime != null and startTime != ''">  
+		and	cstart>=#{startTime} 
+		</if>
+		<![CDATA[and cstart<#{endTime} ]]>
+		
+  </select>
+  
+  <select id="getCoachClassCount"  resultType="int" parameterType="com.lili.coach.model.CoachBDTO">
+	    select IFNULL(sum(class),0) from ( select  1 as class from ( select DATE_FORMAT(cstart, '%y-%m-%d') as cstart  from t_coach_class where 
+	    coach_id=#{coachId,jdbcType=BIGINT}
+	     <if test="startTime != null and startTime != ''">  
+		and	cstart>=#{startTime} 
+		</if>
+		<![CDATA[and cstart<#{endTime} ]]>
+	     and isdel=0) t group by cstart )t2
+		
+  </select>
+  
+  <select id="getCoachStudentCount"  resultType="int" parameterType="com.lili.coach.model.CoachBDTO">
+	    select count(*) from t_u_mycoaches where coachId=#{coachId,jdbcType=BIGINT}
+  </select>
+  
+  	<resultMap id="CoachRegistMap" type="com.lili.coach.model.CoachRegist">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="checkDrState" property="checkDrState" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="studentCount" property="studentCount" jdbcType="INTEGER" />
+	</resultMap>
+  
+  <select id="queryRegCoachList"  resultMap="CoachRegistMap" parameterType="com.lili.coach.model.CoachBDTO">
+	    select name,sex,phoneNum,coachId,cityId,cityName,checkDrState,state,
+	    	(select count(*) from t_u_mycoaches m where m.coachId=c.coachId) as studentCount 
+	    from `t_u_coach` c 
+		where isImport=0
+		<trim suffixOverrides=",">
+			<if test="name != null and name != ''">
+				and c.name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and c.phoneNum = #{phoneNum}
+			</if>
+			<if test="sex != null and sex != '' or sex==0">
+				and c.sex = #{sex}
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			<if test="cityName != null and cityName != ''">
+				and c.cityName = #{cityName}
+			</if>
+			<if test="state != null and state != '' or state==0">
+				and c.state = #{state}
+			</if>
+			<if test="checkDrState != null and checkDrState != '' or checkDrState==0">
+				and c.checkDrState = #{checkDrState}
+			</if>
+		</trim>
+		order by c.coachId desc
+  </select>
+  
+  
+  <select id="queryRegCoachDetail"  resultMap="BaseResultMap" parameterType="com.lili.coach.model.CoachBDTO">
+	    select coachId,drPhoto,drPhoto2,isNewDrPhoto,checkDrState,checkDrRemark
+	   	 from `t_u_coach` 
+		where isImport=0
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId}
+			</if>
+		</trim>
+  </select>
+  
+  <update id="updateRegCoach"  parameterType="com.lili.coach.model.CoachBDTO">
+	   update
+	   	 `t_u_coach` 
+		<set>
+			<if test="checkDrState != null">
+				checkDrState = #{checkDrState,jdbcType=INTEGER},
+			</if>
+			<if test="checkDrRemark != null">
+				checkDrRemark = #{bankAccName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where coachId = #{coachId,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

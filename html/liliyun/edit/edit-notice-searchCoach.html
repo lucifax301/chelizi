@@ -1,0 +1,47 @@
+<div class="edit-alert edit-notice-searchCoach">
+    <div class="mask"></div>
+    <div class="main">
+        <div id="edit-notice-searchCoach" class="content" style="width: 750px">
+            <div class="title">选择教练 <span class="coachCloseAlert"></span></div>
+            <div class="con-main">
+                <div class="form-inline z-mb20">
+                    <div class="form-group z-mr20">
+                        <label>姓名</label>
+                        <input id="coachName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>电话</label>
+                        <input id="coachPhone" class="form-control">
+                    </div>
+                    <div class="form-group" style="margin:30px;">
+                        <button class="btn btn-sm btn-primary" ng-click="coachSearch()">搜索</button>
+                        <button class="btn btn-sm btn-default" ng-click="coachRest()">重置</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-with-style">
+                        <tr>
+                            <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                            <td><b>姓名</b></td>
+                            <td><b>手机号</b></td>
+                            <td><b>所属城市</b></td>
+                            <td><b>所属驾校</b></td>
+                        </tr>
+                        <tr ng-repeat="coachData in coachDatas">
+                            <td align="center"><input type="checkbox" id="{{coachData.coachId}}" ng-click="updateSelection($event,coachData.coachId)" ng-checked="isSelected(coachData.coachId)"></td>
+
+                            <td ng-bind="coachData.name"></td>
+                            <td ng-bind="coachData.phoneNum"></td>
+                            <td ng-bind="coachData.city"></td>
+                            <td ng-bind="coachData.schoolName"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="chaozuo" id="submitButton">
+                    <a class="btn btn-sm btn-default" ng-click="coachSearchCancle()">取消</a>
+                    <a ng-click="choseCoach()"  class="btn btn-sm btn-primary">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

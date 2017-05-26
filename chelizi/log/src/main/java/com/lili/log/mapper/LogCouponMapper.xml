@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.log.mapper.dao.LogCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.log.dto.LogCoupon" >
+    <result column="payId" property="payid" jdbcType="INTEGER" />
+    <result column="couponId" property="couponid" jdbcType="INTEGER" />
+    <result column="studentId" property="studentid" jdbcType="BIGINT" />
+    <result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.lili.log.dto.LogCoupon" >
+    insert into t_log_coupon (payId, couponId, studentId, 
+      useTime)
+    values (#{payid,jdbcType=INTEGER}, #{couponid,jdbcType=BIGINT}, #{studentid,jdbcType=BIGINT}, 
+      #{usetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.log.dto.LogCoupon" >
+    insert into t_log_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        payId,
+      </if>
+      <if test="couponid != null" >
+        couponId,
+      </if>
+      <if test="studentid != null" >
+        studentId,
+      </if>
+      <if test="usetime != null" >
+        useTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        #{payid,jdbcType=INTEGER},
+      </if>
+      <if test="couponid != null" >
+        #{couponid,jdbcType=BIGINT},
+      </if>
+      <if test="studentid != null" >
+        #{studentid,jdbcType=BIGINT},
+      </if>
+      <if test="usetime != null" >
+        #{usetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

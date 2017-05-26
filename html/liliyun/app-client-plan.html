@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="RechargePrivi">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>充值送方案</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="title ">
+			<div class="d-title">充值送方案</div>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">充值送方案列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>高级查询</div>
+							<div class="input-group search-more-condition">
+							  <select ng-model="searchType" ng-clange="changeSearchTex" id="search_type" class="form-control">
+								<option value="rcname">方案名称</option>
+								<option value="rcid">方案ID</option>
+							  </select>
+							  <input type="text" ng-model="search" class="form-control" id="search_placeholder" placeholder="输入方案名称查询">
+							  <span class="input-group-btn">
+								<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+							  </span>
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4 col-md-8">
+							<a href="app-client-plan-add.html" class="btn btn-sm btn-primary" ng-if="140102|isAccessShow">新建充值送方案</a>
+							<a ng-click="activeAction('cActive')" class="btn btn-sm btn-primary margin-left-15" ng-if="140103|isAccessShow">激活启用</a>
+							<a ng-click="activeAction('cCancle')" class="btn btn-sm btn-danger margin-left-15" ng-if="140104|isAccessShow">停止发放</a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+								<td><b>充值送ID</b></td>
+								<td><b>充值送方案</b></td>
+                                <td><b>生效条件</b></td>
+								<td><b>创建人</b></td>
+								<td><b>创建时间</b></td>
+								<td><b>更新人</b></td>
+								<td><b>更新时间</b></td>
+								<td><b>是否可用</b></td>
+								<td><b>操作</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td align="center"><input type="checkbox" id="{{item.rcid}}" ng-click="updateSelection($event,item.rcid)" ng-checked="isSelected(item.rcid)"></td>
+								<td ng-bind="item.rcid"></td>
+								<td><a href="app-client-plan-details.html?rcid={{item.rcid}}" ng-bind="item.rcname" ng-if="140105|isAccessShow"></a><span ng-bind="item.rcname" ng-if="!(140105|isAccessShow)"></span></td>
+                                <td>
+                                    <span ng-bind="item.enroll | enrollTex"></span>
+                                    <span ng-if="item.enroll==1 && item.cityId" ng-bind="item.cityName"></span>
+                                    <span ng-if="item.enroll==1 && item.cityId==' '">全部城市</span></span>
+                                </td>
+								<td ng-bind="item.createUser"></td>
+								<td ng-bind="item.ctime | timeTex"></td>
+								<td ng-bind="item.updateUser"></td>
+								<td ng-bind="item.mtime"></td>
+								<td ng-class="{green:item.active==1,error:item.active==0}" ng-bind="item.active | activeTex"></td>
+								<td><a ng-if="(item.active==0)&&(140105|isAccessShow)&&(140107|isAccessShow)" href="app-client-plan-edit.html?rcid={{item.rcid}}">编辑</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/big-client-plan.js"></script>
+</body>
+</html>

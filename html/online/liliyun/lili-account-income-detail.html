@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Income">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>账单明细</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">喱喱钱包 > 账单明细</div>
+		<ul class="table-li">
+			<li><a href="lili-account-balance-bill.html">喱喱余额账单</a></li>
+			<li class="active"><a href="lili-account-income-detail.html">喱喱收入明细</a></li>
+			<li><a href="lili-account-cost-detail.html">喱喱费用明细</a></li>
+		</ul>
+		<!-- 提现记录列表详情 -->
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header">喱喱收入明细</div>
+			<div class="content table-qie">
+				<div class="search">
+					<div class="line">
+						<div>交易时间</div>
+						<div class="input-prepend input-group" style="padding-left: 0;">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+							<input type="text" style="width: 200px" name="reservation" id="reservation"
+							class="form-control" placeholder="自定义时间筛选" />
+						</div>
+					</div>
+					<div class="line">
+						<div>交易类型</div>
+						<select ng-model="operateType" ng-change="getDataForOperate()" class="form-control jia-xiao">
+							<option value="">交易类型</option>
+							<option value="0">充值</option>
+							<option value="1">提现</option>
+							<option value="2">奖金</option>
+							<option value="3">补贴</option>
+							<option value="5">课时费支付</option>
+							<option value="7">报名费支付</option>
+							<option value="8">课时费佣金</option>
+							<option value="9">报名费佣金</option>
+							<option value="10">报名费退款</option>
+							<option value="11">报名费佣金退款</option>
+							<option value="12">罚款</option>
+							<option value="13">报名费结算</option>
+							<option value="14">优惠券使用</option>
+							<option value="15">挂起订单</option>
+							<option value="16">支付挂起订单</option>
+							<option value="17">报名违约金</option>
+							<option value="18">充值送现金</option>
+						</select>
+					</div>
+					<div class="line">
+						<div>订单查询</div>
+						<div class="input-group search-more-condition">
+							<select ng-model="searchType" class="form-control">
+								<option value="orderId" selected="selected">订单号</option>
+							</select>
+							<input type="text" ng-model="search" class="form-control" placeholder="输入订单号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+						</div>
+					</div>
+				</div>
+				<div class="header margin-bottom-15" style="border: 1px solid #ddd;">收入合计：<b ng-bind="expense/100"></b></div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td><b>交易时间</b></td>
+							<td><b>交易类型</b></td>
+							<td><b>订单号</b></td>
+							<td><b>交易对象</b></td>
+							<td><b>金额（元）</b></td>
+							<td><b>操作</b></td>
+						</tr>
+						<tr ng-repeat="item in datas">
+							<td ng-bind="item.operateTime | timeTex"></td>
+							<td ng-bind="item.operateType | operateTypeText"></td>
+							<td ng-bind="item.orderId"></td>
+							<td ng-bind="item.tranObject?item.tranObject:'无'"></td>
+							<td ng-class="{'oringe':item.changeValue?true:false}" ng-bind="item.changeValue/100"><b></b></td>
+							<td><a href="#">详情</a> | <a href="#">备注</a></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+<!-- script -->
+</div>	
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/lili-account-income-detail.js?v=6112cd7cc71473298817690"></script>
+</body>
+</html>

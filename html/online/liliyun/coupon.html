@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Coupon">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>优惠券</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 优惠券 -->
+		<div class="title ">
+			<div class="d-title">优惠券</div>
+			<ul class="table-li">
+				<li class="active" ng-if="130201|isAccessShow"><a href="coupon.html">券种类列表</a></li>
+				<li ng-if="130301|isAccessShow"><a href="coupon-condition.html">券条件列表</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">券种类列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+						<div class="line">
+							<div>券类别</div>
+							<ul>
+								<li ng-click="getTypeState($event,'')" class="active">全部</li>
+								<li ng-click="getTypeState($event,0)">代金券</li>
+								<li ng-click="getTypeState($event,1)">课时券</li>
+								<li ng-click="getTypeState($event,2)">折扣券</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>审核状态</div>
+							<ul>
+								<li ng-click="getVerifyState($event,'')" class="active">全部</li>
+								<li ng-click="getVerifyState($event,0)">未审核</li>
+								<li ng-click="getVerifyState($event,1)">已审核</li>
+								<li ng-click="getVerifyState($event,2)">审核不过</li>
+							</ul>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4 col-md-8">
+							<a href="applyNewCoupon.html" class="btn btn-sm btn-primary"  ng-if="130202|isAccessShow">申请新券</a>
+							<a ng-click="verifyAction('vPass')" class="btn btn-sm btn-primary margin-left-15" ng-if="130204|isAccessShow">审核通过</a>
+							<a ng-click="verifyAction('vFail')" class="btn btn-sm btn-primary margin-left-15" ng-if="130205|isAccessShow">审核不过</a>
+							<a ng-click="activeAction('cActive')" class="btn btn-sm btn-primary margin-left-15" ng-if="130206|isAccessShow">激活启用</a>
+							<a ng-click="activeAction('cCancle')" class="btn btn-sm btn-danger margin-left-15" ng-if="130207|isAccessShow">停止发放</a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+								<td><b>创建时间</b></td>
+								<td><b>名称</b></td>
+								<td><b>券类别</b></td>
+								<td><b>抵扣金额/比例</b></td>
+								<td><b>最高抵扣</b></td>
+								<td><b>发行上限</b></td>
+								<td><b>已发行量</b></td>
+								<td><b>已使用量</b></td>
+								<td><b>已过期量</b></td>
+								<td><b>剩余库存</b></td>
+								<td><b>审核状态</b></td>
+								<td><b>是否可用</b></td>
+								<td><b>操作</b></td>
+							</tr>
+							<tr ng-repeat="item in datas" ng-class="{'disable-bac': item.orderState!=0?true:false}">
+								<td align="center"><input type="checkbox" id="{{item.coupontmpid}}" ng-click="updateSelection($event,item.coupontmpid)" ng-checked="isSelected(item.coupontmpid)"></td>
+								<td ng-bind="item.createtime | timeTex"></td>
+								<td><a href="coupon-details.html?couponId={{item.coupontmpid}}" ng-bind="item.name" ng-if="(130211|isAccessShow)&&(130212|isAccessShow)"></a><span ng-if="!((130211|isAccessShow)&&(130212|isAccessShow))" ng-bind="item.name"></span></td>
+								<td ng-bind="item.type | couponType"></td>
+								<td>
+									<span ng-bind="item.discount+'%'" ng-if="item.discount"></span>
+									<span ng-bind="item.moneyvalue/100+'元'" ng-if="item.moneyvalue"></span>
+								</td>
+								<td ng-bind="item.limitvalue/100"></td>
+								<td ng-bind="item.total"></td>
+								<td ng-bind="item.releasedAmount"></td>
+								<td ng-bind="item.haveUsed"></td>
+								<td ng-bind="item.expiredAmount"></td>
+								<td ng-bind="item.leftAmount"></td>
+								<td ng-bind="item.verify | verifyType"></td>
+								<td ng-class="{green:item.isexist!=0,error:item.isexist==0}" ng-bind="item.isexist==0?'未启用':'已激活'"></td>
+								<td>
+									<a href="edit-coupon.html?coupontmpid={{item.coupontmpid}}&stockid={{item.stockId}}" ng-if="(item.verify!=1) && (130203|isAccessShow)">编辑</a>
+									<a href="javascript:void(0)" ng-if="(item.verify==1) && (130208|isAccessShow)" ng-click="addCoupon(item)">追加发行</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ng-include src="'edit/add-coach.html'" onload="addCouponLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/coupon.js?v=d3e37bd3b91473298817690"></script>
+</body>
+</html>

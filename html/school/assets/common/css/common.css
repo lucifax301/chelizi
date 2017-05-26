@@ -1,0 +1,26 @@
+* {box-sizing: border-box; padding: 0; margin: 0;}
+html{font-family: "微软雅黑,microsoft Yahei";}
+body {margin: 0; color: #333; font-size: 14px; line-height: 1.5em;}
+img {border: none;}
+ul,li {padding: 0; margin: 0; list-style: none;}
+a,i,b,s,u {font-style: inherit; font-weight: inherit; color: inherit; text-decoration: none;}
+input,select,audio,video,time,img {vertical-align: middle;}
+iframe {border: none;}
+.fl {float: left;}
+.fr {float: right;}
+.ib {display: inline-block; vertical-align: middle;}
+.vm {display: inline-block; height: 100%; vertical-align: middle;}
+ul:after,
+li:after,
+.af:after,
+.div-2:after,
+.div-3:after,
+.div-4:after,
+.div-5:after {content: ""; display: block; clear: both; }
+/* 遮罩类 */
+#loading {position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,.5) url(../img/loading.gif) no-repeat center center;}
+.text-red {color: red;}
+.text-green {color: green;}
+.text-blue {color: blue;}
+.sub-line{height:1px;border:none;border-top:1px dashed #0066CC;}
+.msg-padding{padding:0px 25px 0px 25px;}

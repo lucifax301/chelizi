@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.CoachStatisticMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="csid!=null">csid=#{csid},</if>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="currDate!=null">curr_date=#{currDate},</if>
+      <if test="orderAccept!=null">order_accept=#{orderAccept},</if>
+      <if test="orderRefuse!=null">order_refuse=#{orderRefuse},</if>
+      <if test="orderCancel!=null">order_cancel=#{orderCancel},</if>
+      <if test="orderComment!=null">order_comment=#{orderComment},</if>
+      <if test="orderMoney!=null">order_money=#{orderMoney},</if>
+      <if test="commentScore!=null">comment_score=#{commentScore},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.csid!=null">csid=#{param1.csid},</if>
+      <if test="param1.coachId!=null">coach_id=#{param1.coachId},</if>
+      <if test="param1.currDate!=null">curr_date=#{param1.currDate},</if>
+      <if test="param1.orderAccept!=null">order_accept=#{param1.orderAccept},</if>
+      <if test="param1.orderRefuse!=null">order_refuse=#{param1.orderRefuse},</if>
+      <if test="param1.orderCancel!=null">order_cancel=#{param1.orderCancel},</if>
+      <if test="param1.orderComment!=null">order_comment=#{param1.orderComment},</if>
+      <if test="param1.orderMoney!=null">order_money=#{param1.orderMoney},</if>
+      <if test="param1.commentScore!=null">comment_score=#{param1.commentScore},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.csid!=null">csid=#{param2.csid},</if>
+      <if test="param2.coachId!=null">coach_id=#{param2.coachId},</if>
+      <if test="param2.currDate!=null">curr_date=#{param2.currDate},</if>
+      <if test="param2.orderAccept!=null">order_accept=#{param2.orderAccept},</if>
+      <if test="param2.orderRefuse!=null">order_refuse=#{param2.orderRefuse},</if>
+      <if test="param2.orderCancel!=null">order_cancel=#{param2.orderCancel},</if>
+      <if test="param2.orderComment!=null">order_comment=#{param2.orderComment},</if>
+      <if test="param2.orderMoney!=null">order_money=#{param2.orderMoney},</if>
+      <if test="param2.commentScore!=null">comment_score=#{param2.commentScore},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set csid=#{csid}, coach_id=#{coachId}, curr_date=#{currDate}, order_accept=#{orderAccept}, order_refuse=#{orderRefuse}, order_cancel=#{orderCancel}, order_comment=#{orderComment}, order_money=#{orderMoney}, comment_score=#{commentScore}</sql>
+  <sql id="setAllparam1">set csid=#{param1.csid}, coach_id=#{param1.coachId}, curr_date=#{param1.currDate}, order_accept=#{param1.orderAccept}, order_refuse=#{param1.orderRefuse}, order_cancel=#{param1.orderCancel}, order_comment=#{param1.orderComment}, order_money=#{param1.orderMoney}, comment_score=#{param1.commentScore}</sql>
+  <sql id="setAllparam2">set csid=#{param2.csid}, coach_id=#{param2.coachId}, curr_date=#{param2.currDate}, order_accept=#{param2.orderAccept}, order_refuse=#{param2.orderRefuse}, order_cancel=#{param2.orderCancel}, order_comment=#{param2.orderComment}, order_money=#{param2.orderMoney}, comment_score=#{param2.commentScore}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="csid!=null and csid != '' ">And csid=#{csid}</if>
+      <if test="coachId!=null and coachId != '' ">And coach_id=#{coachId}</if>
+      <if test="currDate!=null and currDate != '' ">And curr_date=#{currDate}</if>
+      <if test="orderAccept!=null and orderAccept != '' ">And order_accept=#{orderAccept}</if>
+      <if test="orderRefuse!=null and orderRefuse != '' ">And order_refuse=#{orderRefuse}</if>
+      <if test="orderCancel!=null and orderCancel != '' ">And order_cancel=#{orderCancel}</if>
+      <if test="orderComment!=null and orderComment != '' ">And order_comment=#{orderComment}</if>
+      <if test="orderMoney!=null and orderMoney != '' ">And order_money=#{orderMoney}</if>
+      <if test="commentScore!=null and commentScore != '' ">And comment_score=#{commentScore}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="csid!=null and csid != '' ">Or csid=#{csid}</if>
+      <if test="coachId!=null and coachId != '' ">Or coach_id=#{coachId}</if>
+      <if test="currDate!=null and currDate != '' ">Or curr_date=#{currDate}</if>
+      <if test="orderAccept!=null and orderAccept != '' ">Or order_accept=#{orderAccept}</if>
+      <if test="orderRefuse!=null and orderRefuse != '' ">Or order_refuse=#{orderRefuse}</if>
+      <if test="orderCancel!=null and orderCancel != '' ">Or order_cancel=#{orderCancel}</if>
+      <if test="orderComment!=null and orderComment != '' ">Or order_comment=#{orderComment}</if>
+      <if test="orderMoney!=null and orderMoney != '' ">Or order_money=#{orderMoney}</if>
+      <if test="commentScore!=null and commentScore != '' ">Or comment_score=#{commentScore}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.csid!=null and param1.csid != '' ">And csid=#{param1.csid}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.currDate!=null and param1.currDate != '' ">And curr_date=#{param1.currDate}</if>
+      <if test="param1.orderAccept!=null and param1.orderAccept != '' ">And order_accept=#{param1.orderAccept}</if>
+      <if test="param1.orderRefuse!=null and param1.orderRefuse != '' ">And order_refuse=#{param1.orderRefuse}</if>
+      <if test="param1.orderCancel!=null and param1.orderCancel != '' ">And order_cancel=#{param1.orderCancel}</if>
+      <if test="param1.orderComment!=null and param1.orderComment != '' ">And order_comment=#{param1.orderComment}</if>
+      <if test="param1.orderMoney!=null and param1.orderMoney != '' ">And order_money=#{param1.orderMoney}</if>
+      <if test="param1.commentScore!=null and param1.commentScore != '' ">And comment_score=#{param1.commentScore}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.csid!=null and param2.csid != '' ">And csid=#{param2.csid}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">And coach_id=#{param2.coachId}</if>
+      <if test="param2.currDate!=null and param2.currDate != '' ">And curr_date=#{param2.currDate}</if>
+      <if test="param2.orderAccept!=null and param2.orderAccept != '' ">And order_accept=#{param2.orderAccept}</if>
+      <if test="param2.orderRefuse!=null and param2.orderRefuse != '' ">And order_refuse=#{param2.orderRefuse}</if>
+      <if test="param2.orderCancel!=null and param2.orderCancel != '' ">And order_cancel=#{param2.orderCancel}</if>
+      <if test="param2.orderComment!=null and param2.orderComment != '' ">And order_comment=#{param2.orderComment}</if>
+      <if test="param2.orderMoney!=null and param2.orderMoney != '' ">And order_money=#{param2.orderMoney}</if>
+      <if test="param2.commentScore!=null and param2.commentScore != '' ">And comment_score=#{param2.commentScore}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.csid!=null and param1.csid != '' ">Or csid=#{param1.csid}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">Or coach_id=#{param1.coachId}</if>
+      <if test="param1.currDate!=null and param1.currDate != '' ">Or curr_date=#{param1.currDate}</if>
+      <if test="param1.orderAccept!=null and param1.orderAccept != '' ">Or order_accept=#{param1.orderAccept}</if>
+      <if test="param1.orderRefuse!=null and param1.orderRefuse != '' ">Or order_refuse=#{param1.orderRefuse}</if>
+      <if test="param1.orderCancel!=null and param1.orderCancel != '' ">Or order_cancel=#{param1.orderCancel}</if>
+      <if test="param1.orderComment!=null and param1.orderComment != '' ">Or order_comment=#{param1.orderComment}</if>
+      <if test="param1.orderMoney!=null and param1.orderMoney != '' ">Or order_money=#{param1.orderMoney}</if>
+      <if test="param1.commentScore!=null and param1.commentScore != '' ">Or comment_score=#{param1.commentScore}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.csid!=null and param2.csid != '' ">Or csid=#{param2.csid}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">Or coach_id=#{param2.coachId}</if>
+      <if test="param2.currDate!=null and param2.currDate != '' ">Or curr_date=#{param2.currDate}</if>
+      <if test="param2.orderAccept!=null and param2.orderAccept != '' ">Or order_accept=#{param2.orderAccept}</if>
+      <if test="param2.orderRefuse!=null and param2.orderRefuse != '' ">Or order_refuse=#{param2.orderRefuse}</if>
+      <if test="param2.orderCancel!=null and param2.orderCancel != '' ">Or order_cancel=#{param2.orderCancel}</if>
+      <if test="param2.orderComment!=null and param2.orderComment != '' ">Or order_comment=#{param2.orderComment}</if>
+      <if test="param2.orderMoney!=null and param2.orderMoney != '' ">Or order_money=#{param2.orderMoney}</if>
+      <if test="param2.commentScore!=null and param2.commentScore != '' ">Or comment_score=#{param2.commentScore}</if>
+    </where>
+  </sql>
+  <insert id="addCoachStatistic">
+    <!--/*新增一个对象*/-->insert into t_coach_statistic
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addCoachStatisticList">
+    <!--/*新增一批对象*/-->insert into t_coach_statistic values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.csid},#{one.coachId},#{one.currDate},#{one.orderAccept},#{one.orderRefuse},#{one.orderCancel},#{one.orderComment},#{one.orderMoney},#{one.commentScore})</foreach>
+  </insert>
+  <delete id="delCoachStatisticById">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_statistic where csid=#{csid}
+  </delete>
+  <delete id="delCoachStatisticByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_statistic where csid in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delCoachStatisticByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_coach_statistic
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveCoachStatistic">
+    <!--/*新增或者更新一个对象*/-->replace into t_coach_statistic
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveCoachStatisticList">
+    <!--/*新增或者更新一批对象*/-->replace into t_coach_statistic values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.csid},#{one.coachId},#{one.currDate},#{one.orderAccept},#{one.orderRefuse},#{one.orderCancel},#{one.orderComment},#{one.orderMoney},#{one.commentScore})</foreach>
+  </insert>
+  <update id="updateByCsid">
+    <!--/*根据字段csid更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where csid=#{param2}
+  </update>
+  <update id="updateByCoachId">
+    <!--/*根据字段coachId更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where coach_id=#{param2}
+  </update>
+  <update id="updateByCurrDate">
+    <!--/*根据字段currDate更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where curr_date=#{param2}
+  </update>
+  <update id="updateByOrderAccept">
+    <!--/*根据字段orderAccept更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where order_accept=#{param2}
+  </update>
+  <update id="updateByOrderRefuse">
+    <!--/*根据字段orderRefuse更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where order_refuse=#{param2}
+  </update>
+  <update id="updateByOrderCancel">
+    <!--/*根据字段orderCancel更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where order_cancel=#{param2}
+  </update>
+  <update id="updateByOrderComment">
+    <!--/*根据字段orderComment更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where order_comment=#{param2}
+  </update>
+  <update id="updateByOrderMoney">
+    <!--/*根据字段orderMoney更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where order_money=#{param2}
+  </update>
+  <update id="updateByCommentScore">
+    <!--/*根据字段commentScore更新一个或者多个对象*/-->update t_coach_statistic
+    <include refid="setNotNullparam1"/> where comment_score=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_statistic 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_statistic
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryCoachStatisticById" resultType="CoachStatisticPo">
+    <!--/*根据主键查询一个对象*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where csid=#{param1} ${param2}
+  </select>
+  <select id="queryCoachStatisticByIds" resultType="CoachStatisticPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where csid in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByCsid" resultType="CoachStatisticPo">
+    <!--/*根据字段csid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where csid=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachId" resultType="CoachStatisticPo">
+    <!--/*根据字段coachId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCurrDate" resultType="CoachStatisticPo">
+    <!--/*根据字段currDate查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where curr_date=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderAccept" resultType="CoachStatisticPo">
+    <!--/*根据字段orderAccept查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where order_accept=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderRefuse" resultType="CoachStatisticPo">
+    <!--/*根据字段orderRefuse查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where order_refuse=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderCancel" resultType="CoachStatisticPo">
+    <!--/*根据字段orderCancel查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where order_cancel=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderComment" resultType="CoachStatisticPo">
+    <!--/*根据字段orderComment查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where order_comment=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderMoney" resultType="CoachStatisticPo">
+    <!--/*根据字段orderMoney查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where order_money=#{param1} ${param2}
+  </select>
+  <select id="queryByCommentScore" resultType="CoachStatisticPo">
+    <!--/*根据字段commentScore查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic where comment_score=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew1" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="CoachStatisticPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select csid as csid,coach_id as coachId,curr_date as currDate,order_accept as orderAccept,order_refuse as orderRefuse,order_cancel as orderCancel,order_comment as orderComment,order_money as orderMoney,comment_score as commentScore from t_coach_statistic
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  
+  	<select id="getCoachBonusByDate" resultType="java.lang.Integer">
+		select ifnull(sum(changeValue),0) from t_u_money 
+		where operateType = 2 
+		and userType = 1 
+		and DATE(operateTime) = #{0} 
+		and userId = #{1}
+	</select>
+	
+</mapper>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachAccountDao">
+	<resultMap id="coachAccountInfo" type="com.lili.coach.model.CoachAccount">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="performance" property="performance" jdbcType="INTEGER" />
+		<result column="lastPerTime" property="lastPerTime" jdbcType="TIMESTAMP" />
+		<result column="passwd" property="passwd" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	
+	<select id="getTotalMoney" resultType="java.lang.Long">
+		select <![CDATA[ ifnull(sum(money),0)]]>  from t_u_coachaccount
+	</select>
+	
+	<select id="getCoachIdMoney" resultMap="coachAccountInfo">
+		select coachId,money  from t_u_coachaccount
+			where coachId = #{coachId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getCoachPhoneMoney" resultMap="coachAccountInfo">
+		select c.coachId,c.money  from t_u_coachaccount c,t_u_coach u
+			where c.coachId = u.coachId and u.phoneNum = #{phoneNum}
+	</select>
+	
+	<update id="addMoneyBack" parameterType="map">
+		update t_u_coachaccount
+		<set >
+		      <if test="money != null" >
+		        money = #{money,jdbcType=INTEGER}
+		      </if>
+    	</set>
+    	where coachId = #{coachId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="addMoneyList"  parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update  t_u_coachaccount
+                <set>
+						money=${item.money}
+                </set>
+                <where>  
+		       		 coachId=${item.coachId}
+		     </where> 
+       </foreach>
+	</update>
+	
+	<insert id="insertSelective" parameterType="com.lili.coach.model.CoachAccount" >
+	    insert into t_u_coachaccount
+	    <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="coachId != null" >
+	        coachId,
+	      </if>
+	      <if test="money != null" >
+	        money,
+	      </if>
+	      <if test="performance != null" >
+	        performance,
+	      </if>
+	      <if test="lastPerTime != null" >
+	        lastPerTime,
+	      </if>
+	      <if test="passwd != null" >
+	        passwd,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="coachId != null" >
+	        #{coachId,jdbcType=BIGINT},
+	      </if>
+	      <if test="money != null" >
+	        #{money,jdbcType=INTEGER},
+	      </if>
+	      <if test="performance != null" >
+	        #{performance,jdbcType=INTEGER},
+	      </if>
+	      <if test="lastPerTime != null" >
+	        #{lastPerTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="passwd != null" >
+	        #{passwd,jdbcType=VARCHAR},
+	      </if>
+	    </trim>
+  </insert>
+	
+</mapper>

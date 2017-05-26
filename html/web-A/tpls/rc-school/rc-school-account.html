@@ -1,0 +1,216 @@
+
+<div class="right_col" role="main">
+                <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>集团帐户</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#/rc-school/account">集团帐户</a></li>
+                        <li role="presentation" class=""><a href="#/rc-school/coach">教练交易帐号</a></li>
+                        <li role="presentation" class=""><a href="#/rc-school/consumption">消费记录</a></li>
+                        <li role="presentation" class=""><a href="#/rc-school/recharge">充值记录</a></li>
+                    </ul>
+                    <div class="x_title">
+                        <h2>帐户状态</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content mb40">
+                        <div class="school-account-card">
+                            <div class="card-head">
+                                <i class="fa fa-credit-card-alt"></i>
+                                <span>帐户余额</span>
+                            </div>
+                            <div class="card-con" id="balance"></div>
+                        </div>
+                    </div>
+                    <div class="x_title">
+                        <h2>帐户充值</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <!-- <p>充值说明：充值资金与赠送资金不能用于提现。</p>
+                        <form class="form-horizontal form-label-left charge-wrap mt20">
+                            <div class="form-group mb0">
+                                <label class="col-sm-2 control-label">充值范围</label>
+                                <div class="col-sm-10">
+                                    <div class="charge-step favor-step">
+                                        <div class="item" ng-repeat="item in rcstep">
+                                            <li>
+                                                
+                                                <div>{{item.min}}-{{item.max}}元</div>
+                                                <p>送{{item.favor}}元</p>
+                                            </li>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="divider-dashed mb20 mt0"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">充值金额</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control rc-input" ng-change="getFavor()" ng-model="doRecharge">
+                                        <span class="iblock lh55 f16 z-ml20">赠送 <i class="color_ca0500" ng-model="doFavor"></i> 元 / 其他充值金额不赠送金额</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider-dashed mb20"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">充值方式</label>
+                                <div class="col-sm-10">
+                                    <div class="charge-step">
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-wx.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-ali.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-up.png"></div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="charge-code">
+                                        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1477453128900&di=0c68e4a6f234a10c8af65d3972cfeac1&imgtype=jpg&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F3bf33a87e950352a5936aa0a5543fbf2b2118b59.jpg" alt="">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form> -->
+						
+						
+						<form class="form-horizontal form-label-left charge-wrap mt20" novalidate id="addform" name="myForm" ng-submit="submitAddForm(myForm.$valid)">
+                            
+                            <div class="divider-dashed mb20 mt0"></div>
+                            <div class="form-group">
+                                <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1  control-label">充值金额(元)</label>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 control-label ">
+                                    <div class="input-group">
+                                        <input style="height:50px;" type="text" class="form-control" ng-change="getFavor()" ng-model="doRecharge" name="doRecharge" required ng-pattern="/^[0-9]*[1-9][0-9]*$/"/> 
+										<span style="color:red" ng-show="myForm.doRecharge.$error.required && myForm.doRecharge.$dirty">不能为空</span>
+										<span class="help-inline" style="color:red" ng-show="!myForm.doRecharge.$error.required && myForm.doRecharge.$invalid">请输入整额</span> 
+									
+									</div>
+                                </div>
+								
+								<label class="col-lg-1 col-md-2 col-sm-2 col-xs-2  control-label">充值方式</label>
+								<div class="col-lg-6 col-md-8 col-sm-8 col-xs-8 control-label">
+                                    <div class="input-group">
+                                        <div class="charge-step">
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="wx" id="wx" name="rcstep" ng-disabled="myForm.$invalid">
+                                                <div><img src="assets/images/pay-wx.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="alipay" id="alipay" name="rcstep" ng-disabled="myForm.$invalid">
+                                                <div><img src="assets/images/pay-ali.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="yl" id="yl" name="rcstep" ng-disabled="myForm.$invalid">
+                                                <div><img src="assets/images/pay-up.png"></div>
+                                            </li>
+                                        </div>
+										</div>
+										
+								
+										
+                                        
+                                    </div>
+									
+								
+                                </div>
+								
+                            </div>
+                            
+                        </form>
+						
+						<div class="row" id="qrcodeDiv">
+						</div>
+		</div>
+						
+					<!-- <div class="row">
+							<div class="divider-dashed col-lg-3 col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+								<div class="item form-group">
+									<label class="control-label col-lg-4 col-md-6 col-sm-6 col-xs-12" for="first-name">充值金额 <span class="required">*</span>
+									</label>
+									<div class="col-lg-8 col-md-6 col-sm-6 col-xs-12"> 
+									   <input type="text" class="form-control rc-input" ng-change="getFavor()" ng-model="doRecharge">
+									   <span style="color:red" ng-show="myForm.licnum.$error.required && myForm.licnum.$dirty">不能为空。</span>
+									   <span class="help-inline" style="color:red" ng-show="!myForm.licnum.$error.required && myForm.licnum.$invalid">最长为10个字符。</span> 
+									</div>
+								</div>
+							</div>
+							<div class="divider-dashed col-lg-8 col-md-10 col-sm-10 col-xs-12 form-group has-feedback">
+								 <div class="form-group">
+                                <label class="col-sm-2 control-label">充值方式</label>
+                                <div class="col-sm-10">
+                                    <div class="charge-step">
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-wx.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-ali.png"></div>
+                                            </li>
+                                        </div>
+                                        <div class="item">
+                                            <li>
+                                                <input type="radio" class="rc-radio" value="1000-2000" name="rcstep">
+                                                <div><img src="assets/images/pay-up.png"></div>
+                                            </li>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="charge-code">
+                                        <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1477453128900&di=0c68e4a6f234a10c8af65d3972cfeac1&imgtype=jpg&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F3bf33a87e950352a5936aa0a5543fbf2b2118b59.jpg" alt="">
+
+                                    </div>
+                                </div>
+                            </div>
+							</div>					
+					</div> -->
+									
+
+					</div>	
+						
+                    </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+

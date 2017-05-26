@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<bean id="dubboResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath:dubbo.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>
+    <bean id="dubboProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="53" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="dubboResources" />  
+    </bean>
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="${dubbo.name}"  />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry address="${zookeeper.addr}" file="dubbo.logic.cache"/> 
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="${dubbo.protocol}" server="${dubbo.server}" port="${dubbo.port}" serialization="${dubbo.serialization}" threadpool="fixed" threads="1000"/>
+    <dubbo:consumer timeout="${dubbo.timeout}" retries="0"/>
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.lili.logic.service.OrderLogic" ref="orderLogic" />
+    <dubbo:service interface="com.lili.logic.service.IStudentStateManager" ref="stateManager"></dubbo:service>
+    <dubbo:service interface="com.lili.logic.service.ICoachStateManager" ref="coachStateManager"></dubbo:service>
+</beans>

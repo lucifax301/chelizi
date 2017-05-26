@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Notice">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="witdh=device-witdh, initial-scale=1">
+    <title>发布消息-发布设置</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>发布消息-发布设置<a style="float: right;color: #A6A6A6;" href="javascript:history.go(-1)" >返回</a></h1></div>
+        <div class="con-main notice-add-stu-form">
+            <div class="add-row">
+                <div class="add-label"><label>城市</label></div>
+                <div class="add-con">
+                    <div class="add-item"><input type="checkbox" name="cityId" value="100100" id="cityId1"><label for="cityId1">深圳市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="100101" id="cityId2"><label
+                            for="cityId2">东莞市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="102100" id="cityId3"><label
+                            for="cityId3">西安市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="103100" id="cityId4"><label
+                            for="cityId4">长沙市</label></div>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label>教练类型</label></div>
+                <div class="add-con">
+                    <div class="add-item"><input type="checkbox" name="utype" value="3" id="utype3"><label for="utype3">特约教练</label></div>
+                    <div class="add-item"><input type="checkbox" name="utype" value="4" id="utype4"><label for="utype4">普通教练</label></div>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label for="">特定驾校</label></div>
+                <div class="add-con">
+                    <div id="schoolIds" class="notice-add-items"></div>
+                    <input id="showSchool" style="width: 110px" type='button' value='选择驾校' ng-click='searchSchool()' class='btn btn-sm btn-default'>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label for="">特定教练</label></div>
+                <div class="add-con">
+                    <div id="userIds" class="notice-add-items"></div>
+                    <input id="showCoach" style="width: 110px" type='button' value='选择教练' ng-click='searchCoach()' class='btn btn-sm btn-default'>
+                </div>
+            </div>
+            <div class="chaozuo" id="submitButton" style="margin-top: 20px;" align="center">
+                <a style="width: 80px;background-color: #adadad " href="notice.html?setType={{setType}}" class="btn btn-sm btn-default closeAlert" >{{ saveType=='no'?'返回':'取消'}}</a>
+                <a style="width: 80px;margin-left: 40px" ng-click="submitEditPub($event,2)" ng-show="{{saveType!='no'}}" class="btn btn-sm btn-primary">保存</a>
+                <a style="width: 80px;margin-left: 40px" ng-click="submitEditPub($event,0)" ng-show="{{saveType!='no'}}"  class="btn btn-sm btn-primary">发布</a>
+            </div>
+        </div>
+    </div>
+
+    <ng-include src="'edit/edit-notice-searchCoach.html'" onload="noticeEditLoad()" ></ng-include>
+    <ng-include src="'edit/edit-notice-searchSchool.html'" onload="noticeEditLoad()"></ng-include>
+</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/notice.js"></script>
+</body>
+</html>

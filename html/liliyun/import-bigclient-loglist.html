@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ImportBigclientLog">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员导表记录</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 优惠券 -->
+		<div class="title ">
+			<div class="d-title">学员导表记录</div>
+		</div>
+		<div style="padding: 20px;">
+            <div class="common-table" style="border: none;">
+                <div class="senior-search row">
+                    <div class="col-xs-12 col-sm-8">
+                    </div>
+                    <div class="col-xs-12 col-sm-4 select text-right">
+                        <span>每页</span>
+                        <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                            <option value="10" selected="selected">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>条记录</span>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <td><b>姓名</b></td>
+                            <td><b>电话</b></td>
+                            <td><b>性别</b></td>
+                            <td><b>工号</b></td>
+                            <td><b>所属城市</b></td>
+                            <td><b>充值送方案</b></td>
+                            <td><b>身份证号</b></td>
+                            <td><b>导入状态</b></td>
+                        </tr>
+                        <tr ng-repeat="item in datas" >
+                            <td ng-bind="item.cname"></td>
+                            <td ng-bind="item.mobile"></td>
+                            <td ng-bind="item.sex | sexText"></td>
+                            <td ng-bind="item.cid"></td>
+                            <td ng-bind="item.cityName"></td>
+                            <td ng-bind="item.rcname"></td>
+                            <td ng-bind="item.idNumber"></td>
+                            <td ng-bind="item.status | importStuStatus"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="page">
+                    <div id="copot-page" class="copot-page"></div>
+                </div>
+            </div>
+
+		</div>
+		<ng-include src="'edit/add-coach.html'" onload="addCouponLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/import-bigclient-loglist.js"></script>
+</body>
+</html>

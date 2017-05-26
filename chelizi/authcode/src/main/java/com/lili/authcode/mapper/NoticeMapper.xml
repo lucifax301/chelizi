@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.authcode.mapper.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.authcode.dto.Notice" >
+    <id column="noticeId" property="noticeId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="adminId" property="adminId" jdbcType="INTEGER" />
+    <result column="userType" property="userType" jdbcType="TINYINT" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="etime" property="etime" jdbcType="TIMESTAMP" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="clickNum" property="clickNum" jdbcType="INTEGER" />
+    <result column="applyexam" property="applyexam" jdbcType="VARCHAR" />
+    <result column="cityId" property="cityId" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="VARCHAR" />
+    <result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="utype" property="utype" jdbcType="VARCHAR" />
+    <result column="userIdStrs" property="userIdStrs" jdbcType="VARCHAR" />
+    <result column="digest" property="digest" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="msgType" property="msgType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.authcode.dto.Notice" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    noticeId, title, type, time, adminId, userType, userId, extra, isdel, etime, pic, 
+    clickNum, applyexam, cityId, schoolId, schoolName, userName, utype, userIdStrs, digest, 
+    orderId,msgType
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.authcode.dto.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.authcode.dto.NoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_p_notice
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_p_notice
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.authcode.dto.NoticeExample" >
+    delete from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.authcode.dto.Notice" >
+    insert into t_p_notice (noticeId, title, type, 
+      time, adminId, userType, 
+      userId, extra, isdel, 
+      etime, pic, clickNum, 
+      applyexam, cityId, schoolId, 
+      schoolName, userName, utype, 
+      userIdStrs, digest, orderId, msgType,
+      content)
+    values (#{noticeId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{time,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER}, #{userType,jdbcType=TINYINT}, 
+      #{userId,jdbcType=BIGINT}, #{extra,jdbcType=VARCHAR}, #{isdel,jdbcType=TINYINT}, 
+      #{etime,jdbcType=TIMESTAMP}, #{pic,jdbcType=VARCHAR}, #{clickNum,jdbcType=INTEGER}, 
+      #{applyexam,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, #{schoolId,jdbcType=VARCHAR}, 
+      #{schoolName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{utype,jdbcType=VARCHAR}, 
+      #{userIdStrs,jdbcType=VARCHAR}, #{digest,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{msgType,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.authcode.dto.Notice" >
+    insert into t_p_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        noticeId,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="adminId != null" >
+        adminId,
+      </if>
+      <if test="userType != null" >
+        userType,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="etime != null" >
+        etime,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="clickNum != null" >
+        clickNum,
+      </if>
+      <if test="applyexam != null" >
+        applyexam,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="schoolName != null" >
+        schoolName,
+      </if>
+      <if test="userName != null" >
+        userName,
+      </if>
+      <if test="utype != null" >
+        utype,
+      </if>
+      <if test="userIdStrs != null" >
+        userIdStrs,
+      </if>
+      <if test="digest != null" >
+        digest,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="msgType != null" >
+        msgType,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noticeId != null" >
+        #{noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="etime != null" >
+        #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        #{clickNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyexam != null" >
+        #{applyexam,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="utype != null" >
+        #{utype,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdStrs != null" >
+        #{userIdStrs,jdbcType=VARCHAR},
+      </if>
+      <if test="digest != null" >
+        #{digest,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        #{msgType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.authcode.dto.NoticeExample" resultType="java.lang.Integer" >
+    select count(*) from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_p_notice
+    <set >
+      <if test="record.noticeId != null" >
+        noticeId = #{record.noticeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adminId != null" >
+        adminId = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userType != null" >
+        userType = #{record.userType,jdbcType=TINYINT},
+      </if>
+      <if test="record.userId != null" >
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.etime != null" >
+        etime = #{record.etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickNum != null" >
+        clickNum = #{record.clickNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyexam != null" >
+        applyexam = #{record.applyexam,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        cityId = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolName != null" >
+        schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userName != null" >
+        userName = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.utype != null" >
+        utype = #{record.utype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userIdStrs != null" >
+        userIdStrs = #{record.userIdStrs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.digest != null" >
+        digest = #{record.digest,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        orderId = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgType != null" >
+        msgType = #{record.msgType,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_p_notice
+    set noticeId = #{record.noticeId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      adminId = #{record.adminId,jdbcType=INTEGER},
+      userType = #{record.userType,jdbcType=TINYINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      etime = #{record.etime,jdbcType=TIMESTAMP},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      clickNum = #{record.clickNum,jdbcType=INTEGER},
+      applyexam = #{record.applyexam,jdbcType=VARCHAR},
+      cityId = #{record.cityId,jdbcType=VARCHAR},
+      schoolId = #{record.schoolId,jdbcType=VARCHAR},
+      schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      userName = #{record.userName,jdbcType=VARCHAR},
+      utype = #{record.utype,jdbcType=VARCHAR},
+      userIdStrs = #{record.userIdStrs,jdbcType=VARCHAR},
+      digest = #{record.digest,jdbcType=VARCHAR},
+      orderId = #{record.orderId,jdbcType=VARCHAR},
+      msgType = #{record.msgType,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_p_notice
+    set noticeId = #{record.noticeId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      adminId = #{record.adminId,jdbcType=INTEGER},
+      userType = #{record.userType,jdbcType=TINYINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      etime = #{record.etime,jdbcType=TIMESTAMP},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      clickNum = #{record.clickNum,jdbcType=INTEGER},
+      applyexam = #{record.applyexam,jdbcType=VARCHAR},
+      cityId = #{record.cityId,jdbcType=VARCHAR},
+      schoolId = #{record.schoolId,jdbcType=VARCHAR},
+      schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      userName = #{record.userName,jdbcType=VARCHAR},
+      utype = #{record.utype,jdbcType=VARCHAR},
+      userIdStrs = #{record.userIdStrs,jdbcType=VARCHAR},
+      digest = #{record.digest,jdbcType=VARCHAR},
+      orderId = #{record.orderId,jdbcType=VARCHAR},
+      msgType = #{record.msgType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.authcode.dto.Notice" >
+    update t_p_notice
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        adminId = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        userType = #{userType,jdbcType=TINYINT},
+      </if>
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="etime != null" >
+        etime = #{etime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNum != null" >
+        clickNum = #{clickNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyexam != null" >
+        applyexam = #{applyexam,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="utype != null" >
+        utype = #{utype,jdbcType=VARCHAR},
+      </if>
+      <if test="userIdStrs != null" >
+        userIdStrs = #{userIdStrs,jdbcType=VARCHAR},
+      </if>
+      <if test="digest != null" >
+        digest = #{digest,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgType != null" >
+        msgType = #{msgType,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.authcode.dto.Notice" >
+    update t_p_notice
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      adminId = #{adminId,jdbcType=INTEGER},
+      userType = #{userType,jdbcType=TINYINT},
+      userId = #{userId,jdbcType=BIGINT},
+      extra = #{extra,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      pic = #{pic,jdbcType=VARCHAR},
+      clickNum = #{clickNum,jdbcType=INTEGER},
+      applyexam = #{applyexam,jdbcType=VARCHAR},
+      cityId = #{cityId,jdbcType=VARCHAR},
+      schoolId = #{schoolId,jdbcType=VARCHAR},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      utype = #{utype,jdbcType=VARCHAR},
+      userIdStrs = #{userIdStrs,jdbcType=VARCHAR},
+      digest = #{digest,jdbcType=VARCHAR},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      msgType = #{msgType,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.authcode.dto.Notice" >
+    update t_p_notice
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      adminId = #{adminId,jdbcType=INTEGER},
+      userType = #{userType,jdbcType=TINYINT},
+      userId = #{userId,jdbcType=BIGINT},
+      extra = #{extra,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      etime = #{etime,jdbcType=TIMESTAMP},
+      pic = #{pic,jdbcType=VARCHAR},
+      clickNum = #{clickNum,jdbcType=INTEGER},
+      applyexam = #{applyexam,jdbcType=VARCHAR},
+      cityId = #{cityId,jdbcType=VARCHAR},
+      schoolId = #{schoolId,jdbcType=VARCHAR},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      utype = #{utype,jdbcType=VARCHAR},
+      userIdStrs = #{userIdStrs,jdbcType=VARCHAR},
+      digest = #{digest,jdbcType=VARCHAR},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      msgType = #{msgType,jdbcType=INTEGER}
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.lili.authcode.dto.NoticeExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.lili.authcode.dto.NoticeExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_p_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

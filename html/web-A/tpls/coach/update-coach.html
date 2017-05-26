@@ -1,0 +1,272 @@
+<style >
+#map_canvas{height:450px;width:100%;}
+.ui-loading{position:absolute;left:0;top:0;z-index: 9999;}
+.ui-loading .ui-loading-mask{ position:absolute;top:0;left:0;background-color: #060606;opacity: .2;z-index: 1}
+.ui-loading i{height: 90px;width:90px; display: block;
+		background: url(assets/img/loading-2.gif) no-repeat center center;background-size:auto auto;position: absolute;z-index: 2
+		}
+</style>
+
+     <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >教练管理 >> 编辑教练</h3>
+            </div>
+      
+        </div>
+		
+		<h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">基本资料</h4>
+		<form class="form-horizontal form-label-left" id="editForm">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12 has-feedback" style="height:165px;">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+						
+							<div class="item form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">姓名 <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+								    <input name="name" ng-model="editData.name" type="text" placeholder="请输入教练姓名" class="form-control" >
+                                   
+								</div>
+							</div>
+							<div class="item form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">性别 <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+								   <select name="sex" ng-model="editData.sex" class="form-control" ng-init="editData.sex='1'">
+                                            <option value="1">男</option>
+											<option value="2">女</option>
+                                   </select>
+								</div>
+							</div>
+								<div class="item form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">联系地址 <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+								   <input type="text" name="address" class="form-control"   placeholder="请输入联系人姓名" ng-model="editData.address" >
+							 
+								</div>
+							</div>
+						
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12 has-feedback">
+						
+							<div class="item form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">身份证号 <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+								    <input name="idcard" ng-model="editData.idcard" readonly class="form-control"  >
+							 
+								</div>
+							</div>
+						
+						
+							<div class="item form-group">
+								<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">手机号码 <span class="required">*</span>
+								</label>
+								<div class="col-md-8 col-sm-8 col-xs-12">
+								   <input name="mobile" ng-model="editData.mobile" type="text" placeholder="请输入手机号码" class="form-control">
+                                     
+								</div>
+							</div>
+					</div>
+				</div>
+          
+			</div>
+	
+			<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">教练头像&nbsp;&nbsp;&nbsp;<p><button type="button"  class="btn btn-success btn-sm updateImg" ng-click="uploadHeadImg('2')">选择照片</button></p></label>
+					<div class="col-md-9 col-sm-9 col-xs-12">
+							<img  ng-src="assets/images/user.png" id="headImage" alt="" class="img-responsive z-radios5"  style="width:100px;height:122px">&nbsp;								
+					
+					</div>
+				</div>
+			</div>
+			
+			<input name="photo_url" id="photo_url" type="hidden"/>
+			<input name="imgeArray" id="imgeArray" type="hidden"/>
+		</div>
+
+		<div class="row">
+			<h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">带教信息</h4>
+			<div class="col-md-4 col-sm-4 col-xs-12 has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">准驾车型 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					   <select name="dripermitted" class="form-control" ng-model="editData.dripermitted" ng-init="editData.dripermitted='C1'">
+                            <option ng-repeat="v in carTypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                        </select>
+					</div>
+				</div>
+				
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">驾驶证号 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					   <input name="drilicence" ng-model="editData.drilicence" type="text" placeholder="请输入教练驾驶证号" class="form-control" >
+                       
+					</div>
+				</div>
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">驾驶证初领日期 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					   <input ng-click="initCheckDate1($event)" id="fstdrilicdate" name="fstdrilicdate"    type="text"  placeholder="点击选择日期" class="form-control" >
+                      
+						
+					</div>
+				</div>
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">起教时间 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input ng-click="initCheckDate2($event)" id="teachStartDate" name="teachStartDate"     type="text"  placeholder="点击选择日期" class="form-control" >
+                     
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">准教车型 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select name="teachpermitted" class="form-control" ng-model="editData.teachpermitted" ng-init="editData.teachpermitted='C1'">
+                          <option ng-repeat="v in carTypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                      </select>
+					</div>
+				</div>
+				
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">驾驶证过期日期 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input  onclick="initCheckDate(this)" id="expireDate" name="expireDate"     type="text"  placeholder="点击选择日期" class="form-control" >
+                     
+					</div>
+				</div>
+				
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">驾龄 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input id="driving"  name="driving" ng-model="editData.driving"  type="text" readonly placeholder="" class="form-control" >
+            
+					</div>
+				</div>
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">教龄 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input id="teaching"  name="teaching" ng-model="editData.teaching"  type="text" readonly placeholder="" class="form-control" >
+                
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		 <h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">供职信息</h2>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">供职方式 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+						<select name="workType" ng-model="editData.workType" class="form-control" ">
+							<option value="1">直营</option>
+							<option value="2">加盟</option>
+							<option value="3">挂证</option>
+						</select>
+					</div>
+				</div>
+				
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">供职状态 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select name="employstatus" ng-model="editData.employstatus" class="form-control" ng-init="editData.employstatus='0'">
+							<option value="0">在职</option>
+							<option value="1">离职</option>
+					  </select>
+					</div>
+				</div>
+			</div>
+  
+         </div>
+		 
+		 <div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				
+					<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">入职日期 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+						<input onclick="initCheckDate(this)" id="hiredate" name="hiredate"  type="text" placeholder="点击选择日期" class="form-control" >
+					</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				
+				<label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">离职日期 </label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					 <input onclick="initCheckDate(this)" id="leavedate" name="leavedate"  type="text" placeholder="点击选择日期" class="form-control" >
+				</div>
+				
+			</div>
+  
+         </div>
+		 
+		  <h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">教练展示</h2>
+		   <div class="row" ng-if="isImage!='0'">
+			<div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback" > &nbsp;&nbsp;&nbsp;<input type="checkbox" id="SelectAll"  ng-click="selectAll()"/>全选</div>
+		  </div>
+		 
+		   <div class="row" >
+				<div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback" id="showImgDiv">
+					
+					<div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback"  ng-repeat="item in imageData">
+						<div style="float:left; padding:2px;" >
+							 <a ng-href="{{baseImgurl}}{{item.imgeKey}}" target="view_window">  <img style="width:174px;height:124px;" id="imgUrl_" ng-src="{{baseImgurl}}{{item.imgeKey}}"/></a>
+						</div>
+						<div style="float:left; padding:2px;">
+							<div class="item form-group"><p><input class="subcheck" type="checkbox" value="{{item.id}}" ng-click="setSelectAll(data.complainid)"/></p><p>&nbsp;</p>
+								<!-- <p><button type="button" class="btn btn-default btn-sm" style="background-color:#e7e7ea"  ng-click="resetImage($event)">&nbsp;&nbsp;重置&nbsp;&nbsp;</button></p> -->
+							</div>  
+						</div> 
+					</div>
+
+				</div>
+		   </div>
+		   
+		   <div class="row" ng-if="isImage!='0'">
+				<div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback" >
+					<button type="button" class="btn btn-default btn-sm" style="background-color:#e7e7ea"  ng-click="resetImage()">&nbsp;&nbsp;删除&nbsp;&nbsp;</button>
+				</div>
+		   </div>
+		  
+		  <div class="row" >
+		     <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
+					 <button type="button" class="btn"  style="height:124px;width:100px;background-color:#e7e7ea;" ng-click="uploadImg()">
+						 <p style="font-size:10px;"><span style="font-size:10px;">&nbsp;</span></p>
+						  <p style="font-size:15px;color:#868686;">添加图片</p>
+						  <p style="font-size:15px;color:#868686;"><span style="font-size:36px;">+</span></p>
+					</button>
+			</div>
+			
+			<div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback" id="imgDiv">
+			</div>
+			
+
+		  </div>
+		  <div class="row" >
+				<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" id="imgDiv">
+					<div class="item form-group text-center">
+					  <button class="btn btn-success btn-lg" type="submit">&nbsp;&nbsp;提交&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  
+					  <button type="button" class="btn btn-default btn-lg" ng-click="goback()">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+					
+					</div>
+				
+				</div>
+		 </div>
+		</form>
+    
+	
+
+
+
+
+
+

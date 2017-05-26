@@ -1,0 +1,91 @@
+ /* CSS Document */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,a,div,img{ padding: 0; margin: 0; box-sizing: border-box;}
+table{border-collapse:separate;border-spacing:0;}
+img {border: 0;margin:0; } 
+ul,li{list-style: none;} 
+h1,h2,h3,h4,h5,h6{font-weight: normal;font-size: 100%;} 
+a{text-decoration:none;}
+a:hover{text-decoration:underline;}
+body{ font-size: 14px;color: #514339;font-family:"微软雅黑";}
+.full{ width: 100%; max-width: 640px; margin: 0 auto;}
+/*CSS初始化结束*/
+
+/*common*/
+.red{color:#e51626;}
+.orange{color: #F59213;}
+.visibility{visibility:hidden;}
+.show{display:block;}
+.hide{display:none;}
+/* 遮罩类 */
+#loading {position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 9995; background: rgba(0,0,0,.5) url(../../../public/img/loading.gif) no-repeat center center;}
+
+/*申请报名*/
+.recommend-bacolor{background:#fce138;}
+.recommend-bacolor .auto{overflow:hidden;}
+.recommend-bacolor .auto img{width:100%;}
+.recommend-bacolor .reco-text{font-size:16px;text-align:center;line-height:30px;}
+.recommend-bacolor .form-submit{text-align:center;margin-top:12%;}
+.recommend-bacolor .form-submit input{display:inline-block; outline: none; width:72.5%;height:55px;border:solid 1px #e51626;border-radius:10px;font-family:"微软雅黑";font-size:18px;}
+.recommend-bacolor .form-submit input:nth-child(1){background:none;text-align:center;color:#e51626;}
+.recommend-bacolor .form-submit input:nth-child(2){margin-top:6%;background:#e51626;color:#fff;}
+.recommend-bacolor .guizhi{margin:10% 0 20px 0;position:relative;text-align:center;height:18px;}
+.recommend-bacolor .guizhi span{display:block;width:100%;height:1px;background:#e51626;position:absolute;left:0;top:12px;}
+.recommend-bacolor .guizhi a{display:block;width:120px;color:#e51626;position:absolute;left:50%;top:0;margin-left:-60px; background:#fce138;padding:0 5px;font-size:16px;}
+.recommend-bacolor .download{text-align:center;margin-top:15%;}
+.recommend-bacolor .download #download{width:72.5%;height:55px; outline: none; border:solid 1px #e51626;background:#e51626;color:#fff;border-radius:10px;  font-family:"微软雅黑"; }
+#success {animation-duration: 1s;-webkit-animation-duration: 1s;}
+#tishi-two{display:none;}
+.now-receive,.already-receive{ display: none;}
+#tishi-three{display:none; margin: 10% 0 0;}
+
+
+
+
+ /*推荐有奖*/
+.share-bacolor{ background: #fff;}
+.d-share-banner{ width: 100%; background: #F8F8F8;}
+.d-share-banner img{ width: 100%; display: block;}
+.share-bacolor .reco-text{ font:16px/30px "微软雅黑"; color:#919191; margin: 18% 0; text-align:center;}
+.share-bacolor .form-submit input{ border:solid 1px #F59213;}
+.share-bacolor .form-submit input:nth-child(1){ color:#F59213;}
+.share-bacolor .form-submit input:nth-child(2){ background:#F59213;}
+.share-bacolor .guizhi span{ background:#ECECEC;}
+.share-bacolor .guizhi a{ color:#F59213; background:#fff;}
+
+
+ /*媒体查询*/
+@media(max-width:320px) { 
+	.font-big-size{font-size:14px!important;}
+	.font-sm-size{font-size:10px!important;}
+}
+@media(min-width:320px) and (max-width:360px) { 
+	.font-big-size{font-size:16px!important;}
+	.font-sm-size{font-size:12px!important;}
+}
+
+@media(min-width:360px) and (max-width:480px) { 
+	.font-big-size{font-size:18px!important;}
+	.font-sm-size{font-size:14px!important;}
+}
+
+@media(min-width:480px) and (max-width:640px) { 
+	.font-big-size{font-size:20px!important;}
+	.font-sm-size{font-size:16px!important;}
+}
+
+@media(min-width:640px) and (max-width:768px) { 
+	.font-big-size{font-size:22px!important;}
+	.font-sm-size{font-size:18px!important;}
+}
+
+@media(min-width:768px) {
+	.font-big-size{font-size:24px!important;} 
+	.font-sm-size{font-size:20px!important;}
+}
+
+
+
+
+
+
+

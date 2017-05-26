@@ -1,0 +1,49 @@
+<div class="edit-alert edit-notice-searchStudent">
+    <div class="mask"></div>
+    <div class="main">
+        <div id="edit-notice-searchStudent" class="content" style="width: 750px;">
+            <div class="title">选择学员 <span class="studentCloseAlert"></span></div>
+            <div class="con-main">
+                <div class="form-inline z-mb20">
+                    <div class="form-group z-mr20">
+                        <label>姓名</label>
+                        <input id="studentName" class="form-control">
+                    </div>
+                    <div class="form-group z-mr20">
+                        <label>电话</label>
+                        <input id="studentPhone" class="form-control">
+                    </div>
+                    <div class="form-group" style="margin-left: 30px">
+                        <button class="btn btn-sm btn-primary" ng-click="studentSearch()">搜索</button>
+                        <button class="btn btn-sm btn-default" ng-click="studentRest()">重置</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-with-style">
+                        <tr>
+                            <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+
+                            <td><b>姓名</b></td>
+                            <td><b>手机号</b></td>
+                            <td><b>所属城市</b></td>
+                            <td><b>所属驾校</b></td>
+                            <td><b>学员状态</b></td>
+                        </tr>
+                        <tr ng-repeat="studentData in studentDatas">
+                            <td align="center"><input type="checkbox" id="{{studentData.studentId}}" ng-click="updateSelection($event,studentData.studentId)" ng-checked="isSelected(studentData.studentId)"></td>
+                            <td ng-bind="studentData.name"></td>
+                            <td ng-bind="studentData.phoneNum"></td>
+                            <td ng-bind="studentData.cityName"></td>
+                            <td ng-bind="studentData.schoolName"></td>
+                            <td ng-bind="(studentData.applyexam+','+studentData.applystate) | studentStateText"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="chaozuo" id="submitButton">
+                    <a class="btn btn-sm btn-default" ng-click="studentSearchCancle()">取消</a>
+                    <a ng-click="choseStudent()"  class="btn btn-sm btn-primary">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

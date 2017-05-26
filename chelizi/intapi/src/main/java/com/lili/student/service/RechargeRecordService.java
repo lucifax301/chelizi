@@ -1,0 +1,75 @@
+package com.lili.student.service;
+
+import java.util.List;
+import java.util.Date;
+import com.lili.student.vo.RechargeRecordQuery;
+import com.lili.student.vo.RechargeRecordVo;
+
+public interface RechargeRecordService {
+
+  public void addRechargeRecord(RechargeRecordVo rechargerecordVo)  throws Exception;
+  public void addRechargeRecordList(List<RechargeRecordVo> rechargerecordVoList)  throws Exception;
+  public void delRechargeRecordById(Integer rrid)  throws Exception;
+  public void delRechargeRecordByIds(List<Integer> ids)  throws Exception;
+  public void delRechargeRecordByObj(RechargeRecordVo rechargerecordVo)  throws Exception;
+  public void saveRechargeRecord(RechargeRecordVo rechargerecordVo)  throws Exception;
+  public void saveRechargeRecordList(List<RechargeRecordVo> rechargerecordVoList)  throws Exception;
+  public int updateByRrid(RechargeRecordVo rechargerecordVo,Integer rrid)  throws Exception;
+  public int updateByStudentId(RechargeRecordVo rechargerecordVo,Long studentId)  throws Exception;
+  public int updateByName(RechargeRecordVo rechargerecordVo,String name)  throws Exception;
+  public int updateByMobile(RechargeRecordVo rechargerecordVo,String mobile)  throws Exception;
+  public int updateByCompany(RechargeRecordVo rechargerecordVo,String company)  throws Exception;
+  public int updateByVtype(RechargeRecordVo rechargerecordVo,Integer vtype)  throws Exception;
+  public int updateByCharge(RechargeRecordVo rechargerecordVo,Integer charge)  throws Exception;
+  public int updateByRecharge(RechargeRecordVo rechargerecordVo,Integer recharge)  throws Exception;
+  public int updateByWaterId(RechargeRecordVo rechargerecordVo,String waterId)  throws Exception;
+  public int updateByRcid(RechargeRecordVo rechargerecordVo,Integer rcid)  throws Exception;
+  public int updateByRcname(RechargeRecordVo rechargerecordVo,String rcname)  throws Exception;
+  public int updateByPayWay(RechargeRecordVo rechargerecordVo,String payWay)  throws Exception;
+  public int updateByPayTime(RechargeRecordVo rechargerecordVo,Date payTime)  throws Exception;
+  public int updateByGetTime(RechargeRecordVo rechargerecordVo,Date getTime)  throws Exception;
+  public int updateByVstate(RechargeRecordVo rechargerecordVo,Integer vstate)  throws Exception;
+  public int updateByReason(RechargeRecordVo rechargerecordVo,String reason)  throws Exception;
+  public int updateByIsdel(RechargeRecordVo rechargerecordVo,Integer isdel)  throws Exception;
+  public int updateByCuid(RechargeRecordVo rechargerecordVo,Long cuid)  throws Exception;
+  public int updateByMuid(RechargeRecordVo rechargerecordVo,Long muid)  throws Exception;
+  public int updateByCtime(RechargeRecordVo rechargerecordVo,Date ctime)  throws Exception;
+  public int updateByMtime(RechargeRecordVo rechargerecordVo,String mtime)  throws Exception;
+  public int updateNotNullByObject(RechargeRecordVo rechargerecordVo,RechargeRecordVo search)  throws Exception;
+  public int updateAllByObject(RechargeRecordVo rechargerecordVo,RechargeRecordVo search)  throws Exception;
+  public RechargeRecordVo queryRechargeRecordById(Integer rrid)  throws Exception;
+  public List<RechargeRecordVo> queryRechargeRecordByIds(List<Integer> ids,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByObjectAnd(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public Integer countByObject(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByObjectOr(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByRrid(Integer rrid,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByStudentId(Long studentId,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByName(String name,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByMobile(String mobile,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByCompany(String company,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByVtype(Integer vtype,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByCharge(Integer charge,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByRecharge(Integer recharge,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByWaterId(String waterId,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByRcid(Integer rcid,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByRcname(String rcname,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByPayWay(String payWay,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByPayTime(Date payTime,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByGetTime(Date getTime,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByVstate(Integer vstate,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByReason(String reason,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByIsdel(Integer isdel,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByCuid(Long cuid,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByMuid(Long muid,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByCtime(Date ctime,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByMtime(String mtime,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew0(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew1(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew2(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew3(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew4(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew5(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew6(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+  public List<RechargeRecordVo> queryByNew7(RechargeRecordVo rechargerecordVo,RechargeRecordQuery rechargerecordQuery)  throws Exception;
+
+}

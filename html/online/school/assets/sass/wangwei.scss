@@ -1,0 +1,69 @@
+/*---------------
+porject:xc.lilixc.com
+author:wangwei
+time:2016-3-3
+nameSpace:w-
+---------------*/
+@import 'common.scss';
+/*学员置状态失败*/
+.change-error-students .content{width:50%;}
+
+/*修改密码*/
+.w-change-password{font-family:"微软雅黑";}
+.w-change-password label{font-weight:300;}
+.w-change-password a.btn{padding-left:15px;padding-right:15px;letter-spacing:3px;}
+.w-change-password .error{font-size:18px;}
+.w-change-password input.form-control{width:60%;float:left;}
+.w-change-password .error,
+.w-change-password .succes{margin-left:10px;line-height:35px;}
+.w-change-password .error em{font-size:14px;font-style:normal;margin-left:5px;}
+
+/*置学员状态*/ 
+#queshizl{display:none;} 
+ 
+/*驾校-提现*/
+.w-withdraw-top{height:60px;border-bottom:solid 1px $table-border-color;padding-bottom:20px;}
+.w-balance{margin:$mr-default 0;border:solid 1px $table-border-color;border-radius:$border-default;}
+.w-balance .block{overflow:hidden;padding:15px;}
+.w-balance .block.top-block{background:$orange;border-bottom:solid 1px $table-border-color}
+.w-balance .block .left{float:left;width:150px;height:30px;line-height:30px;}
+.w-balance .block .left.text{text-indent:25px;}
+.w-balance .block .right{float:left;}
+.w-balance .block .right>input{float:left;width:300px;}
+.w-balance .block .right>.error{line-height:35px;margin-left:10px;}
+.w-balance .block .right>.error i{font-size:20px;margin-left:10px;float:left;}
+.w-balance .block .right>.card{padding:10px 10px 0;background:$header-color;border:solid 1px $table-border-color;border-radius:$border-default;}
+.w-balance .zhu{margin-left:150px;padding:10px 20px 20px;}
+.w-balance .block .right a.zhmi{margin:5px 0 0 10px;display:inline-block;}
+.w-msg{line-height:25px;padding:20px;border-radius:$border-default;}
+.w-msg .block{overflow:hidden;}
+.w-msg i{font-size:20px;margin-right:5px;float:left;}
+.w-error{border:solid 1px #F0E9CF;background:$orange;}
+.w-success{border:solid 1px #BAE8B7;background:#DEFED9;}
+.w-balance-other .topth{background:$header-color;border-bottom:solid 1px $table-border-color;}
+.w-balance-other .bottom{overflow:hidden;padding:40px;}
+.w-balance-other .bottom .jindu{overflow:hidden;}
+.w-balance-other .bottom .item{width:150px;height:auto;float:left;text-align:center;}
+.w-balance-other .bottom .item1{margin-left:180px;position:relative;}
+.w-balance-other .bottom .item1>i{width:260px;height:4px;background:#DBDBDB;display:block;position:absolute;right:110px;top:15px;}
+.w-balance-other .bottom .item1.active>i{background:#F69209;}
+.w-balance-other .bottom .item>span{width:35px;height:35px;border-radius:35px;background:#DBDBDB;display:inline-block;text-align:center;line-height:35px;color:#fff;font-size:22px;}
+.w-balance-other .bottom .item>h1{font-size:14px;font-weight:bold;color:#DBDBDB;margin:8px 0;}
+.w-balance-other .bottom .item .light{color:#DBDBDB;}
+.w-balance-other .bottom .item.active>span{background:#F69209;}
+.w-balance-other .bottom .item.active>h1{color:#F69209;}
+.w-balance-other .bottom .more{clear:both;border-top:dashed 1px $table-border-color;text-indent:25px;margin-top:20px;padding-top:15px;}
+
+
+
+
+@media(max-width:768px) { 
+	.change-error-students .content{width:90%;}
+}
+
+
+
+ 
+
+
+

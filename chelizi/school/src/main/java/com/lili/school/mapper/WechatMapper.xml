@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatMapper" >
+ 
+ <resultMap id="BaseResultMap" type="com.lili.school.dto.School" >
+    <id column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="coachCount" property="coachCount" jdbcType="INTEGER" />
+    <result column="carCount" property="carCount" jdbcType="INTEGER" />
+    <result column="trfieldCount" property="trfieldCount" jdbcType="INTEGER" />
+    <result column="lge" property="lge" jdbcType="DECIMAL" />
+    <result column="lae" property="lae" jdbcType="DECIMAL" />
+    <result column="orderNum" property="orderNum" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="tell" property="tell" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="storeCount" property="storeCount" jdbcType="INTEGER" />
+    <result column="packageCount" property="packageCount" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.school.dto.SchoolWithBLOBs" extends="BaseResultMap" >
+    <result column="image" property="image" jdbcType="LONGVARCHAR" />
+    <result column="schoolInfo" property="schoolInfo" jdbcType="LONGVARCHAR" />
+    <result column="regInfo" property="regInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+		 t1.schoolId, t1.cityId, t1.name,t1.logo, t1.icon,
+         t1.lge, t1.lae, t1.orderNum, t1.extra,t1.image, t1.schoolInfo, t1.regInfo, t1.tell,
+          t1.address, t1.storeCount
+	</sql>
+	
+	<sql id="School_Column_List" >
+	    schoolId, name, coachCount, carCount, cityId, address, phoneNum, jstId, tell, score,
+	    logo, icon, trfieldCount, lge, lae, orderNum, extra, storeCount, packageCount, showState
+  </sql>
+	
+  <select id="countBySchoolId" parameterType="int" resultType="int">
+   SELECT count(*) FROM t_wechat_enroll_order WHERE ttid IN (SELECT ttId FROM t_wechat_enroll_package WHERE schoolId=#{schoolId})
+  </select>
+	
+	 <select id="searchSchool" resultMap="ResultMapWithBLOBs">
+	 SELECT   <include refid="Base_Column_List" />,
+			  IFNULL(t6.sumCount,0) as score,
+			  IFNULL(IFNULL(t2.sumCount,t1.trfieldCount),0) as trfieldCount,
+			  IFNULL(IFNULL(t3.sumCount,t1.coachCount),0) as coachCount,
+		      IFNULL(IFNULL(t5.sumCount,t1.carCount),0) as carCount,
+			(select count(*) from t_wechat_enroll_package where schoolId=t1.schoolId and cstate=2 and ostate=2) as packageCount
+		 FROM t_s_school AS t1 
+		 LEFT JOIN (SELECT COUNT(trainFieldId) sumCount,schoolId FROM t_s_trfield where isdel=0 GROUP BY schoolId) AS t2 ON t1.schoolId = t2.schoolId
+		 LEFT JOIN (SELECT AVG(score) sumCount,schoolId FROM t_wechat_comment GROUP BY schoolId) AS t6 ON t1.schoolId = t6.schoolId
+		 LEFT JOIN (SELECT COUNT(coachId) sumCount,schoolId FROM t_u_coach GROUP BY schoolId) AS t3 ON t1.schoolId = t3.schoolId
+		 LEFT JOIN (SELECT COUNT(carId) sumCount,schoolId FROM t_p_car GROUP BY schoolId) AS t5 ON t1.schoolId = t5.schoolId
+		where t1.showState=2
+			<trim suffixOverrides=",">
+				<if test="schoolId != null and schoolId != ''">
+					and t1.schoolId = #{schoolId}
+				</if>
+			</trim>
+			order by packageCount DESC,t1.schoolId asc 
+	</select> 
+	
+	 <select id="querySchoolInfo" resultMap="ResultMapWithBLOBs">
+	 	SELECT <include refid="Base_Column_List" />,
+			  IFNULL(t6.sumCount,0) as score,
+			  IFNULL(IFNULL(t2.sumCount,t1.trfieldCount),0) as trfieldCount,
+			  IFNULL(IFNULL(t3.sumCount,t1.coachCount),0) as coachCount,
+		      IFNULL(IFNULL(t5.sumCount,t1.carCount),0) as carCount
+		 FROM t_s_school AS t1 
+		 LEFT JOIN (SELECT COUNT(trainFieldId) sumCount,schoolId FROM t_s_trfield where isdel=0 GROUP BY schoolId) AS t2 ON t1.schoolId = t2.schoolId
+		 LEFT JOIN (SELECT AVG(score) sumCount,schoolId FROM t_wechat_comment GROUP BY schoolId) AS t6 ON t1.schoolId = t6.schoolId
+		 LEFT JOIN (SELECT COUNT(coachId) sumCount,schoolId FROM t_u_coach GROUP BY schoolId) AS t3 ON t1.schoolId = t3.schoolId
+		 LEFT JOIN (SELECT COUNT(carId) sumCount,schoolId FROM t_p_car GROUP BY schoolId) AS t5 ON t1.schoolId = t5.schoolId
+		where t1.showState=2
+			<trim suffixOverrides=",">
+				<if test="schoolId != null and schoolId != ''">
+					and t1.schoolId = #{schoolId}
+				</if>
+			</trim>
+	</select> 
+	
+	
+	 <select id="searchSchoolHasClass" resultMap="BaseResultMap" parameterType="com.lili.school.dto.School" >
+	 		select <include refid="School_Column_List" /> from t_s_school where schoolId in (select schoolId from t_wechat_enroll_package where  cstate=2 and ostate=2) and  cityId=#{cityId,jdbcType=INTEGER}
+	 </select> 
+	 
+	 <select id="searchSchoolNoClass" resultMap="BaseResultMap" parameterType="com.lili.school.dto.School" >
+	 		select <include refid="School_Column_List" /> from t_s_school where schoolId not in (select schoolId from t_wechat_enroll_package where  cstate=2 and ostate=2) and  cityId=#{cityId,jdbcType=INTEGER}
+	 </select> 
+	
+	<update id="deleteOrder" parameterType="long">
+	    update t_wechat_enroll_order set isdel=1 where studentId=#{studentId} and payState!=100
+	</update>
+	
+	<select id="getCommentListBySchoolId" resultType="com.lili.school.dto.WechatComment">
+	   SELECT commentId,studentId,openId,NAME,score,COMMENT,pic,schoolId,(SELECT IFNULL(AVG(score),0) FROM t_wechat_comment WHERE schoolId=#{schoolId}) avgScore
+	,(SELECT COUNT(*) FROM t_wechat_comment_praise WHERE commentId=tc.commentId) sumPraise,createTime,(SELECT COUNT(*) FROM t_wechat_comment_praise WHERE commentId=tc.commentId AND studentId=#{studentId}) extra
+	FROM t_wechat_comment tc WHERE tc.schoolId=#{schoolId} ORDER BY createTime desc LIMIT #{start},#{end}
+	</select>
+	
+	 <select id="searchTrfieldBySchoolId" resultType="com.lili.coach.dto.Trfield"
+		parameterType="java.lang.Integer">
+		select
+		trainFieldId,schoolId,lge,lae,posDesc,reverseLim,phoneNum,region,name,isdel
+		from t_s_trfield
+		where isdel=0 and schoolId = #{schoolId,jdbcType=INTEGER} order by trainFieldId
+	</select>
+	
+	<select id="getTrfieldBySchoolId" resultType="com.lili.coach.dto.Trfield">
+	   select * from t_s_trfield where schoolId=#{schoolId} and isdel=0 order by trainFieldId asc limit 0,#{size}
+	</select>
+	
+	<select id="getTrfieldCount" parameterType="string" resultType="int">
+	  select count(*)  from t_s_trfield where schoolId=#{schoolId} and isdel=0 
+	</select>
+
+	
+</mapper>

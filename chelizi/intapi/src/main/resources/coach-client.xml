@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:reference id="coachService" interface="com.lili.coach.service.CoachService" check="false" />
+    <dubbo:reference id="courseService" interface="com.lili.course.service.CourseService" check="false" />
+    <dubbo:reference id="courseSManager" interface="com.lili.coach.manager.CourseSManager" check="false" />
+    <dubbo:reference id="coachManager" interface="com.lili.coach.manager.CoachManager" check="false" />
+    <dubbo:reference id="coachCarManager" interface="com.lili.coach.manager.CoachCarManager" check="false" />
+    <dubbo:reference id="carManager" interface="com.lili.coach.manager.CarManager" check="false" />
+    <!-- <dubbo:reference id="schoolManager" interface="com.lili.coach.manager.SchoolManager" check="false" /> -->
+    <dubbo:reference id="trfieldManager" interface="com.lili.coach.manager.TrfieldManager" check="false" />
+    <dubbo:reference id="trfieldsManager" interface="com.lili.coach.manager.TrfieldsManager" check="false" />
+    <dubbo:reference id="trfieldRawManager" interface="com.lili.coach.manager.TrfieldRawManager" check="false" />
+    <!-- <dubbo:reference id="noticeManager" interface="com.lili.coach.manager.NoticeManager" check="false" /> -->
+    <dubbo:reference id="arrangeTimeManager" interface="com.lili.coach.manager.ArrangeTimeManager" check="false" />
+    <dubbo:reference id="regionManager" interface="com.lili.coach.manager.RegionManager" check="false" />
+    <dubbo:reference id="brandCarManager" interface="com.lili.coach.manager.BrandCarManager" check="false" />
+</beans>

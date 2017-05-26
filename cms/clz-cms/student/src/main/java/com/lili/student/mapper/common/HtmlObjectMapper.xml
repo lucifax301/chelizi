@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.common.HtmlObjectMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.file.dto.HtmlObject" >
+    <id column="hid" property="hid" jdbcType="INTEGER" />
+    <result column="hname" property="hname" jdbcType="VARCHAR" />
+    <result column="hdescription" property="hdescription" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="html" property="html" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Batch_Column_List" >
+    hid, hname, hdescription, url, extra, ctime, mtime,html
+  </sql>
+  
+  <sql id="View_Column_List" >
+    hid, hname, hdescription, url, extra, ctime, mtime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Batch_Column_List" />
+    from t_u_html
+    where hid = #{hid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findBatch" resultMap="BaseResultMap"  >
+    select 
+    <include refid="View_Column_List" />
+    from t_u_html
+  </select>
+  
+  
+</mapper>

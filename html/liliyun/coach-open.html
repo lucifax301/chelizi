@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CoachOpen">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>注册教练</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <link href="assets/common/autoSelectCitys/style/css.css" rel="stylesheet" type="text/css" />
+    <style>
+        .selectCity{ margin-bottom: 20px; height: 30px;}
+        .search-citys{ margin: 0; float: left;}
+        .selectCity .dl{ width: 100px; float: left; line-height: 30px; color: #888;}
+        .search-citys input.text{ width: 385px; margin-right: 0;}
+        .search-citys .search-citys-pop{ top: 33px; width: 385px; border-radius: 4px;}
+    </style>
+	<script src="assets/common/js/commonStart.js"></script>
+
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+        <div class="d-title">注册教练</div>
+        <ul class="table-li" id="table-li">
+            <li ng-if="120301|isAccessShow"><a href="coach.html">内部教练</a></li>
+            <li class="active" ng-if="120319|isAccessShow"><a href="coach-open.html">注册教练</a></li>
+        </ul>
+        <div class="z-m20">
+            <div class="table-margin common-table">
+                <div class="header">教练列表</div>
+                <div class="content">
+                    <div class="search">
+                        <div class="line">
+                            <div>认证状态</div>
+                            <ul>
+                                <li ng-click="getDataForVerify($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForVerify($event,0)">未认证</li>
+                                <li ng-click="getDataForVerify($event,2)">已认证</li>
+                                <li ng-click="getDataForVerify($event,1)">待审核</li>
+                                <li ng-click="getDataForVerify($event,3)">认证失败</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>性别</div>
+                            <ul>
+                                <li ng-click="getDataForSex($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForSex($event,0)">女</li>
+                                <li ng-click="getDataForSex($event,1)">男</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>账号状态</div>
+                            <ul>
+                                <li ng-click="getDataForState($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForState($event,0)">正常</li>
+                                <li ng-click="getDataForState($event,1)">临时封号</li>
+                                <li ng-click="getDataForState($event,2)">永久封号</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>高级查询</div>
+                            <div class="input-group search-more-condition" style="width: 438px">
+                                <select id="search_type" ng-model="searchType" class="form-control">
+                                    <option value="name" selected="selected">姓名</option>
+                                    <option value="phoneNum">电话</option>
+                                </select>
+                                <input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入教练姓名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+                            </div>
+                        </div>
+                        <div class="selectCity">
+                            <div class="dl">来源城市</div>
+                            <div class="search-citys">
+                                <div class="input-group">
+                                    <input class="text form-control" id="city_name" type="text" value="请输入城市中文或拼音 / 点击选择城市" onKeyUp="input_keyup();" onClick="append_city();" onBlur="input_blur()" onFocus="if(value=='请输入城市中文或拼音 / 点击选择城市'){value='';style.color='#606060';}" />
+                                <span class="input-group-btn">
+                                    <a class="btn btn-default" ng-click="getDataForCity()">搜索</a>
+                                </span>
+                                </div>
+
+                                <input class="text" id="hid_city_name" name="index_city" style="display:none">
+                                <input class="text" id="hid_real_city_name" name="real_index_city" style="display:none">
+                                <!--热门城市下拉-->
+                                <div class="pop search-citys-pop click" style="display:none;z-index:9999" id="cityarea">
+                                    <a href="javascript:void(0)" class="pop-close" ></a>
+                                    <div class="search-citys-tit click">热门城市(可直接输入中文名/拼音/三字码)</div>
+                                    <div class="search-citys-tt click">
+                                        <a class="current click" onClick="tabCutover(this,'s-citys1')" href="javascript:void(0)">热门<span></span></a>
+                                        <a class="click" onClick="tabCutover(this,'s-citys2')" href="javascript:void(0)">ABCDEFG<span></span></a>
+                                        <a class="click" onClick="tabCutover(this,'s-citys3')" href="javascript:void(0)">HIJKL<span></span></a>
+                                        <a class="click" onClick="tabCutover(this,'s-citys4')" href="javascript:void(0)">MNOPQRST<span></span></a>
+                                        <a class="click" onClick="tabCutover(this,'s-citys5')" href="javascript:void(0)">UVWXYZ<span></span></a>
+                                    </div>
+                                    <div class="search-citys-list click" id="citylist"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-8">
+                            <a ng-if="120320|isAccessShow" ng-click="coachEdit('add')" class="btn btn-sm btn-primary">新增教练</a>
+                            <a ng-if="120321|isAccessShow" ng-click="coachDataExport()" class="btn btn-sm btn-primary margin-left-15">数据导出</a>
+                            <a ng-if="120322|isAccessShow" ng-click="dataLock()" class="btn btn-sm btn-danger margin-left-15">封号</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-with-style">
+                            <tr>
+                                <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                                <td><b>姓名</b></td>
+                                <td><b>电话</b></td>
+                                <td><b>性别</b></td>
+                                <td><b>绑定学员</b></td>
+                                <td><b>城市</b></td>
+                                <td><b>帐号状态</b></td>
+                                <td><b>接单认证状态</b></td>
+                                <td><b>操作</b></td>
+                            </tr>
+                            <tr ng-repeat="data in datas">
+                                <td align="center"><input type="checkbox" id="{{data.coachId}}" ng-click="updateSelection($event,data.coachId)" ng-checked="isSelected(data.coachId)"></td>
+                                <td>
+                                    <a href="coach-details.html?coachId={{data.coachId}}" ng-bind="data.name" ng-if="(120304|isAccessShow)&&(120316|isAccessShow)"></a><span ng-bind="data.name" ng-if="!((120304|isAccessShow)&&(120316|isAccessShow))"></span>
+                                </td>
+                                <td ng-bind="data.phoneNum"></td>
+                                <td ng-bind="data.sex | sexText"></td>
+                                <td ng-bind="data.studentCount"></td>
+                                <td ng-bind="data.cityName"></td>
+                                <td ng-bind="data.state | accountStateText"></td>
+                                <td ng-bind="data.checkDrState|regCoachState" ng-class="{true:'z-fontred'}[data.checkDrState==1]"></td>
+                                <td class="operation">
+                                    <a href="coach-open-details.html?coachId={{data.coachId}}" target="_blank">查看</a>
+                                    <!--<span class="edit" ng-click="coachEdit('edit',data)">编辑</span>-->
+                                    <a ng-if="120324|isAccessShow" class="edit" href="coach-open-edit.html?coachId={{data.coachId}}">编辑</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 教练封号 -->
+		<ng-include src="'edit/edit-open-coach-lock.html'" onload="coachLockEditLoad()" ></ng-include>
+        <!--新增教练-->
+		<ng-include src="'edit/edit-open-coach.html'" onload="coachEditLoad()" ></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/coach-open.js"></script>
+
+<script src="assets/common/autoSelectCitys/js/selectCity.js"></script>
+<script src="assets/common/autoSelectCitys/js/cities.js"></script>
+<script src="assets/common/autoSelectCitys/js/jquery.autocomplete.js"></script>
+</body>
+</html>

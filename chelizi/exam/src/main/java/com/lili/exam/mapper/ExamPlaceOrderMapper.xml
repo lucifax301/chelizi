@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamPlaceOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamPlaceOrder" >
+    <id column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="classId" property="classId" jdbcType="INTEGER" />
+    <result column="placeId" property="placeId" jdbcType="INTEGER" />
+    <result column="placeName" property="placeName" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="drtype" property="drtype" jdbcType="TINYINT" />
+    <result column="coachId" property="coachId" jdbcType="BIGINT" />
+    <result column="coachName" property="coachName" jdbcType="VARCHAR" />
+    <result column="coachMobile" property="coachMobile" jdbcType="VARCHAR" />
+    <result column="coachImg" property="coachImg" jdbcType="VARCHAR" />
+    <result column="coachType" property="coachType" jdbcType="TINYINT" />
+    <result column="carNo" property="carNo" jdbcType="VARCHAR" />
+    <result column="device" property="device" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="favorUse" property="favorUse" jdbcType="INTEGER" />
+    <result column="favorGen" property="favorGen" jdbcType="INTEGER" />
+    <result column="favorLeft" property="favorLeft" jdbcType="INTEGER" />
+    <result column="favorInfo" property="favorInfo" jdbcType="VARCHAR" />
+    <result column="favorType" property="favorType" jdbcType="INTEGER" />
+    <result column="delay" property="delay" jdbcType="INTEGER" />
+    <result column="delayInfo" property="delayInfo" jdbcType="VARCHAR" />
+    <result column="priceTotal" property="priceTotal" jdbcType="INTEGER" />
+    <result column="couponTotal" property="couponTotal" jdbcType="INTEGER" />
+    <result column="returnTotal" property="returnTotal" jdbcType="INTEGER" />
+    <result column="refundTotal" property="refundTotal" jdbcType="INTEGER" />
+    <result column="payTotal" property="payTotal" jdbcType="INTEGER" />
+    <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="payWay" property="payWay" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="pstart" property="pstart" jdbcType="TIMESTAMP" />
+    <result column="pend" property="pend" jdbcType="TIMESTAMP" />
+    <result column="rstart" property="rstart" jdbcType="TIMESTAMP" />
+    <result column="rend" property="rend" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="codeValid" property="codeValid" jdbcType="TINYINT" />
+    <result column="validTime" property="validTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    orderId, classId, placeId, placeName, school, type, drtype, coachId, coachName, coachMobile, 
+    coachImg, coachType, carNo, device, duration, favorUse, favorGen, favorLeft, favorInfo, 
+    favorType, delay, delayInfo, priceTotal, couponTotal, returnTotal, refundTotal, payTotal, payTime, payWay, 
+    state, pstart, pend, rstart, rend, remark, ctime, mtime, extra, code, codeValid ,validTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_exam_place_order
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" >
+    delete from t_exam_place_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    insert into t_exam_place_order (orderId, classId, placeId, 
+      placeName, school, type, 
+      drtype, coachId, coachName, 
+      coachMobile, coachImg, coachType, 
+      carNo, device, duration, 
+      favorUse, favorGen, favorLeft, 
+      favorInfo, favorType, delay, 
+      delayInfo, priceTotal, couponTotal, 
+      payTotal, returnTotal, refundTotal, payTime, payWay, 
+      state, pstart, pend, 
+      rstart, rend, remark, 
+      ctime, mtime, extra, code, codeValid ,validTime
+      )
+    values (#{orderId,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, #{placeId,jdbcType=INTEGER}, 
+      #{placeName,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{drtype,jdbcType=TINYINT}, #{coachId,jdbcType=BIGINT}, #{coachName,jdbcType=VARCHAR}, 
+      #{coachMobile,jdbcType=VARCHAR}, #{coachImg,jdbcType=VARCHAR}, #{coachType,jdbcType=TINYINT}, 
+      #{carNo,jdbcType=VARCHAR}, #{device,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, 
+      #{favorUse,jdbcType=INTEGER}, #{favorGen,jdbcType=INTEGER}, #{favorLeft,jdbcType=INTEGER}, 
+      #{favorInfo,jdbcType=VARCHAR}, #{favorType,jdbcType=INTEGER}, #{delay,jdbcType=INTEGER}, 
+      #{delayInfo,jdbcType=VARCHAR}, #{priceTotal,jdbcType=INTEGER}, #{couponTotal,jdbcType=INTEGER}, 
+      #{payTotal,jdbcType=INTEGER}, #{returnTotal,jdbcType=INTEGER}, #{refundTotal,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{payWay,jdbcType=VARCHAR}, 
+      #{state,jdbcType=TINYINT}, #{pstart,jdbcType=TIMESTAMP}, #{pend,jdbcType=TIMESTAMP}, 
+      #{rstart,jdbcType=TIMESTAMP}, #{rend,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR},
+      #{code,jdbcType=INTEGER},#{codeValid,jdbcType=TINYINT},#{validTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    insert into t_exam_place_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="classId != null" >
+        classId,
+      </if>
+      <if test="placeId != null" >
+        placeId,
+      </if>
+      <if test="placeName != null" >
+        placeName,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="drtype != null" >
+        drtype,
+      </if>
+      <if test="coachId != null" >
+        coachId,
+      </if>
+      <if test="coachName != null" >
+        coachName,
+      </if>
+      <if test="coachMobile != null" >
+        coachMobile,
+      </if>
+      <if test="coachImg != null" >
+        coachImg,
+      </if>
+      <if test="coachType != null" >
+        coachType,
+      </if>
+      <if test="carNo != null" >
+        carNo,
+      </if>
+      <if test="device != null" >
+        device,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="favorUse != null" >
+        favorUse,
+      </if>
+      <if test="favorGen != null" >
+        favorGen,
+      </if>
+      <if test="favorLeft != null" >
+        favorLeft,
+      </if>
+      <if test="favorInfo != null" >
+        favorInfo,
+      </if>
+      <if test="favorType != null" >
+        favorType,
+      </if>
+      <if test="delay != null" >
+        delay,
+      </if>
+      <if test="delayInfo != null" >
+        delayInfo,
+      </if>
+      <if test="priceTotal != null" >
+        priceTotal,
+      </if>
+      <if test="couponTotal != null" >
+        couponTotal,
+      </if>
+       <if test="returnTotal != null" >
+        returnTotal,
+      </if>
+      <if test="refundTotal != null" >
+        refundTotal,
+      </if>
+      <if test="payTotal != null" >
+        payTotal,
+      </if>
+      <if test="payTime != null" >
+        payTime,
+      </if>
+      <if test="payWay != null" >
+        payWay,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="pstart != null" >
+        pstart,
+      </if>
+      <if test="pend != null" >
+        pend,
+      </if>
+      <if test="rstart != null" >
+        rstart,
+      </if>
+      <if test="rend != null" >
+        rend,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="codeValid != null" >
+        codeValid,
+      </if>
+      <if test="validTime != null" >
+        validTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="placeId != null" >
+        #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="placeName != null" >
+        #{placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="drtype != null" >
+        #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachMobile != null" >
+        #{coachMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="coachImg != null" >
+        #{coachImg,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        #{coachType,jdbcType=TINYINT},
+      </if>
+      <if test="carNo != null" >
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="favorUse != null" >
+        #{favorUse,jdbcType=INTEGER},
+      </if>
+      <if test="favorGen != null" >
+        #{favorGen,jdbcType=INTEGER},
+      </if>
+      <if test="favorLeft != null" >
+        #{favorLeft,jdbcType=INTEGER},
+      </if>
+      <if test="favorInfo != null" >
+        #{favorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="favorType != null" >
+        #{favorType,jdbcType=INTEGER},
+      </if>
+      <if test="delay != null" >
+        #{delay,jdbcType=INTEGER},
+      </if>
+      <if test="delayInfo != null" >
+        #{delayInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="priceTotal != null" >
+        #{priceTotal,jdbcType=INTEGER},
+      </if>
+      <if test="couponTotal != null" >
+        #{couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="returnTotal != null" >
+        #{returnTotal,jdbcType=INTEGER},
+      </if>
+      <if test="refundTotal != null" >
+        #{refundTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTotal != null" >
+        #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payWay != null" >
+        #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="pstart != null" >
+        #{pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pend != null" >
+        #{pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstart != null" >
+        #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rend != null" >
+        #{rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="codeValid != null" >
+        #{codeValid,jdbcType=TINYINT},
+      </if>
+      <if test="validTime != null" >
+        #{validTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_exam_place_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_exam_place_order
+    <set >
+      <if test="record.orderId != null" >
+        orderId = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classId != null" >
+        classId = #{record.classId,jdbcType=INTEGER},
+      </if>
+      <if test="record.placeId != null" >
+        placeId = #{record.placeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.placeName != null" >
+        placeName = #{record.placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.drtype != null" >
+        drtype = #{record.drtype,jdbcType=TINYINT},
+      </if>
+      <if test="record.coachId != null" >
+        coachId = #{record.coachId,jdbcType=BIGINT},
+      </if>
+      <if test="record.coachName != null" >
+        coachName = #{record.coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coachMobile != null" >
+        coachMobile = #{record.coachMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coachImg != null" >
+        coachImg = #{record.coachImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coachType != null" >
+        coachType = #{record.coachType,jdbcType=TINYINT},
+      </if>
+      <if test="record.carNo != null" >
+        carNo = #{record.carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.device != null" >
+        device = #{record.device,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duration != null" >
+        duration = #{record.duration,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorUse != null" >
+        favorUse = #{record.favorUse,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorGen != null" >
+        favorGen = #{record.favorGen,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorLeft != null" >
+        favorLeft = #{record.favorLeft,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorInfo != null" >
+        favorInfo = #{record.favorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.favorType != null" >
+        favorType = #{record.favorType,jdbcType=INTEGER},
+      </if>
+      <if test="record.delay != null" >
+        delay = #{record.delay,jdbcType=INTEGER},
+      </if>
+      <if test="record.delayInfo != null" >
+        delayInfo = #{record.delayInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priceTotal != null" >
+        priceTotal = #{record.priceTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.couponTotal != null" >
+        couponTotal = #{record.couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnTotal != null" >
+        returnTotal = #{record.returnTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundTotal != null" >
+        refundTotal = #{record.refundTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.payTotal != null" >
+        payTotal = #{record.payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.payTime != null" >
+        payTime = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payWay != null" >
+        payWay = #{record.payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.pstart != null" >
+        pstart = #{record.pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pend != null" >
+        pend = #{record.pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rstart != null" >
+        rstart = #{record.rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rend != null" >
+        rend = #{record.rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if> 
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=INTEGER},
+      </if>
+      <if test="record.codeValid != null" >
+        codeValid = #{record.codeValid,jdbcType=TINYINT},
+      </if> 
+      <if test="record.validTime != null" >
+        validTime = #{record.validTime,jdbcType=TIMESTAMP},
+      </if> 
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_exam_place_order
+    set orderId = #{record.orderId,jdbcType=VARCHAR},
+      classId = #{record.classId,jdbcType=INTEGER},
+      placeId = #{record.placeId,jdbcType=INTEGER},
+      placeName = #{record.placeName,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      drtype = #{record.drtype,jdbcType=TINYINT},
+      coachId = #{record.coachId,jdbcType=BIGINT},
+      coachName = #{record.coachName,jdbcType=VARCHAR},
+      coachMobile = #{record.coachMobile,jdbcType=VARCHAR},
+      coachImg = #{record.coachImg,jdbcType=VARCHAR},
+      coachType = #{record.coachType,jdbcType=TINYINT},
+      carNo = #{record.carNo,jdbcType=VARCHAR},
+      device = #{record.device,jdbcType=VARCHAR},
+      duration = #{record.duration,jdbcType=INTEGER},
+      favorUse = #{record.favorUse,jdbcType=INTEGER},
+      favorGen = #{record.favorGen,jdbcType=INTEGER},
+      favorLeft = #{record.favorLeft,jdbcType=INTEGER},
+      favorInfo = #{record.favorInfo,jdbcType=VARCHAR},
+      favorType = #{record.favorType,jdbcType=INTEGER},
+      delay = #{record.delay,jdbcType=INTEGER},
+      delayInfo = #{record.delayInfo,jdbcType=VARCHAR},
+      priceTotal = #{record.priceTotal,jdbcType=INTEGER},
+      couponTotal = #{record.couponTotal,jdbcType=INTEGER},
+      returnTotal = #{record.returnTotal,jdbcType=INTEGER},
+      refundTotal = #{record.refundTotal,jdbcType=INTEGER},
+      payTotal = #{record.payTotal,jdbcType=INTEGER},
+      payTime = #{record.payTime,jdbcType=TIMESTAMP},
+      payWay = #{record.payWay,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=TINYINT},
+      pstart = #{record.pstart,jdbcType=TIMESTAMP},
+      pend = #{record.pend,jdbcType=TIMESTAMP},
+      rstart = #{record.rstart,jdbcType=TIMESTAMP},
+      rend = #{record.rend,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=INTEGER},
+      codeValid = #{record.codeValid,jdbcType=TINYINT},
+      validTime = #{record.validTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    update t_exam_place_order
+    <set >
+      <if test="classId != null" >
+        classId = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="placeId != null" >
+        placeId = #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="placeName != null" >
+        placeName = #{placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="drtype != null" >
+        drtype = #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="coachId != null" >
+        coachId = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        coachName = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachMobile != null" >
+        coachMobile = #{coachMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="coachImg != null" >
+        coachImg = #{coachImg,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        coachType = #{coachType,jdbcType=TINYINT},
+      </if>
+      <if test="carNo != null" >
+        carNo = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="favorUse != null" >
+        favorUse = #{favorUse,jdbcType=INTEGER},
+      </if>
+      <if test="favorGen != null" >
+        favorGen = #{favorGen,jdbcType=INTEGER},
+      </if>
+      <if test="favorLeft != null" >
+        favorLeft = #{favorLeft,jdbcType=INTEGER},
+      </if>
+      <if test="favorInfo != null" >
+        favorInfo = #{favorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="favorType != null" >
+        favorType = #{favorType,jdbcType=INTEGER},
+      </if>
+      <if test="delay != null" >
+        delay = #{delay,jdbcType=INTEGER},
+      </if>
+      <if test="delayInfo != null" >
+        delayInfo = #{delayInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="priceTotal != null" >
+        priceTotal = #{priceTotal,jdbcType=INTEGER},
+      </if>
+      <if test="couponTotal != null" >
+        couponTotal = #{couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="returnTotal != null" >
+        returnTotal = #{returnTotal,jdbcType=INTEGER},
+      </if>
+      <if test="refundTotal != null" >
+        refundTotal = #{refundTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTotal != null" >
+        payTotal = #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        payTime = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payWay != null" >
+        payWay = #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="pstart != null" >
+        pstart = #{pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pend != null" >
+        pend = #{pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstart != null" >
+        rstart = #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rend != null" >
+        rend = #{rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+ 	  <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="codeValid != null" >
+        codeValid = #{codeValid,jdbcType=TINYINT},
+      </if>
+      <if test="validTime != null" >
+        validTime = #{validTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderId = #{orderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    update t_exam_place_order
+    set classId = #{classId,jdbcType=INTEGER},
+      placeId = #{placeId,jdbcType=INTEGER},
+      placeName = #{placeName,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      drtype = #{drtype,jdbcType=TINYINT},
+      coachId = #{coachId,jdbcType=BIGINT},
+      coachName = #{coachName,jdbcType=VARCHAR},
+      coachMobile = #{coachMobile,jdbcType=VARCHAR},
+      coachImg = #{coachImg,jdbcType=VARCHAR},
+      coachType = #{coachType,jdbcType=TINYINT},
+      carNo = #{carNo,jdbcType=VARCHAR},
+      device = #{device,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=INTEGER},
+      favorUse = #{favorUse,jdbcType=INTEGER},
+      favorGen = #{favorGen,jdbcType=INTEGER},
+      favorLeft = #{favorLeft,jdbcType=INTEGER},
+      favorInfo = #{favorInfo,jdbcType=VARCHAR},
+      favorType = #{favorType,jdbcType=INTEGER},
+      delay = #{delay,jdbcType=INTEGER},
+      delayInfo = #{delayInfo,jdbcType=VARCHAR},
+      priceTotal = #{priceTotal,jdbcType=INTEGER},
+      couponTotal = #{couponTotal,jdbcType=INTEGER},
+      returnTotal = #{returnTotal,jdbcType=INTEGER},
+      refundTotal = #{refundTotal,jdbcType=INTEGER},
+      payTotal = #{payTotal,jdbcType=INTEGER},
+      payTime = #{payTime,jdbcType=TIMESTAMP},
+      payWay = #{payWay,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      pstart = #{pstart,jdbcType=TIMESTAMP},
+      pend = #{pend,jdbcType=TIMESTAMP},
+      rstart = #{rstart,jdbcType=TIMESTAMP},
+      rend = #{rend,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      codeValid = #{codeValid,jdbcType=INTEGER},
+      validTime = #{validTime,jdbcType=TIMESTAMP}
+    where orderId = #{orderId,jdbcType=TINYINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="selectCode" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_order
+    where (state = 1 or state = 2) and placeId = #{placeId} and code = #{code} and date(pstart) = curdate() limit 1
+  </select>
+  
+  <select id="selectIncome" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+		SELECT
+			IFNULL(sum(payTotal),0)
+		FROM
+			t_exam_place_order
+		WHERE
+			placeId = #{placeId}
+		AND state = 3
+		AND date(payTime) = date_sub(curdate(), INTERVAL 1 DAY)
+		UNION ALL
+		SELECT
+			IFNULL(sum(payTotal),0)
+		FROM
+			t_exam_place_order
+		WHERE
+			placeId = #{placeId}
+			AND state BETWEEN 1 and 3 or (state = 4 and payTotal != 0)
+	</select>
+	
+	<select id="selectOrderCount" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
+		SELECT
+			count(1)
+		FROM
+			t_exam_place_order
+		WHERE
+			placeId = #{placeId}
+			AND date(pstart) = curdate()
+			AND state BETWEEN 1 and 3
+			<!-- count(1) 走索引 -->
+		UNION ALL
+		SELECT
+			count(1)
+		FROM
+			t_exam_place_order
+		WHERE
+			placeId = #{placeId}
+			AND codeValid = 1
+			AND DATE(validTime) = curdate()
+	</select>
+	
+</mapper>

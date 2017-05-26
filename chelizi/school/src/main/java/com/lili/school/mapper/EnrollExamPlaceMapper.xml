@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollExamPlaceMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollExamPlace" >
+    <id column="placeId" property="placeid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cityId" property="cityid" jdbcType="INTEGER" />
+    <result column="lge" property="lge" jdbcType="DECIMAL" />
+    <result column="lae" property="lae" jdbcType="DECIMAL" />
+    <result column="posDesc" property="posdesc" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phonenum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    placeId, name, cityId, lge, lae, posDesc, phoneNum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollExamPlaceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_exam_place
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_exam_place
+    where placeId = #{placeid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_exam_place
+    where placeId = #{placeid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollExamPlaceExample" >
+    delete from t_enroll_exam_place
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollExamPlace" >
+    insert into t_enroll_exam_place (placeId, name, cityId, 
+      lge, lae, posDesc, 
+      phoneNum)
+    values (#{placeid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{cityid,jdbcType=INTEGER}, 
+      #{lge,jdbcType=DECIMAL}, #{lae,jdbcType=DECIMAL}, #{posdesc,jdbcType=VARCHAR}, 
+      #{phonenum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollExamPlace" >
+    insert into t_enroll_exam_place
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="placeid != null" >
+        placeId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cityid != null" >
+        cityId,
+      </if>
+      <if test="lge != null" >
+        lge,
+      </if>
+      <if test="lae != null" >
+        lae,
+      </if>
+      <if test="posdesc != null" >
+        posDesc,
+      </if>
+      <if test="phonenum != null" >
+        phoneNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="placeid != null" >
+        #{placeid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityid != null" >
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        #{lge,jdbcType=DECIMAL},
+      </if>
+      <if test="lae != null" >
+        #{lae,jdbcType=DECIMAL},
+      </if>
+      <if test="posdesc != null" >
+        #{posdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollExamPlaceExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_exam_place
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_exam_place
+    <set >
+      <if test="record.placeid != null" >
+        placeId = #{record.placeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityid != null" >
+        cityId = #{record.cityid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lge != null" >
+        lge = #{record.lge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lae != null" >
+        lae = #{record.lae,jdbcType=DECIMAL},
+      </if>
+      <if test="record.posdesc != null" >
+        posDesc = #{record.posdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phonenum != null" >
+        phoneNum = #{record.phonenum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_exam_place
+    set placeId = #{record.placeid,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      cityId = #{record.cityid,jdbcType=INTEGER},
+      lge = #{record.lge,jdbcType=DECIMAL},
+      lae = #{record.lae,jdbcType=DECIMAL},
+      posDesc = #{record.posdesc,jdbcType=VARCHAR},
+      phoneNum = #{record.phonenum,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollExamPlace" >
+    update t_enroll_exam_place
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityid != null" >
+        cityId = #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        lge = #{lge,jdbcType=DECIMAL},
+      </if>
+      <if test="lae != null" >
+        lae = #{lae,jdbcType=DECIMAL},
+      </if>
+      <if test="posdesc != null" >
+        posDesc = #{posdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null" >
+        phoneNum = #{phonenum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where placeId = #{placeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollExamPlace" >
+    update t_enroll_exam_place
+    set name = #{name,jdbcType=VARCHAR},
+      cityId = #{cityid,jdbcType=INTEGER},
+      lge = #{lge,jdbcType=DECIMAL},
+      lae = #{lae,jdbcType=DECIMAL},
+      posDesc = #{posdesc,jdbcType=VARCHAR},
+      phoneNum = #{phonenum,jdbcType=VARCHAR}
+    where placeId = #{placeid,jdbcType=INTEGER}
+  </update>
+</mapper>

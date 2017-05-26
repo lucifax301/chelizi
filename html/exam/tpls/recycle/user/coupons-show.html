@@ -1,0 +1,17 @@
+<div class="coupons-show-top c{{data.type}}">
+	<div class="title">{{data.name}}</div>
+	<div class="price">
+		<span ng-if="data.type == 0"><i>￥</i>{{data.moneyvalue/100}}</span>
+		<span ng-if="data.type == 1">全额抵扣</span>
+		<span ng-if="data.type == 2">{{data.discount}}<i>折</i></span>
+	</div>
+	<p class="time">{{data.gettime|date:'yyyy.MM.dd HH:mm'}} ~ {{data.expiretime|date:'yyyy.MM.dd HH:mm'}}</p>
+</div>
+<div class="coupons-show-bottom">
+	<div class="title">
+		使用需知：
+	</div>
+	<div class="more">
+		<li ng-repeat="item in rulu">{{item}}</li>
+	</div>
+</div>

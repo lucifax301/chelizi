@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>喱喱驾培云-忘记密码</title>
+    <meta name="keywords" content="喱喱云,互联网驾校,网约平台,政府监管,驾校管理系统" />
+    <meta name="description" content="快乐学车，轻松考驾照！喱喱学车致力于推广随约随学、自主约考等一系列新理念，给您带来更多学车新体验！" />
+    <link rel="stylesheet" type="text/css" href="assets/css/base/minframe.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/website.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/PopLayer.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/chenchangji.css">
+    <script type="text/javascript" src="assets/js/thirdpart/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/validator/validator.min.js"></script>
+    <script type="text/javascript" src="assets/js/base/common.js"></script>
+    <script type="text/javascript" src="assets/js/base/PopLayer.js"></script>t>
+</head>
+<body>
+<div class="page bg-gray">
+    <div class="z-clear"></div>
+    <div class="container-wrap banner-common">
+        <div class="container">
+            <div class="apply-wrap apply-form">
+                <div class="apply-title">
+                    <h1 class="apply-title">忘记密码</h1>
+                </div>
+                <div class="form-forget-pwd">
+                    <form id="formPwd" novalidate>
+                        <div class="row">
+                            <div class="item form-group">
+                                <label><span class="f-required">*</span> 输入您的手机号码</label> 
+                                <span class="z-fontinfo z-cursorP" id="sendMsg" style="float:right;margin-top:6px;">发送短信验证码</span><br>
+                                <input id="mobile" type="text" class="smooth form-control z-full" required="required" placeholder="登录手机号码" data-validate-length-range="11,11">
+                            </div>
+                            <div class="item form-group">
+                                <label><span class="f-required">*</span> 输入手机短信获取的验证码</label>
+                                <input  id="code" type="text" class="smooth form-control z-full" required="required" placeholder="短信验证码">
+                            </div>
+                        </div>
+                        <div class="item" style="padding-left:20px;">
+                            <button type="submit" class="btn btn-a btn-sm smooth z-full z-tc apply-btn" id="submitBtn">下一步</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="z-clear"></div>	
+    <div ng-include="'web-footer.html'"></div>
+</div>
+<script>
+	var app = angular.module("app",[]);
+    $('form').on('blur', 'input[required]', validator.checkField)
+        .on('change', 'input[required]', validator.checkField)
+        .on('keyup', 'input[required]', validator.checkField);
+
+    $("#sendMsg").click(function(){
+        var submit = true;
+        if (!validator.checkField.apply($("#mobile"))) {
+            submit = false;
+        }
+        if(submit){
+            $.AJAX({
+                url : config.basePath + "open/sendPwdMsg",
+                type : "POST",
+                data : {
+                    mobile : $("#mobile").val()
+                },
+                success:function(data) {
+                    if (data.code == 0) {
+                        Layer.alert({width:300,height:150,type:"msg",title:"短信已发送至手机,请查收！"});
+                        return false;
+                    }
+                }
+            })
+        }
+    })
+
+    $("#submitBtn").click(function(){
+        var submit = true;
+        if (!validator.checkAll($("form#formPwd"))) {
+            submit = false;
+        }
+        if(submit){
+            $.AJAX({
+                url : config.basePath + "open/checkPwdCode",
+                type : "POST",
+                data:{ 
+                    code:$("#code").val()
+                },
+                success:function(data){
+                    if (data.code == 0) {
+                          window.location.href = "web-reset-pwd.html";
+                    }
+                },
+                error:function(){
+                    alert("操作失败")
+                }
+            })
+        }
+    })
+</script>
+</body>
+</html>

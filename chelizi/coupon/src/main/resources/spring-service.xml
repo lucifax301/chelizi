@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <!-- rocketmq属性文件注入 -->
+    <context:property-placeholder location="classpath*:*.properties"
+                                  ignore-unresolvable="true"/>
+
+    <bean id="qqTicketConfig" class="com.lili.coupon.qqticket.QQTicketConfig">
+        <property name="appid" value="${qq.ticket.appid}"/>
+    </bean>
+
+    <bean id="couponServiceLocal" class="com.lili.coupon.service.impl.CouponServiceImpl"/>
+
+    <bean id="conditionManager" class="com.lili.coupon.condition.ConditionManager">
+        <property name="conditionMap">
+            <map>
+                <entry key="0" value-ref="timeCondition"/>
+                <entry key="1" value-ref="regionCondition"/>
+                <entry key="2" value-ref="courseCondition"/>
+                <entry key="3" value-ref="limitGenCondition"/>
+                <entry key="4" value-ref="shareCondition"/>
+                <entry key="5" value-ref="typeCondition"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="timeCondition" class="com.lili.coupon.condition.TimeCondition"/>
+    <bean id="regionCondition" class="com.lili.coupon.condition.RegionCondition"/>
+    <bean id="courseCondition" class="com.lili.coupon.condition.CourseCondition"/>
+    <bean id="limitGenCondition" class="com.lili.coupon.condition.LimitGenCondition"/>
+    <bean id="shareCondition" class="com.lili.coupon.condition.ShareCondition"/>
+    <bean id="typeCondition" class="com.lili.coupon.condition.TypeCondition"/>
+</beans>

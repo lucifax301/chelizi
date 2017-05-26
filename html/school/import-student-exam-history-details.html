@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="importStudentExamHistoryDetailController">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入考试成绩</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+
+<!-- main 区域 START -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">导入考试成绩</div>
+		<ul class="table-li" id="table-li">
+			<li><a href="import-student-exam.html">导入考试成绩表</a></li>
+			<li class="active"><a href="import-student-exam-history.html">导表历史记录</a></li>
+		</ul>
+		<div class="table-margin common-table">
+			<div class="header">导入考试成绩 > {{ tableNo }}</div>
+			<div class="well">
+		      	<h3>{{ tableNo }}</h3>
+		      	《{{ remark }}》 &nbsp; | &nbsp; {{ total }} 条有效数据
+			</div>
+			<div class="content">
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-offset-8 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						 <option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+						<tr>
+							<td><b>流水号</b></td>
+							<td><b>身份证号</b></td>
+							<td><b>姓名</b></td>
+							<td><b>考试日期</b></td>
+							<td><b>考试成绩</b></td>
+							<td><b>考试结果</b></td>
+							<td><b>解析学员状态</b></td>
+							<td><b>导入状态</b></td>
+							<td><b>是否有效</b></td>
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td ng-bind="data.flowNo"></td>
+							<td ng-bind="data.idNumber"></td>
+							<td ng-bind="data.name"></td>
+							<td ng-bind="data.examDate | timeTexYMD"></td>
+							<td ng-bind="data.score"></td>
+							<td ng-bind="data.applystate | studentApplystateText"></td>
+							<td ng-bind="data.applystate | studentApplystateText"></td>
+							<td ng-bind="data.importState | importStateText"></td>
+							<td ng-bind="data.isdel | validText"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- main 区域 END -->
+
+<div id="edit-win" class="edit-alert">
+	<div class="mask"></div>
+	<div class="main">
+	<div id="edit-form" class="content">
+		<div class="title">新建课程 <span ng-click="closeWin()"></span></div>
+		<div class="con-main">
+			<form>
+				<dl>
+					<dt>上课日期:</dt>
+					<dd>
+						<input type="text" class="form-control" id="classDate" ng-readonly="true" ng-model="editData.classTime">
+					</dd>
+				</dl>
+				<dl>
+					<dt>课程时间:</dt>
+					<dd><input type="text" class="form-control" id="classTime" ng-readonly="true"></dd>
+				</dl>
+				<dl>
+					<dt>课程名称:</dt>
+					<dd><input type="text" class="form-control"></dd>
+				</dl>
+				<dl>
+					<dt>携带证件:</dt>
+					<dd><input type="text" class="form-control"></dd>
+				</dl>
+				<dl>
+					<dt>联系人:</dt>
+					<dd><input type="text" class="form-control"></dd>
+				</dl>
+				<dl>
+					<dt>联系电话:</dt>
+					<dd><input type="text" class="form-control"></dd>
+				</dl>
+				<dl>
+					<dt>上课地点:</dt>
+					<dd><textarea class="form-control" rows="2"></textarea></dd>
+				</dl>
+				<div class="chaozuo">
+					<a class="btn btn-sm btn-default" ng-click="closeWin()">取消</a>
+					<a class="btn btn-sm btn-primary" ng-click="submitItemInfo()" >确认</a>
+				</div>	
+			</form>		
+		</div>
+	</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/import-student-exam-history-details.js"></script>
+</body>
+</html>

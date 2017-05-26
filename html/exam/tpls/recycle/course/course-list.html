@@ -1,0 +1,75 @@
+
+<div class="coach-list y-comment">
+	<div class="coach-user">
+		<div class="y-box-flex">
+			<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+				<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+				<img src="img/user.png" ng-if="!coachinfo.headIcon">
+			</div>
+			<div class="userinfo">
+				<div class="name">
+					{{coachinfo.name}} 
+					<span ng-if='coachinfo.importSrc'>{{coachinfo.importSrc}}</span>
+					<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+					<a class="phone" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+				</div>
+				<div class="name">
+					<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+					<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+					<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+					<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+					<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+				</div>
+			</div>
+		</div>
+		<div class="user-text y-comment mt5 mb10">
+			<li class="">喱喱教练：{{coachinfo.age}}年</li>
+			<li class="">带教学员：{{coachinfo.bookSum}}人</li>
+			<li class="">距离：0.7公里</li>
+		</div>
+	</div>
+</div>
+<div class="course-timelist y-comment">
+	<label class="" ng-repeat="item in datas" ng-class="{true:'active'}[$index == chetime]">
+		<input type="radio" name="time" value="{{$index}}" ng-model='$parent.chetime'/>
+		<p class="p1">{{item.date | timeTexMMDD}}</p>
+		<p class="p2" ng-if="item.arrange>0">{{item.date | timeWeekDay}}</p>
+		<p class="p2" ng-if="item.arrange==0">未开放</p>
+	</label>
+</div>
+<div ng-cloak>
+	<div class="course-list" ng-repeat="item in coursedata">
+		<div class="pl15 pr15 border_bottom">
+			<div class="title">
+				<img src="img/{{item.dltype==1?'C1':'C2'}}.png" class="img-auto">
+				{{item.courseName}}
+				<span class="price"><i>￥</i>{{item.price|priceTex}}</span>
+			</div>
+			<div class="f15 color_menu lh20">
+				<div class="w20 text-center iblock"><i class="weui_icon_waiting_circle color_menu "></i></div>{{item.rstart|timeTexHM}} ~ {{item.rend|timeTexHM}}
+			</div>
+			<div class="f15 lh25">
+				<div class="w20 text-center iblock"><i class="ion-loca ion-ios-location-outline "></i></div>{{item.placeName}}
+			</div>
+		</div>
+		<div class="apply y-comment">
+			<li ng-repeat="x in item.plantClassList" ng-class="{true:'active'}[x.null]">
+				<img ng-if="x.studentId" src="../../../images/student-default-header.png">
+			</li>
+			<a class="coach-button f14 fr mt0" ng-if='item.bookNum < item.maxNum && !item.ismy' ng-click="goNext(item)">
+				约课
+			</a>
+			<a class="coach-button f14 fr mt0 erro" ng-if= 'item.bookNum == item.maxNum && !item.ismy'>
+				满员
+			</a>
+			<a class="lh30 color_menu f14 fr mt0" ng-if="item.ismy">
+				已约<i class="ion-chevron-right ml10"></i>
+			</a>
+		</div>
+	</div>
+	<div class="text-center mt30 pt30 f15 blod" ng-show='coursedata.length==0'>
+		<img src="img/no-course.png" class="mt50" style="width: auto;">
+		<br><br>
+		暂无可预约时段
+	</div>
+</div>

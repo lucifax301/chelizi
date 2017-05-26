@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollMaterialMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollMaterial" >
+    <id column="tmid" property="tmid" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="ptype" property="ptype" jdbcType="TINYINT" />
+    <result column="pdesc" property="pdesc" jdbcType="VARCHAR" />
+    <result column="pmid" property="pmid" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="cuid" property="cuid" jdbcType="BIGINT" />
+    <result column="muid" property="muid" jdbcType="BIGINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tmid, city_id, ttid, ptype, pdesc, pmid, isdel, cuid, muid, ctime, mtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollMaterialExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_material
+    where tmid = #{tmid,jdbcType=INTEGER}
+  </select>
+  <select id="selectGroupByTtidPtype" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_material
+    where ttid = #{ttid,jdbcType=INTEGER}
+    group by ptype
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_material
+    where tmid = #{tmid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollMaterialExample" >
+    delete from t_enroll_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollMaterial" >
+    insert into t_enroll_material (tmid, city_id, ttid, 
+      ptype, pdesc, pmid, 
+      isdel, cuid, muid, ctime, 
+      mtime)
+    values (#{tmid,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{ttid,jdbcType=INTEGER}, 
+      #{ptype,jdbcType=TINYINT}, #{pdesc,jdbcType=VARCHAR}, #{pmid,jdbcType=VARCHAR}, 
+      #{isdel,jdbcType=TINYINT}, #{cuid,jdbcType=BIGINT}, #{muid,jdbcType=BIGINT}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollMaterial" >
+    insert into t_enroll_material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tmid != null" >
+        tmid,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="ttid != null" >
+        ttid,
+      </if>
+      <if test="ptype != null" >
+        ptype,
+      </if>
+      <if test="pdesc != null" >
+        pdesc,
+      </if>
+      <if test="pmid != null" >
+        pmid,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="cuid != null" >
+        cuid,
+      </if>
+      <if test="muid != null" >
+        muid,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tmid != null" >
+        #{tmid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="ttid != null" >
+        #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        #{ptype,jdbcType=TINYINT},
+      </if>
+      <if test="pdesc != null" >
+        #{pdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pmid != null" >
+        #{pmid,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollMaterialExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_material
+    <set >
+      <if test="record.tmid != null" >
+        tmid = #{record.tmid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ttid != null" >
+        ttid = #{record.ttid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ptype != null" >
+        ptype = #{record.ptype,jdbcType=TINYINT},
+      </if>
+      <if test="record.pdesc != null" >
+        pdesc = #{record.pdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pmid != null" >
+        pmid = #{record.pmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.cuid != null" >
+        cuid = #{record.cuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.muid != null" >
+        muid = #{record.muid,jdbcType=BIGINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_material
+    set tmid = #{record.tmid,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      ttid = #{record.ttid,jdbcType=INTEGER},
+      ptype = #{record.ptype,jdbcType=TINYINT},
+      pdesc = #{record.pdesc,jdbcType=VARCHAR},
+      pmid = #{record.pmid,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      cuid = #{record.cuid,jdbcType=BIGINT},
+      muid = #{record.muid,jdbcType=BIGINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollMaterial" >
+    update t_enroll_material
+    <set >
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="ttid != null" >
+        ttid = #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="ptype != null" >
+        ptype = #{ptype,jdbcType=TINYINT},
+      </if>
+      <if test="pdesc != null" >
+        pdesc = #{pdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pmid != null" >
+        pmid = #{pmid,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        cuid = #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        muid = #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tmid = #{tmid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollMaterial" >
+    update t_enroll_material
+    set city_id = #{cityId,jdbcType=INTEGER},
+      ttid = #{ttid,jdbcType=INTEGER},
+      ptype = #{ptype,jdbcType=TINYINT},
+      pdesc = #{pdesc,jdbcType=VARCHAR},
+      pmid = #{pmid,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      cuid = #{cuid,jdbcType=BIGINT},
+      muid = #{muid,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where tmid = #{tmid,jdbcType=INTEGER}
+  </update>
+</mapper>

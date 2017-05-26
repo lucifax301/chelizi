@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.MicroClassMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.dto.MicroClass">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="fileType" property="fileType" jdbcType="TINYINT" />
+		<result column="levelOne" property="levelOne" jdbcType="TINYINT" />
+		<result column="oneName" property="oneName" jdbcType="VARCHAR" />
+		<result column="levelTwo" property="levelTwo" jdbcType="TINYINT" />
+    	<result column="twoImg" property="twoImg" jdbcType="VARCHAR" />
+		<result column="twoName" property="twoName" jdbcType="VARCHAR" />
+		<result column="levelThree" property="levelThree" jdbcType="VARCHAR" />
+    	<result column="threeImg" property="threeImg" jdbcType="VARCHAR" />
+		<result column="threeName" property="threeName" jdbcType="VARCHAR" />
+		<result column="microId" property="microId" jdbcType="VARCHAR" />
+		<result column="microName" property="microName" jdbcType="VARCHAR" />
+		<result column="microTime" property="microTime" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="versionVest" property="versionVest" jdbcType="VARCHAR" />
+		<result column="filePath" property="filePath" jdbcType="VARCHAR" />
+		<result column="microRemark" property="microRemark" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="isDel" property="isDel" jdbcType="TINYINT" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="utime" property="utime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, fileType, levelOne, oneName, levelTwo, twoName,twoImg,
+		levelThree,
+		threeName, threeImg, microId,microName, microTime, version,
+		versionVest, filePath, microRemark, url, isDel,
+		creator, ctime,
+		updater, utime, remark
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_micro_class
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByLevelTwo" resultMap="BaseResultMap" parameterType="com.lili.student.dto.MicroClass">
+		select
+			<include refid="Base_Column_List" />
+		from t_micro_class
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="levelOne != null and levelOne != ''">
+				and levelOne = #{levelOne}
+			</if>
+			<if test="levelTwo != null and levelTwo != ''">
+				and levelTwo = #{levelTwo}
+			</if>
+			<if test="twoName != null and twoName != ''">
+				and twoName = #{twoName}
+			</if>
+			<if test="levelThree != null and levelThree != ''">
+				and levelThree = #{levelThree}
+			</if>
+			<if test="levelOne == null or levelOne == ''">
+				group by levelTwo
+			</if>
+		</trim>
+		order by levelOne,levelTwo asc
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_micro_class
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.student.dto.MicroClass">
+		insert into t_micro_class (id,
+		fileType, levelOne,
+		oneName, levelTwo, twoName,twoImg
+		levelThree, threeName,threeImg
+		microId,
+		microName, microTime, version,
+		versionVest, filePath,
+		microRemark,
+		url, isDel, creator,
+		ctime, updater, utime,
+		remark)
+		values
+		(#{id,jdbcType=INTEGER}, #{fileType,jdbcType=TINYINT},
+		#{levelOne,jdbcType=TINYINT},
+		#{oneName,jdbcType=VARCHAR},
+		#{levelTwo,jdbcType=TINYINT}, #{twoName,jdbcType=VARCHAR},
+		#{twoImg,jdbcType=VARCHAR},
+		#{levelThree,jdbcType=VARCHAR}, #{threeName,jdbcType=VARCHAR},
+		#{microId,jdbcType=VARCHAR},#{threeImg,jdbcType=VARCHAR},
+		#{microName,jdbcType=VARCHAR},
+		#{microTime,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR},
+		#{versionVest,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR},
+		#{microRemark,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{isDel,jdbcType=TINYINT}, #{creator,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR},
+		#{utime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lili.student.dto.MicroClass">
+		insert into t_micro_class
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="fileType != null">
+				fileType,
+			</if>
+			<if test="levelOne != null">
+				levelOne,
+			</if>
+			<if test="oneName != null">
+				oneName,
+			</if>
+			<if test="levelTwo != null">
+				levelTwo,
+			</if>
+			<if test="twoName != null">
+				twoName,
+			</if>
+			<if test="twoImg != null">
+				twoImg,
+			</if>
+			<if test="levelThree != null">
+				levelThree,
+			</if>
+			<if test="threeName != null">
+				threeName,
+			</if>
+			<if test="threeImg != null">
+				threeImg,
+			</if>
+			<if test="microId != null">
+				microId,
+			</if>
+			<if test="microName != null">
+				microName,
+			</if>
+			<if test="microTime != null">
+				microTime,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="versionVest != null">
+				versionVest,
+			</if>
+			<if test="filePath != null">
+				filePath,
+			</if>
+			<if test="microRemark != null">
+				microRemark,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="isDel != null">
+				isDel,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="utime != null">
+				utime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="fileType != null">
+				#{fileType,jdbcType=TINYINT},
+			</if>
+			<if test="levelOne != null">
+				#{levelOne,jdbcType=TINYINT},
+			</if>
+			<if test="oneName != null">
+				#{oneName,jdbcType=VARCHAR},
+			</if>
+			<if test="levelTwo != null">
+				#{levelTwo,jdbcType=TINYINT},
+			</if>
+	      <if test="twoImg != null" >
+	        #{twoImg,jdbcType=VARCHAR},
+	      </if>
+			<if test="twoName != null">
+				#{twoName,jdbcType=VARCHAR},
+			</if>
+			<if test="levelThree != null">
+				#{levelThree,jdbcType=VARCHAR},
+			</if>
+	      <if test="threeImg != null" >
+	        #{threeImg,jdbcType=VARCHAR},
+	      </if>
+			<if test="threeName != null">
+				#{threeName,jdbcType=VARCHAR},
+			</if>
+			<if test="microId != null">
+				#{microId,jdbcType=VARCHAR},
+			</if>
+			<if test="microName != null">
+				#{microName,jdbcType=VARCHAR},
+			</if>
+			<if test="microTime != null">
+				#{microTime,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="versionVest != null">
+				#{versionVest,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				#{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="microRemark != null">
+				#{microRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				#{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.MicroClass">
+		update t_micro_class
+		<set>
+			<if test="fileType != null">
+				fileType = #{fileType,jdbcType=TINYINT},
+			</if>
+			<if test="levelOne != null">
+				levelOne = #{levelOne,jdbcType=TINYINT},
+			</if>
+			<if test="oneName != null">
+				oneName = #{oneName,jdbcType=VARCHAR},
+			</if>
+			<if test="levelTwo != null">
+				levelTwo = #{levelTwo,jdbcType=TINYINT},
+			</if>
+	      <if test="twoImg != null" >
+	        twoImg = #{twoImg,jdbcType=VARCHAR},
+	      </if>
+			<if test="twoName != null">
+				twoName = #{twoName,jdbcType=VARCHAR},
+			</if>
+			<if test="levelThree != null">
+				levelThree = #{levelThree,jdbcType=VARCHAR},
+			</if>
+	      <if test="threeImg != null" >
+	        threeImg = #{threeImg,jdbcType=VARCHAR},
+	      </if>
+			<if test="threeName != null">
+				threeName = #{threeName,jdbcType=VARCHAR},
+			</if>
+			<if test="microId != null">
+				microId = #{microId,jdbcType=VARCHAR},
+			</if>
+			<if test="microName != null">
+				microName = #{microName,jdbcType=VARCHAR},
+			</if>
+			<if test="microTime != null">
+				microTime = #{microTime,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=VARCHAR},
+			</if>
+			<if test="versionVest != null">
+				versionVest = #{versionVest,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				filePath = #{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="microRemark != null">
+				microRemark = #{microRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				isDel = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				utime = #{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.dto.MicroClass">
+		update
+		t_micro_class
+		set fileType = #{fileType,jdbcType=TINYINT},
+		levelOne =
+		#{levelOne,jdbcType=TINYINT},
+		oneName = #{oneName,jdbcType=VARCHAR},
+		levelTwo = #{levelTwo,jdbcType=TINYINT},
+		twoName =
+		#{twoName,jdbcType=VARCHAR},
+		twoImg =
+		#{twoImg,jdbcType=VARCHAR},
+		levelThree =
+		#{levelThree,jdbcType=VARCHAR},
+		threeName =
+		#{threeName,jdbcType=VARCHAR},
+		threeImg =
+		#{threeImg,jdbcType=VARCHAR},
+		microId = #{microId,jdbcType=VARCHAR},
+		microName = #{microName,jdbcType=VARCHAR},
+		microTime =
+		#{microTime,jdbcType=VARCHAR},
+		version = #{version,jdbcType=VARCHAR},
+		versionVest = #{versionVest,jdbcType=VARCHAR},
+		filePath =
+		#{filePath,jdbcType=VARCHAR},
+		microRemark =
+		#{microRemark,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		isDel =
+		#{isDel,jdbcType=TINYINT},
+		creator = #{creator,jdbcType=VARCHAR},
+		ctime
+		= #{ctime,jdbcType=TIMESTAMP},
+		updater = #{updater,jdbcType=VARCHAR},
+		utime = #{utime,jdbcType=TIMESTAMP},
+		remark =
+		#{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

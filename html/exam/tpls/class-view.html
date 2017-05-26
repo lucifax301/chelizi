@@ -1,0 +1,35 @@
+
+<div class="container2 container-dateSel">
+    <div class="dateSel-input" ng-click="selCurDayFocus($event)">
+        <span ng-bind="selCurDay ? (selCurDay|timeTexYMD) :'选择日期'"></span>
+        <input type="date" placeholder="选择日期" id="currentDay" ng-model="selCurDay" ng-blur="selectDay()">
+    </div>
+</div>
+<div class="container2 container-date line-gray20">
+    <div class="date-wrap y-box-flex">
+        <div class="box-1 text-center" ng-repeat="day in getDaysInfo" ng-class="{'hasClass':day.cls>0,'selected':((day.pdate | timeTexD)==dayNum)}" data-pdate="{{day.pdate | timeTexD}}" data-daynum="{{dayNum}}" data-theday="{{theDay|timeTexD}}" ng-click="setTheDay($event,day.pdate)" >
+            <div class="pointer-none"><i ng-bind="day.day|weekDay"></i><span ng-bind="day.pdate | timeTexD"></span></div>
+        </div>
+    </div>
+</div>
+<div class="container2 container-viewclass">
+    <div class="text-center pt20 pb15">
+        <span ng-bind="theDay" class="pl5 pr5"></span>
+        排班数:<span ng-bind="c1All+c2All" class="pl5 pr5"></span>
+        订单数:<span ng-bind="c1bookAll+c2bookAll" class="pl5 pr5"></span>
+    </div>
+    <div>
+        <a class="y-cell" href="#/order-list?pdate={{theDay}}&pstart={{(item.pstart|timeTexHI)+':00-'+(item.pend|timeTexHI)+':00'}}&classId={{item.id}}" ng-repeat="item in getTheday">
+            <div class="cell__bd color_title"><span ng-bind="item.pstart|timeTexHI"></span>-<span ng-bind="item.pend|timeTexHI"></span></div>
+            <div class="cell__ft"><span ng-bind="item.c1book+item.c2book" class="p0"></span>/<span ng-bind="item.c1+item.c2" class="p0"></span><i class="ion-ios-arrow-right ml10" ></i></div>
+        </a>
+    </div>
+    <div class="no-class-ico">
+        <img src="img/ico-no-class.png" alt="">
+        <p>该日还没有排班，快去排班吧！</p>
+        <a href="#/class-add" class="button-submit border-r2 clear_border white" >新增排班</a>
+    </div>
+</div>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+
+

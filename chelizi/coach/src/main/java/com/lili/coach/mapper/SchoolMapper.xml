@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.SchoolMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.School">
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="coachCount" property="coachCount" jdbcType="INTEGER" />
+		<result column="carCount" property="carCount" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="tell" property="tell" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		schoolId,name,image,coachCount,carCount,cityId,address,tell,phoneNum
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="schoolId != null and schoolId != ''">
+				and schoolId = #{schoolId}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_school
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_school
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.School" useGeneratedKeys="true" keyProperty="schoolId">
+		insert into t_s_school
+		(schoolId,name,image,coachCount,carCount,cityId)
+		values
+		(#{schoolId,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR},#{coachCount,jdbcType=INTEGER},#{carCount,jdbcType=INTEGER},#{cityId,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.School" useGeneratedKeys="true" keyProperty="schoolId">>
+		insert into t_s_school
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="image != null">
+				image,
+			</if>
+			<if test="coachCount != null">
+				coachCount,
+			</if>
+			<if test="carCount != null">
+				carCount,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="coachCount != null">
+				#{coachCount,jdbcType=INTEGER},
+			</if>
+			<if test="carCount != null">
+				#{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.School">
+		update t_s_school
+		<set>
+			<if test="schoolId != null">
+				schoolId = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				image = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="coachCount != null">
+				coachCount = #{coachCount,jdbcType=INTEGER},
+			</if>
+			<if test="carCount != null">
+				carCount = #{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.School">
+		update t_s_school
+		set
+		schoolId = #{schoolId,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		image = #{image,jdbcType=VARCHAR},
+		coachCount =
+		#{coachCount,jdbcType=INTEGER},
+		carCount = #{carCount,jdbcType=INTEGER},
+		cityId = #{cityId,jdbcType=INTEGER}
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_school
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_s_school
+		<include refid="Example_Where_Clause" />
+	</select>
+
+</mapper>

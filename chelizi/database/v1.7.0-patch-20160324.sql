@@ -1,0 +1,1 @@
+UPDATE t_s_ccondition SET param1 = '101|1|6|11|16' WHERE conditionId = 10;

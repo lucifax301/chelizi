@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coupon.mapper.dao.TicketMapper">
+    <resultMap id="BaseResultMap" type="com.lili.coupon.dto.Ticket">
+        <id column="ticketId" property="ticketId" jdbcType="INTEGER"/>
+        <result column="ticketType" property="ticketType" jdbcType="INTEGER"/>
+        <result column="couponTmpId" property="couponTmpId" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="cardid" property="cardid" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="useTime" property="useTime" jdbcType="TIMESTAMP"/>
+        <result column="studentId" property="studentId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        ticketId, ticketType, couponTmpId, status, status, cardid, code, createTime,useTime,studentId
+    </sql>
+    <select id="getQQTicketByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_s_ticket
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lili.coupon.dto.Ticket">
+        update t_s_ticket
+        <set>
+            <if test="ticketType != null">
+                ticketType = #{ticketType,jdbcType=BIT},
+            </if>
+            <if test="couponTmpId != null">
+                couponTmpId = #{couponTmpId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="cardid != null">
+                cardid = #{cardid,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="expireTime != null">
+                expireTime = #{expireTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="useTime != null">
+                useTime = #{useTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="studentId != null">
+                studentId = #{studentId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where ticketId = #{ticketId,jdbcType=INTEGER}
+    </update>
+</mapper>

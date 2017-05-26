@@ -1,0 +1,98 @@
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left" style="margin-top:8px;">
+            <h3>角色管理</a> >> {{ roleName }} </h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-5">
+                <div class="x_panel">
+                    <div class="x_title z-heightauto">
+                        <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#userList" ng-click="getUserList()" ng-if="101020 | isAccessShow">添加成员</a>
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+								    <td style='text-align: center;' class="column-title">登录账号</td>
+							  		<td style='text-align: center;' class="column-title">用户姓名</td>
+							  		<td style='text-align: center;' class="column-title">联系电话</td>
+								  	<td style='text-align: center;' class="column-title">帐号状态</td>
+								  	<td style='text-align: center;' class="column-title">账号类型</td>
+                                    <td style='text-align: center;' class="column-title">创建时间</td>
+								  	<td style='text-align: center;' class="column-title">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+									<tr class="even pointer" ng-repeat="item in datas">
+										<td style='text-align: center;' ng-bind="item.username"></td>
+										<td style='text-align: center;' ng-bind="item.realname"></td>
+										<td style='text-align: center;' ng-bind="item.mobile"></td>
+										<td style='text-align: center;' ng-bind="item.status | accountStatus"></td>
+										<td style='text-align: center;' ng-bind="item.issuper | accountType"></td>
+										<td style='text-align: center;' ng-bind="item.ctime | timeTex"></td>
+										<td style='text-align: center;' class="last">
+                                            <a ng-click="userDel(item.id)" href="javascript:void(0);" ng-if="101021 | isAccessShow">移除</a>
+										</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="userList">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">用户列表</h4>
+            </div>
+            <div class="x_panel">
+                <input type="hidden" ng-model="caridHidden">
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <td style='text-align: center;' class="column-title">登录账号</td>
+							  	<td style='text-align: center;' class="column-title">用户姓名</td>
+							  	<td style='text-align: center;' class="column-title">联系电话</td>
+							  	<td style='text-align: center;' class="column-title">帐号状态</td>	
+							  	<td style='text-align: center;' class="column-title">账号类型</td>
+                                <td style='text-align: center;' class="column-title">创建时间</td>
+							  	<td style='text-align: center;' class="column-title">操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="even pointer" ng-repeat="data in userdatas">
+                                <td style='text-align: center;' ng-bind="data.username"></td>
+								<td style='text-align: center;' ng-bind="data.realname"></td>
+								<td style='text-align: center;' ng-bind="data.mobile"></td>
+								<td style='text-align: center;' ng-bind="data.status | accountStatus"></td>
+								<td style='text-align: center;' ng-bind="data.issuper | accountType"></td>
+								<td style='text-align: center;' ng-bind="data.ctime | timeTex"></td>
+								<td style='text-align: center;' class="last">
+                                    <a ng-click="userAdd(data.id)" href="javascript:void(0);" ng-if="101020 | isAccessShow">添加</a>
+								</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page2" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

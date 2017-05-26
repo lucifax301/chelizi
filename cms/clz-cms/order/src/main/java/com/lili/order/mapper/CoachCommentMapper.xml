@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.order.mapper.dao.CoachCommentDao">
+	<resultMap id="BaseResultMap" type="com.lili.order.model.CoachComment">
+		<id column="ccid" property="ccid" jdbcType="INTEGER" />
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="course_id" property="courseId" jdbcType="INTEGER" />
+		<result column="score" property="score" jdbcType="TINYINT" />
+		<result column="ctid" property="ctid" jdbcType="VARCHAR" />
+		<result column="one_word" property="oneWord" jdbcType="VARCHAR" />
+		<result column="cotime" property="cotime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ccid, student_id, coach_id, order_id, course_id, score, ctid, one_word,
+		cotime
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_coach_comment
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</select>
+	
+		
+	<select id="queryByOrderId" resultMap="BaseResultMap" parameterType="com.lili.order.model.CoachComment">
+		select
+				<include refid="Base_Column_List" />
+			from t_coach_comment
+				where order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_coach_comment
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.order.model.CoachComment">
+		insert into t_coach_comment (ccid, student_id, coach_id,
+		order_id, course_id, score,
+		ctid, one_word, cotime
+		)
+		values (#{ccid,jdbcType=INTEGER}, #{studentId,jdbcType=BIGINT},
+		#{coachId,jdbcType=BIGINT},
+		#{orderId,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, #{score,jdbcType=TINYINT},
+		#{ctid,jdbcType=VARCHAR}, #{oneWord,jdbcType=VARCHAR},
+		#{cotime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.order.model.CoachComment">
+		insert into t_coach_comment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ccid != null">
+				ccid,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+			<if test="ctid != null">
+				ctid,
+			</if>
+			<if test="oneWord != null">
+				one_word,
+			</if>
+			<if test="cotime != null">
+				cotime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ccid != null">
+				#{ccid,jdbcType=INTEGER},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=TINYINT},
+			</if>
+			<if test="ctid != null">
+				#{ctid,jdbcType=VARCHAR},
+			</if>
+			<if test="oneWord != null">
+				#{oneWord,jdbcType=VARCHAR},
+			</if>
+			<if test="cotime != null">
+				#{cotime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.order.model.CoachComment">
+		update t_coach_comment
+		<set>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=TINYINT},
+			</if>
+			<if test="ctid != null">
+				ctid = #{ctid,jdbcType=VARCHAR},
+			</if>
+			<if test="oneWord != null">
+				one_word = #{oneWord,jdbcType=VARCHAR},
+			</if>
+			<if test="cotime != null">
+				cotime = #{cotime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.order.model.CoachComment">
+		update t_coach_comment
+		set student_id = #{studentId,jdbcType=BIGINT},
+		coach_id = #{coachId,jdbcType=BIGINT},
+		order_id = #{orderId,jdbcType=VARCHAR},
+		course_id = #{courseId,jdbcType=INTEGER},
+		score = #{score,jdbcType=TINYINT},
+		ctid = #{ctid,jdbcType=VARCHAR},
+		one_word = #{oneWord,jdbcType=VARCHAR},
+		cotime = #{cotime,jdbcType=TIMESTAMP}
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

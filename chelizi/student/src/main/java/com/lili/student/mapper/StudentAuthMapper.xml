@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.StudentAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.StudentAuth" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="auth_name" property="authName" jdbcType="VARCHAR" />
+    <result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="dead_time" property="deadTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="file_no" property="fileNo" jdbcType="VARCHAR" />
+    <result column="drType" property="drtype" jdbcType="TINYINT" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="photo2" property="photo2" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, auth_name, operate_user, state, student_id, dead_time, type, file_no, drType, 
+    photo, photo2, update_time, remark, create_time, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.student.dto.StudentAuthExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_student_auth
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_student_auth
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_u_student_auth
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.student.dto.StudentAuthExample" >
+    delete from t_u_student_auth
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.StudentAuth" >
+    insert into t_u_student_auth (id, auth_name, operate_user, 
+      state, student_id, dead_time, 
+      type, file_no, drType, 
+      photo, photo2, update_time, 
+      remark, create_time, extra
+      )
+    values (#{id,jdbcType=BIGINT}, #{authName,jdbcType=VARCHAR}, #{operateUser,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{studentId,jdbcType=BIGINT}, #{deadTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=INTEGER}, #{fileNo,jdbcType=VARCHAR}, #{drtype,jdbcType=TINYINT}, 
+      #{photo,jdbcType=VARCHAR}, #{photo2,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.StudentAuth" >
+    insert into t_u_student_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="authName != null" >
+        auth_name,
+      </if>
+      <if test="operateUser != null" >
+        operate_user,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="deadTime != null" >
+        dead_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="fileNo != null" >
+        file_no,
+      </if>
+      <if test="drtype != null" >
+        drType,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="photo2 != null" >
+        photo2,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="authName != null" >
+        #{authName,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUser != null" >
+        #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="deadTime != null" >
+        #{deadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="fileNo != null" >
+        #{fileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="drtype != null" >
+        #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.student.dto.StudentAuthExample" resultType="java.lang.Integer" >
+    select count(*) from t_u_student_auth
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_u_student_auth
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.authName != null" >
+        auth_name = #{record.authName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateUser != null" >
+        operate_user = #{record.operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentId != null" >
+        student_id = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deadTime != null" >
+        dead_time = #{record.deadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileNo != null" >
+        file_no = #{record.fileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drtype != null" >
+        drType = #{record.drtype,jdbcType=TINYINT},
+      </if>
+      <if test="record.photo != null" >
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo2 != null" >
+        photo2 = #{record.photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_u_student_auth
+    set id = #{record.id,jdbcType=BIGINT},
+      auth_name = #{record.authName,jdbcType=VARCHAR},
+      operate_user = #{record.operateUser,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      student_id = #{record.studentId,jdbcType=BIGINT},
+      dead_time = #{record.deadTime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=INTEGER},
+      file_no = #{record.fileNo,jdbcType=VARCHAR},
+      drType = #{record.drtype,jdbcType=TINYINT},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      photo2 = #{record.photo2,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.StudentAuth" >
+    update t_u_student_auth
+    <set >
+      <if test="authName != null" >
+        auth_name = #{authName,jdbcType=VARCHAR},
+      </if>
+      <if test="operateUser != null" >
+        operate_user = #{operateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="deadTime != null" >
+        dead_time = #{deadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="fileNo != null" >
+        file_no = #{fileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="drtype != null" >
+        drType = #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="photo2 != null" >
+        photo2 = #{photo2,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.StudentAuth" >
+    update t_u_student_auth
+    set auth_name = #{authName,jdbcType=VARCHAR},
+      operate_user = #{operateUser,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      student_id = #{studentId,jdbcType=BIGINT},
+      dead_time = #{deadTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER},
+      file_no = #{fileNo,jdbcType=VARCHAR},
+      drType = #{drtype,jdbcType=TINYINT},
+      photo = #{photo,jdbcType=VARCHAR},
+      photo2 = #{photo2,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.student.dto.StudentAuthExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_student_auth
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

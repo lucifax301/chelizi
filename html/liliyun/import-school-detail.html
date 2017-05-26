@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ImportSchool">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入驾校资源</title>
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<div class="z-title">导入驾校资源</div>
+		<div class="z-bg-box z-p20">
+			<h3 class="z-common-h2 z-mtb0 z-font16">签约驾校的资源可通过导入数据表的方式更新喱喱数据库</h3>
+			<p>1.每当驾校需要更新驾校的资源信息，通过线下收集数据按指定格式汇成表格，分类导入即可完成数据更新</p>
+			<p>2.考虑到各项资源之间的绑定关系，存在绑定关系的数据需要按照指定的先后顺序进行导数据：教练 > 调练场/学员/车；</p>
+			<p>3.导入新签驾校数据，需要先在[资源管理>驾校]里新增的驾校才可以开始导入数据</p>
+		</div>
+		<div class="clearfix"></div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">导入驾校资源</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4 col-md-8">
+							<a href="" class="btn btn-sm btn-primary">导入驾校数据</a>
+							<a class="btn btn-sm btn-primary margin-left-15">下载数据表模板</a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td><b>导表时间</b></td>
+								<td><b>表编号</b></td>
+								<td><b>数据表类型</b></td>
+								<td><b>处理状态</b></td>
+								<td><b>总数据</b></td>
+								<td><b>成功数据</b></td>
+								<td><b>操作人</b></td>
+							</tr>
+							<tr>
+								<td>2016-6-25 12:12:39</td>
+								<td><a href="">表编号</a></td>
+								<td>教练信息表</td>
+								<td>已取消</td>
+								<td>300</td>
+								<td>300</td>
+								<td>Billy</td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/import-school.js"></script>
+</body>
+</html>

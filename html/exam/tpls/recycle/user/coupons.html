@@ -1,0 +1,27 @@
+<div class="p10">
+	
+	<div class="coupons-inputbox">
+		<input type="text" placeholder="输入优惠券码" ng-model="couponstext" ng-class="{true:'active'}[couponstext.length>0]">
+		<a class="button-submit mt15" ng-click="getcoupons()" ng-class="{true:'erro-solid'}[couponstext.length==0 || !couponstext]">兑换</a>
+	</div>
+	<div class="coupons-list c{{item.type}}" ng-repeat="item in dataList"  ng-click="gomore(item)">
+		<div class="left">
+			<span ng-if="item.type == 0"><i>￥</i>{{item.moneyvalue/100}}</span>
+			<span ng-if="item.type == 1">全额<br>抵扣</span>
+			<span ng-if="item.type == 2">{{item.discount}}<i>折</i></span>
+		</div>
+		<div class="right">
+			<p class="p1">{{item.name}}</p>
+			<p class="p2">{{item.gettime|date:'yyyy.MM.dd HH:mm'}} ~ {{item.expiretime|date:'yyyy.MM.dd HH:mm'}}</p>
+			<i class="ion-chevron-right"></i>
+		</div>
+	</div>
+	<div class="c-showmore" ng-show="showmore">正在加载数据...</div>
+	<div class="c-showmore" ng-show="showmore_end">已经加载完了</div>
+	<div class="text-center mt30 pt30 f15 blod" ng-show='showmore_none'>
+		<img src="img/coupons/datanone.png" style="width: auto;">
+		<br><br>
+		您还没有优惠券
+	</div>
+</div>
+

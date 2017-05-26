@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="DataOrdStatistics">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员统计</title>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="../assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">教务报表</div>
+		<ul class="table-li">
+            <li ng-if="110101|isAccessShow"><a href="data-statistics.html">数据统计</a></li>
+            <li ng-if="110102|isAccessShow"><a href="data-ord-statistics.html">订单统计</a></li>
+            <li class="active" ng-if="110103|isAccessShow"><a href="data-stu-statistics.html">学员统计</a></li>
+            <li ng-if="110104|isAccessShow"><a href="data-coa-statistics.html">教练统计</a></li>
+		</ul>
+
+		<!-- 订单统计列表详情 -->
+		<div class="padding-20">
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active">学员统计</li>
+			<li ng-click="tableSwitch($event)" >进度报表</li>
+			<li ng-click="tableSwitch($event)" >进度统计</li>
+		</ul>
+		<div class="order-table common-table" id="order-table">
+			<div class="table-margin common-table accounts-balance no-connon">
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon">
+									<i class="glyphicon glyphicon-calendar fa fa-calendar">
+									</i>
+								</span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation"
+								class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row search">
+						<div class="col-xs-12 col-sm-6">
+							<div class="line">
+								<div>筛选城市</div>
+								<select ng-model="cityId" ng-change="getDataForCity()" class="form-control jia-xiao">
+								  <option value="">全部</option>
+								  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-offset-2 col-sm-4 select text-right">
+							<span>每页</span>
+							<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+							  	<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td><b>日期</b></td>
+					  	<td><b>学员上课人数</b></td>
+					  	<td><b>学员约课课时</b></td>
+					  	<td><b>学员实际上课课时</b></td>
+					  	<td><b>学员注册人数</b></td>
+					  	<td><b>学员登录人数</b></td>
+					  	<td><b>报名人数</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td ng-bind="data.dTime | timeTexYMD"></td>
+					  	<td ng-bind="data.hadClassNum"></td>
+					  	<td ng-bind="data.classTime"></td>
+					  	<td ng-bind="data.rClassTime"></td>
+					  	<td ng-bind="data.registerNum"></td>
+					  	<td ng-bind="data.loginNum"></td>
+					  	<td ng-bind="data.signUpNum"></td>
+					  </tr>
+					  <tr ng-show="allDatas">
+					  	<td class="t-200">总计</td>
+					  	<td ng-bind="allDatas.hadClassNumSum"></td>
+					  	<td ng-bind="allDatas.classTimeSum"></td>
+					  	<td ng-bind="allDatas.rClassTimeSum"></td>
+					  	<td ng-bind="allDatas.registerNumSum"></td>
+					  	<td ng-bind="allDatas.loginNumSum"></td>
+					  	<td ng-bind="allDatas.signUpNumSum"></td>
+					  </tr>
+					</table>
+				</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 进度报表 -->
+			<div class="table-margin common-table accounts-balance no-connon">
+				<div class="content">
+					<div class="senior-search row">
+						<!--
+						<div class="col-xs-12 col-sm-8">
+						<a ng-click="" class="btn btn-sm btn-primary">数据导出</a>
+						
+						</div>
+						-->
+					</div>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					<thead>	
+					  <tr>
+					  	<td><b>城市</b></td>
+						<td><b>驾校</b></td>
+					  	<td><b>喱喱邮寄资料</b></td>
+					  	<td><b>驾校资料签收</b></td>
+					  	<td><b>受理成功</b></td>
+						<td><b>上理论课</b></td>
+						<td><b>科目一预约</b></td>
+						<td><b>科目一考试通过</b></td>
+						<td><b>科目二预约</b></td>
+						<td><b>科目二考试通过</b></td>
+						<td><b>长训预约</b></td>
+						<td><b>科目三预约</b></td>
+						<td><b>科目三考试通过</b></td>
+					  	<td><b>科目四预约</b></td>
+						<td><b>科目四考试通过</b></td>
+					  </tr>
+					  </thead>
+					  <tbody ng-repeat="tbody in reportList">
+					  <tr ng-repeat="tr in tbody.reports">
+					  	<td ng-if="$index==0" rowspan="{{tbody.reports.length}}" ng-bind="tr.city"></td>
+                        <td ng-bind="tr.school"></td>
+                        <td ng-bind="tr.step4"></td>
+					  	<td ng-bind="tr.step5"></td>
+						<td ng-bind="tr.step6"></td>
+						<td ng-bind="tr.step101"></td>
+						<td ng-bind="tr.step301"></td>
+						<td ng-bind="tr.step302"></td>
+						<td ng-bind="tr.step401"></td>
+						<td ng-bind="tr.step402"></td>
+						<td ng-bind="tr.step501"></td>
+						<td ng-bind="tr.step601"></td>
+						<td ng-bind="tr.step602"></td>
+						<td ng-bind="tr.step701"></td>
+						<td ng-bind="tr.step702"></td>
+					  </tr>
+					  </tbody>
+					  <tfoot>
+                        <tr><td colspan="2">总计</td><td>{{sumList.step4}}</td><td>{{sumList.step5}}</td><td>{{sumList.step6}}</td><td>{{sumList.step101}}</td><td>{{sumList.step301}}</td><td>{{sumList.step302}}</td><td>{{sumList.step401}}</td><td>{{sumList.step402}}</td><td>{{sumList.step501}}</td><td>{{sumList.step601}}</td><td>{{sumList.step602}}</td><td>{{sumList.step701}}</td><td>{{sumList.step702}}</td></tr>
+                      </tfoot>
+
+					</table>
+				</div>
+					
+				</div>
+			</div>
+
+			<!-- 进度 -->
+			<div class="table-margin common-table accounts-balance no-connon">
+				<div class="content">
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-8">
+						<a ng-click="progressDataExport()" class="btn btn-sm btn-primary">数据导出</a>
+						
+						</div>
+					</div>
+					<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td><b>序号</b></td>
+						<td><b>阶段</b></td>
+					  	<td><b>状态</b></td>
+					  	<td><b>人数</b></td>
+					  	<td><b>详细记录</b></td>
+					  	
+					  </tr>
+					  <tr ng-repeat="data in progressList">
+					  	<td ng-bind="$index+1"></td>
+						<td ng-bind="data.applyexam | applyexamText"></td>
+					  	<td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+					  	<td ng-bind="data.count"></td>
+					  	<td class="operation"><a href="javascript:void(0)" class="edit" ng-click="viewProgresStudent(data)">查看</a></td>
+					  	
+					  	
+					  </tr>
+					  
+					</table>
+				</div>
+					<div class="page">
+						<div id="copot-page2" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- 进度学员 -->
+			<div class="search">
+				
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<!--<a ng-if="100302|isButtonShow" ng-click="changeStudentState()" class="btn btn-sm btn-primary">置学员状态</a>-->
+						<a ng-click="studentDataExport()" class="btn btn-sm btn-primary">数据导出</a>
+						
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span><a href="javascript:void(0)" ng-click="backProgres()">返回</a></span>
+						
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>姓名</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>所属城市</b></td>
+					  	<td><b>所属驾校</b></td>
+					  	<td><b>绑定教练</b></td>
+					  	<td><b>所学车型</b></td>
+					  	<td><b>身份证号</b></td>
+					  	<td><b>学员状态</b></td>
+					  	<td><b>流水号</b></td>
+					  	<td><b>账号状态</b></td>
+						
+					  </tr>
+					  <tr ng-repeat="data in pdatas">
+					  	<td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)"></td>
+					  	<td>{{data.name?data.name:'喱喱同学'}}</td>
+					  	<td ng-bind="data.phoneNum"></td>
+					  	<td ng-bind="data.sex | sexText"></td>
+					  	<td ng-bind="data.cityName"></td>
+					  	<td ng-bind="data.schoolName | schoolTex"></td>
+					  	<td ng-bind="data.coachName"></td>
+					  	<td ng-bind="data.applyCarType | applyCarTypeTex"></td>
+					  	<td ng-bind="data.idNumber"></td>
+					  	<td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+					  	<td ng-bind="data.flowNo"></td>
+					  	<td ng-bind="data.state | accountStateText"></td>
+						
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page3" class="copot-page"></div>
+				</div>
+		</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="../assets/common/daterangepicker/js/moment.js"></script>
+<script src="../assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="../assets/js/ng-js/data-stu-statistics.js"></script>
+</body>
+</html>

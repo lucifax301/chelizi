@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:property-placeholder location="classpath:*.properties" 	ignore-unresolvable="true" />
+
+	<bean id="bonusServiceImplLocal" class="com.lili.finance.service.impl.cms.BonusServiceImpl"></bean>
+	<bean id="bankCardServiceImplLocal" class="com.lili.finance.service.impl.cms.BankCardServiceImpl"></bean>
+	<bean id="depositServiceImplLocal" class="com.lili.finance.service.impl.common.DepositServiceImpl"></bean>
+	<bean id="userMoneyServiceImplLocal" class="com.lili.finance.service.impl.common.UserMoneyServiceImpl"></bean>
+	<bean id="PARServiceImplLocal" class="com.lili.finance.service.impl.common.CMSPARServiceImpl"></bean>
+	<bean id="schDepositServiceImplLocal" class="com.lili.finance.service.impl.common.SchDepositServiceImpl"></bean>
+	<bean id="cmsCouponServiceImplLocal" class="com.lili.finance.service.impl.common.CMSCouponServiceImpl"></bean>
+	<bean id="cmsFileTaskServiceImplLocal" class="com.lili.finance.service.impl.cms.FileTaskServiceImpl"></bean>
+	<bean id="liliWalletServiceImplLocal" class="com.lili.finance.service.impl.common.LiliWalletServiceImpl"></bean>
+	
+	<bean id="bonusManagerImpl" class="com.lili.finance.manager.cms.impl.BonusManagerImpl" />
+	<bean id="bankCardManagerImpl" class="com.lili.finance.manager.common.impl.BankCardManagerImpl" />
+	<bean id="depositManagerImpl" class="com.lili.finance.manager.common.impl.DepositManagerImpl" />
+	<bean id="userMoneyManagerImpl" class="com.lili.finance.manager.common.impl.UserMoneyManagerImpl" />
+	<bean id="PARManagerImpl" class="com.lili.finance.manager.common.impl.CMSPARManagerImpl" />
+	<bean id="schDepositManagerImpl" class="com.lili.finance.manager.common.impl.SchDepositManagerImpl" />
+	<bean id="cmsCouponManagerImpl" class="com.lili.finance.manager.common.impl.CMSCouponManagerImpl" />
+	<bean id="fileTaskManager" class="com.lili.finance.manager.cms.impl.FileTaskManagerImpl" />
+</beans>
+
+
+

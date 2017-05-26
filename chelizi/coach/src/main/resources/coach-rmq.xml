@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- rocketmq属性文件注入 -->
+	<util:properties id="rmqprop" location="classpath:coach-rmq.properties"/>
+	<bean id="allocateMessageQueueAveragely" class="com.alibaba.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely"></bean>
+	<bean id="commitCoachScoreListener" class="com.lili.coach.rmq.CommitCoachScoreListener"></bean>
+	<bean id="updateCoachStateListener" class="com.lili.coach.rmq.UpdateCoachStateListener"></bean>
+	<bean id="updateCoachAgeListener" class="com.lili.coach.rmq.UpdateCoachAgeListener"></bean>
+	<bean id="updateCoachStatusListener" class="com.lili.coach.rmq.UpdateCoachStatusListener"></bean>
+	
+	
+	<bean id="commitCoachScoreConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="order_rmq"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqprop['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqprop['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqprop['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqprop['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="commitCoachScoreConsumerGroup"></property>
+		<property name="messageModel" value="#{rmqprop['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqprop['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="order_topic" value="coach_score"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="commitCoachScoreListener"></property>
+		<property name="consumeThreadMin" value="#{rmqprop['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqprop['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqprop['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqprop['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqprop['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqprop['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqprop['rmq.pullBatchSize']}"></property>
+	</bean>
+	
+	<bean id="updateCoachStateConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="jpush_rmq"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqprop['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqprop['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqprop['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqprop['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="updateCoachStateListenerGroup"></property>
+		<property name="messageModel" value="#{rmqprop['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqprop['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="jpush_topic" value="coach_jpush"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="updateCoachStateListener"></property>
+		<property name="consumeThreadMin" value="#{rmqprop['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqprop['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqprop['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqprop['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqprop['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqprop['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqprop['rmq.pullBatchSize']}"></property>
+	</bean>
+	
+	<bean id="updateCoachAgeConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="jpush_rmq"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqprop['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqprop['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqprop['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqprop['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="updateCoachAgeListenerGroup"></property>
+		<property name="messageModel" value="#{rmqprop['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqprop['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="course_status_topic" value="finish"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="updateCoachAgeListener"></property>
+		<property name="consumeThreadMin" value="#{rmqprop['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqprop['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqprop['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqprop['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqprop['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqprop['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqprop['rmq.pullBatchSize']}"></property>
+	</bean>
+
+	<!-- 收车 -->
+	<bean id="updateCoachStatusInConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="jpush_rmq"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqprop['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqprop['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqprop['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqprop['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="updateCoachStatusListenerGroup"></property>
+		<property name="messageModel" value="#{rmqprop['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqprop['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="course_status_topic" value="in"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="updateCoachStatusListener"></property>
+		<property name="consumeThreadMin" value="#{rmqprop['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqprop['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqprop['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqprop['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqprop['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqprop['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqprop['rmq.pullBatchSize']}"></property>
+	</bean>
+	<!-- 出车 -->
+	<bean id="updateCoachStatusOutConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="jpush_rmq"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqprop['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqprop['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqprop['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqprop['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="updateCoachOutStatusListenerGroup"></property>
+		<property name="messageModel" value="#{rmqprop['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqprop['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="course_status_topic" value="out"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="updateCoachStatusListener"></property>
+		<property name="consumeThreadMin" value="#{rmqprop['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqprop['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqprop['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqprop['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqprop['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqprop['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqprop['rmq.pullBatchSize']}"></property>
+	</bean>
+	
+</beans>

@@ -1,0 +1,49 @@
+<div class="edit-alert edit-big-size copy-exam-class">
+    <div class="mask"></div>
+    <div class="main">
+        <div id="copyExamClassCon" class="content">
+            <div class="title">复制排班<span class="closeAlert"></span></div>
+            <div class="con-main" style="max-height: 400px; overflow: scroll">
+                <table class="z-form-col2 z-arrange-exam-form z-noborder">
+                <tr class="z-input-valid">
+                    <td width="140"><label for="">预约日期：<span class="z-fontred">*</span></label></td>
+                    <td>
+                        <div class="input-text">
+                            <div class="z-arrange-days">
+                                <li ng-repeat="day in getCopyDaysInfo" ng-class="{true:'unclick'}[day.cls>0]">
+                                    <input type="checkbox" class="arrange-day" value="{{day.pdate}}">
+                                    <div>{{day.pdate | timeTexMD}}<span>{{day.day | weekDay}}</span></div>
+                                </li>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="z-input-valid">
+                    <td valign="top"><label class="z-mt10">预约时间段：<span class="z-fontred">*</span></label></td>
+                    <td>
+                        <div class="input-text form-inline item-auto-exam">
+                            <div class="item-auto-item z-mb10" id="itemAuto0">
+                                <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" class="form-control date-time date-time-from" >
+                                <span class="z-ml10 z-mr10">到</span>
+                                <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" class="form-control date-time date-time-to" >
+                            </div>
+                            <div class="item-auto-btn z-fr"><button ng-click="zItemAdd($event,'gen')" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加时间段</button></div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <div class="z-caozuo z-mt20">
+                            <a class="btn btn-default btn-sm closeAlert" href="javascript:;">返回</a>
+                            <button class="btn btn-primary btn-sm" ng-click="submitCopy($event)" id="btn_submit">提交</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>

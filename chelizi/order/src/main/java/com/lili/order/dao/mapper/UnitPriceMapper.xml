@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.UnitPriceMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="upid!=null">upid=#{upid},</if>
+      <if test="cityId!=null">city_id=#{cityId},</if>
+      <if test="courseId!=null">course_id=#{courseId},</if>
+      <if test="colid!=null">colid=#{colid},</if>
+      <if test="calid!=null">calid=#{calid},</if>
+      <if test="dftype!=null">dftype=#{dftype},</if>
+      <if test="tstart!=null">tstart=#{tstart},</if>
+      <if test="tend!=null">tend=#{tend},</if>
+      <if test="price!=null">price=#{price},</if>
+      <if test="allowance!=null">allowance=#{allowance},</if>
+      <if test="verify!=null">verify=#{verify},</if>
+      <if test="isdel!=null">isdel=#{isdel},</if>
+      <if test="cuid!=null">cuid=#{cuid},</if>
+      <if test="muid!=null">muid=#{muid},</if>
+      <if test="ctime!=null">ctime=#{ctime},</if>
+      <if test="mtime!=null">mtime=#{mtime},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.upid!=null">upid=#{param1.upid},</if>
+      <if test="param1.cityId!=null">city_id=#{param1.cityId},</if>
+      <if test="param1.courseId!=null">course_id=#{param1.courseId},</if>
+      <if test="param1.colid!=null">colid=#{param1.colid},</if>
+      <if test="param1.calid!=null">calid=#{param1.calid},</if>
+      <if test="param1.dftype!=null">dftype=#{param1.dftype},</if>
+      <if test="param1.tstart!=null">tstart=#{param1.tstart},</if>
+      <if test="param1.tend!=null">tend=#{param1.tend},</if>
+      <if test="param1.price!=null">price=#{param1.price},</if>
+      <if test="param1.allowance!=null">allowance=#{param1.allowance},</if>
+      <if test="param1.verify!=null">verify=#{param1.verify},</if>
+      <if test="param1.isdel!=null">isdel=#{param1.isdel},</if>
+      <if test="param1.cuid!=null">cuid=#{param1.cuid},</if>
+      <if test="param1.muid!=null">muid=#{param1.muid},</if>
+      <if test="param1.ctime!=null">ctime=#{param1.ctime},</if>
+      <if test="param1.mtime!=null">mtime=#{param1.mtime},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.upid!=null">upid=#{param2.upid},</if>
+      <if test="param2.cityId!=null">city_id=#{param2.cityId},</if>
+      <if test="param2.courseId!=null">course_id=#{param2.courseId},</if>
+      <if test="param2.colid!=null">colid=#{param2.colid},</if>
+      <if test="param2.calid!=null">calid=#{param2.calid},</if>
+      <if test="param2.dftype!=null">dftype=#{param2.dftype},</if>
+      <if test="param2.tstart!=null">tstart=#{param2.tstart},</if>
+      <if test="param2.tend!=null">tend=#{param2.tend},</if>
+      <if test="param2.price!=null">price=#{param2.price},</if>
+      <if test="param2.allowance!=null">allowance=#{param2.allowance},</if>
+      <if test="param2.verify!=null">verify=#{param2.verify},</if>
+      <if test="param2.isdel!=null">isdel=#{param2.isdel},</if>
+      <if test="param2.cuid!=null">cuid=#{param2.cuid},</if>
+      <if test="param2.muid!=null">muid=#{param2.muid},</if>
+      <if test="param2.ctime!=null">ctime=#{param2.ctime},</if>
+      <if test="param2.mtime!=null">mtime=#{param2.mtime},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set upid=#{upid}, city_id=#{cityId}, course_id=#{courseId}, colid=#{colid}, calid=#{calid}, dftype=#{dftype}, tstart=#{tstart}, tend=#{tend}, price=#{price}, allowance=#{allowance}, verify=#{verify}, isdel=#{isdel}, cuid=#{cuid}, muid=#{muid}, ctime=#{ctime}, mtime=#{mtime}</sql>
+  <sql id="setAllparam1">set upid=#{param1.upid}, city_id=#{param1.cityId}, course_id=#{param1.courseId}, colid=#{param1.colid}, calid=#{param1.calid}, dftype=#{param1.dftype}, tstart=#{param1.tstart}, tend=#{param1.tend}, price=#{param1.price}, allowance=#{param1.allowance}, verify=#{param1.verify}, isdel=#{param1.isdel}, cuid=#{param1.cuid}, muid=#{param1.muid}, ctime=#{param1.ctime}, mtime=#{param1.mtime}</sql>
+  <sql id="setAllparam2">set upid=#{param2.upid}, city_id=#{param2.cityId}, course_id=#{param2.courseId}, colid=#{param2.colid}, calid=#{param2.calid}, dftype=#{param2.dftype}, tstart=#{param2.tstart}, tend=#{param2.tend}, price=#{param2.price}, allowance=#{param2.allowance}, verify=#{param2.verify}, isdel=#{param2.isdel}, cuid=#{param2.cuid}, muid=#{param2.muid}, ctime=#{param2.ctime}, mtime=#{param2.mtime}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="upid!=null and upid != '' ">And upid=#{upid}</if>
+      <if test="cityId!=null and cityId != '' ">And city_id=#{cityId}</if>
+      <if test="courseId!=null and courseId != '' ">And course_id=#{courseId}</if>
+      <if test="colid!=null and colid != '' ">And colid=#{colid}</if>
+      <if test="calid!=null and calid != '' ">And calid=#{calid}</if>
+      <if test="dftype!=null and dftype != '' ">And dftype=#{dftype}</if>
+      <if test="tstart!=null and tstart != '' ">And tstart=#{tstart}</if>
+      <if test="tend!=null and tend != '' ">And tend=#{tend}</if>
+      <if test="price!=null and price != '' ">And price=#{price}</if>
+      <if test="allowance!=null and allowance != '' ">And allowance=#{allowance}</if>
+      <if test="verify!=null and verify != '' ">And verify=#{verify}</if>
+      <if test="isdel!=null  ">And isdel=#{isdel}</if>
+      <if test="cuid!=null and cuid != '' ">And cuid=#{cuid}</if>
+      <if test="muid!=null and muid != '' ">And muid=#{muid}</if>
+      <if test="ctime!=null and ctime != '' ">And ctime=#{ctime}</if>
+      <if test="mtime!=null and mtime != '' ">And mtime=#{mtime}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="upid!=null and upid != '' ">Or upid=#{upid}</if>
+      <if test="cityId!=null and cityId != '' ">Or city_id=#{cityId}</if>
+      <if test="courseId!=null and courseId != '' ">Or course_id=#{courseId}</if>
+      <if test="colid!=null and colid != '' ">Or colid=#{colid}</if>
+      <if test="calid!=null and calid != '' ">Or calid=#{calid}</if>
+      <if test="dftype!=null and dftype != '' ">Or dftype=#{dftype}</if>
+      <if test="tstart!=null and tstart != '' ">Or tstart=#{tstart}</if>
+      <if test="tend!=null and tend != '' ">Or tend=#{tend}</if>
+      <if test="price!=null and price != '' ">Or price=#{price}</if>
+      <if test="allowance!=null and allowance != '' ">Or allowance=#{allowance}</if>
+      <if test="verify!=null and verify != '' ">Or verify=#{verify}</if>
+      <if test="isdel!=null ">Or isdel=#{isdel}</if>
+      <if test="cuid!=null and cuid != '' ">Or cuid=#{cuid}</if>
+      <if test="muid!=null and muid != '' ">Or muid=#{muid}</if>
+      <if test="ctime!=null and ctime != '' ">Or ctime=#{ctime}</if>
+      <if test="mtime!=null and mtime != '' ">Or mtime=#{mtime}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.upid!=null and param1.upid != '' ">And upid=#{param1.upid}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">And city_id=#{param1.cityId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.colid!=null and param1.colid != '' ">And colid=#{param1.colid}</if>
+      <if test="param1.calid!=null and param1.calid != '' ">And calid=#{param1.calid}</if>
+      <if test="param1.dftype!=null and param1.dftype != '' ">And dftype=#{param1.dftype}</if>
+      <if test="param1.tstart!=null and param1.tstart != '' ">And tstart=#{param1.tstart}</if>
+      <if test="param1.tend!=null and param1.tend != '' ">And tend=#{param1.tend}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">And allowance=#{param1.allowance}</if>
+      <if test="param1.verify!=null and param1.verify != '' ">And verify=#{param1.verify}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+      <if test="param1.cuid!=null and param1.cuid != '' ">And cuid=#{param1.cuid}</if>
+      <if test="param1.muid!=null and param1.muid != '' ">And muid=#{param1.muid}</if>
+      <if test="param1.ctime!=null and param1.ctime != '' ">And ctime=#{param1.ctime}</if>
+      <if test="param1.mtime!=null and param1.mtime != '' ">And mtime=#{param1.mtime}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.upid!=null and param2.upid != '' ">And upid=#{param2.upid}</if>
+      <if test="param2.cityId!=null and param2.cityId != '' ">And city_id=#{param2.cityId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">And course_id=#{param2.courseId}</if>
+      <if test="param2.colid!=null and param2.colid != '' ">And colid=#{param2.colid}</if>
+      <if test="param2.calid!=null and param2.calid != '' ">And calid=#{param2.calid}</if>
+      <if test="param2.dftype!=null and param2.dftype != '' ">And dftype=#{param2.dftype}</if>
+      <if test="param2.tstart!=null and param2.tstart != '' ">And tstart=#{param2.tstart}</if>
+      <if test="param2.tend!=null and param2.tend != '' ">And tend=#{param2.tend}</if>
+      <if test="param2.price!=null and param2.price != '' ">And price=#{param2.price}</if>
+      <if test="param2.allowance!=null and param2.allowance != '' ">And allowance=#{param2.allowance}</if>
+      <if test="param2.verify!=null and param2.verify != '' ">And verify=#{param2.verify}</if>
+      <if test="param2.isdel!=null ">And isdel=#{param2.isdel}</if>
+      <if test="param2.cuid!=null and param2.cuid != '' ">And cuid=#{param2.cuid}</if>
+      <if test="param2.muid!=null and param2.muid != '' ">And muid=#{param2.muid}</if>
+      <if test="param2.ctime!=null and param2.ctime != '' ">And ctime=#{param2.ctime}</if>
+      <if test="param2.mtime!=null and param2.mtime != '' ">And mtime=#{param2.mtime}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.upid!=null and param1.upid != '' ">Or upid=#{param1.upid}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">Or city_id=#{param1.cityId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">Or course_id=#{param1.courseId}</if>
+      <if test="param1.colid!=null and param1.colid != '' ">Or colid=#{param1.colid}</if>
+      <if test="param1.calid!=null and param1.calid != '' ">Or calid=#{param1.calid}</if>
+      <if test="param1.dftype!=null and param1.dftype != '' ">Or dftype=#{param1.dftype}</if>
+      <if test="param1.tstart!=null and param1.tstart != '' ">Or tstart=#{param1.tstart}</if>
+      <if test="param1.tend!=null and param1.tend != '' ">Or tend=#{param1.tend}</if>
+      <if test="param1.price!=null and param1.price != '' ">Or price=#{param1.price}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">Or allowance=#{param1.allowance}</if>
+      <if test="param1.verify!=null and param1.verify != '' ">Or verify=#{param1.verify}</if>
+      <if test="param1.isdel!=null ">Or isdel=#{param1.isdel}</if>
+      <if test="param1.cuid!=null and param1.cuid != '' ">Or cuid=#{param1.cuid}</if>
+      <if test="param1.muid!=null and param1.muid != '' ">Or muid=#{param1.muid}</if>
+      <if test="param1.ctime!=null and param1.ctime != '' ">Or ctime=#{param1.ctime}</if>
+      <if test="param1.mtime!=null and param1.mtime != '' ">Or mtime=#{param1.mtime}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.upid!=null and param2.upid != '' ">Or upid=#{param2.upid}</if>
+      <if test="param2.cityId!=null and param2.cityId != '' ">Or city_id=#{param2.cityId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">Or course_id=#{param2.courseId}</if>
+      <if test="param2.colid!=null and param2.colid != '' ">Or colid=#{param2.colid}</if>
+      <if test="param2.calid!=null and param2.calid != '' ">Or calid=#{param2.calid}</if>
+      <if test="param2.dftype!=null and param2.dftype != '' ">Or dftype=#{param2.dftype}</if>
+      <if test="param2.tstart!=null and param2.tstart != '' ">Or tstart=#{param2.tstart}</if>
+      <if test="param2.tend!=null and param2.tend != '' ">Or tend=#{param2.tend}</if>
+      <if test="param2.price!=null and param2.price != '' ">Or price=#{param2.price}</if>
+      <if test="param2.allowance!=null and param2.allowance != '' ">Or allowance=#{param2.allowance}</if>
+      <if test="param2.verify!=null and param2.verify != '' ">Or verify=#{param2.verify}</if>
+      <if test="param2.isdel!=null ">Or isdel=#{param2.isdel}</if>
+      <if test="param2.cuid!=null and param2.cuid != '' ">Or cuid=#{param2.cuid}</if>
+      <if test="param2.muid!=null and param2.muid != '' ">Or muid=#{param2.muid}</if>
+      <if test="param2.ctime!=null and param2.ctime != '' ">Or ctime=#{param2.ctime}</if>
+      <if test="param2.mtime!=null and param2.mtime != '' ">Or mtime=#{param2.mtime}</if>
+    </where>
+  </sql>
+  <insert id="addUnitPrice">
+    <!--/*新增一个对象*/-->insert into t_unit_price
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addUnitPriceList">
+    <!--/*新增一批对象*/-->insert into t_unit_price values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.upid},#{one.cityId},#{one.courseId},#{one.colid},#{one.calid},#{one.dftype},#{one.tstart},#{one.tend},#{one.price},#{one.allowance},#{one.verify},#{one.isdel},#{one.cuid},#{one.muid},#{one.ctime},#{one.mtime})</foreach>
+  </insert>
+  <delete id="delUnitPriceById">
+    <!--/*根据id删除一个对象*/-->delete from t_unit_price where upid=#{upid}
+  </delete>
+  <delete id="delUnitPriceByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_unit_price where upid in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delUnitPriceByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_unit_price
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveUnitPrice">
+    <!--/*新增或者更新一个对象*/-->replace into t_unit_price
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveUnitPriceList">
+    <!--/*新增或者更新一批对象*/-->replace into t_unit_price values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.upid},#{one.cityId},#{one.courseId},#{one.colid},#{one.calid},#{one.dftype},#{one.tstart},#{one.tend},#{one.price},#{one.allowance},#{one.verify},#{one.isdel},#{one.cuid},#{one.muid},#{one.ctime},#{one.mtime})</foreach>
+  </insert>
+  <update id="updateByUpid">
+    <!--/*根据字段upid更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where upid=#{param2}
+  </update>
+  <update id="updateByCityId">
+    <!--/*根据字段cityId更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where city_id=#{param2}
+  </update>
+  <update id="updateByCourseId">
+    <!--/*根据字段courseId更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where course_id=#{param2}
+  </update>
+  <update id="updateByColid">
+    <!--/*根据字段colid更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where colid=#{param2}
+  </update>
+  <update id="updateByCalid">
+    <!--/*根据字段calid更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where calid=#{param2}
+  </update>
+  <update id="updateByDftype">
+    <!--/*根据字段dftype更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where dftype=#{param2}
+  </update>
+  <update id="updateByTstart">
+    <!--/*根据字段tstart更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where tstart=#{param2}
+  </update>
+  <update id="updateByTend">
+    <!--/*根据字段tend更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where tend=#{param2}
+  </update>
+  <update id="updateByPrice">
+    <!--/*根据字段price更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where price=#{param2}
+  </update>
+  <update id="updateByAllowance">
+    <!--/*根据字段allowance更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where allowance=#{param2}
+  </update>
+  <update id="updateByVerify">
+    <!--/*根据字段verify更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where verify=#{param2}
+  </update>
+  <update id="updateByIsdel">
+    <!--/*根据字段isdel更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where isdel=#{param2}
+  </update>
+  <update id="updateByCuid">
+    <!--/*根据字段cuid更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where cuid=#{param2}
+  </update>
+  <update id="updateByMuid">
+    <!--/*根据字段muid更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where muid=#{param2}
+  </update>
+  <update id="updateByCtime">
+    <!--/*根据字段ctime更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where ctime=#{param2}
+  </update>
+  <update id="updateByMtime">
+    <!--/*根据字段mtime更新一个或者多个对象*/-->update t_unit_price
+    <include refid="setNotNullparam1"/> where mtime=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_unit_price 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_unit_price
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryUnitPriceById" resultType="UnitPricePo">
+    <!--/*根据主键查询一个对象*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where upid=#{param1} ${param2}
+  </select>
+  <select id="queryUnitPriceByIds" resultType="UnitPricePo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where upid in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByUpid" resultType="UnitPricePo">
+    <!--/*根据字段upid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where upid=#{param1} ${param2}
+  </select>
+  <select id="queryByCityId" resultType="UnitPricePo">
+    <!--/*根据字段cityId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where city_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseId" resultType="UnitPricePo">
+    <!--/*根据字段courseId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where course_id=#{param1} ${param2}
+  </select>
+  <select id="queryByColid" resultType="UnitPricePo">
+    <!--/*根据字段colid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where colid=#{param1} ${param2}
+  </select>
+  <select id="queryByCalid" resultType="UnitPricePo">
+    <!--/*根据字段calid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where calid=#{param1} ${param2}
+  </select>
+  <select id="queryByDftype" resultType="UnitPricePo">
+    <!--/*根据字段dftype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where dftype=#{param1} ${param2}
+  </select>
+  <select id="queryByTstart" resultType="UnitPricePo">
+    <!--/*根据字段tstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where tstart=#{param1} ${param2}
+  </select>
+  <select id="queryByTend" resultType="UnitPricePo">
+    <!--/*根据字段tend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where tend=#{param1} ${param2}
+  </select>
+  <select id="queryByPrice" resultType="UnitPricePo">
+    <!--/*根据字段price查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where price=#{param1} ${param2}
+  </select>
+  <select id="queryByAllowance" resultType="UnitPricePo">
+    <!--/*根据字段allowance查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where allowance=#{param1} ${param2}
+  </select>
+  <select id="queryByVerify" resultType="UnitPricePo">
+    <!--/*根据字段verify查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where verify=#{param1} ${param2}
+  </select>
+  <select id="queryByIsdel" resultType="UnitPricePo">
+    <!--/*根据字段isdel查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where isdel=#{param1} ${param2}
+  </select>
+  <select id="queryByCuid" resultType="UnitPricePo">
+    <!--/*根据字段cuid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where cuid=#{param1} ${param2}
+  </select>
+  <select id="queryByMuid" resultType="UnitPricePo">
+    <!--/*根据字段muid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where muid=#{param1} ${param2}
+  </select>
+  <select id="queryByCtime" resultType="UnitPricePo">
+    <!--/*根据字段ctime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where ctime=#{param1} ${param2}
+  </select>
+  <select id="queryByMtime" resultType="UnitPricePo">
+    <!--/*根据字段mtime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price where mtime=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <where>
+      <if test="param1.upid!=null and param1.upid != '' ">And upid=#{param1.upid}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">And city_id=#{param1.cityId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.colid!=null and param1.colid != '' ">And colid=#{param1.colid}</if>
+      <if test="param1.calid!=null and param1.calid != '' ">And calid=#{param1.calid}</if>
+      <if test="param1.dftype!=null">And dftype=#{param1.dftype}</if>
+      <if test="param1.tstart!=null and param1.tstart != '' "> <![CDATA[
+      And tstart <=#{param1.tstart} And tend >#{param1.tstart}
+      ]]>
+      </if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">And allowance=#{param1.allowance}</if>
+      <if test="param1.verify!=null and param1.verify != '' ">And verify=#{param1.verify}</if>
+      <if test="param1.isdel!=null  ">And isdel=#{param1.isdel}</if>
+      <if test="param1.cuid!=null and param1.cuid != '' ">And cuid=#{param1.cuid}</if>
+      <if test="param1.muid!=null and param1.muid != '' ">And muid=#{param1.muid}</if>
+      <if test="param1.ctime!=null and param1.ctime != '' ">And ctime=#{param1.ctime}</if>
+      <if test="param1.mtime!=null and param1.mtime != '' ">And mtime=#{param1.mtime}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew1" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="UnitPricePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select upid as upid,city_id as cityId,course_id as courseId,colid as colid,calid as calid,dftype as dftype,tstart as tstart,tend as tend,price as price,allowance as allowance,verify as verify,isdel as isdel,cuid as cuid,muid as muid,ctime as ctime,mtime as mtime from t_unit_price
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

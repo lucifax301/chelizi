@@ -1,0 +1,238 @@
+<style >
+#map_canvas{height:450px;width:100%;}
+</style>
+
+     <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >训练场列表 >> 新增训练场</h3>
+            </div>
+        </div>
+		<form class="form-horizontal form-label-left" id="addForm">
+		<div class="row">
+		    <div class="item">
+				<h4 class="form-title">基本资料</h4>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">训练场名称 <span class="required">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+							<input type="text" class="form-control"   placeholder="请输入名称"  ng-model="saveData.name" >
+						</div>
+                    </div>
+					<div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">面积(㎡) <span class="required">*</span></label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+							<input type="text" name="area" class="form-control"  ng-model="saveData.area" placeholder="请输入场地面积">
+						</div>
+                    </div>
+					<div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">可容纳车辆数 </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                          <input type="text" class="form-control" placeholder="请输入数字"  ng-model="saveData.totalvehnum" name="totalvehnum" >
+                        </div>
+                    </div>
+					<div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">已投放车辆数</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                           <input type="text" class="form-control" placeholder="请输入数字"  ng-model="saveData.curvehnum" name="curvehnum" > 
+                        </div>
+                    </div>
+                    <div class="item form-group">
+						<label class="control-label col-md-4 col-sm-4 col-xs-12">考场性质 </label>
+						<div class="col-md-8 col-sm-8 col-xs-12">
+								<select class="form-control" ng-model="saveData.nature" ng-init="saveData.nature='0'">
+									<option value='0'>请选择考场性质</option>
+									<option value='1'>社会化训练场</option>
+									<option value='2'>社会化考场</option>
+									<option value='3'>综合性训练场</option>
+									<option value='4'>一般性训练场</option>
+								</select>
+						</div>
+                    </div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<div class="item form-group">
+						<div class="item form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">培训车型 <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12 mt8" style="height:30px;">
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="C1"/>C1&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="C2"/>C2&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="C3"/>C3&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="C4"/>C4&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="C5"/>C5&nbsp;&nbsp;
+							</div>
+						</div>
+						<div class="item form-group">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12">
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12" style="height:30px;">
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="A1"/>A1&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="A2"/>A2&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="A3"/>A3&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="B1"/>B1&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="B2"/>B2&nbsp;&nbsp;
+							</div>
+						</div>
+						<div class="item" style="height:30px;">
+							<label class="control-label col-md-2 col-sm-2 col-xs-12"></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input name="vehicletype[]" class="vehicletype"  type="checkbox" value="D"/>D&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="E"/>E&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="F"/>F&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="M"/>M&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="N"/>N&nbsp;&nbsp;
+								<input name="vehicletype[]" class="vehicletype" type="checkbox" value="P"/>P&nbsp;&nbsp;
+							</div>
+						</div>
+					</div>
+					<div class="item form-group" style="margin-top: 15px;">
+						<label class="control-label col-md-2 col-sm-2 col-xs-12">训练场地址 <span class="required">*</span></label>
+						<div class="col-md-8 col-sm-8 col-xs-12">
+							<input type="text" class="form-control" placeholder="请输入详细地址" ng-model="saveData.address" name="address">
+						</div>
+						<button class="btn btn-default" type="button" id="position">定位</button>
+	                </div>
+					<div class="item form-group" style="margin-top:-5px;">
+		                <label class="control-label col-md-2 col-sm-2 col-xs-6">经度</label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="text" class="form-control" readonly id="lng"  name="lng"/>
+						</div>
+						<label class="control-label col-md-2 col-sm-2 col-xs-6">纬度</label>
+						<div class="col-md-3 col-sm-3 col-xs-12">
+							<input type="text" class="form-control" readonly  id="lat"  name="lat"/>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+
+			<div class="x_panel mt20">
+				<div class="x_content" >
+				<div id="map_canvas" class="action_list"></div>
+				</div>
+			</div>
+
+				<h4 class="form-title">备案信息</h2>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-4 col-sm-4 col-xs-12">备案状态
+							</label>
+							<div class="col-md-8 col-sm-8 col-xs-12">
+							   <select class="form-control"   ng-model="saveData.recordType" ng-init="saveData.recordType='0'">
+									<option value='0'>请选择</option>
+									<option value="1">已备案</option>
+									<option value="2">未备案</option>
+							   </select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<label class="control-label col-md-4 col-sm-4 col-xs-12">备案面积(㎡)</label>
+						<div class="col-md-8 col-sm-8 col-xs-12">
+							<input type="text" class="form-control" placeholder="请输入备案面积"  ng-model="saveData.recordArea" name="recordArea" > 
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						
+							<label class="control-label col-md-4 col-sm-4 col-xs-12">备案车辆数</label>
+							<div class="col-md-8 col-sm-8 col-xs-12">
+							  <input type="text"  class=" form-control" placeholder="请输入备案车数量"  ng-model="saveData.recordCarnum" name="recordCarnum" >
+							</div>
+					</div>
+		  
+		         </div>
+		 
+		<h4 class="form-title">合同信息</h4>
+		<div class="row">		
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">租期起</label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input id="leaseStartDate" name="leaseStartDate"   type="text" placeholder="开始日期" readonly   class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">租期至</label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input id="leaseEndDate" name="leaseEndDate" type="text" placeholder="结束日期" readonly   class="form-control">
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">业主</label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input type="text"  class=" form-control" placeholder="请输入姓名"  ng-model="saveData.owner" name="owner" >
+ 
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">业主电话</label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input type="text"  class=" form-control" placeholder="请输入手机号码"  ng-model="saveData.ownerPhone" name="ownerPhone">
+			 
+					</div>
+				</div>
+			</div>
+  
+         </div>
+		 
+		 <div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<label class="control-label col-md-4 col-sm-4 col-xs-12">押金(元)</label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<input type="text"  class=" form-control" placeholder="请输入金额"  ng-model="saveData.mortgageMoney" name="mortgageMoney" >
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<label class="control-label col-md-4 col-sm-4 col-xs-12">租金(元)</label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<input type="text" class="form-control" placeholder="请输入金额"  ng-model="saveData.leaseMoney" name="leaseMoney">
+				</div>
+			</div>
+         </div>
+		 
+	  	<h4 class="form-title">训练场展示</h2>
+		  <div class="row" >
+		     <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
+					 <button type="button" class="btn"  style="height:124px;width:100px;background-color:#e7e7ea;" ng-click="uploadImg()">
+						 <p style="font-size:10px;"><span style="font-size:10px;">&nbsp;</span></p>
+						  <p style="font-size:15px;color:#868686;">添加图片</p>
+						  <p style="font-size:15px;color:#868686;"><span style="font-size:36px;">+</span></p>
+					</button>
+			</div>
+			
+			<div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback" id="imgDiv">
+			</div>
+		  </div>
+		  <div class="row" >
+				<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" >
+					<div class="item form-group text-center">
+					  <button class="btn btn-success btn-lg" type="submit">&nbsp;&nbsp;提交&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					  
+					  <button type="button" class="btn btn-default btn-lg" ng-click="goback()">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+					
+					</div>
+				
+				</div>
+		 </div>
+		</form>
+    
+	
+
+
+
+
+
+

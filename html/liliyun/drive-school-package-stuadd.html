@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="UserPermissionUsersAdd">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>添加成员</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <div class="z-common-head"><div class="z-title"><a href="drive-school-package.html">班别管理</a> > <a href="drive-school-package-detail.html?ttid={{ttid}}" ng-bind="className"></a> > 添加已有学员</div></div>
+	<!-- 主体内容 -->
+	<div class="common-style">
+		<div class="table-margin common-table z-noborder z-mt0">
+            <div class="table-margin common-table">
+                <div class="header">学员列表</div>
+                <div class="content">
+                    <div class="search">
+                        <div class="line">
+                            <div>高级查询</div>
+                            <div class="input-group search-more-condition">
+                                <select id="search_type" ng-model="searchType" class="form-control">
+                                    <option value="name" selected="selected">姓名</option>
+                                    <option value="phoneNum">电话</option>
+                                </select>
+                                <input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入学员姓名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-8"></div>
+                        <div class="col-xs-12 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                                <td><b>姓名</b></td>
+                                <td><b>电话</b></td>
+                                <td><b>性别</b></td>
+                                <td><b>身份证号</b></td>
+                                <td><b>所属驾校</b></td>
+                                <td><b>驾考类型</b></td>
+                                <td><b>学员状态</b></td>
+                            </tr>
+                            <tr ng-repeat="data in datas">
+                                <td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)" ></td>
+                                <td><a href="student-for-schol-details.html?studentId={{data.studentId}}" ng-bind="data.name?data.name:'喱喱同学'" ng-if="(120414|isAccessShow)&&(120404|isAccessShow)"></a><span ng-bind="data.name?data.name:'喱喱同学'" ng-if="!((120414|isAccessShow)&&(120404|isAccessShow))"></span></td>
+                                <td ng-bind="data.phoneNum"></td>
+                                <td ng-bind="data.sex | sexText"></td>
+                                <td ng-bind="data.idNumber"></td>
+                                <td ng-bind="data.schoolName | schoolTex"></td>
+                                <td ng-bind="data.applyCarType | applyCarTypeTex"></td>
+                                <td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="z-caozuo z-mt20 z-mb20">
+                <button class="btn btn-primary btn-sm" ng-click="submitData()">提交</button>
+                <a class="btn btn-default btn-sm" role="button" href="drive-school-package-detail.html?ttid={{ttid}}">取消</a>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/drive-school-package-stuadd.js"></script>
+</body>
+</html>

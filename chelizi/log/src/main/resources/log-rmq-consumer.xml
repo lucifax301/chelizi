@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- rocketmq属性文件注入 -->
+	<util:properties id="rmqlog" location="classpath:log-rmq-consumer.properties"/>
+	<bean id="allocateMessageQueueAveragely" class="com.alibaba.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely"></bean>
+	<bean id="logAccessListener" class="com.lili.log.rmq.LogAccessListener"></bean>
+	
+	<bean id="logAccessConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="#{rmqlog['rmq.instanceName']}"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqlog['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqlog['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqlog['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqlog['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="commitCoachScoreConsumerGroup"></property>
+		<property name="messageModel" value="#{rmqlog['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqlog['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="#{rmqlog['rmq.subscriptionkey']}" value="#{rmqlog['rmq.subscriptionvalue']}"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="logAccessListener"></property>
+		<property name="consumeThreadMin" value="#{rmqlog['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqlog['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqlog['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqlog['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqlog['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqlog['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqlog['rmq.pullBatchSize']}"></property>
+	</bean>
+</beans>

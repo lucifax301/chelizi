@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.VipCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.VipCoupon" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vipPackageId" property="vipPackageId" jdbcType="VARCHAR" />
+    <result column="couponTmpId" property="couponTmpId" jdbcType="VARCHAR" />
+    <result column="expireTime" property="expiretime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vipPackageId, couponTmpId, expireTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_vip_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectValidByVipPackageId" resultType="com.lili.student.dto.VipCoupon">
+    select
+    <include refid="Base_Column_List" />
+    from t_s_vip_coupon
+    where vipPackageId = #{vipPackageId,jdbcType=VARCHAR} and (expireTime is null or expireTime &gt; now())
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_vip_coupon
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.VipCoupon" >
+    insert into t_s_vip_coupon (id, vipPackageId, couponTmpId, 
+      expireTime)
+    values (#{id,jdbcType=INTEGER}, #{vipPackageId,jdbcType=VARCHAR}, #{coupontmpid,jdbcType=VARCHAR}, 
+      #{expiretime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.VipCoupon" >
+    insert into t_s_vip_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vipPackageId != null" >
+        vipPackageId,
+      </if>
+      <if test="coupontmpid != null" >
+        couponTmpId,
+      </if>
+      <if test="expiretime != null" >
+        expireTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vipPackageId != null" >
+        #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="coupontmpid != null" >
+        #{coupontmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="expiretime != null" >
+        #{expiretime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.VipCoupon" >
+    update t_s_vip_coupon
+    <set >
+      <if test="vipPackageId != null" >
+        vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="coupontmpid != null" >
+        couponTmpId = #{coupontmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="expiretime != null" >
+        expireTime = #{expiretime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.VipCoupon" >
+    update t_s_vip_coupon
+    set vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      couponTmpId = #{coupontmpid,jdbcType=VARCHAR},
+      expireTime = #{expiretime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

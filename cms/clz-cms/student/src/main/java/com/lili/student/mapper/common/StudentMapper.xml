@@ -1,0 +1,1661 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.common.StudentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.model.Student">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="course1" property="course1" jdbcType="INTEGER" />
+		<result column="course2" property="course2" jdbcType="INTEGER" />
+		<result column="course3" property="course3" jdbcType="INTEGER" />
+		<result column="course4" property="course4" jdbcType="INTEGER" />
+		<result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="bankcardNum" property="bankcardNum" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="bankAccName" property="bankAccName" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+		<result column="StuCoachEmpID" property="StuCoachEmpID" jdbcType="INTEGER" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="applyCarType" property="applyCarType" jdbcType="VARCHAR" />
+		<result column="applystate" property="applystate" jdbcType="INTEGER" />
+		<result column="applyexam" property="applyexam" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="career" property="career" jdbcType="VARCHAR" />
+		<result column="cs" property="cs" jdbcType="VARCHAR" />
+		<result column="eventState" property="eventState" jdbcType="INTEGER" />
+		<result column="loginCount" property="loginCount" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="packageId" property="packageId" jdbcType="INTEGER" />
+		<result column="relevanceTime" property="relevanceTime" jdbcType="TIMESTAMP" />
+		<result column="firstLogin" property="firstLogin" jdbcType="TIMESTAMP" />
+		<result column="lastLogin" property="lastLogin" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="VoResultMap" type="com.lili.student.model.StudentVo">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="cityId" property="cityId" jdbcType="BIGINT" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="applyttid" property="applyttid" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="applyCarType" property="applyCarType" jdbcType="VARCHAR" />
+		<result column="applystate" property="applystate" jdbcType="INTEGER" />
+		<result column="applyexam" property="applyexam" jdbcType="INTEGER" />
+		<result column="flowNo" property="flowNo" jdbcType="VARCHAR" />
+		<result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="packageId" property="packageId" jdbcType="INTEGER" />
+		<result column="relevanceTime" property="relevanceTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="AuthResultMap" type="com.lili.student.model.StudentAuthVo">
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="id" property="id" jdbcType="BIGINT" />
+		
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="applyCarType" property="applyCarType" jdbcType="INTEGER" />
+		
+		<result column="auth_name" property="authName" jdbcType="VARCHAR" />
+		<result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+		<result column="file_no" property="fileNo" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="studentName" property="studentName" jdbcType="VARCHAR" />
+		<result column="studentPhoneNum" property="studentPhoneNum" jdbcType="VARCHAR" />
+		<result column="studentIDNumber" property="studentIDNumber" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="liPhotoFront" property="liPhotoFront" jdbcType="VARCHAR" />
+		<result column="liPhotoBack" property="liPhotoBack" jdbcType="VARCHAR" />
+		
+		
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="dead_time" property="deadTime" jdbcType="TIMESTAMP" />
+		
+	</resultMap>
+	
+	<resultMap id="progressMap" type="com.lili.report.vo.StatisticsStudentProgress" >
+    <result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+    <result column="applyexam" property="applyexam" jdbcType="INTEGER" />
+    <result column="applystate" property="applystate" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    
+  	</resultMap>
+	
+	<sql id="Base_Column_List">
+		studentId,idNumber,name,sex,age,hometown,phoneNum,mailBox,headIcon,course1,course2,course3,course4,studyDis,
+		registerTime,bankcardNum,bankName,bankAccName,idPhotoFront,idPhotoBack,isImport,importSrc,StuCoachEmpID,applyCarType,
+		checkIdState,applystate,applyexam,schoolId,cityId,career,cs,eventState,loginCount,state,lastLogin,firstLogin
+	</sql>
+	<sql id="Vo_Column_List">
+		studentId,name,idNumber,phoneNum,sex,age,applyCarType,applyexam,applystate
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="studentId != null and studentId != ''">
+				and studentId = #{studentId}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="idNumber != null and idNumber != ''">
+				and idNumber = #{idNumber}
+			</if>
+			
+			<if test="applyCarType != null and applyCarType != ''">
+				and applyCarType = #{applyCarType}
+			</if>
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and applystate = #{applystate}
+			</if>
+		</trim>
+	</sql>
+  <update id="updateStates" parameterType="java.lang.String" >
+    update t_u_student
+    set 
+    eventState=0 
+		WHERE 
+			<if test="_parameter != null and _parameter != ''">
+				 studentId in (${_parameter})
+			</if>
+			<if test="_parameter == null or _parameter == ''">
+				 studentId in ('')
+			</if>
+  </update>
+
+<select id="findImgById" resultMap="AuthResultMap">
+		select 
+		studentId,idPhotoFront,idPhotoBack,drPhoto liPhotoFront,drPhoto2 liPhotoBack
+		from 
+		t_u_student 
+		WHERE 1=1
+		and studentId = #{studentId}
+		order by studentId desc
+	</select>
+
+	<select id="findCerBatch" resultMap="AuthResultMap">
+		select 
+		a.id,a.student_id,a.auth_name,a.operate_user,a.state,a.dead_time,a.update_time,a.remark,a.create_time
+		,b.idPhotoFront,b.idPhotoBack,b.name studentName,b.phoneNum studentPhoneNum,b.idNumber studentIDNumber
+		from 
+		t_u_student_auth a 
+		left join t_u_student b on a.student_id = b.studentId
+	
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and b.name = #{name}
+			</if>
+			<if test="state != null and state != ''">
+				and a.state = #{state}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and b.phoneNum = #{phoneNum}
+			</if>
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND a.create_time >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND a.create_time <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+		and a.type = 0
+		and b.isImport = 0
+		and a.state != 0 
+		order by a.student_id desc
+	</select>
+	
+	
+	<select id="findLinBatch" resultMap="AuthResultMap">
+		select 
+		a.id,a.student_id,a.auth_name,a.operate_user,a.state,a.dead_time,a.update_time,a.remark,a.create_time,a.file_no
+		,b.drPhoto liPhotoFront,b.drPhoto2 liPhotoBack,b.name studentName,b.phoneNum studentPhoneNum,b.idNumber studentIDNumber,b.applyCarType
+		from 
+		t_u_student_auth a 
+		left join t_u_student b on a.student_id = b.studentId
+	
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and b.name = #{name}
+			</if>
+			<if test="state != null and state != ''">
+				and a.state = #{state}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and b.phoneNum = #{phoneNum}
+			</if>
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND a.create_time >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND a.create_time <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+		
+		and a.type = 1
+		and b.isImport = 0
+		and a.state != 0 
+		order by a.student_id desc
+	</select>
+
+
+  <select id="findAuthState" resultMap="AuthResultMap">
+	select 
+	a.id,a.student_id,a.auth_name,a.operate_user,a.state,a.dead_time,a.update_time,a.remark,a.create_time,a.file_no
+	,b.drPhoto liPhotoFront,b.drPhoto2 liPhotoBack,b.name studentName,b.phoneNum studentPhoneNum
+	,b.idNumber studentIDNumber,b.applyCarType,b.idPhotoFront,b.idPhotoBack
+	from 
+	t_u_student_auth a 
+	left join t_u_student b on a.student_id = b.studentId
+	where 1=1
+	and a.id = #{id}
+	and a.state != 0 
+   </select>
+
+  <select id="findOne" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from t_u_student
+	where 1=1
+	and studentId = #{studentId}
+	<trim suffixOverrides=",">
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+			and phoneNum = #{phoneNum}
+		</if>
+		<if test="idNumber != null and idNumber != ''">
+			and idNumber = #{idNumber}
+		</if>
+
+		<if test="applyCarType != null and applyCarType != ''">
+			and applyCarType = #{applyCarType}
+		</if>
+	</trim>
+   </select>
+  
+  <select id="findTotalStudent"  resultType="java.lang.Integer">
+    select count(1) from t_u_student 
+	    <if test="cmsChannel == 2">
+	    	where  schoolId =#{schoolId}
+		</if>
+  </select>
+	
+  <select id="findByPhone"  resultMap="BaseResultMap">
+    select 
+	 <include refid="Base_Column_List" />
+    from t_u_student
+	where 
+		 phoneNum = #{phoneNum} 
+  </select>
+  
+  <select id="findByIdNumber"  resultMap="BaseResultMap">
+    select 
+	 <include refid="Base_Column_List" />
+    from t_u_student
+	where 
+		 idNumber = #{idNumber} 
+		limit 1
+  </select>
+  
+  <select id="findByNums" resultMap="BaseResultMap">
+    select 
+	 <include refid="Base_Column_List" />
+    from t_u_student
+	 where 
+		 (phoneNum = #{phoneNum} 
+		or idNumber = #{idNumber})  
+			<if test="studentId != null and studentId != ''">
+				and studentId != #{studentId}
+			</if>
+  </select>
+	
+	<select id="findIdsByCoach" resultType="java.lang.String">
+		SELECT a.studentId FROM t_u_mycoaches a inner join t_u_coach b on a.coachId = b.coachId
+		where 1=1  
+        <choose>
+            <when test="_parameter != null and _parameter != ''">
+               and a.coachId = #{_parameter}
+            </when>
+            <otherwise>
+                and a.coachId = '-1'
+            </otherwise>
+        </choose>
+		
+	 	and a.status = 0
+
+	</select>
+
+	<select id="findOrderTime" resultType="java.lang.Long">
+		SELECT SUM(TIMESTAMPDIFF(MINUTE,rstart,rend))
+		FROM t_u_mycoaches AS t1
+		LEFT JOIN t_order AS t2 ON t1.studentId = #{studentId} AND t1.`studentId` =
+		t2.`student_id` AND t1.`coachId` = t2.`coach_id`
+		WHERE 
+		<![CDATA[order_state > 3 AND order_state <= 7 ]]>  
+
+		and t1.status = 0
+	</select>
+	
+	
+	<select id="findCoachOrder" resultType="java.lang.Long">
+		SELECT SUM(TIMESTAMPDIFF(MINUTE,rstart,rend))
+		FROM t_u_mycoaches AS t1
+		LEFT JOIN t_order AS t2 ON t1.studentId = #{studentId} AND t1.`studentId` =
+		t2.`student_id` AND t1.`coachId` = t2.`coach_id`
+		WHERE 
+		<![CDATA[order_state > 3 AND order_state <= 7 ]]>  
+
+		and t1.status = 0
+	</select>
+	
+	<select id="findByCoach" parameterType="com.lili.student.model.StudentBDTO" resultMap="VoResultMap">
+		select 
+	 	<include refid="Vo_Column_List" />
+		from t_u_student
+		WHERE  1=1 
+			<if test="studentIds == null or studentIds == ''">
+				and studentId = 0
+			</if>
+			<if test="studentIds != null and studentIds != '' or studentIds == 0">
+				and studentId in (${studentIds})
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name} 
+			</if>
+	</select>
+	
+	<select id="getStudent" parameterType="com.lili.student.model.StudentBDTO" resultMap="VoResultMap">
+		select 
+	 		<include refid="Base_Column_List" />
+			from t_u_student
+		where  1=1 
+			<if test="name != null and name != ''">
+				and name=#{name} 
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum=#{phoneNum} 
+			</if>
+	</select>
+
+	<select id="findExportBatch" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.flowNo
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+	
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and a.applyCarType = #{applyCarType}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			
+			<if test="applyexam != null and applyexam != ''">
+				and a.applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			
+			
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			<if test="type != null and type != ''">
+				and a.isImport = #{type}
+			</if>
+			<if test="type == 0">
+				and a.isImport = 0
+			</if>
+			
+		order by a.studentId desc
+		limit 0,1000
+	</select>
+	
+	<select id="findUnSchoolBatch" resultMap="VoResultMap">
+		select 
+		a.studentId,d.ctime,a.name,a.phoneNum,a.sex,f.region,a.applyCarType,a.idNumber,e.name packageName
+		from t_u_student a 
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_enroll_progress_user d on d.student_id = a.studentId
+		left join t_enroll_package_template e on e.ttid = d.ttid
+		left join t_s_region f on f.rid = e.city_id
+		
+		where 1=1
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and f.rid = #{cityId}
+			</if>
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND d.ctime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND d.ctime <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+			and a.isImport = 0 and a.schoolId = 0
+			and d.step_id = 4 and d.process_state = 100
+			and a.applyexam = 4 and a.applystate = 100
+		order by a.studentId desc
+	</select>
+	
+	
+	<select id="findLiliBatch" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,a.syncTime,a.flowNo,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.applystate,a.applyexam
+		,e.rid cityId,e.region cityName,a.applyttid,a.isImport,a.state,a.reviveTime
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+		left join t_s_region e on c.cityId = e.rid
+		
+		where 1=1
+			<if test="name != null and name != ''">
+				and a.name =#{name}
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '')and (applyexam != null or applyexam != '') and (applystate != null or applystate != '') ">
+				<![CDATA[and a.studentId >#{min_id} and a.studentId <= #{max_id} ]]>  
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and a.applyCarType = #{applyCarType}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum =#{phoneNum}
+			</if>
+			
+			<if test="applyexam != null and applyexam != ''">
+				and a.applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			and a.isImport = 0
+			<!-- and b.status = 0 -->
+		group by a.studentId
+		order by a.studentId desc
+		
+	</select>
+	
+	<select id="findLiliBatchForTheory" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,a.syncTime,a.flowNo,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.applystate,a.applyexam
+		,e.rid cityId,e.region cityName,a.applyttid,a.isImport,a.state,a.reviveTime
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+		left join t_s_region e on c.cityId = e.rid
+		
+		where 1=1
+			<if test="name != null and name != ''">
+				and a.name =#{name}
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '')and (applyexam != null or applyexam != '') and (applystate != null or applystate != '') ">
+				<![CDATA[and a.studentId >#{min_id} and a.studentId <= #{max_id} ]]>  
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and a.applyCarType = #{applyCarType}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum =#{phoneNum}
+			</if>
+			
+			<if test="applyexam != null and applyexam != ''">
+				and a.applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="applystate ==null or applystate ==''">
+				and applystate in(0,101)
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and a.schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			and a.studentId not in (select studentId from t_enroll_theory_student where theoryId=#{theoryId})
+			and a.isImport = 0
+			<!-- and b.status = 0 -->
+		group by a.studentId
+		order by a.studentId desc
+		
+	</select>
+	
+	
+	<select id="findJxBatch" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,a.syncTime,a.flowNo,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.applystate,a.applyexam
+		,e.rid cityId,e.region cityName,a.applyttid,a.isImport,a.state,a.reviveTime
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+		left join t_s_region e on c.cityId = e.rid
+		
+		where 1=1
+			<if test="name != null and name != ''">
+				and a.name like '%${name}%'
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '')and (applyexam != null or applyexam != '') and (applystate != null or applystate != '') ">
+				<![CDATA[and a.studentId >#{min_id} and a.studentId <= #{max_id} ]]>  
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and a.applyCarType = #{applyCarType}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			
+			
+			<if test="applyexam != null and applyexam != ''">
+				and a.applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			and a.isImport = 1
+			<!-- and b.status = 0 -->
+		group by a.studentId
+		order by a.studentId desc
+		
+	</select>
+	
+	<select id="findJxBatchForTheory" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,a.syncTime,a.flowNo,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.applystate,a.applyexam
+		,e.rid cityId,e.region cityName,a.applyttid,a.isImport,a.state,a.reviveTime
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+		left join t_s_region e on c.cityId = e.rid
+		
+		where 1=1
+			<if test="name != null and name != ''">
+				and a.name like '%${name}%'
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '')and (applyexam != null or applyexam != '') and (applystate != null or applystate != '') ">
+				<![CDATA[and a.studentId >#{min_id} and a.studentId <= #{max_id} ]]>  
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and a.applyCarType = #{applyCarType}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			
+			
+			<if test="applyexam != null and applyexam != ''">
+				and a.applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="applystate ==null or applystate ==''">
+				and applystate in(0,101)
+			</if>
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and c.cityId = #{cityId}
+			</if>
+			and a.studentId not in (select studentId from t_enroll_theory_student where theoryId=#{theoryId})
+			and a.isImport = 1
+			<!-- and b.status = 0 -->
+		group by a.studentId
+		order by a.studentId desc
+		
+	</select>
+	
+	
+	
+	<select id="findUnboundBatch" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,
+		c.schoolId,c.name as schoolName
+		from t_u_student a 
+		inner join t_s_school c on a.schoolId = c.schoolId
+		where a.studentID not in 
+		(select studentid from t_u_mycoaches where status = 0)
+		
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+		
+			and a.isImport = 1
+				
+		order by a.studentId desc
+		
+	</select>
+	
+	
+	<select id="findLiliBatchTotal" resultType="java.lang.Long">
+		select 
+		COUNT(studentId)
+		from t_u_student 
+		where 1=1 
+	
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and applyCarType = #{applyCarType}
+			</if>
+			
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and applystate = #{applystate}
+			</if>
+			
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			and isImport = 0
+		order by studentId desc
+	</select>
+	
+	<select id="findLiliBatchTotalTheory" resultType="java.lang.Long">
+		select 
+		COUNT(studentId)
+		from t_u_student 
+		where 1=1 
+	
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and applyCarType = #{applyCarType}
+			</if>
+			
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="applystate ==null or applystate ==''">
+				and applystate in(0,101)
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			and studentId not in (select studentId from t_enroll_theory_student where theoryId=#{theoryId})
+			and isImport = 0
+		order by studentId desc
+	</select>
+	
+	<select id="findJxBatchTotal" resultType="java.lang.Long">
+		select 
+		COUNT(studentId)
+		from t_u_student 
+		where 1=1 
+	
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and applyCarType = #{applyCarType}
+			</if>
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and applystate = #{applystate}
+			</if>
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			and isImport = 1
+		order by studentId desc
+	</select>
+	
+	<select id="findJxBatchTotalTheory" resultType="java.lang.Long">
+		select 
+		COUNT(studentId)
+		from t_u_student 
+		where 1=1 
+	
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="applyCarType != null and applyCarType != ''">
+				and applyCarType = #{applyCarType}
+			</if>
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and a.applystate = #{applystate}
+			</if>
+			<if test="applystate ==null or applystate ==''">
+				and applystate in(0,101)
+			</if>
+			
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			and studentId not in (select studentId from t_enroll_theory_student where theoryId=#{theoryId})
+			and isImport = 1
+		order by studentId desc
+	</select>
+	
+	
+	<select id="findLiliMID" resultType="java.lang.Long">
+		select 
+		studentId
+		from t_u_student 
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+		<if test="applyCarType != null and applyCarType != ''">
+			and applyCarType = #{applyCarType}
+		</if>
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and applystate = #{applystate}
+			</if>
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType != null and schoolType != '' and schoolType == 0 and cmsChannel == 1">
+				<![CDATA[ and schoolId = 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 1  and cmsChannel == 1">
+				<![CDATA[ and schoolId != 0 ]]>  
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and schoolType == 2  and cmsChannel == 1">
+				<![CDATA[ and schoolId = #{schoolNo} ]]>  
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+		and isImport = 0
+		order by studentId desc
+		limit #{studentRowNum},1
+	</select>
+	
+	<select id="findJxMID" resultType="java.lang.Long">
+		select 
+		studentId
+		from t_u_student 
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+		<if test="applyCarType != null and applyCarType != ''">
+			and applyCarType = #{applyCarType}
+		</if>
+			<if test="applyexam != null and applyexam != ''">
+				and applyexam = #{applyexam}
+			</if>
+			<if test="applystate != null and applystate != ''">
+				and applystate = #{applystate}
+			</if>
+			<if test="applyexam == 0">
+				and applyexam = 0
+			</if>
+			<if test="applystate == 0">
+				and applystate = 0
+			</if>
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+		and isImport = 1
+		order by studentId desc
+		limit #{studentRowNum},1
+	</select>
+	
+	 <update id="updateSchoolId"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_u_student 
+                <set>
+						schoolId='${item.schoolId}'	,
+						importSrc='${item.importSrc}',
+						cityId='${item.cityId}',
+						syncTime=now()		   
+                </set>
+                <where>  
+		       		 studentId=${item.studentId}
+		     </where> 
+       </foreach>
+    </update>
+	
+	
+	<select id="findSCRelation" resultType="java.lang.Long">
+		select count(1) from t_u_mycoaches
+		where studentId = #{studentId,jdbcType=BIGINT}
+		and type = 1 and status = 0
+	</select>
+	
+	<select id="queryIsExistNum"  resultMap="BaseResultMap">
+         select <include refid="Base_Column_List" />
+        	 from t_u_student where flowNo is not null and  idNumber in
+                  <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item.idNumber}
+                </foreach>
+  	</select> 
+  	
+	<select id="queryIsNotExistNum"  resultMap="BaseResultMap">
+         select <include refid="Base_Column_List" />
+        	 from t_u_student where applyexam=6 and applystate in(1,101) and  idNumber in
+                  <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item.idNumber}
+                </foreach>
+  	</select> 
+  	
+	<select id="queryIsNotExist"  resultMap="BaseResultMap">
+         select <include refid="Base_Column_List" />
+        	 from t_u_student where  idNumber in
+                  <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item.idNumber}
+                </foreach>
+  	</select> 
+  	
+	<select id="queryIsHandle"  resultType="java.lang.Integer" >
+         select count(1)
+        	 from t_u_student where applyexam!=6 and (applystate!=1 or applystate!=101)  and flowNo is null and  idNumber in
+                  <foreach item="item" index="index" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item.idNumber}
+                </foreach>
+  	</select> 
+  	
+  <update id="updateBatchFlowNo"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_u_student 
+                <set>
+						flowNo='${item.flowNo}'						
+                </set>
+                <where>  
+		       		 idNumber='${item.idNumber}'
+		     </where> 
+       </foreach>
+    </update>
+	
+		<insert id="insertSCRelation" >
+		insert into t_u_mycoaches
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="c_coachId != null">
+				coachId,
+			</if>
+			<if test="id != null">
+				studentId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="c_coachId != null">
+				#{c_coachId,jdbcType=BIGINT},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateSCRelation" >
+		update t_u_mycoaches
+		set 
+		status = 0
+		where 
+		studentId = #{id,jdbcType=BIGINT}
+			<if test="c_coachId != null and c_coachId != ''">
+				and coachId = #{c_coachId,jdbcType=BIGINT}
+			</if>
+	</update>
+	
+	<update id="cancleSCRelation" >
+		update t_u_mycoaches
+		set 
+		status = 1
+		where 
+		studentId = #{id,jdbcType=BIGINT}
+		and type = 1
+	</update>
+	
+	
+	<update id="updateLinState" >
+		update t_u_student_auth
+		set 
+		state = 4
+		where 
+		<![CDATA[ DATE_FORMAT(dead_time,'%Y-%m-%d') < DATE_FORMAT(curdate(),'%Y-%m-%d') ]]> 
+		and state != 4
+	</update>
+	
+	
+  <update id="updateAuthState" >
+    update t_u_student_auth
+    <set>
+			<if test="remark != null and remark != ''">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null and state != ''">
+				state = #{state,jdbcType=INTEGER},
+			</if>
+		</set>
+    
+		WHERE 
+			<if test="ids != null and ids != ''">
+				 id in (${ids})
+			</if>
+			<if test="ids == null or ids == ''">
+				 id in ('')
+			</if>
+			
+    
+  </update>
+	
+	<update id="deleteSCRelation" >
+		update t_u_mycoaches
+		set status = 1
+		where 
+		studentId = #{id,jdbcType=BIGINT}
+		and coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+		<update id="updateOne"  parameterType="com.lili.student.model.Student">
+		update t_u_student
+		<set>
+				idNumber = #{idNumber,jdbcType=VARCHAR},
+				name = #{name,jdbcType=VARCHAR},
+				sex = #{sex,jdbcType=INTEGER},
+				phoneNum = #{phoneNum,jdbcType=VARCHAR},
+				applyCarType = #{applyCarType,jdbcType=VARCHAR},
+			<!-- <if test="age != null">
+				age = #{age,jdbcType=INTEGER},
+			</if>
+			<if test="hometown != null">
+				hometown = #{hometown,jdbcType=VARCHAR},
+			</if>
+			<if test="mailBox != null">
+				mailBox = #{mailBox,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				headIcon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="course1 != null">
+				course1 = #{course1,jdbcType=INTEGER},
+			</if>
+			<if test="course2 != null">
+				course2 = #{course2,jdbcType=INTEGER},
+			</if>
+			<if test="course3 != null">
+				course3 = #{course3,jdbcType=INTEGER},
+			</if>
+			<if test="course4 != null">
+				course4 = #{course4,jdbcType=INTEGER},
+			</if>
+			<if test="studyDis != null">
+				studyDis = #{studyDis,jdbcType=INTEGER},
+			</if>
+			<if test="registerTime != null">
+				registerTime = #{registerTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bankcardNum != null">
+				bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bankName = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccName != null">
+				bankAccName = #{bankAccName,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoFront != null">
+				idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoBack != null">
+				idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+			</if>
+			<if test="isImport != null">
+				isImport = #{isImport,jdbcType=INTEGER},
+			</if>
+			<if test="importSrc != null">
+				importSrc = #{importSrc,jdbcType=VARCHAR},
+			</if>
+			<if test="StuCoachEmpID != null">
+				StuCoachEmpID = #{StuCoachEmpID,jdbcType=INTEGER},
+			</if>
+			<if test="checkIdState != null">
+				checkIdState = #{checkIdState,jdbcType=INTEGER},
+			</if> -->
+		</set>
+		where 
+		studentId = #{studentId,jdbcType=BIGINT}
+	</update>
+	
+	
+	<insert id="insertSelective" parameterType="com.lili.student.model.Student"
+		useGeneratedKeys="true" keyProperty="studentId">
+		insert into t_u_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				studentId,
+			</if>
+			<if test="idNumber != null">
+				idNumber,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="hometown != null">
+				hometown,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+			<if test="mailBox != null">
+				mailBox,
+			</if>
+			<if test="headIcon != null">
+				headIcon,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="course1 != null">
+				course1,
+			</if>
+			<if test="course2 != null">
+				course2,
+			</if>
+			<if test="course3 != null">
+				course3,
+			</if>
+			<if test="course4 != null">
+				course4,
+			</if>
+			<if test="studyDis != null">
+				studyDis,
+			</if>
+			<if test="registerTime != null">
+				registerTime,
+			</if>
+			<if test="bankcardNum != null">
+				bankcardNum,
+			</if>
+			<if test="bankName != null">
+				bankName,
+			</if>
+			<if test="bankAccName != null">
+				bankAccName,
+			</if>
+			<if test="idPhotoFront != null">
+				idPhotoFront,
+			</if>
+			<if test="idPhotoBack != null">
+				idPhotoBack,
+			</if>
+			<if test="isImport != null">
+				isImport,
+			</if>
+			<if test="importSrc != null">
+				importSrc,
+			</if>
+			<if test="StuCoachEmpID != null">
+				StuCoachEmpID,
+			</if>
+			<if test="applyCarType != null">
+				applyCarType,
+			</if>
+			<if test="eventState != null">
+				eventState,
+			</if>
+			<if test="eventDesc != null">
+				eventDesc,
+			</if>
+			<if test="checkIdState != null">
+				checkIdState,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="syncType != null">
+				syncType,
+			</if>
+			<if test="syncTime != null">
+				syncTime,
+			</if>
+			<if test="drLicence != null">
+				drLicence,
+			</if>
+			<if test="drPhoto != null">
+				drPhoto,
+			</if>
+			<if test="drType != null">
+				drType,
+			</if>
+			<if test="agreement != null">
+				agreement,
+			</if>
+			<if test="applyexam != null">
+				applyexam,
+			</if>
+			<if test="pwstate != null">
+				pwstate,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="idNumber != null">
+				#{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=INTEGER},
+			</if>
+			<if test="hometown != null">
+				#{hometown,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="mailBox != null">
+				#{mailBox,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				#{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="course1 != null">
+				#{course1,jdbcType=INTEGER},
+			</if>
+			<if test="course2 != null">
+				#{course2,jdbcType=INTEGER},
+			</if>
+			<if test="course3 != null">
+				#{course3,jdbcType=INTEGER},
+			</if>
+			<if test="course4 != null">
+				#{course4,jdbcType=INTEGER},
+			</if>
+			<if test="studyDis != null">
+				#{studyDis,jdbcType=INTEGER},
+			</if>
+			<if test="registerTime != null">
+				#{registerTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bankcardNum != null">
+				#{bankcardNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccName != null">
+				#{bankAccName,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoFront != null">
+				#{idPhotoFront,jdbcType=VARCHAR},
+			</if>
+			<if test="idPhotoBack != null">
+				#{idPhotoBack,jdbcType=VARCHAR},
+			</if>
+			<if test="isImport != null">
+				#{isImport,jdbcType=INTEGER},
+			</if>
+			<if test="importSrc != null">
+				#{importSrc,jdbcType=VARCHAR},
+			</if>
+			<if test="StuCoachEmpID != null">
+				#{StuCoachEmpID,jdbcType=INTEGER},
+			</if>
+			<if test="applyCarType != null">
+				#{applyCarType,jdbcType=VARCHAR},
+			</if>
+			<if test="eventState != null">
+				#{eventState,jdbcType=INTEGER},
+			</if>
+			<if test="eventDesc != null">
+				#{eventDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="checkIdState != null">
+				#{checkIdState,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="syncType != null">
+				#{syncType,jdbcType=INTEGER},
+			</if>
+			<if test="syncTime != null">
+				#{syncTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="drLicence != null">
+				#{drLicence,jdbcType=VARCHAR},
+			</if>
+			<if test="drPhoto != null">
+				#{drPhoto,jdbcType=VARCHAR},
+			</if>
+			<if test="drType != null">
+				#{drType,jdbcType=INTEGER},
+			</if>
+			<if test="agreement != null">
+				#{agreement,jdbcType=INTEGER},
+			</if>
+			<if test="applyexam != null">
+				#{applyexam,jdbcType=INTEGER},
+			</if>
+			<if test="pwstate != null">
+				#{pwstate,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	<resultMap id="AccountResultMap" type="com.lili.student.model.StudentAccount">
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="saveMoney" property="saveMoney" jdbcType="INTEGER" />
+		<result column="saveAccount" property="saveAccount" jdbcType="INTEGER" />
+		<result column="expendAccount" property="expendAccount" jdbcType="INTEGER" />
+		<result column="expendMoney" property="expendMoney" jdbcType="INTEGER" />
+	</resultMap>
+	
+	 <select id="findStudentInfo"  resultMap="AccountResultMap"  parameterType="com.lili.student.model.StudentBDTO">
+		select 	money,
+					<![CDATA[ (select count(1) from t_u_money where userId=s.studentId and userType=2 and changeValue > 0
+	 						and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as saveAccount,
+					(select sum(changeValue) from t_u_money where userId=s.studentId and userType=2 and changeValue > 0
+	 						and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as saveMoney,
+					(select count(1) from t_u_money where userId=s.studentId and userType=2 and changeValue < 0
+	 						and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as expendAccount,
+					(select sum(changeValue) from t_u_money where userId=s.studentId and userType=2 and changeValue < 0
+	 						and  DATE(operateTime) between #{startTime} and #{endTime} 
+					) as expendMoney ]]>  
+			from  t_u_stuaccount s where  
+	 				 s.studentId = #{studentId}
+  	 </select>
+  	 
+  	 
+  	 <update id="resetState"   parameterType="com.lili.student.model.StudentBDTO">
+		update t_u_student
+		<set>
+			<if test="applyexam != null or applyexam == 0">
+				applyexam = #{applyexam,jdbcType=INTEGER},
+			</if>
+			<if test="applystate != null or applystate == 0">
+				applystate = #{applystate,jdbcType=INTEGER},
+			</if>
+		</set>
+		where 
+		<if test="studentIds != null and studentIds != ''">
+				 studentId in (${studentIds})
+			</if>
+			<if test="studentIds == null or studentIds == ''">
+				 studentId in ('')
+			</if>
+	</update>
+	
+	<select id="havePackageStudent" resultMap="VoResultMap">
+		select 
+		a.studentId,a.name,a.idNumber,a.phoneNum,a.sex,a.age,a.applyCarType,a.syncTime,a.flowNo,
+		b.coachId,c.schoolId,c.name as schoolName,d.name as coachName,a.applystate,a.applyexam
+		,e.rid cityId,e.region cityName,a.applyttid,a.isImport,a.state,a.reviveTime,a.packageId,a.relevanceTime
+		from t_u_student a 
+		left join t_u_mycoaches b on a.studentId = b.studentId and b.status = 0 and b.type = 1
+		inner join t_s_school c on a.schoolId = c.schoolId
+		left join t_u_coach d on d.coachId = b.coachId
+		left join t_s_region e on c.cityId = e.rid
+		
+		where 1=1
+		    <if test="name != null and name != ''">
+				and a.name= #{name}
+			</if>
+			<if test="(name == null or name == '') and (phoneNum == null or phoneNum == '')">
+				<![CDATA[and a.studentId >#{min_id} and a.studentId <= #{max_id} ]]>  
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and a.phoneNum = #{phoneNum}
+			</if>
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and a.cityId = #{cityId}
+			</if>
+			<if test="searchType==1">
+				and (a.packageId is null or a.packageId=0)
+			</if>
+			<if test="searchType==2">
+				and a.packageId is not null and a.packageId!=0
+			</if>
+			<if test="packageId !=null and packageId !='' ">
+				and a.packageId =#{packageId}
+			</if>
+              and a.isImport = 1
+		group by a.studentId
+		order by a.studentId desc
+		
+	</select>
+	
+	<select id="findRelevancePackageTotal" resultType="java.lang.Long">
+		select 
+		COUNT(studentId)
+		from t_u_student 
+		where 1=1 
+	
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			<if test="searchType==1">
+				and (packageId is null or packageId=0)
+			</if>
+			<if test="searchType==2">
+				and packageId is not null and packageId!=0
+			</if>
+			<if test="packageId !=null and packageId !='' ">
+				and packageId =#{packageId}
+			</if>
+			and isImport = 1
+		order by studentId desc
+	</select>
+	
+	<select id="findRelevancePackageMID" resultType="java.lang.Long">
+		select 
+		studentId
+		from t_u_student 
+		WHERE 1=1
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="schoolNo != null and schoolNo != ''  and cmsChannel == 1">
+				and schoolId = #{schoolNo}
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+		   <if test="searchType==1">
+				and (packageId is null or packageId=0)
+			</if>
+			<if test="searchType==2">
+				and packageId is not null and packageId!=0
+			</if>
+			<if test="packageId !=null and packageId !='' ">
+				and packageId =#{packageId}
+			</if>
+			and isImport = 1
+		order by studentId desc
+		limit #{studentRowNum},1
+	</select>
+	
+	
+  	 
+  	<select id="queryStudentProgress" resultMap="progressMap" parameterType="com.lili.report.vo.StatisticsStudentProgress" >
+    select applyexam,applystate,count(*) as count from t_u_student 
+    where isimport=0  
+    group by applyexam,applystate
+  </select>
+  
+  <select id="queryStudentProgressBySchool" resultMap="progressMap" parameterType="com.lili.report.vo.StatisticsStudentProgress" >
+    select schoolId, applyexam,applystate,count(*) as count from t_u_student 
+    where isimport=0  
+    group by schoolid,applyexam,applystate
+  </select> 
+  
+	<select id="findStudentByProgress" resultMap="VoResultMap" parameterType="com.lili.report.vo.StatisticsStudentProgress">
+	    select 
+			<include refid="Base_Column_List" />
+	    from t_u_student
+		where applyexam=#{applyexam} and applystate=#{applystate}
+		and isImport = 0	 
+		order by studentId desc
+		limit #{startIndex},#{pageSize}
+  	</select>
+  
+  	<select id="findStudentByProgressTotal" resultType="java.lang.Long">
+		select 
+			COUNT(studentId)
+		from t_u_student 
+		where applyexam = #{applyexam} and applystate = #{applystate}
+		and isImport = 0
+	</select>
+	
+	<select id="findStudentByProgressGreater" resultMap="VoResultMap" parameterType="com.lili.report.vo.StatisticsStudentProgress">
+	    select 
+			<include refid="Base_Column_List" />
+	    from t_u_student
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or applyexam > #{applyexam})
+		and isImport = 0	
+		order by studentId desc 
+		limit #{startIndex},#{pageSize}
+  	</select>
+  
+  	<select id="findStudentByProgressGreaterTotal" resultType="java.lang.Long">
+		select 
+			COUNT(studentId)
+		from t_u_student 
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or applyexam > #{applyexam})
+		and isImport = 0
+	</select>
+	
+	<select id="findStudentByProgressGreaterEqual" resultMap="VoResultMap" parameterType="com.lili.report.vo.StatisticsStudentProgress">
+	    select 
+			<include refid="Base_Column_List" />
+	    from t_u_student
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or applyexam >= #{applyexam})
+		and isImport = 0	 
+		order by studentId desc
+		limit #{startIndex},#{pageSize}
+  	</select>
+  
+  	<select id="findStudentByProgressGreaterEqualTotal" resultType="java.lang.Long">
+		select 
+			COUNT(studentId)
+		from t_u_student 
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or applyexam >= #{applyexam})
+		and isImport = 0
+	</select>
+	
+	<select id="findStudentByProgressLess" resultMap="VoResultMap" parameterType="com.lili.report.vo.StatisticsStudentProgress">
+	    select 
+			<include refid="Base_Column_List" />
+	    from t_u_student
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or #{applyexam} > applyexam)
+		and isImport = 0
+		order by studentId desc
+		limit #{startIndex},#{pageSize}
+  	</select>
+  
+  	<select id="findStudentByProgressLessTotal" resultType="java.lang.Long">
+		select 
+			COUNT(studentId)
+		from t_u_student 
+		where ((applyexam=#{applyexam} and applystate=#{applystate}) or #{applyexam} > applyexam)
+		and isImport = 0
+	</select>
+</mapper>

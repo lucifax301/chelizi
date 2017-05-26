@@ -1,0 +1,214 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>喱喱驾培云</title>	
+		
+		<link href="assets/css/thirdpart/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/css/thirdpart/font-awesome.min.css" rel="stylesheet">
+		<link href="assets/css/thirdpart/bootstrapValidator.min.css" rel="stylesheet">
+		<!-- 带搜索下拉框-->
+		<link href="assets/css/thirdpart/select2.min.css" rel="stylesheet"> 
+		<!-- 百度地图绘制图形-->
+		<link href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" rel="stylesheet"/>
+		<link href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" rel="stylesheet"/>
+		<!-- 自定义-->
+		<link href="assets/css/base/PopLayer.css" rel="stylesheet">
+		<link href="assets/css/base/custom.css" rel="stylesheet">
+		<link href="assets/css/base/custom-zgr.css" rel="stylesheet">
+		<link href="assets/css/base/chenchangji.css" rel="stylesheet">
+
+		<!-- JS -->
+		<!-- load angular, ngRoute, ngAnimate -->
+		<script type="text/javascript" src="assets/js/thirdpart/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/angular/angular.min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/angular/angular-route.min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/angular/angular-animate.min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/bootstrap/bootstrap.min.js"></script>
+		
+		<script type="text/javascript" src="assets/js/base/common.js"></script>
+		<script type="text/javascript" src="assets/js/base/authcheck.js"></script>
+		<script type="text/javascript" src="assets/js/base/app.js"></script>
+		<script type="text/javascript" src="assets/js/base/Page.js"></script>
+		<script type="text/javascript" src="assets/js/base/PopLayer.js"></script> 		
+		<script type="text/javascript" src="assets/js/base/function.js"></script>
+		<script type="text/javascript" src="assets/js/base/selectdata.js"></script>
+
+		<script type="text/javascript" src="assets/js/thirdpart/validator/bootstrapValidator.min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/laydate/laydate.js"></script>
+
+		<!-- 二维码插件-->
+		<script type="text/javascript" src="assets/js/thirdpart/qrcode/jquery.qrcode.min.js"></script>
+		<!-- 百度地图绘制图形 -->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ND30MkMO4Uk1ageUKL1wnI8mBgGGzmf7"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+		<script type="text/javascript" src="assets/js/thirdpart/baidumap/lushu.min.js"></script>
+		<!-- 统计图 -->
+		<script type="text/javascript" src="assets/js/thirdpart/chartjs/Chart.min.js"></script>
+		<!-- 带搜索下拉框 -->
+		<script type="text/javascript" src="assets/js/thirdpart/select2/select2.min.js"></script>
+		<!-- 自定义过滤器 -->
+		<script type="text/javascript" src="assets/js/ng-js/angular-filter.js"></script>
+		<!-- 控制器 -->
+		<script type="text/javascript" src="assets/js/ng-js/index.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/student-list.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/add-student.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-member.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/coach-index.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/coach-time.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-sub.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-car.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-train-area.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/user-list.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/register-list.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/classManage-class.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-marketing.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-complain.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-return.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/ogz-visit.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/theory-exam.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/user-permission.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/user-permission-add.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/user-permission-edit.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/user-permission-users.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/book-exam.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/book-exam-op.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/book-exam-detail.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/exam-result.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/exam-result-op.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/exam-result-detail.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/add-trainarea.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/update-trainarea.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/add-sub.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/update-sub.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/add-coach.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/update-coach.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/add-car.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/update-car.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/rc-school-account.js"></script>
+        <script type="text/javascript" src="assets/js/ng-js/rc-coach-account.js"></script>
+        <script type="text/javascript" src="assets/js/ng-js/rc-account-add.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/rc-recharge.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/rc-consumption.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/scope-area-list.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/proxy-dealer-list.js"></script>
+		
+		<script type="text/javascript" src="assets/js/ng-js/show-stuOfCoach.js"></script>
+		<script type="text/javascript" src="assets/js/ng-js/distributionStu.js"></script>
+	</head>
+
+	<body ng-app="app" class="nav-md" ng-controller="myCtrl" ng-keydown="keydown($event);">
+		<div class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title" style="border: 0;">
+							<span class="site_title"><i class="fa fa-logo"></i><span>喱喱驾培云</span></span>
+						</div>
+						<div class="clearfix"></div>
+						<div id="sidebar-menu" class="main_menu_side hidden-print main_menu" ng-model="leftmenu">
+							<div class="menu_section">
+								<ul class="nav side-menu" id="leftMenu">
+									<li class="{{x.active}}" ng-repeat="x in leftMenuData track by $index">
+										<a href=" {{ NURL }}/{{x.url}} " class="menu-p current-page" ng-if="x.url != '' && x.url != null">
+											<i class="fa fa-circle-o"></i> {{ x.name }}<span class="fa fa-angle-right"></span>
+										</a>
+										<a class="menu-p current-page" ng-if="x.url == '' || x.url == null">
+											<i class="fa fa-circle-o"></i> {{ x.name }}<span class="fa fa-angle-right"></span>
+										</a>
+										<ul class="nav child_menu" ng-if="x.child">
+											<li ng-repeat="y in x.child"  class="{{y.active}}">
+												<a href="{{ NURL }}/{{y.url}}" class="menu-s" ng-bind="y.name" ></a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="liliversion">版本 beta</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="top_nav">
+					<div class="nav_menu">
+						<nav role="navigation">
+							<div class="login-info z-fl pl20"><span ng-bind="userInfo.schoolname"></span></div>
+							<ul class="nav navbar-nav navbar-right">
+                                <li role="presentation" class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <i class="fa fa-user"></i>
+                                    </a>
+                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                        <li>
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#passwordModal" ng-click="resetForm()">修改密码</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" ng-click="logout()">注销登录</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="login-info"></span><span class="z-color-active" ng-bind="userInfo.realname"></span></li>
+                            </ul>
+						</nav>
+					</div>
+				</div>
+				<div ng-view class=""></div>
+
+				<div id="passwordModal" class="modal fade">
+		        	<div class="modal-dialog modal-md">
+		            	<div class="modal-content" >
+		            		<div class="modal-header">
+			                    <button type="button" class="close" data-dismiss="modal">×</button>
+			                    <h4 class="modal-title">修改密码</h4>
+		                	</div>
+		                	<div class="x_panel" >
+		                    	<div class="x_content">
+		                        <br />
+		                        <form id="passwordForm" class="form-horizontal form-label-left">
+									<div class="row">
+										<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+											<div class="item form-group">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12">用户密码 <span class="required">*</span></label>
+												<div class="col-md-6 col-sm-6 col-xs-12">
+												   <input name="password" type="password" class="form-control" placeholder="填写新密码" ng-model="password">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+											<div class="item form-group">
+												<label class="control-label col-md-3 col-sm-3 col-xs-12">确认密码 <span class="required">*</span></label>
+												<div class="col-md-6 col-sm-6 col-xs-12">
+												   <input name="password1" type="password" class="form-control" placeholder="填写确认密码" ng-model="password1">
+												</div>
+											</div>
+										</div>
+									</div>
+		                            <div class="ln_solid"></div>
+		                            <div class="form-group text-center">
+		                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3 col-sm-offset-3 col-xs-offset-3">
+		                                    <button type="button" class="btn btn-primary" data-dismiss="modal" >取消</button>
+		                                    <button type="submit" class="btn btn-success">保存</button>
+		                                </div>
+		                            </div>
+		                        </form>
+		                    	</div>
+		                	</div>
+		            	</div>
+		        	</div>
+		   		</div>  
+				<footer>
+					<div class="pull-right">喱喱驾培云 - 深圳市车厘子网络科技有限公司
+					<a href="http://www.liliyun.com.cn">liliyun</a></div>
+					<div class="clearfix"></div>
+				</footer>	
+			</div>
+		</div>
+	</body>
+</html>

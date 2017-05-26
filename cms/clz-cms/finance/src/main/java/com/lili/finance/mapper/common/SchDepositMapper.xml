@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.common.SchDepositDao">
+	<resultMap id="BaseResultMap" type="com.lili.finance.vo.SchDeposit">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="waterId" property="waterId" jdbcType="VARCHAR" />
+		<result column="school_type" property="schoolType" jdbcType="TINYINT" />
+		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="card_name" property="cardName" jdbcType="VARCHAR" />
+		<result column="checker" property="checker" jdbcType="VARCHAR" />
+		<result column="check_status" property="checkStatus" jdbcType="TINYINT" />
+		<result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="transfer" property="transfer" jdbcType="VARCHAR" />
+		<result column="transferTime" property="transferTime" jdbcType="TIMESTAMP" />
+		<result column="bankResTime" property="bankResTime" jdbcType="TIMESTAMP" />
+		<result column="real_money" property="realMoney" jdbcType="INTEGER" />
+		<result column="prov" property="prov" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="response_code" property="responseCode" jdbcType="VARCHAR" />
+		<result column="merDate" property="merDate" jdbcType="VARCHAR" />
+		<result column="merSeqId" property="merSeqId" jdbcType="VARCHAR" />
+		<result column="stat" property="stat" jdbcType="VARCHAR" />
+		<result column="feeAmt" property="feeAmt" jdbcType="INTEGER" />
+		<result column="response_remark" property="responseRemark" jdbcType="VARCHAR" />
+		<result column="stat_remark" property="statRemark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ArrayResultMap" type="com.lili.finance.vo.SchDeposit">
+    <result column="waterId" property="waterId" jdbcType="VARCHAR" />
+		<result column="school_type" property="schoolType" jdbcType="TINYINT" />
+		<result column="school_id" property="schoolId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="card_name" property="cardName" jdbcType="VARCHAR" />
+		<result column="checker" property="checker" jdbcType="VARCHAR" />
+		<result column="check_status" property="checkStatus" jdbcType="TINYINT" />
+		<result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="transfer" property="transfer" jdbcType="VARCHAR" />
+		<result column="transferTime" property="transferTime" jdbcType="TIMESTAMP" />
+		<result column="bankResTime" property="bankResTime" jdbcType="TIMESTAMP" />
+		<result column="real_money" property="realMoney" jdbcType="INTEGER" />
+		<result column="prov" property="prov" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="response_code" property="responseCode" jdbcType="VARCHAR" />
+		<result column="merDate" property="merDate" jdbcType="VARCHAR" />
+		<result column="merSeqId" property="merSeqId" jdbcType="VARCHAR" />
+		<result column="stat" property="stat" jdbcType="VARCHAR" />
+		<result column="feeAmt" property="feeAmt" jdbcType="INTEGER" />
+		<result column="response_remark" property="responseRemark" jdbcType="VARCHAR" />
+		<result column="stat_remark" property="statRemark" jdbcType="VARCHAR" />
+		<result column="accountMoney" property="accountMoney" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, waterId, school_type, school_id, abs(money) as money, apply_time, type, 
+		order_id,
+		bank_card, bank_name, card_name, checker, check_status, check_time,
+		check_remark,
+		remark, transfer, transferTime, bankResTime, real_money, prov, city,
+		response_code,
+		merDate, merSeqId, stat, feeAmt, response_remark, stat_remark
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_deposit
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="querySchDeposit" resultMap="BaseResultMap" parameterType="com.lili.finance.vo.SchDeposit">
+		select
+			<include refid="Base_Column_List" />
+			from t_s_deposit
+		where school_id = #{schoolId,jdbcType=INTEGER} and waterId=#{waterId,jdbcType=VARCHAR}  limit 1
+	</select>
+	
+	<select id="queryBatchDepositList" resultMap="ArrayResultMap" parameterType="com.lili.finance.vo.SchDeposit">
+		select
+			<include refid="Base_Column_List" />,
+			 (select money from t_s_schaccount a where s.school_id= a.schoolId)as accountMoney
+		from t_s_deposit s
+			where s.school_id= #{schoolId,jdbcType=VARCHAR} 
+			<trim suffixOverrides=",">
+				<if test="checkStatus != null and checkStatus !='' or checkStatus==0">
+						and s.check_status = #{checkStatus}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+					   and date(s.apply_time)  between #{startTime} and #{endTime}
+				</if>	
+			</trim>
+			order by s.id desc
+	</select>
+	
+	<select id="queryDepositInfo" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_deposit
+			where 1=1 and 
+			id in 
+			<foreach collection="list" index="index" item="item" open="("	separator="," close=")"> #{item} 	</foreach>
+	</select>
+	
+	<select id="queryLeftDepositCount" resultType="java.lang.Integer" parameterType="com.lili.school.model.SchAccount">
+		select
+			count(*)
+		from t_s_deposit
+			where school_id = #{schoolId,jdbcType=VARCHAR} and 
+				 date(apply_time) between #{startTime} and #{endTime}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_s_deposit
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="tellerTransferUpdateStatus"  parameterType="java.util.List">
+       <foreach collection="list" item="depositUpdate" index="index" open="" close="" separator=";">
+             update t_s_deposit 
+                <set>
+						transfer='${depositUpdate.transfer}',
+						bankResTime=NOW(),
+						transferTime =NOW(),
+						prov='${depositUpdate.prov}',
+						city='${depositUpdate.city}',
+						response_code='${depositUpdate.responseCode}',
+						merDate='${depositUpdate.merDate}',
+						merSeqId='${depositUpdate.merSeqId}',
+						stat='${depositUpdate.stat}',
+						feeAmt=${depositUpdate.feeAmt},
+						check_status=${depositUpdate.checkStatus}
+                </set>
+                <where>  
+		       		 id=${depositUpdate.id}
+		     </where> 
+       </foreach>
+    </update>
+    
+   <update id="updateStatusList"  parameterType="java.util.List">
+       <foreach collection="list" item="depositUpdate" index="index" open="" close="" separator=";">
+             update t_s_deposit 
+                <set>
+						checker='${depositUpdate.checker}',
+						check_remark='${depositUpdate.checkRemark}',
+						check_time =NOW(),
+						check_status=${depositUpdate.checkStatus}
+                </set>
+                <where>  
+		       		 id=${depositUpdate.id}
+		     </where> 
+       </foreach>
+    </update>
+	
+	<insert id="insert" parameterType="com.lili.finance.vo.SchDeposit">
+		insert into t_s_deposit (id, waterId, school_type,
+		school_id, money, apply_time,
+		type,  order_id,
+		bank_card, bank_name, card_name,
+		checker, check_status, check_time,
+		check_remark, remark, transfer,
+		transferTime, bankResTime, real_money,
+		prov, city, response_code,
+		merDate, merSeqId, stat,
+		feeAmt, response_remark, stat_remark
+		)
+		values (#{id,jdbcType=INTEGER}, #{waterId,jdbcType=VARCHAR},
+		#{schoolType,jdbcType=TINYINT},
+		#{schoolId,jdbcType=BIGINT}, #{money,jdbcType=INTEGER}, #{applyTime,jdbcType=TIMESTAMP},
+		#{type,jdbcType=VARCHAR},
+		#{orderId,jdbcType=VARCHAR},
+		#{bankCard,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{cardName,jdbcType=VARCHAR},
+		#{checker,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT},
+		#{checkTime,jdbcType=TIMESTAMP},
+		#{checkRemark,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{transfer,jdbcType=VARCHAR},
+		#{transferTime,jdbcType=TIMESTAMP}, #{bankResTime,jdbcType=TIMESTAMP},
+		#{realMoney,jdbcType=INTEGER},
+		#{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{responseCode,jdbcType=VARCHAR},
+		#{merDate,jdbcType=VARCHAR}, #{merSeqId,jdbcType=VARCHAR},
+		#{stat,jdbcType=VARCHAR},
+		#{feeAmt,jdbcType=INTEGER}, #{responseRemark,jdbcType=VARCHAR}, #{statRemark,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.finance.vo.SchDeposit">
+		insert into t_s_deposit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="waterId != null">
+				waterId,
+			</if>
+			<if test="schoolType != null">
+				school_type,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="money != null">
+				money,
+			</if>
+			<if test="applyTime != null">
+				apply_time,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="bankCard != null">
+				bank_card,
+			</if>
+			<if test="bankName != null">
+				bank_name,
+			</if>
+			<if test="cardName != null">
+				card_name,
+			</if>
+			<if test="checker != null">
+				checker,
+			</if>
+			<if test="checkStatus != null">
+				check_status,
+			</if>
+			<if test="checkTime != null">
+				check_time,
+			</if>
+			<if test="checkRemark != null">
+				check_remark,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="transfer != null">
+				transfer,
+			</if>
+			<if test="transferTime != null">
+				transferTime,
+			</if>
+			<if test="bankResTime != null">
+				bankResTime,
+			</if>
+			<if test="realMoney != null">
+				real_money,
+			</if>
+			<if test="prov != null">
+				prov,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="responseCode != null">
+				response_code,
+			</if>
+			<if test="merDate != null">
+				merDate,
+			</if>
+			<if test="merSeqId != null">
+				merSeqId,
+			</if>
+			<if test="stat != null">
+				stat,
+			</if>
+			<if test="feeAmt != null">
+				feeAmt,
+			</if>
+			<if test="responseRemark != null">
+				response_remark,
+			</if>
+			<if test="statRemark != null">
+				stat_remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="waterId != null">
+				#{waterId,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolType != null">
+				#{schoolType,jdbcType=TINYINT},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=INTEGER},
+			</if>
+			<if test="applyTime != null">
+				#{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				#{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cardName != null">
+				#{cardName,jdbcType=VARCHAR},
+			</if>
+			<if test="checker != null">
+				#{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkStatus != null">
+				#{checkStatus,jdbcType=TINYINT},
+			</if>
+			<if test="checkTime != null">
+				#{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkRemark != null">
+				#{checkRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="transfer != null">
+				#{transfer,jdbcType=VARCHAR},
+			</if>
+			<if test="transferTime != null">
+				#{transferTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bankResTime != null">
+				#{bankResTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="realMoney != null">
+				#{realMoney,jdbcType=INTEGER},
+			</if>
+			<if test="prov != null">
+				#{prov,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="responseCode != null">
+				#{responseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="merDate != null">
+				#{merDate,jdbcType=VARCHAR},
+			</if>
+			<if test="merSeqId != null">
+				#{merSeqId,jdbcType=VARCHAR},
+			</if>
+			<if test="stat != null">
+				#{stat,jdbcType=VARCHAR},
+			</if>
+			<if test="feeAmt != null">
+				#{feeAmt,jdbcType=INTEGER},
+			</if>
+			<if test="responseRemark != null">
+				#{responseRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="statRemark != null">
+				#{statRemark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateStatus" parameterType="com.lili.finance.vo.SchDeposit">
+		update t_s_deposit
+		<set>
+			<if test="waterId != null">
+				waterId = #{waterId,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolType != null">
+				school_type = #{schoolType,jdbcType=TINYINT},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="money != null">
+				money = #{money,jdbcType=INTEGER},
+			</if>
+			<if test="applyTime != null">
+				apply_time = #{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+		
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				bank_card = #{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bank_name = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cardName != null">
+				card_name = #{cardName,jdbcType=VARCHAR},
+			</if>
+			<if test="checker != null">
+				checker = #{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkStatus != null">
+				check_status = #{checkStatus,jdbcType=TINYINT},
+			</if>
+			<if test="checkTime != null">
+				check_time = #{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkRemark != null">
+				check_remark = #{checkRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="transfer != null">
+				transfer = #{transfer,jdbcType=VARCHAR},
+			</if>
+			<if test="transferTime != null">
+				transferTime = #{transferTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bankResTime != null">
+				bankResTime = #{bankResTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="realMoney != null">
+				real_money = #{realMoney,jdbcType=INTEGER},
+			</if>
+			<if test="prov != null">
+				prov = #{prov,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="responseCode != null">
+				response_code = #{responseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="merDate != null">
+				merDate = #{merDate,jdbcType=VARCHAR},
+			</if>
+			<if test="merSeqId != null">
+				merSeqId = #{merSeqId,jdbcType=VARCHAR},
+			</if>
+			<if test="stat != null">
+				stat = #{stat,jdbcType=VARCHAR},
+			</if>
+			<if test="feeAmt != null">
+				feeAmt = #{feeAmt,jdbcType=INTEGER},
+			</if>
+			<if test="responseRemark != null">
+				response_remark = #{responseRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="statRemark != null">
+				stat_remark = #{statRemark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.finance.vo.SchDeposit">
+		update t_s_deposit
+		set waterId = #{waterId,jdbcType=VARCHAR},
+		school_type = #{schoolType,jdbcType=TINYINT},
+		school_id = #{schoolId,jdbcType=BIGINT},
+		money = #{money,jdbcType=INTEGER},
+		apply_time = #{applyTime,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=VARCHAR},
+		order_id = #{orderId,jdbcType=VARCHAR},
+		bank_card = #{bankCard,jdbcType=VARCHAR},
+		bank_name = #{bankName,jdbcType=VARCHAR},
+		card_name = #{cardName,jdbcType=VARCHAR},
+		checker = #{checker,jdbcType=VARCHAR},
+		check_status = #{checkStatus,jdbcType=TINYINT},
+		check_time = #{checkTime,jdbcType=TIMESTAMP},
+		check_remark = #{checkRemark,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		transfer = #{transfer,jdbcType=VARCHAR},
+		transferTime = #{transferTime,jdbcType=TIMESTAMP},
+		bankResTime = #{bankResTime,jdbcType=TIMESTAMP},
+		real_money = #{realMoney,jdbcType=INTEGER},
+		prov = #{prov,jdbcType=VARCHAR},
+		city = #{city,jdbcType=VARCHAR},
+		response_code = #{responseCode,jdbcType=VARCHAR},
+		merDate = #{merDate,jdbcType=VARCHAR},
+		merSeqId = #{merSeqId,jdbcType=VARCHAR},
+		stat = #{stat,jdbcType=VARCHAR},
+		feeAmt = #{feeAmt,jdbcType=INTEGER},
+		response_remark = #{responseRemark,jdbcType=VARCHAR},
+		stat_remark = #{statRemark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

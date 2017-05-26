@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Notice">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>App消息中心配置</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>App消息中心配置</h1></div>
+		<div class="table-margin common-table z-noborder">
+			<div class="header app-notice-header z-p0">
+                <ul>
+                    <li ng-click="getUserTypeStatus($event,10)" id="xueyuan">学员端配置</li>
+                    <li ng-click="getUserTypeStatus($event,9)" id="jiaolian">教练端配置</li>
+                </ul>
+            </div>
+			<div class="content">
+				<div class="search">
+					<div class="form-inline">
+                        <label class="">分类:</label>
+                        <div class="form-group">
+                            <select id="type" class="form-control">
+                                <option value="">全部</option>
+                                <option value="1">活动消息</option>
+                                <option value="3">喱喱头条</option>
+                                <option value="4">我的消息</option>
+                            </select>
+                        </div>
+                        <label for="">状态:</label>
+                        <div class="form-group">
+                            <select id="searchIsdel" class="form-control">
+                                <option value="">全部</option>
+                                <option value="0">已发布</option>
+                                <option value="2">草稿</option>
+                            </select>
+                        </div>
+                        <label for="">标题:</label>
+                        <div class="form-group">
+                            <input id="searchTitle" class="form-control" style="width: 140px">
+                        </div>
+                        <label for="">操作日期:</label>
+                        <div class="form-group">
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                <input type="text" style="width: 140px" name="reservation" id="reservation" class="form-control" placeholder="开始日期"/>
+                            </div>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 140px" name="reservation2" id="reservation2" class="form-control" placeholder="结束日期"/>
+							</div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" ng-click="searchData()"  class='btn btn-primary'>搜索</button>
+                            <button type="button" ng-click="rest()"  class='btn btn-danger'>重置</button>
+                        </div>
+					</div>
+
+
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a href="notice-add.html?editType=add&setType={{setType}}" class="btn btn-sm btn-primary" ng-if="140202|isAccessShow">新增消息</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+						<td width="5%" align="center"><b>序号</b></td>
+						<td width="30%" align="center"><b>标题</b></td>
+					  	<td width="10%" align="center"><b>分类</b></td>
+					  	<td width="5%" align="center"><b>状态</b></td>
+					  	<td width="15%" align="center"><b>操作时间</b></td>
+					    <td width="10%" align="center"><b>点击量</b></td>
+					  	<td width="15%" align="center"><b>操作</b></td>
+					  
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td >{{(defaultPage-1)*pageSize+$index+1}}</td>
+					  	<td ng-bind="data.title"></td>
+					    <td ng-bind="data.type | text"></td>
+						<td ng-bind="data.isdel | noticeIsdelText"></td>
+					  	<td ng-bind="data.time |timeTex"></td>
+						<td ng-bind="data.clickNum"></td>
+
+					  	<td class="operation" style="width: 80px">
+							<a class="edit"  href="notice-add.html?editType=edit&setType={{setType}}&editNoticeId={{data.noticeId}}&saveType=no&view={{data.type}}">查看</a>
+							<a class="edit" ng-if="140201|isAccessShow"  href="notice-add.html?editType=edit&setType={{setType}}&editNoticeId={{data.noticeId}}">编辑</a>
+							<a class="edit" ng-if="140204|isAccessShow" href="javascript:" ng-show="{{data.isdel==2}}" ng-click="changeIsdel(data.noticeId,1,data.type)">删除</a>
+						    <a class="edit" ng-if="140201|isAccessShow" href="javascript:" ng-show="{{data.isdel==2}}" ng-click="changeIsdel(data.noticeId,0,data.type)">发布</a>
+							<a class="edit" ng-if="140201|isAccessShow"  href="javascript:" ng-show="{{data.isdel==0}}" ng-click="changeIsdel(data.noticeId,2,data.type)">撤回</a>
+						</td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 教练信息编辑 -->
+		<ng-include src="'edit/edit-notice.html'" onload="noticeEditLoad()" ></ng-include>
+		<ng-include src="'edit/edit-notice-searchCoach.html'" onload="noticeEditLoad()" ></ng-include>
+		<ng-include src="'edit/edit-notice-searchStudent.html'" onload="noticeEditLoad()"></ng-include>
+		<ng-include src="'edit/edit-notice-searchSchool.html'" onload="noticeEditLoad()"></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/notice.js"></script>
+<script type="text/javascript">
+	var type=getQueryString("setType");
+	if(type=="9"){
+      $("#jiaolian").addClass('active').siblings().removeClass("active");
+	}else{
+		$("#xueyuan").addClass('active').siblings().removeClass("active");
+	}
+</script>
+</body>
+</html>

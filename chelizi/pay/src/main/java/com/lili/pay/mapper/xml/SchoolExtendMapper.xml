@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.pay.mapper.dao.SchoolExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.pay.dto.SchoolExtend" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="mer_name" property="merName" jdbcType="VARCHAR" />
+    <result column="regist_no" property="registNo" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="tax_id" property="taxId" jdbcType="VARCHAR" />
+    <result column="public_account" property="publicAccount" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="sub_bank_name" property="subBankName" jdbcType="VARCHAR" />
+    <result column="protocol_open" property="protocolOpen" jdbcType="TINYINT" />
+    <result column="check_status" property="checkStatus" jdbcType="TINYINT" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="checker" property="checker" jdbcType="VARCHAR" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_Time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_change" property="isChange" jdbcType="TINYINT" />
+    <result column="change_remark" property="changeRemark" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, schoolId,  mer_name, regist_no, org_code, tax_id, public_account, 
+    bank_name, sub_bank_name,  protocol_open, check_status, is_del, checker, check_time, 
+    remark, create_Time, is_change, change_remark,sign
+  </sql>
+  
+  <select id="queryBySchoolId" resultMap="BaseResultMap" parameterType="com.lili.pay.dto.SchoolExtend" >
+   		 select 
+    		<include refid="Base_Column_List" />
+   		 from t_s_school_extend
+   		 where schoolId = #{schoolId,jdbcType=INTEGER} and is_del= #{isDel,jdbcType=TINYINT} 
+   		 order by create_Time desc limit 1
+  </select>
+  
+  <select id="queryExtendInfo" resultMap="BaseResultMap" parameterType="com.lili.pay.dto.SchoolExtend" >
+	    select 
+		    	<include refid="Base_Column_List" />
+	   	 from t_s_school_extend
+	    	where 1=1  
+	    	<trim suffixOverrides=",">
+				<if test="schoolId != null and schoolId != ''">
+					and schoolId = #{schoolId,jdbcType=INTEGER} 
+				</if>
+				<if test="checkStatus != null and checkStatus != ''">
+					and check_status = #{checkStatus,jdbcType=TINYINT} 
+				</if>
+				<if test="isChange != null and isChange != ''">
+					and is_change = #{isChange,jdbcType=TINYINT} 
+				</if>
+				<if test="isDel != null and isDel != ''">
+					and is_del = #{isDel,jdbcType=TINYINT} 
+				</if>
+			</trim>
+		order by id desc limit 1
+  </select>
+  
+  <select id="queryBurse" resultMap="BaseResultMap" parameterType="com.lili.pay.dto.SchoolExtend" >
+	    select 
+		    	<include refid="Base_Column_List" />
+	   	 from t_s_school_extend
+	    	where 1=1  
+	    	<trim suffixOverrides=",">
+				<if test="schoolId != null and schoolId != ''">
+					and schoolId = #{schoolId,jdbcType=INTEGER} 
+				</if>
+				<if test="checkStatus != null and checkStatus != ''">
+					and check_status = #{checkStatus,jdbcType=TINYINT} 
+				</if>
+				<if test="isChange != null and isChange != ''">
+					and is_change = #{isChange,jdbcType=TINYINT} 
+				</if>
+				<if test="isDel != null and isDel != ''">
+					and is_del = #{isDel,jdbcType=TINYINT} 
+				</if>
+			</trim>
+		order by id desc limit 1
+  </select>
+  
+  <select id="querySchoolBurseList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_school_extend
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and id in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and id in ('')
+				</if>
+			</trim>
+	</select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	    select 
+	    	<include refid="Base_Column_List" />
+	    from t_s_school_extend
+	    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_school_extend
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+   <update id="batchUpdateSchoolExtendList"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_s_school_extend 
+                <set>
+						checker='${item.checker}',
+					    change_remark='${item.changeRemark}',
+						check_time =NOW(),
+						check_status=${item.checkStatus}
+                </set>
+                <where>  
+		       		 id=${item.id}
+		     </where> 
+       </foreach>
+    </update>
+    
+   <update id="batchUpdateNotUseList"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_s_school_extend 
+                <set>
+						is_del=1
+                </set>
+                <where>  
+		       		 id=${item.id}
+		       		 and check_status=3
+		     </where> 
+       </foreach>
+    </update>
+    
+   <update id="batchUpdateNotUsePassList"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_s_school_extend 
+                <set>
+						is_del=1
+                </set>
+                <where>  
+		       		 id=${item.id}
+		       		 and check_status=1
+		     </where> 
+       </foreach>
+    </update>
+  
+  <insert id="insert" parameterType="com.lili.pay.dto.SchoolExtend" >
+    insert into t_s_school_extend (id, schoolId, mer_name, regist_no, 
+      org_code, tax_id, public_account, 
+      bank_name, sub_bank_name,  
+      protocol_open, check_status, is_del, 
+      checker, check_time, remark, 
+      create_Time, is_change, change_remark,sign
+      )
+    values (#{id,jdbcType=INTEGER}, #{schoolid,jdbcType=INTEGER},  #{merName,jdbcType=VARCHAR}, #{registNo,jdbcType=VARCHAR}, 
+      #{orgCode,jdbcType=VARCHAR}, #{taxId,jdbcType=VARCHAR}, #{publicAccount,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{subBankName,jdbcType=VARCHAR},
+      #{protocolOpen,jdbcType=TINYINT}, #{checkStatus,jdbcType=TINYINT}, #{isDel,jdbcType=TINYINT}, 
+      #{checker,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isChange,jdbcType=TINYINT}, #{changeRemark,jdbcType=VARCHAR}, #{sign,jdbcType=TINYINT}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.pay.dto.SchoolExtend" >
+    insert into t_s_school_extend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="merName != null" >
+        mer_name,
+      </if>
+      <if test="registNo != null" >
+        regist_no,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="taxId != null" >
+        tax_id,
+      </if>
+      <if test="publicAccount != null" >
+        public_account,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="subBankName != null" >
+        sub_bank_name,
+      </if>
+      <if test="protocolOpen != null" >
+        protocol_open,
+      </if>
+      <if test="checkStatus != null" >
+        check_status,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="checker != null" >
+        checker,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_Time,
+      </if>
+      <if test="isChange != null" >
+        is_change,
+      </if>
+      <if test="changeRemark != null" >
+        change_remark,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="merName != null" >
+        #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="registNo != null" >
+        #{registNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxId != null" >
+        #{taxId,jdbcType=VARCHAR},
+      </if>
+      <if test="publicAccount != null" >
+        #{publicAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="subBankName != null" >
+        #{subBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolOpen != null" >
+        #{protocolOpen,jdbcType=TINYINT},
+      </if>
+      <if test="checkStatus != null" >
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="checker != null" >
+        #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isChange != null" >
+        #{isChange,jdbcType=TINYINT},
+      </if>
+      <if test="changeRemark != null" >
+        #{changeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updatepPotocolOpen" parameterType="com.lili.pay.dto.SchoolExtend">
+		update t_s_school_extend
+			set protocol_open = protocol_open + #{protocolOpen,jdbcType=TINYINT}
+		where schoolId = #{schoolId,jdbcType=INTEGER} and check_status = 2
+	</update>
+	
+  <update id="updatePotocolOpenInit" parameterType="com.lili.pay.dto.SchoolExtend">
+		update t_s_school_extend
+			set protocol_open =#{protocolOpen,jdbcType=TINYINT}
+		where schoolId = #{schoolId,jdbcType=INTEGER} and check_status = 2
+	</update>
+	
+  <update id="updateIsChange" parameterType="com.lili.pay.dto.SchoolExtend">
+		update t_s_school_extend
+			set is_change =#{isChange,jdbcType=TINYINT} 
+		where schoolId = #{schoolId,jdbcType=INTEGER} and check_status = 2
+	</update>
+	
+  <update id="updateIsDel" parameterType="com.lili.pay.dto.SchoolExtend">
+		update t_s_school_extend
+			set is_del = #{isDel,jdbcType=TINYINT}
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.pay.dto.SchoolExtend" >
+    update t_s_school_extend
+    <set >
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="merName != null" >
+        mer_name = #{merName,jdbcType=VARCHAR},
+      </if>
+      <if test="registNo != null" >
+        regist_no = #{registNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxId != null" >
+        tax_id = #{taxId,jdbcType=VARCHAR},
+      </if>
+      <if test="publicAccount != null" >
+        public_account = #{publicAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="subBankName != null" >
+        sub_bank_name = #{subBankName,jdbcType=VARCHAR},
+      </if>
+      <if test="protocolOpen != null" >
+        protocol_open = #{protocolOpen,jdbcType=TINYINT},
+      </if>
+      <if test="checkStatus != null" >
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+      <if test="checker != null" >
+        checker = #{checker,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_Time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isChange != null" >
+        is_change = #{isChange,jdbcType=TINYINT},
+      </if>
+      <if test="changeRemark != null" >
+        change_remark = #{changeRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.pay.dto.SchoolExtend" >
+    update t_s_school_extend
+	    set schoolId = #{schoolId,jdbcType=INTEGER},
+	      mer_name = #{merName,jdbcType=VARCHAR},
+	      regist_no = #{registNo,jdbcType=VARCHAR},
+	      org_code = #{orgCode,jdbcType=VARCHAR},
+	      tax_id = #{taxId,jdbcType=VARCHAR},
+	      public_account = #{publicAccount,jdbcType=VARCHAR},
+	      bank_name = #{bankName,jdbcType=VARCHAR},
+	      sub_bank_name = #{subBankName,jdbcType=VARCHAR},
+	      protocol_open = #{protocolOpen,jdbcType=TINYINT},
+	      check_status = #{checkStatus,jdbcType=TINYINT},
+	      is_del = #{isDel,jdbcType=TINYINT},
+	      checker = #{checker,jdbcType=VARCHAR},
+	      check_time = #{checkTime,jdbcType=TIMESTAMP},
+	      remark = #{remark,jdbcType=VARCHAR},
+	      create_Time = #{createTime,jdbcType=TIMESTAMP},
+	      is_change = #{isChange,jdbcType=TINYINT},
+	      change_remark = #{changeRemark,jdbcType=VARCHAR},
+	      sign = #{sign,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

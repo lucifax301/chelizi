@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="UserPermissionUsersAdd">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>添加成员</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <div class="z-common-head"><div class="z-title"><a href="user-permission.html">角色管理</a> > <a href="user-permission-users.html?roleId={{roleId}}" ng-bind="roleName"></a> > 添加成员</div></div>
+	<!-- 主体内容 -->
+	<div class="common-style">
+		<div class="table-margin common-table z-noborder z-mt0">
+			<div class="content z-p0">
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8"></div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+                        <tr>
+                            <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                            <td><b>用户名</b></td>
+                            <td><b>姓名</b></td>
+                            <!--<td><b>角色</b></td>-->
+                            <td><b>帐号状态</b></td>
+                        </tr>
+                        <tr ng-repeat="data in datas">
+                            <td align="center"><input type="checkbox" id="{{data.coachId}}" ng-click="updateSelection($event,data.id)" ng-checked="isSelected(data.coachId)"></td>
+                            <td ng-bind="data.account"></td>
+                            <td ng-bind="data.userName"></td>
+                            <!--<td ng-bind="data.privileges"></td>-->
+                            <td ng-bind="data.enabled | roleState" ng-class="{green:data.enabled==0,error:data.enabled==1}"></td>
+                        </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+            <div class="z-caozuo z-mt20 z-mb20">
+                <button class="btn btn-primary btn-sm" ng-click="submitData()">提交</button>
+                <a class="btn btn-default btn-sm" role="button" href="user-permission-users.html?roleId={{roleId}}">取消</a>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/user-permission-users-add.js"></script>
+</body>
+</html>

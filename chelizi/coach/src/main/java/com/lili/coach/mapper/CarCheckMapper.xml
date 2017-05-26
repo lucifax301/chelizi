@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CarCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.coach.dto.CarCheck" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="coachId" property="coachId" jdbcType="BIGINT" />
+    <result column="carId" property="carId" jdbcType="INTEGER" />
+    <result column="carNo" property="carNo" jdbcType="VARCHAR" />
+    <result column="isNewCarDrive" property="isNewCarDrive" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="driveType" property="driveType" jdbcType="INTEGER" />
+    <result column="drivePhoto" property="drivePhoto" jdbcType="VARCHAR" />
+    <result column="drivePhoto2" property="drivePhoto2" jdbcType="VARCHAR" />
+    <result column="isNewDrivePhoto" property="isNewDrivePhoto" jdbcType="INTEGER" />
+    <result column="carImg" property="carImg" jdbcType="VARCHAR" />
+    <result column="isNewCarImg" property="isNewCarImg" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="utime" property="utime" jdbcType="TIMESTAMP" />
+    <result column="updater" property="updater" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, coachId, carId, carNo, isNewCarDrive, type, driveType, drivePhoto, drivePhoto2, isNewDrivePhoto, 
+    carImg, isNewCarImg, ctime, creator, utime, updater
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_p_car_check
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryCarCheckByCoachId" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.CarCheck" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_p_car_check
+    where 1=1
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=VARCHAR}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=INTEGER}
+			</if>
+		</trim>
+  </select>
+  
+  <select id="queryCarCheckInfo" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.CarCheck" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_p_car_check
+    where 1=1
+		<trim suffixOverrides=",">
+			<if test="carNo != null and carNo != ''">
+				and carNo = #{carNo,jdbcType=INTEGER}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId,jdbcType=INTEGER}
+			</if>
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=INTEGER}
+			</if>
+		</trim>
+		GROUP BY carId
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_p_car_check
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteCoachCar" parameterType="com.lili.coach.dto.CarCheck" >
+    delete from t_p_car_check
+    where 1=1
+		<trim suffixOverrides=",">
+			<if test="carNo != null and carNo != ''">
+				and carNo = #{carNo,jdbcType=INTEGER}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId,jdbcType=INTEGER}
+			</if>
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=BIGINT}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=INTEGER}
+			</if>
+		</trim>
+  </delete>
+  
+  <insert id="insert" parameterType="com.lili.coach.dto.CarCheck" >
+    insert into t_p_car_check (id, coachId, carId, 
+      carNo, isNewCarDrive, type, driveType, 
+      drivePhoto, drivePhoto2, isNewDrivePhoto, 
+      carImg, isNewCarImg, 
+      ctime, creator, utime, 
+      updater)
+    values (#{id,jdbcType=INTEGER}, #{coachId,jdbcType=BIGINT}, #{carId,jdbcType=INTEGER}, 
+      #{carNo,jdbcType=VARCHAR}, #{isNewCarDrive,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},  #{driveType,jdbcType=INTEGER}, 
+      #{drivePhoto,jdbcType=VARCHAR}, #{drivePhoto2,jdbcType=VARCHAR}, #{isNewDrivePhoto,jdbcType=INTEGER}, 
+      #{carImg,jdbcType=VARCHAR}, #{isNewCarImg,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}, #{utime,jdbcType=TIMESTAMP}, 
+      #{updater,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.coach.dto.CarCheck" >
+    insert into t_p_car_check
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="coachId != null" >
+        coachId,
+      </if>
+      <if test="carId != null" >
+        carId,
+      </if>
+      <if test="carNo != null" >
+        carNo,
+      </if>
+      <if test="isNewCarDrive != null" >
+        isNewCarDrive,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="driveType != null" >
+        driveType,
+      </if>
+      <if test="drivePhoto != null" >
+        drivePhoto,
+      </if>
+      <if test="drivePhoto2 != null" >
+        drivePhoto2,
+      </if>
+      <if test="isNewDrivePhoto != null" >
+        isNewDrivePhoto,
+      </if>
+      <if test="carImg != null" >
+        carImg,
+      </if>
+      <if test="isNewCarImg != null" >
+        isNewCarImg,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="utime != null" >
+        utime,
+      </if>
+      <if test="updater != null" >
+        updater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="carNo != null" >
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarDrive != null" >
+        #{isNewCarDrive,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="driveType != null" >
+        #{driveType,jdbcType=INTEGER},
+      </if>
+      <if test="drivePhoto != null" >
+        #{drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drivePhoto2 != null" >
+        #{drivePhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewDrivePhoto != null" >
+        #{isNewDrivePhoto,jdbcType=INTEGER},
+      </if>
+      <if test="carImg != null" >
+        #{carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarImg != null" >
+        #{isNewCarImg,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="utime != null" >
+        #{utime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        #{updater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateCarCheck" parameterType="com.lili.coach.dto.CarCheck" >
+    update t_p_car_check
+    <set >
+      <if test="coachId != null" >
+        coachId = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="carId != null" >
+        carId = #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="carNo != null" >
+        carNo = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarDrive != null" >
+        isNewCarDrive = #{isNewCarDrive,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="driveType != null" >
+        driveType = #{driveType,jdbcType=INTEGER},
+      </if>
+      <if test="drivePhoto != null" >
+        drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drivePhoto2 != null" >
+        drivePhoto2 = #{drivePhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewDrivePhoto != null" >
+        isNewDrivePhoto = #{isNewDrivePhoto,jdbcType=INTEGER},
+      </if>
+      <if test="carImg != null" >
+        carImg = #{carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarImg != null" >
+        isNewCarImg = #{isNewCarImg,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="utime != null" >
+        utime = #{utime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+     where 1=1
+		<trim suffixOverrides=",">
+			<if test="carNo != null and carNo != ''">
+				and carNo = #{carNo,jdbcType=INTEGER}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId,jdbcType=INTEGER}
+			</if>
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=BIGINT}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=INTEGER}
+			</if>
+		</trim>
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.CarCheck" >
+    update t_p_car_check
+    <set >
+      <if test="coachId != null" >
+        coachId = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="carId != null" >
+        carId = #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="carNo != null" >
+        carNo = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarDrive != null" >
+        isNewCarDrive = #{isNewCarDrive,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="driveType != null" >
+        driveType = #{driveType,jdbcType=INTEGER},
+      </if>
+      <if test="drivePhoto != null" >
+        drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drivePhoto2 != null" >
+        drivePhoto2 = #{drivePhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewDrivePhoto != null" >
+        isNewDrivePhoto = #{isNewDrivePhoto,jdbcType=INTEGER},
+      </if>
+      <if test="carImg != null" >
+        carImg = #{carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewCarImg != null" >
+        isNewCarImg = #{isNewCarImg,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="utime != null" >
+        utime = #{utime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updater != null" >
+        updater = #{updater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.CarCheck" >
+    update t_p_car_check
+    set coachId = #{coachId,jdbcType=BIGINT},
+      carId = #{carId,jdbcType=INTEGER},
+      carNo = #{carNo,jdbcType=VARCHAR},
+      isNewCarDrive = #{isNewCarDrive,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      driveType = #{driveType,jdbcType=INTEGER},
+      drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+      drivePhoto2 = #{drivePhoto2,jdbcType=VARCHAR},
+      isNewDrivePhoto = #{isNewDrivePhoto,jdbcType=INTEGER},
+      carImg = #{carImg,jdbcType=VARCHAR},
+      isNewCarImg = #{isNewCarImg,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      utime = #{utime,jdbcType=TIMESTAMP},
+      updater = #{updater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

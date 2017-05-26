@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="drivePackageSchoolEdit">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>编辑班别</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+    <script src="assets/common/js/commonStart.js"></script>
+    <style>
+        .item-auto-wrap{overflow: visible}
+    </style>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash order-detail data-statistics signin-pack-add">
+        <!-- 订单管理 -->
+        <div class="d-title">班别管理 > 编辑班别</div>
+        <div class="clearfix"></div>
+        <div class="z-common-wrap">
+            <!--基础信息-->
+            <h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">基础信息 <span class="ico-toggle-open"  ng-click="packItemToggle($event)">-</span></h2>
+            <div style="display:block;;">
+                <table class="table base-info-table">
+                    <tr class="inlineInput">
+                        <td width="15%" align="right" valign="middle"><label  >班别名称<span style="color:red"> *</span>：</label></td>
+                        <td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" style="width: 250px;display:inline" id="name" ng-model="editData.name" maxlength="50">
+                            <select style="width: 130px;display:inline" class="form-control" ng-model="editData.cType">
+                                <option value="">选择证件类型</option>
+                                <option value="1">C1</option>
+                                <option value="2">C2</option>
+                            </select>
+                        </td>
+                        <td width="15%" align="right" valign="middle"><label>学车学时<span style="color:red"> *</span>：</label></td>
+                        <td width="35%" align="left" valign="middle">
+                            <table>
+                                <tr>
+
+                                    <td width="30%"><input type="radio" class="z-mr10" id="hoursRadio" value="{{editData.hours}}" ng-checked="editData.hours==0">不限</td>
+                                    <td width="50%"><input type="text" id="hourText" class="form-control z-input-inline-item" ng-model="editData.hours" maxlength="10"></td>
+                                    <td width="20%"><span class="z-ml10">学时</span></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr class="inlineInput">
+                        <td width="15%" align="right" valign="middle"><label >报名价格(元)<span style="color:red"> *</span>：</label></td>
+                        <td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item"  ng-model="editData.price" maxlength="9"></td>
+                        <td width="15%" align="right" valign="middle"><label>参考原价(元)<span style="color:red"> *</span>：</label></td>
+                        <td width="35%" align="left" valign="middle"><input type="text" class="form-control" ng-model="editData.marketPrice" maxlength="9"></td>
+                    </tr>
+                    <tr class="inlineInput">
+                        <td width="15%" align="right" valign="middle"><label >班别特色：</label></td>
+                        <td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" maxlength="200" ng-model="editData.feature" maxlength="200"></td>
+                        <td width="15%" align="right" valign="middle"><label>接送方式：</label></td>
+                        <td width="35%" align="left" valign="middle">
+                            <select class="form-control z-input-inline-item" ng-model="editData.transferStyle ">
+                                <option value="">---请选择接送方式---</option>
+                                <option value="全程接送">全程接送</option>
+                                <option value="考试接送">考试接送</option>
+                                <option value="不接送">不接送</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="inlineInput">
+                        <td width="15%" align="right" valign="middle"><label >教学车辆：</label></td>
+                        <td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" maxlength="20" ng-model="editData.carStyle" maxlength="20"></td>
+                        <td width="15%" align="right" valign="middle"><label>练车方式：</label></td>
+                        <td width="35%" align="left" valign="middle">
+                        <select class="form-control z-input-inline-item" ng-model="editData.trainStyle">
+                            <option value="">---请选择练车方式---</option>
+                            <option value="单人练车">单人练车</option>
+                            <option value="多人练车">多人练车</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr class="inlineInput">
+                        <td align="right" valign="middle"><label>课时费用(元)：</label></td>
+                        <td align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" maxlength="9" ng-model="editData.hoursPrice"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </table>
+            </div>
+            <!--报考说明-->
+            <h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">报考说明 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+            <div>
+                <div class="item-auto-wrap">
+                    <label>费用详情：</label>
+
+                    <div class="item-auto-item form-group row" ng-repeat="item in priceDetailArrData">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>项目{{$index+1}}费用</div>
+                        <div class="col-lg-5 col-md-7 col-sm-6">
+                            <input type="text" class="form-control item-auto-text1" name="priceName" placeholder="请填写项目名称" value="{{item[0]}}">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group item-auto-text2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="priceNum" placeholder="项目金额" value="{{item[1]}}">
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6 wrap-btn-add"><div class="item-btn-add" ng-click="zItemAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加费用详情</span></div></div>
+                    </div>
+                </div>
+
+                <div class="item-auto-wrap">
+                    <label>报考条件：</label>
+                    <div class="item-auto-item form-group row" ng-repeat="item in testConditionArrData">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>报名条件{{$index+1}}</div>
+                        <div class="col-lg-8 col-md-10 col-sm-9">
+                            <input type="text" class="form-control item-auto-text1" name="test_condition" placeholder="请填写报考条件描述"  value="{{item}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add" ng-click="test_conditionAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加报考条件</span></div></div>
+                    </div>
+                </div>
+
+                <div class="item-auto-wrap">
+                    <label>报考流程：</label>
+                    <div class="item-auto-item form-group">
+                        <div class="z-fl" style="width: 49%;">
+                            <div class="school-alarm-item">
+                                <div id="uploadWrap">
+                                    <img class="form-control" id="addImg"  style=" width: 200px; height: 150px;" src="assets/img/image.png">
+                                </div>
+                                <div class="alarm-action">
+                                    <button class="btn btn-xs btn-primary" ng-click="uploadImg()">更换</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--报考资料-->
+            <h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">报考资料 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+            <div>
+                <div class="item-auto-wrap">
+                    <label>本地居民：</label>
+                    <div class="item-auto-item form-group row" ng-repeat="item in describtionLocalArrData">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>报考资料{{$index+1}}</div>
+                        <div class="col-lg-8 col-md-10 col-sm-9">
+                            <input type="text" class="form-control item-auto-text1" name="describtionLocal" placeholder="请填写报考资料描述" value="{{item}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add" ng-click="describtionLocalAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+                    </div>
+                </div>
+                <div class="item-auto-wrap">
+                    <label>外地居民：</label>
+                    <div class="item-auto-item form-group row" ng-repeat="item in describtionStrangeArrData">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>报考资料{{$index+1}}</div>
+                        <div class="col-lg-8 col-md-10 col-sm-9">
+                            <input type="text" class="form-control item-auto-text1" name="describtionStrange" placeholder="请填写报考资料描述" value="{{item}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add" ng-click="describtionStrangeAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+                    </div>
+                </div>
+                <div class="item-auto-wrap">
+                    <label>港澳台：</label>
+                    <div class="item-auto-item form-group row" ng-repeat="item in describtionHKArrData">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>报考资料{{$index+1}}</div>
+                        <div class="col-lg-8 col-md-10 col-sm-9">
+                            <input type="text" class="form-control item-auto-text1" name="describtionHK" placeholder="请填写报考资料描述" value="{{item}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add" ng-click="describtionHKAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+                    </div>
+                </div>
+                <div class="item-auto-wrap">
+                    <label>现役军人：</label>
+                    <div class="item-auto-item form-group row" ng-repeat="item in describtionArmyArrData" >
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div ng-if="$index>0" class="z-ico-del" ng-click="zItemDel($event)">X</div>报考资料{{$index+1}}</div>
+                        <div class="col-lg-8 col-md-10 col-sm-9">
+                            <input type="text" class="form-control item-auto-text1" name="describtionArmy" placeholder="请填写报考资料描述" value="{{item}}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+                        <div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add" ng-click="describtionArmyAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!--售后保障-->
+            <h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">其他备注 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+            <div>
+                <div class="item-auto-wrap">
+                    <label>其他备注：</label>
+                    <div class="item-auto-item form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <textarea placeholder="请填写备注" class="form-control" ng-model="editData.remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="z-caozuo">
+            <a href="drive-school-package.html" class="btn btn-default z-mr20" role="button">取消</a>
+            <a ng-click="editSave($event)" class="btn btn-primary btn-default" role="button">提交</a>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/drivePackageSchoolEdit.js"></script>
+</body>
+</html>

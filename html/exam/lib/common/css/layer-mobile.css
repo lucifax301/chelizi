@@ -1,0 +1,29 @@
+/*layer*/
+
+/*layer-mobile-css*/
+@keyframes popScale{from{opacity: 0;}to{opacity: 1;}}
+@-webkit-keyframes popScale{from{opacity: 0;}to{opacity: 1;}}
+.popup{width:100%;box-sizing:border-box;height:100%;position: fixed;left:0;top:0;z-index:100000;animation:popScale 300ms;-webkit-animation:popScale 300ms;}
+.popup .mask{width:100%;height:100%;position: absolute;left:0;top:0;background: rgba(0,0,0,.6);z-index:-1;}
+.popup .main{position:absolute;left:50%;top:50%;min-width:20.0rem;min-height:5.0rem;background: #fff;border-radius: 0.2rem;padding:2.0rem;}
+.popup .header{height:3.0rem;position: relative;font-size:1.6rem; text-align: center; border-bottom: 1px solid #F59921; margin-bottom: 20px;}
+.popup .header span{display:block;width:1.5rem;height:1.5rem;background: url('../img/PopLayer-close.png') no-repeat top center;background-size:80% 80%;position: absolute;right:0;top:0;}
+.popup .content{line-height:2.5rem;}
+.popup .footer{height:3.0rem;width:100%;float:right;line-height: 5.0rem;position: relative;}
+.popup .footer span{position: absolute;top:0;font-size:1.4rem;cursor:pointer;display:block;width:5.0rem;height:3.0rem;text-align:right;color:#528bcc;}
+.popup .footer .yes{right:.0rem;}
+.popup .footer .no{right:5.0rem;}
+.popup-hide .main{min-width:10.0rem;padding:0 1.5rem;}
+.popup-hide .main .content{line-height:5.0rem;}
+.popup-hide .content{text-align:center;}
+.popup-loading{cursor: wait;}
+.popup-loading .main{min-width:15.0rem;height:6.0rem;padding:0 1.5rem 0 0.5rem;}
+.popup-loading .main .content{line-height:6.0rem;}
+.popup-loading .main .content:before{content: "";display: block;width:4.0rem;height:6.0rem;background: url(../img/loading-2.gif) no-repeat center center;float:left;}
+.popup-loading .content{text-align:center;}
+.popup .html{line-height:2.5rem;}
+.popup-iframe .main{width:80%;height:80%;left:10%;top:10%;}
+.popup-iframe .main .contentios{overflow-scrolling:touch;-webkit-overflow-scrolling:touch;overflow-y: scroll; }
+.popup .yesHtml{text-align:center;cursor:pointer;color:#f48e08;padding-top:1.5rem;border-top:solid 0.1rem #dcdcdc;}
+.popup .yesHtml:hover{color:#b76b07;}
+

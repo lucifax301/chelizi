@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="driveSchoolPackageDetail">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>班别详情</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash order-detail data-statistics">
+        <!-- 订单管理 -->
+        <div class="d-title">班别管理 > {{data.name}}</div>
+        <div class="clearfix"></div>
+        <div class="z-common-wrap">
+            <h2 class="z-common-h2 mt20">基础信息</h2>
+            <div class="z-border-box sign-pack-info">
+                <div class="text-info" style="width: 50%">
+                    <p class="z-text-normal" style="font-size: 25px"><span class="fr" style="width: 300px">{{data.name}}</span></p>
+                    <p class="z-text-normal"><span class="fl">班别特色:</span><span ng-bind="data.feature"></span></p>
+                    <p class="z-text-normal"><span class="fl">接送方式:</span><span>{{data.transferStyle}}</span></p>
+                    <p class="z-text-normal"><span class="fl">教学车辆:</span><span ng-bind="data.carStyle"></span></p>
+                    <p class="z-text-normal"><span class="fl">练车方式:</span><span ng-bind="data.trainStyle"></span></p>
+                    <p class="z-text-normal"><span class="fl">学车学时:</span><span ng-bind="data.hours  | xcHours"></span></p>
+                    <p class="z-text-normal"><span class="fl">报名城市:</span><span ng-bind="data.region"></span></p>
+                    <p class="z-text-normal"><span class="fl">证件类型:</span><span ng-bind="data.cType | cTypeTex"></span></p>
+
+                </div>
+                <div class="text-info" style="width: 50%">
+                    <p class="z-text-normal" style="font-size: 25px;color: #F5A623"><span class="fl" style="color: #F5A623">现价:</span><span ng-bind="data.price/100"></span></p>
+                    <p class="z-text-normal"><span class="fl">原价:</span><span ng-bind="data.marketPrice/100"></span></p>
+                    <p class="z-text-normal" ng-if="data.hoursPrice>0"><span class="fl">课时费用:</span><span ng-bind="data.hoursPrice/100"></span></p>
+                    <p class="z-text-normal"><span class="fl">哩哩审核:</span><span ng-bind="data.cstate | cState"></span></p>
+                    <p class="z-text-normal"><span class="fl">线上招生:</span><span ng-bind="data.ostate | oState"></span></p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <h2 class="z-common-h2 mt20">报考说明</h2>
+            <table class="table-bordered z-common-table sign-pack-text">
+                <tr><th>费用详情</th><th>报考条件</th><th>报名流程</th></tr>
+                <tr>
+                    <td class="sign-pack-charge" width="33.33%" ng-bind-html="priceDetailFormat | to_trusted"></td>
+                    <td width="33.33%">
+                        <ul ng-bind-html="testConditionFormat | to_trusted">
+                            <!-- <li>年龄在10~70周岁之间</li> -->
+                        </ul>
+                    </td>
+                    <td width="33.33%">
+                        <img src="http://o7d94lzvx.bkt.clouddn.com/{{data.procPic}}" width="300px" height="250px">
+                    </td>
+                </tr>
+            </table>
+            <div class="clearfix"></div>
+            <h2 class="z-common-h2 mt20">报考资料</h2>
+            <table class="table-bordered z-common-table sign-pack-text">
+                <tr><th>本地居民</th><th>外地居民</th><th>港澳台</th><th>现役军人</th></tr>
+                <tr>
+                    <td width="25%">
+                        <ul ng-bind-html="describtionLocal | to_trusted"></ul>
+                    </td>
+                    <td width="25%">
+                        <ul ng-bind-html="describtionStrange | to_trusted"></ul>
+                    </td>
+                    <td width="25%">
+                        <ul ng-bind-html="describtionHK | to_trusted"></ul>
+                    </td>
+                    <td width="25%">
+                        <ul ng-bind-html="describtionArmy | to_trusted"></ul>
+                    </td>
+                </tr>
+            </table>
+            <div class="clearfix"></div>
+            <h2 class="z-common-h2 mt20">其他备注</h2>
+            <div class="z-border-box sign-pack-serv" ng-bind="data.remark"></div>
+
+            <div class="table-margin common-table">
+                <div class="header">班别成员</div>
+                <div class="content">
+                    <div class="line z-mb20">
+                        <div class="input-group search-more-condition" style="width: 400px;">
+                            <select ng-model="searchType" class="form-control" id="search_type">
+                                <option value="name" selected="selected">学员姓名</option>
+                                <option value="phoneNum">学员电话</option>
+                            </select>
+                            <input type="text" ng-model="search" class="form-control" placeholder="输入学员姓名查询" id="search_placeholder">
+							  <span class="input-group-btn">
+								<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+							  </span>
+                        </div>
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-5">
+                            <a href="drive-school-package-stuadd.html?ttid={{ttid}}&className={{data.name}}" class="btn btn-sm btn-primary">添加已有学员</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-3 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-with-style">
+                            <tr>
+                                <td><b>关联时间</b></td>
+                                <td><b>姓名</b></td>
+                                <td><b>电话</b></td>
+                                <td><b>性别</b></td>
+                                <td><b>身份证号</b></td>
+                                <td><b>所属驾校</b></td>
+                                <td><b>学员状态</b></td>
+                                <td><b>操作</b></td>
+                            </tr>
+                            <tr ng-repeat="item in stuDatas">
+                                <td ng-bind="item.relevanceTime|timeTex"></td>
+                                <td><a href="student-for-schol-details.html?studentId={{item.studentId}}" ng-bind="item.name?item.name:'喱喱同学'"></a></td>
+                                <td ng-bind="item.phoneNum"></td>
+                                <td ng-bind="item.sex|sexText"></td>
+                                <td ng-bind="item.idNumber"></td>
+                                <td ng-bind="item.schoolName"></td>
+                                <td ng-bind="(item.applyexam+','+item.applystate) | studentStateText"></td>
+                                <td class="operation"><span class="edit"><a href="javascript:;" ng-click="delStu(item)">删除</a></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/drivePackageSchoolDetail.js"></script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<style>
+	.btn-default:active {
+    background-color: green ;
+}
+
+</style>
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >客服管理 >> <a style="color:#333;" href="{{ NURL }}/ogz/complain">投诉管理</a> >> <span ng-bind="datas.content"></span></h3>
+            </div>
+
+
+			<div style="float: right;" >
+				<button ng-if="(datas.status!=2) && (datas.status!=3) && (100926 | isAccessShow)" style="margin-right:19px;" type="button" class="btn btn-default btn-sm" data-toggle="modal"  ng-click="manageUser()" >处理</button>
+				<button style="margin-right:29px;" type="button" class="btn btn-default btn-sm"  data-toggle="modal"  ng-click="complainEdit()" ng-if="100925 | isAccessShow">编辑</button>
+			</div>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+							<a href="javascript:void(0);" ng-click="lili()" id="baseInfo" style="color:#333;">基本信息</a>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" ng-click="school()" id="visitRecords">回访记录</a>
+                    </div>
+					<div ng-show="baseInfoDiv">
+						<div class="item form-group">
+							投诉摘要 :  {{datas.summary}}
+						</div>
+						<div class="item form-group">
+							投诉内容 :  {{datas.content}}
+						</div>
+						<div class="item form-group">
+							投诉人 :	{{datas.complainuser}}
+						</div>
+						<div class="item form-group">
+							联系方式 :	{{datas.complainmobile}}
+						</div>
+						<div class="item form-group">
+							投诉备注 :	{{datas.remark}}
+						</div>
+
+						<div class="item form-group">
+							投诉状态 :	{{datas.status | complainTex}}
+						</div>
+						<div class="item form-group">
+							创建信息 :	{{datas.cusername}}（{{datas.ctime | timeTex}}）
+						</div>
+						<div class="item form-group">
+							最后编辑信息 :	{{datas.musername}}（{{datas.mtime | timeTex}}）
+						</div>
+
+						<div ng-if="datas.status!='0'" >
+							<div class="item form-group">
+								处理人员 :	{{datas.manageuser}}
+							</div>
+							<div class="item form-group">
+								处理方式 :	{{datas.managetype}}
+							</div>
+							<div class="item form-group">
+								处理备注 :	{{datas.manageremark}}
+							</div>
+						</div>
+
+					</div>
+					<div ng-show="visitRecordsDiv">
+					
+						  <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <th style='text-align: center;width:180px;' class="column-title">记录时间 </th>
+                                    <th style='text-align: center;width:130px;' class="column-title">回访人员 </th>
+									<th style='text-align: center;width:130px;' class="column-title">回访记录 </th>
+                                    <th style='text-align: center;width:180px;' class="column-title">录入人员 </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in visitDatas">
+                                    
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.mtime | timeTex" ></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.returnuser" ></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.returncontent"></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.cusername"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+					     <div class="x_content">
+							<div class="page" >
+								<div id="copot-page" class="copot-page"></div>
+							</div>
+						</div>
+					</div>
+                   
+                </div>
+            </div>
+        </div>
+	</div>
+
+
+
+
+ <!-- 编辑投诉-->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="editComplain">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >编辑投诉</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="editForm" enctype="multipart/form-data" name="editForm" ng-submit="submitEditForm(editForm.$valid)">
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">投诉人
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="complainuser" name="complainuser" ng-model="editData.complainuser" class="form-control col-md-7 col-xs-12" type="text">
+
+                                </div>
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sex">电话号码</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="complainmobile" name="complainmobile" ng-model="editData.complainmobile"  class="form-control col-md-7 col-xs-12" type="text" ng-pattern="/^1[3|4|5|7|8]\d{9}$/">
+									<span class="help-inline" style="color:red" ng-show="!editForm.complainmobile.$error.required && editForm.complainmobile.$invalid">必须是正确电话号码。</span>
+                                </div>
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idcard">投诉摘要 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="summary" name="summary"  ng-model="editData.summary" class="form-control col-md-7 col-xs-12" required type="text"></textarea>
+									<span style="color:red" ng-show="editForm.summary.$error.required && editForm.summary.$dirty">投诉摘要不能为空。</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idcard">投诉内容 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="content" name="content"  ng-model="editData.content" class="form-control col-md-7 col-xs-12" required type="text"></textarea>
+									<span style="color:red" ng-show="editForm.content.$error.required && editForm.content.$dirty">投诉内容不能为空。</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idcard">投诉备注
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="remark" name="remark"  ng-model="editData.remark" class="form-control col-md-7 col-xs-12" type="text"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+                                        <button id="send" ng-disabled="editForm.$invalid"  type="submit" class="btn btn-success" >保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+
+
+    <!-- 处理投诉-->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="manageUser">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >处理投诉</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="manaform" enctype="multipart/form-data" name="manaform" ng-submit="submitManaForm(manaform.$valid)">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">处理人员<span class="required">*</span></label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                <!--    <div class="input-group">
+                                        <input type="text" class="form-control" ng-model="namaData.manageuser" required  name="manageuser" >
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" data-toggle="modal" data-target=".personnel-example-modal-lg" ng-click="userList()">搜索</button>
+                                        </div>
+                                    </div> -->
+									<select ng-model="namaData.manageuser" style="width:250px;" ui-select2="vm.statusOpt" required  name="manageuser">
+										<option ng-repeat="users in gzUsers" value="{{users.realname}}">{{users.realname}}</option> 
+									 </select>
+                                    <span style="color:red" ng-show="manaform.manageuser.$error.required && manaform.manageuser.$dirty">请输入处理人员</span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sex">处理方式 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="managetype" name="managetype" required ng-model="namaData.managetype" class="form-control col-md-7 col-xs-12" type="text">
+									<span style="color:red" ng-show="manaform.managetype.$error.required && manaform.managetype.$dirty">请输入处理方式</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sex">处理状态 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select   ng-model="namaData.status"  class="form-control"  ng-options="o.id as o.value for o in statsuDatas" required name="status">
+                                    </select>
+                                    <span style="color:red" ng-show="manaform.status.$error.required && manaform.status.$dirty">请选择处理状态</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="idcard">处理备注
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="manageremark" name="manageremark"  ng-model="namaData.manageremark" class="form-control col-md-7 col-xs-12" type="text"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                                    <button id="send" ng-disabled="manaform.$invalid"  type="submit" class="btn btn-success" >保存</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+	
+	<!-- 人员列表-->
+<!-- <div class="modal  fade personnel-example-modal-lg"  id="userListDiv">
+	<div class="modal-dialog modal-sm" >
+		<div class="modal-content" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			</div>
+			<div class="x_panel" >
+
+				<div class="x_content" >
+					<br />
+					<div class="table-responsive">
+
+						<table class="table table-striped jambo_table bulk_action">
+							<thead>
+							<tr class="headings" >
+
+								<th style='text-align: center;' class="column-title">姓名 </th>
+								<th style='text-align: center;' class="column-title">电话 </th>
+								<th style='text-align: center;' class="column-title">选择 </th>
+
+								<th class="bulk-actions" colspan="7">
+									<a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr class="even pointer" ng-repeat="item in userDatas">
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.realname"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.mobile"></td>
+								<td class=" last" style="vertical-align:middle; text-align:center;" >
+									<input name="coachid" type="radio"  ng-click="clecked($index)" >
+								</td>
+							</tr>
+
+							</tbody>
+						</table>
+
+					</div>
+					<div class="form-group">
+						<div class="page" >
+							<div id="copot-page2" class="copot-page"></div>
+						</div>
+
+					</div>
+					<div class="form-group text-center">
+
+						<button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+
+						<button  type="submit" class="btn btn-success" ng-click="sureUser()">确定</button>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div> -->
+
+   <style>
+        .btn-file {  position: relative;  overflow: hidden;  }
+        .btn-file input[type=file] {  position: absolute;  top: 0;  right: 0;  min-width: 100%;  min-height: 100%;  font-size: 100px;  text-align: right;  filter: alpha(opacity=0);  opacity: 0;  outline: none;  background: white;  cursor: inherit;  display: block;  }
+    </style>
+
+
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="signUpPackDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>报名包详情</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<!-- 订单管理 -->
+		<div class="d-title">报名包 > {{data.name}}</div>
+		<div class="clearfix"></div>
+		<div class="z-common-wrap">
+			<h2 class="z-common-h2 mt20">基础信息</h2>
+			<div class="z-border-box sign-pack-info">
+				<div class="text-info">
+					<p class="z-text-normal"><span class="fl">名称:</span><span class="fr" ng-bind="data.name"></span></p>
+					<p class="z-text-normal"><span class="fl">报名城市:</span><span class="fr" ng-bind="data.cityName"></span></p>
+					<p class="z-text-normal"><span class="fl">报名价格:</span><span class="fr">{{data.price | priceTex}}元/人</span></p>
+					<p class="z-text-normal"><span class="fl">摘要:</span><span class="fr" ng-bind="data.title"></span></p>
+					<p class="z-text-normal"><span class="fl">是否启用:</span><span class="fr"><font ng-if="data.isdel == 0">启用</font><font ng-if="data.isdel == 1">未启用</font></span></p>
+					<p class="z-text-normal"><span class="fl">名称:</span><span class="fr"><a href="{{data.procotol}}">《报名协议》</a></span></p>
+				</div>
+				<div class="img-info">
+					<div class="img-block">
+						<img src="{{data.icon}}">
+						<p class="z-text-normal">列表广告图</p>
+					</div>
+					<div class="img-block">
+						<img src="{{data.proPic}}">
+						<p class="z-text-normal">详情广告图</p>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">报考说明</h2>
+			<table class="table-bordered z-common-table sign-pack-text">
+				<tr><th>费用详情</th><th>报考条件</th><th>报名流程</th></tr>
+				<tr>
+					<td class="sign-pack-charge" width="33.33%" ng-bind-html="priceDetailFormat | to_trusted"></td>
+					<td width="33.33%">
+						<ul ng-bind-html="testConditionFormat | to_trusted">
+							<!-- <li>年龄在10~70周岁之间</li> -->
+						</ul>
+					</td>
+					<td width="33.33%">
+						<img src="test/signpack-img3.jpg">
+					</td>
+				</tr>
+			</table>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">报考资料</h2>
+			<table class="table-bordered z-common-table sign-pack-text">
+				<tr><th>本地居民</th><th>外地居民</th><th>港澳台</th><th>现役军人</th></tr>
+				<tr>
+					<td width="25%">
+						<ul ng-bind-html="describtionLocal | to_trusted"></ul>
+					</td>
+					<td width="25%">
+						<ul ng-bind-html="describtionStrange | to_trusted"></ul>
+					</td>
+					<td width="25%">
+						<ul ng-bind-html="describtionHK | to_trusted"></ul>
+					</td>
+					<td width="25%">
+						<ul ng-bind-html="describtionArmy | to_trusted"></ul>
+					</td>
+				</tr>
+			</table>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">课时说明</h2>
+			<table class="table-bordered z-common-table sign-pack-text">
+				<tr><th width="25%">科目二课程</th><td ng-bind="tmpcourseFormat.course2"></td></tr>
+				<tr><th>科目三课程</th><td ng-bind="tmpcourseFormat.course3"></td></tr>
+			</table>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">课时费 <span class="text" >{{data.tmpnote.tmpCoursePrice}}</span></h2>
+			<table class="table-bordered z-common-table sign-pack-text">
+				<tr>
+					<th width="25%">驾驶类别</th>
+					<td width="25%">基础训练</td>
+					<td width="25%">应试训练</td>
+					<td width="25%">教练陪驾</td>
+				</tr>
+				<tr><th>C1</th><td>{{tmpcoursepriceFormat.c1.base}}</td><td>{{tmpcoursepriceFormat.c1.base}}</td><td>{{tmpcoursepriceFormat.c1.drive}}</td></tr>
+				<tr><th>C2</th><td>{{tmpcoursepriceFormat.c2.base}}</td><td>{{tmpcoursepriceFormat.c2.base}}</td><td>{{tmpcoursepriceFormat.c2.drive}}</td></tr>
+			</table>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">服务标准</h2>
+			<div class="z-border-box sign-pack-serv" ng-bind-html="tmpstandardFormat | to_trusted"></div>
+			<div class="clearfix"></div>
+			<h2 class="z-common-h2 mt20">售后保障</h2>
+			<div class="z-border-box sign-pack-serv" ng-bind-html="tmpserviceFormat | to_trusted"></div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/sign-up-pack-details.js"></script>
+</body>
+</html>

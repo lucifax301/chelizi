@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.SchoolMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.School">
+		<result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="coachCount" property="coachCount" jdbcType="INTEGER" />
+		<result column="carCount" property="carCount" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="region" property="region" jdbcType="VARCHAR" />
+		<result column="studentCount" property="studentCount" jdbcType="INTEGER" />
+		<result column="fieldCount" property="fieldCount" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ApplyBaseResultMap" type="com.lili.school.model.SchoolAccountApply">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="schoolAccount" property="schoolAccount" jdbcType="VARCHAR" />
+		<result column="schoolPwd" property="schoolPwd" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="applyer" property="applyer" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		t1.schoolId, t1.name, t1.image,t1.cityId,t1.address,t1.tell,t1.phoneNum,
+		t1.score,t1.logo, t1.icon,t1.lge, t1.lae, t1.extra, t1.schoolInfo,
+		t1.regInfo,IFNULL(t1.storeCount,0) storeCount
+	</sql>
+
+	<sql id="Base_Column_PackageList">
+		t1.ttid, t1.cityId, t1.name, t1.schoolId school_id,t1.marketPrice,t1.hoursPrice, t1.price, t1.title,t1.icon, 
+		t1.protocol,t1.test_condition, t1.describtion,t1.procPic,t1.priceDetail,t1.firstStep,
+		t1.isdel,t1.cuid,t1.muid,t1.ctime,t1.mtime,t1.extra,t1.transferStyle,t1.trainStyle,
+		t1.carStyle,t1.hours,t1.mailAddress,t1.remark,t1.ostate,t1.cstate,
+		t1.graduateNum,t1.passRate,t1.refuse,t1.feature,t1.cType
+	</sql>
+
+	<select id="findSchoolNameById" parameterType="java.lang.Long"
+		resultType="java.lang.String">
+		SELECT name
+		FROM t_s_school
+		where schoolId = #{schoolId}
+	</select>
+	
+	<select id="findSchoolById" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+		FROM t_s_school t1
+		where schoolId = #{schoolId}
+	</select>
+	
+
+	<select id="queryMaxIdAddOne" resultType="java.lang.Long">
+		select max(schoolId)+1
+		from t_s_school
+	</select>
+
+	<select id="queryPackageMaxIdAddOne" resultType="java.lang.Integer">
+		select
+		max(ttid)+1 from t_wechat_enroll_package
+	</select>
+
+	<select id="findSchoolList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		(select region from t_s_region r where r.rid = t1.cityId) as region,
+		IFNULL(t2.sumCount,0) as fieldCount,
+		IFNULL(t3.sumCount,0) as
+		coachCount,
+		IFNULL(t4.sumCount,0) as studentCount,
+		IFNULL(t5.sumCount,0) as carCount
+		FROM t_s_school AS t1
+		LEFT JOIN
+		(SELECT COUNT(trainFieldId) sumCount,schoolId FROM t_s_trfield
+		GROUP BY
+		schoolId) AS t2 ON t1.schoolId = t2.schoolId
+		LEFT JOIN (SELECT
+		COUNT(coachId) sumCount,schoolId FROM t_u_coach GROUP BY
+		schoolId) AS
+		t3 ON t1.schoolId = t3.schoolId
+		LEFT JOIN (SELECT COUNT(studentId)
+		sumCount,schoolId FROM t_u_student
+		GROUP BY schoolId) AS t4 ON
+		t1.schoolId = t4.schoolId
+		LEFT JOIN (SELECT COUNT(carId)
+		sumCount,schoolId FROM t_p_car GROUP BY
+		schoolId) AS t5 ON t1.schoolId
+		= t5.schoolId
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="name != null and name != ''">
+				and t1.name like '%${name}%'
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and t1.cityId = #{cityId}
+			</if>
+		</trim>
+		order by schoolId desc
+	</select>
+
+
+	<select id="findSchoolIdByName" resultType="java.lang.Long"
+		parameterType="java.lang.String">
+		SELECT schoolId
+		FROM t_s_school
+		where 1=1
+		and name =
+		#{name}
+	</select>
+
+	<select id="findSchoolArray" resultMap="BaseResultMap">
+		SELECT schoolId,name,image,cityId
+		FROM t_s_school
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+		</trim>
+		order by schoolId desc
+	</select>
+
+	<insert id="insertScholl" parameterType="com.lili.school.model.School">
+		insert into t_s_school
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="image != null">
+				image,
+			</if>
+			<if test="coachCount != null">
+				coachCount,
+			</if>
+			<if test="carCount != null">
+				carCount,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				#{image,jdbcType=VARCHAR},
+			</if>
+			<if test="coachCount != null">
+				#{coachCount,jdbcType=INTEGER},
+			</if>
+			<if test="carCount != null">
+				#{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateScholInfo" parameterType="com.lili.coach.dto.School">
+		update t_s_school
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="image != null">
+				image = #{image,jdbcType=VARCHAR},
+			</if>
+			<if test="coachCount != null">
+				coachCount = #{coachCount,jdbcType=INTEGER},
+			</if>
+			<if test="carCount != null">
+				carCount = #{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				phoneNum =#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="trfieldCount != null">
+				trfieldCount =#{trfieldCount,jdbcType=INTEGER},
+			</if>
+		</set>
+		where schoolId = #{schoolId,jdbcType=INTEGER}
+	</update>
+
+
+	<select id="findWxSchoolList" resultType="com.lili.school.model.SchoolBDTO" parameterType="com.lili.school.model.SchoolBDTO">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		(select region from t_s_region r where r.rid = t1.cityId) as region,
+		IFNULL(t2.sumCount,0) as trfieldCount,
+		IFNULL(t3.sumCount,0) as coachCount,
+		IFNULL(t4.sumCount,0) as packageCount,
+		IFNULL(t5.sumCount,0) as carCount,
+		IFNULL(t6.sumCount,0) as orderNum
+		FROM t_s_school AS t1
+		
+		LEFT JOIN (SELECT COUNT(trainFieldId) sumCount,schoolId FROM t_s_trfield where isdel=0 GROUP BY schoolId) AS t2 ON t1.schoolId = t2.schoolId
+		LEFT JOIN (SELECT COUNT(coachId) sumCount,schoolId FROM t_u_coach GROUP BY	schoolId) AS t3 ON t1.schoolId = t3.schoolId
+		LEFT JOIN (SELECT COUNT(ttid) sumCount,schoolId FROM t_wechat_enroll_package where isdel=0 and ostate=2 and cstate=2 GROUP BY schoolId) AS t4 ON t1.schoolId = t4.schoolId
+		LEFT JOIN (SELECT COUNT(carId) sumCount,schoolId FROM t_p_car GROUP BY	schoolId) AS t5 ON	t1.schoolId = t5.schoolId
+	    LEFT JOIN (SELECT COUNT(studentId) sumCount,schoolId FROM t_u_student GROUP BY schoolId) AS t6 ON t1.schoolId = t6.schoolId
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="name != null and name != ''">
+				and t1.name like '%${name}%'
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and t1.cityId = #{cityId}
+			</if>
+		</trim>
+		order by schoolId desc
+	</select>
+	
+	<select id="findWxSchoolById" resultType="com.lili.school.model.SchoolBDTO" parameterType="int">
+		SELECT
+		<include refid="Base_Column_List" />
+		,(select region from t_s_region r where r.rid = t1.cityId) as region,
+		IFNULL(t2.sumCount,0) as trfieldCount,
+		IFNULL(t3.sumCount,0) as coachCount,
+		IFNULL(t4.sumCount,0) as packageCount,
+		IFNULL(t5.sumCount,0) as carCount,
+		IFNULL(t6.sumCount,0) as orderNum
+		FROM t_s_school AS t1
+		LEFT JOIN (SELECT COUNT(trainFieldId) sumCount,schoolId FROM t_s_trfield where isdel=0 GROUP BY schoolId) AS t2 ON t1.schoolId = t2.schoolId
+		LEFT JOIN (SELECT COUNT(coachId) sumCount,schoolId FROM t_u_coach GROUP BY	schoolId) AS t3 ON t1.schoolId = t3.schoolId
+		LEFT JOIN (SELECT COUNT(ttid) sumCount,schoolId FROM t_wechat_enroll_package where isdel=0 and ostate=2 and cstate=2 GROUP BY schoolId) AS t4 ON t1.schoolId = t4.schoolId
+		LEFT JOIN (SELECT COUNT(carId) sumCount,schoolId FROM t_p_car GROUP BY	schoolId) AS t5 ON	t1.schoolId = t5.schoolId
+		LEFT JOIN (SELECT COUNT(studentId) sumCount,schoolId FROM t_u_student GROUP BY schoolId) AS t6 ON t1.schoolId = t6.schoolId		
+		where t1.schoolId=#{schoolId} and t1.showState=2
+	</select>
+
+	<insert id="insertWxSchool" parameterType="com.lili.school.model.SchoolBDTO">
+		insert into
+		t_s_school
+		(schoolId,name,cityId,score,logo,icon,image,lge,lae,schoolInfo,regInfo,tell,address,storeCount,coachCount,carCount,trfieldCount,packageCount)
+		values (#{schoolId},#{name},
+		#{cityId},#{score},#{logo},#{icon},#{image},#{lge},#{lae},#{schoolInfo},#{regInfo},#{tell},#{address},#{storeCount},#{coachCount},#{carCount},#{trfieldCount},#{packageCount})
+	</insert>
+
+	<update id="updateWxSchool" parameterType="com.lili.school.model.SchoolBDTO">
+		update
+		t_s_school 
+        <set>
+			<if test="name != null and name !='' " >
+				name=#{name},
+			</if>
+			<if test="cityId != null and cityId !='' ">
+				cityId=#{cityId},
+			</if>
+			<if test="logo != null and logo !='' ">
+				logo=#{logo},
+			</if>
+			<if test=" icon!= null and icon !='' ">
+				icon=#{icon},
+			</if>
+			<if test=" image!= null and  image!='' ">
+				image=#{image},
+			</if>
+			<if test=" lge!= null and  lge!='' ">
+				lge=#{lge},
+			</if>
+			<if test=" lae!= null and  lae!='' ">
+				lae=#{lae},
+			</if>
+			<if test=" schoolInfo!= null and  schoolInfo!='' ">
+				schoolInfo=#{schoolInfo},
+			</if>
+			<if test=" regInfo!= null and  regInfo!='' ">
+				regInfo=#{regInfo},
+			</if>
+			<if test=" tell!= null and  tell!='' ">
+				tell=#{tell},
+			</if>
+			<if test=" address!= null and  address!='' ">
+				address=#{address},
+			</if>
+			<if test=" storeCount!= null and  storeCount!='' ">
+				storeCount=#{storeCount},
+			</if>
+			<if test=" coachCount!= null and  coachCount!='' ">
+				coachCount=#{coachCount},
+			</if>
+			<if test=" carCount!= null and  carCount!='' ">
+				carCount=#{carCount},
+			</if>
+			<if test=" carCount!= null and  carCount!='' ">
+				trfieldCount=#{carCount},
+			</if>
+			<if test=" packageCount!= null and  packageCount!='' ">
+				packageCount=#{packageCount},
+			</if>
+		</set>
+		where
+		schoolId=#{schoolId}
+	</update>
+
+	<select id="findPackageList" resultType="com.lili.school.model.WechatEnrollPackage" parameterType="com.lili.school.model.WechatEnrollPackageBDTO">
+		SELECT
+		<include refid="Base_Column_PackageList" />
+		,schoolId,(select region from t_s_region r where r.rid = t1.cityId) as region,
+		(select s.name from t_s_school s where s.schoolId=t1.schoolId) as schoolName,
+		(select count(*) from t_wechat_enroll_order where payState=100 and isdel=0 and ttid=t1.ttid) as orderNum
+		FROM t_wechat_enroll_package AS
+		t1 where 1=1
+		<trim suffixOverrides=",">
+		    <if test="ttid != null and ttid != ''">
+				and t1.ttid =#{ttid}
+			</if>
+			<if test="name != null and name != ''">
+				and t1.name like '%${name}%'
+			</if>
+			<if test="cityId != null and cityId != ''">
+				and t1.cityId = #{cityId}
+			</if>
+			<if test="school_id != null and school_id != ''">
+				and t1.schoolId = #{school_id}
+			</if>
+			<if test="schoolId != null and schoolId != ''">
+				and t1.schoolId = #{schoolId}
+			</if>
+			<if test="cstate != null and cstate != ''">
+				and t1.cstate = #{cstate}
+			</if>
+			<if test="ostate != null and ostate != ''">
+				and t1.ostate = #{ostate}
+			</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+					 and date(ctime) between #{startTime} and #{endTime}
+			</if>	
+		</trim>
+		order by t1.ctime desc
+	</select>
+	
+	<select id="findPackageById" resultType="com.lili.school.model.WechatEnrollPackage" parameterType="string">
+		SELECT
+		<include refid="Base_Column_PackageList" />
+		,schoolId FROM t_wechat_enroll_package AS
+		t1 where t1.ttid=#{ttid}
+	</select>
+
+	<insert id="insertPackage" parameterType="com.lili.school.model.WechatEnrollPackage">
+		insert into
+		t_wechat_enroll_package (ttid, cityId, schoolId,
+		name, marketPrice,
+		price,hoursPrice,
+		title, icon, procPic,
+		firstStep, isdel, cuid,
+		muid, ctime, mtime,
+		extra, protocol, priceDetail,
+		test_condition,
+		describtion,transferStyle,trainStyle,carStyle,hours,mailAddress,remark,cstate,ostate,feature,cType)
+		values (#{ttid}, #{cityId},
+		#{school_id},
+		#{name}, #{marketPrice},
+		#{price},
+		#{hoursPrice},
+		#{title}, #{icon},
+		#{procPic},
+		#{firstStep}, #{isdel}, #{cuid},
+		#{muid}, #{ctime},
+		#{mtime},
+		#{extra}, #{protocol},
+		#{priceDetail},
+		#{test_condition},
+		#{describtion},
+		#{transferStyle},#{trainStyle},#{carStyle},#{hours},#{mailAddress},#{remark},#{cstate},#{ostate},#{feature},#{cType}
+		)
+	</insert>
+
+	<update id="updatePackage" parameterType="com.lili.school.model.WechatEnrollPackage">
+		update
+		t_wechat_enroll_package
+		set
+		cityId = #{cityId},
+		schoolId = #{school_id},
+		name = #{name},
+		marketPrice =#{marketPrice},
+		price = #{price},
+		hoursPrice = #{hoursPrice},
+		title = #{title},
+		icon = #{icon},
+		procPic = #{procPic},
+		isdel = #{isdel},
+		muid = #{muid},
+		mtime = #{mtime},
+		extra = #{extra},
+		protocol = #{protocol},
+		priceDetail = #{priceDetail},
+		test_condition = #{test_condition},
+		describtion = #{describtion},
+		transferStyle=#{transferStyle},trainStyle=#{trainStyle},
+		carStyle=#{carStyle},hours=#{hours},mailAddress=#{mailAddress},remark=#{remark},feature=#{feature},cType=#{cType}
+		where ttid = #{ttid}
+	</update>
+	
+	<update id="updatePackageState" parameterType="com.lili.school.model.WechatEnrollPackage">
+		update
+		t_wechat_enroll_package
+		<set>
+			<if test="cstate != null and cstate !='' " >
+				cstate = #{cstate},
+			</if>
+			<if test="ostate != null and ostate !='' ">
+				ostate = #{ostate},
+			</if>
+			<if test="refuse != null and refuse !='' ">
+				refuse = #{refuse},
+			</if>
+			<if test="mtime != null and mtime !='' ">
+				mtime=#{mtime},
+			</if>
+			
+		</set>
+		where ttid = #{ttid}
+	</update>
+
+	<insert id="insertSchoolApply" parameterType="com.lili.school.model.SchoolAccountApply">
+		insert into t_s_school_account_apply
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			
+			<if test="schoolName != null">
+				schoolName,
+			</if>
+			<if test="shortName != null">
+				shortName,
+			</if>
+			<if test="schoolAccount != null">
+				schoolAccount,
+			</if>
+			<if test="schoolPwd != null">
+				schoolPwd,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="applyer != null">
+				applyer,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolName != null">
+				#{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="shortName != null">
+				#{shortName,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolAccount != null">
+				#{schoolAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolPwd != null">
+				#{schoolPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="applyer != null">
+				#{applyer,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<select id="findApply" resultMap="ApplyBaseResultMap" parameterType="com.lili.school.model.SchoolAccountApply">
+		SELECT id,schoolName,shortName,cityId,schoolAccount,schoolPwd,city,address,applyer,phoneNum,status,remark,createDate
+		FROM t_s_school_account_apply
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			<if test="status >=0">
+				and status = #{status}
+			</if>
+			<if test="startTime != null and startTime!=''">
+				and createDate >= #{startTime}
+			</if>
+			<if test="endTime != null and endTime!=''">
+				<![CDATA[and createDate <= #{endTime}]]> 
+			</if>
+		</trim>
+		order by createDate desc limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="findApplyTotal" resultType="int" parameterType="com.lili.school.model.SchoolAccountApply">
+		SELECT count(id)
+		FROM t_s_school_account_apply
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="cityId != null and cityId != ''">
+				and cityId = #{cityId}
+			</if>
+			<if test="status >=0">
+				and status = #{status}
+			</if>
+			<if test="startTime != null and startTime!=''">
+				and createDate >= #{startTime}
+			</if>
+			<if test="endTime != null and endTime!=''">
+				<![CDATA[and createDate <= #{endTime}]]> 
+			</if>
+		</trim>
+		
+	</select>
+	
+	<select id="getApply" resultMap="ApplyBaseResultMap" parameterType="com.lili.school.model.SchoolAccountApply">
+		SELECT id,schoolName,shortName,cityId,schoolAccount,schoolPwd,city,address,applyer,phoneNum,status,remark,createDate
+		FROM t_s_school_account_apply
+		where id=#{id}
+		
+	</select>
+	
+	
+	<update id="updateSchoolApply" parameterType="com.lili.school.model.SchoolAccountApply">
+		update t_s_school_account_apply
+		set status= #{status,jdbcType=INTEGER},remark= #{remark,jdbcType=VARCHAR}
+		where id=#{id,jdbcType=INTEGER}
+		
+	</update>
+	
+	<update id="changeStudentPackage">
+	   update t_u_student set packageId=#{ttid},relevanceTime=now() where studentId=#{studentId}
+	</update>
+	
+</mapper>

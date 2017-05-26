@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="RechargePriviDetail">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{data.rcname}}</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail z-data-recharge-privi">
+		<div class="z-common-head">
+			<div class="z-title"><a href="app-client-plan.html">充值送方案</a> &gt; {{data.rcname}}详情</div>
+			<div class="z-top">
+
+				<div class="inline-text">
+					<span class="light">名称：</span>
+					<span ng-bind="data.rcname"></span>
+				</div>
+				<div class="inline-text">
+					<span class="light">是否生效：</span>
+					<span ng-bind="data.active | planActive"></span>
+				</div>
+				<div class="right-btn">
+					<a ng-if="data.active==0" href="big-client-plan-edit.html?rcid={{data.rcid}}" class="btn btn-sm btn-primary">编辑</a>
+					<a ng-click="inactiveAction(data)" class="btn btn-sm btn-danger" ng-show="data.active==1">停止发放</a>
+					<a ng-click="activeAction(data)" class="btn btn-sm btn-primary" ng-show="data.active==0">激活启用</a>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="padding-20 table-margin" style="overflow: auto;">
+			<!-- 优惠券信息 -->
+			<table class="table table-bordered table-with-style z-mb0">
+				<tr>
+					<td width="15%">创建时间</td>
+					<td width="35%" ng-bind="data.ctime | timeTex"></td>
+					<td width="15%">创建人</td>
+					<td width="35%" ng-bind="data.createUser"></td>
+				</tr>
+				<tr>
+					<td>更新时间</td>
+					<td ng-bind="data.mtime | timeTex"></td>
+					<td>更新人</td>
+					<td ng-bind="data.updateUser"></td>
+				</tr>
+			</table>
+			<!--当为赠送比例时，加载以下表格-->
+			<table class="table table-bordered z-mb0" ng-if="sendPriviPer">
+				<tr>
+					<td width="15%">充值金额(元)</td>
+					<td ng-repeat="item in data.rechargeGearList" ng-bind="item.pmin/100+'~'+item.pmax/100"></td>
+				</tr>
+				<tr>
+					<td>赠送比例</td>
+					<td ng-repeat="item in data.rechargeGearList" ng-bind="item.percent+'%'"></td>
+				</tr>
+			</table>
+			<!--当为赠送金额时，加载以下表格-->
+			<table class="table table-bordered z-mb0" ng-if="sendPriviCnt">
+				<tr>
+					<td width="15%">充值金额(元)</td>
+					<td ng-repeat="item in data.rechargeGearList" ng-bind="item.pmin/100+'~'+item.pmax/100"></td>
+				</tr>
+				<tr>
+					<td>赠送金额</td>
+					<td ng-repeat="item in data.rechargeGearList" ng-bind="item.money/100"></td>
+				</tr>
+			</table>
+			<table class="table table-bordered table-with-style ">
+				<tr>
+					<td width="15%">生效条件</td>
+					<td width="35%">监听事件：
+                        <span ng-bind="data.enroll | enrollTex"></span>
+                        <span ng-if="data.enroll==1 && data.cityId!=''" ng-bind="data.cityName"></span>
+                        <span ng-if="data.enroll==1 && data.cityId==''">全部城市</span>
+                    </td>
+					<td width="15%">是否独立使用</td>
+					<td width="35%" ng-bind="data.indepent | indepentTex"></td>
+				</tr>
+				<tr>
+					<td>使用截止日期</td>
+					<td><span ng-if="data.tend" ng-bind="data.tend | timeTex"></span><span ng-if="!data.tend">无</span></td>
+                    <td>参与资格</td>
+                    <td ng-bind="data.vtype | planVtypeTex"></td>
+				</tr>
+				<tr>
+					<td>到帐方式</td>
+					<td colspan="3" ng-bind="data.auto | planAutoTex"></td>
+				</tr>
+				<tr>
+					<td>极光推送消息</td>
+					<td colspan="3" ng-bind="data.jpush"></td>
+				</tr>
+				<!--<tr>-->
+					<!--<td>短信推送模板</td>-->
+					<!--<td colspan="3" ng-bind="data.ems"></td>-->
+				<!--</tr>-->
+				<tr>
+					<td>服务规则</td>
+					<td colspan="3" ng-bind="data.agreement"></td>
+				</tr>
+			</table>
+			<!-- 优惠券信息结束 -->
+		</div>
+        <div class="padding-20">
+            <div class="table-margin common-table">
+                <div class="header">学员列表</div>
+                <div class="content">
+
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-8">
+                            <!--屏蔽 因产品和后端思路有冲突，暂屏蔽<a href="add-student-for-plan.html?rcid={{data.rcid}}&rcname={{data.rcname}}" class="btn btn-sm btn-primary">添加已有学员</a>-->
+                            <div class="search">
+                                <!--<div class="line">-->
+                                <!--<div>生效状态</div>-->
+                                <!--<ul>-->
+                                <!--<li ng-click="getDataForState($event,'all')" class="active">全部</li>-->
+                                <!--<li ng-click="getDataForState($event,'0')">未生效</li>-->
+                                <!--<li ng-click="getDataForState($event,'1')">已生效</li>-->
+                                <!--</ul>-->
+                                <!--</div>-->
+                                <div class="line">
+                                    <div>高级查询</div>
+                                    <div class="input-group search-more-condition" style="width: auto; max-width: 350px;">
+                                        <select ng-model="searchType" class="form-control" id="search_type">
+                                            <option value="mobile">电话</option>
+                                            <!--<option value="cname">姓名</option>-->
+                                        </select>
+                                        <input type="text" ng-model="search" class="form-control" placeholder="输入电话查询" id="search_placeholder">
+							  <span class="input-group-btn">
+								<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+							  </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td><b>关联时间</b></td>
+                                <td><b>姓名</b></td>
+                                <td><b>电话</b></td>
+                                <td><b>身份证号</b></td>
+                                <td><b>报名城市</b></td>
+                                <td><b>大客户</b></td>
+                                <td><b>学员状态</b></td>
+                                <td><b>生效状态</b></td>
+                                <td><b>操作</b></td>
+                            </tr>
+                            <tr ng-repeat="item in datas" class="ng-scope">
+                                <td ng-bind="item.ctime | timeTex"></td>
+                                <td ng-bind="item.name"></td>
+                                <td ng-bind="item.phoneNum"></td>
+                                <td ng-bind="item.idNumber"></td>
+                                <td ng-bind="item.enrollCity"></td>
+                                <td ng-bind="item.company"></td>
+                                <td ng-bind="(item.applyexam+','+item.applystate) | studentStateText"></td>
+                                <td ng-bind="item.vstate | stuStateforPlan"></td>
+                                <td><a href="javascript:;" ng-click="delStuForPlan(item)">删除</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/big-client-plan-details.js?v=da69396f9a1473298817674"></script>
+</body>
+</html>

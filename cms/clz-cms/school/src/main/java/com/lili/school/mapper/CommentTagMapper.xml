@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.CommentTagMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.CommentTag">
+		<id column="ctid" property="ctid" jdbcType="INTEGER" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+		<result column="course_id" property="courseId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="good_bad" property="goodBad" jdbcType="TINYINT" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="cuid" property="cuid" jdbcType="INTEGER" />
+		<result column="muid" property="muid" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="star1" property="star1" jdbcType="VARCHAR" />
+		<result column="star2" property="star2" jdbcType="VARCHAR" />
+		<result column="star3" property="star3" jdbcType="VARCHAR" />
+		<result column="star4" property="star4" jdbcType="VARCHAR" />
+		<result column="star5" property="star5" jdbcType="VARCHAR" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ctid, tag, course_id, type, good_bad, isdel, cuid, muid, ctime, mtime,
+		star1, star2,
+		star3, star4, star5, extra
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_comment_tag
+		where ctid = #{ctid,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryCommentTagList" parameterType="com.lili.school.model.CommonPrice" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from t_comment_tag
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="tag != null and tag != ''">
+					and tag = #{tag}
+				</if>
+				<if test="courseId != null and courseId != ''">
+					and course_id = #{courseId}
+				</if>
+				<if test="type != null and type != ''">
+					and type = #{type}
+				</if>
+				<if test="isdel != null and isdel != ''">
+					and isdel = #{isdel}
+				</if>
+			</trim>
+			order by coursenewNo desc
+	</select>
+	
+	<select id="queryComTagList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_comment_tag
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and ctid in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and ctid in ('')
+				</if>
+			</trim>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_comment_tag
+		where ctid = #{ctid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.model.CommentTag">
+		insert into t_comment_tag (ctid, tag, course_id,
+		type, good_bad, isdel,
+		cuid, muid, ctime,
+		mtime, star1, star2,
+		star3, star4, star5,
+		extra)
+		values (#{ctid,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR},
+		#{courseId,jdbcType=INTEGER},
+		#{type,jdbcType=TINYINT}, #{goodBad,jdbcType=TINYINT}, #{isdel,jdbcType=TINYINT},
+		#{cuid,jdbcType=INTEGER}, #{muid,jdbcType=INTEGER},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP}, #{star1,jdbcType=VARCHAR}, #{star2,jdbcType=VARCHAR},
+		#{star3,jdbcType=VARCHAR}, #{star4,jdbcType=VARCHAR},
+		#{star5,jdbcType=VARCHAR},
+		#{extra,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.model.CommentTag">
+		insert into t_comment_tag
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ctid != null">
+				ctid,
+			</if>
+			<if test="tag != null">
+				tag,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="goodBad != null">
+				good_bad,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="star1 != null">
+				star1,
+			</if>
+			<if test="star2 != null">
+				star2,
+			</if>
+			<if test="star3 != null">
+				star3,
+			</if>
+			<if test="star4 != null">
+				star4,
+			</if>
+			<if test="star5 != null">
+				star5,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ctid != null">
+				#{ctid,jdbcType=INTEGER},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="goodBad != null">
+				#{goodBad,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="star1 != null">
+				#{star1,jdbcType=VARCHAR},
+			</if>
+			<if test="star2 != null">
+				#{star2,jdbcType=VARCHAR},
+			</if>
+			<if test="star3 != null">
+				#{star3,jdbcType=VARCHAR},
+			</if>
+			<if test="star4 != null">
+				#{star4,jdbcType=VARCHAR},
+			</if>
+			<if test="star5 != null">
+				#{star5,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.model.CommentTag">
+		update t_comment_tag
+		<set>
+			<if test="tag != null">
+				tag = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="goodBad != null">
+				good_bad = #{goodBad,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="star1 != null">
+				star1 = #{star1,jdbcType=VARCHAR},
+			</if>
+			<if test="star2 != null">
+				star2 = #{star2,jdbcType=VARCHAR},
+			</if>
+			<if test="star3 != null">
+				star3 = #{star3,jdbcType=VARCHAR},
+			</if>
+			<if test="star4 != null">
+				star4 = #{star4,jdbcType=VARCHAR},
+			</if>
+			<if test="star5 != null">
+				star5 = #{star5,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ctid = #{ctid,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.model.CommentTag">
+		update t_comment_tag
+		set tag = #{tag,jdbcType=VARCHAR},
+		course_id = #{courseId,jdbcType=INTEGER},
+		type = #{type,jdbcType=TINYINT},
+		good_bad = #{goodBad,jdbcType=TINYINT},
+		isdel = #{isdel,jdbcType=TINYINT},
+		cuid = #{cuid,jdbcType=INTEGER},
+		muid = #{muid,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		star1 = #{star1,jdbcType=VARCHAR},
+		star2 = #{star2,jdbcType=VARCHAR},
+		star3 = #{star3,jdbcType=VARCHAR},
+		star4 = #{star4,jdbcType=VARCHAR},
+		star5 = #{star5,jdbcType=VARCHAR},
+		extra = #{extra,jdbcType=VARCHAR}
+		where ctid = #{ctid,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

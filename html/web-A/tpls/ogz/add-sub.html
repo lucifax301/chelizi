@@ -1,0 +1,253 @@
+<style>
+#map_canvas{height:450px;width:100%;}
+.ui-loading{position:absolute;left:0;top:0;z-index: 9999;}
+.ui-loading .ui-loading-mask{ position:absolute;top:0;left:0;background-color: #060606;opacity: .2;z-index: 1}
+.ui-loading i{height: 90px;width:90px; display: block;
+	background: url(assets/img/loading-2.gif) no-repeat center center;background-size:auto auto;position: absolute;z-index: 2
+}
+</style>
+
+     <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left col-md-3 col-sm-3 col-xs-12" style="margin-top:8px;">
+                <h3 >门店管理 >> 新增门店</h3>
+            </div>
+        </div>
+		<form class="form-horizontal form-label-left" id="addForm">
+		<div class="row">	    
+			<h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">基本资料</h4>	
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-lg-4 col-md-6 col-sm-4 col-xs-12">门店名称 <span class="required">*</span>
+					</label>
+					<div class="col-lg-8 col-md-6 col-sm-8 col-xs-12"> 
+					   <input type="text" class="form-control" placeholder="请输入门店名称" name="storename" ng-model="saveData.storename" >
+					  
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-lg-4 col-md-6 col-sm-4 col-xs-12">联系人 <span class="required">*</span>
+					</label>
+					<div class="col-lg-8 col-md-6 col-sm-8 col-xs-12">
+					   <input type="text" class="form-control" placeholder="请输入联系人姓名" name="contacter" ng-model="saveData.contacter" >
+					</div>
+				</div>
+			</div>					
+		</div>
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+						<label class="control-label col-lg-4 col-md-6 col-sm-4 col-xs-12">门店面积 <span class="required">*</span>
+						</label>
+						<div class="col-lg-8 col-md-6 col-sm-8 col-xs-12">
+							<div class="input-group">
+								<input type="number" class="form-control" placeholder="请输入门店面积" name="storearea" ng-model="saveData.storearea" >
+								 <span class="input-group-addon">㎡</span>
+							</div>
+						</div>
+				</div>
+								
+			</div>
+			<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+					<div class="item form-group">
+						<label class="control-label col-lg-4 col-md-6 col-sm-4 col-xs-12">联系电话 <span class="required">*</span>
+						</label>
+						<div class="col-lg-8 col-md-6 col-sm-8 col-xs-12">
+						   <input type="text" class="form-control" placeholder="请输入手机号码" name="tel" ng-model="saveData.tel" >
+						</div>
+					</div>
+				</div>	
+		</div>
+		<div class="row">
+			<div class="control-label col-md-5 col-sm-6 col-xs-12">
+				<div class="item form-group">
+					<label class="control-label col-md-2 col-sm-2 col-xs-12">门店地址 <span class="required">*</span></label>
+					<div class="col-md-9 col-sm-9 col-xs-12">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="请输入详细地址"  ng-model="saveData.storeaddress" name="storeaddress"> 
+						    <span class="input-group-addon" style="cursor: pointer;" id="position">定位</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="item control-label col-md-5 col-sm-6 col-xs-12 form-group">
+				<label class="control-label col-md-2 col-sm-2 col-xs-12" >经度 <span class="required">*</span></label>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<input type="text" class="form-control" placeholder="" readonly id="lng"  name="lng"/>
+				</div>
+				<label class="control-label col-md-2 col-sm-2 col-xs-12" >纬度 <span class="required">*</span></label>
+				<div class="col-md-4 col-sm-4 col-xs-12">
+					<input type="text" class="form-control" placeholder="" readonly   id="lat"   name="lat"/>
+				</div>
+				
+			</div>
+		</div>
+		<div class="x_panel">
+				<div class="x_content" >
+				<div id="map_canvas" class="action_list"></div>
+				</div>
+			</div>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">经营状态 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					   <select class="form-control input-sm"   ng-model="saveData.status" ng-init="saveData.status=1" name="status">
+						<option ng-repeat="item in statusDatas" value="{{item.id}}">{{item.value}}</option>
+					   </select>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">分类等级 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select class="form-control input-sm"   ng-model="saveData.grade" ng-init="saveData.grade=''" name="grade">
+							<option value="" >请选择</option>
+							<option value="1" >一级</option>
+							<option value="2">二级</option>
+							<option value="3">三级</option>
+					   </select>
+					</div>
+			</div>
+		</div>
+		<div class="row">	
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">所属片区 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select class="form-control input-sm" ng-change="getProxyByScopeId()"  ng-model="scopeArea" ng-options="scope.scopeName for scope in scopeareas">
+					      <option value="">-- 请选择片区 --</option>
+					   </select>
+					</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">所属代理商 <span class="required">*</span></label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select class="form-control input-sm" ng-change="generateshopid()" ng-model="proxyDealer" ng-options="proxy.proxyName for proxy in proxydealers">
+							<option value="">-- 请选择代理商 --</option>
+					   </select>
+				</div>
+			</div>
+		</div>
+			
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+				<label class="control-label col-md-4 col-sm-4 col-xs-12">门店编码 <span class="required">*</span></label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<input type="text" class=" form-control" disabled="disabled" ng-model="shopid" />
+					<input type="hidden" name="storeNum" value="{{storeNum}}" />
+					<input type="hidden" name="proxyDealerId" value="{{proxyDealer.proxyId}}" />
+					<input type="hidden" name="scopeAreaId" value="{{scopeArea.scopeId}}" />
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">备案状态 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <select class="form-control input-sm"   ng-model="saveData.recordState" ng-init="saveData.recordState=''" name="recordState">
+							<option value="" >请选择</option>
+							<option value="1">已备案</option>
+							<option value="2">未备案</option>
+					   </select>
+					</div>
+			</div>
+		</div>
+
+		 <h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">合同信息</h2>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">租期 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+						<input id="leaseStartDate" style="border-radius: 0px;" readonly="readonly" class="input-sm" type="text" placeholder="开始日期" readonly name="leaseStartDate"   class="form-control">
+						  -
+						<input id="leaseEndDate" style="border-radius: 0px;" readonly="readonly" class="input-sm" type="text" placeholder="结束日期" readonly name="leaseEndDate"   class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">合同签署人 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+						  <input id="signatory" type="text" placeholder="合同签署人" name="signatory"   class="form-control">
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">租金 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+						<div class="input-group">
+						  <input type="number"  class=" form-control" placeholder="请输入租金"  ng-model="saveData.leaseMoney" name="leaseMoney" > 
+						  <span class="input-group-addon">元</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<div class="item form-group">
+					<label class="control-label col-md-4 col-sm-4 col-xs-12">业主 </label>
+					<div class="col-md-8 col-sm-8 col-xs-12">
+					  <input type="text"  class=" form-control" placeholder="请输入姓名"  ng-model="saveData.owner" name="owner" >
+					</div>
+				</div>
+			</div>
+  
+         </div>
+		 
+		 <div class="row">
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				<label class="control-label col-md-4 col-sm-4 col-xs-12">押金 </label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					<div class="input-group">
+					  <input type="number"  class=" form-control" placeholder="请输入金额"  ng-model="saveData.mortgageMoney" name="mortgageMoney" >
+					  <span class="input-group-addon">元</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+				
+				<label class="control-label col-md-4 col-sm-4 col-xs-12">业主电话 </label>
+				<div class="col-md-8 col-sm-8 col-xs-12">
+					 <input type="text"  class=" form-control" placeholder="请输入手机号码"  ng-model="saveData.ownerPhone" name="ownerPhone" >
+ 
+				</div>
+				
+			</div>
+  
+         </div>
+		 
+		  <h4 style="background: #f0f0f3; text-indent: 15px; height: 40px; line-height: 40px; margin: 0 auto 20px;">门店展示</h2>
+		  <div class="row" >
+		     <div class="col-md-1 col-sm-1 col-xs-12 form-group has-feedback">
+				 <button type="button" class="btn"  style="height:124px;width:100px;background-color:#e7e7ea;" ng-click="uploadImg()">
+					 <p style="font-size:10px;"><span style="font-size:10px;">&nbsp;</span></p>
+					  <p style="font-size:15px;color:#868686;">添加图片</p>
+					  <p style="font-size:15px;color:#868686;"><span style="font-size:36px;">+</span></p>
+				</button>
+			</div>
+			<input name="imgeArray" type="hidden" id="imgeArray"/>
+			<div class="col-md-11 col-sm-11 col-xs-12 form-group has-feedback" id="imgDiv">
+			</div>
+		  </div>
+		  <div class="row" >
+			<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" id="imgDiv">
+				<div class="item form-group text-center">
+				  <button class="btn btn-success btn-lg" type="submit">&nbsp;&nbsp;提交&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				  <button type="button" class="btn btn-default btn-lg" ng-click="goback()">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+				</div>
+			</div>
+		 </div>
+		</form>
+    
+	
+
+
+
+
+
+

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.report.mapper.dao.IStatisticsStudentSchoolDao" >
+  <resultMap id="BaseResultMap" type="com.lili.report.vo.StatisticsStudentSchool" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="hadClassNum" property="hadClassNum" jdbcType="INTEGER" />
+    <result column="classTime" property="classTime" jdbcType="INTEGER" />
+    <result column="rClassTime" property="rClassTime" jdbcType="INTEGER" />
+    <result column="commentNum" property="commentNum" jdbcType="INTEGER" />
+    <result column="loginNum" property="loginNum" jdbcType="INTEGER" />
+    <result column="schoolId" property="schoolId" jdbcType="VARCHAR" />
+    <result column="dTime" property="dTime" jdbcType="DATE" />
+    <result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+    <resultMap id="SumResultMap" type="com.lili.report.vo.StatisticsStudentSchool" >
+	    <result column="hadClassNumSum" property="hadClassNumSum" jdbcType="INTEGER" />
+	    <result column="classTimeSum" property="classTimeSum" jdbcType="INTEGER" />
+	    <result column="rClassTimeSum" property="rClassTimeSum" jdbcType="INTEGER" />
+	    <result column="commentNumSum" property="commentNumSum" jdbcType="INTEGER" />
+	    <result column="loginNumSum" property="loginNumSum" jdbcType="INTEGER" />
+  	</resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, hadClassNum, classTime/60 as classTime, rClassTime/60 as rClassTime, commentNum, loginNum, schoolId, dTime, cTime
+  </sql>
+  
+  <select id="queryStudentJxList" resultMap="BaseResultMap" >
+		select <include refid="Base_Column_List" />
+		from t_statistics_student_school
+		where 1=1
+			<trim suffixOverrides=",">
+			   <if test="startTime != null and startTime != ''">
+					<![CDATA[ and date(dTime) >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and date(dTime) <= #{endTime} ]]>
+				</if>
+				<if test="schoolId != null and schoolId != ''">
+					and schoolId = #{schoolId}
+				</if>
+			</trim>
+			group by dTime order by dTime desc
+	</select>
+	
+	<select id="queryStudentJxSum" resultMap="SumResultMap" >
+		select sum(hadClassNum) as hadClassNumSum, sum(commentNum) as commentNumSum, 
+			sum(classTime/60) as classTimeSum,sum(rClassTIme/60) as rClassTImeSum,sum(loginNum) as loginNumSum,sum(commentNum) as commentNumSum
+		from t_statistics_student_school
+		where 1=1
+			<trim suffixOverrides=",">
+			   <if test="startTime != null and startTime != ''">
+					<![CDATA[ and date(dTime) >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and date(dTime) <= #{endTime} ]]>
+				</if>
+				<if test="schoolId != null and schoolId != ''">
+					and schoolId = #{schoolId}
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_statistics_student_school
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_statistics_student_school
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lili.report.vo.StatisticsStudentSchool" >
+    insert into t_statistics_student_school (id, hadClassNum, classTime, 
+      rClassTime, commentNum, loginNum, 
+      schoolId, dTime, cTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{hadClassNum,jdbcType=INTEGER}, #{classTime,jdbcType=INTEGER}, 
+      #{rClassTime,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, #{loginNum,jdbcType=INTEGER}, 
+      #{schoolId,jdbcType=VARCHAR}, #{dTime,jdbcType=DATE}, #{cTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.report.vo.StatisticsStudentSchool" >
+    insert into t_statistics_student_school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hadClassNum != null" >
+        hadClassNum,
+      </if>
+      <if test="classTime != null" >
+        classTime,
+      </if>
+      <if test="rClassTime != null" >
+        rClassTime,
+      </if>
+      <if test="commentNum != null" >
+        commentNum,
+      </if>
+      <if test="loginNum != null" >
+        loginNum,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="dTime != null" >
+        dTime,
+      </if>
+      <if test="cTime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="hadClassNum != null" >
+        #{hadClassNum,jdbcType=INTEGER},
+      </if>
+      <if test="classTime != null" >
+        #{classTime,jdbcType=INTEGER},
+      </if>
+      <if test="rClassTime != null" >
+        #{rClassTime,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="loginNum != null" >
+        #{loginNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="dTime != null" >
+        #{dTime,jdbcType=DATE},
+      </if>
+      <if test="cTime != null" >
+        #{cTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.report.vo.StatisticsStudentSchool" >
+    update t_statistics_student_school
+    <set >
+      <if test="hadClassNum != null" >
+        hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+      </if>
+      <if test="classTime != null" >
+        classTime = #{classTime,jdbcType=INTEGER},
+      </if>
+      <if test="rClassTime != null" >
+        rClassTime = #{rClassTime,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        commentNum = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="loginNum != null" >
+        loginNum = #{loginNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=VARCHAR},
+      </if>
+      <if test="dTime != null" >
+        dTime = #{dTime,jdbcType=DATE},
+      </if>
+      <if test="cTime != null" >
+        cTime = #{cTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.report.vo.StatisticsStudentSchool" >
+    update t_statistics_student_school
+    set hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+      classTime = #{classTime,jdbcType=INTEGER},
+      rClassTime = #{rClassTime,jdbcType=INTEGER},
+      commentNum = #{commentNum,jdbcType=INTEGER},
+      loginNum = #{loginNum,jdbcType=INTEGER},
+      schoolId = #{schoolId,jdbcType=VARCHAR},
+      dTime = #{dTime,jdbcType=DATE},
+      cTime = #{cTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

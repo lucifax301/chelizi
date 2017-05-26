@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:component-scan base-package="com.lili.student.manager.impl" />
+	<context:component-scan base-package="com.lili.student.service.impl" />
+
+	<bean id="cmsStudentServiceLocal" class="com.lili.student.service.impl.CMSStudentServiceImpl" />
+	<bean id="cmsStudentManager" class="com.lili.student.manager.impl.CMSStudentManagerImpl" />
+	
+	<bean id="cmsHtmlObjectServiceLocal" class="com.lili.student.service.impl.CMSHtmlObjectServiceImpl" />
+	<bean id="cmsHtmlObjectManager" class="com.lili.student.manager.impl.CMSHtmlObjectManagerImpl" />
+	
+	<bean id="cmsTitleContentServiceLocal" class="com.lili.student.service.impl.CmsTitleContentServiceImpl" />
+	<bean id="cmsTitleContentManager" class="com.lili.student.manager.impl.CmsTitleContentManagerImpl" />
+	
+	<bean id="cmsVipServiceLocal" class="com.lili.student.service.impl.CMSVipServiceImpl" />
+	
+	<bean id="studentAccountServiceLocal" class="com.lili.student.service.impl.StudentAccountServiceImpl" />
+	<bean id="studentAccountManagerImpl" class="com.lili.student.manager.impl.StudentAccountManagerImpl"/>
+	
+	<bean id="cmsVipManager" class="com.lili.student.manager.impl.CmsVipManagerImpl"/>
+
+	<bean id="exceptionHandler" class="com.lili.cms.aop.ExceptionHandler" />
+	<bean id="logHandler" class="com.lili.cms.aop.LogHandler" />
+	<bean id="logDBHandler" class="com.lili.common.aop.LogDBHandler" />
+
+	<aop:config>
+		<aop:pointcut id="servicePointcut"
+			expression="execution(* com.lili.student.service.impl.*.*(..))" />
+		<aop:pointcut id="managerPointcut"
+			expression="execution(* com.lili.student.manager.impl.*.*(..))" />
+		<aop:pointcut id="logDBPointcut"
+			expression="execution(* com.lili.student.service.impl.*.*(..))" />
+
+		<aop:aspect id="exceptionHandlerAspect" ref="exceptionHandler"
+			order="1">
+			<aop:after-throwing pointcut-ref="servicePointcut"
+				method="exceptionLog" throwing="ex" />
+			<aop:after-throwing pointcut-ref="managerPointcut"
+				method="exceptionLog" throwing="ex" />
+		</aop:aspect>
+
+
+		<aop:aspect id="logAspect" ref="logHandler" order="1">
+			<!-- <aop:before pointcut-ref="servicePointcut" method="argsLog" />
+			<aop:before pointcut-ref="managerPointcut" method="argsLog" /> 
+			<aop:around pointcut-ref="servicePointcut" method="execTimeLog" />-->
+			<aop:around pointcut-ref="managerPointcut" method="execTimeLog" />
+		</aop:aspect>
+		
+		
+		<aop:aspect id="logDBAspect" ref="logDBHandler" order="2">
+			<aop:after pointcut-ref="logDBPointcut" method="logAfter" />
+		</aop:aspect>
+		
+	</aop:config>
+
+
+</beans>

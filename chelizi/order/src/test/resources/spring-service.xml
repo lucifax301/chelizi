@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<bean class="com.lili.order.service.impl.OrderServiceImpl" id="orderService" />
+    <bean class="com.lili.order.service.impl.OrderCancelServiceImpl" id="orderCancelService" />
+    <bean class="com.lili.order.service.impl.OrderComplainServiceImpl" id="orderComplainService" />
+    <bean class="com.lili.order.service.impl.CoachClassServiceImpl" id="coachClassService" />
+    <bean  id="basePriceService" class="com.lili.order.service.impl.BasePriceServiceImpl" />
+    <bean  id="carLevelService" class="com.lili.order.service.impl.CarLevelServiceImpl" />
+    <bean  id="timeRateService" class="com.lili.order.service.impl.TimeRateServiceImpl" />
+    <bean  id="coachLeveService" class="com.lili.order.service.impl.CoachLevelServiceImpl" />
+    <bean  id="coachCommentService" class="com.lili.order.service.impl.CoachCommentServiceImpl" />
+    <bean  id="commentTagService" class="com.lili.order.service.impl.CommentTagServiceImpl" />
+    <bean  id="stuCommentService" class="com.lili.order.service.impl.StuCommentServiceImpl" />
+    <bean  id="regionService" class="com.lili.order.service.impl.RegionServiceImpl" />
+    <bean  id="coachStatisticService" class="com.lili.order.service.impl.CoachStatisticServiceImpl" />
+    <bean  id="coachScoreService" class="com.lili.order.service.impl.CoachScoreServiceImpl" />
+    <bean  id="plantClassService" class="com.lili.order.service.impl.PlantClassServiceImpl" />
+    <bean  id="unitPriceService" class="com.lili.order.service.impl.UnitPriceServiceImpl" />
+    <bean  id="cancelReasonService" class="com.lili.order.service.impl.CancelReasonServiceImpl" />
+    <bean  id="studentStatisticService" class="com.lili.order.service.impl.StudentStatisticServiceImpl" />
+    <bean  id="skillRelationService" class="com.lili.order.service.impl.SkillRelationServiceImpl" />
+</beans>

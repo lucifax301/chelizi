@@ -1,0 +1,27 @@
+
+<div class="edit-alert edit-alert-width student-state">
+<div class="mask"></div>
+<div class="main">
+<div id="student-state" class="content">
+	<div class="title">置学员状态 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div>已勾选了 <span class="mainColor">{{ idList.length }}</span> 位学员，请选择需要变更的状态</div>
+		<div ng-show="studentStates.length">
+			<div class="light margin-top-10">请选择学员状态</div>
+			<select id="studentState" class="form-control jia-xiao">
+			  <option value="">选择状态</option>
+			  <option ng-repeat="item in studentStates" value="{{item}}" ng-bind="item | studentStateText"></option>
+			</select>
+		</div>
+		<div ng-show="!studentStates.length">
+			<div class="light margin-top-10">您所选学员无可置的状态。(注：尽量使用单个学员或者同一类状态的学员进行批量重置状态)</div>
+		</div>	
+		<div class="chaozuo margin-top-30" >
+			<a ng-show="!haveStudentState" class="btn btn-sm btn-primary closeAlert">确定</a>
+			<a ng-show="haveStudentState" class="btn btn-sm btn-default closeAlert">取消</a>
+			<a ng-show="haveStudentState" ng-click="submitStudentState($event,incompleteData)" class="btn btn-sm btn-primary">确认</a>
+		</div>
+	</div>
+</div>
+</div>
+</div>

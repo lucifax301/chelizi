@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CoachOpenAudit">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>审核认证信息</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash order-detail data-coupon">
+        <div class="d-title">教练 &gt; 审核认证信息</div>
+        <div class="clearfix"></div>
+        <div class="coach-open-details z-common-wrap" style="width: 750px; margin: 0 auto;">
+            <h2 class="z-common-h2 mt20">基础信息<a href="coach-open.html" class="btn btn-sm btn-default z-fr">返回</a></h2>
+            <table class="table-bordered z-common-table coach-open-car">
+                <tbody><tr><th><i class="ion-information-circled z-fontsky"></i>驾驶证正本</th><th>驾驶证副本</th></tr>
+                <tr>
+                    <td width="50%">
+                        <img src="assets/img/data/01.png" class="previewImg">
+                    </td>
+                    <td width="50%">
+                        <img src="assets/img/data/01.png" class="previewImg">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="coach-open-car-item z-border-box" style="padding:0 20px 0 20px">
+                <h2 class="z-common-h2 mt20">接单车辆1 <span><i class="ion-information-circled z-fontsky"></i>车牌：粤B1234学 | 车型：C2</span></h2>
+                <table class="table-bordered z-common-table coach-open-car">
+                    <tbody><tr><th>身车照片</th><th>行驶证正本</th><th><i class="ion-information-circled z-fontsky"></i>行驶证副本</th></tr>
+                    <tr>
+                        <td width="33.33%">
+                            <img src="assets/img/data/test2.png" class="previewImg">
+                        </td>
+                        <td width="33.33%">
+                            <img src="assets/img/data/01.png" class="previewImg">
+                        </td>
+                        <td width="33.33%">
+                            <img src="assets/img/data/01.png" class="previewImg">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="coach-open-car-item z-border-box">
+                <h2 class="z-common-h2 mt20">接单车辆1 <span>车牌：粤B5678学 | <i class="ion-information-circled z-fontsky"></i>车型：C1</span></h2>
+                <table class="table-bordered z-common-table coach-open-car">
+                    <tbody><tr><th><i class="ion-information-circled z-fontsky"></i>身车照片</th><th>行驶证正本</th><th>行驶证副本</th></tr>
+                    <tr>
+                        <td width="33.33%">
+                            <img src="assets/img/data/test2.png" class="previewImg">
+                        </td>
+                        <td width="33.33%">
+                            <img src="assets/img/data/01.png" class="previewImg">
+                        </td>
+                        <td width="33.33%">
+                            <img src="assets/img/data/01.png" class="previewImg">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="chaozuo z-t-c">
+                <a class="btn btn-sm btn-primary" ng-click="auditPass()">审核通过</a>
+                <a class="btn btn-sm btn-danger" ng-click="auditNg()">审核不通过</a>
+                <a class="btn btn-sm btn-default" href="coach-open-edit.html">编辑</a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<!-- script -->
+<script src="assets/js/ng-js/coach-open-audit.js"></script>
+</body>
+</html>

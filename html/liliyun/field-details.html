@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="FieldDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>训练场</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<div class="student">
+			<div class="pull-left">
+				<dl class="msg">
+					<dt>
+						<span ng-bind="fieldDetails.name"></span>
+					</dt>
+					<dd>所属：<span ng-bind="fieldDetails.schoolName"></span></dd>
+					<dd>位置：<span ng-bind="fieldDetails.posDesc"></span></dd>
+					<dd>训练场面积：<span ng-bind="fieldDetails.reverseLim"></span></dd>
+					<dd>联系电话：<span ng-bind="fieldDetails.phoneNum"></span></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active" ng-if="120705|isAccessShow">操作日志</li>
+		</ul>
+		<div class="order-table" id="order-table">
+			<!-- 操作日志 -->
+			<div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td class="w-20"><b>更新时间</b></td>
+					  	<td class="w-10"><b>操作人</b></td>
+					  	<td><b>操作内容</b></td>
+					  </tr>
+					  <tr ng-repeat="data in fieldLogs">
+					  	<td ng-bind="data.operateTime | timeTex"></td>
+					  	<td ng-bind="data.userName"></td>
+					  	<td ng-bind="data.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="log-page" class="copot-page"></div>
+				</div><!-- 操作日志结束 -->
+			</div>
+
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/field-details.js"></script>
+</body>
+</html>

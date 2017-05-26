@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="AddStuForPlan">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>添加已有学员 - 充值送方案</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="student-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="d-title"><a href="app-client-plan.html" style="text-decoration: none; color: #333">充值送方案</a> > <a href="app-client-plan-details.html?rcid={{rcinfo.rcid}}"  style="text-decoration: none; color: #333"> {{rcinfo.rcname}} </a> > 添加已有学员</div>
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>学员类型</div>
+						<ul id="select-student">
+							<li ng-click="getDataForStuType($event,'')" class="active">全部</li>
+							<li ng-click="getDataForStuType($event,'false')">非大客户学员</li>
+							<li ng-click="getDataForStuType($event,'true')">大客户学员</li>
+						</ul>
+						<select ng-model="coid" class="form-control jia-xiao" ng-change="getDataForCompany()" ng-class="{'error-select':cityError?true:false}">
+						  <option value="">选择大客户</option>
+						  <option ng-repeat="item in companys" value="{{item.coid}}" ng-bind="item.company"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>学员查询</div>
+						<div class="input-group">
+					      <input type="text" ng-model="search" class="form-control" placeholder="输入学员手机号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8"></div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>姓名</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>身份证号</b></td>
+					  	<td><b>充送方案</b></td>
+					  	<td><b>大客户</b></td>
+					  	<td><b>学员状态</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)"></td>
+					  	<td><a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.name?data.name:'喱喱同学'"></a></td>
+					  	<td ng-bind="data.phoneNum"></td>
+					  	<td ng-bind="data.idNumber"></td>
+					  	<td ng-bind="data.rcname"></td>
+                          <td ng-bind="data.company"></td>
+                          <td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+                <div class="z-caozuo">
+                    <a href="javascript:;" class="btn btn-primary btn-md" role="button" ng-click="submitStuForPlan()">添加</a>
+                </div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/add-student-for-plan.js"></script>
+</body>
+</html>

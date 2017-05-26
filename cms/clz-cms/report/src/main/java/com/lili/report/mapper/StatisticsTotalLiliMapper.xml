@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.report.mapper.dao.IStatisticsTotalLiliDao">
+	<resultMap id="BaseResultMap"  type="com.lili.report.vo.StatisticsTotalLiliVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="instantOrderMoney" property="instantOrderMoney"  jdbcType="INTEGER" />
+		<result column="planOrderMoney" property="planOrderMoney"  jdbcType="INTEGER" />
+		<result column="signupOrderMoney" property="signupOrderMoney"  jdbcType="INTEGER" />
+		<result column="totalMoney" property="totalMoney" jdbcType="INTEGER" />
+		<result column="instantOrderNum" property="instantOrderNum"  jdbcType="INTEGER" />
+		<result column="instantPayOrderNum" property="instantPayOrderNum"  jdbcType="INTEGER" />
+		<result column="planOrderNum" property="planOrderNum" jdbcType="INTEGER" />
+		<result column="planPayOrderNum" property="planPayOrderNum" jdbcType="INTEGER" />
+		<result column="registerStuNum" property="registerStuNum" 	jdbcType="INTEGER" />
+		<result column="signupStuNum" property="signupStuNum" jdbcType="INTEGER" />
+		<result column="activityStuNum" property="activityStuNum" 	jdbcType="INTEGER" />
+		<result column="loginStuNum" property="loginStuNum" jdbcType="INTEGER" />
+		<result column="loginCoachNum" property="loginCoachNum" 	jdbcType="INTEGER" />
+		<result column="planClassCoachNum" property="planClassCoachNum" 	jdbcType="INTEGER" />
+		<result column="hadPlanClassCoachNum" property="hadPlanClassCoachNum" 	jdbcType="INTEGER" />
+		<result column="planClassTime" property="planClassTime" 	jdbcType="INTEGER" />
+		<result column="rPlanClassTime" property="rPlanClassTime" 	jdbcType="INTEGER" />
+		<result column="lessThreeNum" property="lessThreeNum" jdbcType="INTEGER" />
+		<result column="commentOrderNum" property="commentOrderNum" jdbcType="INTEGER" />
+		<result column="instantPayClassTime" property="instantPayClassTime" jdbcType="INTEGER" />
+		<result column="planPayClassTime" property="planPayClassTime" jdbcType="INTEGER" />
+		<result column="dyear" property="dyear" jdbcType="INTEGER" />
+		<result column="dMonth" property="dmonth" jdbcType="INTEGER" />
+		<result column="dTime" property="dtime" jdbcType="DATE" />
+		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="ArrayResultMap"  type="com.lili.report.vo.StatisticsTotalLiliVo">
+			<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="instantOrderMoney" property="instantOrderMoney"  jdbcType="INTEGER" />
+		<result column="planOrderMoney" property="planOrderMoney"  jdbcType="INTEGER" />
+		<result column="signupOrderMoney" property="signupOrderMoney"  jdbcType="INTEGER" />
+		<result column="totalMoney" property="totalMoney" jdbcType="INTEGER" />
+		<result column="instantOrderNum" property="instantOrderNum"  jdbcType="INTEGER" />
+		<result column="instantPayOrderNum" property="instantPayOrderNum"  jdbcType="INTEGER" />
+		<result column="planOrderNum" property="planOrderNum" jdbcType="INTEGER" />
+		<result column="planPayOrderNum" property="planPayOrderNum" jdbcType="INTEGER" />
+		<result column="registerStuNum" property="registerStuNum" 	jdbcType="INTEGER" />
+		<result column="signupStuNum" property="signupStuNum" jdbcType="INTEGER" />
+		<result column="activityStuNum" property="activityStuNum" 	jdbcType="INTEGER" />
+		<result column="loginStuNum" property="loginStuNum" jdbcType="INTEGER" />
+		<result column="loginCoachNum" property="loginCoachNum" 	jdbcType="INTEGER" />
+		<result column="planClassCoachNum" property="planClassCoachNum" 	jdbcType="INTEGER" />
+		<result column="hadPlanClassCoachNum" property="hadPlanClassCoachNum" 	jdbcType="INTEGER" />
+		<result column="planClassTime" property="planClassTime" 	jdbcType="INTEGER" />
+		<result column="rPlanClassTime" property="rPlanClassTime" 	jdbcType="INTEGER" />
+		<result column="lessThreeNum" property="lessThreeNum" jdbcType="INTEGER" />
+		<result column="commentOrderNum" property="commentOrderNum" 	jdbcType="INTEGER" />
+		<result column="instantPayClassTime" property="instantPayClassTime" jdbcType="INTEGER" />
+		<result column="planPayClassTime" property="planPayClassTime" jdbcType="INTEGER" />
+		<result column="dyear" property="dyear" jdbcType="INTEGER" />
+		<result column="dMonth" property="dmonth" jdbcType="INTEGER" />
+		<result column="dTime" property="dtime" jdbcType="DATE" />
+		<result column="cTime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="lessThreeRatio" property="lessThreeRatio" 	jdbcType="INTEGER" />
+		<result column="fullClass" property="fullClass" 	jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, instantOrderMoney, planOrderMoney, signupOrderMoney, totalMoney,
+		instantOrderNum,
+		instantPayOrderNum, planOrderNum, planPayOrderNum, registerStuNum, signupStuNum,
+		activityStuNum, loginStuNum, loginCoachNum, planClassCoachNum,
+		hadPlanClassCoachNum,
+		planClassTime, rPlanClassTime, lessThreeNum, commentOrderNum, instantPayClassTime, planPayClassTime, dyear, dMonth, dTime,
+		cTime
+	</sql>
+	
+	<select id="queryStatisticsTotalLiliInfo" resultMap="ArrayResultMap" >
+		select id,truncate((instantOrderMoney/100),2) as instantOrderMoney, truncate((planOrderMoney/100),2) as planOrderMoney, 
+				truncate((signupOrderMoney/100),2) as signupOrderMoney, truncate(((instantOrderMoney +signupOrderMoney +planOrderMoney)/100),2) as totalMoney,
+				instantOrderNum, instantPayOrderNum, planOrderNum, planPayOrderNum, registerStuNum, signupStuNum,
+				activityStuNum, loginStuNum, loginCoachNum, planClassCoachNum, hadPlanClassCoachNum,
+				truncate(planClassTime/60,2) as planClassTime, truncate(rPlanClassTime/60,2) as rPlanClassTime, lessThreeNum, commentOrderNum, dyear, dMonth, dTime
+				,ifnull(truncate(lessThreeNum/commentOrderNum*100,2),0) as lessThreeRatio,ifnull(truncate(rPlanClassTime/planClassTime*100,2),0) as fullClass,
+				truncate(instantPayClassTime/60,2) as instantPayClassTime, truncate(planPayClassTime/60,2) as planPayClassTime
+		  from t_statistics_totallili 
+		    where  1=1 
+		     <![CDATA[ AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(dTime)  ]]>
+		     order by dTime desc;
+	</select>
+	
+	<select id="queryWeekInfo" resultMap="ArrayResultMap" >
+			select * from 
+				(select  dyear,truncate((sum(instantOrderMoney)/100),2) as instantOrderMoney, truncate((sum(planOrderMoney)/100),2) as planOrderMoney, 
+							truncate((sum(signupOrderMoney)/100),2) as signupOrderMoney,
+							truncate(((sum(instantOrderMoney) + sum(signupOrderMoney)  +sum(planOrderMoney))/100),2) as totalMoney, sum(instantOrderNum) as instantOrderNum,
+							sum(instantPayOrderNum) as instantPayOrderNum, sum(planOrderNum) as planOrderNum,sum(planPayOrderNum) as planPayOrderNum,
+							sum(registerStuNum) as registerStuNum,sum(signupStuNum) as signupStuNum,				
+							truncate(sum(planClassTime)/60,2) as planClassTime,truncate(sum(rPlanClassTime)/60,2) as rPlanClassTime, sum(lessThreeNum) as lessThreeNum,
+							sum(commentOrderNum) as commentOrderNum, ifnull(truncate(sum(lessThreeNum)/sum(commentOrderNum)*100,2),0) as lessThreeRatio,
+							ifnull(truncate(sum(rPlanClassTime)/sum(planClassTime)*100,2),0) as fullClass,
+							truncate(sum(instantPayClassTime)/60,2) as instantPayClassTime, truncate(sum(planPayClassTime)/60,2) as planPayClassTime
+							from t_statistics_totallili 
+					  		where  1=1  <![CDATA[ AND  DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(dTime)  ]]>
+				) as T1 left join
+				(select  dyear,7daysActivityStuNum as activityStuNum,7daysLoginStuNum as loginStuNum,7daysLoginCoachNum as loginCoachNum,
+							7daysPlanClassCoachNum as planClassCoachNum,7daysHadPlanClassCoachNum as hadPlanClassCoachNum 
+							from t_statistics_totallili  
+							where 1=1  <![CDATA[ AND  TO_DAYS(NOW()) - TO_DAYS(dTime) <= 1  ]]>
+				) as T2  on  T1.dyear=T2.dyear
+	</select>
+	
+	<select id="queryMonthInfo" resultMap="ArrayResultMap" parameterType="com.lili.report.vo.StatisticsTotalLiliVo">
+			select * from 
+				(select  dyear, truncate((sum(instantOrderMoney)/100),2) as instantOrderMoney, truncate((sum(planOrderMoney)/100),2) as planOrderMoney, 
+							 truncate((sum(signupOrderMoney)/100),2) as signupOrderMoney,
+							truncate(((sum(instantOrderMoney) + sum(signupOrderMoney) +sum(planOrderMoney))/100),2) as totalMoney, sum(instantOrderNum) as instantOrderNum,
+							sum(instantPayOrderNum) as instantPayOrderNum, sum(planOrderNum) as planOrderNum,sum(planPayOrderNum) as planPayOrderNum,
+							sum(registerStuNum) as registerStuNum,sum(signupStuNum) as signupStuNum,
+							truncate(sum(planClassTime)/60,2) as planClassTime,truncate(sum(rPlanClassTime)/60,2) as rPlanClassTime, sum(lessThreeNum) as lessThreeNum,
+							sum(commentOrderNum) as commentOrderNum, ifnull(truncate(sum(lessThreeNum)/sum(commentOrderNum)*100,2),0) as lessThreeRatio,
+							ifnull(truncate(sum(rPlanClassTime)/sum(planClassTime)*100,2),0) as fullClass,
+							truncate(sum(instantPayClassTime)/60,2) as instantPayClassTime, truncate(sum(planPayClassTime)/60,2) as planPayClassTime
+							from t_statistics_totallili 
+						    where  1=1  AND dMonth=#{dmonth,jdbcType=INTEGER}
+				) as T1 left join
+				(select  dyear,monthActivityStuNum as activityStuNum,monthLoginStuNum as loginStuNum,monthLoginCoachNum as loginCoachNum,
+							monthPlanClassCoachNum as planClassCoachNum,monthHadPlanClassCoachNum as hadPlanClassCoachNum
+							from t_statistics_totallili  
+							where 1=1 <![CDATA[ AND  TO_DAYS(NOW()) - TO_DAYS(dTime) <= 1  ]]>
+				) as T2  on  T1.dyear=T2.dyear
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_statistics_totallili
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_statistics_totallili
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.report.vo.StatisticsTotalLiliVo">
+		insert into t_statistics_totallili (id, instantOrderMoney,
+		planOrderMoney,
+		signupOrderMoney, totalMoney, instantOrderNum,
+		instantPayOrderNum, planOrderNum, planPayOrderNum,
+		registerStuNum, signupStuNum, activityStuNum,
+		loginStuNum, loginCoachNum, planClassCoachNum,
+		hadPlanClassCoachNum, planClassTime, rPlanClassTime,
+		lessThreeNum, commentOrderNum, dyear,
+		dMonth, dTime, cTime, instantPayClassTime, planPayClassTime
+		)
+		values (#{id,jdbcType=BIGINT}, #{instantordermoney,jdbcType=INTEGER},
+		#{planordermoney,jdbcType=INTEGER},
+		#{signupordermoney,jdbcType=INTEGER}, #{totalmoney,jdbcType=INTEGER},
+		#{instantordernum,jdbcType=INTEGER},
+		#{instantpayordernum,jdbcType=INTEGER},
+		#{planordernum,jdbcType=INTEGER}, #{planpayordernum,jdbcType=INTEGER},
+		#{registerstunum,jdbcType=INTEGER}, #{signupstunum,jdbcType=INTEGER},
+		#{activitystunum,jdbcType=INTEGER},
+		#{loginstunum,jdbcType=INTEGER}, #{logincoachnum,jdbcType=INTEGER},
+		#{planclasscoachnum,jdbcType=INTEGER},
+		#{hadplanclasscoachnum,jdbcType=INTEGER},
+		#{planclasstime,jdbcType=INTEGER}, #{rplanclasstime,jdbcType=INTEGER},
+		#{lessthreenum,jdbcType=INTEGER}, #{commentordernum,jdbcType=INTEGER},
+		#{dyear,jdbcType=INTEGER},
+		#{dmonth,jdbcType=INTEGER}, #{dtime,jdbcType=DATE}, #{ctime,jdbcType=TIMESTAMP}, 
+		#{instantPayClassTime,jdbcType=INTEGER}, #{planPayClassTime,jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.report.vo.StatisticsTotalLiliVo">
+		insert into t_statistics_totallili
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="instantordermoney != null">
+				instantOrderMoney,
+			</if>
+			<if test="planordermoney != null">
+				planOrderMoney,
+			</if>
+			<if test="signupordermoney != null">
+				signupOrderMoney,
+			</if>
+			<if test="totalmoney != null">
+				totalMoney,
+			</if>
+			<if test="instantordernum != null">
+				instantOrderNum,
+			</if>
+			<if test="instantpayordernum != null">
+				instantPayOrderNum,
+			</if>
+			<if test="planordernum != null">
+				planOrderNum,
+			</if>
+			<if test="planpayordernum != null">
+				planPayOrderNum,
+			</if>
+			<if test="registerstunum != null">
+				registerStuNum,
+			</if>
+			<if test="signupstunum != null">
+				signupStuNum,
+			</if>
+			<if test="activitystunum != null">
+				activityStuNum,
+			</if>
+			<if test="loginstunum != null">
+				loginStuNum,
+			</if>
+			<if test="logincoachnum != null">
+				loginCoachNum,
+			</if>
+			<if test="planclasscoachnum != null">
+				planClassCoachNum,
+			</if>
+			<if test="hadplanclasscoachnum != null">
+				hadPlanClassCoachNum,
+			</if>
+			<if test="planclasstime != null">
+				planClassTime,
+			</if>
+			<if test="rplanclasstime != null">
+				rPlanClassTime,
+			</if>
+			<if test="lessthreenum != null">
+				lessThreeNum,
+			</if>
+			<if test="commentordernum != null">
+				commentOrderNum,
+			</if>
+			<if test="dyear != null">
+				dyear,
+			</if>
+			<if test="dmonth != null">
+				dMonth,
+			</if>
+			<if test="dtime != null">
+				dTime,
+			</if>
+			<if test="ctime != null">
+				cTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="instantordermoney != null">
+				#{instantordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="planordermoney != null">
+				#{planordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="signupordermoney != null">
+				#{signupordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="totalmoney != null">
+				#{totalmoney,jdbcType=INTEGER},
+			</if>
+			<if test="instantordernum != null">
+				#{instantordernum,jdbcType=INTEGER},
+			</if>
+			<if test="instantpayordernum != null">
+				#{instantpayordernum,jdbcType=INTEGER},
+			</if>
+			<if test="planordernum != null">
+				#{planordernum,jdbcType=INTEGER},
+			</if>
+			<if test="planpayordernum != null">
+				#{planpayordernum,jdbcType=INTEGER},
+			</if>
+			<if test="registerstunum != null">
+				#{registerstunum,jdbcType=INTEGER},
+			</if>
+			<if test="signupstunum != null">
+				#{signupstunum,jdbcType=INTEGER},
+			</if>
+			<if test="activitystunum != null">
+				#{activitystunum,jdbcType=INTEGER},
+			</if>
+			<if test="loginstunum != null">
+				#{loginstunum,jdbcType=INTEGER},
+			</if>
+			<if test="logincoachnum != null">
+				#{logincoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="planclasscoachnum != null">
+				#{planclasscoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="hadplanclasscoachnum != null">
+				#{hadplanclasscoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="planclasstime != null">
+				#{planclasstime,jdbcType=INTEGER},
+			</if>
+			<if test="rplanclasstime != null">
+				#{rplanclasstime,jdbcType=INTEGER},
+			</if>
+			<if test="lessthreenum != null">
+				#{lessthreenum,jdbcType=INTEGER},
+			</if>
+			<if test="commentordernum != null">
+				#{commentordernum,jdbcType=INTEGER},
+			</if>
+			<if test="dyear != null">
+				#{dyear,jdbcType=INTEGER},
+			</if>
+			<if test="dmonth != null">
+				#{dmonth,jdbcType=INTEGER},
+			</if>
+			<if test="dtime != null">
+				#{dtime,jdbcType=DATE},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.report.vo.StatisticsTotalLiliVo">
+		update t_statistics_totallili
+		<set>
+			<if test="instantordermoney != null">
+				instantOrderMoney = #{instantordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="planordermoney != null">
+				planOrderMoney = #{planordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="signupordermoney != null">
+				signupOrderMoney = #{signupordermoney,jdbcType=INTEGER},
+			</if>
+			<if test="totalmoney != null">
+				totalMoney = #{totalmoney,jdbcType=INTEGER},
+			</if>
+			<if test="instantordernum != null">
+				instantOrderNum = #{instantordernum,jdbcType=INTEGER},
+			</if>
+			<if test="instantpayordernum != null">
+				instantPayOrderNum = #{instantpayordernum,jdbcType=INTEGER},
+			</if>
+			<if test="planordernum != null">
+				planOrderNum = #{planordernum,jdbcType=INTEGER},
+			</if>
+			<if test="planpayordernum != null">
+				planPayOrderNum = #{planpayordernum,jdbcType=INTEGER},
+			</if>
+			<if test="registerstunum != null">
+				registerStuNum = #{registerstunum,jdbcType=INTEGER},
+			</if>
+			<if test="signupstunum != null">
+				signupStuNum = #{signupstunum,jdbcType=INTEGER},
+			</if>
+			<if test="activitystunum != null">
+				activityStuNum = #{activitystunum,jdbcType=INTEGER},
+			</if>
+			<if test="loginstunum != null">
+				loginStuNum = #{loginstunum,jdbcType=INTEGER},
+			</if>
+			<if test="logincoachnum != null">
+				loginCoachNum = #{logincoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="planclasscoachnum != null">
+				planClassCoachNum = #{planclasscoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="hadplanclasscoachnum != null">
+				hadPlanClassCoachNum = #{hadplanclasscoachnum,jdbcType=INTEGER},
+			</if>
+			<if test="planclasstime != null">
+				planClassTime = #{planclasstime,jdbcType=INTEGER},
+			</if>
+			<if test="rplanclasstime != null">
+				rPlanClassTime = #{rplanclasstime,jdbcType=INTEGER},
+			</if>
+			<if test="lessthreenum != null">
+				lessThreeNum = #{lessthreenum,jdbcType=INTEGER},
+			</if>
+			<if test="commentordernum != null">
+				commentOrderNum = #{commentordernum,jdbcType=INTEGER},
+			</if>
+			<if test="dyear != null">
+				dyear = #{dyear,jdbcType=INTEGER},
+			</if>
+			<if test="dmonth != null">
+				dMonth = #{dmonth,jdbcType=INTEGER},
+			</if>
+			<if test="dtime != null">
+				dTime = #{dtime,jdbcType=DATE},
+			</if>
+			<if test="ctime != null">
+				cTime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.report.vo.StatisticsTotalLiliVo">
+		update t_statistics_totallili
+		set instantOrderMoney = #{instantordermoney,jdbcType=INTEGER},
+		planOrderMoney = #{planordermoney,jdbcType=INTEGER},
+		signupOrderMoney = #{signupordermoney,jdbcType=INTEGER},
+		totalMoney = #{totalmoney,jdbcType=INTEGER},
+		instantOrderNum = #{instantordernum,jdbcType=INTEGER},
+		instantPayOrderNum = #{instantpayordernum,jdbcType=INTEGER},
+		planOrderNum = #{planordernum,jdbcType=INTEGER},
+		planPayOrderNum = #{planpayordernum,jdbcType=INTEGER},
+		registerStuNum = #{registerstunum,jdbcType=INTEGER},
+		signupStuNum = #{signupstunum,jdbcType=INTEGER},
+		activityStuNum = #{activitystunum,jdbcType=INTEGER},
+		loginStuNum = #{loginstunum,jdbcType=INTEGER},
+		loginCoachNum = #{logincoachnum,jdbcType=INTEGER},
+		planClassCoachNum = #{planclasscoachnum,jdbcType=INTEGER},
+		hadPlanClassCoachNum = #{hadplanclasscoachnum,jdbcType=INTEGER},
+		planClassTime = #{planclasstime,jdbcType=INTEGER},
+		rPlanClassTime = #{rplanclasstime,jdbcType=INTEGER},
+		lessThreeNum = #{lessthreenum,jdbcType=INTEGER},
+		commentOrderNum = #{commentordernum,jdbcType=INTEGER},
+		dyear = #{dyear,jdbcType=INTEGER},
+		dMonth = #{dmonth,jdbcType=INTEGER},
+		dTime = #{dtime,jdbcType=DATE},
+		cTime = #{ctime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

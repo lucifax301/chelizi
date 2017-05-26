@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CourseSMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.CourseS">
+		<result column="courseTmpId" property="courseTmpId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="TIMESTAMP" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="last" property="last" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		courseTmpId,name,`desc`,price,last
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="courseTmpId != null and courseTmpId != ''">
+				and courseTmpId = #{courseTmpId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_course
+		where courseTmpId = #{courseTmpId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_course
+		where courseTmpId = #{courseTmpId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.coach.dto.CourseS"
+		useGeneratedKeys="true" keyProperty="courseTmpId">
+		insert into t_s_course
+		(courseTmpId,name,desc,price,last)
+		values
+		(#{courseTmpId,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{desc,jdbcType=VARCHAR},#{price,jdbcType=INTEGER},#{last,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.CourseS"
+		useGeneratedKeys="true" keyProperty="courseTmpId">
+		insert into t_s_course
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseTmpId != null">
+				courseTmpId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="desc != null">
+				desc,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="last != null">
+				last,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseTmpId != null">
+				#{courseTmpId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="desc != null">
+				#{desc,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="last != null">
+				#{last,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.CourseS">
+		update t_s_course
+		<set>
+			<if test="courseTmpId != null">
+				courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=INTEGER},
+			</if>
+			<if test="desc != null">
+				desc = #{desc,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=VARCHAR},
+			</if>
+			<if test="last != null">
+				last = #{last,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where courseTmpId = #{courseTmpId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.CourseS">
+		update t_s_course
+		set
+		courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		desc = #{desc,jdbcType=VARCHAR},
+		price = #{price,jdbcType=INTEGER},
+		last = #{last,jdbcType=INTEGER}
+		where courseTmpId = #{courseTmpId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_course
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_s_course
+		<include refid="Example_Where_Clause" />
+	</select>
+</mapper>

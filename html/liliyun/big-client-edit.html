@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="bigClientedit">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大客户</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <div class="common-style withdraw-cash data-statistics order-detail">
+        <div class="title">
+            <div class="d-title">大客户 > 
+            	<span ng-cloak>
+            		<span ng-if="coid">编辑大客户</span>
+            		<span ng-if="!coid">新增大客户</span>
+            	</span>
+            	
+            </div>
+        </div>
+        <div class="padding-20">
+            <div class="table-margin common-table liliyun-common-table">
+                <div class="content">
+                   <div id="client-alert" class="content">
+					<div class="con-main z-add-recharge-pri-plan">
+						<form class="big-client-edit" style="max-width: 800px;">
+							<table class="table z-nobord-td z-border-box table-recharge-privi-add form-group z-mb0 z-td-p0" style="line-height: 34px;">
+							<tr>
+								<td width="15%" align="right"><label>大客户全称:</label> </td>
+								<td><div class="z-form-group"><input type="text" ng-model="item.company" class="form-control z-valid z-required" placeholder="大客户全称"></div></td>
+								<td width="15%" align="right"><label>标识简称:</lable> </td>
+								<td><div class="z-form-group"><input type="text" ng-model="item.shorter" class="form-control z-valid z-required" placeholder="标识简称"></div></td>
+							</tr>
+							<tr>
+								<td align="right"><label>所在城市:</lable> </td>
+								<td>
+									<div class="z-form-group">
+										<select ng-model="item.cityId" class="form-control jia-xiao z-valid z-required" id="searchCity" >
+									  <option value="">请选择城市</option>
+									  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region" dataName="{{item.region}}"></option>
+									</select></div>
+								</td>
+								<td align="right"><label>关联优惠方案: </lable></td>
+								<td>
+									<div class="z-form-group">
+										<select ng-model="item.rcid" class="form-control jia-xiao z-valid z-required" id="searchCity" >
+									  <option value="">选择优惠方案</option>
+									  <option ng-repeat="x in promotion.dataList" value="{{x.rcid}}" ng-bind="x.rcname" dataName="{{x.rcname}}"></option>
+									</select></div>
+								</td>
+							</tr>
+							<tr>
+								<td align="right"><label>客户经理: </lable></td>
+								<td><div class="z-form-group"><input type="text" ng-model="item.manger" maxlength="11" class="form-control z-valid z-required" placeholder="经理姓名"></div></td>
+								<td align="right"><label>联系电话: </lable></td>
+								<td><div class="z-form-group"><input type="text" ng-model="item.mobile" maxlength="18" class="form-control z-valid z-required" placeholder="联系电话"></div></td>
+								
+							</tr>
+							</table>
+							<div class="chaozuo text-center">
+								<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+								<a ng-click="submitItemInfo()" class="btn btn-sm btn-primary">确认</a>
+							</div>	
+							
+						</form>
+					</div>
+				</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/big-client-edit.js"></script>
+</body>
+</html>

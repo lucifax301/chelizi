@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.common.PARDao">
+	<resultMap id="BaseResultMap" type="com.lili.finance.model.PAR">
+		<result column="coach_money" property="coachMoney" jdbcType="BIGINT" />
+		<result column="student_money" property="studentMoney" jdbcType="BIGINT" />
+		<result column="account_money" property="accountMoney" jdbcType="BIGINT" />
+		<result column="recharge" property="recharge" jdbcType="BIGINT" />
+		<result column="bonus" property="bonus" jdbcType="BIGINT" />
+		<result column="deposit" property="deposit" jdbcType="BIGINT" />
+		<result column="balance_paid" property="balancePaid" jdbcType="BIGINT" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="cal_time" property="calTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="findBatch" resultMap="BaseResultMap">
+		select
+		cal_time,status,balance_paid,deposit,bonus,recharge,student_money,coach_money,account_money
+		from  
+		t_u_par
+		Where 1=1 
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND cal_time >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND cal_time <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+	        order by cal_time desc
+	</select>
+	
+	
+	<select id="findYesterdayAccount" resultType="java.lang.Long">
+		select
+		<![CDATA[ ifnull(sum(student_money + coach_money),0)]]>
+		from  
+		t_u_par
+		Where
+		<![CDATA[ DATE_FORMAT(cal_time,'%Y-%m-%d') = date_sub( curdate(), interval 2 day) ]]> 
+	</select>
+	
+	<insert id="insertSelective" parameterType="com.lili.finance.model.PAR"
+		useGeneratedKeys="true" keyProperty="studentId">
+		insert into t_u_par	
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="coachMoney != null">
+				coach_money,
+			</if>
+			<if test="studentMoney != null">
+				student_money,
+			</if>
+			<if test="accountMoney != null">
+				account_money,
+			</if>
+			<if test="recharge != null">
+				recharge,
+			</if>
+			<if test="bonus != null">
+				bonus,
+			</if>
+			<if test="deposit != null">
+				deposit,
+			</if>
+			<if test="balancePaid != null">
+				balance_paid,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="calTime != null">
+				cal_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="coachMoney != null">
+				#{coachMoney,jdbcType=BIGINT},
+			</if>
+			<if test="studentMoney != null">
+				#{studentMoney,jdbcType=BIGINT},
+			</if>
+			<if test="accountMoney != null">
+				#{accountMoney,jdbcType=BIGINT},
+			</if>
+			<if test="recharge != null">
+				#{recharge,jdbcType=BIGINT},
+			</if>
+			<if test="bonus != null">
+				#{bonus,jdbcType=BIGINT},
+			</if>
+			<if test="deposit != null">
+				#{deposit,jdbcType=BIGINT},
+			</if>
+			<if test="balancePaid != null">
+				#{balancePaid,jdbcType=BIGINT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="calTime != null">
+				#{calTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	
+</mapper>

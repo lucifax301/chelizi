@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Notice">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="witdh=device-witdh, initial-scale=1">
+    <title>发布消息-发布设置</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>发布消息-发布设置<a style="float: right;color: #A6A6A6;" href="javascript:history.go(-1)" >返回</a></h1></div>
+        <div class="con-main notice-add-stu-form">
+            <div class="add-row">
+                <div class="add-label"><label>城市</label></div>
+                <div class="add-con">
+                    <div class="add-item"><input type="checkbox" name="cityId" value="100100" id="cityId1"><label for="cityId1">深圳市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="100101" id="cityId2"><label
+                            for="cityId2">东莞市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="102100" id="cityId3"><label
+                            for="cityId3">西安市</label></div>
+                    <div class="add-item"><input type="checkbox" name="cityId" value="103100" id="cityId4"><label
+                            for="cityId4">长沙市</label></div>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label>学员类型</label></div>
+                <div class="add-con">
+                    <div class="add-item"><input type="checkbox" name="utype" value="2" id="utype2"><label
+                            for="utype2">喱喱学员</label></div>
+                    <div class="add-item"><input type="checkbox" name="utype" value="1" id="utype1"><label
+                            for="utype1">驾校学员</label></div>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label for="">学员进度</label></div>
+                <div class="add-con">
+                    <div class="add-row">
+                        <div class="add-label"><label>报名相关</label></div>
+                        <div class="add-con">
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="-1,0" id="bmxg1"><label
+                                    for="bmxg1">暂不报名</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="1,0" id="bmxg2"><label
+                                    for="bmxg2">尚未报名</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="3,0" id="bmxg3"><label
+                                    for="bmxg3">尚未填写个人信息</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="4,0" id="bmxg4"><label
+                                    for="bmxg4">尚未邮寄资料</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="4,1" id="bmxg5"><label
+                                    for="bmxg5">资料已邮寄</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="4,101" id="bmxg6"><label
+                                    for="bmxg6">资料不全</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="4,100" id="bmxg7"><label
+                                    for="bmxg7">资料齐全</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="5,0" id="bmxg8"><label
+                                    for="bmxg8">未交表单</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="5,1" id="bmxg9"><label
+                                    for="bmxg9">表已寄出</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="6,0" id="bmxg10"><label
+                                    for="bmxg10">已收表</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="101,0" id="bmxg11"><label
+                                    for="bmxg11">报名成功</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="6,1" id="bmxg12"><label
+                                    for="bmxg12">报名受理中</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="6,100" id="bmxg13"><label
+                                    for="bmxg13">受理成功</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="6,101" id="bmxg14"><label
+                                    for="bmxg14">受理失败</label></div>
+                        </div>
+                    </div>
+                    <div class="add-row">
+                        <div class="add-label"><label>科一相关</label></div>
+                        <div class="add-con">
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="101,100" id="k1xg1"><label
+                                    for="k1xg1">已上理论课</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="101,101" id="k1xg2"><label
+                                    for="k1xg2">缺理论课</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="201,101" id="k1xg3"><label
+                                    for="k1xg3">未模拟考试达标</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="201,100" id="k1xg4"><label
+                                    for="k1xg4">模拟考试达标</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="301,0" id="k1xg5"><label
+                                    for="k1xg5">未约考科一</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="01,101" id="k1xg6"><label
+                                    for="k1xg6">科一排队失败</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="302,0" id="k1xg7"><label
+                                    for="k1xg7">已约考科一</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="302,101" id="k1xg8"><label
+                                    for="k1xg8">科一不合格</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="302,100" id="k1xg9"><label
+                                    for="k1xg9">科一合格</label></div>
+                        </div>
+                    </div>
+                    <div class="add-row">
+                        <div class="add-label"><label for="">科二相关</label></div>
+                        <div class="add-con">
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="401,0" id="k2xg1"><label
+                                    for="k2xg1">未约考科二</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="401,101" id="k2xg2"><label
+                                    for="k2xg2">科二排队失败</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="402,0" id="k2xg3"><label
+                                    for="k2xg3">已约考科二</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="402,101" id="k2xg4"><label
+                                    for="k2xg4">科二不合格</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="402,100" id="k2xg5"><label
+                                    for="k2xg5">科二合格</label></div>
+                        </div>
+                    </div>
+                    <div class="add-row">
+                        <div class="add-label"><label for="">科三相关</label></div>
+                        <div class="add-con">
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="501,0" id="k3xg1"><label for="k3xg1">未约长考</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="501,101" id="k3xg2"><label for="k3xg2">长训不合格</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="601,0" id="k3xg3"><label for="k3xg3">未约考科三</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="601,101" id="k3xg4"><label for="k3xg4">科三排队失败</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="602,0" id="k3xg5"><label for="k3xg5">已约考科三</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="602,101" id="k3xg6"><label for="k3xg6">科三不合格</label></div>
+                        </div>
+                    </div>
+                    <div class="add-row">
+                        <div class="add-label"><label for="">科四相关</label></div>
+                        <div class="add-con">
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="701,0" id="k4xg1"><label for="k4xg1">未约考科四</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="701,101" id="k4xg2"><label for="k4xg2">科四排队失败</label></div>
+                            <div class="add-item"><input type="checkbox" name="applyexam" value="701,100" id="k4xg3"><label for="k4xg3">科四排队成功</label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label for="">特定驾校</label></div>
+                <div class="add-con">
+                    <div id="schoolIds" class="notice-add-items"></div>
+                    <input id="showSchool" style="width: 110px" type='button' value='选择驾校' ng-click='searchSchool()' class='btn btn-sm btn-default'>
+                </div>
+            </div>
+            <div class="add-row">
+                <div class="add-label"><label for="">特定学员</label></div>
+                <div class="add-con">
+                    <div id="userIds" class="notice-add-items"></div>
+                    <input id="showStudent" style="width: 110px" type='button' value='选择学员' ng-click='searchStudent()' class='btn btn-sm btn-default'>
+                </div>
+            </div>
+            <div class="chaozuo" id="submitButton" align="center" style="margin-top: 20px">
+                <a style="width: 80px;background-color: #adadad " href="notice.html?setType={{setType}}" class="btn btn-sm btn-default closeAlert" >{{ saveType=='no'?'返回':'取消'}}</a>
+                <a style="width: 80px;margin-left: 40px" ng-click="submitEditPub($event,2)" ng-show="{{saveType!='no'}}"  class="btn btn-sm btn-primary">保存</a>
+                <a style="width: 80px;margin-left: 40px" ng-click="submitEditPub($event,0)" ng-show="{{saveType!='no'}}" class="btn btn-sm btn-primary">发布</a>
+            </div>
+        </div>
+    </div>
+
+    <ng-include src="'edit/edit-notice-searchStudent.html'" onload="noticeEditLoad()"></ng-include>
+    <ng-include src="'edit/edit-notice-searchSchool.html'" onload="noticeEditLoad()"></ng-include>
+</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/notice.js"></script>
+</body>
+</html>

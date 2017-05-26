@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ExcelCoach">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入教练信息结果</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>导入教练信息</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">导入错误列表</div>
+			<div class="content">
+
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>名字</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>身份证号</b></td>
+					  	<td><b>户籍地</b></td>
+					  	<td><b>手机</b></td>
+					  	<td><b>教练证号</b></td>
+					  	<td><b>教练证到期日期</b></td>
+					  	<td><b>所在城市</b></td>
+					  	<td><b>所属驾校</b></td>
+					  	<td><b>导入状态</b></td>
+					  	<td><b>备注</b></td>
+					  </tr>
+					  <tr ng-repeat="item in datas">
+					  	<td ng-bind="item.name"></td>
+					  	<td ng-bind="item.sex | sexText"></td>
+					  	<td ng-bind="item.idnumber"></td>
+					  	<td ng-bind="item.hometown"></td>
+					  	<td ng-bind="item.phonenum"></td>
+					  	<td ng-bind="item.coachcard"></td>
+					  	<td ng-bind="item.coachcarddate"></td>
+					  	<td ng-bind="item.cityName"></td>
+					  	<td ng-bind="item.schoolName"></td>
+					  	<td class="error">错误</td>
+					  	<td ng-bind="item.extra"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/excel-show-coach.js"></script>
+</body>
+</html>

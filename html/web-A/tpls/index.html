@@ -1,0 +1,85 @@
+<style type="text/css">
+    #index_map_canvas{height:650px;width:100%;}
+</style>
+	<div class="right_col" role="main">
+        <div class="row top_tiles index_tiles">
+            <div class="animated flipInY col-lg-2dot4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-users"></i></div>
+                    <a href="#/student/list" class="count">{{ datas.studentCount }}</a>
+                    <h3>学员数量</h3>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-2dot4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-user"></i></div>
+                    <a href="#/coach/index" class="count">{{ datas.coachCount }}</a>
+                    <h3>教练员数量</h3>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-2dot4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-car"></i></div>
+                    <a href="#/ogz/car" class="count">{{ datas.coachCarCount }}</a>
+                    <h3>教练车数量</h3>
+                </div>
+            </div>
+            <div class="animated flipInY col-lg-2dot4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-stumbleupon"></i></div>
+                    <a href="#/ogz/trainarea" class="count">{{ datas.trainareaCount }}</a>
+                    <h3>训练场数量</h3>
+                </div>
+            </div>
+           <div class="animated flipInY col-lg-2dot4 col-md-3 col-sm-6 col-xs-12">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-university"></i></div>
+                    <a href="#/ogz/sub" class="count">{{ datas.storeCount }}</a>
+                    <h3>门店数量</h3>
+                </div>
+            </div> 
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel char-data">
+                    <div class="x_title">
+                        <h2>学员数据统计</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px none; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                        <canvas id="stuCnt" class="chart-item" style="width: 645px; height: 322px;" width="645" height="322"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel char-data">
+                    <div class="x_title">
+                        <h2>教学资源统计</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px none; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                        <canvas id="resource" class="chart-item" style="width: 645px; height: 322px;" width="645" height="322"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>地图实时情况 - 在线教练车</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="row" style="border-bottom: 1px solid #E0E0E0; padding-bottom: 5px; margin-bottom: 5px;">
+                            <div id="index_map_canvas"></div>
+                            <div id="result"></div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,333 @@
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>学员列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="电话号码/姓名" ng-model="condition" >
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <a class="btn btn-default btn-sm" ng-if="100112 | isAccessShow" href="#/student/add">新增学员</a>
+                        <!--
+                        <a class="btn btn-default btn-sm btn-file" ng-click="uploadfile()" ng-show="uploadbtn" ng-if="100116 | isAccessShow">上传学员资料</a>
+                        <a class="btn btn-default btn-sm btn-file" ng-click="importFile('1')" ng-show="!uploadbtn">确认导入</a>
+						<a class="btn btn-default btn-sm btn-file" ng-click="importFile('2')" ng-show="!uploadbtn">取消导入</a>
+						<a class="btn btn-default btn-sm btn-file" ng-click="download()" href="javascript:void(0)" ng-if="100117 | isAccessShow">下载模板</a> -->
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+									<th class="column-title">学员头像 </th>
+                                    <th class="column-title">学员姓名</th>
+									<th class="column-title">性别</th>
+                                    <th class="column-title">联系方式</th>
+									<th class="column-title">身份证号码</th>
+                                    <th class="column-title">培训车型</th>
+									<!-- <th class="column-title">培训方式 </th> -->
+                                    <th class="column-title">学员状态</th>
+                                    <th class="column-title">教练</th>
+									<th class="column-title">报名时间</th>
+                                    <th class="column-title">所属班级</th>
+                                    <th class="column-title" ng-show="uploadbtn">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in datas">
+    								<td style="text-align:center;">
+										<a ng-if="item.photo_url!='' && item.photo_url!=null"><img ng-src="{{baseImgurl}}{{item.photo_url}}"  style="width:80px;height:102px"/></a>   
+										<a ng-if="item.photo_url=='' || item.photo_url==null"> <img ng-src="assets/images/user.png" style="width:80px;height:102px"/></a> 
+									</td>                                    
+                                    <td class="column-data" ng-bind="item.name" ></td>
+									<td class="column-data" ng-bind="item.sex | sexText" ></td>
+                                    <td class="column-data" ng-bind="item.phone"></td>
+									<td class="column-data" ng-bind="item.idcard"></td>
+                                    <td class="column-data" ng-bind="item.traintype"></td>
+									<!--<td class="column-data" ng-bind="item.trainmethod | trainmethodText"></td> -->
+                                    <td class="column-data" ng-bind="item.applyexam | applyexamText"></td>
+                                    <td class="column-data" ng-bind="item.coachName" ></td>
+									<td class="column-data" ng-bind="item.applydate"></td>
+									<td class="column-data" ng-bind="item.className"></td>
+									<td class="column-data" ng-show="uploadbtn">
+										<a data-toggle="modal" data-target=".edit-example-modal-lg" ng-click="edit($index)" href="javascript:void(0);" ng-if="100113 | isAccessShow">编辑</a>&nbsp;&nbsp;
+										<a data-toggle="modal" data-target=".coach-example-modal-lg" ng-click="getCoach(item.idcard)" href="javascript:void(0)" ng-if="(100115 | isAccessShow)">分配教练</a>&nbsp;&nbsp;
+										<!-- <a href="#" ng-click="del(item,$index)">删除</a> -->
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page" >
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<!-- 分配教练弹框-->
+    <div class="modal  fade coach-example-modal-lg" id="fenpeiCoach" >
+        <div class="modal-dialog modal-mg" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">分配教练</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content" >
+                        <br />
+                         <div class="table-responsive">
+						
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings" >
+
+                                    <th class="column-title">教练姓名 </th>
+                                    <th class="column-title">已分配学员数量 </th>
+                                    <th class="column-title">选择 </th>
+
+                                    <th class="bulk-actions" colspan="7">
+                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in coachdatas">
+                                    <td class="column-data" ng-bind="item.coachName"></td>
+                                    <td class="column-data" ng-bind="item.stuNumOfCoach + item.add"></td>
+									<td class=" last" class="column-data" >
+                                        <input name="coachid" type="radio"  ng-click="clecked($index)" > 
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+					
+                        </div>
+						<div class="form-group" >
+						     <div class="page" >
+									<div id="copot-page2" class="copot-page"></div>
+							</div>
+							
+						</div>
+                        <div class="ln_solid"></div>
+						<div class="form-group text-center">
+							<div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+								<button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+
+								<button  type="submit" class="btn btn-success" ng-click="fenpeiCoach()">保存</button>
+							</div>
+                         </div>
+                    </div>
+
+                  <!--  <div style="float:left;margin-left:10px;border:1px solid #969696;width:120px;"><img src="assets/images/picture.jpg" style="width:120px;heigth:140px;"/> </div> -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+    <!-- 查看-->
+    <div class="modal fade show-example-modal-lg" id="showMymodal" >
+        <div class="modal-dialog modal-lg"  >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">查看学员信息</h4>
+                </div>
+                <div class="x_panel"  >
+
+                    <div class="x_content"  >
+
+
+						<div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">姓名 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       {{showData.name}}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">性别 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+									{{showData.sex | sexText}}
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">性别 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+									{{showData.nationality | nationalityText}}
+                                    </div>
+                                </div>
+                            </div>
+                 </div>
+
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">手机号码 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.phone}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">证件类型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.cardtype | cardtypeText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">证件号码 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.idcard}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">联系地址 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.address}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">业务类型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.busitype | busitypeText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">培训车型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.traintype}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+				 <div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">报名时间 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.applydate}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">培训状态 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.applyexam | applyexamText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">备案状态 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.recordType | icpText}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+				 <div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">已学学时数 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.completeTime}}
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">学员头像:
+							</label> 
+							
+							   <div class="left col-xs-6 text-center"  >
+									<img  src="{{showData.photo_url}}"  alt="" class="img-responsive z-radios5">
+								</div>
+
+							 
+						</div>
+					
+					</div>
+				</div>
+
+                   <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    </div> 
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+

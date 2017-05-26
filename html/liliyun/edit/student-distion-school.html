@@ -1,0 +1,30 @@
+
+<div class="edit-alert distion-school">
+<div class="mask"></div>
+<div class="main">
+<div id="distion-school" class="content">
+	<div class="title">分配驾校 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div>已勾选了 <span class="mainColor">{{ idList.length }}</span> 位学员，请选择要分配的驾校</div>
+		<div>
+			<div class="light margin-top-10">所在城市</div>
+			<select ng-model="cityId" class="form-control jia-xiao" ng-change="getSchools(cityId)" ng-class="{'error-select':cityError?true:false}">
+			  <option value="">请选择城市</option>
+			  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+			</select>
+			<div class="light margin-top-20">
+				<div>选择驾校</div>
+				<select ng-model="schoolMsg" ng-click="haveCityId(cityId)" class="form-control jia-xiao" ng-class="{'error-select':schoolError?true:false}">
+				  <option value="">请选择驾校</option>
+				  <option ng-repeat="item in schools" value="{{item.schoolId+','+item.name}}" ng-bind="item.name"></option>
+				</select>
+			</div>
+		</div>	
+		<div class="chaozuo margin-top-30" >
+			<a class="btn btn-sm btn-default closeAlert">取消</a>
+			<a ng-click="submitDistionSchool($event,cityId,schoolMsg)" class="btn btn-sm btn-primary">确认</a>
+		</div>
+	</div>
+</div>
+</div>
+</div>

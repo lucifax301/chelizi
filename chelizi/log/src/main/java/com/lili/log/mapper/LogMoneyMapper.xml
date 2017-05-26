@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.log.mapper.dao.LogMoneyMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.log.dto.LogMoney" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="BIGINT" />
+    <result column="userType" property="usertype" jdbcType="TINYINT" />
+    <result column="operateType" property="operatetype" jdbcType="TINYINT" />
+    <result column="changeValue" property="changevalue" jdbcType="INTEGER" />
+    <result column="operateTime" property="operatetime" jdbcType="TIMESTAMP" />
+    <result column="payWay" property="payway" jdbcType="TINYINT" />
+    <result column="leftValue" property="leftvalue" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, userType, operateType, changeValue, operateTime, payWay, leftValue, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_log_money
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_log_money
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.log.dto.LogMoney" >
+    insert into t_log_money (id, userId, userType, 
+      operateType, changeValue, operateTime, 
+      payWay, leftValue, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=BIGINT}, #{usertype,jdbcType=TINYINT}, 
+      #{operatetype,jdbcType=TINYINT}, #{changevalue,jdbcType=INTEGER}, #{operatetime,jdbcType=TIMESTAMP}, 
+      #{payway,jdbcType=TINYINT}, #{leftvalue,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.log.dto.LogMoney" >
+    insert into t_log_money
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="usertype != null" >
+        userType,
+      </if>
+      <if test="operatetype != null" >
+        operateType,
+      </if>
+      <if test="changevalue != null" >
+        changeValue,
+      </if>
+      <if test="operatetime != null" >
+        operateTime,
+      </if>
+      <if test="payway != null" >
+        payWay,
+      </if>
+      <if test="leftvalue != null" >
+        leftValue,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        #{usertype,jdbcType=TINYINT},
+      </if>
+      <if test="operatetype != null" >
+        #{operatetype,jdbcType=TINYINT},
+      </if>
+      <if test="changevalue != null" >
+        #{changevalue,jdbcType=INTEGER},
+      </if>
+      <if test="operatetime != null" >
+        #{operatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=TINYINT},
+      </if>
+      <if test="leftvalue != null" >
+        #{leftvalue,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.log.dto.LogMoney" >
+    update t_log_money
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="usertype != null" >
+        userType = #{usertype,jdbcType=TINYINT},
+      </if>
+      <if test="operatetype != null" >
+        operateType = #{operatetype,jdbcType=TINYINT},
+      </if>
+      <if test="changevalue != null" >
+        changeValue = #{changevalue,jdbcType=INTEGER},
+      </if>
+      <if test="operatetime != null" >
+        operateTime = #{operatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payway != null" >
+        payWay = #{payway,jdbcType=TINYINT},
+      </if>
+      <if test="leftvalue != null" >
+        leftValue = #{leftvalue,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.log.dto.LogMoney" >
+    update t_log_money
+    set userId = #{userid,jdbcType=BIGINT},
+      userType = #{usertype,jdbcType=TINYINT},
+      operateType = #{operatetype,jdbcType=TINYINT},
+      changeValue = #{changevalue,jdbcType=INTEGER},
+      operateTime = #{operatetime,jdbcType=TIMESTAMP},
+      payWay = #{payway,jdbcType=TINYINT},
+      leftValue = #{leftvalue,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="signUpPackAdd">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>新增报名包</title>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/fileinput.css">
+	<link rel="stylesheet" href="../assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="../assets/common/js/commonStart.js"></script>
+	<script src="../assets/common/js/fileinput.min.js"></script>
+	<script src="../assets/common/js/fileinput_locale_zh.js"></script>
+
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics signin-pack-add">
+		<!-- 订单管理 -->
+		<div class="d-title">报名包 > 新增报名包</div>
+		<div class="clearfix"></div>
+		<div class="z-common-wrap">
+<!--基础信息-->
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">基础信息 <span class="ico-toggle-open"  ng-click="packItemToggle($event)">-</span></h2>
+			<div style="display: none;">
+			<table class="table base-info-table">
+				<tr class="inlineInput">
+					<td width="15%" align="right" valign="middle"><label for="signPackName" >报名包名称：</label></td>
+					<td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" id="signPackName" placeholder="请输入券名称"></td>
+					<td width="15%" align="right" valign="middle"><label for="signPackName">报名城市：</label></td>
+					<td width="35%" align="left" valign="middle">
+						<select class="form-control z-input-inline-item" id="signPackCity">
+							<option selected="selected">选择报名城市</option>
+							<option>深圳</option>
+							<option>深圳</option>
+							<option>钓鱼岛</option>
+							<option>深圳</option>
+							<option>深圳</option>
+						</select>
+					</td>
+				</tr>
+				<tr class="inlineInput">
+					<td width="15%" align="right" valign="middle"><label for="signPackPrice" >报名价格：</label></td>
+					<td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" id="signPackPrice" placeholder="请设定报名包价格"></td>
+					<td width="15%" align="right" valign="middle"><label for="signPackTitle" >摘要：</label></td>
+					<td width="35%" align="left" valign="middle"><input type="text" class="form-control" id="signPackTitle" placeholder="请输入说明摘要"></td>
+				</tr>
+				<tr class="inlineInput">
+					<td width="15%" align="right" valign="middle"><label for="signPackPrice" >报名协议地址：</label></td>
+					<td width="35%" align="left" valign="middle"><input type="text" class="form-control z-input-inline-item" id="signPackPrice" placeholder="请输入报名协议地址"></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td width="15%" align="right" valign="middle"><label for="signPackPrice" >上传广告图</label></td>
+					<td width="85%" align="center" valign="middle" colspan="3" class="signPackUpload">
+						<form  method="post" action="http://upload.qiniu.com/" enctype="multipart/form-data">
+						<div class="form-group" token="{{qiniuToken}}">
+		                    <input id="fileListImg" type="file" class="file" data-upload-url="#">
+		                    <p class="text">列表广告图</p>
+		                </div>
+		                </form>
+		                <div class="form-group">
+		                    <input id="fileDetailImg" type="file" class="file" data-upload-url="#">
+		                    <p class="text">详情广告图</p>
+		                </div>
+					</td>
+				</tr>
+			</table>
+			</div>
+<!--报考说明-->
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">报考说明 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+			<div>
+			<div class="item-auto-wrap">
+				<label>费用详情：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">项目1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写项目名称">
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="项目金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>项目1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写项目名称">
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="项目金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加引用详情</span></div></div>
+				</div>
+			</div>
+
+			<div class="item-auto-wrap">
+				<label>报考条件：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">报考条件1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考条件描述">
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>报考条件2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考条件描述">
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加报考条件</span></div></div>
+				</div>
+			</div>
+
+			<div class="item-auto-wrap">
+				<label>报考流程：</label>
+				<div class="item-auto-item form-group signPackUpload">
+					<div class="form-group">
+	                    <input id="fileStepImg" type="file" class="file" data-upload-url="#">
+	                    <p class="text">报考流程图</p>
+	                </div>
+				</div>
+			</div>
+			</div>
+<!--报考资料-->
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">报考资料 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+			<div>
+			<div class="item-auto-wrap">
+				<label>本地居民：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">报考资料1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>报考资料2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+				</div>
+			</div>
+			<div class="item-auto-wrap">
+				<label>外地居民：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">报考资料1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>报考资料2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+				</div>
+			</div>
+			<div class="item-auto-wrap">
+				<label>港澳台：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">报考资料1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>报考资料2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+				</div>
+			</div>
+			<div class="item-auto-wrap">
+				<label>现役军人：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">报考资料1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>报考资料2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<input type="text" class="form-control item-auto-text1" placeholder="请填写报考资料描述">
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加报考资料</span></div></div>
+				</div>
+			</div>
+			</div>
+<!--课程说明-->
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">课程说明 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+			<div style="display: none;">
+			<div class="item-auto-wrap form-group z-mb20">
+				<label>科目二</label>
+				<div class="checkbox-item"><input type="checkbox">基础训练</div>
+				<div class="checkbox-item"><input type="checkbox">应试训练</div>
+				<div class="checkbox-item"><input type="checkbox">考场模拟</div>
+			</div>
+			<div class="clearfix"></div>
+			<div class="item-auto-wrap form-group z-mb20">
+				<label>科目三</label>
+				<div class="checkbox-item"><input type="checkbox">基础训练</div>
+				<div class="checkbox-item"><input type="checkbox">应试训练</div>
+				<div class="checkbox-item"><input type="checkbox">考场模拟</div>
+			</div>
+			</div>
+<!--课时费-->
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">课时费 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+			<div style="display: none;">
+			<div class="item-auto-wrap">
+				<label>C1：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">课程1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<select class="form-control">
+							<option selected="selected">选择课程类型</option>
+							<option>基础训练</option>
+							<option>应试训练</option>
+							<option>考场模拟</option>
+						</select>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="课程金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>课程1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<select class="form-control">
+							<option selected="selected">选择课程类型</option>
+							<option>基础训练</option>
+							<option>应试训练</option>
+							<option>考场模拟</option>
+						</select>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="课程金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加课程</span></div></div>
+				</div>
+			</div>
+			<div class="item-auto-wrap">
+				<label>C2：</label>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">课程1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<select class="form-control">
+							<option selected="selected">选择课程类型</option>
+							<option>基础训练</option>
+							<option>应试训练</option>
+							<option>考场模拟</option>
+						</select>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="课程金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>课程1费用</div>
+					<div class="col-lg-5 col-md-7 col-sm-6">
+						<select class="form-control">
+							<option selected="selected">选择课程类型</option>
+							<option>基础训练</option>
+							<option>应试训练</option>
+							<option>考场模拟</option>
+						</select>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3">
+						<div class="form-group item-auto-text2">
+						  <div class="input-group">
+						    <input type="text" class="form-control" placeholder="课程金额">
+						    <span class="input-group-addon">元</span>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加课程</span></div></div>
+				</div>
+			</div>
+			</div>
+<!--服务标准-->	
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">服务标准 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>	
+			<div style="display: none;">
+			<div class="item-auto-wrap">
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">服务标准1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<textarea placeholder="请填写服务标准内容说明" class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>服务标准2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<textarea placeholder="请填写服务标准内容说明" class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加服务标准项</span></div></div>
+				</div>
+			</div>
+			</div>
+<!--售后保障-->	
+			<h2 class="z-common-h2 z-text-line mt20 z-toggle-h2">售后保障 <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>	
+			<div style="display: none;">
+			<div class="item-auto-wrap">
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3">售后保障1</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<textarea placeholder="请填写售后保障内容说明" class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="item-auto-item form-group row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"><div class="z-ico-del">X</div>售后保障2</div>
+					<div class="col-lg-8 col-md-10 col-sm-9">
+						<textarea placeholder="请填写售后保障内容说明" class="form-control"></textarea>
+					</div>
+				</div>
+				<div class="row">
+					<div class="item-auto-label col-lg-2 col-md-2 col-sm-3"></div>
+					<div class="col-lg-5 col-md-7 col-sm-6"><div class="item-btn-add"><div class="z-ico-add">+</div><span class="z-text-add">增加售后保障项</span></div></div>
+				</div>
+			</div>
+			</div>
+		</div>
+		<div class="z-caozuo">
+			<a href="#" class="btn btn-default btn-lg active" role="button">取消</a>
+			<a href="#" class="btn btn-primary btn-lg active" role="button">提交</a>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="../assets/common/daterangepicker/js/moment.js"></script>
+<script src="../assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="../assets/js/ng-js/sign-up-pack-add.js"></script>
+</body>
+</html>

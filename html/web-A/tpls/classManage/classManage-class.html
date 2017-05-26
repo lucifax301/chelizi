@@ -1,0 +1,257 @@
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>班别列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="班别名称"  ng-model="condition">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="resetForm();" data-toggle="modal" data-target=".bs-addCoach-modal-sm" ng-if="100712 | isAccessShow">新增班别</button>
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <th style='text-align: center;' class="column-title">班别名称 </th>
+                                    <th style='text-align: center;' class="column-title">开班时间 </th>
+                                    <th style='text-align: center;' class="column-title">培训方式</th>
+                                    <th style='text-align: center;' class="column-title">报名金额 </th>
+                                    <th style='text-align: center;' class="column-title">单次服务金额 </th>
+                                    <!--<th style='text-align: center;' class="column-title">班级人数 </th>
+                                    <th style='text-align: center;' class="column-title">已毕业学员数 </th>
+                                    <th style='text-align: center;' class="column-title">考试整体通过率 </th>
+                                    <th style='text-align: center;' class="column-title">平均培训周期 </th> -->
+                                    <th style='text-align: center;' class="column-title">班级描述 </th>
+                                    <th style='text-align: center;' class="column-title no-link last"><span class="nobr">操作</span>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="data in datas">
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.classname"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.opentime"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.type | classType"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.amount"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.singleamount"></td>
+                                    <!--<td style="vertical-align:middle; text-align:center;" ng-bind="data.personnum"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.graduatednum"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.passrate"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.period"></td> -->
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.classdesc"></td>
+                                    <td class="last" style='text-align: center;'>
+                                        <a ng-click="coachEdit('edit', data)" href="javascript:void(0);" ng-if="100713 | isAccessShow">编辑</a>&nbsp;&nbsp;
+                                        <a href="javascript:void(0);" ng-click="coachDelete(data.classid)" ng-if="100714 | isAccessShow">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade bs-addCoach-modal-sm" tabindex="-1" role="dialog" aria-hidden="true" id="addCoach">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >新增班别</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="addForm" >
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">班级名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="classname"  name="classname" ng-model="saveData.classname" class="form-control col-md-7 col-xs-12"  type="text" placeholder="请输入班别名称" >
+                                    <span style="color:red" ng-if="nameAddMsg">班别名称已经存在，请输入其他班别名称</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">开班时间<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="q_saveDate" name="opentime" onclick="initCheckDate(this)" type="text" class="form-control"  placeholder="请选择开班时间" ng-model="saveData.opentime">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sex">培训方式 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select ng-model="saveData.type" class="form-control"  name="type">
+                                        <option value="1" selected="selected">服务全包</option>
+                                        <option value="2">先学后付</option>
+                                        <option value="3">先付后学</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">报名金额 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="amount" name="amount" ng-model="saveData.amount" class="form-control col-md-7 col-xs-12"  type="text" placeholder="请填写报名金额">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">单次服务金额<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="singleamount" name="singleamount" ng-model="saveData.singleamount" class="form-control col-md-7 col-xs-12"  type="text" placeholder="请填写单次服务金额">
+ 
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">班别描述<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="classdesc" name="classdesc" ng-model="saveData.classdesc" class="form-control col-md-7 col-xs-12"   type="text" placeholder="请填写班别描述"></textarea>
+ 
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" ng-click="closeAddAlert()" class="btn btn-primary">取消</button>
+                                    <button type="submit" class="btn btn-success" >保存</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+    <!-- 编辑弹框-->
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="editCoach">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >编辑班别</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="editform" name="editForm" ng-submit="submitEditForm(editForm.$valid)">
+
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">班级名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="classname" name="classname" ng-model="editData.classname" readonly="readonly" class="form-control col-md-7 col-xs-12" required="required" type="text">
+                                    <span style="color:red" ng-show="editForm.classname.$error.required && editForm.classname.$touched">请输入班别名称</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">开班时间 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="q_editDate" name="opentime" type="text" class="form-control" placeholder="请选择开班时间" onclick="laydate({format: 'YYYY-MM-DD'})" ng-model="editData.opentime">
+                                    <span style="color:red" ng-show="timeEditMsg">请输入正确的日期</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sex">培训方式 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select ng-model="editData.type" class="form-control">
+                                        <option value="1">服务全包</option>
+                                        <option value="2">先学后付</option>
+                                        <option value="3">先付后学</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mobile">报名金额 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="amount"  name="amount" ng-model="editData.amount" class="form-control col-md-7 col-xs-12" required="required" ng-pattern="/^[1-9].*$/" type="text">
+                                    <span style="color:red" ng-show="editForm.amount.$error.required && editForm.amount.$touched">请输入报名金额</span>
+                                    <span class="help-inline" style="color:red" ng-show="editForm.amount.$dirty && editForm.amount.$invalid">报名金额必须是正整数</span>
+
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">单次服务金额 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="singleamount" name="singleamount" ng-model="editData.singleamount" class="form-control col-md-7 col-xs-12" required="required" ng-pattern="/^[1-9].*$/" type="text">
+                                    <span style="color:red" ng-show="editForm.singleamount.$error.required && editForm.singleamount.$touched">请输入单次服务金额</span>
+                                    <span class="help-inline" style="color:red" ng-show="editForm.singleamount.$dirty && singleamount.amount.$invalid">单次服务金额必须是正整数</span>
+                                </div>
+                            </div>
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">班级描述 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <textarea id="classdesc" name="classdesc" ng-model="editData.classdesc" class="form-control col-md-7 col-xs-12" required="required" type="text"></textarea>
+                                    <span style="color:red" ng-show="editForm.classdesc.$error.required && editForm.classdesc.$touched">请输入班别描述</span>
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+
+                                    <button id="send"  ng-disabled="editForm.$invalid" type="submit" class="btn btn-success" >保存</button>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+
+
+
+

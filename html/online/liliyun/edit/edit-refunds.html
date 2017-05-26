@@ -1,0 +1,22 @@
+<div class="edit-alert data-refunds">
+<div class="mask"></div>
+<div class="main">
+<div id="refunds-alert" class="content">
+	<div class="title">申请退款<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit d-imperfect">
+			<p>退款金额</p>
+			<input type="text" placeholder="请输入退款金额...元" ng-model="$parent.refundsSum" class="form-control ng-pristine ng-valid ng-touched">
+			<br>
+			<p>请填写退款理由</p>
+			<textarea ng-model="$parent.refundsRemark" placeholder="请输入内容..."></textarea>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitRefundsMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+</div>
+</div>

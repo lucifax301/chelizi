@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.bbs.dao.mapper.BbsMapper">
+	<resultMap id="BaseResultMap" type="com.lili.bbs.dto.Bbs">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_type" property="userType" jdbcType="TINYINT" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="head_icon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="classify" property="classify" jdbcType="TINYINT" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="topic_id" property="topicId" jdbcType="INTEGER" />
+		<result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+		<result column="title_type" property="titleType" jdbcType="TINYINT" />
+		<result column="praise" property="praise" jdbcType="INTEGER" />
+		<result column="reply" property="reply" jdbcType="INTEGER" />
+		<result column="is_inform" property="isInform" jdbcType="TINYINT" />
+		<result column="inform" property="inform" jdbcType="INTEGER" />
+		<result column="top_level" property="topLevel" jdbcType="TINYINT" />
+		<result column="is_top_group" property="isTopGroup" jdbcType="TINYINT" />
+		<result column="is_top_global" property="isTopGlobal" jdbcType="TINYINT" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="cuid" property="cuid" jdbcType="BIGINT" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="muid" property="muid" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, user_id, user_type, user_name, head_icon, classify, city_id,
+		city_name, topic_id,
+		topic_name, title_type, praise, reply, is_inform, inform, top_level,
+		is_top_group,
+		is_top_global, status, channel, is_del, ctime, cuid, mtime, muid
+	</sql>
+
+	<sql id="myRowBoundsSQL">
+		<if test="myRowBounds != null">
+			limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		</if>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="getMaxBBSId" resultType="java.lang.Integer" parameterType="com.lili.bbs.dto.Bbs">
+		select max(id) from t_s_bbs
+	</select>
+
+	<select id="queryBBSInfo" resultMap="BaseResultMap" parameterType="com.lili.bbs.dto.Bbs">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_bbs
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="isDel != null and isDel != '' or isDel =0">
+				and is_del = #{isDel,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</select>
+
+	<sql id="bbs_Column_List">
+		b.id, user_id, user_type, user_name, head_icon, classify,
+		city_id,
+		city_name, topic_id, topic_name, title_type, praise, reply,
+		is_inform, inform, top_level,
+		is_top_group, is_top_global, status,
+		channel, is_del, ctime, mtime, e.title, e.content, e.pic, e.ext
+	</sql>
+
+	<resultMap id="BbsInfoResultMap" type="com.lili.bbs.vo.BbsMessage">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="user_type" property="userType" jdbcType="TINYINT" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="head_icon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="classify" property="classify" jdbcType="TINYINT" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="topic_id" property="topicId" jdbcType="INTEGER" />
+		<result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+		<result column="title_type" property="titleType" jdbcType="TINYINT" />
+		<result column="praise" property="praise" jdbcType="INTEGER" />
+		<result column="reply" property="reply" jdbcType="INTEGER" />
+		<result column="is_inform" property="isInform" jdbcType="TINYINT" />
+		<result column="inform" property="inform" jdbcType="INTEGER" />
+		<result column="top_level" property="topLevel" jdbcType="TINYINT" />
+		<result column="is_top_group" property="isTopGroup" jdbcType="TINYINT" />
+		<result column="is_top_global" property="isTopGlobal" jdbcType="TINYINT" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="pic" property="pic" jdbcType="VARCHAR" />
+		<result column="ext" property="ext" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="countBbsSize" resultType="java.lang.Integer" parameterType="com.lili.bbs.vo.BbsMessage">
+		select count(*) 
+				from t_s_bbs b, t_s_bbs_extend e 
+			where b.id = e.bbs_id and b.is_del =0
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and b.id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null and userName != ''">
+				and user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null and status != '' or status==0">
+				and status = #{status,jdbcType=INTEGER}
+			</if>
+			<if test="isInform != null and isInform != '' or isInform==0">
+				and is_inform = #{isInform,jdbcType=INTEGER}
+			</if>
+			<if test="channel != null and channel != ''">
+				and channel = #{channel,jdbcType=INTEGER}
+			</if>
+			<if test="topicId != null and topicId != ''">
+				and topic_id = #{topicId,jdbcType=INTEGER}
+			</if>
+			<if test="topicName != null and topicName != ''">
+				and topic_name = #{topicName,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+				and date(ctime) between #{startTime} and #{endTime}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="queryBBSDetail" resultMap="BbsInfoResultMap"
+		parameterType="com.lili.bbs.vo.BbsMessage">
+		select
+		<include refid="bbs_Column_List" />
+		from t_s_bbs b, t_s_bbs_extend e where b.id = e.bbs_id and b.is_del=0
+		<trim suffixOverrides=",">
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="id != null and id != ''">
+				and b.id = #{id,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getBbsList" resultMap="BbsInfoResultMap"
+		parameterType="com.lili.bbs.vo.BbsMessage">
+		select
+		<include refid="bbs_Column_List" />
+		from t_s_bbs b, t_s_bbs_extend e where b.id = e.bbs_id
+		and b.is_del =0 and b.status!=1
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and b.id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null and userName != ''">
+				and user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="channel != null and channel != ''">
+				and channel = #{channel,jdbcType=INTEGER}
+			</if>
+			<if test="topicId != null and topicId != ''">
+				and topic_id = #{topicId,jdbcType=INTEGER}
+			</if>
+			<if test="topicName != null and topicName != ''">
+				and topic_name = #{topicName,jdbcType=VARCHAR}
+			</if>
+			<if test="isDel != null and isDel != '' or isDel =0">
+				and is_del = #{isDel,jdbcType=INTEGER}
+			</if>
+		</trim>
+		order by is_top_global DESC, is_top_group desc,ctime desc
+		<include refid="myRowBoundsSQL" />
+	</select>
+	
+	<select id="getMyBBSList" resultMap="BbsInfoResultMap"
+		parameterType="com.lili.bbs.vo.BbsMessage">
+		select
+		<include refid="bbs_Column_List" />
+		from t_s_bbs b, t_s_bbs_extend e where b.id = e.bbs_id
+		and b.is_del =0 
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and b.id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null and userName != ''">
+				and user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="channel != null and channel != ''">
+				and channel = #{channel,jdbcType=INTEGER}
+			</if>
+		</trim>
+		order by ctime desc
+		<include refid="myRowBoundsSQL" />
+	</select>
+
+	<select id="getCMSBbsList" resultMap="BbsInfoResultMap"
+		parameterType="com.lili.bbs.vo.BbsMessage">
+		select
+		<include refid="bbs_Column_List" />
+		from t_s_bbs b, t_s_bbs_extend e where b.id = e.bbs_id
+		and b.is_del =0
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and b.id = #{id,jdbcType=INTEGER}
+			</if>
+			<if test="userId != null and userId != ''">
+				and user_id = #{userId,jdbcType=INTEGER}
+			</if>
+			<if test="userType != null and userType != ''">
+				and user_type = #{userType,jdbcType=INTEGER}
+			</if>
+			<if test="userName != null and userName != ''">
+				and user_name = #{userName,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null and status != '' or status==0">
+				and status = #{status,jdbcType=INTEGER}
+			</if>
+			<if test="isInform != null and isInform != '' or isInform==0">
+				and is_inform = #{isInform,jdbcType=INTEGER}
+			</if>
+			<if test="channel != null and channel != ''">
+				and channel = #{channel,jdbcType=INTEGER}
+			</if>
+			<if test="topicId != null and topicId != ''">
+				and topic_id = #{topicId,jdbcType=INTEGER}
+			</if>
+			<if test="topicName != null and topicName != ''">
+				and topic_name = #{topicName,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+				and date(ctime) between #{startTime} and #{endTime}
+			</if>
+			<if test="isDel != null and isDel != '' or isDel =0">
+				and is_del = #{isDel,jdbcType=INTEGER}
+			</if>
+		</trim>
+		order by is_top_global DESC, is_top_group desc,ctime desc
+		<include refid="myRowBoundsSQL" />
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_bbs
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.bbs.dto.Bbs">
+		insert into t_s_bbs (id,
+		user_id, user_type,
+		user_name, head_icon, classify,
+		city_id, city_name,
+		topic_id,
+		topic_name, title_type, praise,
+		reply, is_inform, inform,
+		top_level, is_top_group, is_top_global,
+		status,channel, is_del, ctime,
+		ctime, cuid, mtime,
+		muid)
+		values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT},
+		#{userType,jdbcType=TINYINT},
+		#{userName,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, #{classify,jdbcType=TINYINT},
+		#{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR},
+		#{topicId,jdbcType=INTEGER},
+		#{topicName,jdbcType=VARCHAR}, #{titleType,jdbcType=TINYINT}, #{praise,jdbcType=INTEGER},
+		#{reply,jdbcType=INTEGER}, #{isInform,jdbcType=TINYINT},
+		#{inform,jdbcType=INTEGER},
+		#{topLevel,jdbcType=TINYINT}, #{isTopGroup,jdbcType=TINYINT}, #{isTopGlobal,jdbcType=TINYINT},
+		#{status,jdbcType=TINYINT}, #{channel,jdbcType=TINYINT},
+		#{isDel,jdbcType=TINYINT},
+		#{ctime,jdbcType=TIMESTAMP}, #{cuid,jdbcType=BIGINT}, #{mtime,jdbcType=TIMESTAMP},
+		#{muid,jdbcType=BIGINT})
+	</insert>
+
+	<insert id="insertSelective" useGeneratedKeys="true"
+		keyProperty="id" parameterType="com.lili.bbs.dto.Bbs">
+		insert into t_s_bbs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="headIcon != null">
+				head_icon,
+			</if>
+			<if test="classify != null">
+				classify,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="topicId != null">
+				topic_id,
+			</if>
+			<if test="topicName != null">
+				topic_name,
+			</if>
+			<if test="titleType != null">
+				title_type,
+			</if>
+			<if test="praise != null">
+				praise,
+			</if>
+			<if test="reply != null">
+				reply,
+			</if>
+			<if test="isInform != null">
+				is_inform,
+			</if>
+			<if test="inform != null">
+				inform,
+			</if>
+			<if test="topLevel != null">
+				top_level,
+			</if>
+			<if test="isTopGroup != null">
+				is_top_group,
+			</if>
+			<if test="isTopGlobal != null">
+				is_top_global,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="channel != null">
+				channel,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=TINYINT},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				#{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="classify != null">
+				#{classify,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="topicId != null">
+				#{topicId,jdbcType=INTEGER},
+			</if>
+			<if test="topicName != null">
+				#{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="titleType != null">
+				#{titleType,jdbcType=TINYINT},
+			</if>
+			<if test="praise != null">
+				#{praise,jdbcType=INTEGER},
+			</if>
+			<if test="reply != null">
+				#{reply,jdbcType=INTEGER},
+			</if>
+			<if test="isInform != null">
+				#{isInform,jdbcType=TINYINT},
+			</if>
+			<if test="inform != null">
+				#{inform,jdbcType=INTEGER},
+			</if>
+			<if test="topLevel != null">
+				#{topLevel,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGroup != null">
+				#{isTopGroup,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGlobal != null">
+				#{isTopGlobal,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				#{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=TINYINT},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				head_icon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="classify != null">
+				classify = #{classify,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="topicId != null">
+				topic_id = #{topicId,jdbcType=INTEGER},
+			</if>
+			<if test="topicName != null">
+				topic_name = #{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="titleType != null">
+				title_type = #{titleType,jdbcType=TINYINT},
+			</if>
+			<if test="praise != null">
+				praise = #{praise,jdbcType=INTEGER},
+			</if>
+			<if test="reply != null">
+				reply = #{reply,jdbcType=INTEGER},
+			</if>
+			<if test="isInform != null">
+				is_inform = #{isInform,jdbcType=TINYINT},
+			</if>
+			<if test="inform != null">
+				inform = #{inform,jdbcType=INTEGER},
+			</if>
+			<if test="topLevel != null">
+				top_level = #{topLevel,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGroup != null">
+				is_top_group = #{isTopGroup,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGlobal != null">
+				is_top_global = #{isTopGlobal,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateBbsNameOrHeadIconByUser" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				head_icon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="classify != null">
+				classify = #{classify,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="topicId != null">
+				topic_id = #{topicId,jdbcType=INTEGER},
+			</if>
+			<if test="topicName != null">
+				topic_name = #{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="titleType != null">
+				title_type = #{titleType,jdbcType=TINYINT},
+			</if>
+			<if test="praise != null">
+				praise = #{praise,jdbcType=INTEGER},
+			</if>
+			<if test="reply != null">
+				reply = #{reply,jdbcType=INTEGER},
+			</if>
+			<if test="isInform != null">
+				is_inform = #{isInform,jdbcType=TINYINT},
+			</if>
+			<if test="inform != null">
+				inform = #{inform,jdbcType=INTEGER},
+			</if>
+			<if test="topLevel != null">
+				top_level = #{topLevel,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGroup != null">
+				is_top_group = #{isTopGroup,jdbcType=TINYINT},
+			</if>
+			<if test="isTopGlobal != null">
+				is_top_global = #{isTopGlobal,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId != ''">
+					and user_id = #{userId,jdbcType=INTEGER}
+				</if>
+				<if test="userType != null and userType != ''">
+					and user_type = #{userType,jdbcType=INTEGER}
+				</if>
+			</trim>
+	</update>
+	
+	<update id="updateBbsTopic" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		<set>
+			<if test="topicName != null">
+				topic_name = #{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="topicId != null">
+					and topic_id = #{topicId,jdbcType=INTEGER},
+				</if>
+				<if test="id != null and id != ''">
+					and id = #{id,jdbcType=INTEGER}
+				</if>
+			</trim>
+	</update>
+
+	<update id="updateBBSPraise" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		set praise=praise +1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateBBSInform" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		set is_inform=1, inform=inform +1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateBBSReply" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		set reply=reply +1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateBBSReplySubtract" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		set reply=reply - 1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.bbs.dto.Bbs">
+		update t_s_bbs
+		set
+		user_id = #{userId,jdbcType=BIGINT},
+		user_type =
+		#{userType,jdbcType=TINYINT},
+		user_name = #{userName,jdbcType=VARCHAR},
+		head_icon = #{headIcon,jdbcType=VARCHAR},
+		classify =
+		#{classify,jdbcType=TINYINT},
+		city_id = #{cityId,jdbcType=INTEGER},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		topic_id =
+		#{topicId,jdbcType=INTEGER},
+		topic_name =
+		#{topicName,jdbcType=VARCHAR},
+		title_type =
+		#{titleType,jdbcType=TINYINT},
+		praise = #{praise,jdbcType=INTEGER},
+		reply = #{reply,jdbcType=INTEGER},
+		is_inform =
+		#{isInform,jdbcType=TINYINT},
+		inform = #{inform,jdbcType=INTEGER},
+		top_level = #{topLevel,jdbcType=TINYINT},
+		is_top_group =
+		#{isTopGroup,jdbcType=TINYINT},
+		is_top_global =
+		#{isTopGlobal,jdbcType=TINYINT},
+		status = #{status,jdbcType=TINYINT},
+		channel = #{channel,jdbcType=TINYINT},
+		is_del =
+		#{isDel,jdbcType=TINYINT},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		cuid = #{cuid,jdbcType=BIGINT},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		muid = #{muid,jdbcType=BIGINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

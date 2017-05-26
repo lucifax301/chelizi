@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollProgressUserMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollProgressUser" >
+    <id column="cpid" property="cpid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="BIGINT" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="step_times" property="stepTimes" jdbcType="INTEGER" />
+    <result column="pay_state" property="payState" jdbcType="TINYINT" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="process_state" property="processState" jdbcType="TINYINT" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="isread" property="isread" jdbcType="TINYINT" />
+    <result column="next_step" property="nextStep" jdbcType="INTEGER" />
+    <result column="need_show" property="needShow" jdbcType="TINYINT" />
+    <result column="out_data" property="outData" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="red" property="red" jdbcType="TINYINT" />
+    <result column="next_title" property="nextTitle" jdbcType="VARCHAR" />
+    <result column="reco_course" property="recoCourse" jdbcType="VARCHAR" />
+    <result column="other_course" property="otherCourse" jdbcType="VARCHAR" />
+    <result column="dpage" property="dpage" jdbcType="VARCHAR" />
+    <result column="bpage" property="bpage" jdbcType="VARCHAR" />
+    <result column="recovery" property="recovery" jdbcType="TINYINT" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="cuid" property="cuid" jdbcType="BIGINT" />
+    <result column="muid" property="muid" jdbcType="BIGINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cpid, title, student_id, step_id, step_times, pay_state, pay_time, process_state, 
+    result, isread, next_step, need_show, out_data, icon, price, city_id, ttid, school_id, 
+    red, next_title, reco_course, other_course, dpage, bpage, recovery, order_by, isdel, 
+    cuid, muid, ctime, mtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollProgressUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </select>
+  
+    
+  <select id="selectByStudentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{studentId}
+    and (need_show is null or need_show =1)
+    and isdel =0
+    order by cpid desc
+  </select>
+  
+  <select id="selectInfoByStudentId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{studentId}
+    and (need_show is null or need_show =1)
+    and isdel =0
+    and step_id in (6,302,402,501,602,702)
+    and process_state = 100
+    order by cpid desc
+  </select>
+  
+  <select id="selectByStudentIdTtidOne" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{studentId}
+    and ttid = #{ttid}
+    and isdel =0
+    order by cpid desc 
+    limit 1
+  </select>
+  
+  <select id="selectByStudentIdLatest" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{studentId}
+    and isdel =0
+    order by cpid desc 
+    limit 1
+  </select>
+  
+  <select id="selectByStudentIdStep" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{param1}
+    and step_id = #{param2}
+    and isdel =0
+    order by cpid desc
+    limit 1
+  </select>
+  
+  <select id="selectByStudentIdNextStep" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_progress_user
+    where 1=1 and 
+    student_id = #{param1}
+    and next_step = #{param2}
+    and isdel =0
+    order by cpid desc
+    limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_progress_user
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollProgressUserExample" >
+    delete from t_enroll_progress_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollProgressUser" >
+    insert into t_enroll_progress_user (cpid, title, student_id, 
+      step_id, step_times, pay_state, 
+      pay_time, process_state, result, 
+      isread, next_step, need_show, 
+      out_data, icon, price, 
+      city_id, ttid, school_id, 
+      red, next_title, reco_course, 
+      other_course, dpage, bpage, 
+      recovery, order_by, isdel, 
+      cuid, muid, ctime, 
+      mtime)
+    values (#{cpid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, 
+      #{stepId,jdbcType=INTEGER}, #{stepTimes,jdbcType=INTEGER}, #{payState,jdbcType=TINYINT}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{processState,jdbcType=TINYINT}, #{result,jdbcType=VARCHAR}, 
+      #{isread,jdbcType=TINYINT}, #{nextStep,jdbcType=INTEGER}, #{needShow,jdbcType=TINYINT}, 
+      #{outData,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{cityId,jdbcType=INTEGER}, #{ttid,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, 
+      #{red,jdbcType=TINYINT}, #{nextTitle,jdbcType=VARCHAR}, #{recoCourse,jdbcType=VARCHAR}, 
+      #{otherCourse,jdbcType=VARCHAR}, #{dpage,jdbcType=VARCHAR}, #{bpage,jdbcType=VARCHAR}, 
+      #{recovery,jdbcType=TINYINT}, #{orderBy,jdbcType=INTEGER}, #{isdel,jdbcType=TINYINT}, 
+      #{cuid,jdbcType=BIGINT}, #{muid,jdbcType=BIGINT}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollProgressUser" >
+    insert into t_enroll_progress_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cpid != null" >
+        cpid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="stepTimes != null" >
+        step_times,
+      </if>
+      <if test="payState != null" >
+        pay_state,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="processState != null" >
+        process_state,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="isread != null" >
+        isread,
+      </if>
+      <if test="nextStep != null" >
+        next_step,
+      </if>
+      <if test="needShow != null" >
+        need_show,
+      </if>
+      <if test="outData != null" >
+        out_data,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="ttid != null" >
+        ttid,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="red != null" >
+        red,
+      </if>
+      <if test="nextTitle != null" >
+        next_title,
+      </if>
+      <if test="recoCourse != null" >
+        reco_course,
+      </if>
+      <if test="otherCourse != null" >
+        other_course,
+      </if>
+      <if test="dpage != null" >
+        dpage,
+      </if>
+      <if test="bpage != null" >
+        bpage,
+      </if>
+      <if test="recovery != null" >
+        recovery,
+      </if>
+      <if test="orderBy != null" >
+        order_by,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="cuid != null" >
+        cuid,
+      </if>
+      <if test="muid != null" >
+        muid,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cpid != null" >
+        #{cpid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="stepTimes != null" >
+        #{stepTimes,jdbcType=INTEGER},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        #{processState,jdbcType=TINYINT},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null" >
+        #{isread,jdbcType=TINYINT},
+      </if>
+      <if test="nextStep != null" >
+        #{nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="needShow != null" >
+        #{needShow,jdbcType=TINYINT},
+      </if>
+      <if test="outData != null" >
+        #{outData,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="ttid != null" >
+        #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="red != null" >
+        #{red,jdbcType=TINYINT},
+      </if>
+      <if test="nextTitle != null" >
+        #{nextTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="recoCourse != null" >
+        #{recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCourse != null" >
+        #{otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="dpage != null" >
+        #{dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="bpage != null" >
+        #{bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="recovery != null" >
+        #{recovery,jdbcType=TINYINT},
+      </if>
+      <if test="orderBy != null" >
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollProgressUserExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_progress_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_progress_user
+    <set >
+      <if test="record.cpid != null" >
+        cpid = #{record.cpid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        student_id = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stepId != null" >
+        step_id = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepTimes != null" >
+        step_times = #{record.stepTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.payState != null" >
+        pay_state = #{record.payState,jdbcType=TINYINT},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processState != null" >
+        process_state = #{record.processState,jdbcType=TINYINT},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isread != null" >
+        isread = #{record.isread,jdbcType=TINYINT},
+      </if>
+      <if test="record.nextStep != null" >
+        next_step = #{record.nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="record.needShow != null" >
+        need_show = #{record.needShow,jdbcType=TINYINT},
+      </if>
+      <if test="record.outData != null" >
+        out_data = #{record.outData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ttid != null" >
+        ttid = #{record.ttid,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolId != null" >
+        school_id = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.red != null" >
+        red = #{record.red,jdbcType=TINYINT},
+      </if>
+      <if test="record.nextTitle != null" >
+        next_title = #{record.nextTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recoCourse != null" >
+        reco_course = #{record.recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherCourse != null" >
+        other_course = #{record.otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpage != null" >
+        dpage = #{record.dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bpage != null" >
+        bpage = #{record.bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recovery != null" >
+        recovery = #{record.recovery,jdbcType=TINYINT},
+      </if>
+      <if test="record.orderBy != null" >
+        order_by = #{record.orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.cuid != null" >
+        cuid = #{record.cuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.muid != null" >
+        muid = #{record.muid,jdbcType=BIGINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_progress_user
+    set cpid = #{record.cpid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=BIGINT},
+      step_id = #{record.stepId,jdbcType=INTEGER},
+      step_times = #{record.stepTimes,jdbcType=INTEGER},
+      pay_state = #{record.payState,jdbcType=TINYINT},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      process_state = #{record.processState,jdbcType=TINYINT},
+      result = #{record.result,jdbcType=VARCHAR},
+      isread = #{record.isread,jdbcType=TINYINT},
+      next_step = #{record.nextStep,jdbcType=INTEGER},
+      need_show = #{record.needShow,jdbcType=TINYINT},
+      out_data = #{record.outData,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      ttid = #{record.ttid,jdbcType=INTEGER},
+      school_id = #{record.schoolId,jdbcType=INTEGER},
+      red = #{record.red,jdbcType=TINYINT},
+      next_title = #{record.nextTitle,jdbcType=VARCHAR},
+      reco_course = #{record.recoCourse,jdbcType=VARCHAR},
+      other_course = #{record.otherCourse,jdbcType=VARCHAR},
+      dpage = #{record.dpage,jdbcType=VARCHAR},
+      bpage = #{record.bpage,jdbcType=VARCHAR},
+      recovery = #{record.recovery,jdbcType=TINYINT},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      cuid = #{record.cuid,jdbcType=BIGINT},
+      muid = #{record.muid,jdbcType=BIGINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollProgressUser" >
+    update t_enroll_progress_user
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="stepId != null" >
+        step_id = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="stepTimes != null" >
+        step_times = #{stepTimes,jdbcType=INTEGER},
+      </if>
+      <if test="payState != null" >
+        pay_state = #{payState,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processState != null" >
+        process_state = #{processState,jdbcType=TINYINT},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="isread != null" >
+        isread = #{isread,jdbcType=TINYINT},
+      </if>
+      <if test="nextStep != null" >
+        next_step = #{nextStep,jdbcType=INTEGER},
+      </if>
+      <if test="needShow != null" >
+        need_show = #{needShow,jdbcType=TINYINT},
+      </if>
+      <if test="outData != null" >
+        out_data = #{outData,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="ttid != null" >
+        ttid = #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="red != null" >
+        red = #{red,jdbcType=TINYINT},
+      </if>
+      <if test="nextTitle != null" >
+        next_title = #{nextTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="recoCourse != null" >
+        reco_course = #{recoCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCourse != null" >
+        other_course = #{otherCourse,jdbcType=VARCHAR},
+      </if>
+      <if test="dpage != null" >
+        dpage = #{dpage,jdbcType=VARCHAR},
+      </if>
+      <if test="bpage != null" >
+        bpage = #{bpage,jdbcType=VARCHAR},
+      </if>
+      <if test="recovery != null" >
+        recovery = #{recovery,jdbcType=TINYINT},
+      </if>
+      <if test="orderBy != null" >
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        cuid = #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        muid = #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollProgressUser" >
+    update t_enroll_progress_user
+    set title = #{title,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=BIGINT},
+      step_id = #{stepId,jdbcType=INTEGER},
+      step_times = #{stepTimes,jdbcType=INTEGER},
+      pay_state = #{payState,jdbcType=TINYINT},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      process_state = #{processState,jdbcType=TINYINT},
+      result = #{result,jdbcType=VARCHAR},
+      isread = #{isread,jdbcType=TINYINT},
+      next_step = #{nextStep,jdbcType=INTEGER},
+      need_show = #{needShow,jdbcType=TINYINT},
+      out_data = #{outData,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      ttid = #{ttid,jdbcType=INTEGER},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      red = #{red,jdbcType=TINYINT},
+      next_title = #{nextTitle,jdbcType=VARCHAR},
+      reco_course = #{recoCourse,jdbcType=VARCHAR},
+      other_course = #{otherCourse,jdbcType=VARCHAR},
+      dpage = #{dpage,jdbcType=VARCHAR},
+      bpage = #{bpage,jdbcType=VARCHAR},
+      recovery = #{recovery,jdbcType=TINYINT},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      isdel = #{isdel,jdbcType=TINYINT},
+      cuid = #{cuid,jdbcType=BIGINT},
+      muid = #{muid,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where cpid = #{cpid,jdbcType=INTEGER}
+  </update>
+  
+  
+  <update id="updateIsdelByStudentIdTtid" parameterType="map" >
+    update
+    t_enroll_progress_user
+    set
+    isdel = #{isdel}
+    where 1=1
+    and student_id = #{studentId}
+    and ttid = #{ttid}
+  </update>
+</mapper>

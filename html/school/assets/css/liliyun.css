@@ -1,0 +1,314 @@
+@charset "UTF-8";
+/*喱喱云样式*/
+/*公共颜色*/
+/*字体大小*/
+/*padding / margin 值 */
+/*边框圆角*/
+/*默认行高*/
+/*less CSS3新特性兼容前缀开始*/
+/*less CSS3新特性兼容前缀结束*/
+/*提现*/
+.common-style {
+  overflow: hidden;
+  margin: 0;
+  padding: 20px; }
+
+.common-style .title h1 {
+  font-size: 28px;
+  border-bottom: solid 1px #E7E7E7;
+  margin: 0;
+  padding-bottom: 15px;
+  font-family: "微软雅黑"; }
+
+.common-style .footer {
+  margin-top: 40px;
+  height: 30px;
+  font-size: 12px;
+  line-height: 50px;
+  color: #888;
+  border-top: solid 1px #DDD; }
+
+.common-table {
+  width: 100%;
+  overflow: hidden;
+  border: solid 1px #DDD;
+  border-radius: 3px; }
+
+.common-table .header {
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  padding: 0 15px;
+  background: #F5F5F5;
+  border-bottom: solid 1px #DDD;
+  font-family: "微软雅黑"; }
+
+.common-table .header li {
+  display: inline-block;
+  width: auto;
+  cursor: pointer;
+  padding: 0 10px; }
+
+.common-table .header li.active {
+  background: #fff;
+  border-left: solid 1px #DDD;
+  border-right: solid 1px #DDD; }
+
+.common-table .content {
+  padding: 15px; }
+
+.common-table .search {
+  margin-bottom: 20px; }
+
+.common-table .search .line {
+  color: #888;
+  overflow: auto;
+  clear: both;
+  margin-bottom: 10px; }
+
+.common-table .search .line > div:nth-child(1) {
+  float: left;
+  width: 80px;
+  line-height: 30px; }
+
+.common-table .search .line .input-group {
+  width: 30%; }
+
+.common-table .search .line ul {
+  float: left;
+  padding: 0;
+  margin: 0;
+  color: #000; }
+
+.common-table .search .line ul select {
+  width: 150px;
+  display: inline-block; }
+
+.common-table .search .line ul li {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  margin-top: 5px;
+  padding: 0 8px;
+  border-radius: 25px;
+  font-size: 13px;
+  margin-right: 5px; }
+
+.common-table .search .line ul span {
+  display: inline-block; }
+
+.common-table .search .line ul span input {
+  background: #fff; }
+
+.common-table .search .line ul li:hover,
+.common-table .search .line ul li.active {
+  background: #DDD;
+  color: #4990E2;
+  cursor: pointer; }
+
+.common-table .senior-search {
+  overflow: hidden;
+  margin-bottom: 20px; }
+
+.common-table .senior-search div.select select {
+  display: inline-block;
+  width: 80px; }
+
+.common-table .page {
+  text-align: right; }
+
+.common-table .expel {
+  width: 230px; }
+
+.common-table .expel div:nth-child(2) option:nth-child(1) {
+  color: #ccc; }
+
+.common-table .expel div:nth-child(3) {
+  margin-top: 10px; }
+
+.table-margin {
+  margin-top: 20px; }
+
+.table-withdraw-cash tr td:nth-child(0) {
+  text-align: center; }
+
+.table-withdraw-cash tr:last-child td {
+  line-height: 32px;
+  padding: 3px; }
+
+.table-withdraw-cash tr:last-child td button {
+  padding: 3px 10px; }
+
+.data-content {
+  margin-top: 20px; }
+
+#header-table a {
+  color: #333;
+  text-decoration: none; }
+
+/*table line */
+.common-table .search .tab-line {
+  overflow: visible;
+  margin-bottom: 80px; }
+
+.common-table .search .tab-line ul li.active {
+  background: #fff; }
+
+.common-table .search .tab-line ul li {
+  padding: 0 !important; }
+
+.common-table .search .tab-line ul li:hover,
+.common-table .search .tab-line ul li.active {
+  color: #333; }
+
+.common-table .tab-line li > div:nth-child(1) {
+  position: relative;
+  padding: 0 8px; }
+
+.common-table .tab-line li > div:nth-child(1):hover {
+  color: #4990E2; }
+
+.common-table .tab-line li > div:nth-child(1).active {
+  background: #DDD;
+  color: #4990E2;
+  border-radius: 15px; }
+
+.common-table .tab-line li:not(:nth-child(1)) > div:nth-child(1).active:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #DDD; }
+
+.common-table .tab-line ul {
+  position: relative;
+  width: 80%; }
+
+.common-table .tab-line li > div:nth-child(2) {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  width: 100%;
+  display: none; }
+
+.common-table .tab-line li > div:nth-child(2) > div {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 0 5px; }
+
+.common-table .tab-line li > div:nth-child(2) > div:hover,
+.common-table .tab-line li > div:nth-child(2) > div.active {
+  background: #DDD;
+  color: #4990E2;
+  cursor: pointer;
+  border-radius: 15px; }
+
+/*高级查询*/
+.liliyun-search {
+  width: 80px;
+  float: left;
+  line-height: 35px;
+  color: #888; }
+
+.liliyun-common-table .search {
+  margin-bottom: 0; }
+
+/*已选查询条件*/
+.w-search-tag {
+  border-top: solid 1px #EEEEEE;
+  border-bottom: solid 1px #EEEEEE;
+  background: #FCFCFC;
+  margin: 0 -15px;
+  margin-bottom: 25px;
+  overflow: hidden;
+  height: 45px;
+  line-height: 45px;
+  padding: 0 15px; }
+
+.w-search-tag > div {
+  float: left; }
+
+.w-search-tag > div:nth-child(1) {
+  color: #888;
+  width: 80px; }
+
+.w-search-tag .selected {
+  overflow: hidden; }
+
+.w-search-tag .selected > div {
+  float: left;
+  width: auto; }
+
+.w-search-tag .selected .sel-con {
+  overflow: hidden; }
+
+.w-search-tag .selected .sel-con div {
+  float: left;
+  height: 25px;
+  line-height: 25px;
+  font-size: 12px;
+  color: #4990E2;
+  border: solid 1px #4990E2;
+  border-radius: 20px;
+  padding: 0 5px;
+  margin: 10px 10px 0 0;
+  cursor: pointer; }
+
+.w-search-tag .selected .sel-con div span {
+  font-size: 20px;
+  margin-left: 5px;
+  float: right; }
+
+.w-search-tag .selected .sel-con div:hover {
+  color: #c9302c;
+  border: solid 1px #c9302c; }
+
+.w-search-tag .delete-all {
+  color: #888;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 20px; }
+
+.w-search-tag .delete-all span {
+  font-size: 20px;
+  margin-right: 3px;
+  float: left; }
+
+.w-search-tag .delete-all:hover {
+  color: #c9302c; }
+
+/*分配学员弹出层*/
+.distion-school .con-main {
+  padding-left: 25px;
+  padding-right: 25px; }
+
+.distion-school .con-main > div:nth-child(1) {
+  margin: 20px 0 10px; }
+
+.distion-school .con-main {
+  width: 400px; }
+
+/*奖金*/
+.bonus-content .operation button {
+  font-size: 12px !important;
+  letter-spacing: 1px;
+  font-family: "微软雅黑"; }
+
+.bonus-content .operation button:nth-child(2) {
+  letter-spacing: 3px; }
+
+/*财务支付统计*/
+.accounts-balance .senior-search h4 {
+  font-family: "微软雅黑"; }
+
+/*媒体查询*/
+@media (max-width: 768px) {
+  .distion-school .con-main {
+    width: 100%; }
+  .common-table .tab-line ul {
+    width: 90%; } }

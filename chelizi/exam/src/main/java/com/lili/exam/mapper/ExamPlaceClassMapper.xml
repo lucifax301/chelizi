@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamPlaceClassMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamPlaceClass" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="placeId" property="placeId" jdbcType="INTEGER" />
+    <result column="pstart" property="pstart" jdbcType="TIMESTAMP" />
+    <result column="pend" property="pend" jdbcType="TIMESTAMP" />
+    <result column="rstart" property="rstart" jdbcType="TIMESTAMP" />
+    <result column="rend" property="rend" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="outerPrice" property="outerPrice" jdbcType="INTEGER" />
+    <result column="innerPrice" property="innerPrice" jdbcType="INTEGER" />
+    <result column="minHours" property="minHours" jdbcType="INTEGER" />
+    <result column="c1" property="c1" jdbcType="INTEGER" />
+    <result column="c1inner" property="c1inner" jdbcType="INTEGER" />
+    <result column="c1outer" property="c1outer" jdbcType="INTEGER" />
+    <result column="c1book" property="c1book" jdbcType="INTEGER" />
+    <result column="c1bookInner" property="c1bookInner" jdbcType="INTEGER" />
+    <result column="c1bookOuter" property="c1bookOuter" jdbcType="INTEGER" />
+    <result column="c2" property="c2" jdbcType="INTEGER" />
+    <result column="c2inner" property="c2inner" jdbcType="INTEGER" />
+    <result column="c2outer" property="c2outer" jdbcType="INTEGER" />
+    <result column="c2book" property="c2book" jdbcType="INTEGER" />
+    <result column="c2bookInner" property="c2bookInner" jdbcType="INTEGER" />
+    <result column="c2bookOuter" property="c2bookOuter" jdbcType="INTEGER" />
+    <result column="innerExpire" property="innerExpire" jdbcType="INTEGER" />
+    <result column="favorType" property="favorType" jdbcType="INTEGER" />
+    <result column="favorIn" property="favorIn" jdbcType="INTEGER" />
+    <result column="favorOut" property="favorOut" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, placeId, pstart, pend, rstart, rend, remark, duration, outerPrice, innerPrice, 
+    minHours, c1, c1inner, c1outer, c1book, c1bookInner, c1bookOuter, c2, c2inner, c2outer, 
+    c2book, c2bookInner, c2bookOuter, innerExpire, favorType, favorIn, favorOut, state, 
+    ctime, mtime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceClassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_class
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_exam_place_class
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.exam.dto.ExamPlaceClassExample" >
+    delete from t_exam_place_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.exam.dto.ExamPlaceClass" >
+    insert into t_exam_place_class (id, placeId, pstart, 
+      pend, rstart, rend, 
+      remark, duration, outerPrice, 
+      innerPrice, minHours, c1, 
+      c1inner, c1outer, c1book, 
+      c1bookInner, c1bookOuter, c2, 
+      c2inner, c2outer, c2book, 
+      c2bookInner, c2bookOuter, innerExpire, 
+      favorType, favorIn, favorOut, 
+      state, ctime, mtime, 
+      extra)
+    values (#{id,jdbcType=INTEGER}, #{placeId,jdbcType=INTEGER}, #{pstart,jdbcType=TIMESTAMP}, 
+      #{pend,jdbcType=TIMESTAMP}, #{rstart,jdbcType=TIMESTAMP}, #{rend,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, #{outerPrice,jdbcType=INTEGER}, 
+      #{innerPrice,jdbcType=INTEGER}, #{minHours,jdbcType=INTEGER}, #{c1,jdbcType=INTEGER}, 
+      #{c1inner,jdbcType=INTEGER}, #{c1outer,jdbcType=INTEGER}, #{c1book,jdbcType=INTEGER}, 
+      #{c1bookInner,jdbcType=INTEGER}, #{c1bookOuter,jdbcType=INTEGER}, #{c2,jdbcType=INTEGER}, 
+      #{c2inner,jdbcType=INTEGER}, #{c2outer,jdbcType=INTEGER}, #{c2book,jdbcType=INTEGER}, 
+      #{c2bookInner,jdbcType=INTEGER}, #{c2bookOuter,jdbcType=INTEGER}, #{innerExpire,jdbcType=INTEGER}, 
+      #{favorType,jdbcType=INTEGER}, #{favorIn,jdbcType=INTEGER}, #{favorOut,jdbcType=INTEGER}, 
+      #{state,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.exam.dto.ExamPlaceClass" >
+    insert into t_exam_place_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="placeId != null" >
+        placeId,
+      </if>
+      <if test="pstart != null" >
+        pstart,
+      </if>
+      <if test="pend != null" >
+        pend,
+      </if>
+      <if test="rstart != null" >
+        rstart,
+      </if>
+      <if test="rend != null" >
+        rend,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="outerPrice != null" >
+        outerPrice,
+      </if>
+      <if test="innerPrice != null" >
+        innerPrice,
+      </if>
+      <if test="minHours != null" >
+        minHours,
+      </if>
+      <if test="c1 != null" >
+        c1,
+      </if>
+      <if test="c1inner != null" >
+        c1inner,
+      </if>
+      <if test="c1outer != null" >
+        c1outer,
+      </if>
+      <if test="c1book != null" >
+        c1book,
+      </if>
+      <if test="c1bookInner != null" >
+        c1bookInner,
+      </if>
+      <if test="c1bookOuter != null" >
+        c1bookOuter,
+      </if>
+      <if test="c2 != null" >
+        c2,
+      </if>
+      <if test="c2inner != null" >
+        c2inner,
+      </if>
+      <if test="c2outer != null" >
+        c2outer,
+      </if>
+      <if test="c2book != null" >
+        c2book,
+      </if>
+      <if test="c2bookInner != null" >
+        c2bookInner,
+      </if>
+      <if test="c2bookOuter != null" >
+        c2bookOuter,
+      </if>
+      <if test="innerExpire != null" >
+        innerExpire,
+      </if>
+      <if test="favorType != null" >
+        favorType,
+      </if>
+      <if test="favorIn != null" >
+        favorIn,
+      </if>
+      <if test="favorOut != null" >
+        favorOut,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="placeId != null" >
+        #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="pstart != null" >
+        #{pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pend != null" >
+        #{pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstart != null" >
+        #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rend != null" >
+        #{rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="outerPrice != null" >
+        #{outerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="innerPrice != null" >
+        #{innerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="minHours != null" >
+        #{minHours,jdbcType=INTEGER},
+      </if>
+      <if test="c1 != null" >
+        #{c1,jdbcType=INTEGER},
+      </if>
+      <if test="c1inner != null" >
+        #{c1inner,jdbcType=INTEGER},
+      </if>
+      <if test="c1outer != null" >
+        #{c1outer,jdbcType=INTEGER},
+      </if>
+      <if test="c1book != null" >
+        #{c1book,jdbcType=INTEGER},
+      </if>
+      <if test="c1bookInner != null" >
+        #{c1bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="c1bookOuter != null" >
+        #{c1bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="c2 != null" >
+        #{c2,jdbcType=INTEGER},
+      </if>
+      <if test="c2inner != null" >
+        #{c2inner,jdbcType=INTEGER},
+      </if>
+      <if test="c2outer != null" >
+        #{c2outer,jdbcType=INTEGER},
+      </if>
+      <if test="c2book != null" >
+        #{c2book,jdbcType=INTEGER},
+      </if>
+      <if test="c2bookInner != null" >
+        #{c2bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="c2bookOuter != null" >
+        #{c2bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="innerExpire != null" >
+        #{innerExpire,jdbcType=INTEGER},
+      </if>
+      <if test="favorType != null" >
+        #{favorType,jdbcType=INTEGER},
+      </if>
+      <if test="favorIn != null" >
+        #{favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut != null" >
+        #{favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.exam.dto.ExamPlaceClassExample" resultType="java.lang.Integer" >
+    select count(*) from t_exam_place_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_exam_place_class
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.placeId != null" >
+        placeId = #{record.placeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pstart != null" >
+        pstart = #{record.pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pend != null" >
+        pend = #{record.pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rstart != null" >
+        rstart = #{record.rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rend != null" >
+        rend = #{record.rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.duration != null" >
+        duration = #{record.duration,jdbcType=INTEGER},
+      </if>
+      <if test="record.outerPrice != null" >
+        outerPrice = #{record.outerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.innerPrice != null" >
+        innerPrice = #{record.innerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.minHours != null" >
+        minHours = #{record.minHours,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1 != null" >
+        c1 = #{record.c1,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1inner != null" >
+        c1inner = #{record.c1inner,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1outer != null" >
+        c1outer = #{record.c1outer,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1book != null" >
+        c1book = #{record.c1book,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1bookInner != null" >
+        c1bookInner = #{record.c1bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="record.c1bookOuter != null" >
+        c1bookOuter = #{record.c1bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2 != null" >
+        c2 = #{record.c2,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2inner != null" >
+        c2inner = #{record.c2inner,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2outer != null" >
+        c2outer = #{record.c2outer,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2book != null" >
+        c2book = #{record.c2book,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2bookInner != null" >
+        c2bookInner = #{record.c2bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="record.c2bookOuter != null" >
+        c2bookOuter = #{record.c2bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="record.innerExpire != null" >
+        innerExpire = #{record.innerExpire,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorType != null" >
+        favorType = #{record.favorType,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorIn != null" >
+        favorIn = #{record.favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorOut != null" >
+        favorOut = #{record.favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_exam_place_class
+    set id = #{record.id,jdbcType=INTEGER},
+      placeId = #{record.placeId,jdbcType=INTEGER},
+      pstart = #{record.pstart,jdbcType=TIMESTAMP},
+      pend = #{record.pend,jdbcType=TIMESTAMP},
+      rstart = #{record.rstart,jdbcType=TIMESTAMP},
+      rend = #{record.rend,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      duration = #{record.duration,jdbcType=INTEGER},
+      outerPrice = #{record.outerPrice,jdbcType=INTEGER},
+      innerPrice = #{record.innerPrice,jdbcType=INTEGER},
+      minHours = #{record.minHours,jdbcType=INTEGER},
+      c1 = #{record.c1,jdbcType=INTEGER},
+      c1inner = #{record.c1inner,jdbcType=INTEGER},
+      c1outer = #{record.c1outer,jdbcType=INTEGER},
+      c1book = #{record.c1book,jdbcType=INTEGER},
+      c1bookInner = #{record.c1bookInner,jdbcType=INTEGER},
+      c1bookOuter = #{record.c1bookOuter,jdbcType=INTEGER},
+      c2 = #{record.c2,jdbcType=INTEGER},
+      c2inner = #{record.c2inner,jdbcType=INTEGER},
+      c2outer = #{record.c2outer,jdbcType=INTEGER},
+      c2book = #{record.c2book,jdbcType=INTEGER},
+      c2bookInner = #{record.c2bookInner,jdbcType=INTEGER},
+      c2bookOuter = #{record.c2bookOuter,jdbcType=INTEGER},
+      innerExpire = #{record.innerExpire,jdbcType=INTEGER},
+      favorType = #{record.favorType,jdbcType=INTEGER},
+      favorIn = #{record.favorIn,jdbcType=INTEGER},
+      favorOut = #{record.favorOut,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.exam.dto.ExamPlaceClass" >
+    update t_exam_place_class
+    <set >
+      <if test="placeId != null" >
+        placeId = #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="pstart != null" >
+        pstart = #{pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pend != null" >
+        pend = #{pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstart != null" >
+        rstart = #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rend != null" >
+        rend = #{rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="outerPrice != null" >
+        outerPrice = #{outerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="innerPrice != null" >
+        innerPrice = #{innerPrice,jdbcType=INTEGER},
+      </if>
+      <if test="minHours != null" >
+        minHours = #{minHours,jdbcType=INTEGER},
+      </if>
+      <if test="c1 != null" >
+        c1 = #{c1,jdbcType=INTEGER},
+      </if>
+      <if test="c1inner != null" >
+        c1inner = #{c1inner,jdbcType=INTEGER},
+      </if>
+      <if test="c1outer != null" >
+        c1outer = #{c1outer,jdbcType=INTEGER},
+      </if>
+      <if test="c1book != null" >
+        c1book = #{c1book,jdbcType=INTEGER},
+      </if>
+      <if test="c1bookInner != null" >
+        c1bookInner = #{c1bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="c1bookOuter != null" >
+        c1bookOuter = #{c1bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="c2 != null" >
+        c2 = #{c2,jdbcType=INTEGER},
+      </if>
+      <if test="c2inner != null" >
+        c2inner = #{c2inner,jdbcType=INTEGER},
+      </if>
+      <if test="c2outer != null" >
+        c2outer = #{c2outer,jdbcType=INTEGER},
+      </if>
+      <if test="c2book != null" >
+        c2book = #{c2book,jdbcType=INTEGER},
+      </if>
+      <if test="c2bookInner != null" >
+        c2bookInner = #{c2bookInner,jdbcType=INTEGER},
+      </if>
+      <if test="c2bookOuter != null" >
+        c2bookOuter = #{c2bookOuter,jdbcType=INTEGER},
+      </if>
+      <if test="innerExpire != null" >
+        innerExpire = #{innerExpire,jdbcType=INTEGER},
+      </if>
+      <if test="favorType != null" >
+        favorType = #{favorType,jdbcType=INTEGER},
+      </if>
+      <if test="favorIn != null" >
+        favorIn = #{favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut != null" >
+        favorOut = #{favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceClass" >
+    update t_exam_place_class
+    set placeId = #{placeId,jdbcType=INTEGER},
+      pstart = #{pstart,jdbcType=TIMESTAMP},
+      pend = #{pend,jdbcType=TIMESTAMP},
+      rstart = #{rstart,jdbcType=TIMESTAMP},
+      rend = #{rend,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=INTEGER},
+      outerPrice = #{outerPrice,jdbcType=INTEGER},
+      innerPrice = #{innerPrice,jdbcType=INTEGER},
+      minHours = #{minHours,jdbcType=INTEGER},
+      c1 = #{c1,jdbcType=INTEGER},
+      c1inner = #{c1inner,jdbcType=INTEGER},
+      c1outer = #{c1outer,jdbcType=INTEGER},
+      c1book = #{c1book,jdbcType=INTEGER},
+      c1bookInner = #{c1bookInner,jdbcType=INTEGER},
+      c1bookOuter = #{c1bookOuter,jdbcType=INTEGER},
+      c2 = #{c2,jdbcType=INTEGER},
+      c2inner = #{c2inner,jdbcType=INTEGER},
+      c2outer = #{c2outer,jdbcType=INTEGER},
+      c2book = #{c2book,jdbcType=INTEGER},
+      c2bookInner = #{c2bookInner,jdbcType=INTEGER},
+      c2bookOuter = #{c2bookOuter,jdbcType=INTEGER},
+      innerExpire = #{innerExpire,jdbcType=INTEGER},
+      favorType = #{favorType,jdbcType=INTEGER},
+      favorIn = #{favorIn,jdbcType=INTEGER},
+      favorOut = #{favorOut,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceClassExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.CoachCommentMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="ccid!=null">ccid=#{ccid},</if>
+      <if test="studentId!=null">student_id=#{studentId},</if>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="courseId!=null">course_id=#{courseId},</if>
+      <if test="score!=null">score=#{score},</if>
+      <if test="ctid!=null">ctid=#{ctid},</if>
+      <if test="oneWord!=null">one_word=#{oneWord},</if>
+      <if test="cotime!=null">cotime=#{cotime},</if>
+      <if test="anonymity!=null">anonymity=#{anonymity},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.ccid!=null">ccid=#{param1.ccid},</if>
+      <if test="param1.studentId!=null">student_id=#{param1.studentId},</if>
+      <if test="param1.coachId!=null">coach_id=#{param1.coachId},</if>
+      <if test="param1.orderId!=null">order_id=#{param1.orderId},</if>
+      <if test="param1.courseId!=null">course_id=#{param1.courseId},</if>
+      <if test="param1.score!=null">score=#{param1.score},</if>
+      <if test="param1.ctid!=null">ctid=#{param1.ctid},</if>
+      <if test="param1.oneWord!=null">one_word=#{param1.oneWord},</if>
+      <if test="param1.cotime!=null">cotime=#{param1.cotime},</if>
+      <if test="param1.anonymity!=null">anonymity=#{param1.anonymity},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.ccid!=null">ccid=#{param2.ccid},</if>
+      <if test="param2.studentId!=null">student_id=#{param2.studentId},</if>
+      <if test="param2.coachId!=null">coach_id=#{param2.coachId},</if>
+      <if test="param2.orderId!=null">order_id=#{param2.orderId},</if>
+      <if test="param2.courseId!=null">course_id=#{param2.courseId},</if>
+      <if test="param2.score!=null">score=#{param2.score},</if>
+      <if test="param2.ctid!=null">ctid=#{param2.ctid},</if>
+      <if test="param2.oneWord!=null">one_word=#{param2.oneWord},</if>
+      <if test="param2.cotime!=null">cotime=#{param2.cotime},</if>
+      <if test="param2.anonymity!=null">anonymity=#{param2.anonymity},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set ccid=#{ccid}, student_id=#{studentId}, coach_id=#{coachId}, order_id=#{orderId}, course_id=#{courseId}, score=#{score}, ctid=#{ctid}, one_word=#{oneWord}, cotime=#{cotime}, anonymity=#{anonymity}</sql>
+  <sql id="setAllparam1">set ccid=#{param1.ccid}, student_id=#{param1.studentId}, coach_id=#{param1.coachId}, order_id=#{param1.orderId}, course_id=#{param1.courseId}, score=#{param1.score}, ctid=#{param1.ctid}, one_word=#{param1.oneWord}, cotime=#{param1.cotime}, anonymity=#{param1.anonymity}</sql>
+  <sql id="setAllparam2">set ccid=#{param2.ccid}, student_id=#{param2.studentId}, coach_id=#{param2.coachId}, order_id=#{param2.orderId}, course_id=#{param2.courseId}, score=#{param2.score}, ctid=#{param2.ctid}, one_word=#{param2.oneWord}, cotime=#{param2.cotime}, anonymity=#{param2.anonymity}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="ccid!=null and ccid != '' ">And ccid=#{ccid}</if>
+      <if test="studentId!=null and studentId != '' ">And student_id=#{studentId}</if>
+      <if test="coachId!=null and coachId != '' ">And coach_id=#{coachId}</if>
+      <if test="orderId!=null and orderId != '' ">And order_id=#{orderId}</if>
+      <if test="courseId!=null and courseId != '' ">And course_id=#{courseId}</if>
+      <if test="score!=null and score != '' ">And score=#{score}</if>
+      <if test="ctid!=null and ctid != '' ">And ctid=#{ctid}</if>
+      <if test="oneWord!=null and oneWord != '' ">And one_word=#{oneWord}</if>
+      <if test="cotime!=null and cotime != '' ">And cotime=#{cotime}</if>
+      <if test="anonymity!=null ">And anonymity=#{anonymity}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="ccid!=null and ccid != '' ">Or ccid=#{ccid}</if>
+      <if test="studentId!=null and studentId != '' ">Or student_id=#{studentId}</if>
+      <if test="coachId!=null and coachId != '' ">Or coach_id=#{coachId}</if>
+      <if test="orderId!=null and orderId != '' ">Or order_id=#{orderId}</if>
+      <if test="courseId!=null and courseId != '' ">Or course_id=#{courseId}</if>
+      <if test="score!=null and score != '' ">Or score=#{score}</if>
+      <if test="ctid!=null and ctid != '' ">Or ctid=#{ctid}</if>
+      <if test="oneWord!=null and oneWord != '' ">Or one_word=#{oneWord}</if>
+      <if test="cotime!=null and cotime != '' ">Or cotime=#{cotime}</if>
+      <if test="anonymity!=null ">Or anonymity=#{anonymity}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">And student_id=#{param1.studentId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.score!=null and param1.score != '' ">And score=#{param1.score}</if>
+      <if test="param1.ctid!=null and param1.ctid != '' ">And ctid=#{param1.ctid}</if>
+      <if test="param1.oneWord!=null and param1.oneWord != '' ">And one_word=#{param1.oneWord}</if>
+      <if test="param1.cotime!=null and param1.cotime != '' ">And cotime=#{param1.cotime}</if>
+      <if test="param1.anonymity!=null ">And anonymity=#{param1.anonymity}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.ccid!=null and param2.ccid != '' ">And ccid=#{param2.ccid}</if>
+      <if test="param2.studentId!=null and param2.studentId != '' ">And student_id=#{param2.studentId}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">And coach_id=#{param2.coachId}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">And order_id=#{param2.orderId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">And course_id=#{param2.courseId}</if>
+      <if test="param2.score!=null and param2.score != '' ">And score=#{param2.score}</if>
+      <if test="param2.ctid!=null and param2.ctid != '' ">And ctid=#{param2.ctid}</if>
+      <if test="param2.oneWord!=null and param2.oneWord != '' ">And one_word=#{param2.oneWord}</if>
+      <if test="param2.cotime!=null and param2.cotime != '' ">And cotime=#{param2.cotime}</if>
+      <if test="param2.anonymity!=null ">And anonymity=#{param2.anonymity}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">Or ccid=#{param1.ccid}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">Or student_id=#{param1.studentId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">Or coach_id=#{param1.coachId}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">Or order_id=#{param1.orderId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">Or course_id=#{param1.courseId}</if>
+      <if test="param1.score!=null and param1.score != '' ">Or score=#{param1.score}</if>
+      <if test="param1.ctid!=null and param1.ctid != '' ">Or ctid=#{param1.ctid}</if>
+      <if test="param1.oneWord!=null and param1.oneWord != '' ">Or one_word=#{param1.oneWord}</if>
+      <if test="param1.cotime!=null and param1.cotime != '' ">Or cotime=#{param1.cotime}</if>
+      <if test="param1.anonymity!=null ">Or anonymity=#{param1.anonymity}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.ccid!=null and param2.ccid != '' ">Or ccid=#{param2.ccid}</if>
+      <if test="param2.studentId!=null and param2.studentId != '' ">Or student_id=#{param2.studentId}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">Or coach_id=#{param2.coachId}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">Or order_id=#{param2.orderId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">Or course_id=#{param2.courseId}</if>
+      <if test="param2.score!=null and param2.score != '' ">Or score=#{param2.score}</if>
+      <if test="param2.ctid!=null and param2.ctid != '' ">Or ctid=#{param2.ctid}</if>
+      <if test="param2.oneWord!=null and param2.oneWord != '' ">Or one_word=#{param2.oneWord}</if>
+      <if test="param2.cotime!=null and param2.cotime != '' ">Or cotime=#{param2.cotime}</if>
+      <if test="param2.anonymity!=null ">Or anonymity=#{param2.anonymity}</if>
+    </where>
+  </sql>
+  <sql id="setField">(ccid,student_id,coach_id,order_id,course_id,score,ctid,one_word,cotime,anonymity)</sql>
+  <sql id="selectField">ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity</sql>
+  <insert id="addCoachComment">
+    <!--/*新增一个对象*/-->insert into t_coach_comment
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addCoachCommentList">
+    <!--/*新增一批对象*/-->insert into t_coach_comment
+    <include refid="setField"/> values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.ccid},#{one.studentId},#{one.coachId},#{one.orderId},#{one.courseId},#{one.score},#{one.ctid},#{one.oneWord},#{one.cotime},#{one.anonymity})</foreach>
+  </insert>
+  <delete id="delCoachCommentById">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_comment where ccid=#{ccid}
+  </delete>
+  <delete id="delCoachCommentByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_comment where ccid in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delCoachCommentByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_coach_comment
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveCoachComment">
+    <!--/*新增或者更新一个对象*/-->replace into t_coach_comment
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveCoachCommentList">
+    <!--/*新增或者更新一批对象*/-->replace into t_coach_comment
+    <include refid="setField"/> values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.ccid},#{one.studentId},#{one.coachId},#{one.orderId},#{one.courseId},#{one.score},#{one.ctid},#{one.oneWord},#{one.cotime},#{one.anonymity})</foreach>
+  </insert>
+  <update id="updateByCcid">
+    <!--/*根据字段ccid更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where ccid=#{param2}
+  </update>
+  <update id="updateByStudentId">
+    <!--/*根据字段studentId更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where student_id=#{param2}
+  </update>
+  <update id="updateByCoachId">
+    <!--/*根据字段coachId更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where coach_id=#{param2}
+  </update>
+  <update id="updateByOrderId">
+    <!--/*根据字段orderId更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where order_id=#{param2}
+  </update>
+  <update id="updateByCourseId">
+    <!--/*根据字段courseId更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where course_id=#{param2}
+  </update>
+  <update id="updateByScore">
+    <!--/*根据字段score更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where score=#{param2}
+  </update>
+  <update id="updateByCtid">
+    <!--/*根据字段ctid更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where ctid=#{param2}
+  </update>
+  <update id="updateByOneWord">
+    <!--/*根据字段oneWord更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where one_word=#{param2}
+  </update>
+  <update id="updateByCotime">
+    <!--/*根据字段cotime更新一个或者多个对象*/-->update t_coach_comment
+    <include refid="setNotNullparam1"/> where cotime=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_comment 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_comment
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryCoachCommentById" resultType="CoachCommentPo">
+    <!--/*根据主键查询一个对象*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryCoachCommentByIds" resultType="CoachCommentPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where ccid in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByCcid" resultType="CoachCommentPo">
+    <!--/*根据字段ccid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryByStudentId" resultType="CoachCommentPo">
+    <!--/*根据字段studentId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where student_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachId" resultType="CoachCommentPo">
+    <!--/*根据字段coachId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderId" resultType="CoachCommentPo">
+    <!--/*根据字段orderId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseId" resultType="CoachCommentPo">
+    <!--/*根据字段courseId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where course_id=#{param1} ${param2}
+  </select>
+  <select id="queryByScore" resultType="CoachCommentPo">
+    <!--/*根据字段score查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where score=#{param1} ${param2}
+  </select>
+  <select id="queryByCtid" resultType="CoachCommentPo">
+    <!--/*根据字段ctid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where ctid=#{param1} ${param2}
+  </select>
+  <select id="queryByOneWord" resultType="CoachCommentPo">
+    <!--/*根据字段oneWord查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where one_word=#{param1} ${param2}
+  </select>
+  <select id="queryByCotime" resultType="CoachCommentPo">
+    <!--/*根据字段cotime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment where cotime=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew1" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="CoachCommentPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,student_id as studentId,coach_id as coachId,order_id as orderId,course_id as courseId,score as score,ctid as ctid,one_word as oneWord,cotime as cotime,anonymity as anonymity from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+   <select id="countByObjectAnd" resultType="int">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select count(1) from t_coach_comment
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

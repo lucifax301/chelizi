@@ -1,0 +1,22 @@
+<div class="container1 container-dash line-gray20">
+    <div class="dash-view y-box-flex">
+        <div class="box-1 border_right text-center"><h4 class="noBold mb15">今日订单数</h4><p ng-bind="orderCount.total"></p></div>
+        <div class="box-1 text-center"><h4 class="noBold mb15">今日已验证</h4><p ng-bind="orderCount.valid"></p></div>
+    </div>
+</div>
+<div class="container1 container-verify">
+    <p class="verify-msg text-center font-light f14" ng-class="msgStyle.p"><i class="mr5" ng-class="msgStyle.ico"></i><span ng-bind="msgStyle.text"></span></p>
+    <div class="y-cell">
+        <div class="cell__hd">验证码</div>
+        <div class="cell__bd">
+            <input type="number" id="vCode" class="y__input" ng-focus="codeVeriPass()" ng-model="vCode" placeholder="请输入验证码">
+        </div>
+    </div>
+    <button ng-click="codeVerify($event)" class="button-submit border-r2 clear_border pointer-none" style="margin-top: 60px;">验证</button>
+    <div class="dash-link y-box-flex mt30">
+        <a href="#/class-add" class="box-1 text-center border_right border_normal font-light">新增排班</a>
+        <a href="#/class-view" class="box-1 text-center border_right border_normal font-light">排班概览</a>
+        <a href="#/bill-list" class="box-1 text-center font-light">账单明细</a>
+    </div>
+</div>
+<span ng-click="logOut()" class="homeLink ion-forward"></span>

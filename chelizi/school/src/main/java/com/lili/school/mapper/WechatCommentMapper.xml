@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.WechatComment" >
+    <id column="commentId" property="commentId" jdbcType="VARCHAR" />
+    <result column="studentId" property="studentId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+    <result column="sumPraise" property="sumPraise" jdbcType="INTEGER" />
+    <result column="avgScore" property="avgScore" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="openId" property="openId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    commentId, studentId, name, score, comment, pic, schoolId, sumPraise, avgScore, extra, 
+    createTime, openId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.WechatCommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_wechat_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_wechat_comment
+    where commentId = #{commentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_wechat_comment
+    where commentId = #{commentId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.WechatCommentExample" >
+    delete from t_wechat_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.WechatComment" >
+    insert into t_wechat_comment (commentId, studentId, name, 
+      score, comment, pic, 
+      schoolId, sumPraise, avgScore, 
+      extra, createTime, openId
+      )
+    values (#{commentId,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{score,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
+      #{schoolId,jdbcType=BIGINT}, #{sumPraise,jdbcType=INTEGER}, #{avgScore,jdbcType=INTEGER}, 
+      #{extra,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{openId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.WechatComment" >
+    insert into t_wechat_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        commentId,
+      </if>
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="sumPraise != null" >
+        sumPraise,
+      </if>
+      <if test="avgScore != null" >
+        avgScore,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="openId != null" >
+        openId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="sumPraise != null" >
+        #{sumPraise,jdbcType=INTEGER},
+      </if>
+      <if test="avgScore != null" >
+        #{avgScore,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.WechatCommentExample" resultType="java.lang.Integer" >
+    select count(*) from t_wechat_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_wechat_comment
+    <set >
+      <if test="record.commentId != null" >
+        commentId = #{record.commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        studentId = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=INTEGER},
+      </if>
+      <if test="record.comment != null" >
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sumPraise != null" >
+        sumPraise = #{record.sumPraise,jdbcType=INTEGER},
+      </if>
+      <if test="record.avgScore != null" >
+        avgScore = #{record.avgScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.openId != null" >
+        openId = #{record.openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_wechat_comment
+    set commentId = #{record.commentId,jdbcType=VARCHAR},
+      studentId = #{record.studentId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=INTEGER},
+      comment = #{record.comment,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      schoolId = #{record.schoolId,jdbcType=BIGINT},
+      sumPraise = #{record.sumPraise,jdbcType=INTEGER},
+      avgScore = #{record.avgScore,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      openId = #{record.openId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.WechatComment" >
+    update t_wechat_comment
+    <set >
+      <if test="studentId != null" >
+        studentId = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=BIGINT},
+      </if>
+      <if test="sumPraise != null" >
+        sumPraise = #{sumPraise,jdbcType=INTEGER},
+      </if>
+      <if test="avgScore != null" >
+        avgScore = #{avgScore,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openId != null" >
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where commentId = #{commentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.WechatComment" >
+    update t_wechat_comment
+    set studentId = #{studentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      schoolId = #{schoolId,jdbcType=BIGINT},
+      sumPraise = #{sumPraise,jdbcType=INTEGER},
+      avgScore = #{avgScore,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      openId = #{openId,jdbcType=VARCHAR}
+    where commentId = #{commentId,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.WechatCommentExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_wechat_comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

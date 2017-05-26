@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="AccountsBalance">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>财务收支统计</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="student-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="d-title">财务收支统计</div>
+		<ul class="table-li" id="table-li">
+			<!-- <li><a href="accounts-balance.html">第三方账户</a></li> -->
+			<li class="active"><a href="accounts-balance-for-lili.html">平台账户</a></li>
+		</ul> 
+		<div class="padding-20">
+		<div class="table-margin common-table accounts-balance">
+			<div class="header big-size">平台账户余额对账情况</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>筛选时间</div>
+						<ul>
+							<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+							<li ng-click="getDataForTime($event,'0')">最近7天</li>
+							<li ng-click="getDataForTime($event,'1')">最近15天</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+							<input type="text" style="width: 200px" name="reservation" id="reservation"
+							class="form-control" placeholder="自定义时间筛选" />
+						</div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-6">
+						<h4>注：状态=(收入-支出)-(今天账户余额-昨天账户余额)</h4>
+					</div>
+					<div class="col-xs-12 col-sm-offset-2 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered">
+					  <tr class="active">
+					  	<td rowspan="2" class="line-height-75"><b>日期</b></td>
+					  	<td colspan="3"><b>平台账户余额</b></td>
+					  	<td colspan="2"><b>收入</b></td>
+					  	<td colspan="2"><b>支出</b></td>
+					  	<td rowspan="2" class="line-height-75"><b>状态</b></td>
+					  </tr>
+					  <tr class="active">
+					  	<td><b>教练账户余额</b></td>
+					  	<td><b>学员账户余额</b></td>
+					  	<td><b>总余额</b></td>
+					  	<td><b>充值</b></td>
+					  	<td><b>奖金</b></td>
+					  	<td><b>提现</b></td>
+					  	<td><b>余额支付</b></td>
+					  </tr>
+					  <tr ng-repeat="item in datas" ng-class="getWhichClass(item.status)" >
+					  	<td class="t-200" ng-bind="item.calTime | timeTexYMD"></td>
+					  	<td ng-bind="item.coachMoney/100"></td>
+					  	<td ng-bind="item.studentMoney/100"></td>
+					  	<td ng-bind="item.accountMoney/100"></td>
+					  	<td ng-bind="item.recharge/100"></td>
+					  	<td ng-bind="item.bonus/100"></td>
+					  	<td ng-bind="item.deposit/100"></td>
+					  	<td ng-bind="item.balancePaid/100"></td>
+					  	<td class="t-100 bold" ng-bind="item.status"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/accounts-balance-for-lili.js?v=47bfa9cb4e1473298817674"></script>
+</body>
+</html>

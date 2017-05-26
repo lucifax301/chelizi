@@ -1,0 +1,35 @@
+<div class="edit-alert school-apply-pass">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">审核通过 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dd><input type="radio" id="newSchool" name="setSchool" ng-click="setNewSchool($event)">全新驾校</dd>
+			</dl>
+			<dl>
+				<dd><input type="radio" id="existSchool" name="setSchool" ng-click="setExistSchool($event)" checked>已存在该驾校</dd>
+			</dl>
+			<dl class="existSchoolCon">
+				<dd>
+					<select ng-model="cityId" class="form-control jia-xiao" ng-change="getSchools(cityId)" ng-class="{'error-select':cityError?true:false}" style="width:130px;display:inline-block;">
+					  <option value="">请选择城市</option>
+					  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+					</select>
+					<select ng-model="schoolNo"  ng-change="getSchoolId(schoolNo)" class="form-control jia-xiao" style="width:130px;display:inline-block;">
+					  <option value="">选择驾校</option>
+					  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+					</select>
+				</dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitPassMsg()" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

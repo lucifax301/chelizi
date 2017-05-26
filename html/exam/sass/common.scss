@@ -1,0 +1,255 @@
+
+ /*公共颜色*/
+$border-color: #dcdcdc;   /*边框底色*/
+$menu-color: #F48D07;    /*主题颜色*/
+$active-coloe: #c98a39;   /*active底色*/
+$bac-l-color:#F8F8F8;    /*背景淡色*/
+$bac-len-color:#EFEFEF;    /*背景淡色*/
+$body-color:#fff;  /*白色背景*/
+
+  
+$font-color: #5c5c5c;       /*网页文字主体颜色*/
+$light-color: #8f8f8f;      /*文本淡色*/
+$len-color:#c2c2c2;        /*文本超淡色*/
+$disable-color: #ccc;      /*文本淡色*/
+$menu-active-color: #59a3f9;  /*menu active颜色*/
+$border-color: #E7E7E7;  /*边框颜色*/
+$border-color-normal:#a0a0a0;/*边框颜色 适中*/
+$success-color:#5cb85c;  /*成功相关的color*/
+$error-color:#c9302c;    /*失败相关的color*/
+ $color-link:#F48D07;   /*链接文字色*/
+$color-title: #5c5c5c;   /*标题颜色*/
+
+
+/*字体大小*/
+$f-v-s: 10px;
+$f-s-s: 12px;
+$f-m-s: 14px;
+$f-b-s: 15px;
+$f-l-s: 18px;
+
+/*padding  */
+$p-5:5px;
+$p-10:10px;
+$p-15:15px;
+$p-20:20px;
+
+/* margin 值 */
+$m-5:5px;
+$m-10:10px;
+$m-15:15px;
+$m-20:20px;
+
+/*边框圆角*/
+$b-s-s:3px;
+$b-m-s:5px;
+$b-b-s:8px;
+$b-l-s:10px;
+
+
+/*less CSS3新特性兼容前缀开始*/ 
+@mixin border-radius ($var:5px) {
+  border-radius:$var;
+  -webkit-border-radius: $var;
+  -moz-border-radius: $var;
+  -o-border-radius: $var;
+  -ms-border-radius: $var;
+}
+@mixin box-shadow ($var) {
+  box-shadow:$var;
+  -webkit-box-shadow: $var;
+  -moz-box-shadow: $var;
+  -o-box-shadow: $var;
+  -ms-box-shadow: $var;
+}
+@mixin transform ($var) {
+  transform:$var;
+  -webkit-transform: $var;
+  -moz-transform: $var;
+  -o-transform: $var;
+  -ms-transform: $var;
+}
+@mixin transform-origin ($var) {
+  transform-origin:$var;
+  -webkit-transform-origin: $var;
+  -moz-transform-origin: $var;
+  -o-transform-origin: $var;
+  -ms-transform-origin: $var;
+}
+@mixin transform-style ($var) {
+  transform-style:$var;
+  -webkit-transform-style: $var;
+  -moz-transform-style: $var;
+  -o-transform-style: $var;
+  -ms-transform-style: $var;
+}
+@mixin perspective ($var) {
+  perspective:$var;
+  -webkit-perspective: $var;
+  -moz-perspective: $var;
+  -o-perspective: $var;
+  -ms-perspective: $var;
+}
+@mixin perspective-origin ($var) {
+  perspective-origin:$var;
+  -webkit-perspective-origin: $var;
+  -moz-perspective-origin: $var;
+  -o-perspective-origin: $var;
+  -ms-perspective-origin: $var;
+}
+@mixin backface-visibility ($var) {
+  backface-visibility:$var;
+  -webkit-backface-visibility: $var;
+  -moz-backface-visibility: $var;
+  -o-backface-visibility: $var;
+  -ms-backface-visibility: $var;
+}
+@mixin transition ($var) {
+  transition:$var;
+  -webkit-transition: $var;
+  -moz-transition: $var;
+  -o-transition: $var;
+  -ms-transition: $var;
+}
+@mixin transition-property ($var) {
+  transition-property:$var;
+  -webkit-transition-property: $var;
+  -moz-transition-property: $var;
+  -o-transition-property: $var;
+  -ms-transition-property: $var;
+}
+@mixin transition-duration ($var) {
+  transition-duration:$var;
+  -webkit-transition-duration: $var;
+  -moz-transition-duration: $var;
+  -o-transition-duration: $var;
+  -ms-transition-duration: $var;
+}
+@mixin transition-timing-function ($var) {
+  transition-timing-function:$var;
+  -webkit-transition-timing-function: $var;
+  -moz-transition-timing-function: $var;
+  -o-transition-timing-function: $var;
+  -ms-transition-timing-function: $var;
+}
+@mixin transition-delay ($var) {
+  transition-delay:$var;
+  -webkit-transition-delay: $var;
+  -moz-transition-delay: $var;
+  -o-transition-delay: $var;
+  -ms-transition-delay: $var;
+}
+@mixin animation ($var) {
+  animation:$var;
+  -webkit-animation: $var;
+  -moz-animation: $var;
+  -o-animation: $var;
+  -ms-animation: $var;
+}
+@mixin animation-name ($var) {
+  animation-name:$var;
+  -webkit-animation-name: $var;
+  -moz-animation-name: $var;
+  -o-animation-name: $var;
+  -ms-animation-name: $var;
+}
+@mixin animation-duration ($var) {
+  animation-duration:$var;
+  -webkit-animation-duration: $var;
+  -moz-animation-duration: $var;
+  -o-animation-duration: $var;
+  -ms-animation-duration: $var;
+}
+@mixin animation-timing-function ($var) {
+  animation-timing-function:$var;
+  -webkit-animation-timing-function: $var;
+  -moz-animation-timing-function: $var;
+  -o-animation-timing-function: $var;
+  -ms-animation-timing-function: $var;
+}
+@mixin animation-delay ($var) {
+  animation-delay:$var;
+  -webkit-animation-delay: $var;
+  -moz-animation-delay: $var;
+  -o-animation-delay: $var;
+  -ms-animation-delay: $var;
+}
+@mixin animation-iteration-count ($var) {
+  animation-iteration-count:$var;
+  -webkit-animation-iteration-count: $var;
+  -moz-animation-iteration-count: $var;
+  -o-animation-iteration-count: $var;
+  -ms-animation-iteration-count: $var;
+}
+@mixin animation-direction ($var) {
+  animation-direction:$var;
+  -webkit-animation-direction: $var;
+  -moz-animation-direction: $var;
+  -o-animation-direction: $var;
+  -ms-animation-direction: $var;
+}
+@mixin animation-play-state ($var) {
+  animation-play-state:$var;
+  -webkit-animation-play-state: $var;
+  -moz-animation-play-state: $var;
+  -o-animation-play-state: $var;
+  -ms-animation-play-state: $var;
+}
+@mixin animation-fill-mode ($var) {
+  animation-fill-mode:$var;
+  -webkit-animation-fill-mode: $var;
+  -moz-animation-fill-mode: $var;
+  -o-animation-fill-mode: $var;
+  -ms-animation-fill-mode: $var;
+}
+@mixin user-select ($var) {
+  user-select:$var;
+  -webkit-user-select: $var;
+  -moz-user-select: $var;
+  -o-user-select: $var;
+  -ms-user-select: $var;
+}
+@mixin column-count ($var) {
+  column-count:$var;
+  -webkit-column-count: $var;
+  -moz-column-count: $var;
+  -o-column-count: $var;
+  -ms-column-count: $var;
+}
+@mixin column-gap ($var) {
+  column-gap:$var;
+  -webkit-column-gap: $var;
+  -moz-column-gap: $var;
+  -o-column-gap: $var;
+  -ms-column-gap: $var;
+}
+@mixin column-rule ($var) {
+  column-rule:$var;
+  -webkit-column-rule: $var;
+  -moz-column-rule: $var;
+  -o-column-rule: $var;
+  -ms-column-rule: $var;
+}
+@mixin column-width ($var) {
+  column-width:$var;
+  -webkit-column-width: $var;
+  -moz-column-width: $var;
+  -o-column-width: $var;
+  -ms-column-width: $var;
+}
+@mixin column-span ($var) {
+  column-span:$var;
+  -webkit-column-span: $var;
+  -moz-column-span: $var;
+  -o-column-span: $var;
+  -ms-column-span: $var;
+}
+@mixin filter ($var) {
+  filter:$var;
+  -webkit-filter: $var;
+  -moz-filter: $var;
+  -o-filter: $var;
+  -ms-filter: $var;
+}
+/*less CSS3新特性兼容前缀结束*/ 
+

@@ -1,0 +1,13 @@
+package com.lili.proto.pb;
+option java_package = "com.lili.proto.java";
+option java_outer_classname = "PingProto";
+
+message PingMsg
+{
+	required int64 clientTimestamp = 1;
+}
+
+message PongMsg
+{
+	required int64 clientTimestamp = 1;
+}

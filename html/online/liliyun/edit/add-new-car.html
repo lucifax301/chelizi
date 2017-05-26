@@ -1,0 +1,50 @@
+<div class="edit-alert edit-big-size add-new-car">
+<div class="mask"></div>
+<div class="main">
+<div id="add-new-car" class="content">
+	<div class="title">{{editType}}教练车 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div class="order-table common-table">
+			<div class="search">
+				<div class="line">
+					<div>车牌号查询</div>
+					<div class="input-group">
+				      <input type="text" ng-model="newCarNo" class="form-control name-search" placeholder="输入车牌号">
+				      <span class="input-group-btn">
+				        <a class="btn btn-default" ng-click="searchCarDetails(newCarNo)">搜索</a>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div ng-class="[isBindCarShow?'show':'hide']">
+				<div class="no-data" ng-show="bindCarDetails&&newCarNo?false:true">很抱歉,没有找到车牌号为 "<span class="mainColor">{{newCarNo}}</span>" 的车牌号信息,请检查输入的信息是否有误!</div>
+				<div ng-show="bindCarDetails?true:false">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>车牌号</b></td>
+					  	<td><b>车型类别</b></td>
+					  	<td><b>驾驶类别</b></td>
+					  	<td><b>已绑定教练</b></td>
+					  	<td><b>汽车等级</b></td>
+					  </tr>
+					  <tr>
+					  	<td><a href="coach-details.html?coachId={{bindCarDetails.carId}}" target="_blank" ng-bind="bindCarDetails.carNo"></a></td>
+					  	<td ng-bind="bindCarDetails.carType"></td>
+					  	<td ng-bind="bindCarDetails.driveType | applyCarTypeTex"></td>
+					  	<td ng-bind="bindCarDetails.coachName"></td>
+					  	<td ng-bind="bindCarDetails.carLevel | carLevelText"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="chaozuo margin-top-0" >
+					<a class="btn btn-sm btn-default closeAlert">取消</a>
+					<a ng-click="submitBindCar($event)" class="btn btn-sm btn-primary">确认</a>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>

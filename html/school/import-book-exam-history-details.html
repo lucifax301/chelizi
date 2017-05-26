@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="importBookExamHistoryDetailController">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入约考情况</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/css/fileinput.min.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<div id="content" class="content main-content" >
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">导入约考情况</div>
+		<ul class="table-li" id="table-li">
+			<li><a href="import-book-exam.html">导入约考登记表</a></li>
+			<li class="active"><a href="import-book-exam-history.html">导表历史记录</a></li>
+		</ul>
+		<div class="table-margin common-table">
+			<div class="header">导入约考情况 > {{ tableNo }}</div>
+				<div class="well">
+			      	<h3>{{ tableNo }}</h3>
+			      	《{{ remark }}》 &nbsp; | &nbsp; {{ total }} 条有效数据
+				</div>
+			<div class="content">
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-offset-8 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						 	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+						<tr>
+							<td><b>流水号</b></td>
+							<td><b>身份证号</b></td>
+							<td><b>姓名</b></td>
+							<td><b>准驾类型</b></td>
+							<td><b>登记状态</b></td>
+							<td><b>预约结果</b></td>
+							<td><b>对应学员状态</b></td>
+							<td><b>考场</b></td>
+							<td><b>考试日期</b></td>
+							<td><b>场次</b></td>
+							<td><b>考试时间</b></td>
+							<td><b>导入状态</b></td>
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td ng-bind="data.flowNo"></td>
+							<td ng-bind="data.idNumber"></td>
+							<td ng-bind="data.name"></td>
+							<td ng-bind="data.drType | applyCarTypeTex"></td>
+							<td ng-bind="data.registState | registStateText"></td>
+							<td ng-bind="data.bookResult | bookResultText"></td>
+							<td ng-bind="data.applystate | bookApplystateText"></td>
+							<td ng-bind="data.examPlace"></td>
+							<td ng-bind="data.examDate | timeTexYMD"></td>
+							<td ng-bind="data.examOrder"></td>
+							<td ng-bind="data.examTime"></td>
+							<td ng-bind="data.isdel | validText"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/js/fileinput.min.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/import-book-exam-history-details.js"></script>
+</body>
+</html>

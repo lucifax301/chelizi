@@ -1,0 +1,37 @@
+<div class="edit-alert client-alert-in">
+<div class="mask"></div>
+<div class="main">
+<div id="client-alert-in" class="content" style="width: 450px;">
+	<div class="title">添加已有学员<span class="closeAlert-in"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl id="studentSearch">
+				<dt class="z-w-100">添加已有学员:</dt>
+				<dd>
+					<div class="input-group">
+					  <input type="text" ng-model="$parent.searchPhoneNum" class="form-control" placeholder="学员电话">
+				      <span class="input-group-btn">
+				        <a class="btn btn-default" ng-click="searchStudent()">搜索</a>
+				      </span>
+					</div>
+					<div id="studentInfo" class="margin-top-10"></div>
+				</dd>
+			</dl>
+			<dl>
+				<dt class="z-w-100">选择优惠方案:</dt>
+				<dd>
+					<select ng-model="$parent.rcid" class="form-control" id="selRcid">
+						<option value="">请选择优惠方案</option>
+						<option ng-repeat="rcItem in rcDatas" ng-bind="rcItem.rcname" value="{{rcItem.rcid}}"></option>
+					</select>
+				</dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert-in" ng-click="closeAlert()">取消</a>
+				<a class="btn btn-sm btn-primary" id="addClientStuIn">确认</a>
+			</div>	
+		</form>
+	</div>
+</div>
+</div>
+</div>

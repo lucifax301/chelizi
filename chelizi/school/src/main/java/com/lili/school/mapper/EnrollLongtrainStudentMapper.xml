@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollLongtrainStudentMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollLongtrainStudent" >
+    <id column="ltId" property="ltId" jdbcType="INTEGER" />
+    <id column="studentId" property="studentId" jdbcType="BIGINT" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="drType" property="drType" jdbcType="TINYINT" />
+    <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+    <result column="flowNo" property="flowNo" jdbcType="VARCHAR" />
+    <result column="isImport" property="isImport" jdbcType="TINYINT" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ltId, studentId, schoolId, name, phoneNum, sex, drType, idNumber, flowNo, isImport, 
+    state, remark, isdel, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollLongtrainStudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_longtrain_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollLongtrainStudentKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_longtrain_student
+    where ltId = #{ltId,jdbcType=INTEGER}
+      and studentId = #{studentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lili.school.dto.EnrollLongtrainStudentKey" >
+    delete from t_enroll_longtrain_student
+    where ltId = #{ltId,jdbcType=INTEGER}
+      and studentId = #{studentId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollLongtrainStudentExample" >
+    delete from t_enroll_longtrain_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollLongtrainStudent" >
+    insert into t_enroll_longtrain_student (ltId, studentId, schoolId, 
+      name, phoneNum, sex, 
+      drType, idNumber, flowNo, 
+      isImport, state, remark, 
+      isdel, extra)
+    values (#{ltId,jdbcType=INTEGER}, #{studentId,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{drType,jdbcType=TINYINT}, #{idNumber,jdbcType=VARCHAR}, #{flowNo,jdbcType=VARCHAR}, 
+      #{isImport,jdbcType=TINYINT}, #{state,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{isdel,jdbcType=TINYINT}, #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollLongtrainStudent" >
+    insert into t_enroll_longtrain_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ltId != null" >
+        ltId,
+      </if>
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="drType != null" >
+        drType,
+      </if>
+      <if test="idNumber != null" >
+        idNumber,
+      </if>
+      <if test="flowNo != null" >
+        flowNo,
+      </if>
+      <if test="isImport != null" >
+        isImport,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ltId != null" >
+        #{ltId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="drType != null" >
+        #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="flowNo != null" >
+        #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollLongtrainStudentExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_longtrain_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_longtrain_student
+    <set >
+      <if test="record.ltId != null" >
+        ltId = #{record.ltId,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentId != null" >
+        studentId = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null" >
+        phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=TINYINT},
+      </if>
+      <if test="record.drType != null" >
+        drType = #{record.drType,jdbcType=TINYINT},
+      </if>
+      <if test="record.idNumber != null" >
+        idNumber = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowNo != null" >
+        flowNo = #{record.flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isImport != null" >
+        isImport = #{record.isImport,jdbcType=TINYINT},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_longtrain_student
+    set ltId = #{record.ltId,jdbcType=INTEGER},
+      studentId = #{record.studentId,jdbcType=BIGINT},
+      schoolId = #{record.schoolId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=TINYINT},
+      drType = #{record.drType,jdbcType=TINYINT},
+      idNumber = #{record.idNumber,jdbcType=VARCHAR},
+      flowNo = #{record.flowNo,jdbcType=VARCHAR},
+      isImport = #{record.isImport,jdbcType=TINYINT},
+      state = #{record.state,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollLongtrainStudent" >
+    update t_enroll_longtrain_student
+    <set >
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="drType != null" >
+        drType = #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="idNumber != null" >
+        idNumber = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="flowNo != null" >
+        flowNo = #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        isImport = #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ltId = #{ltId,jdbcType=INTEGER}
+      and studentId = #{studentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollLongtrainStudent" >
+    update t_enroll_longtrain_student
+    set schoolId = #{schoolId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      drType = #{drType,jdbcType=TINYINT},
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      flowNo = #{flowNo,jdbcType=VARCHAR},
+      isImport = #{isImport,jdbcType=TINYINT},
+      state = #{state,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      extra = #{extra,jdbcType=VARCHAR}
+    where ltId = #{ltId,jdbcType=INTEGER}
+      and studentId = #{studentId,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollLongtrainStudentExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_longtrain_student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

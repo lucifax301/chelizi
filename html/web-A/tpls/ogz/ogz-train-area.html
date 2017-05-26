@@ -1,0 +1,372 @@
+<style type="text/css">
+	#map_canvas{height:650px;width:100%;}
+	#map_canvas2{height:650px;width:100%;}
+</style>
+
+     <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >训练场列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="训练场名称/地址"  ng-model="condition" ng-keyup="getkey($event)">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <!-- <button type="button" class="btn btn-default btn-sm" id="addStudent" data-toggle="modal" data-target=".bs-example-modal-lg" ng-click="addArea()">新增训练场</button> -->
+						
+						<a class="btn btn-default btn-sm" id="addImg" href="{{ NURL }}/add/trainarea" ng-if="100512 | isAccessShow">新增训练场</a>
+					
+					</div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                 <!--   <th  style="vertical-align:middle; text-align:center;"  class="column-title">训练场编号 </th> -->
+									<th  style="vertical-align:middle; text-align:center;width:180px;" class="column-title">名称 </th>
+                                    <th style="vertical-align:middle; text-align:center;width:180px;"  class="column-title">地址 </th>
+                                    <th style="vertical-align:middle; text-align:center;width:180px;" class="column-title">占地面积(㎡) </th>
+									<th style="vertical-align:middle; text-align:center;width:180px;" class="column-title">培训车型 </th>
+                                    <th style="vertical-align:middle; text-align:center;width:180px;" class="column-title">可容纳车辆数 </th>
+                                    <th style="vertical-align:middle; text-align:center;width:180px;" class="column-title">已投放车辆数 </th>								
+                                    <th style="vertical-align:middle; text-align:center;width:200px;" class="column-title no-link last"><span class="nobr">操作</span>
+                                    </th>
+                                    <th class="bulk-actions" colspan="7">
+                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in datas">
+                                <!--    <td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.seq"> </td> -->
+                                    <td class="" style="vertical-align:middle; text-align:center;"  ng-bind="item.name" ></td>
+                                    <td class="" style="vertical-align:middle; text-align:center;"  ng-bind="item.address"><i class="success fa fa-long-arrow-up"></i></td>
+                                    <td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.area"></td>
+									<td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.vehicletype"></td>
+                                    <td class="a-right a-right " style="vertical-align:middle; text-align:center;" ng-bind="item.totalvehnum"></td>
+                                    <td class="a-right a-right " style="vertical-align:middle; text-align:center;"  ng-bind="item.curvehnum" ></td>
+									<td class=" last" style="vertical-align:middle; text-align:center;" >
+									
+                                        <!-- <a ng-click="BDMap(item.instid)" href="javascript:void(0)" data-toggle="modal" data-target=".show-example-modal-lg" >查看</a>&nbsp;&nbsp; -->
+										<!-- <a ng-click="showMap(item.instid)" href="javascript:void(0);" data-toggle="modal" data-target=".take-example-modal-lg" ng-if="item.polygon=='' || item.polygon==null">绘制区域</a>&nbsp;&nbsp;
+										<a ng-click="BDMap(item.instid)" href="javascript:void(0);" data-toggle="modal" data-target=".show-example-modal-lg" ng-if="item.polygon!='' && item.polygon!=null">地图</a>&nbsp;&nbsp;-->
+										 <span class="click-green" ng-click="toEditHref(item.instid)" ng-if="100513 | isAccessShow">编辑</span>&nbsp;&nbsp;
+										<a href="javascript:void(0);" ng-click="del(item.instid)" ng-if="100514 | isAccessShow">删除</a>
+                                    </td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page" >
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+	 <!-- 新增弹框-->	
+	<!--<div class="modal fade bs-example-modal-lg" id="addmodal" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">新增训练场</h4>
+				</div>
+                <div class="x_panel">
+                  <div class="x_content" >
+                    <br />
+                        <form class="form-horizontal form-label-left" novalidate id="addform" name="myForm" ng-submit="submitAddForm(myForm.$valid)">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">教学区域名称 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="text"  class="form-control" placeholder="请输入名称"  ng-model="saveData.name" required name="name">
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.name.$valid"></span>
+									    <span style="color:red" ng-show="myForm.name.$error.required && myForm.name.$dirty">区域名称是必须的。</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">培训车型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <select ng-model="saveData.vehicletype"  id="user" name="usertype"   class="selectpicker show-tick form-control" multiple data-live-search="false">
+                                            <option value="C1">C1</option>
+                                            <option value="C2">C2</option>
+                                            <option value="C3">C3</option>
+                                            <option value="C4">C4</option>
+                                            <option value="C5">C5</option>
+                                            <option value="A1">A1</option>
+                                            <option value="A2">A2</option>
+                                            <option value="A3">A3</option>
+                                            <option value="B1">B1</option>
+                                            <option value="B2">B2</option>
+                                            <option value="D">D</option>
+                                            <option value="E">E</option>
+                                            <option value="F">F</option>
+                                            <option value="M">M</option>
+                                            <option value="N">N</option>
+                                            <option value="P">P</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">教学区域地址 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="text"  class="form-control" placeholder="请输入地址"  ng-model="saveData.address" required name="address">
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.address.$valid"></span>
+									    <span style="color:red" ng-show="myForm.address.$error.required && myForm.address.$dirty">区域地址是必须的。</span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">已投放车辆数 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number" class="form-control" placeholder="请输入数字"  ng-model="saveData.curvehnum" required name="curvehnum" required ng-pattern="/^[1-9]\d*$/"> 
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.curvehnum.$valid"></span>
+									   <span style="color:red" ng-show="myForm.curvehnum.$error.required && myForm.curvehnum.$dirty">必须输入。</span>
+									  <span class="help-inline" style="color:red" ng-show="!myForm.curvehnum.$error.required && myForm.curvehnum.$invalid">必须是正确数字。</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">可容纳车辆数 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <input type="number"  class="form-control" placeholder="请输入数字"  ng-model="saveData.totalvehnum" required name="totalvehnum" ng-pattern="/^[1-9]\d*$/">
+									  <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.totalvehnum.$valid"></span>
+									  <span style="color:red" ng-show="myForm.totalvehnum.$error.required && myForm.totalvehnum.$dirty">必须输入。</span>
+									  <span class="help-inline" style="color:red" ng-show="!myForm.totalvehnum.$error.required && myForm.totalvehnum.$invalid">必须是正确数字。</span>
+									   <span class="help-inline" style="color:red" ng-show="saveData.totalvehnum < saveData.curvehnum">可容纳车辆数不能少于已投放车辆数。</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">训练场面积(k㎡) <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number" name="area"   ng-model="saveData.area"  class="form-control col-md-7 col-xs-12" required ng-pattern="/^[1-9].*$/" placeholder="请输入场地面积">
+                                       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.area.$valid"></span>
+                                        <span style="color:red" ng-show="myForm.area.$error.required && myForm.area.$dirty">必须输入场地面积。</span>
+                                      <span class="help-inline" style="color:red" ng-show="!myForm.area.$error.required && myForm.area.$invalid">必须是正确数字。</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                      <div class="ln_solid"></div>
+                      <div class="form-group text-center">
+                        <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="button"  data-dismiss="modal"  class="btn btn-primary">取消</button>
+							<input class="btn btn-success" ng-disabled="myForm.$invalid || saveData.totalvehnum < saveData.curvehnum" type="submit" value="提交" />
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+				 
+              </div> 
+			</div>
+		</div> -->
+    
+
+ <!-- 编辑弹框-->	
+	<!-- <div class="modal fade edit-example-modal-lg" id="editmodal" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">编辑训练场</h4>
+				</div>
+                <div class="x_panel">
+                  <div class="x_content" >
+                    <br/>
+                        <form class="form-horizontal form-label-left" novalidate id="editform" name="editForm" ng-submit="submitEditForm(editForm.$valid)">
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">教学区域名称 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="text"  class="form-control" placeholder="请输入名称"  ng-model="editData.name" required name="name">
+                                       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.name.$valid"></span>
+                                       <span style="color:red" ng-show="editForm.name.$error.required">区域名称是必须的。</span>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">培训车型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+									   <select ng-model="editData.vehicletype" required  id="vehicletype" name="vehicletype" class="form-control" multiple="multiple" size="4">
+						                    <option value="C1">C1</option>
+                                            <option value="C2">C2</option>
+                                            <option value="C3">C3</option>
+                                            <option value="C4">C4</option>
+                                            <option value="C5">C5</option>
+                        					<option value="A1">A1</option>
+											<option value="A2">A2</option>
+											<option value="A3">A3</option>
+											<option value="B1">B1</option>
+											<option value="B2">B2</option>
+											<option value="D">D</option>
+											<option value="E">E</option>
+											<option value="F">F</option>
+											<option value="M">M</option>
+											<option value="N">N</option>
+											<option value="P">P</option>
+										</select>
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.vehicletype.$valid"></span>
+                                       <span style="color:red" ng-show="editForm.vehicletype.$error.required">培训车型必须选择。</span>			  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">教学区域地址 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="text"  class="form-control" placeholder="请输入地址"  ng-model="editData.address" required name="address">
+                                       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.address.$valid"></span>
+                                        <span style="color:red" ng-show="editForm.address.$error.required">必须输入地址。</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">已投放车辆数 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number"   class="form-control" placeholder="请输入数字"  ng-model="editData.curvehnum" required name="curvehnum" ng-pattern="/^[0-9]*[1-9][0-9]*$/">
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.curvehnum.$valid"></span>
+										<span style="color:red" ng-show="editForm.curvehnum.$error.required">车辆数是必须的。</span>
+										<span class="help-inline" style="color:red" ng-show="!editForm.curvehnum.$error.required && editForm.curvehnum.$invalid">请输入正确数字。</span>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">可容纳车辆数 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number"  class="form-control" placeholder="请输入数字"  ng-model="editData.totalvehnum" required name="totalvehnum" ng-pattern="/^[0-9]*[1-9][0-9]*$/">
+                                       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.totalvehnum.$valid"></span>
+                                      <span style="color:red" ng-show="editForm.totalvehnum.$error.required">车辆数是必须的。</span>
+                                      <span class="help-inline" style="color:red" ng-show="!editForm.totalvehnum.$error.required && editForm.totalvehnum.$invalid">请输入正确数字。</span>
+                                      <span class="help-inline" style="color:red" ng-show="editData.totalvehnum < editData.curvehnum">可容纳车辆数不能少于已投放车辆数。</span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="first-name">训练场面积(k㎡) <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number"  name="area" ng-model="editData.area"  required   class="form-control col-md-7 col-xs-12" ng-pattern="/^[1-9].*$/">
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.area.$valid"></span>
+										<span style="color:red" ng-show="editForm.area.$error.required">必须输入场地面积。</span>
+										<span class="help-inline" style="color:red" ng-show="!editForm.area.$error.required && editForm.area.$invalid">请输入正确数字。</span>
+									</div>
+                                </div>
+                            </div>
+						</div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group text-center">
+                        <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                          <button type="button"  data-dismiss="modal"  class="btn btn-primary">取消</button>
+						  <input class="btn btn-success" ng-disabled="editForm.$invalid || editData.totalvehnum < editData.curvehnum " type="submit" value="提交" />
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+				 
+              </div> 
+			</div>
+		</div> -->
+		
+	<!-- 绘制区域-->
+	<!-- <div class="modal fade take-example-modal-lg" id="takemodal" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">地图</h4>
+					训练场经纬度:<span id="position"></span>&nbsp;&nbsp;
+                    <button id="saveBut" class="btn btn-primary btn-xs" ng-click="savePosition()" disabled="disabled">保存位置</button>
+					<span style="color:#999999;">(请用线形,多边形或矩形绘制区域，点击此按钮保存坐标)</span>
+				</div>
+			
+                <div class="x_panel"  style="">
+                    <div class="x_content" >
+                    <div id="map_canvas" class="action_list"></div>
+					</div>
+                  
+                </div>
+				 
+              </div> 
+			</div>
+	</div> -->
+	<!-- 查看地图-->
+	<!-- <div class="modal fade show-example-modal-lg" id="showmodal" >
+		<div class="modal-dialog modal-lg" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">训练场地图</h4>
+				</div>
+			
+                <div class="x_panel"  style="">
+                    <div class="x_content" >
+                    <div id="map_canvas2" class="action_list"></div>
+					</div>
+                  
+                </div>
+				 
+              </div> 
+			</div>
+	</div> -->
+	
+
+
+
+
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="studentMessage">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>报名包列表</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content content-sign-up-pack-list" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics common-table">
+		<!-- 订单管理 -->
+		<div class="d-title">消息中心</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li class="active">学员消息</li>
+			<li><a href="#">教练消息</a></li>
+		</ul>
+		<div class="senior-search row">
+			<div class="col-xs-12 col-sm-4">
+				<a ng-if="100602|isButtonShow"  class="btn btn-sm btn-primary" href="add-new-student-message.html">新建消息</a>
+			</div>
+			<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+				<span>每页</span>
+				<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+					<option value="10" selected="selected">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+				  	<option value="100">100</option>
+				</select>
+				<span>条记录</span>
+			</div>
+		</div>
+		<div class="order-table common-table" id="order-table">
+			<div>
+				<div class="table-responsive">
+					<table class="table z-table-msg-center">
+						<tr>
+						  	<th><b>消息内容</b></th>
+						  	<th><b>发送对象</b></th>
+						  	<th><b>消息状态</b></th>
+						  	<th><b>操作</b></th>
+						</tr>
+						<tr>
+							<td class="msg-content">
+								<p>系统小秘书</p>您预约的科目二基础训练课程将于今天9点开始，祝您上课愉快！</p>
+							</td>
+							<td>
+								<p>指定学员</p>13800000000
+							</td>
+							<td>
+								<p>已发送</p>2016-01-01 23:59:25
+							</td>
+							<td>
+								<a href="javascript:;">编辑</a>
+								<a href="javascript:;">发送</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="msg-content">
+								<p>系统小秘书</p>您预约的科目二基础训练课程将于今天9点开始，祝您上课愉快！</p>
+							</td>
+							<td>
+								<p>指定学员</p>13800000000
+							</td>
+							<td>
+								<p>已发送</p>2016-01-01 23:59:25
+							</td>
+							<td>
+								<a href="javascript:;">编辑</a>
+								<a href="javascript:;">发送</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/student-message.js"></script>
+</body>
+</html>

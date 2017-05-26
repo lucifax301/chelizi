@@ -1,0 +1,213 @@
+<style type="text/css">
+    #map_canvas{height:650px;width:100%;}
+</style>
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>门店管理</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="门店名称"  ng-model="condition">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <!-- <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".add-store-modal" ng-click="initData();">新增门店</button> -->
+						<a class="btn btn-default btn-sm"  href="{{ NURL }}/add/sub" ng-if="100612 | isAccessShow">新增门店</a>
+						
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <!-- <th class="column-title">门店图片 </th> -->
+                                    <th style='text-align: center;' class="column-title">门店名称 </th>
+                                    <th style='text-align: center;' class="column-title">门店地址 </th>
+                                    <th style='text-align: center;' class="column-title">联系电话 </th>
+                                    <th style='text-align: center;' class="column-title">状态 </th>
+                                    <th style='text-align: center;' class="column-title no-link last"><span class="nobr">操作</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="data in datas">
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.storename"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.storeaddress"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.tel"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="data.status | storeText"></td>
+                                    <td class=" last" style='text-align: center;'>
+                                        <!-- <a href="javascript:void(0);" data-toggle="modal" data-target=".show-map-modal" ng-click="showMap(data);">地图</a>&nbsp;&nbsp;-->
+                                        <span class="click-green" ng-click="toEditHref(data.storeid)" ng-if="100613 | isAccessShow">编辑</span>&nbsp;&nbsp;
+										<a href="javascript:void(0);" ng-click="storeDelete(data.storeid)" ng-if="100614 | isAccessShow">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ <!--   <div class="modal fade add-store-modal" tabindex="-1" role="dialog" aria-hidden="true" id="addStore">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >新增门店</h4>
+                </div>
+                <div class="x_panel" >
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="addform" enctype="multipart/form-data" name="myForm" ng-submit="submitAddForm(myForm.$valid)" id="addForm">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storename">门店名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storename" name="storename" ng-model="saveData.storename" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请输入门店名称">
+                                    <span style="color:red" ng-show="myForm.storename.$error.required && myForm.storename.$dirty">请输入门店名称</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storeaddress">门店地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storeaddress" name="storeaddress"  ng-model="saveData.storeaddress" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请输入门店地址">
+                                    <span style="color:red" ng-show="myForm.storeaddress.$error.required && myForm.storeaddress.$dirty">请输入门店地址</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel">联系电话 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="saveData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请输入联系电话">
+                                    <span style="color:red" ng-show="myForm.tel.$error.required && myForm.tel.$dirty">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">经营状态<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select name="status" ng-model="saveData.status" ng-init="saveData.status='1'" class="form-control" ng-options="o.id as o.value for o in statusDatas" required>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary" ng-click="resetForm();">取消</button>
+                                    <button type="submit" ng-click="submitAdd()" ng-disabled="myForm.$invalid" class="btn btn-success">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  -->
+
+
+    <!-- 编辑弹框-->
+<!--    <div class="modal fade edit-store-modal" tabindex="-1" role="dialog" aria-hidden="true" id="editStore">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" >编辑门店</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content">
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="editform" enctype="multipart/form-data" name="editForm">
+
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storename">门店名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storename"  name="storename" ng-model="editData.storename" class="form-control col-md-7 col-xs-12" required type="text">
+                                    <span style="color:red" ng-show="editForm.storename.$error.required && editForm.storename.$touched">请输入门店名称</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="storeaddress">门店地址 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="storeaddress" name="storeaddress" ng-model="editData.storeaddress" class="form-control col-md-7 col-xs-12" required type="text">
+                                    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.storeaddress.$dirty && editForm.storeaddress.$valid"></span>
+                                    <span style="color:red" ng-show="editForm.storeaddress.$error.required && editForm.storeaddress.$touched">请输入门店地址</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="tel">联系电话 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input id="tel" name="tel"  ng-model="editData.tel" class="form-control col-md-7 col-xs-12" required type="text" placeholder="请输入联系电话">
+                                    <span style="color:red" ng-show="editForm.tel.$error.required && editForm.tel.$touched">请输入联系电话</span>
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="status">经营状态<span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select ng-model="editData.status" name="status" class="form-control">
+                                        <option value="1">建设筹备中</option>
+                                        <option value="2">开业招生中</option>
+                                        <option value="3">正常教学中</option>
+                                        <option value="4">停业整顿中</option>
+                                    </select>
+                                </div>
+                            </div>
+       
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                                    <button type="submit" ng-click="submitEdit()" ng-disabled="editForm.$invalid"  class="btn btn-success">保存</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>    -->
+
+    <!-- 查看地图-->
+ <!--   <div class="modal fade show-map-modal">
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">门店地图</h4>
+                    当前门店经纬度:<span id="position"></span>&nbsp;&nbsp;
+                    <button class="btn btn-primary btn-xs" ng-click="savePosition()">保存位置</button>
+                </div>
+                <div class="x_panel">
+                    <div class="x_content" >
+                    <div id="map_canvas" class="action_list"></div>
+                    </div>
+                </div>              
+              </div> 
+        </div>
+    </div>  -->

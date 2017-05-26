@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.CourseNewMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.CourseNewDTO">
+		<id column="coursenewNo" property="coursenewNo" jdbcType="VARCHAR" />
+		<result column="coursenewName" property="coursenewName" jdbcType="VARCHAR" />
+		<result column="courseTemId" property="courseTemId" jdbcType="INTEGER" />
+		<result column="level1" property="level1" jdbcType="VARCHAR" />
+		<result column="level2" property="level2" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="subjectId" property="subjectId" jdbcType="INTEGER" />
+		<result column="citys" property="citys" jdbcType="VARCHAR" />
+		<result column="descripton" property="descripton" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="period" property="period" jdbcType="VARCHAR" />
+		<result column="drType" property="drType" jdbcType="TINYINT" />
+		<result column="tags" property="tags" jdbcType="VARCHAR" />
+		<result column="price1" property="price1" jdbcType="INTEGER" />
+		<result column="price2" property="price2" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+		<result column="otypes" property="otypes" jdbcType="VARCHAR" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		coursenewNo, coursenewName, courseTemId, level1, level2, subject, subjectId,
+		citys,
+		descripton, content, period, drType, tags, price1, price2, remark, extra, otypes,
+		isdel
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_coursenew
+		where coursenewNo = #{coursenewNo,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryCourseNewList" parameterType="com.lili.school.model.CourseNewDTO" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_coursenew
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="citys != null and citys != ''">
+					and citys = #{citys}
+				</if>
+				<if test="isdel != null and isdel != '' or isdel==0">
+					and isdel = #{isdel}
+				</if>
+			</trim>
+			order by coursenewNo desc
+	</select>
+	
+	<select id="queryCourseList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_coursenew
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and coursenewNo in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and coursenewNo in ('')
+				</if>
+			</trim>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_s_coursenew
+		where coursenewNo = #{coursenewNo,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.model.CourseNewDTO">
+		insert into t_s_coursenew (coursenewNo, coursenewName, courseTemId,
+		level1, level2, subject,
+		subjectId, citys, descripton,
+		content, period, drType,
+		tags, price1, price2,
+		remark, extra, otypes,
+		isdel)
+		values (#{coursenewNo,jdbcType=VARCHAR}, #{coursenewName,jdbcType=VARCHAR},
+		#{courseTemId,jdbcType=INTEGER},
+		#{level1,jdbcType=VARCHAR}, #{level2,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},
+		#{subjectId,jdbcType=INTEGER}, #{citys,jdbcType=VARCHAR},
+		#{descripton,jdbcType=VARCHAR},
+		#{content,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, #{drType,jdbcType=TINYINT},
+		#{tags,jdbcType=VARCHAR}, #{price1,jdbcType=INTEGER},
+		#{price2,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{otypes,jdbcType=VARCHAR},
+		#{isdel,jdbcType=TINYINT})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.model.CourseNewDTO">
+		insert into t_s_coursenew
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="coursenewNo != null">
+				coursenewNo,
+			</if>
+			<if test="coursenewName != null">
+				coursenewName,
+			</if>
+			<if test="courseTemId != null">
+				courseTemId,
+			</if>
+			<if test="level1 != null">
+				level1,
+			</if>
+			<if test="level2 != null">
+				level2,
+			</if>
+			<if test="subject != null">
+				subject,
+			</if>
+			<if test="subjectId != null">
+				subjectId,
+			</if>
+			<if test="citys != null">
+				citys,
+			</if>
+			<if test="descripton != null">
+				descripton,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="period != null">
+				period,
+			</if>
+			<if test="drType != null">
+				drType,
+			</if>
+			<if test="tags != null">
+				tags,
+			</if>
+			<if test="price1 != null">
+				price1,
+			</if>
+			<if test="price2 != null">
+				price2,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+			<if test="otypes != null">
+				otypes,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="coursenewNo != null">
+				#{coursenewNo,jdbcType=VARCHAR},
+			</if>
+			<if test="coursenewName != null">
+				#{coursenewName,jdbcType=VARCHAR},
+			</if>
+			<if test="courseTemId != null">
+				#{courseTemId,jdbcType=INTEGER},
+			</if>
+			<if test="level1 != null">
+				#{level1,jdbcType=VARCHAR},
+			</if>
+			<if test="level2 != null">
+				#{level2,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				#{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectId != null">
+				#{subjectId,jdbcType=INTEGER},
+			</if>
+			<if test="citys != null">
+				#{citys,jdbcType=VARCHAR},
+			</if>
+			<if test="descripton != null">
+				#{descripton,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="period != null">
+				#{period,jdbcType=VARCHAR},
+			</if>
+			<if test="drType != null">
+				#{drType,jdbcType=TINYINT},
+			</if>
+			<if test="tags != null">
+				#{tags,jdbcType=VARCHAR},
+			</if>
+			<if test="price1 != null">
+				#{price1,jdbcType=INTEGER},
+			</if>
+			<if test="price2 != null">
+				#{price2,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="otypes != null">
+				#{otypes,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.model.CourseNewDTO">
+		update t_s_coursenew
+		<set>
+			<if test="coursenewName != null">
+				coursenewName = #{coursenewName,jdbcType=VARCHAR},
+			</if>
+			<if test="courseTemId != null">
+				courseTemId = #{courseTemId,jdbcType=INTEGER},
+			</if>
+			<if test="level1 != null">
+				level1 = #{level1,jdbcType=VARCHAR},
+			</if>
+			<if test="level2 != null">
+				level2 = #{level2,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				subject = #{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectId != null">
+				subjectId = #{subjectId,jdbcType=INTEGER},
+			</if>
+			<if test="citys != null">
+				citys = #{citys,jdbcType=VARCHAR},
+			</if>
+			<if test="descripton != null">
+				descripton = #{descripton,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="period != null">
+				period = #{period,jdbcType=VARCHAR},
+			</if>
+			<if test="drType != null">
+				drType = #{drType,jdbcType=TINYINT},
+			</if>
+			<if test="tags != null">
+				tags = #{tags,jdbcType=VARCHAR},
+			</if>
+			<if test="price1 != null">
+				price1 = #{price1,jdbcType=INTEGER},
+			</if>
+			<if test="price2 != null">
+				price2 = #{price2,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="otypes != null">
+				otypes = #{otypes,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+		</set>
+		where coursenewNo = #{coursenewNo,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.model.CourseNewDTO">
+		update t_s_coursenew
+		set coursenewName = #{coursenewName,jdbcType=VARCHAR},
+		courseTemId = #{courseTemId,jdbcType=INTEGER},
+		level1 = #{level1,jdbcType=VARCHAR},
+		level2 = #{level2,jdbcType=VARCHAR},
+		subject = #{subject,jdbcType=VARCHAR},
+		subjectId = #{subjectId,jdbcType=INTEGER},
+		citys = #{citys,jdbcType=VARCHAR},
+		descripton = #{descripton,jdbcType=VARCHAR},
+		content = #{content,jdbcType=VARCHAR},
+		period = #{period,jdbcType=VARCHAR},
+		drType = #{drType,jdbcType=TINYINT},
+		tags = #{tags,jdbcType=VARCHAR},
+		price1 = #{price1,jdbcType=INTEGER},
+		price2 = #{price2,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		extra = #{extra,jdbcType=VARCHAR},
+		otypes = #{otypes,jdbcType=VARCHAR},
+		isdel = #{isdel,jdbcType=TINYINT}
+		where coursenewNo = #{coursenewNo,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.order.dao.mapper.InsuranceOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.order.dto.InsuranceOrder" >
+    <id column="insuranceId" property="insuranceId" jdbcType="VARCHAR" />
+    <result column="studentId" property="studentId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="cityName" property="cityName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="insuranceNumber" property="insuranceNumber" jdbcType="VARCHAR" />
+    <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="effectTime" property="effectTime" jdbcType="TIMESTAMP" />
+    <result column="invalidTime" property="invalidTime" jdbcType="TIMESTAMP" />
+    <result column="operationTime" property="operationTime" jdbcType="TIMESTAMP" />
+    <result column="compensateTime" property="compensateTime" jdbcType="TIMESTAMP" />
+    <result column="compensate" property="compensate" jdbcType="INTEGER" />
+    <result column="compensateRemark" property="compensateRemark" jdbcType="VARCHAR" />
+    <result column="payState" property="payState" jdbcType="INTEGER" />
+    <result column="payWay" property="payWay" jdbcType="VARCHAR" />
+    <result column="refundTime" property="refundTime" jdbcType="TIMESTAMP" />
+    <result column="refundPrice" property="refundPrice" jdbcType="INTEGER" />
+    <result column="refundRemark" property="refundRemark" jdbcType="VARCHAR" />
+    <result column="visitTime" property="visitTime" jdbcType="TIMESTAMP" />
+    <result column="visitState" property="visitState" jdbcType="INTEGER" />
+    <result column="visitRemark" property="visitRemark" jdbcType="VARCHAR" />
+    <result column="refundState" property="refundState" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    insuranceId, studentId, name, phoneNum, cityId, cityName, price, year, insuranceNumber, 
+    payTime, effectTime, invalidTime, operationTime, compensateTime, compensate, compensateRemark, 
+    payState, payWay, refundTime, refundPrice, refundRemark, visitTime, visitState, visitRemark, 
+    refundState
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.order.dto.InsuranceOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_insurance_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_insurance_order
+    where insuranceId = #{insuranceId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_insurance_order
+    where insuranceId = #{insuranceId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.order.dto.InsuranceOrderExample" >
+    delete from t_insurance_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.order.dto.InsuranceOrder" >
+    insert into t_insurance_order (insuranceId, studentId, name, 
+      phoneNum, cityId, cityName, 
+      price, year, insuranceNumber, 
+      payTime, effectTime, invalidTime, 
+      operationTime, compensateTime, compensate, 
+      compensateRemark, payState, payWay, 
+      refundTime, refundPrice, refundRemark, 
+      visitTime, visitState, visitRemark, 
+      refundState)
+    values (#{insuranceId,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{insuranceNumber,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{effectTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, 
+      #{operationTime,jdbcType=TIMESTAMP}, #{compensateTime,jdbcType=TIMESTAMP}, #{compensate,jdbcType=INTEGER}, 
+      #{compensateRemark,jdbcType=VARCHAR}, #{payState,jdbcType=INTEGER}, #{payWay,jdbcType=VARCHAR}, 
+      #{refundTime,jdbcType=TIMESTAMP}, #{refundPrice,jdbcType=INTEGER}, #{refundRemark,jdbcType=VARCHAR}, 
+      #{visitTime,jdbcType=TIMESTAMP}, #{visitState,jdbcType=INTEGER}, #{visitRemark,jdbcType=VARCHAR}, 
+      #{refundState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.order.dto.InsuranceOrder" >
+    insert into t_insurance_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="insuranceId != null" >
+        insuranceId,
+      </if>
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="cityName != null" >
+        cityName,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="insuranceNumber != null" >
+        insuranceNumber,
+      </if>
+      <if test="payTime != null" >
+        payTime,
+      </if>
+      <if test="effectTime != null" >
+        effectTime,
+      </if>
+      <if test="invalidTime != null" >
+        invalidTime,
+      </if>
+      <if test="operationTime != null" >
+        operationTime,
+      </if>
+      <if test="compensateTime != null" >
+        compensateTime,
+      </if>
+      <if test="compensate != null" >
+        compensate,
+      </if>
+      <if test="compensateRemark != null" >
+        compensateRemark,
+      </if>
+      <if test="payState != null" >
+        payState,
+      </if>
+      <if test="payWay != null" >
+        payWay,
+      </if>
+      <if test="refundTime != null" >
+        refundTime,
+      </if>
+      <if test="refundPrice != null" >
+        refundPrice,
+      </if>
+      <if test="refundRemark != null" >
+        refundRemark,
+      </if>
+      <if test="visitTime != null" >
+        visitTime,
+      </if>
+      <if test="visitState != null" >
+        visitState,
+      </if>
+      <if test="visitRemark != null" >
+        visitRemark,
+      </if>
+      <if test="refundState != null" >
+        refundState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="insuranceId != null" >
+        #{insuranceId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceNumber != null" >
+        #{insuranceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectTime != null" >
+        #{effectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null" >
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="compensateTime != null" >
+        #{compensateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="compensate != null" >
+        #{compensate,jdbcType=INTEGER},
+      </if>
+      <if test="compensateRemark != null" >
+        #{compensateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="payWay != null" >
+        #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null" >
+        #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundPrice != null" >
+        #{refundPrice,jdbcType=INTEGER},
+      </if>
+      <if test="refundRemark != null" >
+        #{refundRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitState != null" >
+        #{visitState,jdbcType=INTEGER},
+      </if>
+      <if test="visitRemark != null" >
+        #{visitRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="refundState != null" >
+        #{refundState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.order.dto.InsuranceOrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_insurance_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_insurance_order
+    <set >
+      <if test="record.insuranceId != null" >
+        insuranceId = #{record.insuranceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        studentId = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null" >
+        phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        cityId = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityName != null" >
+        cityName = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.insuranceNumber != null" >
+        insuranceNumber = #{record.insuranceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTime != null" >
+        payTime = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.effectTime != null" >
+        effectTime = #{record.effectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.invalidTime != null" >
+        invalidTime = #{record.invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operationTime != null" >
+        operationTime = #{record.operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.compensateTime != null" >
+        compensateTime = #{record.compensateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.compensate != null" >
+        compensate = #{record.compensate,jdbcType=INTEGER},
+      </if>
+      <if test="record.compensateRemark != null" >
+        compensateRemark = #{record.compensateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payState != null" >
+        payState = #{record.payState,jdbcType=INTEGER},
+      </if>
+      <if test="record.payWay != null" >
+        payWay = #{record.payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundTime != null" >
+        refundTime = #{record.refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.refundPrice != null" >
+        refundPrice = #{record.refundPrice,jdbcType=INTEGER},
+      </if>
+      <if test="record.refundRemark != null" >
+        refundRemark = #{record.refundRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visitTime != null" >
+        visitTime = #{record.visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.visitState != null" >
+        visitState = #{record.visitState,jdbcType=INTEGER},
+      </if>
+      <if test="record.visitRemark != null" >
+        visitRemark = #{record.visitRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundState != null" >
+        refundState = #{record.refundState,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_insurance_order
+    set insuranceId = #{record.insuranceId,jdbcType=VARCHAR},
+      studentId = #{record.studentId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      cityId = #{record.cityId,jdbcType=INTEGER},
+      cityName = #{record.cityName,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      insuranceNumber = #{record.insuranceNumber,jdbcType=VARCHAR},
+      payTime = #{record.payTime,jdbcType=TIMESTAMP},
+      effectTime = #{record.effectTime,jdbcType=TIMESTAMP},
+      invalidTime = #{record.invalidTime,jdbcType=TIMESTAMP},
+      operationTime = #{record.operationTime,jdbcType=TIMESTAMP},
+      compensateTime = #{record.compensateTime,jdbcType=TIMESTAMP},
+      compensate = #{record.compensate,jdbcType=INTEGER},
+      compensateRemark = #{record.compensateRemark,jdbcType=VARCHAR},
+      payState = #{record.payState,jdbcType=INTEGER},
+      payWay = #{record.payWay,jdbcType=VARCHAR},
+      refundTime = #{record.refundTime,jdbcType=TIMESTAMP},
+      refundPrice = #{record.refundPrice,jdbcType=INTEGER},
+      refundRemark = #{record.refundRemark,jdbcType=VARCHAR},
+      visitTime = #{record.visitTime,jdbcType=TIMESTAMP},
+      visitState = #{record.visitState,jdbcType=INTEGER},
+      visitRemark = #{record.visitRemark,jdbcType=VARCHAR},
+      refundState = #{record.refundState,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.order.dto.InsuranceOrder" >
+    update t_insurance_order
+    <set >
+      <if test="studentId != null" >
+        studentId = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        cityName = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceNumber != null" >
+        insuranceNumber = #{insuranceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        payTime = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectTime != null" >
+        effectTime = #{effectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null" >
+        invalidTime = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operationTime != null" >
+        operationTime = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="compensateTime != null" >
+        compensateTime = #{compensateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="compensate != null" >
+        compensate = #{compensate,jdbcType=INTEGER},
+      </if>
+      <if test="compensateRemark != null" >
+        compensateRemark = #{compensateRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        payState = #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="payWay != null" >
+        payWay = #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="refundTime != null" >
+        refundTime = #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundPrice != null" >
+        refundPrice = #{refundPrice,jdbcType=INTEGER},
+      </if>
+      <if test="refundRemark != null" >
+        refundRemark = #{refundRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="visitTime != null" >
+        visitTime = #{visitTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="visitState != null" >
+        visitState = #{visitState,jdbcType=INTEGER},
+      </if>
+      <if test="visitRemark != null" >
+        visitRemark = #{visitRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="refundState != null" >
+        refundState = #{refundState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where insuranceId = #{insuranceId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.order.dto.InsuranceOrder" >
+    update t_insurance_order
+    set studentId = #{studentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      cityId = #{cityId,jdbcType=INTEGER},
+      cityName = #{cityName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
+      insuranceNumber = #{insuranceNumber,jdbcType=VARCHAR},
+      payTime = #{payTime,jdbcType=TIMESTAMP},
+      effectTime = #{effectTime,jdbcType=TIMESTAMP},
+      invalidTime = #{invalidTime,jdbcType=TIMESTAMP},
+      operationTime = #{operationTime,jdbcType=TIMESTAMP},
+      compensateTime = #{compensateTime,jdbcType=TIMESTAMP},
+      compensate = #{compensate,jdbcType=INTEGER},
+      compensateRemark = #{compensateRemark,jdbcType=VARCHAR},
+      payState = #{payState,jdbcType=INTEGER},
+      payWay = #{payWay,jdbcType=VARCHAR},
+      refundTime = #{refundTime,jdbcType=TIMESTAMP},
+      refundPrice = #{refundPrice,jdbcType=INTEGER},
+      refundRemark = #{refundRemark,jdbcType=VARCHAR},
+      visitTime = #{visitTime,jdbcType=TIMESTAMP},
+      visitState = #{visitState,jdbcType=INTEGER},
+      visitRemark = #{visitRemark,jdbcType=VARCHAR},
+      refundState = #{refundState,jdbcType=INTEGER}
+    where insuranceId = #{insuranceId,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.order.dto.InsuranceOrderExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_insurance_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

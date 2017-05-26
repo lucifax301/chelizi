@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="importBookExamController">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入约考情况</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<div id="content" class="content main-content" >
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">导入约考情况</div>
+		<ul class="table-li" id="table-li">
+			<li class="active"><a href="import-book-exam.html">导入约考登记表</a></li>
+			<li><a href="import-book-exam-history.html">导表历史记录</a></li>
+		</ul>	
+		<div class="text-center" style="margin-top:200px;" ng-if="step == 0">
+			<div><h2>您可以通过导入车管所下载的预约登记表来更新学员进度</h2></div>
+			<div class="margin-top-10">只需要两步即可完成同步车管所的记录</div>
+			<div class="margin-top-10">1.每周从车管所下载最新的各科目的学员考试预约登记表（车管所每周一更新）</div>
+			<div class="margin-top-10">2.再把各个科目的预约登记表上传到喱喱云解析即可更新学员进度</div>
+			<div align="center" class="margin-top-10">
+				<a class="btn btn-sm btn-primary" ng-click="importFile()" >上传预约登记表</a>
+			</div>		
+		</div>
+		<div class="data-list" ng-if="step == 1">
+			<div class="well">
+		      	<h3>成功上传 <span class="text-blue">《{{ headDesc }}》</span>
+		      		<span class="pull-right">
+			      		<a class="btn btn-primary btn-sm" ng-click="comfirmImport()">确认导入</a>
+						<a class="btn btn-danger btn-sm margin-left-15" ng-click="cancelImport()">放弃导入</a>
+						<a class="btn btn-success btn-sm margin-left-15" href="import-book-exam.html">重新导入</a>
+					</span>
+		      	</h3>
+		      	共读取到 <span class="text-blue">{{ total }}</span> 条数据，其中有 <span class="text-blue">{{ valid }}</span> 条有效数据，详情请查阅下表				
+			</div>
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped table-with-style">
+					<tr>
+						<td><b>流水号</b></td>
+						<td><b>身份证号</b></td>
+						<td><b>姓名</b></td>
+						<td><b>准驾车型</b></td>
+						<td><b>登记状态</b></td>
+						<td><b>预约结果</b></td>
+						<td><b>解析学员状态</b></td>
+						<td><b>考场</b></td>
+						<td><b>考试日期</b></td>
+						<td><b>场次</b></td>
+						<td><b>考试时间</b></td>
+						<td><b>导入状态</b></td>
+						<td><b>是否有效</b></td>
+					</tr>
+					<tr ng-repeat="data in datas">
+						<td ng-bind="data.flowNo"></td>
+						<td ng-bind="data.idNumber"></td>
+						<td ng-bind="data.name"></td>
+						<td ng-bind="data.drType | applyCarTypeTex"></td>
+						<td ng-bind="data.registState | registStateText"></td>
+						<td ng-bind="data.bookResult | bookResultText"></td>
+						<td ng-bind="data.applystate | bookApplystateText"></td>
+						<td ng-bind="data.examPlace"></td>
+						<td ng-bind="data.examDate | timeTexYMD"></td>
+						<td ng-bind="data.examOrder"></td>
+						<td ng-bind="data.examTime"></td>
+						<td ng-bind="data.importState | importStateText"></td>
+						<td ng-bind="data.isdel | validText" ng-class="{'text-red' : data.isdel == 1}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="well" ng-if="step == 2">
+			<div><h2>已成功导入 <span class="text-blue">{{ valid }}</span> 条有效数据</h2></div>
+			每次成功导入的数据均可在“历史导表记录”中查询到相关记录
+
+			<div class="margin-top-10">您可能需要</div>
+			<div><a href="import-book-exam-history-details.html?tableNo={{ tableNo }}">查看</a> 本次数据导入的详细情况</div>
+			<div><a href="import-book-exam.html">继续上传</a> 其他的《预约登记录》</div>
+			<div><a href="import-book-exam.html">返回</a> 考试预约登记初始页</div>	
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js?v=6ce0c67ce71470826781015"></script>
+<script src="assets/js/ng-js/import-book-exam.js?v=704fa9d2a91470826781023"></script>
+</body>
+</html>

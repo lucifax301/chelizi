@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.user.mapper.dao.RoleMapper">
+	<resultMap id="BaseResultMap" type="com.lili.user.model.Role">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+
+		<result column="pid" property="pid" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+		<result column="id" property="id" jdbcType="BIGINT" />
+
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="isGroup" property="isGroup" jdbcType="INTEGER" />
+		<result column="isAdmin" property="isAdmin" jdbcType="INTEGER" />
+		<result column="enabled" property="enabled" jdbcType="INTEGER" />
+
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, level, isGroup, isAdmin, pid, schoolId, name, enabled, remark
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_role
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_c_role
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.user.model.Role">
+		insert into t_c_role (id, level, isGroup,
+		isAdmin, pid, schoolId,
+		name, enabled, remark
+		)
+		values (#{id,jdbcType=INTEGER}, #{level,jdbcType=TINYINT},
+		#{isgroup,jdbcType=TINYINT},
+		#{isadmin,jdbcType=TINYINT}, #{pid,jdbcType=INTEGER}, #{schoolid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR}, #{enabled,jdbcType=TINYINT},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.user.model.Role">
+		insert into t_c_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="isgroup != null">
+				isGroup,
+			</if>
+			<if test="isadmin != null">
+				isAdmin,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="schoolid != null">
+				schoolId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=TINYINT},
+			</if>
+			<if test="isgroup != null">
+				#{isgroup,jdbcType=TINYINT},
+			</if>
+			<if test="isadmin != null">
+				#{isadmin,jdbcType=TINYINT},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="schoolid != null">
+				#{schoolid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.user.model.Role">
+		update t_c_role
+		<set>
+			<if test="level != null">
+				level = #{level,jdbcType=TINYINT},
+			</if>
+			<if test="isgroup != null">
+				isGroup = #{isgroup,jdbcType=TINYINT},
+			</if>
+			<if test="isadmin != null">
+				isAdmin = #{isadmin,jdbcType=TINYINT},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="schoolid != null">
+				schoolId = #{schoolid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.user.model.Role">
+		update t_c_role
+		set level = #{level,jdbcType=TINYINT},
+		isGroup = #{isgroup,jdbcType=TINYINT},
+		isAdmin = #{isadmin,jdbcType=TINYINT},
+		pid = #{pid,jdbcType=INTEGER},
+		schoolId = #{schoolid,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		enabled = #{enabled,jdbcType=TINYINT},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="findOne" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_role
+		where
+		id = #{id}
+	</select>
+
+	<select id="findBatch" parameterType="com.lili.user.model.RoleBDTO"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_role
+		Where
+		1=1
+		order by pid asc
+	</select>
+
+
+	<insert id="insertOne" parameterType="com.lili.user.model.Role"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_c_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="level != null">
+				level,
+			</if>
+			<if test="isGroup != null">
+				isGroup,
+			</if>
+			<if test="isAdmin != null">
+				isAdmin,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pid != null">
+				#{pid,jdbcType=BIGINT},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="isGroup != null">
+				#{isGroup,jdbcType=INTEGER},
+			</if>
+			<if test="isAdmin != null">
+				#{isAdmin,jdbcType=INTEGER},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="updateOne" parameterType="com.lili.school.model.Car">
+		update t_c_role
+		<set>
+			<if test="pid != null">
+				#{pid,jdbcType=BIGINT},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=BIGINT},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="isGroup != null">
+				#{isGroup,jdbcType=INTEGER},
+			</if>
+			<if test="isAdmin != null">
+				#{isAdmin,jdbcType=INTEGER},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+		carId = #{carId,jdbcType=BIGINT}
+	</update>
+
+ <select id="allotRole" parameterType="java.util.Map">
+  insert into
+  t_c_user_role(user_id,role_id)
+  values
+  <foreach collection="list" item="item" index="index"
+   separator=",">
+   (#{userId,jdbcType=BIGINT},#{item,jdbcType=BIGINT})
+  </foreach>
+ </select>
+ 
+ 
+ <select id="allotPermission" parameterType="java.util.Map">
+  insert into
+  t_c_role_permission(role_id,permission_id)
+  values
+  <foreach collection="list" item="item" index="index"
+   separator=",">
+   (#{roleId,jdbcType=BIGINT},#{item,jdbcType=BIGINT})
+  </foreach>
+ </select>
+</mapper>

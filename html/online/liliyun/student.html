@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Student">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="student-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="d-title">学员管理</div>
+		<ul class="table-li" id="table-li">
+			<li class="active" ng-if="120501|isAccessShow"><a href="student.html">喱喱学员</a></li>
+			<li ng-if="120401|isAccessShow"><a href="student-for-schol.html">驾校学员</a></li>
+		</ul> 
+		<!-- <div class="line search-line">
+			<div class="input-group search-more-condition">
+			  <select ng-model="searchType" class="form-control">
+				<option value="name" selected="selected">姓名</option>
+				<option value="phoneNum">电话</option>
+			  </select>	
+		      <input type="text" ng-model="search" class="form-control" placeholder="输入学员姓名/电话号查询">
+		      <span class="input-group-btn">
+		        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+		      </span>
+		    </div>
+		</div> -->
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header header-tab" id="header-table">
+				<li class="active" ng-if="120401|isAccessShow"><a href="student.html" >学员列表</a></li>
+				<li><a href="student-distion-school.html">驾校分配情况</a></li>
+				<li><a href="student-identity-accreditation.html">实名认证</a></li>
+				<li><a href="student-drive-accreditation.html">驾照认证</a></li>
+			</div>
+			<div class="content table-qie">
+				<div class="search">
+					<div class="line">
+						<div>所属驾校</div>
+						<ul id="select-school">
+							<li ng-click="getDataForDistSchool($event,'')" class="active">全部</li>
+							<li ng-click="getDataForDistSchool($event,0)">未分驾校</li>
+							<li ng-click="getDataForDistSchool($event,1)">已分驾校</li>
+						</ul>
+						<select ng-model="cityId" class="form-control jia-xiao" ng-change="getSchools()" ng-class="{'error-select':cityError?true:false}">
+						  <option value="">请选择城市</option>
+						  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+						</select>
+						<select ng-model="schoolNo" ng-click="checkHaveCity()" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">选择驾校</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>所学车型</div>
+						<ul>
+							<li ng-click="getDataForCarType($event,'')" class="active">全部</li>
+							<li ng-click="getDataForCarType($event,1)">C1</li>
+							<li ng-click="getDataForCarType($event,2)">C2</li>
+						</ul>
+					</div>
+					<div class="line tab-line">
+						<div>学员状态</div>
+						<ul>
+							<li><div class="tab-par active" ng-click="comSearTabCheck($event,'all')"><i>全部</i></div></li>
+							<li ng-repeat="item in studentStatesList">
+								<div class="tab-par" ng-click="comSearTabCheck($event)"><i ng-bind="item.name">报名相关</i><span class="ion-arrow-up-b"></span></div>
+								<div class="tab-chr">
+									<div data-chr="children" ng-repeat="data in item.list track by $index" ng-click="getDataForStudentState($event,data)" ng-bind="data | studentStateText">未报名</div>
+								</div>
+							</li>	
+						</ul>
+					</div>
+					<div class="line">
+						<div>姓名查询</div>
+						<div class="input-group search-more-condition">
+						  <select id="search_type" ng-model="searchType" class="form-control">
+							<option value="name" selected="selected">姓名</option>
+							<option value="phoneNum">电话</option>
+						  </select>	
+					      <input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入学员姓名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="w-search-tag">
+					<div>已选条件</div>
+					<div class="selected">
+						<div class="sel-con">
+							<div ng-repeat="(key, value) in checkAllTag" ng-click="removeTag(key)">{{value}}<span class="ion-ios-close-empty"></span></div>
+						</div>
+						<div class="delete-all" ng-click="removeAllTag()"><span class="ion-ios-trash-outline"></span>清空</div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<!--<a ng-if="100302|isButtonShow" ng-click="changeStudentState()" class="btn btn-sm btn-primary">置学员状态</a>-->
+						<a ng-if="120512|isAccessShow" ng-click="studentDataExport()" class="btn btn-sm btn-primary">数据导出</a>
+						<a ng-click="dataHasMail()" class="btn btn-sm btn-primary margin-left-15" ng-if="120503|isAccessShow">资料已邮寄</a>
+						<a ng-click="dataImperfect()" class="btn btn-sm btn-primary margin-left-15" ng-if="120504|isAccessShow">资料不全</a>
+						<a ng-click="dataComplete()" class="btn btn-sm btn-primary margin-left-15" ng-if="120505|isAccessShow">资料齐全</a>
+						<a ng-click="dataSent()" class="btn btn-sm btn-primary margin-left-15" ng-if="120506|isAccessShow">表已寄出</a>
+						<a ng-click="dataLock()" class="btn btn-sm btn-danger margin-left-15" ng-if="120507|isAccessShow">封号</a>
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>姓名</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>所属城市</b></td>
+					  	<td><b>所属驾校</b></td>
+					  	<td><b>绑定教练</b></td>
+					  	<td><b>所学车型</b></td>
+					  	<td><b>身份证号</b></td>
+					  	<td><b>学员状态</b></td>
+					  	<td><b>流水号</b></td>
+					  	<td><b>账号状态</b></td>
+					  	<td><b>操作</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)"></td>
+					  	<td><a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.name?data.name:'喱喱同学'" ng-if="(120523|isAccessShow)&&(120508|isAccessShow)" ></a><span ng-if="!((120523|isAccessShow)&&(120508|isAccessShow))" ng-bind="data.name?data.name:'喱喱同学'"></span></td>
+					  	<td ng-bind="data.phoneNum"></td>
+					  	<td ng-bind="data.sex | sexText"></td>
+					  	<td ng-bind="data.cityName"></td>
+					  	<td ng-bind="data.schoolName | schoolTex"></td>
+					  	<td ng-bind="data.coachName"></td>
+					  	<td ng-bind="data.applyCarType | applyCarTypeTex"></td>
+					  	<td ng-bind="data.idNumber"></td>
+					  	<td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+					  	<td ng-bind="data.flowNo"></td>
+					  	<td ng-bind="data.state | accountStateText"></td>
+					  	<td class="operation"><a href="javascript:void(0)" class="edit" ng-if="120502|isAccessShow" ng-click="studentEdit(data)">编辑</a></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- 学员信息编辑 -->
+		<ng-include src="'edit/edit-student.html'" onload="sutdentEditLoad()" ></ng-include>
+		<!-- 学员封号弹出层 -->
+		<ng-include src="'edit/edit-student-lock.html'" onload="sutdentLockEditLoad()" ></ng-include>
+		<!-- 学员状态 -->
+		<ng-include src="'edit/change-student-state.html'" onload="StudentStateLoad()" ></ng-include>
+		<!--资料不全-->
+		<ng-include src="'edit/edit-data-imperfect.html'" onload="infImperfect()"></ng-include>
+		<!--资料齐全-->
+		<ng-include src="'edit/edit-data-complete.html'" onload="infComplete()"></ng-include>
+		<!-- 编辑学员状态错误弹出层 -->
+		<ng-include src="'edit/change-error-students.html'" onload="changeErrorStudentLoad()" ></ng-include>
+
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/student.js?v=250ad9e2861473298817690"></script>
+</body>
+</html>

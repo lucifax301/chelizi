@@ -1,0 +1,74 @@
+package com.lili.student.dao.mapper;
+
+import java.util.List;
+import java.util.Date;
+import com.lili.student.dao.po.RechargeRecordPo;
+
+public interface RechargeRecordMapper{
+
+  public void addRechargeRecord(RechargeRecordPo rechargerecordPo);
+  public void addRechargeRecordList(List<RechargeRecordPo> rechargerecordPoList);
+  public void delRechargeRecordById(Integer rrid);
+  public void delRechargeRecordByIds(List<Integer> ids);
+  public void delRechargeRecordByObj(RechargeRecordPo rechargerecordPo);
+  public void saveRechargeRecord(RechargeRecordPo rechargerecordPo);
+  public void saveRechargeRecordList(List<RechargeRecordPo> rechargerecordPoList);
+  public int updateByRrid(RechargeRecordPo rechargerecordPo,Integer rrid);
+  public int updateByStudentId(RechargeRecordPo rechargerecordPo,Long studentId);
+  public int updateByName(RechargeRecordPo rechargerecordPo,String name);
+  public int updateByMobile(RechargeRecordPo rechargerecordPo,String mobile);
+  public int updateByCompany(RechargeRecordPo rechargerecordPo,String company);
+  public int updateByVtype(RechargeRecordPo rechargerecordPo,Integer vtype);
+  public int updateByCharge(RechargeRecordPo rechargerecordPo,Integer charge);
+  public int updateByRecharge(RechargeRecordPo rechargerecordPo,Integer recharge);
+  public int updateByWaterId(RechargeRecordPo rechargerecordPo,String waterId);
+  public int updateByRcid(RechargeRecordPo rechargerecordPo,Integer rcid);
+  public int updateByRcname(RechargeRecordPo rechargerecordPo,String rcname);
+  public int updateByPayWay(RechargeRecordPo rechargerecordPo,String payWay);
+  public int updateByPayTime(RechargeRecordPo rechargerecordPo,Date payTime);
+  public int updateByGetTime(RechargeRecordPo rechargerecordPo,Date getTime);
+  public int updateByVstate(RechargeRecordPo rechargerecordPo,Integer vstate);
+  public int updateByReason(RechargeRecordPo rechargerecordPo,String reason);
+  public int updateByIsdel(RechargeRecordPo rechargerecordPo,Integer isdel);
+  public int updateByCuid(RechargeRecordPo rechargerecordPo,Long cuid);
+  public int updateByMuid(RechargeRecordPo rechargerecordPo,Long muid);
+  public int updateByCtime(RechargeRecordPo rechargerecordPo,Date ctime);
+  public int updateByMtime(RechargeRecordPo rechargerecordPo,String mtime);
+  public int updateNotNullByObject(RechargeRecordPo rechargerecordPo,RechargeRecordPo search);
+  public int updateAllByObject(RechargeRecordPo rechargerecordPo,RechargeRecordPo search);
+  public RechargeRecordPo queryRechargeRecordById(Integer rrid,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryRechargeRecordByIds(List<Integer> ids,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByObjectAnd(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public Integer countByObject(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByObjectOr(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByRrid(Integer rrid,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByStudentId(Long studentId,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByName(String name,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByMobile(String mobile,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByCompany(String company,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByVtype(Integer vtype,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByCharge(Integer charge,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByRecharge(Integer recharge,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByWaterId(String waterId,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByRcid(Integer rcid,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByRcname(String rcname,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByPayWay(String payWay,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByPayTime(Date payTime,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByGetTime(Date getTime,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByVstate(Integer vstate,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByReason(String reason,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByIsdel(Integer isdel,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByCuid(Long cuid,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByMuid(Long muid,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByCtime(Date ctime,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByMtime(String mtime,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew0(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew1(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew2(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew3(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew4(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew5(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew6(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+  public List<RechargeRecordPo> queryByNew7(RechargeRecordPo rechargerecordPo,String postSql,String queryFields);
+
+}

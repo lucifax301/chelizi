@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.common.StudentAccountDao">
+	<resultMap id="studentAccount" type="com.lili.student.model.StudentAccount">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="BIGINT" />
+	</resultMap>
+	
+	
+	<select id="getTotalMoney"  resultType="java.lang.Long">
+		select <![CDATA[ ifnull(sum(money),0)]]> from t_u_stuaccount
+	</select>
+	
+	<select id="getStudentIdMoney" resultMap="studentAccount">
+		select studentId,money  from t_u_stuaccount
+			where studentId = #{studentId,jdbcType=INTEGER}
+	</select>
+	
+	<update id="addMoneyBack" parameterType="map">
+		update t_u_stuaccount
+		    set  money = #{money,jdbcType=BIGINT}
+    	where studentId=#{studentId,jdbcType=BIGINT}
+	</update>
+  	 
+</mapper>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Notice">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>通知</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>通知</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">通知列表</div>
+			<div class="content">
+				<div class="search">
+				<!-- 	<div class="line">
+						<div>教练来源</div>
+						<select ng-model="schoolNo" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">---选择驾校---</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div> -->
+					<div class="line">
+						<div>公告类别</div>
+						<ul>
+							<li ng-click="getTypeStatus($event,0)" class="active">今日重点播报</li>
+							<li ng-click="getTypeStatus($event,1)">优惠活动</li>
+							<li ng-click="getTypeStatus($event,2)">订单消息</li>
+						</ul>
+					</div>
+					<div class="line">
+						<div>公告类别</div>
+						<ul>
+							<li ng-click="getUserTypeStatus($event,0)" class="active">所有</li>
+							<li ng-click="getUserTypeStatus($event,1)">(所有/指定)教练</li>
+							<li ng-click="getUserTypeStatus($event,2)">(所有/指定)</li>
+							<li ng-click="getUserTypeStatus($event,3)">驾校教练</li>
+							<li ng-click="getUserTypeStatus($event,4)">驾校学员</li>
+							<li ng-click="getUserTypeStatus($event,5)">城市教练</li>
+							<li ng-click="getUserTypeStatus($event,6)">城市学员</li>
+							<li ng-click="getUserTypeStatus($event,7)">特约教练</li>
+						</ul>
+					</div>
+				<!--	<div class="line">
+						<div>高级查询</div>
+						<div class="input-group search-more-condition">
+						  <select id="search_type" ng-model="searchType" class="form-control">
+							<option value="name" selected="selected">姓名</option>
+							<option value="phoneNum">电话</option>
+						  </select>	
+					      <input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入教练姓名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div> -->
+
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-click="noticeEdit('add')" class="btn btn-sm btn-primary" ng-if="140202|isAccessShow">新增消息</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>标题</b></td>
+					  	<td><b>内容</b></td>
+					  	<td><b>链接</b></td>
+					  	<td><b>公告类别</b></td>
+					  	<td><b>通知类对象</b></td>
+					    <td><b>通知ID</b></td>
+						  <td><b>创建时间</b></td>
+					  	<td><b>操作</b></td>
+					  
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td align="center"><input type="checkbox" id="{{data.noticeId}}" ng-click="updateSelection($event,data.noticeId)" ng-checked="isSelected(data.noticeId)"></td>
+					  	<td ng-bind="data.title"></td>
+					  	<td ng-bind="data.content"></td>
+					  	<td ng-bind="data.extra"></td>
+						<td ng-bind="data.type | text"></td>
+					  	<td ng-bind="data.userType | userText"></td>
+						<td ng-bind="data.userId"></td>
+						<td ng-bind="data.time | timeTex"></td>
+					  	<td class="operation"><span class="edit"  ng-click="noticeEdit('edit',data)"  ng-if="140203|isAccessShow">编辑</span></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 教练信息编辑 -->
+		<ng-include src="'edit/edit-notice.html'" onload="noticeEditLoad()" ></ng-include>
+		<!-- <ng-include src="'edit/edit-coach-lock.html'" onload="coachLockEditLoad()" ></ng-include> -->
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/notice.js?v=f967c6a4c31473298817690"></script>
+</body>
+</html>

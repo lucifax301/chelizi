@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <!-- rocketmq属性文件注入 -->
+    <context:property-placeholder location="classpath*:*.properties" ignore-unresolvable="true"/>
+
+    <!-- service -->
+    <bean id="payServiceLocal" class="com.lili.pay.service.impl.PayServiceImpl"/>
+    <bean id="payServiceNewLocal" class="com.lili.pay.service.impl.PayServiceImplNew"/>
+    <bean id="chargeServiceLocal" class="com.lili.pay.service.impl.ChargeServiceImpl"/>
+    <bean id="bankVerifyServiceLocal" class="com.lili.pay.service.impl.BankVerifyServiceImpl"/>
+    <bean id="depositServiceLocal" class="com.lili.pay.service.impl.DepositServiceImpl"/>
+
+    <!-- manager -->
+    <bean id="moneyMangerLocal" class="com.lili.pay.manager.MoneyManagerImpl"/>
+    <bean id="bankManagerLocal" class="com.lili.pay.manager.BankManagerImpl"/>
+
+    <!-- action -->
+    <bean id="qqPayAction" class="com.lili.pay.action.QQPayAction"/>
+    <bean id="wxPayAction" class="com.lili.pay.action.WXPayAction"/>
+    <bean id="ylPayAction" class="com.lili.pay.action.YLPayAction"/>
+    <bean id="zfbPayAction" class="com.lili.pay.action.ZFBPayAction"/>
+    <bean id="balancePayAction" class="com.lili.pay.action.BalancePayAction"/>
+    <bean id="couponPayAction" class="com.lili.pay.action.CouponPayAction"/>
+
+    <!-- purpose -->
+    <bean id="signupPurpose" class="com.lili.pay.purpose.SignupPurpose"/>
+    <bean id="wxSignupPurpose" class="com.lili.pay.purpose.WxSignupPurpose"/>
+    <bean id="chargePurpose" class="com.lili.pay.purpose.ChargePurpose"/>
+    <bean id="coursePurpose" class="com.lili.pay.purpose.CoursePurpose"/>
+    <bean id="wxActivityPurpose" class="com.lili.pay.purpose.WXActivityPurpose"/>
+    <bean id="examPlacePurpose" class="com.lili.pay.purpose.ExamPlacePurpose"/>
+     <bean id="insurancePurpose" class="com.lili.pay.purpose.InsurancePurpose"/>
+     <bean id="wxCoachPurpose" class="com.lili.pay.purpose.WxCoachPurpose"/>
+     <bean id="schoolSignupPurpose" class="com.lili.pay.purpose.SchoolSignupPurpose"/>
+
+    <!-- factory -->
+    <bean id="payFactory" class="com.lili.pay.factory.PayFactory"/>
+
+    <!-- config -->
+    <bean id="wxPayConfig" class="com.lili.pay.config.WXPayConfig">
+        <property name="keysMap">
+            <map>
+                <entry key="0" value="${wx.pay.student.appstore.key}"/>
+                <entry key="1" value="${wx.pay.coach.appstore.key}"/>
+                <entry key="2" value="${wx.pay.student.enterprise.key}"/>
+                <entry key="3" value="${wx.pay.coach.enterprise.key}"/>
+                <entry key="4" value="${wx.pay.webclient.key}"/>
+                <entry key="5" value="${wx.pay.coach.webclient.key}"/>
+            </map>
+        </property>
+        <property name="appIDMap">
+            <map>
+                <entry key="0" value="${wx.pay.student.appstore.appID}"/>
+                <entry key="1" value="${wx.pay.coach.appstore.appID}"/>
+                <entry key="2" value="${wx.pay.student.enterprise.appID}"/>
+                <entry key="3" value="${wx.pay.coach.enterprise.appID}"/>
+                <entry key="4" value="${wx.pay.webclient.appID}"/>
+                <entry key="5" value="${wx.pay.coach.webclient.appID}"/>
+            </map>
+        </property>
+        <property name="mchIDMap">
+            <map>
+                <entry key="0" value="${wx.pay.student.appstore.mchID}"/>
+                <entry key="1" value="${wx.pay.coach.appstore.mchID}"/>
+                <entry key="2" value="${wx.pay.student.enterprise.mchID}"/>
+                <entry key="3" value="${wx.pay.coach.enterprise.mchID}"/>
+                <entry key="4" value="${wx.pay.webclient.mchID}"/>
+                <entry key="5" value="${wx.pay.coach.webclient.mchID}"/>
+            </map>
+        </property>
+        <property name="certLocalPath" value="${wx.pay.certLocalPath}"/>
+        <property name="certPassword" value="${wx.pay.certPassword}"/>
+        <property name="useThreadToDoReport" value="${wx.pay.useThreadToDoReport}"/>
+        <property name="notifyUrl" value="${wx.pay.notifyUrl}"/>
+        <property name="ip" value="${wx.pay.ip}"/>
+        <property name="tradeType" value="${wx.pay.tradeType}"/>
+        <property name="orderExpire" value="${wx.pay.orderExpire}"/>
+        <property name="chargeNotifyUrl" value="${wx.charge.notifyUrl}"/>
+    </bean>
+    <bean id="zfbPayConfig" class="com.lili.pay.config.ZFBPayConfig">
+        <property name="partner" value="${zfb.pay.partner}"/>
+        <property name="ali_public_key" value="${zfb.pay.ali_public_key}"/>
+        <property name="log_path" value="${zfb.pay.log_path}"/>
+        <property name="input_charset" value="${zfb.pay.input_charset}"/>
+        <property name="sign_type" value="${zfb.pay.sign_type}"/>
+        <property name="seller" value="${zfb.pay.seller}"/>
+        <property name="callback_url" value="${zfb.pay.callback}"/>
+        <property name="chargeCallback_url" value="${zfb.charge.callback}"/>
+    </bean>
+    <bean id="qqPayConfig" class="com.lili.qqpay.sdk.QQPayConfig">
+        <property name="key" value="${qq.pay.key}"/>
+        <property name="mchID" value="${qq.pay.mchID}"/>
+        <property name="notifyUrl" value="${qq.pay.notifyUrl}"/>
+        <property name="callBackUrl" value="${qq.pay.callbackUrl}"/>
+    </bean>
+</beans>
+
+
+

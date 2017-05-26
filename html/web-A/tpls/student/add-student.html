@@ -1,0 +1,186 @@
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>学员管理 >> 新增学员</h3>
+        </div>
+    </div>
+    <form id="addStudentForm" class="form-horizontal form-label-left">
+        <h4 class="form-title">基本资料</h4> 
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input name="name" ng-model="saveData.name" type="text" placeholder="请填写学员姓名" class="form-control"  >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">性别 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="sex" ng-model="saveData.sex" class="form-control" ng-init="saveData.sex='1'">
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">证件类型 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="cardtype" ng-model="saveData.cardtype" class="form-control" ng-init="saveData.cardtype='1'">
+                                    <option value="1">身份证</option>
+                                    <option value="2">护照</option>
+                                    <option value="3">军官证</option>
+                                    <option value="4">其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">出生日期</label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input name="birthday" type="text" class="form-control" placeholder="请选择出生日期" ng-model="saveData.birthday" onclick="initDate();">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12">手机号码 <span class="required">*</span></label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input name="phone" ng-model="saveData.phone" class="form-control" type="text" placeholder="请填写手机号码">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12">籍贯 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <select name="nationality" ng-model="saveData.nationality" class="form-control" ng-init="saveData.nationality='1'">
+                                    <option value="1">本市</option>
+                                    <option value="2">本省</option>
+                                    <option value="3">外省</option>
+                                    <option value="4">港澳台</option>
+                                    <option value="5">外籍人士</option>
+                                </select>
+                                </div>
+                            </div>
+                                <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12">证件号码 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                   <input name="idcard" ng-model="saveData.idcard" type="text" placeholder="请填写证件号码" class="form-control">
+                                        
+                                </div>
+                            </div>
+                                <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12">联系地址</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                   <input name="address" ng-model="saveData.address" type="text" placeholder="请填写联系地址" class="form-control">
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-4 col-xs-12 form-group">
+                <div class="item form-group">
+                    <label class="control-label col-md-4 col-sm-4 col-xs-12">学员头像&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p><button type="button" class="btn btn-success btn-sm updateImg mt5" ng-click="uploadHeadImg()">选择照片</button></p>
+                    </label>
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                        <img src="assets/images/user.png" id="headImage" class="img-responsive z-radios5" style="width:100px;height:122px">             
+                    </div>
+                    <input type="hidden" name="userImage" id="img">
+                </div>
+            </div>
+        </div>
+        <h4 class="form-title">学车信息</h4>       
+        <div class="row">
+            <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">报名日期 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input name="applydate" id="applydate" ng-model="saveData.applydate" type="text" placeholder="请选择报名日期" class="form-control" onclick="initCheckDate(this);">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">业务类型 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                               <select name="busitype" ng-model="saveData.busitype" class="form-control" ng-init="saveData.busitype='1'">
+                                    <option value="1">初领</option>
+                                    <option value="2">增领</option>
+                                    <option value="3">其他</option>
+                               </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">招生来源 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="source" ng-model="saveData.source" class="form-control">
+                                    <option value="">请选择招生来源</option>
+                                    <option value="1">教练推荐</option>
+                                    <option value="2">场点自招</option>
+                                    <option value="3">合作商渠道</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">所属代理商 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="proxyid" class="form-control" ng-model="saveData.proxyid">
+                                    <option value="">请选择代理商</option>
+                                    <option ng-repeat="v in proxy" value="{{ v.proxyId }}"> {{ v.proxyName }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">班别 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="classid" class="form-control" ng-model="saveData.class">
+                                    <option value="">请选择班别</option>
+                                    <option ng-repeat="v in class" value="{{ v.classid }}"> {{ v.classname }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">培训车型 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="traintype" class="form-control" ng-model="saveData.traintype" ng-init="saveData.traintype='C1'">
+                                    <option ng-repeat="v in traintype" value="{{ v.id }}"> {{ v.value }}</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">所属片区 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="scopeid" class="form-control" ng-model="saveData.scopeid">
+                                    <option value="">请选择片区</option>
+                                    <option ng-repeat="v in scopeArea" value="{{ v.scopeId }}"> {{ v.scopeName }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="control-label col-md-4 col-sm-4 col-xs-12">所属门店 <span class="required">*</span></label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select name="storeid" class="form-control" ng-model="saveData.storeid">
+                                    <option value="">请选择门店</option>
+                                    <option ng-repeat="v in store" value="{{ v.storeid }}"> {{ v.storename }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 form-group mt20">
+                <div class="item form-group text-center">
+                  <button class="btn btn-success btn-lg mr30" type="submit">提交</button>
+                  <a class="btn btn-default btn-lg" href="#/student/list">返回</a>
+                </div>
+            </div>
+         </div>
+    </form>
+</div>

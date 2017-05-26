@@ -1,0 +1,36 @@
+<div class="edit-alert edit-coach">
+<div class="mask"></div>
+<div class="main">
+    <style>
+        #editCoachWhitelist .con-main{ max-height: 400px; overflow-y: auto;}
+       .coach-whitelist-edit .item-auto-wrap{ padding-left: 0; margin-bottom: 0;}
+       .coach-whitelist-edit .z-ico-del{ padding-right:23px; text-align:right; }
+        .border-error{ border: 1px solid #ff0000;}
+    </style>
+<div id="editCoachWhitelist" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}白名单教练 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="coach-whitelist-edit">
+			<dl>
+				<dt>教练姓名:</dt>
+				<dd><input type="text" ng-model="editData.name" class="form-control coach-name" placeholder="请输入教练姓名"></dd>
+			</dl>
+            <div id="coachPhones">
+
+            </div>
+            <dl class="item-auto-wrap">
+                <dt>&nbsp;</dt>
+                <dd class="wrap-btn-add">
+                    <div class="item-btn-add" ng-click="zItemAdd($event)"><div class="z-ico-add">+</div><span class="z-text-add">增加手机号码</span></div>
+                </dd>
+            </dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

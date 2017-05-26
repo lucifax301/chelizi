@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>喱喱驾培云-重置密码</title>
+    <meta name="keywords" content="喱喱云,互联网驾校,网约平台,政府监管,驾校管理系统" />
+    <meta name="description" content="快乐学车，轻松考驾照！喱喱学车致力于推广随约随学、自主约考等一系列新理念，给您带来更多学车新体验！" />
+    <link rel="stylesheet" type="text/css" href="assets/css/base/minframe.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/website.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/PopLayer.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/chenchangji.css">
+    <script type="text/javascript" src="assets/js/thirdpart/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/validator/validator.min.js"></script>
+    <script type="text/javascript" src="assets/js/base/common.js"></script>
+    <script type="text/javascript" src="assets/js/base/PopLayer.js"></script>
+</head>
+<body>
+<div class="page bg-gray">
+    <div class="z-clear"></div>
+    <div class="container-wrap banner-common">
+        <div class="container">
+            <div class="apply-wrap reset-form">
+                <div class="apply-title">
+                    <h1 class="apply-title">重置密码</h1>
+                </div>
+                <div class="form-forget-pwd">
+                    <form novalidate id="resetPwd">
+                    <div class="row">
+                        <div class="item form-group">
+                            <label><span class="f-required">*</span> 请输入您的新密码</label>
+                            <input type="password" class="smooth form-control z-full" required="required" id="password" placeholder="填写新密码" data-validate-length-range="6,20">
+                        </div>
+                        <div class="item form-group">
+                            <label><span class="f-required">*</span> 请再次确认您的新密码</label><br>
+                            <input type="password" class="smooth form-control z-full" required="required" id="password1" placeholder="填写确认密码" data-validate-length-range="6,20" data-validate-linked='#password'>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px; padding-left: 20px;">
+                        <button type="submit" id="submitPwd" class="btn btn-a btn-sm smooth z-full z-tc apply-btn">完成</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div class="apply-wrap reset-rzt" style="display: none;">
+                <div class="apply-rztico">
+                    <i>☑</i>
+                </div>
+                <div class="apply-title">
+                    <h1 class="apply-title">重置密码成功</h1>
+                    <p class="apply-subtit">您已成功重置密码，系统将为您跳至首页登录</p>
+                </div>
+                <div class="apply-form" style="padding: 0 60px;margin-bottom: 20px;">
+                    <a href="web-login.html" class="btn btn-a btn-sm smooth z-full z-tc apply-btn">返回首页登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="z-clear"></div>
+    <div ng-include="'web-footer.html'"></div>
+</div>
+<script>
+	var app = angular.module("app",[]);
+    $('form').on('blur', 'input[required]', validator.checkField)
+        .on('change', 'input[required]', validator.checkField)
+        .on('keyup', 'input[required]', validator.checkField);
+
+    $("#submitPwd").click(function(){
+        var submit = true;
+        if (!validator.checkAll($("form#resetPwd"))) {
+            submit = false;
+        }
+        if (submit) {
+            $.AJAX({
+                url : config.basePath + "open/resetPwd",
+                type : "POST",
+                data : {
+                    password : $("#password").val(),
+                    password1 : $("#password1").val()
+                },
+                success:function(data){
+                    $(".reset-form").hide();
+                    $(".reset-rzt").fadeIn();
+                    setTimeout(function(){
+                        window.location.href="web-login.html"},3000
+                    )
+                },
+                error:function(){alert("网络失败，请稍后重试")}
+            })
+        }
+    })
+</script>
+</body>
+</html>

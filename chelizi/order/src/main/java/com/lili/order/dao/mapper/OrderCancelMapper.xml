@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.OrderCancelMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="ucancel!=null">ucancel=#{ucancel},</if>
+      <if test="uduty!=null">uduty=#{uduty},</if>
+      <if test="retype!=null">retype=#{retype},</if>
+      <if test="reseaon!=null">reseaon=#{reseaon},</if>
+      <if test="cltime!=null">cltime=#{cltime},</if>
+      <if test="pstate!=null">pstate=#{pstate},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.orderId!=null">order_id=#{param1.orderId},</if>
+      <if test="param1.ucancel!=null">ucancel=#{param1.ucancel},</if>
+      <if test="param1.uduty!=null">uduty=#{param1.uduty},</if>
+      <if test="param1.retype!=null">retype=#{param1.retype},</if>
+      <if test="param1.reseaon!=null">reseaon=#{param1.reseaon},</if>
+      <if test="param1.cltime!=null">cltime=#{param1.cltime},</if>
+      <if test="param1.pstate!=null">pstate=#{param1.pstate},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.orderId!=null">order_id=#{param2.orderId},</if>
+      <if test="param2.ucancel!=null">ucancel=#{param2.ucancel},</if>
+      <if test="param2.uduty!=null">uduty=#{param2.uduty},</if>
+      <if test="param2.retype!=null">retype=#{param2.retype},</if>
+      <if test="param2.reseaon!=null">reseaon=#{param2.reseaon},</if>
+      <if test="param2.cltime!=null">cltime=#{param2.cltime},</if>
+      <if test="param2.pstate!=null">pstate=#{param2.pstate},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set order_id=#{orderId}, ucancel=#{ucancel}, uduty=#{uduty}, retype=#{retype}, reseaon=#{reseaon}, cltime=#{cltime}, pstate=#{pstate}</sql>
+  <sql id="setAllparam1">set order_id=#{param1.orderId}, ucancel=#{param1.ucancel}, uduty=#{param1.uduty}, retype=#{param1.retype}, reseaon=#{param1.reseaon}, cltime=#{param1.cltime}, pstate=#{param1.pstate}</sql>
+  <sql id="setAllparam2">set order_id=#{param2.orderId}, ucancel=#{param2.ucancel}, uduty=#{param2.uduty}, retype=#{param2.retype}, reseaon=#{param2.reseaon}, cltime=#{param2.cltime}, pstate=#{param2.pstate}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="orderId!=null and orderId != '' ">And order_id=#{orderId}</if>
+      <if test="ucancel!=null and ucancel != '' ">And ucancel=#{ucancel}</if>
+      <if test="uduty!=null and uduty != '' ">And uduty=#{uduty}</if>
+      <if test="retype!=null and retype != '' ">And retype=#{retype}</if>
+      <if test="reseaon!=null and reseaon != '' ">And reseaon=#{reseaon}</if>
+      <if test="cltime!=null and cltime != '' ">And cltime=#{cltime}</if>
+      <if test="pstate!=null and pstate != '' ">And pstate=#{pstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="orderId!=null and orderId != '' ">Or order_id=#{orderId}</if>
+      <if test="ucancel!=null and ucancel != '' ">Or ucancel=#{ucancel}</if>
+      <if test="uduty!=null and uduty != '' ">Or uduty=#{uduty}</if>
+      <if test="retype!=null and retype != '' ">Or retype=#{retype}</if>
+      <if test="reseaon!=null and reseaon != '' ">Or reseaon=#{reseaon}</if>
+      <if test="cltime!=null and cltime != '' ">Or cltime=#{cltime}</if>
+      <if test="pstate!=null and pstate != '' ">Or pstate=#{pstate}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.ucancel!=null and param1.ucancel != '' ">And ucancel=#{param1.ucancel}</if>
+      <if test="param1.uduty!=null and param1.uduty != '' ">And uduty=#{param1.uduty}</if>
+      <if test="param1.retype!=null and param1.retype != '' ">And retype=#{param1.retype}</if>
+      <if test="param1.reseaon!=null and param1.reseaon != '' ">And reseaon=#{param1.reseaon}</if>
+      <if test="param1.cltime!=null and param1.cltime != '' ">And cltime=#{param1.cltime}</if>
+      <if test="param1.pstate!=null and param1.pstate != '' ">And pstate=#{param1.pstate}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.orderId!=null and param2.orderId != '' ">And order_id=#{param2.orderId}</if>
+      <if test="param2.ucancel!=null and param2.ucancel != '' ">And ucancel=#{param2.ucancel}</if>
+      <if test="param2.uduty!=null and param2.uduty != '' ">And uduty=#{param2.uduty}</if>
+      <if test="param2.retype!=null and param2.retype != '' ">And retype=#{param2.retype}</if>
+      <if test="param2.reseaon!=null and param2.reseaon != '' ">And reseaon=#{param2.reseaon}</if>
+      <if test="param2.cltime!=null and param2.cltime != '' ">And cltime=#{param2.cltime}</if>
+      <if test="param2.pstate!=null and param2.pstate != '' ">And pstate=#{param2.pstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">Or order_id=#{param1.orderId}</if>
+      <if test="param1.ucancel!=null and param1.ucancel != '' ">Or ucancel=#{param1.ucancel}</if>
+      <if test="param1.uduty!=null and param1.uduty != '' ">Or uduty=#{param1.uduty}</if>
+      <if test="param1.retype!=null and param1.retype != '' ">Or retype=#{param1.retype}</if>
+      <if test="param1.reseaon!=null and param1.reseaon != '' ">Or reseaon=#{param1.reseaon}</if>
+      <if test="param1.cltime!=null and param1.cltime != '' ">Or cltime=#{param1.cltime}</if>
+      <if test="param1.pstate!=null and param1.pstate != '' ">Or pstate=#{param1.pstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.orderId!=null and param2.orderId != '' ">Or order_id=#{param2.orderId}</if>
+      <if test="param2.ucancel!=null and param2.ucancel != '' ">Or ucancel=#{param2.ucancel}</if>
+      <if test="param2.uduty!=null and param2.uduty != '' ">Or uduty=#{param2.uduty}</if>
+      <if test="param2.retype!=null and param2.retype != '' ">Or retype=#{param2.retype}</if>
+      <if test="param2.reseaon!=null and param2.reseaon != '' ">Or reseaon=#{param2.reseaon}</if>
+      <if test="param2.cltime!=null and param2.cltime != '' ">Or cltime=#{param2.cltime}</if>
+      <if test="param2.pstate!=null and param2.pstate != '' ">Or pstate=#{param2.pstate}</if>
+    </where>
+  </sql>
+  <insert id="addOrderCancel">
+    <!--/*新增一个对象*/-->insert into t_order_cancel
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addOrderCancelList">
+    <!--/*新增一批对象*/-->insert into t_order_cancel values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.orderId},#{one.ucancel},#{one.uduty},#{one.retype},#{one.reseaon},#{one.cltime},#{one.pstate})</foreach>
+  </insert>
+  <delete id="delOrderCancelById">
+    <!--/*根据id删除一个对象*/-->delete from t_order_cancel where order_id=#{orderId}
+  </delete>
+  <delete id="delOrderCancelByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_order_cancel where order_id in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delOrderCancelByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_order_cancel
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveOrderCancel">
+    <!--/*新增或者更新一个对象*/-->replace into t_order_cancel
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveOrderCancelList">
+    <!--/*新增或者更新一批对象*/-->replace into t_order_cancel values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.orderId},#{one.ucancel},#{one.uduty},#{one.retype},#{one.reseaon},#{one.cltime},#{one.pstate})</foreach>
+  </insert>
+  <update id="updateByOrderId">
+    <!--/*根据字段orderId更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where order_id=#{param2}
+  </update>
+  <update id="updateByUcancel">
+    <!--/*根据字段ucancel更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where ucancel=#{param2}
+  </update>
+  <update id="updateByUduty">
+    <!--/*根据字段uduty更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where uduty=#{param2}
+  </update>
+  <update id="updateByRetype">
+    <!--/*根据字段retype更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where retype=#{param2}
+  </update>
+  <update id="updateByReseaon">
+    <!--/*根据字段reseaon更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where reseaon=#{param2}
+  </update>
+  <update id="updateByCltime">
+    <!--/*根据字段cltime更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where cltime=#{param2}
+  </update>
+  <update id="updateByPstate">
+    <!--/*根据字段pstate更新一个或者多个对象*/-->update t_order_cancel
+    <include refid="setNotNullparam1"/> where pstate=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order_cancel 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order_cancel
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryOrderCancelById" resultType="OrderCancelPo">
+    <!--/*根据主键查询一个对象*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryOrderCancelByIds" resultType="OrderCancelPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where order_id in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByOrderId" resultType="OrderCancelPo">
+    <!--/*根据字段orderId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByUcancel" resultType="OrderCancelPo">
+    <!--/*根据字段ucancel查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where ucancel=#{param1} ${param2}
+  </select>
+  <select id="queryByUduty" resultType="OrderCancelPo">
+    <!--/*根据字段uduty查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where uduty=#{param1} ${param2}
+  </select>
+  <select id="queryByRetype" resultType="OrderCancelPo">
+    <!--/*根据字段retype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where retype=#{param1} ${param2}
+  </select>
+  <select id="queryByReseaon" resultType="OrderCancelPo">
+    <!--/*根据字段reseaon查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where reseaon=#{param1} ${param2}
+  </select>
+  <select id="queryByCltime" resultType="OrderCancelPo">
+    <!--/*根据字段cltime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where cltime=#{param1} ${param2}
+  </select>
+  <select id="queryByPstate" resultType="OrderCancelPo">
+    <!--/*根据字段pstate查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel where pstate=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew1" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="OrderCancelPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,ucancel as ucancel,uduty as uduty,retype as retype,reseaon as reseaon,cltime as cltime,pstate as pstate from t_order_cancel
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

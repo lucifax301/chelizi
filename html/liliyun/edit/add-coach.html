@@ -1,0 +1,23 @@
+<div class="edit-alert student-alert add-coach">
+	<div class="mask"></div>
+	<div class="main">
+		<div id="add-coach" class="content">
+			<div class="title ng-binding">追加发行<span class="closeAlert"></span></div>
+			<div class="con-main">
+				<div class="add-coach-edit">
+					<form>
+						<div>优惠券：<b ng-bind="name"></b></div>
+						<div>已发行：<b ng-bind="releasedAmount+'张'"></b></div>
+						<div>剩余库存：<b ng-if="leftAmount" ng-bind="leftAmount+'张'"></b></div>
+						<div>追加发行：<input type="text" ng-model="$parent.addCoachNub" placeholder="输入要追加的数量" class="form-control ng-pristine ng-valid ng-touched"> 张</div>
+					</form>
+					<div class="chaozuo">
+						<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+						<a ng-click="submitCoachMsg($event)" class="btn btn-sm btn-primary">确认</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

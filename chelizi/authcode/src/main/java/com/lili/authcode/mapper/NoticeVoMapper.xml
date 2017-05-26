@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.authcode.mapper.NoticeVoMapper">
+
+	<select id="queryMaxIdAddOne" resultType="java.lang.Integer">
+		select max(noticeId)+1
+		from t_p_notice
+	</select>
+
+	<select id="getNoticeStudentIds" resultType="string" parameterType="map">
+		select studentId from t_u_student where 1=1
+		<if test="cityId != null and cityId.size>0 and (userIdStrs == null or userIdStrs.size==0)">
+			and cityId in
+			<foreach item="item" collection="cityId" open="(" separator=","
+				close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="utype ==1 and (userIdStrs == null or userIdStrs.size==0)">
+			 and import=1
+		</if>
+		<if test="utype ==2 and (userIdStrs == null or userIdStrs.size==0)">
+			 and (import!=1 or import is null)
+		</if>
+		<if test="schoolId != null and schoolId.size>0 and (userIdStrs == null or userIdStrs.size==0)">
+			and schoolId in
+			<foreach item="item" collection="schoolId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		
+		<if test="applyexam != null and applyexam.size>0 and (userIdStrs == null or userIdStrs.size==0)">
+			and CONCAT(applyexam,',',applystate) in
+			<foreach item="item" collection="applyexam" open="(" separator="," close=")">
+		        #{item}
+		   </foreach>
+		</if>  
+		
+		<if test="userIdStrs != null and userIdStrs.size>0 ">
+			and studentId in
+			<foreach item="item" collection="userIdStrs" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="getNoticeCoachIds" resultType="string" parameterType="map">
+		select coachId from t_u_coach where 1=1
+		<if test="cityId != null and cityId.size>0 and (userIdStrs == null or userIdStrs.size==0)">
+			and cityId in
+			<foreach item="item" collection="cityId" open="(" separator=","
+				close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="utype ==3 and (userIdStrs == null or userIdStrs.size==0)">
+			 and extra=1
+		</if>
+		<if test="utype ==4 and (userIdStrs == null or userIdStrs.size==0)">
+			 and (extra!=1 or extra is null)
+		</if>
+		<if test="schoolId != null and schoolId.size>0 and (userIdStrs == null or userIdStrs.size==0)">
+			and schoolId in
+			<foreach item="item" collection="schoolId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="userIdStrs != null and userIdStrs.size>0 ">
+			and coachId in
+			<foreach item="item" collection="userIdStrs" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+	
+	<update id="noticeAddClickNum" parameterType="string">
+	  update t_p_notice set clickNum=IFNULL(clickNum,0)+1,TIME=TIME where noticeId=#{noticeId}
+	</update>
+	
+	 <update id="updateNoticeById" parameterType="com.lili.authcode.dto.Notice" >
+    update t_p_notice
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      adminId = #{adminId,jdbcType=INTEGER},
+      userType = #{userType,jdbcType=TINYINT},
+      userId = #{userId,jdbcType=BIGINT},
+      extra = #{extra,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT},
+      
+      pic = #{pic,jdbcType=VARCHAR},
+      applyexam = #{applyexam,jdbcType=VARCHAR},
+      cityId = #{cityId,jdbcType=VARCHAR},
+      schoolId = #{schoolId,jdbcType=VARCHAR},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      utype = #{utype,jdbcType=VARCHAR},
+      userIdStrs = #{userIdStrs,jdbcType=VARCHAR},
+      digest = #{digest,jdbcType=VARCHAR},
+      orderId = #{orderId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where noticeId = #{noticeId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getNoticeCoachIndex" parameterType="long" resultType="com.lili.authcode.dto.Notice">
+    SELECT a.* FROM (SELECT * FROM t_p_notice WHERE isdel=0 AND ((TYPE IN (5,2) AND userId=#{coachId} AND  userType=1 ) OR (TYPE=5 AND userType=9  AND userId IS NULL))   
+    ORDER BY noticeId DESC) a GROUP BY TYPE
+  </select>
+  
+   <sql id="Base_Column_List" >
+	    noticeId, title, type, time, adminId, userType, userId, extra, isdel, etime, pic, 
+	    clickNum, applyexam, cityId, schoolId, schoolName, userName, utype, userIdStrs, digest, 
+	    orderId,msgType
+  </sql>
+  
+  <select id="queryNoticeInfo" parameterType="com.lili.authcode.dto.Notice" resultType="com.lili.authcode.dto.Notice">
+    	select * from t_p_notice WHERE isdel = 0 and userId=#{userId}  and userType =#{userType}  order by time desc limit 1
+  </select>
+  
+  <select id="getNoticeStudentIndex" parameterType="long" resultType="com.lili.authcode.dto.Notice">
+    SELECT a.* FROM (SELECT * FROM t_p_notice WHERE isdel=0 AND ((TYPE IN (5,2) AND userId=#{studentId} AND  userType=2) OR (TYPE=5 AND userId IS NULL AND  userType=10))   
+    ORDER BY noticeId DESC) a GROUP BY TYPE
+  </select>
+
+</mapper>

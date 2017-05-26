@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.NoticeMapper">
+	<!-- <resultMap id="BaseResultMap" type="com.lili.coach.dto.Notice">
+		<result column="noticeId" property="noticeId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="adminId" property="adminId" jdbcType="INTEGER" />
+		<result column="userType" property="userType" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="BIGINT" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		noticeId,title,content,type,time,adminId,userType,userId,extra,isdel
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1 and type = 0
+		<trim suffixOverrides=",">
+			<if test="noticeId != null and noticeId != ''">
+				and noticeId = #{noticeId}
+			</if>
+			<if test="userType != null and userType != ''">
+				and userType = #{userType}
+			</if>
+			<if test="userId != null and userId != ''">
+				and userId = #{userId}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type}
+			</if>
+			<if test="extra != null and extra != ''">
+				and extra = #{extra}
+			</if>
+			<if test="isdel != null and isdel != ''">
+				and isdel = #{isdel}
+			</if>
+			<if test="time != null and time != ''">
+				and DATE(time) = DATE(#{time})
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_p_notice
+		where noticeId = #{noticeId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_p_notice
+		where noticeId = #{noticeId,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.coach.dto.Notice"
+		useGeneratedKeys="true" keyProperty="noticeId">
+		insert into t_p_notice
+		(noticeId,title,content,type,time,adminId,userType,userId,extra,isdel)
+		values
+		(#{noticeId,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{type,jdbcType=INTEGER},#{time,jdbcType=TIMESTAMP},#{adminId,jdbcType=INTEGER},
+		#{userType,jdbcType=INTEGER},#{userId,jdbcType=BIGINT},#{extra,jdbcType=VARCHAR},#{extra,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.Notice"
+		useGeneratedKeys="true" keyProperty="noticeId">
+		insert into t_p_notice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="noticeId != null">
+				noticeId,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="adminId != null">
+				adminId,
+			</if>
+			<if test="userType != null">
+				userType,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="noticeId != null">
+				#{noticeId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adminId != null">
+				#{adminId,jdbcType=INTEGER},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Notice">
+		update t_p_notice
+		<set>
+			<if test="noticeId != null">
+				noticeId = #{noticeId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adminId != null">
+				adminId = #{adminId,jdbcType=INTEGER},
+			</if>
+			<if test="userType != null">
+				userType = #{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+		</set>
+		where noticeId = #{noticeId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Notice">
+		update t_p_notice
+		set
+		noticeId = #{noticeId,jdbcType=INTEGER},
+		title =
+		#{title,jdbcType=VARCHAR},
+		content = #{content,jdbcType=VARCHAR},
+		type =
+		#{type,jdbcType=INTEGER},
+		time = #{time,jdbcType=TIMESTAMP},
+		adminId =
+		#{adminId,jdbcType=INTEGER},
+		userType = #{userType,jdbcType=INTEGER},
+		userId = #{userId,jdbcType=BIGINT},
+		extra = #{extra,jdbcType=VARCHAR},
+		isdel = #{isdel,jdbcType=TINYINT}
+		where noticeId =
+		#{noticeId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Notice">
+		select
+		<include refid="Base_Column_List" />
+		from t_p_notice
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_p_notice
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="getNoticByUserId" resultMap="BaseResultMap"
+		parameterType="com.lili.coach.mapper.dao.NoticePage">
+		select
+		<include refid="Base_Column_List" />
+		from t_p_notice
+		where 1=1
+		and type != 0
+		and isdel = 0
+		and ( userType = 0
+		<if test="userType != null and userType != ''">
+			or ( userType = #{userType} and userId is null )
+		</if>
+		<if test="userId != null and userId != ''">
+			or ( userType = #{userType} and userId = #{userId} )
+		</if>
+			)
+		<if test="time != null and time != ''">
+			and ( time > #{time} )
+		</if>
+		order by noticeId desc
+		limit
+		#{pageNo, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+	</select> 
+-->
+</mapper> 

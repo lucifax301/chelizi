@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.sync.sgmapper.SGDataMapper">
+	
+	<select id="selectCoach" resultType="com.lili.sync.dto.SGCoach">
+		select idNumber, name, sex, homtown hometown, phoneNum, mailBox, StuCoachID, coachCard, coachCardDate, importSrc, schoolId, cityId
+		from t_coach
+	</select>
+	
+	<select id="selectDelCoach" resultType="com.lili.sync.dto.SGCoach">
+		select idNumber, name, sex, homtown hometown, phoneNum, mailBox, StuCoachID, coachCard, coachCardDate, importSrc, schoolId, cityId
+		from t_coach_del
+	</select>
+	
+	<select id="selectJXStudent" resultType="com.lili.sync.dto.SGStudent">
+		select idNumber, name, sex, homtown hometown, phoneNum, mailBox, StuCoachEmpID, applyCarType, course1, course2, course3, course4,
+		importSrc, schoolId, cityId, classId, curState, applyexam, applystate, 1 type
+		from t_student where classId not in ('DD', 'DL', 'CLZ', 'CLZ1', 'XW') and curState != '已退学' 
+	</select>
+	
+	<select id="selectJXStudentLimit" resultType="com.lili.sync.dto.SGStudent">
+		select idNumber, name, sex, homtown hometown, phoneNum, mailBox, StuCoachEmpID, applyCarType, course1, course2, course3, course4,
+		importSrc, schoolId, cityId, classId, curState, applyexam, applystate, 1 type
+		from t_student where classId not in ('DD', 'DL', 'CLZ', 'CLZ1', 'XW') and curState != '已退学' 
+		<![CDATA[ and id >= #{offset} and id < #{offset} + #{pageSize}]]>
+	</select>
+	
+	<select id="selectJXStudentTotal" resultType="java.lang.Integer">
+		select count(*) from t_student
+	</select>
+	
+	<select id="selectCLZStudent" resultType="com.lili.sync.dto.SGStudent">
+		select idNumber, name, sex, homtown hometown, phoneNum, mailBox, StuCoachEmpID, applyCarType, course1, course2, course3, course4,
+		importSrc, schoolId, cityId, classId, curState, applyexam, applystate, 2 type
+		from t_student where classId in ('DD', 'DL', 'CLZ', 'CLZ1', 'XW') and (curState != '已退学' or curState is null)
+		and schoolId = 2
+	</select>
+
+	<select id="selectCar" resultType="com.lili.sync.dto.SGCar">
+		select carType, carNo, driveType, UsePerson, schoolId, cityId, empId
+		from t_car
+	</select>
+	
+	<select id="selectOfficial" resultType="com.lili.sync.dto.SGOfficial">
+		select name, phoneNum, idNumber, step, stepId, state, stateId, schoolId, cityId, classId, ctime, datatime, 2 type, place
+ 		from t_official where (stepId in (155, 86, 111, 119, 89, 90, 114, 121) or (stepId = 85 and schoolId = 1))
+ 		and schoolId = 2
+<!-- 		from t_official where stepId in (85, 86, 111, 119, 90, 114, 121) 去除长训预约信息-->
+	</select>
+	
+	<select id="selectCertificate" resultType="com.lili.sync.dto.SGCertificate">
+		select name, phoneNum, idNumber, step, stepId, state, stateId, schoolId, cityId, classId, ctime, datatime, 1 type, place
+		from t_certificate where (stepId in (79, 15, 149, 12, 156, 30, 112, 120, 50, 32, 113, 122) and step != '路考表' or (stepId = 38 and schoolId = 1))
+		and schoolId = 2
+	</select>
+	
+	<update id="updateStudentState">
+		update t_student set applyexam = 6, applystate = 0 where curState = '已报名未受理';
+		update t_student set applyexam = 101, applystate = 0 where curState in ('已考场受理未上课', '已受理未排座位号', '已受理未上课', '已受理未学科', '已受理暂停学车', '已排座位未上课到');
+		update t_student set applyexam = 301, applystate = 0 where curState = '已上课未学科';
+		update t_student set applyexam = 401, applystate = 0 where curState in ('已学科未5选5', '已学科未科目二', '已学科未科目二5项', '已学科暂停学车', '已桩考未9选3');
+		update t_student set applyexam = 501, applystate = 0 where curState in ('已5选5未长训', '已科目二5项未长训', '已科目二5项未路考', '已科目二5项暂停学车', '已科目二未长训');
+		update t_student set applyexam = 601, applystate = 0 where curState in ('已长训未路考', '已长训暂停学车');
+		update t_student set applyexam = 701, applystate = 0 where curState in ('已路考未路考文科', '已路考未科目三文明', '已路考未科目四', '已路考暂停学车');
+		update t_student set applyexam = 801, applystate = 0 where curState in ('已科目三文明未领证', '已毕业', '己毕业');
+		update t_student set applyexam = 801, applystate = 0 where curState is null and course4 = 100;
+	</update>
+	
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    
+    	<bean id="enrollTimeJob" class="com.lili.school.manager.impl.EnrollTimeJob"></bean>
+        <bean id="checkEnrollTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="enrollTimeJob"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>checkEnrollTask</value>
+            </property>
+       </bean>
+       <bean id="checkTaskTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="checkEnrollTask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${school.cronexpression}</value>
+            </property>
+        </bean> 
+        
+    	<bean id="remindRegisterJob" class="com.lili.school.manager.impl.RemindRegisterJob"></bean>
+        <bean id="remindRegisterTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="remindRegisterJob"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>remindRegister</value>
+            </property>
+       </bean>
+       <bean id="remindRegisterTaskTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="remindRegisterTask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${school.remind.cronexpression}</value>
+            </property>
+        </bean> 
+        
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+        <bean id="startQuartz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+            <property name="triggers">
+                <list>
+                	<ref bean="checkTaskTime"/>
+                	<!-- <ref bean="remindRegisterTaskTime"/> -->
+                </list>
+            </property>
+        </bean>
+    
+        
+<!--     <bean id="dynamicSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    	<property name="applicationContextSchedulerContextKey">    
+        	<value>applicationContext</value>    
+    	</property>   
+    </bean>
+    <bean id="dynamicQuartz" class="com.lili.school.quartz.DynamicQuartz">
+    	<property name="scheduler" ref="dynamicSchedulerFactoryBean" />
+    </bean> -->
+        
+</beans>

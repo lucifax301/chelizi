@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.order.dao.mapper.CoachClassPriceMapper">
+	<resultMap id="BaseResultMap" type="com.lili.order.dao.po.CoachClassPricePo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="courseId" property="courseId" jdbcType="VARCHAR" />
+		<result column="colId" property="colId" jdbcType="INTEGER" />
+		<result column="calId" property="calId" jdbcType="INTEGER" />
+		<result column="dftype" property="dftype" jdbcType="INTEGER" />
+		<result column="tstart" property="tstart" jdbcType="VARCHAR" />
+		<result column="tend" property="tend" jdbcType="VARCHAR" />
+		<result column="maxNum" property="maxNum" jdbcType="INTEGER" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="allowance" property="allowance" jdbcType="INTEGER" />
+		<result column="transCosts" property="transCosts" jdbcType="INTEGER" />
+		<result column="transType" property="transType" jdbcType="TINYINT" />
+		<result column="ctype" property="ctype" jdbcType="TINYINT" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="verify" property="verify" jdbcType="TINYINT" />
+		<result column="cuid" property="cuid" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="muid" property="muid" jdbcType="VARCHAR" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, cityId, courseId, colId, calId, dftype, tstart, tend,
+		maxNum,
+		duration, price,
+		allowance, transCosts, transType, ctype, isdel,
+		verify, cuid, ctime, muid,
+		mtime,
+		remark
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+			<include refid="Base_Column_List" />
+		from t_coach_class_price
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryCoachPrice" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select id, p.cityId as cityId, courseId, colId, calId, dftype, tstart, tend,
+			maxNum, duration, price, allowance, transCosts, transType, ctype, isdel,
+			verify, cuid, ctime, muid, mtime, remark
+			from t_coach_class_price p,t_u_coach c
+		where c.cityId=p.cityId and p.transType=1 and p.ctype=3 and p.isdel=0 and p.verify=1
+			and c.coachId = #{coachId,jdbcType=BIGINT} order by length(p.tstart) desc
+	</select>
+	
+	<select id="queryCoachPriceList" resultMap="BaseResultMap" parameterType="com.lili.order.dao.po.CoachClassPricePo">
+		select id, p.cityId as cityId, courseId, colId, calId, dftype, tstart, tend,
+			maxNum, duration, price, allowance, transCosts, transType, ctype, isdel,
+			verify, cuid, ctime, muid, mtime, remark
+			from t_coach_class_price p,t_u_coach c
+		where c.cityId=p.cityId and p.transType=1 and p.ctype=3 and p.isdel=0 and p.verify=1
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and  c.coachId = #{coachId}
+				</if>
+				<if test="cityId != null and cityId != ''">
+					and p.cityId = #{cityId}
+				</if>
+				<if test="tstart != null and tstart != ''">
+					and p.tstart = #{tstart}
+				</if>
+				<if test="courseId != null and courseId != ''">
+					and p.courseId = #{courseId}
+				</if>
+				<if test="colId != null and colId != ''">
+					and p.colId = #{colId}
+				</if>
+				<if test="dftype != null and dftype != ''">
+					and p.dftype = #{dftype}
+				</if>
+				<if test="ctype != null and ctype != ''">
+					and p.ctype = #{ctype}
+				</if>
+				<if test="calId != null and calId != ''">
+					and p.calId = #{calId}
+				</if>
+			</trim>
+			order by length(p.tstart) desc
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_coach_class_price
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.order.dao.po.CoachClassPricePo">
+		insert into
+		t_coach_class_price (id, cityId, courseId,
+		colId, calId, dftype,
+		tstart, tend, maxNum,
+		duration, price, allowance,
+		transCosts, transType,
+		ctype,
+		isdel, verify, cuid,
+		ctime, muid, mtime,
+		remark)
+		values
+		(#{id,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
+		#{courseId,jdbcType=VARCHAR},
+		#{colId,jdbcType=INTEGER},
+		#{calId,jdbcType=INTEGER}, #{dftype,jdbcType=INTEGER},
+		#{tstart,jdbcType=VARCHAR}, #{tend,jdbcType=VARCHAR},
+		#{maxNum,jdbcType=INTEGER},
+		#{duration,jdbcType=INTEGER},
+		#{price,jdbcType=INTEGER}, #{allowance,jdbcType=INTEGER},
+		#{transCosts,jdbcType=INTEGER}, #{transType,jdbcType=TINYINT},
+		#{ctype,jdbcType=TINYINT},
+		#{isdel,jdbcType=TINYINT},
+		#{verify,jdbcType=TINYINT}, #{cuid,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}, #{muid,jdbcType=VARCHAR},
+		#{mtime,jdbcType=TIMESTAMP},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lili.order.dao.po.CoachClassPricePo">
+		insert into t_coach_class_price
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="courseId != null">
+				courseId,
+			</if>
+			<if test="colId != null">
+				colId,
+			</if>
+			<if test="calId != null">
+				calId,
+			</if>
+			<if test="dftype != null">
+				dftype,
+			</if>
+			<if test="tstart != null">
+				tstart,
+			</if>
+			<if test="tend != null">
+				tend,
+			</if>
+			<if test="maxNum != null">
+				maxNum,
+			</if>
+			<if test="duration != null">
+				duration,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="allowance != null">
+				allowance,
+			</if>
+			<if test="transCosts != null">
+				transCosts,
+			</if>
+			<if test="transType != null">
+				transType,
+			</if>
+			<if test="ctype != null">
+				ctype,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="verify != null">
+				verify,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="colId != null">
+				#{colId,jdbcType=INTEGER},
+			</if>
+			<if test="calId != null">
+				#{calId,jdbcType=INTEGER},
+			</if>
+			<if test="dftype != null">
+				#{dftype,jdbcType=INTEGER},
+			</if>
+			<if test="tstart != null">
+				#{tstart,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				#{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				#{maxNum,jdbcType=INTEGER},
+			</if>
+			<if test="duration != null">
+				#{duration,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="allowance != null">
+				#{allowance,jdbcType=INTEGER},
+			</if>
+			<if test="transCosts != null">
+				#{transCosts,jdbcType=INTEGER},
+			</if>
+			<if test="transType != null">
+				#{transType,jdbcType=TINYINT},
+			</if>
+			<if test="ctype != null">
+				#{ctype,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="verify != null">
+				#{verify,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=VARCHAR},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.order.dao.po.CoachClassPricePo">
+		update t_coach_class_price
+		<set>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				courseId = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="colId != null">
+				colId = #{colId,jdbcType=INTEGER},
+			</if>
+			<if test="calId != null">
+				calId = #{calId,jdbcType=INTEGER},
+			</if>
+			<if test="dftype != null">
+				dftype = #{dftype,jdbcType=INTEGER},
+			</if>
+			<if test="tstart != null">
+				tstart = #{tstart,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				tend = #{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				maxNum = #{maxNum,jdbcType=INTEGER},
+			</if>
+			<if test="duration != null">
+				duration = #{duration,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="allowance != null">
+				allowance = #{allowance,jdbcType=INTEGER},
+			</if>
+			<if test="transCosts != null">
+				transCosts = #{transCosts,jdbcType=INTEGER},
+			</if>
+			<if test="transType != null">
+				transType = #{transType,jdbcType=TINYINT},
+			</if>
+			<if test="ctype != null">
+				ctype = #{ctype,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="verify != null">
+				verify = #{verify,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=VARCHAR},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.order.dao.po.CoachClassPricePo">
+		update
+		t_coach_class_price
+		set cityId = #{cityId,jdbcType=INTEGER},
+		courseId =
+		#{courseId,jdbcType=VARCHAR},
+		colId = #{colId,jdbcType=INTEGER},
+		calId =
+		#{calId,jdbcType=INTEGER},
+		dftype = #{dftype,jdbcType=INTEGER},
+		tstart =
+		#{tstart,jdbcType=VARCHAR},
+		tend = #{tend,jdbcType=VARCHAR},
+		maxNum =
+		#{maxNum,jdbcType=INTEGER},
+		duration = #{duration,jdbcType=INTEGER},
+		price = #{price,jdbcType=INTEGER},
+		allowance =
+		#{allowance,jdbcType=INTEGER},
+		transCosts =
+		#{transCosts,jdbcType=INTEGER},
+		transType =
+		#{transType,jdbcType=TINYINT},
+		ctype = #{ctype,jdbcType=TINYINT},
+		isdel
+		= #{isdel,jdbcType=TINYINT},
+		verify = #{verify,jdbcType=TINYINT},
+		cuid =
+		#{cuid,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		muid =
+		#{muid,jdbcType=VARCHAR},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		remark =
+		#{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.file.mapper.DeviceMapper">
+	<resultMap id="BaseResultMap" type="com.lili.file.dto.Device">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="BIGINT" />
+		<result column="userType" property="userType" jdbcType="INTEGER" />
+		<result column="osType" property="osType" jdbcType="INTEGER" />
+		<result column="osv" property="osv" jdbcType="VARCHAR" />
+		<result column="deviceType" property="deviceType" jdbcType="VARCHAR" />
+		<result column="imei" property="imei" jdbcType="VARCHAR" />
+		<result column="mac" property="mac" jdbcType="VARCHAR" />
+		<result column="imsi" property="imsi" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="ca" property="ca" jdbcType="VARCHAR" />
+		<result column="ac" property="ac" jdbcType="VARCHAR" />
+		<result column="lge" property="lge" jdbcType="DECIMAL" />
+		<result column="lae" property="lae" jdbcType="DECIMAL" />
+		<result column="appPackName" property="appPackName" jdbcType="VARCHAR" />
+		<result column="appVersion" property="appVersion" jdbcType="VARCHAR" />
+		<result column="appCode" property="appCode" jdbcType="VARCHAR" />
+		<result column="jpush" property="jpush" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,userId,userType,osType,osv,deviceType,imei,mac,imsi,mobile,ca,ac,lge,lae,appPackName,appVersion,appCode,jpush,ctime
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="userType != null and userType != ''">
+				and userType = #{userType}
+			</if>
+			<if test="userId != null and userId != ''">
+				and userId = #{userId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_device
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<select id="selectByDevice" resultMap="BaseResultMap" parameterType="com.lili.file.dto.Device">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_device
+		<include refid="Example_Where_Clause" />
+		ORDER BY id desc limit 1
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_u_device
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.file.dto.Device"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_u_device
+		(id,userId,userType,osType,osv,deviceType,imei,mac,imsi,mobile,ca,ac,lge,lae,appPackName,appVersion,appCode,jpush,ctime)
+		values
+		(#{id,jdbcType=BIGINT},#{userId,jdbcType=BIGINT},#{userType,jdbcType=INTEGER},#{osType,jdbcType=INTEGER},#{osv,jdbcType=VARCHAR},#{deviceType,jdbcType=VARCHAR},#{imei,jdbcType=VARCHAR},#{mac,jdbcType=VARCHAR},
+		#{imsi,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{ca,jdbcType=VARCHAR},#{ac,jdbcType=VARCHAR},#{lge,jdbcType=DECIMAL},#{lae,jdbcType=DECIMAL},#{appPackName,jdbcType=VARCHAR},
+		#{appVersion,jdbcType=VARCHAR},#{appCode,jdbcType=VARCHAR},#{jpush,jdbcType=INTEGER},#{ctime,jdbcType=TIMESTAMP},
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.file.dto.Device"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_u_device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="userType != null">
+				userType,
+			</if>
+			<if test="osType != null">
+				osType,
+			</if>
+			<if test="osv != null">
+				osv,
+			</if>
+			<if test="deviceType != null">
+				deviceType,
+			</if>
+			<if test="imei != null">
+				imei,
+			</if>
+			<if test="mac != null">
+				mac,
+			</if>
+			<if test="imsi != null">
+				imsi,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="ca != null">
+				ca,
+			</if>
+			<if test="ac != null">
+				ac,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="appPackName != null">
+				appPackName,
+			</if>
+			<if test="appVersion != null">
+				appVersion,
+			</if>
+			<if test="appCode != null">
+				appCode,
+			</if>
+			<if test="jpush != null">
+				jpush,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="osType != null">
+				#{osType,jdbcType=INTEGER},
+			</if>
+			<if test="osv != null">
+				#{osv,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				#{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="imei != null">
+				#{imei,jdbcType=VARCHAR},
+			</if>
+			<if test="mac != null">
+				#{mac,jdbcType=VARCHAR},
+			</if>
+			<if test="imsi != null">
+				#{imsi,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="ca != null">
+				#{ca,jdbcType=VARCHAR},
+			</if>
+			<if test="ac != null">
+				#{ac,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				#{lge,jdbcType=DECIMAL},
+			</if>
+			<if test="lae != null">
+				#{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="appPackName != null">
+				#{appPackName,jdbcType=VARCHAR},
+			</if>
+			<if test="appVersion != null">
+				#{appVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="appCode != null">
+				#{appCode,jdbcType=VARCHAR},
+			</if>
+			<if test="jpush != null">
+				#{jpush,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.file.dto.Device">
+		update t_u_device
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				userType = #{userType,jdbcType=INTEGER},
+			</if>
+			<if test="osType != null">
+				osType = #{osType,jdbcType=INTEGER},
+			</if>
+			<if test="osv != null">
+				osv = #{osv,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				deviceType = #{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="mac != null">
+				mac = #{mac,jdbcType=VARCHAR},
+			</if>
+			<if test="imsi != null">
+				imsi = #{imsi,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="ca != null">
+				ca = #{ca,jdbcType=VARCHAR},
+			</if>
+			<if test="ac != null">
+				ac = #{ac,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DECIMAL},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="appPackName != null">
+				appPackName = #{appPackName,jdbcType=VARCHAR},
+			</if>
+			<if test="appVersion != null">
+				appVersion = #{appVersion,jdbcType=VARCHAR},
+			</if>
+			<if test="appCode != null">
+				appCode = #{appCode,jdbcType=VARCHAR},
+			</if>
+			<if test="jpush != null">
+				jpush = #{jpush,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="imsi != null">
+				imsi = #{imsi,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.file.dto.Device">
+		update t_u_device
+		set
+		id = #{id,jdbcType=BIGINT},
+		userId = #{userId,jdbcType=BIGINT},
+		userType = #{userType,jdbcType=INTEGER},
+		osType = #{osType,jdbcType=INTEGER},
+		osv = #{osv,jdbcType=VARCHAR},
+		deviceType = #{deviceType,jdbcType=VARCHAR},
+		imei = #{imei,jdbcType=VARCHAR},
+		mac = #{mac,jdbcType=VARCHAR},
+		imsi = #{imsi,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		ca = #{ca,jdbcType=VARCHAR},
+		ac = #{ac,jdbcType=VARCHAR},
+		lge = #{lge,jdbcType=DECIMAL},
+		lae = #{lae,jdbcType=DECIMAL},
+		appPackName = #{appPackName,jdbcType=VARCHAR},
+		appVersion = #{appVersion,jdbcType=VARCHAR},
+		appCode = #{appCode,jdbcType=VARCHAR},
+		jpush = #{jpush,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		where id =
+		#{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.file.dto.Device">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_device
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_u_device
+		<include refid="Example_Where_Clause" />
+	</select>
+</mapper>

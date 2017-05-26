@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.pay.mapper.dao.BankcardVerifyDtoMapper">
+	<resultMap id="BaseResultMap" type="com.lili.pay.dto.BankcardVerifyDto">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="bank_type" property="bankType" jdbcType="INTEGER" />
+		<result column="card_bin" property="cardBin" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="checker" property="checker" jdbcType="VARCHAR" />
+		<result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="is_del" property="isDel" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="APPResultMap" type="com.lili.pay.dto.BankcardVerifyDto">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="bank_no" property="bankNo" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="bank_type" property="bankType" jdbcType="INTEGER" />
+		<result column="card_bin" property="cardBin" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="is_del" property="isDel" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, user_type, user_id, bank_no, bank_name, bank_type, card_bin, name,	mobile, status,
+		create_time, checker, check_time, updater, update_time, is_del, remark
+	</sql>
+	
+	<sql id="APP_Column_List">
+		id, user_type, user_id, bank_no, bank_name, bank_type, card_bin, name,	mobile, status,
+		is_del, remark
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_bankcard_verify
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryIsExitBoundRecord" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+			<include refid="Base_Column_List" />
+		from t_u_bankcard_verify
+		  where 	user_type = #{userType,jdbcType=INTEGER} and
+				user_id = #{userId,jdbcType=BIGINT} and
+				bank_no = #{bankCard,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryIsExitBoundBankCard" resultMap="APPResultMap" parameterType="java.util.Map">
+		select
+			<include refid="APP_Column_List" />
+		from t_u_bankcard_verify
+		  where	user_type = #{userType,jdbcType=INTEGER} and
+				user_id = #{userId,jdbcType=BIGINT} and
+				bank_no = #{bankCard,jdbcType=VARCHAR} and 
+				status = 1
+	</select>
+	
+	 <select id="queryBoundBankCardList" resultMap="APPResultMap" parameterType="java.util.Map">
+		select
+			<include refid="APP_Column_List" />
+		from t_u_bankcard_verify
+		where is_del=0 and 
+			user_id = #{userId,jdbcType=BIGINT} and
+			user_type = #{userType, jdbcType=INTEGER} 
+			order by create_time desc			 
+	</select>
+	
+	 <select id="queryBankSize" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+			count(1)
+		from t_u_bankcard_verify
+		where is_del=0 and status=1 and
+			user_id = #{userId,jdbcType=BIGINT} and
+			user_type = #{userType, jdbcType=INTEGER} 
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_u_bankcard_verify
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.pay.dto.BankcardVerifyDto">
+		insert into t_u_bankcard_verify (id, user_type, user_id,
+		bank_no, bank_name, bank_type,
+		card_bin, name, mobile,
+		status, create_time, checker,
+		check_time, updater, update_time,
+		is_del, remark)
+		values (#{id,jdbcType=INTEGER}, #{userType,jdbcType=INTEGER},
+		#{userId,jdbcType=BIGINT},
+		#{bankNo,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{bankType,jdbcType=INTEGER},
+		#{cardBin,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{checker,jdbcType=VARCHAR},
+		#{checkTime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{isDel,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.pay.dto.BankcardVerifyDto">
+		insert into t_u_bankcard_verify
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="bankNo != null">
+				bank_no,
+			</if>
+			<if test="bankName != null">
+				bank_name,
+			</if>
+			<if test="bankType != null">
+				bank_type,
+			</if>
+			<if test="cardBin != null">
+				card_bin,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="checker != null">
+				checker,
+			</if>
+			<if test="checkTime != null">
+				check_time,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="bankNo != null">
+				#{bankNo,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankType != null">
+				#{bankType,jdbcType=INTEGER},
+			</if>
+			<if test="cardBin != null">
+				#{cardBin,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checker != null">
+				#{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkTime != null">
+				#{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.pay.dto.BankcardVerifyDto">
+		update t_u_bankcard_verify
+		<set>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="bankNo != null">
+				bank_no = #{bankNo,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bank_name = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="bankType != null">
+				bank_type = #{bankType,jdbcType=INTEGER},
+			</if>
+			<if test="cardBin != null">
+				card_bin = #{cardBin,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checker != null">
+				checker = #{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkTime != null">
+				check_time = #{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.pay.dto.BankcardVerifyDto">
+		update t_u_bankcard_verify
+		set user_type = #{userType,jdbcType=INTEGER},
+		user_id = #{userId,jdbcType=BIGINT},
+		bank_no = #{bankNo,jdbcType=VARCHAR},
+		bank_name = #{bankName,jdbcType=VARCHAR},
+		bank_type = #{bankType,jdbcType=INTEGER},
+		card_bin = #{cardBin,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		checker = #{checker,jdbcType=VARCHAR},
+		check_time = #{checkTime,jdbcType=TIMESTAMP},
+		updater = #{updater,jdbcType=VARCHAR},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		is_del = #{isDel,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByUserId" parameterType="com.lili.pay.dto.BankcardVerifyDto">
+		update t_u_bankcard_verify
+		<set>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime==null">
+					create_time=now(),
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=BIGINT} and 
+			user_type = #{userType,jdbcType=INTEGER} and 
+			bank_no = #{bankNo,jdbcType=VARCHAR} 
+	</update>
+</mapper>

@@ -1,0 +1,60 @@
+<div class="edit-alert edit-notice">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-notice" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}通知信息 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>标题:</dt>
+				<dd><input type="text" ng-model="editData.title" class="form-control" maxlength="32"></dd>
+			</dl>
+			<dl>
+				<dt>内容:</dt>
+				<dd><input type="text" ng-model="editData.content" class="form-control" maxlength="200"></dd>
+			</dl>
+			<dl>
+				<dt>链接:</dt>
+				<dd><input type="text" ng-model="editData.extra" maxlength="200" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>公告类别:</dt>
+				<dd>
+					<select ng-model="editData.type" class="form-control">
+					  <option value="0" selected="selected">今日重点播报</option>
+					  <option value="1">优惠活动</option>
+					  <option value="2">订单消息</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>通知对象:</dt>
+				<dd>
+					<select id="userTypeSel" ng-model="editData.userType" class="form-control" ng-change="changeUserId()">
+					  <option value="0" selected="selected">全体用户</option>
+					  <option value="1">全体教练</option>
+					  <option value="2">全体学员</option>
+					  <option value="1">指定教练</option>
+					  <option value="2">指定学员</option>
+					  <option value="3">驾校教练</option>
+				      <option value="4">驾校学员</option>
+					  <option value="5">城市教练</option>
+					  <option value="6">城市学员</option>
+					  <option value="7">特约教练</option>
+					</select>
+				</dd>
+			</dl>
+			<dl id="user">
+				<dt id="userText">通知用户ID:</dt>
+				<dd><input id="userValue" type="text" ng-model="editData.userId" maxlength="11" class="form-control"></dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

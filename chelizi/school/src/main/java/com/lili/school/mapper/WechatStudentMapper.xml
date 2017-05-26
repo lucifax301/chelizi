@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatStudentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatStudent">
+		<id column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="head_icon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="wechat_state" property="wechatState" jdbcType="TINYINT" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="union_id" property="unionId" jdbcType="VARCHAR" />
+		<result column="subscribe" property="subscribe" jdbcType="VARCHAR" />
+		<result column="groupid" property="groupid" jdbcType="VARCHAR" />
+		<result column="tagid_list" property="tagidList" jdbcType="VARCHAR" />
+		<result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+		<result column="school_id" property="schoolId" jdbcType="INTEGER" />
+		<result column="drtype" property="drtype" jdbcType="TINYINT" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		student_id, name, sex, phone, head_icon, wechat_state, open_id, union_id,
+		subscribe,
+		groupid, tagid_list, id_number, school_id, drtype, isdel, city_id, city_name,
+		ctime,
+		mtime
+	</sql>
+
+	<sql id="myRowBoundsSQL">
+		<if test="myRowBounds != null">
+			limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		</if>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_student
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</select>
+
+	<select id="queryWechatStudent" resultMap="BaseResultMap"
+		parameterType="com.lili.school.vo.WechatStudent">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_student
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="openId != null and openId != ''">
+				and open_id= #{openId}
+			</if>
+			<if test="studentId != null and studentId != ''">
+				and student_id= #{studentId}
+			</if>
+			<if test="phone != null and phone != ''">
+				and phone= #{phone}
+			</if>
+		</trim>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_wechat_student
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.school.vo.WechatStudent">
+		insert into t_wechat_student (student_id, name, sex,
+		phone, head_icon, wechat_state,
+		open_id, union_id, subscribe,
+		groupid, tagid_list, id_number,
+		school_id, drtype, isdel,
+		city_id, city_name, ctime,
+		mtime)
+		values (#{studentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=TINYINT},
+		#{phone,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, #{wechatState,jdbcType=TINYINT},
+		#{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR},
+		#{subscribe,jdbcType=VARCHAR},
+		#{groupid,jdbcType=VARCHAR}, #{tagidList,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR},
+		#{schoolId,jdbcType=INTEGER}, #{drtype,jdbcType=TINYINT},
+		#{isdel,jdbcType=TINYINT},
+		#{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatStudent" useGeneratedKeys="true" keyProperty="studentId">
+		insert into t_wechat_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="headIcon != null">
+				head_icon,
+			</if>
+			<if test="wechatState != null">
+				wechat_state,
+			</if>
+			<if test="openId != null">
+				open_id,
+			</if>
+			<if test="unionId != null">
+				union_id,
+			</if>
+			<if test="subscribe != null">
+				subscribe,
+			</if>
+			<if test="groupid != null">
+				groupid,
+			</if>
+			<if test="tagidList != null">
+				tagid_list,
+			</if>
+			<if test="idNumber != null">
+				id_number,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="drtype != null">
+				drtype,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=TINYINT},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				#{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="wechatState != null">
+				#{wechatState,jdbcType=TINYINT},
+			</if>
+			<if test="openId != null">
+				#{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null">
+				#{unionId,jdbcType=VARCHAR},
+			</if>
+			<if test="subscribe != null">
+				#{subscribe,jdbcType=VARCHAR},
+			</if>
+			<if test="groupid != null">
+				#{groupid,jdbcType=VARCHAR},
+			</if>
+			<if test="tagidList != null">
+				#{tagidList,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != null">
+				#{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="drtype != null">
+				#{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatStudent">
+		update t_wechat_student
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=TINYINT},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				head_icon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="wechatState != null">
+				wechat_state = #{wechatState,jdbcType=TINYINT},
+			</if>
+			<if test="openId != null">
+				open_id = #{openId,jdbcType=VARCHAR},
+			</if>
+			<if test="unionId != null">
+				union_id = #{unionId,jdbcType=VARCHAR},
+			</if>
+			<if test="subscribe != null">
+				subscribe = #{subscribe,jdbcType=VARCHAR},
+			</if>
+			<if test="groupid != null">
+				groupid = #{groupid,jdbcType=VARCHAR},
+			</if>
+			<if test="tagidList != null">
+				tagid_list = #{tagidList,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != null">
+				id_number = #{idNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="drtype != null">
+				drtype = #{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatStudent">
+		update
+		update t_wechat_student
+		set name = #{name,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=TINYINT},
+		phone = #{phone,jdbcType=VARCHAR},
+		head_icon = #{headIcon,jdbcType=VARCHAR},
+		wechat_state = #{wechatState,jdbcType=TINYINT},
+		open_id = #{openId,jdbcType=VARCHAR},
+		union_id = #{unionId,jdbcType=VARCHAR},
+		subscribe = #{subscribe,jdbcType=VARCHAR},
+		groupid = #{groupid,jdbcType=VARCHAR},
+		tagid_list = #{tagidList,jdbcType=VARCHAR},
+		id_number = #{idNumber,jdbcType=VARCHAR},
+		school_id = #{schoolId,jdbcType=INTEGER},
+		drtype = #{drtype,jdbcType=TINYINT},
+		isdel = #{isdel,jdbcType=TINYINT},
+		city_id = #{cityId,jdbcType=INTEGER},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where student_id = #{studentId,jdbcType=BIGINT}
+	</update>
+
+</mapper>

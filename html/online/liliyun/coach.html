@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Coach">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>教练</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>教练</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">教练列表</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>教练来源</div>
+						<select ng-model="schoolNo" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">---选择驾校---</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>账号状态</div>
+						<ul>
+							<li ng-click="getDataForAccountStatus($event,'')" class="active">全部</li>
+							<li ng-click="getDataForAccountStatus($event,0)">正常</li>
+							<li ng-click="getDataForAccountStatus($event,1)">已封号</li>
+						</ul>
+					</div>
+					<div class="line">
+						<div>高级查询</div>
+						<div class="input-group search-more-condition">
+						  <select id="search_type" ng-model="searchType" class="form-control">
+							<option value="name" selected="selected">姓名</option>
+							<option value="phoneNum">电话</option>
+						  </select>	
+					      <input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入教练姓名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-if="120302|isAccessShow" ng-click="coachEdit('add')" class="btn btn-sm btn-primary">新增教练</a>
+						<a ng-if="120310|isAccessShow" ng-click="coachDataExport()" class="btn btn-sm btn-primary margin-left-15">数据导出</a>
+						<a ng-if="120315|isAccessShow" ng-click="dataLock()" class="btn btn-sm btn-danger margin-left-15">封号</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>姓名</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>所属城市</b></td>
+					  	<td><b>所属驾校</b></td>
+					  	<!-- <td><b>所教车型</b></td> -->
+					  	<td><b>绑定学员数</b></td>
+					  	<td><b>身份证号</b></td>
+					  	<td><b>认证状态</b></td>
+					  	<td><b>账号状态</b></td>
+					  	<td><b>操作</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td align="center"><input type="checkbox" id="{{data.coachId}}" ng-click="updateSelection($event,data.coachId)" ng-checked="isSelected(data.coachId)"></td>
+					  	<td><a href="coach-details.html?coachId={{data.coachId}}" ng-bind="data.name" ng-if="(120304|isAccessShow)&&(120316|isAccessShow)"></a><span ng-bind="data.name" ng-if="!((120304|isAccessShow)&&(120316|isAccessShow))"></span></td>
+					  	<td ng-bind="data.phoneNum"></td>
+					  	<td ng-bind="data.sex | sexText"></td>
+					  	<td ng-bind="data.city"></td>
+					  	<td ng-bind="data.schoolName"></td>
+					  	<!-- <td ng-bind="data.driveType | applyCarTypeTex"></td> -->
+					  	<td ng-bind="data.studentAmount"></td>
+					  	<td ng-bind="data.idNumber"></td>
+					  	<td ng-bind="data.checkIdState"></td>
+					  	<td ng-bind="data.state | accountStateText"></td>
+					  	<td class="operation"><span class="edit" ng-if="120303|isAccessShow" ng-click="coachEdit('edit',data)">编辑</span></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 教练信息编辑 -->
+		<ng-include src="'edit/edit-coach.html'" onload="coachEditLoad()" ></ng-include>
+		<ng-include src="'edit/edit-coach-lock.html'" onload="coachLockEditLoad()" ></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/coach.js?v=718f56eaed1473298817690"></script>
+</body>
+</html>

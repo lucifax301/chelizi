@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.file.mapper.CoursenewMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.file.dto.Coursenew" >
+    <id column="coursenewNo" property="coursenewno" jdbcType="VARCHAR" />
+    <result column="coursenewName" property="coursenewname" jdbcType="VARCHAR" />
+    <result column="courseTemId" property="coursetemid" jdbcType="INTEGER" />
+    <result column="level1" property="level1" jdbcType="VARCHAR" />
+    <result column="level2" property="level2" jdbcType="VARCHAR" />
+    <result column="subject" property="subject" jdbcType="VARCHAR" />
+    <result column="subjectId" property="subjectid" jdbcType="INTEGER" />
+    <result column="citys" property="citys" jdbcType="VARCHAR" />
+    <result column="descripton" property="descripton" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="period" property="period" jdbcType="VARCHAR" />
+    <result column="drType" property="drtype" jdbcType="TINYINT" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+    <result column="price1" property="price1" jdbcType="INTEGER" />
+    <result column="price2" property="price2" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="otypes" property="otypes" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    coursenewNo, coursenewName, courseTemId, level1, level2, subject, subjectId, citys, 
+    descripton, content, period, drType, tags, price1, price2, remark, extra, otypes, 
+    isdel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.file.dto.CoursenewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_s_coursenew
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_coursenew
+    where coursenewNo = #{coursenewno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_s_coursenew
+    where coursenewNo = #{coursenewno,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.file.dto.CoursenewExample" >
+    delete from t_s_coursenew
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.file.dto.Coursenew" >
+    insert into t_s_coursenew (coursenewNo, coursenewName, courseTemId, 
+      level1, level2, subject, 
+      subjectId, citys, descripton, 
+      content, period, drType, 
+      tags, price1, price2, 
+      remark, extra, otypes, 
+      isdel)
+    values (#{coursenewno,jdbcType=VARCHAR}, #{coursenewname,jdbcType=VARCHAR}, #{coursetemid,jdbcType=INTEGER}, 
+      #{level1,jdbcType=VARCHAR}, #{level2,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{subjectid,jdbcType=INTEGER}, #{citys,jdbcType=VARCHAR}, #{descripton,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{period,jdbcType=VARCHAR}, #{drtype,jdbcType=TINYINT}, 
+      #{tags,jdbcType=VARCHAR}, #{price1,jdbcType=INTEGER}, #{price2,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{otypes,jdbcType=VARCHAR}, 
+      #{isdel,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.file.dto.Coursenew" >
+    insert into t_s_coursenew
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coursenewno != null" >
+        coursenewNo,
+      </if>
+      <if test="coursenewname != null" >
+        coursenewName,
+      </if>
+      <if test="coursetemid != null" >
+        courseTemId,
+      </if>
+      <if test="level1 != null" >
+        level1,
+      </if>
+      <if test="level2 != null" >
+        level2,
+      </if>
+      <if test="subject != null" >
+        subject,
+      </if>
+      <if test="subjectid != null" >
+        subjectId,
+      </if>
+      <if test="citys != null" >
+        citys,
+      </if>
+      <if test="descripton != null" >
+        descripton,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="period != null" >
+        period,
+      </if>
+      <if test="drtype != null" >
+        drType,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+      <if test="price1 != null" >
+        price1,
+      </if>
+      <if test="price2 != null" >
+        price2,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="otypes != null" >
+        otypes,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coursenewno != null" >
+        #{coursenewno,jdbcType=VARCHAR},
+      </if>
+      <if test="coursenewname != null" >
+        #{coursenewname,jdbcType=VARCHAR},
+      </if>
+      <if test="coursetemid != null" >
+        #{coursetemid,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        #{level1,jdbcType=VARCHAR},
+      </if>
+      <if test="level2 != null" >
+        #{level2,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null" >
+        #{subjectid,jdbcType=INTEGER},
+      </if>
+      <if test="citys != null" >
+        #{citys,jdbcType=VARCHAR},
+      </if>
+      <if test="descripton != null" >
+        #{descripton,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="drtype != null" >
+        #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="price1 != null" >
+        #{price1,jdbcType=INTEGER},
+      </if>
+      <if test="price2 != null" >
+        #{price2,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="otypes != null" >
+        #{otypes,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.file.dto.CoursenewExample" resultType="java.lang.Integer" >
+    select count(*) from t_s_coursenew
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_s_coursenew
+    <set >
+      <if test="record.coursenewno != null" >
+        coursenewNo = #{record.coursenewno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coursenewname != null" >
+        coursenewName = #{record.coursenewname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coursetemid != null" >
+        courseTemId = #{record.coursetemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.level1 != null" >
+        level1 = #{record.level1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level2 != null" >
+        level2 = #{record.level2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subject != null" >
+        subject = #{record.subject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subjectid != null" >
+        subjectId = #{record.subjectid,jdbcType=INTEGER},
+      </if>
+      <if test="record.citys != null" >
+        citys = #{record.citys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descripton != null" >
+        descripton = #{record.descripton,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.period != null" >
+        period = #{record.period,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drtype != null" >
+        drType = #{record.drtype,jdbcType=TINYINT},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price1 != null" >
+        price1 = #{record.price1,jdbcType=INTEGER},
+      </if>
+      <if test="record.price2 != null" >
+        price2 = #{record.price2,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otypes != null" >
+        otypes = #{record.otypes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_s_coursenew
+    set coursenewNo = #{record.coursenewno,jdbcType=VARCHAR},
+      coursenewName = #{record.coursenewname,jdbcType=VARCHAR},
+      courseTemId = #{record.coursetemid,jdbcType=INTEGER},
+      level1 = #{record.level1,jdbcType=VARCHAR},
+      level2 = #{record.level2,jdbcType=VARCHAR},
+      subject = #{record.subject,jdbcType=VARCHAR},
+      subjectId = #{record.subjectid,jdbcType=INTEGER},
+      citys = #{record.citys,jdbcType=VARCHAR},
+      descripton = #{record.descripton,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      period = #{record.period,jdbcType=VARCHAR},
+      drType = #{record.drtype,jdbcType=TINYINT},
+      tags = #{record.tags,jdbcType=VARCHAR},
+      price1 = #{record.price1,jdbcType=INTEGER},
+      price2 = #{record.price2,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      otypes = #{record.otypes,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.file.dto.Coursenew" >
+    update t_s_coursenew
+    <set >
+      <if test="coursenewname != null" >
+        coursenewName = #{coursenewname,jdbcType=VARCHAR},
+      </if>
+      <if test="coursetemid != null" >
+        courseTemId = #{coursetemid,jdbcType=INTEGER},
+      </if>
+      <if test="level1 != null" >
+        level1 = #{level1,jdbcType=VARCHAR},
+      </if>
+      <if test="level2 != null" >
+        level2 = #{level2,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null" >
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectid != null" >
+        subjectId = #{subjectid,jdbcType=INTEGER},
+      </if>
+      <if test="citys != null" >
+        citys = #{citys,jdbcType=VARCHAR},
+      </if>
+      <if test="descripton != null" >
+        descripton = #{descripton,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="period != null" >
+        period = #{period,jdbcType=VARCHAR},
+      </if>
+      <if test="drtype != null" >
+        drType = #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="price1 != null" >
+        price1 = #{price1,jdbcType=INTEGER},
+      </if>
+      <if test="price2 != null" >
+        price2 = #{price2,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="otypes != null" >
+        otypes = #{otypes,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where coursenewNo = #{coursenewno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.file.dto.Coursenew" >
+    update t_s_coursenew
+    set coursenewName = #{coursenewname,jdbcType=VARCHAR},
+      courseTemId = #{coursetemid,jdbcType=INTEGER},
+      level1 = #{level1,jdbcType=VARCHAR},
+      level2 = #{level2,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      subjectId = #{subjectid,jdbcType=INTEGER},
+      citys = #{citys,jdbcType=VARCHAR},
+      descripton = #{descripton,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      period = #{period,jdbcType=VARCHAR},
+      drType = #{drtype,jdbcType=TINYINT},
+      tags = #{tags,jdbcType=VARCHAR},
+      price1 = #{price1,jdbcType=INTEGER},
+      price2 = #{price2,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      otypes = #{otypes,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=TINYINT}
+    where coursenewNo = #{coursenewno,jdbcType=VARCHAR}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.file.dto.CoursenewExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_s_coursenew
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

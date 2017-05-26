@@ -1,0 +1,78 @@
+package com.lili.student.dao.mapper;
+
+import java.util.List;
+import java.util.Date;
+import com.lili.student.dao.po.VipCompanyPo;
+
+public interface VipCompanyMapper{
+
+  public void addVipCompany(VipCompanyPo vipCompanyPo);
+  public void addVipCompanyList(List<VipCompanyPo> vipCompanyPoList);
+  public void delVipCompanyById(Integer coid);
+  public void delVipCompanyByIds(List<Integer> ids);
+  public void delVipCompanyByObj(VipCompanyPo vipCompanyPo);
+  public void saveVipCompany(VipCompanyPo vipCompanyPo);
+  public void saveVipCompanyList(List<VipCompanyPo> vipCompanyPoList);
+  public int updateByCoid(VipCompanyPo vipCompanyPo,Integer coid);
+  public int updateByCompany(VipCompanyPo vipCompanyPo,String company);
+  public int updateByVtype(VipCompanyPo vipCompanyPo,Integer vtype);
+  public int updateByShorter(VipCompanyPo vipCompanyPo,String shorter);
+  public int updateByProvinceId(VipCompanyPo vipCompanyPo,Integer provinceId);
+  public int updateByCityId(VipCompanyPo vipCompanyPo,Integer cityId);
+  public int updateByProvince(VipCompanyPo vipCompanyPo,String province);
+  public int updateByCity(VipCompanyPo vipCompanyPo,String city);
+  public int updateByManger(VipCompanyPo vipCompanyPo,String manger);
+  public int updateByMobile(VipCompanyPo vipCompanyPo,String mobile);
+  public int updateByPhone(VipCompanyPo vipCompanyPo,String phone);
+  public int updateByEmail(VipCompanyPo vipCompanyPo,String email);
+  public int updateByRcid(VipCompanyPo vipCompanyPo,String rcid);
+  public int updateByRemark(VipCompanyPo vipCompanyPo,String remark);
+  public int updateByActive(VipCompanyPo vipCompanyPo,Integer active);
+  public int updateByAgreement(VipCompanyPo vipCompanyPo,String agreement);
+  public int updateByVstate(VipCompanyPo vipCompanyPo,Integer vstate);
+  public int updateByReason(VipCompanyPo vipCompanyPo,String reason);
+  public int updateByIsdel(VipCompanyPo vipCompanyPo,Integer isdel);
+  public int updateByCuid(VipCompanyPo vipCompanyPo,Long cuid);
+  public int updateByMuid(VipCompanyPo vipCompanyPo,Long muid);
+  public int updateByCtime(VipCompanyPo vipCompanyPo,Date ctime);
+  public int updateByMtime(VipCompanyPo vipCompanyPo,String mtime);
+  public int updateNotNullByObject(VipCompanyPo vipCompanyPo,VipCompanyPo search);
+  public int updateAllByObject(VipCompanyPo vipCompanyPo,VipCompanyPo search);
+  public VipCompanyPo queryVipCompanyById(Integer coid,String postSql,String queryFields);
+  public List<VipCompanyPo> queryVipCompanyByIds(List<Integer> ids,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByObjectAnd(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public Integer countByObject(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByObjectOr(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCoid(Integer coid,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCompany(String company,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByVtype(Integer vtype,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByShorter(String shorter,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByProvinceId(Integer provinceId,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCityId(Integer cityId,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByProvince(String province,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCity(String city,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByManger(String manger,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByMobile(String mobile,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByPhone(String phone,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByEmail(String email,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByRcid(String rcid,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByRemark(String remark,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByActive(Integer active,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByAgreement(String agreement,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByVstate(Integer vstate,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByReason(String reason,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByIsdel(Integer isdel,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCuid(Long cuid,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByMuid(Long muid,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByCtime(Date ctime,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByMtime(String mtime,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew0(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew1(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew2(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew3(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew4(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew5(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew6(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+  public List<VipCompanyPo> queryByNew7(VipCompanyPo vipCompanyPo,String postSql,String queryFields);
+
+}

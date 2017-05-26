@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="arrangeStudentLessonController">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>理论课培训</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>理论课培训 > <a href="theoretical-lessons-details.html?theoryId={{theoryId}}"> {{ classItem.className }} </a> > 安排学员</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">学员列表</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>学员类型</div>
+						<ul>
+							<li ng-click="getDataForType($event,0)" class="active">喱喱学员</li>
+							<li ng-click="getDataForType($event,1)">驾校学员</li>
+						</ul>
+					</div>
+					<div class="line">
+						<div>学员状态</div>
+						<ul>
+							<li ng-click="getDataForState($event,'')" class="active">全部</li>
+							<li ng-click="getDataForState($event,0)">报名成功</li>
+							<li ng-click="getDataForState($event,101)">缺理论课</li>
+						</ul>					
+					</div>
+					<div class="line">
+						<div>搜索查询</div>
+						<div class="input-group">	
+						  <input type="text" ng-model="searchPhoneNum" class="form-control" placeholder="输入学员电话号码查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-primary" ng-click="getDataForPage()">搜索</a>
+					      </span>
+						</div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a class="btn btn-sm btn-primary" href="theoretical-lessons-details.html?theoryId={{theoryId}}">返回上页</a>
+					</div>
+					<div class="col-sm-offset-8 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						 <option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+						<tr>
+							<td align="center" class="td-small-width">
+								<input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)">
+							</td>
+							<td><b>姓名</b></td>
+							<td><b>电话</b></td>
+							<td><b>性别</b></td>
+							<td><b>所学车型</b></td>
+							<td><b>身份证号</b></td>
+							<td><b>学员类型</b></td>
+							<td><b>学员状态</b></td>
+							<td><b>流水号</b></td>
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td align="center"><input type="checkbox" id="{{data.studentId}}" ng-click="updateSelection($event,data.studentId)" ng-checked="isSelected(data.studentId)" ></td>
+							<td><a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.name" target="_blank"></a></td>
+							<td ng-bind="data.phoneNum"></td>
+							<td ng-bind="data.sex | sexText"></td>
+							<td ng-bind="data.applyCarType | applyCarTypeTex""></td>
+							<td ng-bind="data.idNumber"></td>
+							<td ng-bind="data.isImport | studentTypeText"></td>
+							<td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+							<td ng-bind="data.flowNo"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+
+			<div class="well well-no-border">
+		      	当前已选择 <span class="text-red">{{idList.length}} </span> 位学员
+		   		<div> 
+		   			<br>	
+		   			<a class="btn btn-sm btn-primary" ng-click="comfirmSubmit()">确认</a>
+					<a class="btn btn-sm btn-danger margin-left-15" ng-click="cancelSubmit()">取消</a>
+				</div>	
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/arrange-student-lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<bean id="dubboResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath:dubbo.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>
+    <bean id="dubboProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="52" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="dubboResources" />  
+    </bean>
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="${dubbo.name}"  />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+   <dubbo:registry address="${zookeeper.addr}" /> 
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="${dubbo.protocol}" server="${dubbo.server}" port="${dubbo.port}" serialization="${dubbo.serialization}" />
+ 
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.lili.order.service.OrderService" ref="orderService" />
+    <dubbo:service interface="com.lili.order.service.OrderCancelService" ref="orderCancelService" />
+    <dubbo:service interface="com.lili.order.service.OrderComplainService" ref="orderComplainService" />
+    <dubbo:service interface="com.lili.order.service.CoachClassService" ref="coachClassService" />
+    <dubbo:service  ref="basePriceService" interface="com.lili.order.service.BasePriceService" />
+    <dubbo:service  ref="carLevelService" interface="com.lili.order.service.CarLevelService" />
+    <dubbo:service  ref="timeRateService" interface="com.lili.order.service.TimeRateService" />
+    <dubbo:service  ref="coachLeveService" interface="com.lili.order.service.CoachLevelService" />
+    <dubbo:service  ref="coachCommentService" interface="com.lili.order.service.CoachCommentService" />
+    <dubbo:service  ref="commentTagService" interface="com.lili.order.service.CommentTagService" />
+    <dubbo:service  ref="stuCommentService" interface="com.lili.order.service.StuCommentService" />
+    <dubbo:service  ref="regionService" interface="com.lili.order.service.RegionService" />
+    <dubbo:service 	ref="coachStatisticService" interface="com.lili.order.service.CoachStatisticService" />
+    <dubbo:service  ref="coachScoreService" interface="com.lili.order.service.CoachScoreService" />
+    <dubbo:service  ref="plantClassService" interface="com.lili.order.service.PlantClassService" />
+    <dubbo:service  ref="unitPriceService" interface="com.lili.order.service.UnitPriceService" />
+    <dubbo:service  ref="cancelReasonService" interface="com.lili.order.service.CancelReasonService" />
+    <dubbo:service  ref="studentStatisticService" interface="com.lili.order.service.StudentStatisticService" />
+    <dubbo:service  ref="skillRelationService" interface="com.lili.order.service.SkillRelationService" />
+</beans>

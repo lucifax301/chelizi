@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.order.dao.mapper.StudentClassMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.order.dto.StudentClass" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="studentId" property="studentId" jdbcType="BIGINT" />
+    <result column="stuName" property="stuName" jdbcType="VARCHAR" />
+    <result column="stuImg" property="stuImg" jdbcType="VARCHAR" />
+    <result column="stuMobile" property="stuMobile" jdbcType="VARCHAR" />
+    <result column="dltype" property="dltype" jdbcType="TINYINT" />
+    <result column="courseId" property="courseId" jdbcType="INTEGER" />
+    <result column="courseName" property="courseName" jdbcType="VARCHAR" />
+    <result column="cstart" property="cstart" jdbcType="TIMESTAMP" />
+    <result column="cend" property="cend" jdbcType="TIMESTAMP" />
+    <result column="clznum" property="clznum" jdbcType="TINYINT" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="lge" property="lge" jdbcType="DOUBLE" />
+    <result column="lae" property="lae" jdbcType="DOUBLE" />
+    <result column="placeInfo" property="placeInfo" jdbcType="VARCHAR" />
+    <result column="regionId" property="regionId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="direct" property="direct" jdbcType="INTEGER" />
+    <result column="data_version" property="dataVersion" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderId, studentId, stuName, stuImg, stuMobile, dltype, courseId, courseName, 
+    cstart, cend, clznum, price, lge, lae, placeInfo, regionId, state, ctime, mtime, direct,data_version,
+    extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.order.dto.StudentClassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_student_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectPageByExample" resultMap="BaseResultMap" parameterType="com.lili.order.dto.StudentClassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_student_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    limit ${pageSize} offset ${pageNo}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_student_class
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_student_class
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.order.dto.StudentClassExample" >
+    delete from t_student_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.order.dto.StudentClass" >
+    insert into t_student_class (id, orderId, studentId, 
+      stuName, stuImg, stuMobile, 
+      dltype, courseId, courseName, 
+      cstart, cend, clznum, 
+      price, lge, lae, placeInfo, 
+      regionId, state, ctime, 
+      mtime, extra)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT}, 
+      #{stuName,jdbcType=VARCHAR}, #{stuImg,jdbcType=VARCHAR}, #{stuMobile,jdbcType=VARCHAR}, 
+      #{dltype,jdbcType=TINYINT}, #{courseId,jdbcType=INTEGER}, #{courseName,jdbcType=VARCHAR}, 
+      #{cstart,jdbcType=TIMESTAMP}, #{cend,jdbcType=TIMESTAMP}, #{clznum,jdbcType=TINYINT}, 
+      #{price,jdbcType=INTEGER}, #{lge,jdbcType=DOUBLE}, #{lae,jdbcType=DOUBLE}, #{placeInfo,jdbcType=VARCHAR}, 
+      #{regionId,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.order.dto.StudentClass" >
+    insert into t_student_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="stuName != null" >
+        stuName,
+      </if>
+      <if test="stuImg != null" >
+        stuImg,
+      </if>
+      <if test="stuMobile != null" >
+        stuMobile,
+      </if>
+      <if test="dltype != null" >
+        dltype,
+      </if>
+      <if test="courseId != null" >
+        courseId,
+      </if>
+      <if test="courseName != null" >
+        courseName,
+      </if>
+      <if test="cstart != null" >
+        cstart,
+      </if>
+      <if test="cend != null" >
+        cend,
+      </if>
+      <if test="clznum != null" >
+        clznum,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="lge != null" >
+        lge,
+      </if>
+      <if test="lae != null" >
+        lae,
+      </if>
+      <if test="placeInfo != null" >
+        placeInfo,
+      </if>
+      <if test="regionId != null" >
+        regionId,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="direct != null" >
+        direct,
+      </if>
+      <if test="dataVersion != null" >
+        data_version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuImg != null" >
+        #{stuImg,jdbcType=VARCHAR},
+      </if>
+      <if test="stuMobile != null" >
+        #{stuMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="dltype != null" >
+        #{dltype,jdbcType=TINYINT},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="cstart != null" >
+        #{cstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cend != null" >
+        #{cend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clznum != null" >
+        #{clznum,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        #{lge,jdbcType=DOUBLE},
+      </if>
+      <if test="lae != null" >
+        #{lae,jdbcType=DOUBLE},
+      </if>
+      <if test="placeInfo != null" >
+        #{placeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="direct != null" >
+        #{direct,jdbcType=INTEGER},
+      </if>
+      <if test="dataVersion != null" >
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.order.dto.StudentClassExample" resultType="java.lang.Integer" >
+    select count(*) from t_student_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_student_class
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        orderId = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        studentId = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stuName != null" >
+        stuName = #{record.stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuImg != null" >
+        stuImg = #{record.stuImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stuMobile != null" >
+        stuMobile = #{record.stuMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dltype != null" >
+        dltype = #{record.dltype,jdbcType=TINYINT},
+      </if>
+      <if test="record.courseId != null" >
+        courseId = #{record.courseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseName != null" >
+        courseName = #{record.courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cstart != null" >
+        cstart = #{record.cstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cend != null" >
+        cend = #{record.cend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.clznum != null" >
+        clznum = #{record.clznum,jdbcType=TINYINT},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.lge != null" >
+        lge = #{record.lge,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lae != null" >
+        lae = #{record.lae,jdbcType=DOUBLE},
+      </if>
+      <if test="record.placeInfo != null" >
+        placeInfo = #{record.placeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionId != null" >
+        regionId = #{record.regionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_student_class
+    set id = #{record.id,jdbcType=INTEGER},
+      orderId = #{record.orderId,jdbcType=VARCHAR},
+      studentId = #{record.studentId,jdbcType=BIGINT},
+      stuName = #{record.stuName,jdbcType=VARCHAR},
+      stuImg = #{record.stuImg,jdbcType=VARCHAR},
+      stuMobile = #{record.stuMobile,jdbcType=VARCHAR},
+      dltype = #{record.dltype,jdbcType=TINYINT},
+      courseId = #{record.courseId,jdbcType=INTEGER},
+      courseName = #{record.courseName,jdbcType=VARCHAR},
+      cstart = #{record.cstart,jdbcType=TIMESTAMP},
+      cend = #{record.cend,jdbcType=TIMESTAMP},
+      clznum = #{record.clznum,jdbcType=TINYINT},
+      price = #{record.price,jdbcType=INTEGER},
+      lge = #{record.lge,jdbcType=DOUBLE},
+      lae = #{record.lae,jdbcType=DOUBLE},
+      placeInfo = #{record.placeInfo,jdbcType=VARCHAR},
+      regionId = #{record.regionId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.order.dto.StudentClass" >
+    update t_student_class
+    <set >
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        studentId = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="stuName != null" >
+        stuName = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuImg != null" >
+        stuImg = #{stuImg,jdbcType=VARCHAR},
+      </if>
+      <if test="stuMobile != null" >
+        stuMobile = #{stuMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="dltype != null" >
+        dltype = #{dltype,jdbcType=TINYINT},
+      </if>
+      <if test="courseId != null" >
+        courseId = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null" >
+        courseName = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="cstart != null" >
+        cstart = #{cstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cend != null" >
+        cend = #{cend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clznum != null" >
+        clznum = #{clznum,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        lge = #{lge,jdbcType=DOUBLE},
+      </if>
+      <if test="lae != null" >
+        lae = #{lae,jdbcType=DOUBLE},
+      </if>
+      <if test="placeInfo != null" >
+        placeInfo = #{placeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null" >
+        regionId = #{regionId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.order.dto.StudentClass" >
+    update t_student_class
+    set orderId = #{orderId,jdbcType=VARCHAR},
+      studentId = #{studentId,jdbcType=BIGINT},
+      stuName = #{stuName,jdbcType=VARCHAR},
+      stuImg = #{stuImg,jdbcType=VARCHAR},
+      stuMobile = #{stuMobile,jdbcType=VARCHAR},
+      dltype = #{dltype,jdbcType=TINYINT},
+      courseId = #{courseId,jdbcType=INTEGER},
+      courseName = #{courseName,jdbcType=VARCHAR},
+      cstart = #{cstart,jdbcType=TIMESTAMP},
+      cend = #{cend,jdbcType=TIMESTAMP},
+      clznum = #{clznum,jdbcType=TINYINT},
+      price = #{price,jdbcType=INTEGER},
+      lge = #{lge,jdbcType=DOUBLE},
+      lae = #{lae,jdbcType=DOUBLE},
+      placeInfo = #{placeInfo,jdbcType=VARCHAR},
+      regionId = #{regionId,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.order.dto.StudentClassExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_student_class
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  
+  
+  <resultMap id="BaseResultVoMap" type="com.lili.order.dto.StudentClassVo" extends="BaseResultMap" >
+    <result column="acceptNum" property="acceptNum" jdbcType="INTEGER" />
+    <result column="lastMinutes" property="lastMinutes" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectVoByExample" resultMap="BaseResultVoMap" parameterType="com.lili.order.dto.StudentClassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />,
+	(
+		SELECT
+			count(scp.coachId)
+		FROM
+			t_student_class_pool scp
+		WHERE
+			scp.orderId = sc.orderId
+		AND scp.state = 1
+	) AS acceptNum,
+		CASE
+	WHEN (
+		(
+			SELECT
+				count(scp.coachId)
+			FROM
+				t_student_class_pool scp
+			WHERE
+				scp.orderId = sc.orderId
+			AND scp.state = 1
+		) = 0
+		AND state = 0
+	) THEN
+		TIMESTAMPDIFF(MINUTE, sc.ctime, NOW())
+	ELSE
+		TIMESTAMPDIFF(MINUTE, sc.ctime, sc.mtime)
+	END AS lastMinutes
+    from t_student_class sc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  
+  <select id="countVoByExample" parameterType="com.lili.order.dto.StudentClassExample" resultType="java.lang.Integer" >
+    select count(*) from t_student_class sc
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+ 
+  
+</mapper>

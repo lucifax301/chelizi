@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:component-scan base-package="com.lili.user.manager.impl" />
+	<context:component-scan base-package="com.lili.user.service.impl" />
+
+	<bean id="cmsBBSServiceLocal" class="com.lili.user.service.impl.CmsBBSServiceImpl" />
+	
+	<bean id="cmsUserServiceLocal" class="com.lili.user.service.impl.CMSUserServiceImpl" />
+	<bean id="cmsPermissionServiceLocal" class="com.lili.user.service.impl.CMSPermissionServiceImpl" />
+	
+	<bean id="cmsUserManager" class="com.lili.user.manager.impl.CMSUserManagerImpl" />
+	<bean id="cmsPermissionManager" class="com.lili.user.manager.impl.CMSPermissionManagerImpl" />
+	
+	
+	<bean id="cmsRoleManager" class="com.lili.user.manager.impl.CMSRoleManagerImpl" />
+	<bean id="cmsRoleServiceLocal" class="com.lili.user.service.impl.CMSRoleServiceImpl" />
+	
+	<bean id="cmsSchoolDataManager" class="com.lili.user.manager.impl.CMSSchoolDataManagerImpl" />
+	<bean id="cmsSchoolDataServiceLocal" class="com.lili.user.service.impl.CMSSchoolDataServiceImpl" />
+	
+	<bean id="exceptionHandler" class="com.lili.cms.aop.ExceptionHandler" />
+	<bean id="logHandler" class="com.lili.cms.aop.LogHandler" />
+	<bean id="logDBHandler" class="com.lili.common.aop.LogDBHandler" />
+
+
+	<aop:config>
+		<aop:pointcut id="servicePointcut"
+			expression="execution(* com.lili.user.service.impl.*.*(..))" />
+		<aop:pointcut id="managerPointcut"
+			expression="execution(* com.lili.user.manager.impl.*.*(..))" />
+		<aop:pointcut id="logDBPointcut"
+			expression="execution(* com.lili.user.service.impl.*.*(..))" />
+
+		<aop:aspect id="exceptionHandlerAspect" ref="exceptionHandler"
+			order="1">
+			<aop:after-throwing pointcut-ref="servicePointcut"
+				method="exceptionLog" throwing="ex" />
+			<aop:after-throwing pointcut-ref="managerPointcut"
+				method="exceptionLog" throwing="ex" />
+		</aop:aspect>
+
+
+		<aop:aspect id="logAspect" ref="logHandler" order="1">
+			<!-- <aop:before pointcut-ref="servicePointcut" method="argsLog" />
+			<aop:before pointcut-ref="managerPointcut" method="argsLog" /> 
+			<aop:around pointcut-ref="servicePointcut" method="execTimeLog" />-->
+			<aop:around pointcut-ref="managerPointcut" method="execTimeLog" />
+		</aop:aspect>
+		<aop:aspect id="logDBAspect" ref="logDBHandler" order="2">
+			<aop:after pointcut-ref="logDBPointcut" method="logAfter" />
+		</aop:aspect>
+	</aop:config>
+
+
+</beans>

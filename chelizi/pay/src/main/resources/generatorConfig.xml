@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <!-- <properties resource="jdbc.properties"/> -->
+    <classPathEntry location="D:\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar"/>
+    <context id="MysqlContext" targetRuntime="MyBatis3"
+             defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.99:3306/db_lili?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root"
+                        password="chelizi">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.lili.pay.dto"
+                            targetProject="pay/src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.lili.pay.mapper.xml"
+                         targetProject="pay/src/main/java"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.lili.pay.mapper.dao" targetProject="pay/src/main/java"/>
+
+<!--         <table schema="db_lili"
+               tableName="t_brokerage_enroll" domainObjectName="BrokerageEnroll"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table> -->
+        <table schema="db_lili"
+               tableName="t_s_schaccount" domainObjectName="SchoolAccount"
+               enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="true"/>
+        </table>
+        
+        
+    </context>
+</generatorConfiguration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

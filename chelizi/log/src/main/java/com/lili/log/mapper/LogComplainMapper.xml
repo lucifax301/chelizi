@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.log.mapper.dao.LogComplainMapper">
+	<resultMap id="BaseResultMap" type="com.lili.log.dto.LogComplain">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userid" jdbcType="BIGINT" />
+		<result column="userType" property="usertype" jdbcType="TINYINT" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="orderId" property="orderId" jdbcType="VARCHAR" />
+		<result column="targetId" property="targetId" jdbcType="BIGINT" />
+		<result column="targetType" property="targetType" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userId, userType, time, description, orderId, targetId, targetType
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="userType != null and userType != ''">
+				and userType = #{userType}
+			</if>
+			<if test="userId != null and userId != ''">
+				and userId = #{userId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_log_complain
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_log_complain
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.log.dto.LogComplain">
+		insert into t_log_complain (id, userId, userType, time, description, orderId,
+		targetId, targetType)
+		values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT},
+		#{userType,jdbcType=TINYINT},
+		#{time,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+		#{targetId,jdbcType=BIGINT}, #{targetType,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.log.dto.LogComplain">
+		insert into t_log_complain
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="userType != null">
+				userType,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="orderId != null">
+				orderId,
+			</if>
+			<if test="targetId != null">
+				targetId,
+			</if>
+			<if test="targetType != null">
+				targetType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=TINYINT},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="targetId != null">
+				#{targetId,jdbcType=BIGINT},
+			</if>
+			<if test="targetType != null">
+				#{targetType,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.log.dto.LogComplain">
+		update t_log_complain
+		<set>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="userType != null">
+				userType = #{userType,jdbcType=TINYINT},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				orderId = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="targetId != null">
+				targetId = #{targetId,jdbcType=BIGINT},
+			</if>
+			<if test="targetType != null">
+				targetType = #{targetType,jdbcType=TINYINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.log.dto.LogComplain">
+		update t_log_complain
+		set userId = #{userId,jdbcType=BIGINT},
+		userType = #{userType,jdbcType=TINYINT},
+		time = #{time,jdbcType=TIMESTAMP},
+		description = #{description,jdbcType=VARCHAR},
+		orderId = #{orderId,jdbcType=VARCHAR},
+		targetId = #{targetId,jdbcType=BIGINT},
+		targetType = #{targetType,jdbcType=TINYINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.log.dto.LogComplain">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_device
+		<include refid="Example_Where_Clause" />
+	</select>
+
+</mapper>

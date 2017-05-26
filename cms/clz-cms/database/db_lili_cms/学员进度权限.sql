@@ -1,0 +1,2 @@
+update t_c_permission set ajax='/statistics-total/student,/statistics-total/progress/student,/student/progressStudent,/statistics-total/progress/export,/statistics-total/progress/student/report,/student/progressStudent/export' where id=110103;
+update t_c_permission set ajax='/student/view,/student/progress' where id=120523;

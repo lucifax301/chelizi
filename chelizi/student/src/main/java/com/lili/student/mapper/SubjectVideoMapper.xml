@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.SubjectVideoMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.dto.SubjectVideo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="examId" property="examId" jdbcType="INTEGER" />
+		<result column="serialId" property="serialId" jdbcType="INTEGER" />
+		<result column="fileType" property="fileType" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="vtime" property="vtime" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="video2Img" property="video2Img" jdbcType="VARCHAR" />
+		<result column="video3Img" property="video3Img" jdbcType="VARCHAR" />
+		<result column="isDel" property="isDel" jdbcType="INTEGER" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="utime" property="utime" jdbcType="TIMESTAMP" />
+		<result column="actionRemark" property="actionRemark" jdbcType="VARCHAR" />
+		<result column="standard" property="standard" jdbcType="VARCHAR" />
+		<result column="skill" property="skill" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, cityId, subject, examId,serialId,fileType, name, vtime, url, video2Img, video3Img, isDel,
+		creator, ctime, updater, utime, actionRemark, standard, skill,remark
+	</sql>
+	
+	 <sql id="myRowBoundsSQL">
+	    <if test="myRowBounds != null">
+	         limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		 </if>
+	 </sql>
+	 
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_subject_video
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="querySubjectVideoList" resultMap="BaseResultMap"  parameterType="com.lili.student.dto.SubjectVideo">
+		select
+			<include refid="Base_Column_List" />
+		from t_subject_video
+			where isDel=0 and  subject = #{subject,jdbcType=INTEGER}  
+					 <trim suffixOverrides=",">
+						<if test="cityId != null">
+							and	cityId = #{cityId,jdbcType=INTEGER}
+						</if>
+						<if test="examId != null">
+							and	examId = #{examId,jdbcType=INTEGER}
+						</if>
+						<if test="fileType != null">
+							and	fileType = #{fileType,jdbcType=INTEGER}
+						</if>
+						<if test="id != null">
+							and	id = #{id,jdbcType=INTEGER}
+						</if>
+					</trim>
+			order by serialId asc
+				 <include refid="myRowBoundsSQL" />
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_subject_video
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.student.dto.SubjectVideo">
+		insert into t_subject_video (id,cityId, subject, fileType,examId, serialId, 
+		name, vtime, url, video2Img,
+		video3Img, isDel, creator,
+		ctime, updater, utime, actionRemark, standard, skill,
+		remark)
+		values (#{id,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},#{subject,jdbcType=INTEGER},
+		#{fileType,jdbcType=INTEGER},#{examId,jdbcType=INTEGER},#{serialId,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR}, #{vtime,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+		#{video2Img,jdbcType=VARCHAR},
+		#{video3Img,jdbcType=VARCHAR}, #{isDel,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR},
+		#{utime,jdbcType=TIMESTAMP},#{actionRemark,jdbcType=VARCHAR},#{standard,jdbcType=VARCHAR},
+		#{skill,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.student.dto.SubjectVideo">
+		insert into t_subject_video
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="subject != null">
+				subject,
+			</if>
+			<if test="fileType != null">
+				fileType,
+			</if>
+			<if test="examId != null">
+				examId,
+			</if>
+			<if test="serialId != null">
+				serialId,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="vtime != null">
+				vtime,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="video2Img != null">
+				video2Img,
+			</if>
+			<if test="video3Img != null">
+				video3Img,
+			</if>
+			<if test="isDel != null">
+				isDel,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="utime != null">
+				utime,
+			</if>
+			<if test="actionRemark != null">
+				actionRemark,
+			</if>
+			<if test="standard != null">
+				standard,
+			</if>
+			<if test="skill != null">
+				skill,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="subject != null">
+				#{subject,jdbcType=INTEGER},
+			</if>
+			<if test="fileType != null">
+				#{fileType,jdbcType=INTEGER},
+			</if>
+			<if test="examId != null">
+				#{examId,jdbcType=INTEGER},
+			</if>
+			<if test="serialId != null">
+				#{serialId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="vtime != null">
+				#{vtime,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="video2Img != null">
+				#{video2Img,jdbcType=VARCHAR},
+			</if>
+			<if test="video3Img != null">
+				#{video3Img,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				#{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actionRemark != null">
+				#{actionRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="standard != null">
+				#{standard,jdbcType=VARCHAR},
+			</if>
+			<if test="skill != null">
+				#{skill,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.SubjectVideo">
+		update t_subject_video
+		<set>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="subject != null">
+				subject = #{subject,jdbcType=INTEGER},
+			</if>
+			<if test="fileType != null">
+				fileType = #{fileType,jdbcType=INTEGER},
+			</if>
+			<if test="examId != null">
+				examId = #{examId,jdbcType=INTEGER},
+			</if>
+			<if test="serialId != null">
+				serialId = #{serialId,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="vtime != null">
+				vtime = #{vtime,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="video2Img != null">
+				video2Img = #{video2Img,jdbcType=VARCHAR},
+			</if>
+			<if test="video3Img != null">
+				video3Img = #{video3Img,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				isDel = #{isDel,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				utime = #{utime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actionRemark != null">
+				actionRemark = #{actionRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="standard != null">
+				standard = #{standard,jdbcType=VARCHAR},
+			</if>
+			<if test="skill != null">
+				skill = #{skill,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.dto.SubjectVideo">
+		update t_subject_video
+		set cityId = #{cityId,jdbcType=INTEGER},
+		subject = #{subject,jdbcType=INTEGER},
+		examId = #{examId,jdbcType=INTEGER},
+		serialId = #{serialId,jdbcType=INTEGER},
+		fileType = #{fileType,jdbcType=INTEGER},
+		name = #{name,jdbcType=VARCHAR},
+		vtime = #{vtime,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		video2Img = #{video2Img,jdbcType=VARCHAR},
+		video3Img = #{video3Img,jdbcType=VARCHAR},
+		isDel = #{isDel,jdbcType=INTEGER},
+		creator = #{creator,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		updater = #{updater,jdbcType=VARCHAR},
+		utime = #{utime,jdbcType=TIMESTAMP},
+		actionRemark = #{actionRemark,jdbcType=VARCHAR},
+		standard = #{standard,jdbcType=VARCHAR},
+		skill = #{skill,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

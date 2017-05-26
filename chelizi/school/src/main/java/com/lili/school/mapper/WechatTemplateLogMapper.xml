@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatTemplateLogMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatTemplateLog">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+		<result column="student_phone" property="studentPhone"
+			jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="template_id" property="templateId" jdbcType="VARCHAR" />
+		<result column="to_user" property="toUser" jdbcType="VARCHAR" />
+		<result column="top_color" property="topColor" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="template_param" property="templateParam"
+			jdbcType="VARCHAR" />
+		<result column="errcode" property="errcode" jdbcType="INTEGER" />
+		<result column="errmsg" property="errmsg" jdbcType="VARCHAR" />
+		<result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+		<result column="msg_id" property="msgId" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, student_id, student_name, student_phone, status, template_id,
+		to_user, top_color,
+		url, template_param, errcode, errmsg, msg_type, msg_id, ctime, mtime
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_template_log
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_wechat_template_log
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.vo.WechatTemplateLog">
+		insert into t_wechat_template_log (id, student_id, student_name,
+		student_phone, status, template_id,
+		to_user, top_color, url,
+		template_param, errcode, errmsg,
+		msg_type, msg_id, ctime,
+		mtime)
+		values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=BIGINT},
+		#{studentName,jdbcType=VARCHAR},
+		#{studentPhone,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR},
+		#{toUser,jdbcType=VARCHAR}, #{topColor,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{templateParam,jdbcType=VARCHAR}, #{errcode,jdbcType=INTEGER}, #{errmsg,jdbcType=VARCHAR},
+		#{msgType,jdbcType=VARCHAR}, #{msgId,jdbcType=INTEGER},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatTemplateLog">
+		insert into t_wechat_template_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="studentName != null">
+				student_name,
+			</if>
+			<if test="studentPhone != null">
+				student_phone,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="templateId != null">
+				template_id,
+			</if>
+			<if test="toUser != null">
+				to_user,
+			</if>
+			<if test="topColor != null">
+				top_color,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="templateParam != null">
+				template_param,
+			</if>
+			<if test="errcode != null">
+				errcode,
+			</if>
+			<if test="errmsg != null">
+				errmsg,
+			</if>
+			<if test="msgType != null">
+				msg_type,
+			</if>
+			<if test="msgId != null">
+				msg_id,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="studentName != null">
+				#{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentPhone != null">
+				#{studentPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="templateId != null">
+				#{templateId,jdbcType=VARCHAR},
+			</if>
+			<if test="toUser != null">
+				#{toUser,jdbcType=VARCHAR},
+			</if>
+			<if test="topColor != null">
+				#{topColor,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="templateParam != null">
+				#{templateParam,jdbcType=VARCHAR},
+			</if>
+			<if test="errcode != null">
+				#{errcode,jdbcType=INTEGER},
+			</if>
+			<if test="errmsg != null">
+				#{errmsg,jdbcType=VARCHAR},
+			</if>
+			<if test="msgType != null">
+				#{msgType,jdbcType=VARCHAR},
+			</if>
+			<if test="msgId != null">
+				#{msgId,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatTemplateLog">
+		update t_wechat_template_log
+		<set>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="studentName != null">
+				student_name = #{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentPhone != null">
+				student_phone = #{studentPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="templateId != null">
+				template_id = #{templateId,jdbcType=VARCHAR},
+			</if>
+			<if test="toUser != null">
+				to_user = #{toUser,jdbcType=VARCHAR},
+			</if>
+			<if test="topColor != null">
+				top_color = #{topColor,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="templateParam != null">
+				template_param = #{templateParam,jdbcType=VARCHAR},
+			</if>
+			<if test="errcode != null">
+				errcode = #{errcode,jdbcType=INTEGER},
+			</if>
+			<if test="errmsg != null">
+				errmsg = #{errmsg,jdbcType=VARCHAR},
+			</if>
+			<if test="msgType != null">
+				msg_type = #{msgType,jdbcType=VARCHAR},
+			</if>
+			<if test="msgId != null">
+				msg_id = #{msgId,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatTemplateLog">
+		update t_wechat_template_log
+		set student_id = #{studentId,jdbcType=BIGINT},
+		student_name = #{studentName,jdbcType=VARCHAR},
+		student_phone = #{studentPhone,jdbcType=VARCHAR},
+		status = #{status,jdbcType=VARCHAR},
+		template_id = #{templateId,jdbcType=VARCHAR},
+		to_user = #{toUser,jdbcType=VARCHAR},
+		top_color = #{topColor,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		template_param = #{templateParam,jdbcType=VARCHAR},
+		errcode = #{errcode,jdbcType=INTEGER},
+		errmsg = #{errmsg,jdbcType=VARCHAR},
+		msg_type = #{msgType,jdbcType=VARCHAR},
+		msg_id = #{msgId,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

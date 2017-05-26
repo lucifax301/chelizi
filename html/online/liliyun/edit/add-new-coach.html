@@ -1,0 +1,52 @@
+<div class="edit-alert edit-big-size add-new-coach">
+<div class="mask"></div>
+<div class="main">
+<div id="add-new-coach" class="content">
+	<div class="title">{{editType}}新教练 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div class="order-table common-table">
+			<div class="search">
+				<div class="line">
+					<div>教练查询</div>
+					<div class="input-group">
+				      <input type="text" ng-model="newCoachNome" class="form-control name-search" placeholder="输入教练姓名查询">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" ng-click="searchCoachDetails(newCoachNome)" type="button">搜索</button>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div ng-class="[isBindCoachShow?'show':'hide']">
+				<div class="no-data" ng-show="bindCoachDetails&&newCoachNome?false:true">很抱歉,没有找到姓名为 "<span class="mainColor">{{newCoachNome}}</span>" 的教练信息,请检查输入的信息是否有误!</div>
+				<div ng-show="bindCoachDetails?true:false">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>姓名</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>已绑定学员</b></td>
+					  	<td><b>所教车型</b></td>
+					  	<td><b>选择车型</b></td>
+					  </tr>
+					  <tr>
+					  	<td><a href="javascript:void(0)" ng-click="alertCoachMsg(bindCoachDetails.coachId)" ng-bind="bindCoachDetails.name"></a></td>
+					  	<td ng-bind="bindCoachDetails.sex | sexText"></td>
+					  	<td ng-bind="bindCoachDetails.phoneNum"></td>
+					  	<td ng-bind="bindCoachDetails.studentAmount"></td>
+					  	<td ng-bind="bindCoachDetails.driveType | applyCarTypeTex"></td>
+					  	<td><input ng-checked = "c_coachId" ng-click="getNewCoach(bindCoachDetails.coachId)" type="radio"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="chaozuo margin-top-0" >
+					<button type="button" class="btn btn-sm btn-default closeAlert">取消</button>
+					<button type="button" ng-click="submitBindCoach($event)" class="btn btn-sm btn-primary">确认</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>

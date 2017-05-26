@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+<bean id="studentServiceLocal" class="com.lili.student.service.impl.StudentServiceImpl"></bean>
+<bean id="studentExerciseServiceLocal" class="com.lili.student.service.impl.StudentExerciseServiceImpl"></bean>
+<bean id="studentAuthServiceLocal" class="com.lili.student.service.impl.StudentAuthServiceImpl"></bean>
+<bean id="studentManagerLocal" class="com.lili.student.manager.impl.StudentManagerImpl"></bean>
+<bean id="studentAuthManagerLocal" class="com.lili.student.manager.impl.StudentAuthManagerImpl"></bean>
+<bean id="studentVipManagerLocal" class="com.lili.student.manager.impl.StudentVipManagerImpl"></bean>
+<bean id="studentVipServiceLocal" class="com.lili.student.service.impl.StudentVipServiceImpl"></bean>
+<bean id="mycoachesManagerLocal" class="com.lili.student.manager.impl.MycoachesManagerImpl"></bean>
+
+    <bean id="rechargeServiceLocal" class="com.lili.student.service.impl.RechargeServiceImpl"/>
+</beans>

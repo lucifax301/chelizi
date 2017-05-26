@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CourseMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.Course">
+		<result column="courseId" property="courseId" jdbcType="INTEGER" />
+		<result column="trainFieldId" property="trainFieldId" jdbcType="INTEGER" />
+		<result column="courseTmpId" property="courseTmpId" jdbcType="INTEGER" />
+		<result column="orderId" property="orderId" jdbcType="VARCHAR" />
+		<result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="courseState" property="courseState" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		courseId,trainFieldId,courseTmpId,orderId,startTime,courseState
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="courseId != null and courseId != ''">
+				and courseId = #{courseId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_course
+		where courseId = #{courseId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_u_course
+		where courseId = #{courseId,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.coach.dto.Course"
+		useGeneratedKeys="true" keyProperty="courseId">
+		insert into t_u_course
+		(courseId,trainFieldId,courseTmpId,orderId,startTime,courseState)
+		values
+		(#{courseId,jdbcType=INTEGER},#{trainFieldId,jdbcType=INTEGER},#{courseTmpId,jdbcType=INTEGER},#{orderId,jdbcType=VARCHAR},#{startTime,jdbcType=TIMESTAMP},#{courseState,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.Course"
+		useGeneratedKeys="true" keyProperty="courseId">
+		insert into t_u_course
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="courseId != null">
+				courseId,
+			</if>
+			<if test="trainFieldId != null">
+				trainFieldId,
+			</if>
+			<if test="courseTmpId != null">
+				courseTmpId,
+			</if>
+			<if test="orderId != null">
+				orderId,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="courseState != null">
+				courseState,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="courseId != null">
+				#{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="trainFieldId != null">
+				#{trainFieldId,jdbcType=INTEGER},
+			</if>
+			<if test="courseTmpId != null">
+				#{courseTmpId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="courseState != null">
+				#{courseState,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Course">
+		update t_u_course
+		<set>
+			<if test="courseId != null">
+				courseId = #{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="trainFieldId != null">
+				trainFieldId = #{trainFieldId,jdbcType=INTEGER},
+			</if>
+			<if test="courseTmpId != null">
+				courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				orderId = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="courseState != null">
+				courseState = #{courseState,jdbcType=INTEGER},
+			</if>
+		</set>
+		where courseId = #{courseId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Course">
+		update t_u_course
+		set
+		courseId = #{courseId,jdbcType=INTEGER},
+		trainFieldId = #{trainFieldId,jdbcType=INTEGER},
+		courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+		orderId = #{orderId,jdbcType=VARCHAR},
+		startTime =
+		#{startTime,jdbcType=TIMESTAMP},
+		courseState =
+		#{courseState,jdbcType=INTEGER}
+		where courseId = #{courseId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_course
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_u_course
+		<include refid="Example_Where_Clause" />
+	</select>
+</mapper>

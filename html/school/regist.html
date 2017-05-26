@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>喱喱云平台</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="login-body">
+<div class="login-logo z-tc"><img src="assets/img/lililogo.png" alt=""></div>
+<div class="admin">
+    <div class="login">
+        <div class="welcome z-font-yh z-tl z-font22 z-mb30">欢迎使用 <span class="z-font16 z-fr" style="margin-top: 5px;">已有帐号？<a href="login.html">马上登录</a></span></div>
+        <p class="z-mt20 z-mb20">注：新驾校注册前请先联系喱喱客服获取权限，有任何疑问请联系喱喱客服：400-666-6666</p>
+        <form id="registForm">
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-person-outline"></span>
+                <input type="text" name="schoolAccount" placeholder="用户名(6-20个字符)" id="schoolAccount" class="inputxt" datatype="/^[A-Za-z0-9]{6,20}$/" errormsg="用户名须为6-20位字母或数字" nullmsg="请输入用户名">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-locked-outline"></span>
+                <input type="password" name="schoolPwd" placeholder="设置密码" id="schoolPwd" datatype="*6-15" errormsg="密码范围在6~15位之间！" nullmsg="请输入密码">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-locked-outline"></span>
+                <input type="password" name="schoolPwd2" placeholder="确认密码" id="schoolPwd2" datatype="*" recheck="schoolPwd" errormsg="您两次输入的账号密码不一致！" nullmsg="请再次输入密码">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-social-dropbox-outline"></span>
+                <input type="text" name="schoolName" placeholder="驾校全称" id="schoolName" datatype="*" errormsg="请输入驾校全称" nullmsg="请输入驾校全称">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-social-dropbox-outline"></span>
+                <input type="text" name="shortName" placeholder="常用简称(例如：深圳驾校)" id="shortName" datatype="*" errormsg="请填写驾校的常用简称" nullmsg="请填写驾校的常用简称">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-location-outline"></span>
+                <input type="hidden" name="cityId" placeholder="选择城市" id="cityId" datatype="*" errormsg="请选择驾校城市" nullmsg="请选择驾校城市">
+                <input type="hidden" name="city" id="city">
+                <div id="chooseCity"><span class="z-fontlight">请选择驾校城市</span> <i class="icon-user-info ion-arrow-down-b z-fr"></i></div>
+                <ul class="regist-city">
+                    <li data-cityid="100103">深圳</li>
+                    <li data-cityid="100104">东莞</li>
+                    <li data-cityid="100105">西安</li>
+                    <li data-cityid="100106">长沙</li>
+                </ul>
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-location-outline"></span>
+                <input type="text" name="address" placeholder="驾校详细地址" id="address" datatype="*" errormsg="请输入驾校详细地址" nullmsg="请输入驾校详细地址">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-personadd-outline"></span>
+                <input type="text" name="applyer" placeholder="申请人" id="applyer"  datatype="*" errormsg="请输入申请人姓名" nullmsg="请输入申请人姓名">
+            </div>
+            <div class="input-text">
+                <span class="icon-user-info ion-ios-telephone-outline"></span>
+                <input type="text" name="phoneNum" placeholder="联系电话" id="phoneNum" datatype="*" errormsg="请输入联系电话" nullmsg="请输入联系电话">
+            </div>
+            <a id="admin-submit" type="button" class="btn btn-primary btn-block submit regist-btn">注册</a>
+        </form>
+    </div>
+    <div class="apply-success z-tc" style="display: none;">
+        <img src="assets/img/ico-success.png" style="margin-top:70px;">
+        <p class="z-font16 z-font-yh" style="margin: 30px auto 50px;">您开通驾校帐号的申请已经成功提交，喱喱会在半个工作日内审核处理；<br>您也可以电联喱喱客服(400-666-6666)加急处理！<p/>
+        <a href="login.html" class="btn btn-sm btn-primary" style="padding-left:35px; padding-right: 35px; ">返回登录</a>
+    </div>
+</div>
+<p class="z-pt20 z-tc z-font14 z-fontgray">粤ICP15101713号 -1 \ 车厘子网络科技 \ Copyright@2016</p>
+</body>
+<script src="assets/common/js/jquery-1.11.3.min.js"></script>
+<script src="assets/common/js/Validform_v5.3.2_min.js"></script>
+<script src="assets/common/js/common.js"></script>
+<script src="assets/common/js/PopLayer.js"></script>
+<script src="assets/common/jiami/sha1.js"></script>
+<script src="assets/js/function.js"></script>
+<!-- 主要js开始 -->
+<script src="assets/js/regist.js"></script>
+</html>	

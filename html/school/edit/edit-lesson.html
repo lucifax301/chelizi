@@ -1,0 +1,49 @@
+<div class="edit-alert edit-coach edit-lesson" ng-controller="lessons">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-coach" class="content">
+	<div class="title">新建课程 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>上课日期:</dt>
+				<dd><input type="text" class="form-control" id="classDate" ng-readonly="true" ng-model="editData.classTime"></dd>
+			</dl>
+			<dl>
+				<dt>课程时间:</dt>
+				<dd><input type="text" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>课程名称:</dt>
+				<dd><input type="text" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>携带证件:</dt>
+				<dd>
+					<select class="form-control"><!--ng-model="editData.sex" -->
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">身份证</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>联系人:</dt>
+				<dd><input type="text" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>联系电话:</dt>
+				<dd><input type="text" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>上课地点:</dt>
+				<dd><input type="text" class="form-control"></dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>		
+	</div>
+</div>
+</div>
+</div>

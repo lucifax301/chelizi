@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="cmsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="cmsSource" />
+		<property name="mapperLocations" value="classpath:com/lili/finance/mapper/cms/*.xml" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lili.finance.mapper.dao.cms" />
+		<property name="sqlSessionFactoryBeanName" value="cmsSqlSessionFactory" />
+	</bean>
+
+	<bean id="commonSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="commonSource" />
+		<property name="mapperLocations"
+			value="classpath:com/lili/finance/mapper/common/*.xml" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lili.finance.mapper.dao.common" />
+		<property name="sqlSessionFactoryBeanName" value="commonSqlSessionFactory" />
+	</bean>
+
+</beans>

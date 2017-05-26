@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.BrandCarMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.BrandCar">
+		<id column="seqId" property="seqid" jdbcType="INTEGER" />
+		<result column="brandNo" property="brandno" jdbcType="VARCHAR" />
+		<result column="brandName" property="brandname" jdbcType="VARCHAR" />
+		<result column="carNo" property="carno" jdbcType="VARCHAR" />
+		<result column="carName" property="carname" jdbcType="VARCHAR" />
+		<result column="isCommon" property="iscommon" jdbcType="TINYINT" />
+		<result column="seqNum" property="seqnum" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		seqId, brandNo, brandName, carNo, carName, isCommon, seqNum
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="brandno != null and brandno != ''">
+				and brandNo = #{brandno}
+			</if>
+			<if test="iscommon != null and iscommon != ''">
+				and isCommon = #{iscommon}
+			</if>
+		</trim>
+	</sql>
+
+<select id="findBatch" parameterType="com.lili.school.model.BrandCarBDTO"  resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from  t_brand_car
+		where 1=1
+		order by seqId desc
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_brand_car
+		where seqId = #{seqid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_brand_car
+		where seqId = #{seqid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.BrandCar">
+		insert into t_brand_car
+		(seqId, brandNo, brandName,
+		carNo, carName, isCommon,
+		seqNum)
+		values
+		(#{seqid,jdbcType=INTEGER}, #{brandno,jdbcType=VARCHAR},
+		#{brandname,jdbcType=VARCHAR},
+		#{carno,jdbcType=VARCHAR},
+		#{carname,jdbcType=VARCHAR}, #{iscommon,jdbcType=TINYINT},
+		#{seqnum,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.BrandCar">
+		insert into t_brand_car
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="seqid != null">
+				seqId,
+			</if>
+			<if test="brandno != null">
+				brandNo,
+			</if>
+			<if test="brandname != null">
+				brandName,
+			</if>
+			<if test="carno != null">
+				carNo,
+			</if>
+			<if test="carname != null">
+				carName,
+			</if>
+			<if test="iscommon != null">
+				isCommon,
+			</if>
+			<if test="seqnum != null">
+				seqNum,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="seqid != null">
+				#{seqid,jdbcType=INTEGER},
+			</if>
+			<if test="brandno != null">
+				#{brandno,jdbcType=VARCHAR},
+			</if>
+			<if test="brandname != null">
+				#{brandname,jdbcType=VARCHAR},
+			</if>
+			<if test="carno != null">
+				#{carno,jdbcType=VARCHAR},
+			</if>
+			<if test="carname != null">
+				#{carname,jdbcType=VARCHAR},
+			</if>
+			<if test="iscommon != null">
+				#{iscommon,jdbcType=TINYINT},
+			</if>
+			<if test="seqnum != null">
+				#{seqnum,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.BrandCar">
+		update t_brand_car
+		<set>
+			<if test="brandno != null">
+				brandNo = #{brandno,jdbcType=VARCHAR},
+			</if>
+			<if test="brandname != null">
+				brandName = #{brandname,jdbcType=VARCHAR},
+			</if>
+			<if test="carno != null">
+				carNo = #{carno,jdbcType=VARCHAR},
+			</if>
+			<if test="carname != null">
+				carName = #{carname,jdbcType=VARCHAR},
+			</if>
+			<if test="iscommon != null">
+				isCommon = #{iscommon,jdbcType=TINYINT},
+			</if>
+			<if test="seqnum != null">
+				seqNum = #{seqnum,jdbcType=INTEGER},
+			</if>
+		</set>
+		where seqId = #{seqid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.BrandCar">
+		update t_brand_car
+		set brandNo = #{brandno,jdbcType=VARCHAR},
+		brandName =
+		#{brandname,jdbcType=VARCHAR},
+		carNo = #{carno,jdbcType=VARCHAR},
+		carName = #{carname,jdbcType=VARCHAR},
+		isCommon =
+		#{iscommon,jdbcType=TINYINT},
+		seqNum = #{seqnum,jdbcType=INTEGER}
+		where
+		seqId = #{seqid,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.BrandCar">
+		select
+		<include refid="Base_Column_List" />
+		from t_brand_car
+		<include refid="Example_Where_Clause" />
+		<if test="seqnum != null">
+			order by CONVERT(carName USING gbk ) COLLATE gbk_chinese_ci
+		</if>
+	</select>
+	
+	<select id="getAllBrandName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_brand_car
+		group by brandName
+	</select>
+	
+	
+	<select id="getCarByBrand" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_brand_car
+		where 
+		brandName = #{brandname}
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_brand_car
+		<include refid="Example_Where_Clause" />
+	</select>
+
+</mapper>

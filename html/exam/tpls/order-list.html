@@ -1,0 +1,22 @@
+<div class="container2 line-gray20 container-order-list" ng-class="{true:'bottom-fixed-bd'}[showEditButton]">
+    <div class="text-center pt20 pb15">
+        <span ng-bind="pdate" class="pl5 pr5"></span>
+        <span ng-bind="pstartTxt" class="pl5 pr5"></span>
+        <span class="pl5 pr5">预约详情</span>
+    </div>
+    <div>
+        <a class="y-cell font-normal" ng-repeat="item in datas" href="#/order-view?orderId={{item.orderId}}">
+            <div class="cell__hd"><span ng-bind="'C'+item.drtype + ' ' + item.coachName"></span><br><span class="font-light" ng-bind="(item.pstart|timeTexHI)+'-'+(item.pend|timeTexHI)"></span></div>
+            <div class="cell__bd text-right"><span ng-bind="(item.state==0||item.state==4)?'无验证码':item.code" ng-class="{'font-org':item.codeValid==1,'font-succes':item.codeValid==0,'font-light':(item.state==0||item.state==4)}"></span><span ng-class="{'font-org':item.codeValid==1,'font-succes':item.codeValid==0}" ng-bind="'('+(item.codeValid|codeValidTex)+')'" ng-if="!(item.state==0||item.state==4)"></span><br><span  class="font-light" ng-bind="'+'+(item.payTotal/100|number:2)"></span></div>
+            <div class="cell__ft"><i class="ion-ios-arrow-right ml10" ></i></div>
+        </a>
+    </div>
+    <div class="show-more-btn" ng-if="showMoreEnd" style="margin-left: -35px; margin-right: -35px;">没有更多数据了</div>
+</div>
+<div class="container2 text-center bottom-fixed-ft" ng-if="showEditButton">
+    <button ng-click="shutClass()" class="button-default border-r2  button-one-half">关闭</button>
+    <a href="#/class-edit?classId={{classId}}" class="button-submit border-r2 clear_border button-one-half white" >编辑</a>
+</div>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+
+

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="UptateTel">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>修改手机号</title>
+    <link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+    <script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>修改手机号</h1></div>
+        <div class="order-table table-margin common-table">
+            <!--输入验证码-->
+            <div class="findPassword" ng-show="findPassword">
+                <div class="content w-change-password d-change-password">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">原绑定手机号：</label>
+                            <div class="col-sm-6">
+                                <p class="oringe" style="padding: 6px 0px;">{{schoolDetails.mobile?schoolDetails.mobile:'000****0000'}}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+                            <div class="col-sm-6">
+                                <button type="button" ng-disabled="!isClick" ng-click="ObtainCode1()" class="btn btn-sm btn-primary">{{getMsgText}} {{nowMsgTime}}</button>
+                                <span ng-if="isobtainCode" class="ion-checkmark-circled succes d-code"><em ng-bind="isobtainCode"></em></span>
+                                <!--<span ng-if="isobtainCode===0?true:false" class="ion-checkmark-circled succes"></span>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">验证码：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="6" ng-model="captcha" class="form-control" placeholder="请输入验证码">
+                                <span ng-if="iscaptcha"  class="ion-minus-circled error"><em ng-bind="iscaptcha"></em></span>
+                                <span ng-if="iscaptcha===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <a ng-click="SetPassword()" class="btn btn-primary">下一步</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--新手机号-->
+            <div class="newTel" ng-show="newTel">
+                <div class="content w-change-password d-change-password">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">新手机号：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="11" ng-model="newtel" class="form-control" placeholder="请输入绑定的手机号">
+                                <span ng-if="isnewtel"  class="ion-minus-circled error"><em ng-bind="isnewtel"></em></span>
+                                <span ng-if="isnewtel===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+                            <div class="col-sm-6">
+                                <button type="button" ng-disabled="!isClick" ng-click="ObtainCode2()" class="btn btn-sm btn-primary">{{getMsgText}} {{nowMsgTime}}</button>
+                                <span ng-if="isobtainCodeTo" class="ion-checkmark-circled succes d-code"><em ng-bind="isobtainCodeTo"></em></span>
+                                <!--<span ng-if="isobtainCode===0?true:false" class="ion-checkmark-circled succes"></span>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">验证码：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="6" ng-model="newcaptcha" class="form-control" placeholder="请输入位验证码">
+                                <span ng-if="isnewcaptcha"  class="ion-minus-circled error"><em ng-bind="isnewcaptcha"></em></span>
+                                <span ng-if="isnewcaptcha===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <a ng-click="uptateTel()" class="btn btn-primary">确定</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!--绑定手机号修改成功-->
+            <div class="d-account-text accountText" ng-if="accountText">
+                <h1><i class="ion-checkmark-circled succes"></i>绑定账号手机号修改成功</h1>
+                <h2><a href="schools-account.html">返回[财务管理-驾校钱包]</a></h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js?v=6ce0c67ce71470826781015"></script>
+<script src="assets/js/ng-js/schools-account-updateTel.js?v=c55c7d1c641470826781028"></script>
+</body>
+</html>

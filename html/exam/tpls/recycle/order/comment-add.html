@@ -1,0 +1,79 @@
+<div ng-cloak>
+	<div class="coach-list y-comment">
+		<div class="coach-user">
+			<div class="y-box-flex">
+				<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+					<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+					<img src="img/user.png" ng-if="!coachinfo.headIcon">
+				</div>
+				<div class="userinfo">
+					<div class="name">
+						{{coachinfo.name}} 
+						<span ng-if='itemcoachinfoimportSrc'>{{coachinfo.importSrc}}</span>
+						<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+						<a class="phone mind" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+					</div>
+					<div class="name">
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15">
+		<div class="y-cell">
+			<div class="cell__bd">
+				车辆信息
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{coachinfo.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">
+				{{coachinfo.carNo}}
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 mt10 pr15 pt10 order-comment">
+		<div class="text-center f14 lh30 mb10">
+			<span class="title-hr"></span>
+			给你的教练评分
+			<span class="title-hr"></span>
+		</div>
+		<div class="text-center">
+			<label class="star" ng-class="{true:'active'}[chestar>=1]">
+				<input type="radio" ng-model="chestar" name="chestar" value="1" class="hide"/>
+			</label>
+			<label class="star" ng-class="{true:'active'}[chestar>=2]">
+				<input type="radio" ng-model="chestar" name="chestar" value="2" class="hide"/>
+			</label>
+			<label class="star" ng-class="{true:'active'}[chestar>=3]">
+				<input type="radio" ng-model="chestar" name="chestar" value="3" class="hide"/>
+			</label>
+			<label class="star" ng-class="{true:'active'}[chestar>=4]">
+				<input type="radio" ng-model="chestar" name="chestar" value="4" class="hide"/>
+			</label>
+			<label class="star" ng-class="{true:'active'}[chestar>=5]">
+				<input type="radio" ng-model="chestar" name="chestar" value="5" class="hide"/>
+			</label>
+		</div>
+		<div class="comment-tag">
+			<label ng-repeat="item in tag" ng-if="item.dfType == chestar">
+				<input type="checkbox" data-id="{{item.ctid}}">
+				<div class="cheicon"></div>
+				{{item.tag}}
+				<img src="img/order/icon-{{item.goodBad==0?'bad':'good'}}.png">
+			</label>
+		</div>
+		<textarea rows="3" class="comment-text p10 f12" ng-model="reason" placeholder="其他意见及建议"></textarea>
+		<div class="y-comment pb20">
+			<div class="w-50 fl pr5">
+				<a class="button-submit hollow" ng-click="addcomment(1)">匿名评价</a>
+			</div>
+			<div class="w-50 fl pl5">
+				<a class="button-submit" ng-click="addcomment(2)">提交评价</a>
+			</div>
+		</div>
+	</div>
+</div>

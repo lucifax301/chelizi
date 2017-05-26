@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.common.TitleTypeMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.model.TitleTypeVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="utime" property="utime" jdbcType="DATE" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, channel, name, ctime, creater, utime, updater, remark
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_titile_type
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryTitleList" resultMap="BaseResultMap" parameterType="com.lili.student.model.TitleTypeVo">
+		select
+		<include refid="Base_Column_List" />
+		from t_titile_type
+		where  1=1
+			<if test="channel != null and channel != ''">
+				and channel = #{channel}
+			</if>
+		order by creater desc
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_titile_type
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.lili.student.model.TitleTypeVo">
+		insert into t_titile_type (id, channel, name,
+		ctime, creater, utime,
+		updater, remark)
+		values (#{id,jdbcType=INTEGER}, #{channel,jdbcType=TINYINT},
+		#{name,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{utime,jdbcType=DATE},
+		#{updater,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.student.model.TitleTypeVo">
+		insert into t_titile_type
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="channel != null">
+				channel,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="utime != null">
+				utime,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="channel != null">
+				#{channel,jdbcType=TINYINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				#{utime,jdbcType=DATE},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.model.TitleTypeVo">
+		update t_titile_type
+		<set>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				utime = #{utime,jdbcType=DATE},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.model.TitleTypeVo">
+		update t_titile_type
+		set channel = #{channel,jdbcType=TINYINT},
+		name = #{name,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		creater = #{creater,jdbcType=VARCHAR},
+		utime = #{utime,jdbcType=DATE},
+		updater = #{updater,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

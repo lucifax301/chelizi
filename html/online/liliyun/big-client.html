@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="bigClient">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大客户</title>
+    <link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+    <script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <div class="common-style withdraw-cash data-statistics order-detail">
+        <div class="title">
+            <div class="d-title">大客户</div>
+        </div>
+        <div class="padding-20">
+            <div class="table-margin common-table liliyun-common-table">
+                <div class="content">
+                    <div class="search">
+                        <div class="senior-search row">
+                            <div class="col-xs-12 col-sm-5">
+                                <div class="liliyun-search">高级查询</div>
+                                <div class="input-group search-more-condition">
+                                    <select ng-model="searchType" ng-clange="changeSearchTex" id="search_type" class="form-control">
+                                        <option value="company">公司名</option>
+                                        <option value="mobile">电话</option>
+                                    </select>
+                                    <input type="text" ng-model="search" class="form-control" id="search_placeholder" placeholder="输入公司名查询">
+									<span class="input-group-btn">
+										<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+									</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="senior-search row">
+                            <div class="col-xs-12 col-sm-8">
+                                <a ng-click="addClient()" class="btn btn-sm btn-primary" ng-if="120902|isAccessShow">新建大客户</a>
+                                <a ng-click="downLoadData()" class="btn btn-sm btn-primary margin-left-15" ng-if="120915|isAccessShow">数据导出</a>
+                                <a ng-click="active()" class="btn btn-sm btn-primary margin-left-15" ng-if="120904|isAccessShow">激活启用</a>
+                                <a ng-click="inactive()" class="btn btn-sm btn-danger margin-left-15" ng-if="120905|isAccessShow">停止发放</a>
+                            </div>
+                            <div class="col-xs-12 col-sm-4 select text-right">
+                                <span>每页</span>
+                                <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                    <option value="10" selected="selected">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                <span>条记录</span>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)">
+                                    </td>
+                                    <td><b>大客户全称</b></td>
+                                    <td><b>表示简称</b></td>
+                                    <td><b>地区</b></td>
+                                    <td><b>客户经理</b></td>
+                                    <td><b>联系电话</b></td>
+                                    <td><b>操作人</b></td>
+                                    <td><b>录入时间</b></td>
+                                    <td><b>是否可用</b></td>
+                                    <td><b>操作</b></td>
+                                </tr>
+                                <tr ng-repeat="item in datas">
+                                    <td align="center"><input type="checkbox" id="{{item.coid}}" ng-click="updateSelection($event,item.coid)" ng-checked="isSelected(item.coid)"></td>
+                                    <td><a href="big-client-details.html?coid={{item.coid}}&cityId={{item.cityId}}" ng-bind="item.company" ng-if="120906|isAccessShow"></a><span ng-bind="item.company" ng-if="!(120906|isAccessShow)"></span></td>
+                                    <td ng-bind="item.shorter"></td>
+                                    <td ng-bind="item.city"></td>
+                                    <td ng-bind="item.manger"></td>
+                                    <td ng-bind="item.mobile"></td>
+                                    <td ng-bind="item.createUser"></td>
+                                    <td ng-bind="item.ctime | timeTex"></td>
+                                    <td ng-class="{green: item.active==1, error: item.active==0}" ng-bind="item.active | activeTex"></td>          
+                                    <td><a href="javascript:void(0)" ng-click="editClient(item)" ng-if="120907|isAccessShow">编辑</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <ng-include src="'edit/add-client.html'"></ng-include>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/big-client.js?v=12289264e61473298817674"></script>
+</body>
+</html>

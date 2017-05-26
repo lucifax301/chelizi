@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.FieldMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.Field">
+		<result column="trainFieldId" property="fieldId" jdbcType="BIGINT" />
+		<result column="lge" property="lge" jdbcType="DOUBLE" />
+		<result column="lae" property="lae" jdbcType="DOUBLE" />
+		<result column="posDesc" property="posDesc" jdbcType="VARCHAR" />
+		<result column="reverseLim" property="reverseLim" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="region" property="region" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="isdel" property="isdel" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		trainFieldId as fieldId,lge,lae,posDesc,reverseLim,phoneNum,region,name,schoolId, isdel
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="trainFieldId != null and trainFieldId != ''">
+				and trainFieldId = #{fieldId}
+			</if>
+		</trim>
+	</sql>
+
+  <select id="findOne"  resultMap="BaseResultMap">
+	select a.schoolId,
+	 	 a.trainFieldId as fieldId,a.lge,a.lae,a.posDesc,a.reverseLim,a.phoneNum,a.region,a.name as name,b.name as schoolName,a.isdel as isdel
+	from t_s_trfield a join t_s_school b on a.schoolId = b.schoolId
+	where trainFieldId = #{fieldId}
+<!-- 	and schoolId = #{schoolId} -->
+  </select>
+  
+  
+  <select id="findOneByBDTO"  resultMap="BaseResultMap">
+	select distinct
+	<include refid="Base_Column_List" />
+	from t_s_trfield
+	where 1=1
+				<if test="name != null and name != ''">
+					and name = #{name}
+				</if>
+  </select>
+  
+  <select id="queryFiled"  resultMap="BaseResultMap">
+	select distinct
+		<include refid="Base_Column_List" />
+	from t_s_trfield
+	where schoolId = #{schoolId}
+	 		and name = #{name} limit 1
+  </select>
+  
+    <select id="findTotalField"  resultType="java.lang.Integer">
+    select count(1) from t_s_trfield 
+    	 <if test="cmsChannel == 2">
+	    	where schoolId =#{schoolId}
+		</if>
+  </select>
+  
+  <select id="queryFieldIsUseList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_trfield
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and trainFieldId in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and trainFieldId in ('')
+				</if>
+			</trim>
+			and isdel=0
+	</select>
+	
+  <select id="queryFieldIsDelList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_s_trfield
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and trainFieldId in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and trainFieldId in ('')
+				</if>
+			</trim>
+			and isdel=1
+	</select>
+  
+  	<select id="findExportBatch" resultMap="BaseResultMap">
+	  select
+	  	a.trainFieldId as fieldId,a.lge,a.lae,a.posDesc,a.reverseLim,a.phoneNum,a.region,a.name as name,b.name as schoolName,a.isdel as isdel,
+	  	 (select r.region from t_s_region r where r.rid = SUBSTR(a.region,1,6)) as city
+	  from t_s_trfield a join t_s_school b on a.schoolId = b.schoolId
+	  Where  1=1
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			<if test="region != null and region != ''">
+				and SUBSTR(a.region,1,6) = #{region}
+			</if>
+	
+	  order by a.trainFieldId desc
+		limit 0,1000
+	</select>
+	
+	<select id="findBatch" resultMap="BaseResultMap">
+	  select a.schoolId,
+	 	 a.trainFieldId as fieldId,a.lge,a.lae,a.posDesc,a.reverseLim,a.phoneNum,a.region,a.name as name,b.name as schoolName,a.isdel as isdel,
+	 	 (select r.region from t_s_region r where r.rid = SUBSTR(a.region,1,6)) as city
+	  from t_s_trfield a join t_s_school b on a.schoolId = b.schoolId
+	  Where 1=1  
+			<if test="region != null and region != ''">
+				and SUBSTR(a.region,1,6) = #{region}
+			</if>
+			<if test="name != null and name != ''">
+				and a.name = #{name}
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+			order by a.trainFieldId desc
+	</select>
+	
+	
+	<insert id="insertSelective" parameterType="com.lili.school.model.Field"
+		useGeneratedKeys="true" keyProperty="fieldId">
+		insert into t_s_trfield
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="posDesc != null">
+				posDesc,
+			</if>
+			<if test="reverseLim != null">
+				reverseLim,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+			<if test="region != null">
+				region,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				#{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				#{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="posDesc != null">
+				#{posDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="reverseLim != null">
+				#{reverseLim,jdbcType=INTEGER},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				#{region,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<update id="updateOne"  parameterType="com.lili.school.model.Field">
+		update t_s_trfield
+		<set>
+			<if test="schoolId != null">
+				schoolId = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="posDesc != null">
+				posDesc = #{posDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="reverseLim != null">
+				reverseLim = #{reverseLim,jdbcType=INTEGER},
+			</if>
+			<if test="phoneNum != null">
+				phoneNum = #{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				region = #{region,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=INTEGER},
+			</if>
+		</set>
+		where 
+		trainFieldId = #{fieldId,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

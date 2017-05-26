@@ -1,0 +1,204 @@
+	<div class="right_col">
+        <div class="page-title">
+	        <div class="title_left">
+	            <h3>用户列表</h3>
+	        </div>
+		    <div class="title_right">
+		        <div class="col-md-8 col-sm-8 col-xs-8 form-group pull-right top_search">
+		            <div class="input-group mt10">
+		                <input type="text" class="form-control" placeholder="用户名称/联系电话" ng-model="condition" ng-keyup="getkey($event)">
+		                <span class="input-group-btn">
+		                      <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+		                </span>
+		            </div>
+		        </div>
+	        </div>
+		</div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+					<div class="x_title z-heightauto">
+                        <button class="btn btn-default btn-sm" ng-click="resetForm();" data-toggle="modal" data-target="#addModal" ng-if="(100812 | isAccessShow)">新增用户</button>
+						<!-- <button class="btn btn-default btn-sm" ng-click="uploadfile()" ng-if="uploadbtn">上传用户资料 </button>
+                        <button class="btn btn-default btn-sm" ng-click="confirmImport()" ng-if="!uploadbtn">确认导入</button>
+						<button class="btn btn-default btn-sm" ng-click="cancelImport()" ng-if="!uploadbtn">取消导入</button>
+						<button class="btn btn-default btn-sm" ng-click="download()">下载模板</button> -->
+                    </div>
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+	                                <tr class="headings">
+	                                    <th class="column-title">登录手机号</th>
+	                                    <th class="column-title">用户名称</th>
+	                                    <th class="column-title" ng-if="uploadbtn">账号状态</th>
+										<th class="column-title" ng-if="uploadbtn">账号类型</th>
+	                                    <th class="column-title" ng-if="uploadbtn">创建时间</th>
+	                                    <th class="column-title" ng-if="uploadbtn">修改时间</th>
+	                                    <th class="column-title" ng-if="uploadbtn">操作</th>
+	                                </tr>
+                                </thead>
+                                <tbody>
+									<tr class="even pointer" ng-repeat="item in datas">
+										<td class="column-data" ng-bind="item.username"></td>
+										<td class="column-data" ng-bind="item.realname"></td>
+										<td class="column-data" ng-bind="item.status | accountStatus" ng-if="uploadbtn"></td>
+										<td class="column-data" ng-bind="item.issuper | accountType" ng-if="uploadbtn"></td>
+										<td class="column-data" ng-bind="item.ctime | timeTex" ng-if="uploadbtn"></td>
+										<td class="column-data" ng-bind="item.mtime | timeTex" ng-if="uploadbtn"></td>
+										<td class="column-data" ng-if="uploadbtn">
+											<span class="click-green" ng-click="showEdit(item)" data-toggle="modal" data-target="#editModal" ng-if="(100813 | isAccessShow) && (issuper == 1)">编辑</span>&nbsp;&nbsp;
+											<span class="click-red" ng-click="status(item)" ng-if="(100815 | isAccessShow) && (item.status == 0) && (item.issuper == 0)">停用账户</span>
+											<span class="click-green" ng-click="status(item)" ng-if="(100814 | isAccessShow) && (item.status == 1) && (item.issuper == 0)">启用账户</span>
+										</td>
+									</tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                	</div>
+            	</div>
+        	</div>
+    	</div>
+    </div>
+	
+	<!-- 新增弹框 -->
+    <div id="addModal" class="modal fade" >
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">新增用户</h4>
+                </div>
+                <div class="x_panel">
+                    <div class="x_content">
+                        <br />
+                        <form id="addUserForm" class="form-horizontal form-label-left">
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">手机号码 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<input name="username" type="text" class="form-control" placeholder="请输入登录手机号码" ng-model="addData.username">											
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">用户名称 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<input name="realname" type="text" class="form-control" placeholder="请输入用户名称" ng-model="addData.realname">
+										</div>
+									</div>
+								</div>                        
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">用户密码 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										   <input name="password" type="password" class="form-control" placeholder="请输入用户密码" ng-model="addData.password">
+										</div>
+									</div>
+								</div>
+							</div>							
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">确认密码 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										   <input name="password1" type="password" class="form-control" placeholder="请输入确认密码" ng-model="addData.password1">
+										</div>
+									</div>
+								</div>
+							</div>		
+							<div class="ln_solid"></div>
+							<div class="form-group text-center">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+									<button type="submit" class="btn btn-success">提交</button>
+								</div>
+							</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!-- 编辑信息 -->
+    <div id="editModal" class="modal fade">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑用户</h4>
+                </div>
+                <div class="x_panel">
+                    <div class="x_content">
+                        <br/>
+                        <form id="editUserForm" class="form-horizontal form-label-left">	
+                        	<input name="id" ng-model="editData.id" hidden="true">	
+                        	<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">手机号码 </label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<input name="username" type="text" class="form-control" ng-model="editData.username" readonly="true">
+										</div>
+									</div>
+								</div>
+							</div>
+                        	<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">用户名称 <span class="required">*</span>
+										</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<input name="realname" type="text" class="form-control" placeholder="请输入用户名称" ng-model="editData.realname">
+										</div>
+									</div>
+								</div>                        
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">用户密码</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										   <input name="password" type="password" class="form-control" placeholder="不修改密码保留为空" ng-model="editData.password">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 col-sm-12 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">确认密码</label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										   <input name="password1" type="password" class="form-control" placeholder="不修改密码保留为空" ng-model="editData.password1">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="ln_solid"></div>
+							<div class="form-group text-center">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-3">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+									<button type="submit" class="btn btn-success">提交</button>
+								</div>
+							</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

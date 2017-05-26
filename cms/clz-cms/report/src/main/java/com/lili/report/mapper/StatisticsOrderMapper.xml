@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.report.mapper.dao.IStatisticsOrderDao">
+	<resultMap id="BaseResultMap" type="com.lili.report.vo.StatisticsOrderVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="classOrder" property="classOrder" jdbcType="INTEGER" />
+		<result column="singupOrder" property="singupOrder" jdbcType="INTEGER" />
+		<result column="rClassOrder" property="rClassOrder" jdbcType="INTEGER" />
+		<result column="rSignupOrder" property="rSignupOrder" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="dTime" property="dTime" jdbcType="DATE" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="classRR" property="classRR" jdbcType="INTEGER" />
+		<result column="orderRR" property="orderRR" jdbcType="INTEGER" />
+	</resultMap>
+	
+	
+	<resultMap id="SumResultMap" type="com.lili.report.vo.StatisticsOrderVo">
+		<result column="classOrderSum" property="classOrderSum" jdbcType="INTEGER" />
+		<result column="singupOrderSum" property="singupOrderSum" jdbcType="INTEGER" />
+		<result column="rClassOrderSum" property="rClassOrderSum" jdbcType="INTEGER" />
+		<result column="rSignupOrderSum" property="rSignupOrderSum" jdbcType="INTEGER" />
+		<result column="classRRSum" property="classRRSum" jdbcType="INTEGER" />
+		<result column="orderRRSum" property="orderRRSum" jdbcType="INTEGER" />
+	</resultMap>
+	
+	
+	
+	<sql id="Base_Column_List">
+		id, classOrder, singupOrder, rClassOrder, rSignupOrder, cityId, dTime,
+		cTime
+	</sql>
+	
+	<select id="queryOrderList" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />,
+		   ifnull(truncate((rClassOrder/classOrder*100),2),0)  as classRR,
+		   ifnull(truncate((rSignupOrder/singupOrder*100),2),0)  as orderRR
+		from t_statistics_order
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+	<select id="queryOrderByDateList" resultMap="SumResultMap" >
+		select dTime,
+			ifnull(sum(classOrder),0) as classOrder, ifnull(sum(singupOrder),0) as singupOrder, 
+			ifnull(sum(rClassOrder),0) as rClassOrder, ifnull(sum(rSignupOrder),0) as rSignupOrder,		
+			ifnull(truncate((sum(rClassOrder)/sum(classOrder)*100),2),0) as classRR,
+			ifnull(truncate((sum(rSignupOrder)/sum(singupOrder)*100),2),0) as orderRR
+		from t_statistics_order
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			group by dTime order by  dTime desc
+	</select>
+	
+	<select id="queryOrderSum" resultMap="SumResultMap" >
+		select 
+			ifnull(sum(classOrder),0) as classOrderSum, ifnull(sum(singupOrder),0) as singupOrderSum, 
+			ifnull(sum(rClassOrder),0) as rClassOrderSum, ifnull(sum(rSignupOrder),0) as rSignupOrderSum,		
+			ifnull(truncate((sum(rClassOrder)/sum(classOrder)*100),2),0) as classRRSum,
+			ifnull(truncate((sum(rSignupOrder)/sum(singupOrder)*100),2),0) as orderRRSum
+		from t_statistics_order
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_statistics_order
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_statistics_order
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.report.vo.StatisticsOrderVo">
+		insert into t_statistics_order (id, classOrder, singupOrder,
+		rClassOrder, rSignupOrder, cityId,
+		dTime, cTime)
+		values (#{id,jdbcType=BIGINT}, #{classOrder,jdbcType=INTEGER},
+		#{singupOrder,jdbcType=INTEGER},
+		#{rClassOrder,jdbcType=INTEGER}, #{rSignupOrder,jdbcType=INTEGER}, #{cityId,jdbcType=VARCHAR},
+		#{dTime,jdbcType=DATE}, #{cTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.report.vo.StatisticsOrderVo">
+		insert into t_statistics_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="classOrder != null">
+				classOrder,
+			</if>
+			<if test="singupOrder != null">
+				singupOrder,
+			</if>
+			<if test="rClassOrder != null">
+				rClassOrder,
+			</if>
+			<if test="rSignupOrder != null">
+				rSignupOrder,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="dTime != null">
+				dTime,
+			</if>
+			<if test="cTime != null">
+				cTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="classOrder != null">
+				#{classOrder,jdbcType=INTEGER},
+			</if>
+			<if test="singupOrder != null">
+				#{singupOrder,jdbcType=INTEGER},
+			</if>
+			<if test="rClassOrder != null">
+				#{rClassOrder,jdbcType=INTEGER},
+			</if>
+			<if test="rSignupOrder != null">
+				#{rSignupOrder,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="dTime != null">
+				#{dTime,jdbcType=DATE},
+			</if>
+			<if test="cTime != null">
+				#{cTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.report.vo.StatisticsOrderVo">
+		update t_statistics_order
+		<set>
+			<if test="classOrder != null">
+				classOrder = #{classOrder,jdbcType=INTEGER},
+			</if>
+			<if test="singupOrder != null">
+				singupOrder = #{singupOrder,jdbcType=INTEGER},
+			</if>
+			<if test="rClassOrder != null">
+				rClassOrder = #{rClassOrder,jdbcType=INTEGER},
+			</if>
+			<if test="rSignupOrder != null">
+				rSignupOrder = #{rSignupOrder,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="dTime != null">
+				dTime = #{dTime,jdbcType=DATE},
+			</if>
+			<if test="cTime != null">
+				cTime = #{cTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.report.vo.StatisticsOrderVo">
+		update t_statistics_order
+		set classOrder = #{classOrder,jdbcType=INTEGER},
+		singupOrder = #{singupOrder,jdbcType=INTEGER},
+		rClassOrder = #{rClassOrder,jdbcType=INTEGER},
+		rSignupOrder = #{rSignupOrder,jdbcType=INTEGER},
+		cityId = #{cityId,jdbcType=VARCHAR},
+		dTime = #{dTime,jdbcType=DATE},
+		cTime = #{cTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CouponAdd">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>增发优惠券</title>
+    <link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="data-statistics">
+        <div class="z-common-head">
+            <div class="z-title">优惠券 > 增发新券</div>
+        </div>
+        
+        <div class="z-common-wrap">
+            <h3 class="z-common-h2">券配置设置</h3>
+            <form name="applyNewCoupon" class="z-valid-form">
+                <table class="table z-table-coupon-add z-noborder" cellpadding="20" border="0">
+                    <tr>
+                        <td width="50%">
+                            <div class="form-group">
+                                <label>券名称</label>
+                                <input type="text" class="form-control z-valid z-required z-required-2-20-special" placeholder="请填写券名称" ng-model="editData.name" ng-minlength="1" name="couponname" id="couponName">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label>背景颜色</label>
+                                <select class="form-control z-input-inline-item z-valid z-required z-required-select" placeholder="请选择背景色" ng-model="editData.listbackimg">
+                                    <option value="">请选择背景色</option>
+                                    <option ng-repeat="bg in bgcolor" style="color:{{bg.val}}" ng-bind="bg.info" value="{{bg.val}}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>券类型</label>
+                                <select class="form-control z-input-inline-item z-valid z-required z-required-select" ng-model="editData.type" id="offType" placeholder="请选择券类型" ng-change="changeCouponType()">
+                                    <option value="">请选择券类型</option>
+                                    <option ng-repeat="cRule in couponType" ng-bind="cRule.info" value="{{cRule.type}}" ></option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group item-auto-text2 off-count">
+                                <label>抵扣金额</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control z-valid" placeholder="请先选择券类型" ng-model="editData.moneyvalue" disabled>
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                            <div class="form-group off-percent" style="display: none;">
+                                <label>折扣百分比</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control z-valid z-required-per" placeholder="请输入数字(0-100)" min="0" max="100" ng-model="editData.discount" >
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group item-auto-text2">
+                                <label>抵扣上限</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control z-valid z-required z-required-num" placeholder="请输入折扣上限" ng-model="editData.limitvalue">
+                                    <span class="input-group-addon">元</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group item-auto-text2">
+                                <label>有效期</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control z-valid z-required z-required-natural-lt120000" placeholder="请输入有效期" ng-model="editData.validityperiod">
+                                    <span class="input-group-addon">小时</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label>是否独立使用</label>
+                                <select class="form-control z-input-inline-item" ng-model="editData.indepentuse">
+                                    <option value="1">是</option>
+                                    <option value="0">否</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label>获取地址</label>
+                                <input type="text" class="form-control z-valid z-required" placeholder="请输入获取地址" ng-model="editData.qrcodeurl">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-auto-wrap">
+                                <div class="item-auto-item form-group z-mb10">
+                                    <label class="item-auto-label">获取规则</label>
+                                    <div class="item-auto-con">
+                                        <select class="form-control gen-form-control z-valid z-required z-required-select" placeholder="请选择获取规则">
+                                            <option value="">请选择获取规则</option>
+                                            <option ng-repeat="rule in genrule" ng-bind="rule" value="{{rule}}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item-auto-btn"><button ng-click="zItemAdd($event,'gen')" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加and条件</button></div>
+                            </div>
+                        </td>
+                        <td width="50%">
+                            <div class="item-auto-wrap">
+                                <div class="item-auto-item form-group z-mb10">
+                                    <label class="item-auto-label">使用规则</label>
+                                    <div class="item-auto-con">
+                                        <select class="form-control use-form-control z-valid z-required z-required-select" placeholder="请选择使用规则">
+                                            <option value="">请选择使用规则</option>
+                                            <option ng-repeat="rule in genrule" ng-bind="rule" value="{{rule}}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item-auto-btn"><button ng-click="zItemAdd($event,'use')" type="button" class="btn btn-primary btn-sm btn-userule"><span>⊕</span>增加and条件</button></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group form-group-send-way">
+                                <label>发放方式</label>
+                                <div class="send-way">
+                                    <div class="inputbox"><input type="radio" class="z-required" name="sendway" ng-click="selSendWay($event,'0')">自动发放</div>
+                                    <select class="form-control z-input-inline-item sel-listen-way z-valid" ng-model="editData.eventtopic" placeholder="请选择监听事件">
+                                        <option value="">请选择监听事件</option>
+                                        <option ng-repeat="item in rListen track by $index" ng-bind="item" value="{{item}}"></option>
+                                    </select>
+                                </div>
+                                <div class="send-way">
+                                    <div class="inputbox"><input class="z-required" type="radio" name="sendway" ng-click="selSendWay($event,'1')">喱喱云发放</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label>发放上限</label>
+                                <input type="text" class="form-control z-valid z-required z-required-num" placeholder="请输入发放上限" ng-model="editData.total" >
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-group">
+                                <label>极光推送消息</label>
+                                <textarea rows="2" class="form-control z-valid z-required z-required-gt-10" ng-model="editData.jpushmsg" placeholder="请输入极光推送消息"></textarea>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label>短信推送模板</label>
+                                <textarea required rows="2" class="form-control" ng-model="editData.smsmsgtype"></textarea>
+                            </div> -->
+                            <div class="form-group">
+                                <label>使用须知</label>
+                                <textarea rows="2" class="form-control z-valid z-required z-required-gt-10" ng-model="editData.usenote" placeholder="请输入使用须知"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="z-caozuo">
+                                <button class="btn btn-default btn-sm" role="button">取消</button>
+                                <button class="btn btn-primary btn-sm" ng-click="submitEditMsg()">提交</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/coupon-add.js?v=cbca30ad2d1473298817690"></script>
+</body>
+</html>

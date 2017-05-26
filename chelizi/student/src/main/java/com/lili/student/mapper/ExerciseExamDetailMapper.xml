@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.ExerciseExamDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.ExerciseExamDetail" >
+    <id column="exerciseExamId" property="exerciseExamId" jdbcType="INTEGER" />
+    <id column="qid" property="qid" jdbcType="VARCHAR" />
+    <result column="ansRec" property="ansRec" jdbcType="VARCHAR" />
+    <result column="ansSta" property="ansSta" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    exerciseExamId, qid, ansRec, ansSta
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.student.dto.ExerciseExamDetailKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_exercise_exam_detail
+    where exerciseExamId = #{exerciseExamId,jdbcType=INTEGER}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByExerciseExamId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_u_exercise_exam_detail
+    where exerciseExamId = #{exerciseExamId,jdbcType=INTEGER}
+  </select>
+  <select id="countExerciseExamDetailAnsStaByStudentIdAndAnsSta" resultType="java.lang.Integer" parameterType="com.lili.student.mapper.dao.ExerciseExamAnsSta">
+    select count(*) from
+      (select c.qid,c.ansSta from
+        (SELECT * FROM t_u_exercise_exam a, t_u_exercise_exam_detail b where a.studentId=#{studentId,jdbcType=INTEGER} and a.subject=#{subject,jdbcType=INTEGER} and a.id=b.exerciseexamid and b.ansSta !=0 order by b.qid,a.examtime desc) c
+      group by c.qid)
+    d where d.ansSta = #{ansSta,jdbcType=INTEGER};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lili.student.dto.ExerciseExamDetailKey" >
+    delete from t_u_exercise_exam_detail
+    where exerciseExamId = #{exerciseExamId,jdbcType=INTEGER}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.ExerciseExamDetail" >
+    insert into t_u_exercise_exam_detail (exerciseExamId, qid, ansRec, 
+      ansSta)
+    values (#{exerciseExamId,jdbcType=INTEGER}, #{qid,jdbcType=VARCHAR}, #{ansRec,jdbcType=VARCHAR}, 
+      #{ansSta,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.ExerciseExamDetail" >
+    insert into t_u_exercise_exam_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="exerciseExamId != null" >
+        exerciseExamId,
+      </if>
+      <if test="qid != null" >
+        qid,
+      </if>
+      <if test="ansRec != null" >
+        ansRec,
+      </if>
+      <if test="ansSta != null" >
+        ansSta,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="exerciseExamId != null" >
+        #{exerciseExamId,jdbcType=INTEGER},
+      </if>
+      <if test="qid != null" >
+        #{qid,jdbcType=VARCHAR},
+      </if>
+      <if test="ansRec != null" >
+        #{ansRec,jdbcType=VARCHAR},
+      </if>
+      <if test="ansSta != null" >
+        #{ansSta,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.ExerciseExamDetail" >
+    update t_u_exercise_exam_detail
+    <set >
+      <if test="ansRec != null" >
+        ansRec = #{ansRec,jdbcType=VARCHAR},
+      </if>
+      <if test="ansSta != null" >
+        ansSta = #{ansSta,jdbcType=INTEGER},
+      </if>
+    </set>
+    where exerciseExamId = #{exerciseExamId,jdbcType=INTEGER}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.ExerciseExamDetail" >
+    update t_u_exercise_exam_detail
+    set ansRec = #{ansRec,jdbcType=VARCHAR},
+      ansSta = #{ansSta,jdbcType=INTEGER}
+    where exerciseExamId = #{exerciseExamId,jdbcType=INTEGER}
+      and qid = #{qid,jdbcType=VARCHAR}
+  </update>
+</mapper>

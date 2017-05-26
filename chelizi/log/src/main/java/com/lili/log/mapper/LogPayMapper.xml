@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.log.mapper.dao.LogPayMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.log.dto.LogPay" >
+    <id column="payId" property="payid" jdbcType="INTEGER" />
+    <result column="orderId" property="orderid" jdbcType="VARCHAR" />
+    <result column="waterNum" property="waternum" jdbcType="VARCHAR" />
+    <result column="studentId" property="studentid" jdbcType="BIGINT" />
+    <result column="coachId" property="coachid" jdbcType="BIGINT" />
+    <result column="payWay" property="payway" jdbcType="VARCHAR" />
+    <result column="payMoney" property="paymoney" jdbcType="DOUBLE" />
+    <result column="couponMoney" property="couponmoney" jdbcType="DOUBLE" />
+    <result column="couponId" property="couponid" jdbcType="BIGINT" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    payId, orderId, waterNum, studentId, coachId, payWay, payMoney, couponMoney, couponId, 
+    payTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_log_pay
+    where payId = #{payid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryIsExitLogByOrderId"  resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*) from t_log_pay  where orderId = #{orderId,jdbcType=VARCHAR} 
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_log_pay
+    where payId = #{payid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.log.dto.LogPay" >
+    insert into t_log_pay (payId, orderId, waterNum, 
+      studentId, coachId, payWay, 
+      payMoney, couponMoney, couponId, 
+      payTime)
+    values (#{payid,jdbcType=INTEGER}, #{orderid,jdbcType=VARCHAR}, #{waternum,jdbcType=VARCHAR}, 
+      #{studentid,jdbcType=BIGINT}, #{coachid,jdbcType=BIGINT}, #{payway,jdbcType=VARCHAR}, 
+      #{paymoney,jdbcType=DOUBLE}, #{couponmoney,jdbcType=DOUBLE}, #{couponid,jdbcType=BIGINT}, 
+      #{paytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertAndGetId" parameterType="com.lili.log.dto.LogPay">
+  <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="payId">  
+          SELECT LAST_INSERT_ID() AS payId    
+    </selectKey>  
+    insert into t_log_pay (orderId, waterNum, 
+      studentId, coachId, payWay, 
+      payMoney, couponMoney, couponId, 
+      payTime)
+    values (#{orderid,jdbcType=VARCHAR}, #{waternum,jdbcType=VARCHAR}, 
+      #{studentid,jdbcType=BIGINT}, #{coachid,jdbcType=BIGINT}, #{payway,jdbcType=VARCHAR}, 
+      #{paymoney,jdbcType=DOUBLE}, #{couponmoney,jdbcType=DOUBLE}, #{couponid,jdbcType=BIGINT}, 
+      #{paytime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.log.dto.LogPay" >
+    insert into t_log_pay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        payId,
+      </if>
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="waternum != null" >
+        waterNum,
+      </if>
+      <if test="studentid != null" >
+        studentId,
+      </if>
+      <if test="coachid != null" >
+        coachId,
+      </if>
+      <if test="payway != null" >
+        payWay,
+      </if>
+      <if test="paymoney != null" >
+        payMoney,
+      </if>
+      <if test="couponmoney != null" >
+        couponMoney,
+      </if>
+      <if test="couponid != null" >
+        couponId,
+      </if>
+      <if test="paytime != null" >
+        payTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="payid != null" >
+        #{payid,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="waternum != null" >
+        #{waternum,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null" >
+        #{studentid,jdbcType=BIGINT},
+      </if>
+      <if test="coachid != null" >
+        #{coachid,jdbcType=BIGINT},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoney != null" >
+        #{paymoney,jdbcType=DOUBLE},
+      </if>
+      <if test="couponmoney != null" >
+        #{couponmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="couponid != null" >
+        #{couponid,jdbcType=BIGINT},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.log.dto.LogPay" >
+    update t_log_pay
+    <set >
+      <if test="orderid != null" >
+        orderId = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="waternum != null" >
+        waterNum = #{waternum,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null" >
+        studentId = #{studentid,jdbcType=BIGINT},
+      </if>
+      <if test="coachid != null" >
+        coachId = #{coachid,jdbcType=BIGINT},
+      </if>
+      <if test="payway != null" >
+        payWay = #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoney != null" >
+        payMoney = #{paymoney,jdbcType=DOUBLE},
+      </if>
+      <if test="couponmoney != null" >
+        couponMoney = #{couponmoney,jdbcType=DOUBLE},
+      </if>
+      <if test="couponid != null" >
+        couponId = #{couponid,jdbcType=BIGINT},
+      </if>
+      <if test="paytime != null" >
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where payId = #{payid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.log.dto.LogPay" >
+    update t_log_pay
+    set orderId = #{orderid,jdbcType=VARCHAR},
+      waterNum = #{waternum,jdbcType=VARCHAR},
+      studentId = #{studentid,jdbcType=BIGINT},
+      coachId = #{coachid,jdbcType=BIGINT},
+      payWay = #{payway,jdbcType=VARCHAR},
+      payMoney = #{paymoney,jdbcType=DOUBLE},
+      couponMoney = #{couponmoney,jdbcType=DOUBLE},
+      couponId = #{couponid,jdbcType=BIGINT},
+      payTime = #{paytime,jdbcType=TIMESTAMP}
+    where payId = #{payid,jdbcType=INTEGER}
+  </update>
+</mapper>

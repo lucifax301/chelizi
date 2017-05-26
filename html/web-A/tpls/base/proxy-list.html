@@ -1,0 +1,199 @@
+<style>
+	.scopeareas{display: inline-block; width: 33%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+	.scopeArea{min-width: 200px;max-width: 550px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;}
+</style>
+
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left" style="margin-top:8px;">
+            <h3>代理商列表</h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                <div class="input-group mt10">
+                    <input type="text" class="form-control" placeholder="代理商名称"  ng-model="search.scopeName">
+                    <span class="input-group-btn">
+                          <button type="button" class="btn btn-primary z-fontwhite" ng-click="getList()">查询</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <a class="btn btn-default btn-sm btn-file" data-toggle="modal" data-target="#actionModal" ng-click="load4add()" >新增代理商</a>
+                </div>
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th style='text-align: center;' class="column-title">代理商编号 </th>
+                                <th style='text-align: center;' class="column-title">代理商名称 </th>
+								<th style='text-align: center;' class="column-title">所属片区</th>
+                                <th style='text-align: center;' class="column-title">联系人 </th>
+								<th style='text-align: center;' class="column-title">联系电话 </th>
+								<th style='text-align: center;' class="column-title">代理商门店数 </th>
+								<th style='text-align: center;' class="column-title">代理商教练数 </th>
+								<th style='text-align: center;' class="column-title">代理商车辆数 </th>
+								<th style='text-align: center;' class="column-title">启用状态 </th>
+                                <th style='text-align: center;' class="column-title no-link last" ><span class="nobr">操作</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="even pointer" ng-repeat="item in datas">
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.proxyId|idfilter"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="item.proxyName"></td>
+                                <td style="vertical-align:middle; text-align:center;" title="{{scopeAreaFilter(item.scopeAreaList)}}" class="scopeArea" ng-bind="scopeAreaFilter(item.scopeAreaList)" ></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.dealerPerson"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.dealerPhone"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="''|nullfilter"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="''|nullfilter"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="''|nullfilter"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.dealerStatus|statusfilter"></td>
+								<td class="last" style="vertical-align:middle; text-align:center;">
+									<a ng-if="item.dealerStatus == 0" href="javascript:void(0)" ng-click="enableproxy(item)" >启用</a>
+									<a ng-if="item.dealerStatus !=0" href="javascript:void(0);" ng-click="disableproxy(item)">禁用</a>&nbsp;&nbsp;
+                                    <a ng-if="item.dealerStatus !=0" style="cursor: pointer;" ng-click="load4update(item)" data-toggle="modal" data-target="#actionModal">编辑</a>&nbsp;&nbsp;
+									<a ng-if="item.dealerStatus !=0" href="javascript:void(0);" ng-click="delproxy(item)" >删除</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page" >
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 新增弹框-->
+<div class="modal fade bs-example-modal-lg" id="actionModal" >
+    <div class="modal-dialog modal-md"  >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">新增代理商</h4>
+                <input type="hidden" ng-model="saveData.scopeId" />
+            </div>
+            <div class="x_panel"  style="">
+                <div class="x_content"  >
+                    <br />
+                    <form class="form-horizontal form-label-left" novalidate id="actionform" name="myForm" ng-submit="submitActionform(myForm.$valid)">
+					<div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">代理商名称 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" ng-maxlength="120" ng-blur="checkMutliName()" class="form-control" placeholder="代理商名称" ng-model="saveData.proxyName" required>
+                                	<span style="color:red" ng-show="mutliName">代理商名称重复。</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">所属片区 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                	<span class="scopeareas" ng-repeat="x in allscope">
+                                    	<input type="checkbox" data-check="false"  ng-checked="isSelected(x.scopeId,saveData.scopeAreaList)"  value="{{x.scopeId}}" >{{x.scopeName}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">联系人 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" ng-maxlength="120" class="form-control" placeholder="代理商联系人" ng-model="saveData.dealerPerson" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">联系电话 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" ng-maxlength="32" class="form-control" ng-blur="checkphone();" placeholder="代理商联系电话" ng-model="saveData.dealerPhone" required>
+                                	<span style="color:red" ng-show="validphone">电话格式不对</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">电子邮箱
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" ng-maxlength="120" class="form-control" ng-blur="checkemail();" placeholder="代理商电子邮箱" ng-model="saveData.dealerEmail">
+                                    <span style="color:red" ng-show="validemail">邮箱格式不对</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">联系地址<span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <input type="text" ng-maxlength="120" class="form-control" placeholder="代理商联系地址" ng-model="saveData.dealerAddr" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					 <div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">启用状态 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12" style="padding-top: 8px;">
+                                   <input type="radio" ng-model="saveData.dealerStatus" value="1" required/>启用
+                                   <input type="radio" ng-model="saveData.dealerStatus" value="0" style="margin-left: 30px;" required/>未启用
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					 <div class="row">
+						<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+							<div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">描述<span class="required"></span>
+                                </label>
+                                <div class="col-md-8 col-sm-8 col-xs-12" id="divTime">
+									<textarea id="acquire" ng-maxlength="120"  rows="4" style="width: 100%;" ng-model="saveData.dealerDescription" placeholder="描述"></textarea>
+								</div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button"  data-dismiss="modal"  class="btn btn-primary">取消</button>
+								<input class="btn btn-success" ng-disabled="myForm.$invalid" type="submit" value="提交" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

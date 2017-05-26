@@ -1,0 +1,15 @@
+package com.lili.proto.pb;
+option java_package = "com.lili.proto.java";
+option java_outer_classname = "CoachLoginProto";
+
+message CoachLoginMsg
+{
+	required string token = 1;
+	required string phoneNum = 2;
+	required int64 coachId = 3;
+}
+
+message CoachLoginAckMsg
+{
+	required bool isSuccess = 1;
+}

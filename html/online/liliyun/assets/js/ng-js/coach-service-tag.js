@@ -1,0 +1,1 @@
+var app=angular.module("app",["ngFilter","ngSelects"]);app.controller("CoachServiceTag",["$scope","$rootScope","$filter","Selects",function(e,o,a,c){win.hideLoading()}]);

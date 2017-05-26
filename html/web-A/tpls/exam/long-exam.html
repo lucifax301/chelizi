@@ -1,0 +1,95 @@
+<style>
+	.btn-default:active {
+    background-color: green ;
+}
+
+</style>
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >客服管理 >>营销管理>><span ng-bind=""></span></h3>
+            </div>
+           
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+							<a href="javascript:void(0);" ng-click="lili()">基本信息</a>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" ng-click="school()">回访记录</a>
+                    </div>
+					<div ng-show="aa">
+						<div class="item form-group">
+							客户姓名 :  {{datas.name}}
+						</div>
+						<div class="item form-group">
+							客户手机号 :  {{datas.phone}}
+						</div>
+						<div class="item form-group">
+							驾考车型 :	{{datas.traintype}}
+						</div>
+						<div class="item form-group">
+							客户地址 :	{{datas.address}}
+						</div>
+						<div class="item form-group">
+							客户来源渠道 :	{{datas.source}}
+						</div>
+						<div class="item form-group">
+							学车备注 :	{{datas.remarks}}
+						</div>
+						<div class="item form-group">
+							跟踪人员 :	{{datas.trackePersonnel}}
+						</div>
+						<div class="item form-group">
+							跟踪进度 :	{{datas.progress}}
+						</div>
+					</div>
+					<div ng-show="bb">
+					
+						  <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <th style='text-align: center;width:180px;' class="column-title">记录时间</th>
+                                    <th style='text-align: center;width:130px;' class="column-title">回访人员</th>
+									<th style='text-align: center;width:130px;' class="column-title">回访记录</th>
+                                    <th style='text-align: center;width:180px;' class="column-title">录入人员</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in visitDatas">
+                                    
+                                    <td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.mtime | timeTex" ></td>
+									<td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.visitPersonnel" ></td>
+                                    <td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.content"></td>
+									<td class="" style="vertical-align:middle; text-align:center;" ng-bind="item.operatorPersonnel"></td>
+ 
+                                </tr>
+
+                                </tbody>
+                            </table>
+					
+					     <div class="x_content">
+                       
+							<div class="page" >
+								<div id="copot-page" class="copot-page"></div>
+							</div>
+						</div>
+					</div>
+                   
+                </div>
+            </div>
+        </div>
+		
+		
+	</div>
+
+	
+	
+
+   <style>
+        .btn-file {  position: relative;  overflow: hidden;  }
+        .btn-file input[type=file] {  position: absolute;  top: 0;  right: 0;  min-width: 100%;  min-height: 100%;  font-size: 100px;  text-align: right;  filter: alpha(opacity=0);  opacity: 0;  outline: none;  background: white;  cursor: inherit;  display: block;  }
+    </style>
+
+
+

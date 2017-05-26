@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- 附近教练查找属性文件注入 -->
+	<bean id="serachResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath:search.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>
+    <bean id="searchProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="52" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="serachResources" />  
+    </bean>   
+	<bean id="orderLogic" class="com.lili.logic.service.impl.OrderLogicImpl"></bean>
+	<bean id="stateManager" class="com.lili.logic.state.StudentStateManager">
+		<property name="stateMaps">
+			<map>
+				<entry key="0" value-ref="studentRestState"></entry>
+				<entry key="1" value-ref="duringClassState"></entry>
+				<entry key="2" value-ref="waitAcceptOrderState"></entry>
+				<entry key="3" value-ref="prepareStartClassState"></entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="duringClassState" class="com.lili.logic.student.state.DuringClassState"></bean>
+	<bean id="prepareStartClassState" class="com.lili.logic.student.state.PrepareStartClassState"></bean>
+	<bean id="studentRestState" class="com.lili.logic.student.state.StudentRestState"></bean>
+	<bean id="waitAcceptOrderState" class="com.lili.logic.student.state.WaitAcceptOrderState"></bean>
+	
+	<bean id="coachStateManager" class="com.lili.logic.state.CoachStateManager">
+		<property name="stateMaps">
+			<map>
+				<entry key="0" value-ref="coachOffWorkState"></entry>
+				<entry key="1" value-ref="coachOnWorkState"></entry>
+				<entry key="2" value-ref="coachOnClassState"></entry>
+				<entry key="3" value-ref="coachPrepareClassState"></entry>
+			</map>
+		</property>
+	</bean>
+	<bean id="coachOffWorkState" class="com.lili.logic.coach.state.CoachOffWorkState"></bean>
+	<bean id="coachOnClassState" class="com.lili.logic.coach.state.CoachOnClassState"></bean>
+	<bean id="coachOnWorkState" class="com.lili.logic.coach.state.CoachOnWorkState"></bean>
+	<bean id="coachPrepareClassState" class="com.lili.logic.coach.state.CoachPrepareClassState"></bean>	
+</beans>

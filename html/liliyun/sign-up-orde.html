@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Order">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>报名订单</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title">
+			<div class="d-title">报名订单</div>
+			<ul class="table-li">
+				<li class="active" ng-if="120201|isAccessShow"><a href="sign-up-orde.html">信息查询</a></li>
+				<li><a href="sign-up-statement.html" ng-if="120202|isAccessShow">报名费结算</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table liliyun-common-table">
+				<div class="header">报名订单</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation"
+									   class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+						<div class="line">
+							<div>报名城市</div>
+							<ul>
+								<li ng-click="getDataForCity($event,'')" class="active">全部</li>
+								<li ng-click="getDataForCity($event,100102)">广州</li>
+								<li ng-click="getDataForCity($event,100100)">深圳</li>
+								<li ng-click="getDataForCity($event,100101)">东莞</li>
+								<li ng-click="getDataForCity($event,100103)">佛山</li>
+								<li ng-click="getDataForCity($event,102100)">西安</li>
+								<li ng-click="getDataForCity($event,103100)">长沙</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>支付状态</div>
+							<ul>
+								<li ng-click="getDataForPayment($event,'')" class="active">全部</li>
+								<li ng-click="getDataForPayment($event,1)">已提交</li>
+								<li ng-click="getDataForPayment($event,0)">未付款</li>
+								<li ng-click="getDataForPayment($event,100)">支付成功</li>
+								<li ng-click="getDataForPayment($event,101)">支付失败</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>订单状态</div>
+							<ul>
+								<li ng-click="getDataForIsdel($event,'')" class="active">全部</li>
+								<li ng-click="getDataForIsdel($event,0)">已取消</li>
+								<li ng-click="getDataForIsdel($event,1)">已下单</li>
+								<li ng-click="getDataForIsdel($event,2)">未结款</li>
+								<li ng-click="getDataForIsdel($event,3)">已结款</li>
+								<li ng-click="getDataForIsdel($event,4)">退款中</li>
+								<li ng-click="getDataForIsdel($event,5)">已退款</li>
+								<li ng-click="getDataForIsdel($event,6)">退款失败</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>驾照类型</div>
+							<ul>
+								<li ng-click="getDataForDriveType($event,'')" class="active">全部</li>
+								<li ng-click="getDataForDriveType($event,1)">C1</li>
+								<li ng-click="getDataForDriveType($event,2)">C2</li>
+							</ul>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="liliyun-search">高级查询</div>
+							<div class="input-group search-more-condition">
+								<select ng-model="searchType" class="form-control" id="search_type">
+									<option value="orderId" selected="selected">订单号</option>
+									<option value="name">姓名</option>
+									<option value="phoneNum">电话</option>
+								</select>
+								<input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入订单号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+							</div>
+						</div>
+						
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<a  ng-click="orderDataExport()" class="btn btn-sm btn-primary margin-left-15" ng-if="120205|isAccessShow">数据导出</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-with-style">
+							<tr>
+								<td><b>提交时间</b></td>
+								<td><b>订单号</b></td>
+								<td><b>学员</b></td>
+								<td><b>电话号</b></td>
+								<td><b>驾考类型</b></td>
+								<td><b>报名城市</b></td>
+								<td><b>报名包名称</b></td>
+								<td><b>金额</b></td>
+								<td><b>支付状态</b></td>
+								<td><b>支付方式</b></td>
+								<td><b>订单状态</b></td>
+								<td><b>支付时间</b><i data-order-by="pay_time" class="orderby"></i></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td ng-bind="item.ctime | timeTex"></td>
+								<td><a href="sign-up-orde-details.html?orderId={{ item.orderId }}" data-bubble="{{ item.orderId }}" class="layerBubble" ng-bind="item.orderId | limitToSec:10" ng-if="120204|isAccessShow"></a><span ng-if="!(120204|isAccessShow)"  data-bubble="{{ item.orderId }}" class="layerBubble" ng-bind="item.orderId | limitToSec:10"></span></td>
+								<td><a href="student-details.html?studentId={{item.studentId}}" ng-bind="item.name?item.name:'喱喱同学'" ng-if="(120523|isAccessShow)&&(120508|isAccessShow)"></a><span ng-bind="item.name?item.name:'喱喱同学'" ng-if="!((120523|isAccessShow)&&(120508|isAccessShow))" ></span></td>
+								<td ng-bind="item.phoneNum"></td>
+								<td ng-bind="item.dltype | applyCarTypeTex"></td>
+								<td ng-bind="item.region"></td>
+								<td ng-bind="item.region"></td>
+								<td ng-bind="item.price/100"></td>
+								<td ng-bind="item.payState | signUpPayStateTex"></td>
+								<td ng-bind="item.payWay | payWayType"></td>
+								<td ng-bind="item.orderState | orderStateText"></td>
+								<td ng-bind="item.payTime | timeTex"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/sign-up-order.js"></script>
+</body>
+</html>

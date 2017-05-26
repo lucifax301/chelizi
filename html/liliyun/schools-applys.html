@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="SchoolApply">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>驾校帐号审核</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="title ">
+			<div class="d-title">驾校管理</div>
+			<ul class="table-li">
+				<li ng-if="120801|isAccessShow"><a href="schools.html">综合管理</a></li>
+				<li ng-if="120805|isAccessShow"><a href="schools-purse.html">驾校钱包管理</a></li>
+				<li class="active" ng-if="120810|isAccessShow"><a href="schools-applys.html">驾校帐号审核</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">申请记录</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>申请时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+						<div class="line">
+							<div>审核状态</div>
+							<ul>
+								<li ng-click="checkStatusType($event,'-1')" class="active">全部</li>
+								<li ng-click="checkStatusType($event,0)">未审核</li>
+								<li ng-click="checkStatusType($event,1)">审核通过</li>
+								<li ng-click="checkStatusType($event,2)">审核不过</li>
+							</ul>
+						</div>
+					</div>
+                    <div class="senior-search row">
+                        <!--<div class="col-xs-12 col-sm-4">-->
+                            <!--<a ng-click="setStatus('ok')" class="btn btn-sm btn-primary" ng-if="120811|isAccessShow">审核通过</a>-->
+                            <!--<a ng-click="setStatus('ng')" class="btn btn-sm btn-danger" ng-if="120812|isAccessShow">审核不过</a>-->
+                        <!--</div>-->
+                        <div class="col-xs-12 col-sm-4"></div>
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-with-style">
+							<tr>
+								<td><b>申请时间</b></td>
+								<td><b>驾校简称</b></td>
+								<td><b>驾校全称</b></td>
+								<td><b>所在城市</b></td>
+								<td><b>详细地址</b></td>
+								<td><b>申请人</b></td>
+								<td><b>电话</b></td>
+								<td><b>开通帐号</b></td>
+								<td><b>审核状态</b></td>
+								<td><b>备注</b></td>
+								<td><b>审核</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td ng-bind="item.createDate|timeTex"></td>
+								<td ng-bind="item.shortName"></td>
+								<td ng-bind="item.schoolName"></td>
+								<td ng-bind="item.city"></td>
+								<td ng-bind="item.address"></td>
+								<td ng-bind="item.applyer"></td>
+								<td ng-bind="item.phoneNum"></td>
+								<td ng-bind="item.schoolAccount"></td>
+								<td ng-bind="item.status|nStatus" ng-class="{green:item.status==1,error:item.status==2}"></td>
+								<td ng-bind="item.note"></td>
+								<td>
+                                    <a href="javascript:;" ng-click="checkPass(item)" ng-if="((item.status==0)||(item.status==2))&&(120811|isAccessShow)">通过</a>
+                                    <a href="javascript:;" ng-click="checkReject(item.id)" ng-if="(item.status==0)&&(120812|isAccessShow)">拒绝</a>
+                                </td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <ng-include src="'edit/pass-school-apply.html'" onload="passSchoolApply()" ></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/school-applys.js"></script>
+
+</body>
+</html>

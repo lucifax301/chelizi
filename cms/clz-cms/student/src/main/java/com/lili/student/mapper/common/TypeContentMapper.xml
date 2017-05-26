@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.common.TypeContentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.model.TypeContentVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="typeId" property="typeId" jdbcType="INTEGER" />
+		<result column="serialId" property="serialId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="releaseTime" property="releaseTime" jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />  
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="updater" property="updater" jdbcType="VARCHAR" />
+		<result column="utime" property="utime" jdbcType="DATE" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, typeId, serialId, type, title, subject, releaseTime, status,
+		creater,content,
+		ctime, updater, utime
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select 
+			<include refid="Base_Column_List" /> 
+		from t_type_content
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryContentList" resultMap="BaseResultMap" parameterType="com.lili.student.model.TitleTypeVo">
+		select
+		<include refid="Base_Column_List" />
+		from t_type_content
+		where  1=1
+			<if test="typeId != null and typeId != ''">
+				and typeId = #{typeId}
+			</if>
+			<if test="title != null and title != ''">
+				and title = #{title}
+			</if>
+		order by creater desc
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_type_content
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByTypeId" parameterType="com.lili.student.model.TypeContentVo">
+		delete from t_type_content
+		where  1=1
+			<if test="typeId != null and typeId != ''">
+				and typeId = #{typeId}
+			</if>
+	</delete>
+	
+	
+	<insert id="insert" parameterType="com.lili.student.model.TypeContentVo">
+		insert into t_type_content (id, typeId, serialId,
+		type, title, subject,
+		releaseTime, click, status,
+		creater, ctime, updater,
+		utime, content)
+		values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER},
+		#{serialId,jdbcType=INTEGER},
+		#{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR},
+		#{releaseTime,jdbcType=DATE}, 
+		#{status,jdbcType=TINYINT},
+		#{creater,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{updater,jdbcType=VARCHAR},
+		#{utime,jdbcType=DATE}, #{content,jdbcType=LONGVARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.student.model.TypeContentVo">
+		insert into t_type_content
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="typeId != null">
+				typeId,
+			</if>
+			<if test="serialId != null">
+				serialId,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="subject != null">
+				subject,
+			</if>
+			<if test="releaseTime != null">
+				releaseTime,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="updater != null">
+				updater,
+			</if>
+			<if test="utime != null">
+				utime,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="typeId != null">
+				#{typeId,jdbcType=INTEGER},
+			</if>
+			<if test="serialId != null">
+				#{serialId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				#{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				#{releaseTime,jdbcType=DATE},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				#{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				#{utime,jdbcType=DATE},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.model.TypeContentVo">
+		update t_type_content
+		<set>
+			<if test="typeId != null">
+				typeId = #{typeId,jdbcType=INTEGER},
+			</if>
+			<if test="serialId != null">
+				serialId = #{serialId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				subject = #{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="releaseTime != null">
+				releaseTime = #{releaseTime,jdbcType=DATE},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updater != null">
+				updater = #{updater,jdbcType=VARCHAR},
+			</if>
+			<if test="utime != null">
+				utime = #{utime,jdbcType=DATE},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.model.TypeContentVo">
+		update t_type_content
+		set typeId = #{typeId,jdbcType=INTEGER},
+		serialId = #{serialId,jdbcType=INTEGER},
+		type = #{type,jdbcType=TINYINT},
+		title = #{title,jdbcType=VARCHAR},
+		subject = #{subject,jdbcType=VARCHAR},
+		releaseTime = #{releaseTime,jdbcType=DATE},
+		status = #{status,jdbcType=TINYINT},
+		creater = #{creater,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		content = #{content,jdbcType=LONGVARCHAR},
+		updater = #{updater,jdbcType=VARCHAR},
+		utime = #{utime,jdbcType=DATE}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

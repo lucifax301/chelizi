@@ -1,0 +1,179 @@
+
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>排班管理</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div id='calendar' class="coach-time-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script src="assets/js/ng-js/coach-time.js"></script>
+<script src="assets/plugins/fastclick/lib/fastclick.js"></script>
+<script src="assets/plugins/nprogress/nprogress.js"></script>
+<script src="assets/plugins/moment/min/moment.min.js"></script>
+<script src="assets/plugins/fullcalendar/dist/fullcalendar.min.js"></script>
+<script>
+    $(window).load(function() {
+        var date = new Date(),
+            d = date.getDate(),
+            m = date.getMonth(),
+            y = date.getFullYear(),
+            started,
+            categoryClass;
+        /*以下为制造当前最近三个月的演示数据*******************/
+        var conchTimeArrDemo = [];
+        var thisM = new Date().getMonth();
+        for(var mD = thisM-1;mD<thisM+1;mD++ ){
+            var jsonTmp = {};
+
+        }
+        var coachTimeArr = [{
+            title: '12/12',
+            start: new Date(y, m, 1),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 4),
+            allDay: true
+        }, {
+            title: '13/14',
+            start: new Date(y, m, 5),
+            allDay: true
+        }, {
+            title: '15/18',
+            start: new Date(y, m, 6),
+            allDay: true
+        }, {
+            title: '14/14',
+            start: new Date(y, m, 7),
+            allDay: true
+        }, {
+            title: '15/16',
+            start: new Date(y, m, 8),
+            allDay: true
+        }, {
+            title: '2/16',
+            start: new Date(y, m, 9),
+            allDay: true
+        }, {
+            title: '5/14',
+            start: new Date(y, m, 10),
+            allDay: true
+        }, {
+            title: '15/17',
+            start: new Date(y, m, 11),
+            allDay: true
+        }, {
+            title: '14/18',
+            start: new Date(y, m, 12),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 13),
+            allDay: true
+        }, {
+            title: '5/15',
+            start: new Date(y, m, 14),
+            allDay: true
+        }, {
+            title: '6/14',
+            start: new Date(y, m, 15),
+            allDay: true
+        }, {
+            title: '15/17',
+            start: new Date(y, m, 16),
+            allDay: true
+        }, {
+            title: '14/18',
+            start: new Date(y, m, 17),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 18),
+            allDay: true
+        }, {
+            title: '5/9',
+            start: new Date(y, m, 19),
+            allDay: true
+        }, {
+            title: '6/12',
+            start: new Date(y, m, 20),
+            allDay: true
+        }, {
+            title: '15/17',
+            start: new Date(y, m, 21),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 22),
+            allDay: true
+        }, {
+            title: '13/16',
+            start: new Date(y, m, 23),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 24),
+            allDay: true
+        }, {
+            title: '5/9',
+            start: new Date(y, m, 25),
+            allDay: true
+        }, {
+            title: '6/12',
+            start: new Date(y, m, 26),
+            allDay: true
+        }, {
+            title: '15/17',
+            start: new Date(y, m, 27),
+            allDay: true
+        }, {
+            title: '14/16',
+            start: new Date(y, m, 28),
+            allDay: true
+        }, {
+            title: '13/16',
+            start: new Date(y, m, 29),
+            allDay: true
+        }]
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title'
+            },
+            aspectRatio:2,
+            weekMode:"liquid",
+            monthNames: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            monthNamesShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            dayNames: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+            dayNamesShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+            today: ["今天"],
+            firstDay: 1,
+            buttonText: {
+                today: '本月',
+                month: '月',
+                week: '周',
+                day: '日',
+                prev: '上一月',
+                next: '下一月'
+            },
+            selectable: true,
+            selectHelper: true,
+            editable: true,
+            events: coachTimeArr
+        });
+
+
+    });
+</script>
+
+</html>

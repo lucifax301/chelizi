@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CouponCondition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>优惠券</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash order-detail data-statistics student-position">
+        <!-- 优惠券 -->
+        <div class="title ">
+            <div class="d-title">优惠券</div>
+            <ul class="table-li">
+                <li><a href="coupon.html">券种类列表</a></li>
+                <li class="active"><a href="coupon-condition.html">券条件列表</a></li>
+            </ul>
+        </div>
+        <div class="padding-20">
+            <div class="z-border-box z-bg-box z-mt20">
+                <h3 class="z-mtb0">可创建券条件类型</h3>
+                <p class="z-mtb0">指定科目、指定区域、指定时间、限额次数、分享可得</p>
+            </div>
+            <div class="table-margin common-table">
+                <div class="header">券条件列表</div>
+                <div class="content">
+                    <div class="search">
+                        <div class="line">
+                            <div>创建时间</div>
+                            <ul>
+                                <li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+                                <li ng-click="getDataForTime($event,'0')">最近7天</li>
+                                <li ng-click="getDataForTime($event,'1')">最近15天</li>
+                            </ul>
+                            <div class="input-prepend input-group">
+                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                <input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div>条件类型</div>
+                            <ul>
+                                <li ng-click="getDataForStatus($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForStatus($event,2)">指定科目</li>
+                                <li ng-click="getDataForStatus($event,1)">指定区域</li>
+                                <li ng-click="getDataForStatus($event,0)">指定时间</li>
+                                <li ng-click="getDataForStatus($event,3)">限额次数</li>
+                                <li ng-click="getDataForStatus($event,4)">分享可得</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-4">
+                            <a ng-if="130302|isAccessShow" href="add-coupon-condition.html" class="btn btn-sm btn-primary">新建条件</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-with-style">
+                            <tr>
+                                <td><b>创建时间</b></td>
+                                <td><b>条件ID</b></td>
+                                <td><b>条件类型</b></td>
+                                <td><b>参数1</b></td>
+                                <td><b>参数2</b></td>
+                                <td><b>条件说明</b></td>
+                            </tr>
+                            <tr ng-repeat="data in datas">
+                                <td ng-bind="data.createTime | timeTex"></td>
+                                <td ng-bind="data.conditionid"></td>
+                                <td ng-bind="data.type | couponCondiTex"></td>
+                                <td ng-bind="data.param1"></td>
+                                <td ng-bind="data.param2"></td>
+                                <td ng-bind="data.descri"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/coupon-condition.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.RegionMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.Region">
+		<result column="rid" property="rid" jdbcType="INTEGER" />
+		<result column="region" property="region" jdbcType="VARCHAR" />
+		<result column="rlevel" property="rlevel" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="isdel" property="isdel" jdbcType="INTEGER" />
+		<result column="cuid" property="cuid" jdbcType="INTEGER" />
+		<result column="muid" property="muid" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="shield" property="shield" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		rid,region,rlevel,pid,isdel,cuid,muid,ctime,mtime,shield
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where isdel=0 and shield=0
+		<trim suffixOverrides=",">
+			<if test="rid != null and rid != ''">
+				and rid = #{rid}
+			</if>
+			<if test="rlevel != null and rlevel != ''">
+				and rlevel = #{rlevel}
+			</if>
+		</trim>
+	</sql>
+	
+	 <select id="selectRegisterCity" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Region" >
+    select 
+    	<include refid="Base_Column_List" />
+    from t_s_region
+   	 where isdel=0
+   	 	<trim suffixOverrides=",">
+			<if test="rid != null and rid != ''">
+				and rid = #{rid}
+			</if>
+			<if test="region != null and region != ''">
+				and region = #{region}
+			</if>
+			<if test="rlevel != null and rlevel != ''">
+				and rlevel = #{rlevel}
+			</if>
+			<if test="pid != null and pid != ''">
+				and pid = #{pid}
+			</if>
+		</trim>
+  </select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_region
+		where rid = #{rid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_region
+		where rid = #{rid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.Region" useGeneratedKeys="true" keyProperty="rid">
+		insert into t_s_region
+		(rid,region,rlevel,pid,isdel,cuid,muid,ctime,mtime,shield)
+		values
+		(#{rid,jdbcType=INTEGER},#{region,jdbcType=VARCHAR},#{rlevel,jdbcType=INTEGER},#{pid,jdbcType=INTEGER},#{isdel,jdbcType=INTEGER},#{cuid,jdbcType=INTEGER},
+		#{muid,jdbcType=INTEGER},#{ctime,jdbcType=TIMESTAMP},#{mtime,jdbcType=TIMESTAMP},#{shield,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.Region" useGeneratedKeys="true" keyProperty="rid">>
+		insert into t_s_region
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rid != null">
+				rid,
+			</if>
+			<if test="region != null">
+				region,
+			</if>
+			<if test="rlevel != null">
+				rlevel,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="shield != null">
+				shield,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rid != null">
+				#{rid,jdbcType=INTEGER},
+			</if>
+			<if test="region != null">
+				#{region,jdbcType=VARCHAR},
+			</if>
+			<if test="rlevel != null">
+				#{rlevel,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shield != null">
+				#{shield,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Region">
+		update t_s_region
+		<set>
+			<if test="rid != null">
+				rid = #{rid,jdbcType=INTEGER},
+			</if>
+			<if test="region != null">
+				region = #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="rlevel != null">
+				rlevel = #{rlevel,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				isdel = #{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shield != null">
+				shield = #{shield,jdbcType=INTEGER},
+			</if>
+		</set>
+		where rid = #{rid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Region">
+		update t_s_region
+		set
+		rid = #{rid,jdbcType=INTEGER},
+		region = #{region,jdbcType=VARCHAR},
+		rlevel = #{rlevel,jdbcType=INTEGER},
+		pid = #{pid,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=INTEGER},
+		cuid = #{cuid,jdbcType=INTEGER},
+		muid = #{muid,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		shield = #{shield,jdbcType=INTEGER}
+		where rid = #{rid,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Region">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_region
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_s_region
+
+	</select>
+	
+	<select id="getRidByName" resultType="java.lang.Integer"
+		parameterType="Object">
+		select ifnull(rid,0) from t_s_region where region like "%${region}%" limit 1
+		
+	</select>
+
+</mapper>

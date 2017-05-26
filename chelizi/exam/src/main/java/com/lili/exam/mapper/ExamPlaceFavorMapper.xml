@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamPlaceFavorMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamPlaceFavor" >
+    <id column="userId" property="userId" jdbcType="BIGINT" />
+    <id column="placeId" property="placeId" jdbcType="INTEGER" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="favorIn" property="favorIn" jdbcType="INTEGER" />
+    <result column="favorOut" property="favorOut" jdbcType="INTEGER" />
+    <result column="favorOut2" property="favorOut2" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userId, placeId, duration, favorIn, favorOut, favorOut2, ctime, mtime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceFavorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_favor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceFavorKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_favor
+    where userId = #{userId,jdbcType=BIGINT}
+      and placeId = #{placeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceFavorKey" >
+    delete from t_exam_place_favor
+    where userId = #{userId,jdbcType=BIGINT}
+      and placeId = #{placeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.exam.dto.ExamPlaceFavorExample" >
+    delete from t_exam_place_favor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.exam.dto.ExamPlaceFavor" >
+    insert into t_exam_place_favor (userId, placeId, duration, 
+      favorIn, favorOut, favorOut2, 
+      ctime, mtime, extra
+      )
+    values (#{userId,jdbcType=BIGINT}, #{placeId,jdbcType=INTEGER}, #{duration,jdbcType=INTEGER}, 
+      #{favorIn,jdbcType=INTEGER}, #{favorOut,jdbcType=INTEGER}, #{favorOut2,jdbcType=INTEGER}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.exam.dto.ExamPlaceFavor" >
+    insert into t_exam_place_favor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="placeId != null" >
+        placeId,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="favorIn != null" >
+        favorIn,
+      </if>
+      <if test="favorOut != null" >
+        favorOut,
+      </if>
+      <if test="favorOut2 != null" >
+        favorOut2,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="placeId != null" >
+        #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="favorIn != null" >
+        #{favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut != null" >
+        #{favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut2 != null" >
+        #{favorOut2,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.exam.dto.ExamPlaceFavorExample" resultType="java.lang.Integer" >
+    select count(*) from t_exam_place_favor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_exam_place_favor
+    <set >
+      <if test="record.userId != null" >
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.placeId != null" >
+        placeId = #{record.placeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.duration != null" >
+        duration = #{record.duration,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorIn != null" >
+        favorIn = #{record.favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorOut != null" >
+        favorOut = #{record.favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="record.favorOut2 != null" >
+        favorOut2 = #{record.favorOut2,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_exam_place_favor
+    set userId = #{record.userId,jdbcType=BIGINT},
+      placeId = #{record.placeId,jdbcType=INTEGER},
+      duration = #{record.duration,jdbcType=INTEGER},
+      favorIn = #{record.favorIn,jdbcType=INTEGER},
+      favorOut = #{record.favorOut,jdbcType=INTEGER},
+      favorOut2 = #{record.favorOut2,jdbcType=INTEGER},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.exam.dto.ExamPlaceFavor" >
+    update t_exam_place_favor
+    <set >
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="favorIn != null" >
+        favorIn = #{favorIn,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut != null" >
+        favorOut = #{favorOut,jdbcType=INTEGER},
+      </if>
+      <if test="favorOut2 != null" >
+        favorOut2 = #{favorOut2,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{userId,jdbcType=BIGINT}
+      and placeId = #{placeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceFavor" >
+    update t_exam_place_favor
+    set duration = #{duration,jdbcType=INTEGER},
+      favorIn = #{favorIn,jdbcType=INTEGER},
+      favorOut = #{favorOut,jdbcType=INTEGER},
+      favorOut2 = #{favorOut2,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where userId = #{userId,jdbcType=BIGINT}
+      and placeId = #{placeId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceFavorExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_favor
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

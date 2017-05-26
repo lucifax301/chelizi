@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CoachWhitelist">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>考场白名单</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+        <div class="d-title">教练</div>
+        <ul class="table-li" id="table-li">
+            <li><a href="coach.html">教练管理</a></li>
+            <li class="active"><a href="coach-whitelist.html">考场白名单</a></li>
+        </ul>
+        <div class="padding-20">
+            <div class="table-margin common-table">
+                <div class="header">教练白名单列表</div>
+                <div class="content">
+                    <div class="search">
+                        <div class="line">
+                            <div>录入时间</div>
+                            <div class="input-prepend input-group" style="padding-left: 0;">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+                                </i>
+							</span>
+                                <input type="text" style="width: 200px" name="reservation" id="reservation"
+                                       class="form-control" placeholder="自定义时间筛选" />
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div>姓名查询</div>
+                            <div class="input-group search-more-condition" style="width: 400px;">
+                                <select ng-model="searchType" class="form-control"  id="search_type" style="width: 80px;">
+                                    <option value="name" selected="selected">姓名</option>
+                                    <option value="mobile">电话</option>
+                                </select>
+                                <input type="text" ng-model="search" class="form-control" placeholder="输入姓名查询" id="search_placeholder" style="padding-left: 90px;">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-4">
+                            <a ng-click="coachWhiteEdit('add')" class="btn btn-sm btn-primary">新增教练</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-with-style">
+                            <tr>
+                                <td><b>姓名</b></td>
+                                <td><b>电话号</b></td>
+                                <td><b>录入时间</b></td>
+                                <td><b>修改时间</b></td>
+                                <td><b>操作</b></td>
+                            </tr>
+                            <tr ng-repeat="data in datas">
+                                <td ng-bind="data.name"></td>
+                                <td ng-bind="data.mobile"></td>
+                                <td ng-bind="data.ctime|timeTex"></td>
+                                <td ng-bind="data.mtime|timeTex"></td>
+                                <td class="operation"><span class="edit" ng-click="coachWhiteEdit('edit',data)">编辑</span><span class="edit z-ml20" ng-click="whiteCoachDel(data.id)">删除</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+		<!-- 教练信息编辑 -->
+		<ng-include src="'edit/coach-white.html'" onload="coachWhiteEditLoad()" ></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/coach-whitelist.js"></script>
+</body>
+</html>

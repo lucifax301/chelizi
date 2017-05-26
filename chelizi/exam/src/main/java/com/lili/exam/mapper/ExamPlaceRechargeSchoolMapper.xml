@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamPlaceRechargeSchoolMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamPlaceRechargeSchool" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+    <result column="schoolMobile" property="schoolMobile" jdbcType="VARCHAR" />
+    <result column="schoolAddr" property="schoolAddr" jdbcType="VARCHAR" />
+    <result column="coachCount" property="coachCount" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, rid, schoolId, schoolName, schoolMobile, schoolAddr, coachCount, state, ctime, 
+    mtime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchoolExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_recharge_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_recharge_school
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_exam_place_recharge_school
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchoolExample" >
+    delete from t_exam_place_recharge_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchool" >
+    insert into t_exam_place_recharge_school (id, rid, schoolId, 
+      schoolName, schoolMobile, schoolAddr, 
+      coachCount, state, ctime, 
+      mtime, extra)
+    values (#{id,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, 
+      #{schoolName,jdbcType=VARCHAR}, #{schoolMobile,jdbcType=VARCHAR}, #{schoolAddr,jdbcType=VARCHAR}, 
+      #{coachCount,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchool" >
+    insert into t_exam_place_recharge_school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="schoolName != null" >
+        schoolName,
+      </if>
+      <if test="schoolMobile != null" >
+        schoolMobile,
+      </if>
+      <if test="schoolAddr != null" >
+        schoolAddr,
+      </if>
+      <if test="coachCount != null" >
+        coachCount,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolMobile != null" >
+        #{schoolMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAddr != null" >
+        #{schoolAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCount != null" >
+        #{coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchoolExample" resultType="java.lang.Integer" >
+    select count(*) from t_exam_place_recharge_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_exam_place_recharge_school
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.rid != null" >
+        rid = #{record.rid,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolName != null" >
+        schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolMobile != null" >
+        schoolMobile = #{record.schoolMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolAddr != null" >
+        schoolAddr = #{record.schoolAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coachCount != null" >
+        coachCount = #{record.coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_exam_place_recharge_school
+    set id = #{record.id,jdbcType=INTEGER},
+      rid = #{record.rid,jdbcType=INTEGER},
+      schoolId = #{record.schoolId,jdbcType=INTEGER},
+      schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      schoolMobile = #{record.schoolMobile,jdbcType=VARCHAR},
+      schoolAddr = #{record.schoolAddr,jdbcType=VARCHAR},
+      coachCount = #{record.coachCount,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchool" >
+    update t_exam_place_recharge_school
+    <set >
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolMobile != null" >
+        schoolMobile = #{schoolMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAddr != null" >
+        schoolAddr = #{schoolAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCount != null" >
+        coachCount = #{coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchool" >
+    update t_exam_place_recharge_school
+    set rid = #{rid,jdbcType=INTEGER},
+      schoolId = #{schoolId,jdbcType=INTEGER},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      schoolMobile = #{schoolMobile,jdbcType=VARCHAR},
+      schoolAddr = #{schoolAddr,jdbcType=VARCHAR},
+      coachCount = #{coachCount,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceRechargeSchoolExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_exam_place_recharge_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

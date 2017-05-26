@@ -1,0 +1,69 @@
+
+<div class="right_col" role="main">
+                <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>注册用户列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-8 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="驾校名称/申请人/联系电话"  ng-model="condition" ng-keyup="getkey($event)">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+									<th style='text-align: center;' class="column-title">驾校编号</th>
+                                    <th style='text-align: center;' class="column-title">驾校名称</th>
+                                    <th style='text-align: center;' class="column-title">申请人</th>
+									<th style='text-align: center;' class="column-title">联系电话</th>
+                                    <th style='text-align: center;' class="column-title">电子邮件</th>
+									<th style='text-align: center;' class="column-title">申请时间</th>
+                                    <th style='text-align: center;' class="column-title">修改时间</th>
+									<th style='text-align: center;' class="column-title">邀请码 </th>
+                                    <th style='text-align: center;' class="column-title">申请状态 </th>
+                                    <th style='text-align: center;' class="column-title no-link last"><span class="nobr">操作</span></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+									<tr class="even pointer" ng-repeat="item in datas">
+										<td style='text-align: center;' ng-bind="item.id"></td>
+										<td style='text-align: center;' ng-bind="item.schoolname"></td>
+										<td style='text-align: center;' ng-bind="item.applyname"></td>
+										<td style='text-align: center;' ng-bind="item.contact"></td>
+										<td style='text-align: center;' ng-bind="item.email"></td>
+										<td style='text-align: center;' ng-bind="item.ctime | timeTex"></td>
+                                        <td style='text-align: center;' ng-bind="item.mtime | timeTex"></td>
+										<td style='text-align: center;' ng-bind="item.invitecode"></td>
+										<td style='text-align: center;' ng-bind="item.status | registerStatus"></td>
+                                        <td style='text-align: center;' class="last">
+                                            <a href="javascript:void(0);" ng-click="checkRegiter(1,item.id)" ng-if="(101303 | isAccessShow) && (item.status == 0)">审核通过</a>
+                                            <a href="javascript:void(0);" ng-click="checkRegiter(0,item.id)" ng-if="(101304 | isAccessShow) && (item.status == 0)">审核拒绝</a>
+                                        </td>
+									</tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+</div>
+

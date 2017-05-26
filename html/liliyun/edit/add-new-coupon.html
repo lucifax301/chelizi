@@ -1,0 +1,48 @@
+<div class="edit-alert edit-big-size add-new-coupon">
+<div class="mask"></div>
+<div class="main">
+<div id="add-new-coupon" class="content">
+	<div class="title">指定学员发券<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div class="order-table common-table">
+			<div class="search">
+				<div class="line">
+					<div>手机号查询</div>
+					<div class="input-group">
+				      <input type="tel" maxlength="11" ng-model="$parent.phoneNum" class="form-control name-search" placeholder="输入手机号">
+				      <span class="input-group-btn">
+				        <a class="btn btn-default" ng-click="searchCouponDetails(phoneNum)">搜索</a>
+				      </span>
+				    </div>
+				</div>
+			</div>
+			<div ng-class="[isbindCouponShow?'show':'hide']">
+				<div class="no-data" ng-show="bindCouponDetails&&phoneNum?false:true">很抱歉,没有找到手机号为 "<span class="mainColor">{{phoneNum}}</span>" 的用户信息,请检查输入的信息是否有误!</div>
+				<div ng-show="bindCouponDetails?true:false">
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>姓名</b></td>
+					  	<td><b>性别</b></td>
+					  	<td><b>电话</b></td>
+					  	<td><b>身份证号</b></td>
+					  </tr>
+					  <tr>
+					  	<td><a href="student-details.html?studentId={{bindCouponDetails.studentId}}" target="_blank" ng-bind="bindCouponDetails.name?bindCouponDetails.name:'喱喱同学'"></a></td>
+					  	<td ng-bind="bindCouponDetails.sex | sexText"></td>
+					  	<td ng-bind="bindCouponDetails.phoneNum"></td>
+					  	<td ng-bind="bindCouponDetails.idNumber"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="chaozuo margin-top-0" >
+					<a class="btn btn-sm btn-default closeAlert">取消</a>
+					<a ng-click="submitBindCoupon($event)" class="btn btn-sm btn-primary">确认</a>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>

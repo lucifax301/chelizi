@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatCoachClassMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatCoachClass">
+		<id column="ccid" property="ccid" jdbcType="INTEGER" />
+		<result column="ctype" property="ctype" jdbcType="TINYINT" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="cstart" property="cstart" jdbcType="TIMESTAMP" />
+		<result column="cend" property="cend" jdbcType="TIMESTAMP" />
+		<result column="rstart" property="rstart" jdbcType="TIMESTAMP" />
+		<result column="rend" property="rend" jdbcType="TIMESTAMP" />
+		<result column="time_num" property="timeNum" jdbcType="TINYINT" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="max_num" property="maxNum" jdbcType="TINYINT" />
+		<result column="book_num" property="bookNum" jdbcType="TINYINT" />
+		<result column="car_id" property="carId" jdbcType="INTEGER" />
+		<result column="car_name" property="carName" jdbcType="VARCHAR" />
+		<result column="car_no" property="carNo" jdbcType="VARCHAR" />
+		<result column="course_id" property="courseId" jdbcType="VARCHAR" />
+		<result column="course_name" property="courseName" jdbcType="VARCHAR" />
+		<result column="place_id" property="placeId" jdbcType="INTEGER" />
+		<result column="place_name" property="placeName" jdbcType="VARCHAR" />
+		<result column="dltype" property="dltype" jdbcType="TINYINT" />
+		<result column="tid" property="tid" jdbcType="INTEGER" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="lge" property="lge" jdbcType="DOUBLE" />
+		<result column="lae" property="lae" jdbcType="DOUBLE" />
+		<result column="rid" property="rid" jdbcType="INTEGER" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ccid, ctype, coach_id, cstart, cend, rstart, rend, time_num, order_id,
+		max_num, book_num,
+		car_id, car_name, car_no, course_id, course_name,  place_id, place_name,
+		dltype, tid, isdel, lge, lae, rid, reason
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryWechatCoachClass" resultMap="BaseResultMap" 	parameterType="com.lili.school.vo.WechatCoachClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		where isdel=0 
+			 <trim suffixOverrides=",">
+				<if test="ccid != null and ccid != ''">
+					and ccid = #{ccid}
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and order_id = #{orderId}
+				</if>
+			</trim>
+	</select>
+	
+	<select id="queryWechatCoachClassList2" resultMap="BaseResultMap" 	parameterType="com.lili.school.vo.WechatCoachClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		where isdel=0  and cend> now()
+			 <trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and order_id != #{orderId}
+				</if>
+			</trim>
+	</select>
+	
+	<select id="queryNearWechatCoachClass" resultMap="BaseResultMap" 	parameterType="com.lili.school.vo.WechatCoachClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		<![CDATA[  where isdel=0  and  cstart  > now() ]]> 
+			 <trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+			order by cstart asc limit 1;
+	</select>
+	
+	<select id="queryWechatCoachClassList" resultMap="BaseResultMap" 	parameterType="com.lili.school.vo.WechatCoachClass">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		where isdel=0 
+			 <trim suffixOverrides=",">
+				<if test="cstart != null and cstart != '' and cend !=null and cend !=''">
+					 And  cstart between #{cstart} and #{cend}
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+			order by cstart asc
+	</select>
+	
+	<select id="queryCoachClassByCcidIn" resultMap="BaseResultMap" 	parameterType="com.lili.school.dto.WechatCoachClassDto">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_coach_class
+		where isdel=0 
+			 <trim suffixOverrides=",">
+				<if test="ccidIn != null and ccidIn != ''">
+					and ccid in (${ccidIn})
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+			order by cstart desc
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_wechat_coach_class
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.vo.WechatCoachClass">
+		insert into t_wechat_coach_class (ccid, ctype, coach_id,
+		cstart, cend, rstart,
+		rend, time_num, order_id,
+		max_num, book_num, car_id,
+		car_name, car_no, course_id,
+		course_name,  place_id, place_name,
+		dltype, tid,
+		isdel, lge, lae, rid,
+		reason)
+		values (#{ccid,jdbcType=INTEGER}, #{ctype,jdbcType=TINYINT},
+		#{coachId,jdbcType=BIGINT},
+		#{cstart,jdbcType=TIMESTAMP}, #{cend,jdbcType=TIMESTAMP}, #{rstart,jdbcType=TIMESTAMP},
+		#{rend,jdbcType=TIMESTAMP}, #{timeNum,jdbcType=TINYINT},
+		#{orderId,jdbcType=VARCHAR},
+		#{maxNum,jdbcType=TINYINT}, #{bookNum,jdbcType=TINYINT}, #{carId,jdbcType=INTEGER},
+		#{carName,jdbcType=VARCHAR}, #{carNo,jdbcType=VARCHAR},
+		#{courseId,jdbcType=VARCHAR},
+		#{courseName,jdbcType=VARCHAR}, #{placeId,jdbcType=INTEGER}, #{placeName,jdbcType=VARCHAR},
+		#{dltype,jdbcType=TINYINT}, #{tid,jdbcType=INTEGER},
+		#{isdel,jdbcType=TINYINT}, #{lge,jdbcType=DOUBLE}, #{lae,jdbcType=DOUBLE},
+		#{rid,jdbcType=INTEGER},
+		#{reason,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatCoachClass">
+		insert into t_wechat_coach_class
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ccid != null">
+				ccid,
+			</if>
+			<if test="ctype != null">
+				ctype,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="cstart != null">
+				cstart,
+			</if>
+			<if test="cend != null">
+				cend,
+			</if>
+			<if test="rstart != null">
+				rstart,
+			</if>
+			<if test="rend != null">
+				rend,
+			</if>
+			<if test="timeNum != null">
+				time_num,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="maxNum != null">
+				max_num,
+			</if>
+			<if test="bookNum != null">
+				book_num,
+			</if>
+			<if test="carId != null">
+				car_id,
+			</if>
+			<if test="carName != null">
+				car_name,
+			</if>
+			<if test="carNo != null">
+				car_no,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="courseName != null">
+				course_name,
+      		</if>
+			<if test="placeId != null">
+				place_id,
+			</if>
+			<if test="placeName != null">
+				place_name,
+			</if>
+			<if test="dltype != null">
+				dltype,
+			</if>
+			<if test="tid != null">
+				tid,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="rid != null">
+				rid,
+			</if>
+			<if test="reason != null">
+				reason,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ccid != null">
+				#{ccid,jdbcType=INTEGER},
+			</if>
+			<if test="ctype != null">
+				#{ctype,jdbcType=TINYINT},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="cstart != null">
+				#{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				#{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rstart != null">
+				#{rstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rend != null">
+				#{rend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="timeNum != null">
+				#{timeNum,jdbcType=TINYINT},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				#{maxNum,jdbcType=TINYINT},
+			</if>
+			<if test="bookNum != null">
+				#{bookNum,jdbcType=TINYINT},
+			</if>
+			<if test="carId != null">
+				#{carId,jdbcType=INTEGER},
+			</if>
+			<if test="carName != null">
+				#{carName,jdbcType=VARCHAR},
+			</if>
+			<if test="carNo != null">
+				#{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				#{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="placeId != null">
+				#{placeId,jdbcType=INTEGER},
+			</if>
+			<if test="placeName != null">
+				#{placeName,jdbcType=VARCHAR},
+			</if>
+			<if test="dltype != null">
+				#{dltype,jdbcType=TINYINT},
+			</if>
+			<if test="tid != null">
+				#{tid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="lge != null">
+				#{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				#{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="rid != null">
+				#{rid,jdbcType=INTEGER},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatCoachClass">
+		update t_wechat_coach_class
+		<set>
+			<if test="ctype != null">
+				ctype = #{ctype,jdbcType=TINYINT},
+			</if>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="cstart != null">
+				cstart = #{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				cend = #{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rstart != null">
+				rstart = #{rstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rend != null">
+				rend = #{rend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="timeNum != null">
+				time_num = #{timeNum,jdbcType=TINYINT},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				max_num = #{maxNum,jdbcType=TINYINT},
+			</if>
+			<if test="bookNum != null">
+				book_num = #{bookNum,jdbcType=TINYINT},
+			</if>
+			<if test="carId != null">
+				car_id = #{carId,jdbcType=INTEGER},
+			</if>
+			<if test="carName != null">
+				car_name = #{carName,jdbcType=VARCHAR},
+			</if>
+			<if test="carNo != null">
+				car_no = #{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				course_name = #{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="placeId != null">
+				place_id = #{placeId,jdbcType=INTEGER},
+			</if>
+			<if test="placeName != null">
+				place_name = #{placeName,jdbcType=VARCHAR},
+			</if>
+			<if test="dltype != null">
+				dltype = #{dltype,jdbcType=TINYINT},
+			</if>
+			<if test="tid != null">
+				tid = #{tid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="rid != null">
+				rid = #{rid,jdbcType=INTEGER},
+			</if>
+			<if test="reason != null">
+				reason = #{reason,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatCoachClass">
+		update t_wechat_coach_class
+		set ctype = #{ctype,jdbcType=TINYINT},
+		coach_id = #{coachId,jdbcType=BIGINT},
+		cstart = #{cstart,jdbcType=TIMESTAMP},
+		cend = #{cend,jdbcType=TIMESTAMP},
+		rstart = #{rstart,jdbcType=TIMESTAMP},
+		rend = #{rend,jdbcType=TIMESTAMP},
+		time_num = #{timeNum,jdbcType=TINYINT},
+		order_id = #{orderId,jdbcType=VARCHAR},
+		max_num = #{maxNum,jdbcType=TINYINT},
+		book_num = #{bookNum,jdbcType=TINYINT},
+		car_id = #{carId,jdbcType=INTEGER},
+		car_name = #{carName,jdbcType=VARCHAR},
+		car_no = #{carNo,jdbcType=VARCHAR},
+		course_id = #{courseId,jdbcType=VARCHAR},
+		course_name = #{courseName,jdbcType=VARCHAR},
+		place_id = #{placeId,jdbcType=INTEGER},
+		place_name = #{placeName,jdbcType=VARCHAR},
+		dltype = #{dltype,jdbcType=TINYINT},
+		tid = #{tid,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=TINYINT},
+		lge = #{lge,jdbcType=DOUBLE},
+		lae = #{lae,jdbcType=DOUBLE},
+		rid = #{rid,jdbcType=INTEGER},
+		reason = #{reason,jdbcType=VARCHAR}
+		where ccid = #{ccid,jdbcType=INTEGER}
+	</update>
+</mapper>

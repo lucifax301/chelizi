@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.VipChargeDiscountMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.VipChargeDiscount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="vipPackageId" property="vipPackageId" jdbcType="VARCHAR" />
+    <result column="limitMoney" property="limitMoney" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, vipPackageId, limitMoney, discount, expireTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_s_charge_discount
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectValidByvipPackageId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from t_s_vip_charge_discount
+        where vipPackageId = #{vipPackageId,jdbcType=VARCHAR} and (expireTime is null or expireTime &gt; now())
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_vip_charge_discount
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.VipChargeDiscount" >
+    insert into t_s_vip_charge_discount (
+        id,
+        vipPackageId,
+        limitMoney,
+        discount,
+        expireTime
+    )
+    values (
+      #{id,jdbcType=INTEGER},
+      #{vipPackageId,jdbcType=VARCHAR},
+      #{limitMoney,jdbcType=INTEGER},
+      #{discount,jdbcType=INTEGER},
+      #{expireTime,jdbcType=TIMESTAMP},
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.VipChargeDiscount" >
+    insert into t_s_vip_charge_discount
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="vipPackageId != null" >
+        vipPackageId,
+      </if>
+      <if test="limitMoney != null" >
+        limitMoney,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="expireTime != null" >
+          expireTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="vipPackageId != null" >
+        #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="limitMoney != null" >
+        #{limitMoney,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.VipChargeDiscount" >
+    update t_s_vip_charge_discount
+    <set >
+      <if test="vipPackageId != null" >
+        vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="limitMoney != null" >
+        limitMoney = #{limitMoney,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=INTEGER},
+      </if>
+      <if test="expireTime != null" >
+          expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.VipChargeDiscount" >
+    update t_s_vip_charge_discount
+    set vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      limitMoney = #{limitMoney,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=INTEGER},
+      expireTime = #{expireTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

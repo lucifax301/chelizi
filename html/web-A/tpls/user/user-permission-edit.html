@@ -1,0 +1,40 @@
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left" style="margin-top:8px;">
+                <h3>角色权限 >> 编辑角色</h3>
+        </div>
+        <div class="title_right"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="common-style">
+                    <div class="form-group z-auto-hide form-inline">
+                        <label class="control-label">角色名称：</label>
+                        <input type="text" class="form-control" placeholder="请输入角色名称" ng-model="name">
+                        <label class="control-label z-ml20">角色描述：</label>
+                        <input type="text" class="form-control w200" placeholder="请输入角色描述" ng-model="remark" style="width: 350px;">
+                    </div>
+                        <div class="role-permission-add">
+                        <div ng-repeat="item1 in permissionData" class="permission-item">
+                            <h2 class="z-common-h2 z-toggle-h2"><input type="checkbox" value="{{item1.id}}" class="item-level1" ng-checked="item1.layoutChecked"><span ng-bind="item1.name"></span> <span class="ico-toggle-open" ng-click="packItemToggle($event)">-</span></h2>
+                            <div>
+                                <div class="item-auto-wrap form-group" ng-repeat="item2 in item1.privileges">
+                                    <label><input type="checkbox" value="{{item2.id}}" class="item-level2" ng-checked="item2.layoutChecked"><span ng-bind="item2.name"></span></label>
+                                    <div class="checkbox-item" ng-repeat="item3 in item2.privileges"><input type="checkbox" value="{{item3.id}}" class="item-level3" ng-checked="item3.layoutChecked"><span ng-bind="item3.name"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center z-mt20 z-mb20">
+                        <button class="btn btn-primary btn-sm" ng-click="submitData()">提交</button>
+                        <a class="btn btn-default btn-sm" href="#user/permission">取消</a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

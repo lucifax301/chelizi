@@ -1,0 +1,68 @@
+<div class="password-box">
+	
+	<div class="y-cell bg_fff">
+		<div class="cell__bd pl15">
+			金额（元）
+			<input type="tel" class="clear_border h40 w200 f14 color_menu" placeholder="请输入金额" ng-model="price"/>
+		</div>
+		<div class="cell__ft">
+			<i class="ion-close-circled f16" ng-click="price=''"></i>
+		</div>
+	</div>
+	<div class="bg_fff pt5 pb5 pl15 pr15">
+		<div ng-if="price>10000" class="lh20">充值金额超限，本次最多可充值10,000元</div>
+		<div ng-if="RechargePlan.rechargeGearList">
+			<div class="recharge-plan-box">
+				<li ng-repeat="item in RechargePlan.rechargeGearList">
+					<label ng-class="{true:'active'}[item == plan]">
+						<input type="radio" name="checkplan" value="{{$index}}" ng-model="$parent.planlist" ng-click="checkplan(item)">
+						<span class="f14 color_title">{{item.pmin/100}}元</span><br>
+						赠送：
+						<span ng-if="item.money" ng-bind="item.money/100 + '元 +'"></span>
+						<span ng-if="item.percent" ng-bind="item.percent + '% +'"></span>
+						<span ng-if="item.couponList">{{item.allNum}}张优惠券</span>
+					</label>
+				</li>
+			</div>
+			<div class="color_menu f14 text-center" ng-if="plan">
+				冲{{plan.pmin/100}}元送（
+				<span ng-if="plan.money" ng-bind="plan.money/100 + '元'"></span>
+				<span ng-if="plan.percent" ng-bind="plan.percent + '%'"></span>
+				<span ng-if="plan.couponNum" ng-repeat="item in plan.couponList">
+					
+					{{item.couponName + item.couponNum + '张'}}
+				</span>
+				）
+			</div>
+			<div class="color_menu f14 text-center" ng-if="!plan">其它金额不予赠送</div>
+			<div class="text-center f10">
+				活动结束日期 {{RechargePlan.tend | date:'yyyy-MM-dd'}}
+			</div>
+		</div>
+	</div>
+	<div class="f12 pl15 lh30 bg_body">
+		支付方式
+	</div>
+	
+	<div class="border_top bg_fff pl15">
+		<label class="y-cell">
+			<div class="cell__hd">
+				<img src="img/icon/icon-wechat.png" class="w25"/>
+			</div>
+			<div class="cell__bd">
+				微信支付	
+			</div>
+			<div class="cell__ft pr15">
+				<input name='paytype' ng-model="paytype" type="radio" value="1">
+				<div class="chebox"></div>
+			</div>
+		</label>
+	</div>
+	<div class="pl15 pr15 pt20">
+		<a class="button-submit mt35" ng-class="{true:'erro-solid'}[price==0 || !price]" ng-click="signPayNow()">立即充值</a>
+		<p class="f10 color_len mt10">
+			点击立即充值，即表示您已阅读并同意
+			<a class="color_menu" href="javascript:void(0)" onclick="Popup.iframe({header:'使用协议',haveHeader:false,maskHide:true,closeBut:false,src:'http://www.lilixc.com/recharge_protocol.html',style:'width:90%;height:90%;left:5%;top:5%;',yesHtml:'已阅读并同意'});">《充值活动协议》</a>
+		</p>
+	</div>
+</div>

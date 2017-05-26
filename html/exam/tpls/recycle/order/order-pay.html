@@ -1,0 +1,104 @@
+<div  ng-cloak>
+	<div class="coach-list y-comment">
+		<div class="coach-user">
+			<div class="y-box-flex">
+				<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+					<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+					<img src="img/user.png" ng-if="!coachinfo.headIcon">
+				</div>
+				<div class="userinfo">
+					<div class="name">
+						{{coachinfo.name}} 
+						<span ng-if='coachinfo.importSrc'>{{coachinfo.importSrc}}</span>
+						<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+						<a class="phone mind" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+					</div>
+					<div class="name">
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15">
+		<div class="y-cell">
+			<div class="cell__bd">
+				车辆信息
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{order.dltype==1?'C1':'C2'}}.png" class="img-auto mr5">{{coachinfo.carNo}}
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				{{order.courseName}}x{{order.clzNum}}课时
+			</div>
+			<div class="cell__ft pr15" ng-bind="(order.price|priceTex) + '元'">
+				
+			</div>
+		</div>
+	</div>
+	<div class="f12 pl15 lh30">
+		支付方式
+	</div>
+	<div class="border_top bg_fff pl15">
+		<label class="y-cell">
+			<div class="cell__hd">
+				<img src="img/icon/icon-yue.png" class="w25"/>
+			</div>
+			<div class="cell__bd">
+				余额支付	
+			</div>
+			<div class="cell__ft pr15">
+				<input name='paytype' ng-model="paytype" type="radio" value="1">
+				<div class="chebox"></div>
+			</div>
+		</label>
+	</div>
+	<div class="border_top bg_fff pl15">
+		<label class="y-cell">
+			<div class="cell__hd">
+				<img src="img/icon/icon-wechat.png" class="w25"/>
+			</div>
+			<div class="cell__bd">
+				微信支付	
+			</div>
+			<div class="cell__ft pr15">
+				<input name='paytype' ng-model="paytype" type="radio" value="2">
+				<div class="chebox"></div>
+			</div>
+		</label>
+	</div>
+	<div class="course-nav">
+		<div class="left">
+			应付金额：<span ng-bind="(order.payTotal|priceTex) + '元'"></span>
+		</div>
+		<div class="right" ng-click="goNext()">
+			确认支付
+		</div>
+	</div>
+</div>
+<div id='pop-pay' ng-if='pswbox'>
+	<div class="pop-mask"></div>
+	<div class="pop-body">
+		<div class="title">
+			请输入支付密码
+			<i class="ion-android-close" ng-click="pop_close()"></i>
+		</div>
+		<div class="comment pl0 pr0">
+			<div class="pswinput mt5">
+				<input type="tel" maxlength="6" ng-model="$parent.paypsw" id="pswinput">
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=1]"></div>
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=2]"></div>
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=3]"></div>
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=4]"></div>
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=5]"></div>
+				<div class="psw-num" ng-class="{true:'active'}[paypsw.length>=6]"></div>
+			</div>
+		</div>		
+	</div>
+</div>

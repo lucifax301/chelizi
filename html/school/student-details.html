@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="OrderDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员详情</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<div class="student">
+			<div class="pull-left head"><img src="{{studentDetails.headIcon}}"></div>
+			<div class="pull-left details">
+				<dl class="msg">
+					<dt>
+						<span ng-bind="studentDetails.name?studentDetails.name:'喱喱同学'"></span>
+						<span ng-class="['type', studentDetails.checkIdState==2?'succes':'error']" ng-bind="studentDetails.checkIdState | checkIdStateText"></span>
+					</dt>
+					<dd>性别：<span ng-bind="studentDetails.sex | sexText"></span> &nbsp;&nbsp;|&nbsp;&nbsp; 年龄：<span ng-bind="studentDetails.age"></span> &nbsp;&nbsp;|&nbsp;&nbsp; 户籍：<span ng-bind="studentDetails.hometown"></span></dd>
+					<dd>电话：<span ng-bind="studentDetails.phoneNum"></span></dd>
+					<dd>身份证：<span ng-bind="studentDetails.idNumber"></span></dd>
+					<dd>驾考类别：<span ng-bind="studentDetails.applyCarType | applyCarTypeTex"></span></dd>
+				</dl>
+			</div>
+			<div class="edit"><span ng-if="100304|isButtonShow" ng-click="studentEdit(studentDetails)">编辑</span></div>
+		</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active">历史订单</li>
+			<li ng-click="tableSwitch($event)">绑定教练</li>
+			<li ng-click="tableSwitch($event)">个人账户</li>
+			<li ng-click="tableSwitch($event)">操作日志</li>
+		</ul>
+		<div class="order-table common-table" id="order-table">
+			<!-- 历史订单 -->
+			<div>
+				<div class="search">
+					<div class="line">
+						<div>支付状态</div>
+						<ul>
+							<li ng-click="getDataForPayment($event,'')" class="active">全部</li>
+							<li ng-click="getDataForPayment($event,1)">已付款</li>
+							<li ng-click="getDataForPayment($event,0)">未付款</li>
+							<li ng-click="getDataForPayment($event,2)">支付失败</li>
+							<li ng-click="getDataForPayment($event,9)">老学员自动付款</li>
+						</ul>
+					</div>
+					<div class="line">
+						<div>单号查询</div>
+						<div class="input-group">
+					      <input type="text" ng-model="orderId" class="form-control" placeholder="条件查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-if="100202|isButtonShow" ng-click="closeOrder()" class="btn btn-sm btn-danger">关闭订单</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" style="width:80px;"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>订单号</b></td>
+					  	<td><b>学员</b></td>
+					  	<td><b>教练</b></td>
+					  	<td><b>上课时间</b></td>
+					  	<td><b>下课时间</b></td>
+					  	<td><b>课程</b></td>
+					  	<td><b>场地</b></td>
+					  	<td><b>教练车</b></td>
+					  	<td><b>金额(元)</b></td>
+					  	<td><b>支付状态</b></td>
+					  	<td><b>订单状态</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas" ng-class="{'disable-bac': data.orderState!=0?true:false}">
+					  	<td align="center"><input type="checkbox" ng-click="updateSelection($event,data.orderId)" ng-checked="isSelected(data.orderId)" ></td>
+					  	<td> <a href="order-details.html?orderId={{ data.orderId }}" data-bubble="{{ data.orderId }}" class="layerBubble" ng-bind="data.orderId | limitToSec:10"></a> </td>
+					  	<td ng-bind="data.studentName"></td>
+					  	<td> <a href="coach-details.html?coachId={{data.coachId}}" ng-bind="data.coachName"></a> </td>
+					  	<td ng-bind="data.rstart | timeTex"></td>
+					  	<td ng-bind="data.rend | timeTex"></td>
+					  	<td ng-bind="data.courseName"></td>
+					  	<td ng-bind="data.stuAddr"></td>
+					  	<td><a href="car-details.html?carId={{data.carId}}" ng-bind="data.carNo"></a></td>
+					  	<td ng-bind="data.price/100"></td>
+					  	<td ng-bind="data.payState | payStateTex"></td>
+					  	<td ng-bind="data.orderState | orderStateTex"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+			<!-- 绑定教练 -->
+			<div>
+				<div ng-class="['div-responsive',stuCoData.coachName?'show':'hide']">
+				<ul class="coach-car">
+					<li class='no-borde'><div>教练</div><div>教练信息</div><div>约课数据统计</div><div>操作</div></li>
+					<li class="is-border">
+						<div class="student"><img src="{{stuCoData.coachIcon}}"><a href="coach-details.html?coachId={{stuCoData.coachId}}" ng-bind="stuCoData.coachName"></a></div>
+						<div><span>电话：{{ stuCoData.phoneNum }}</span> <span>教练车：{{ stuCoData.carNo | limitTo:15}}</span></div>
+						<div>
+							<p class="text-left">已上预约课：<span class='mainColor'>{{ stuCoData.totalOrderNum }}</span> 人次&nbsp;&nbsp; <span class='mainColor'>{{ stuCoData.totalOrderTime }}</span>小时</p> 
+						  	<p class="text-right">已上现约课: <span class='mainColor'>{{ stuCoData.pOrderNum }}</span>人次&nbsp;&nbsp; <span class='mainColor'>{{ stuCoData.pOrderTime }}</span>小时</p>
+						</div>
+						<div class="operation">
+							<span class="edit" ng-click="addNewCoach(stuCoData.coachId)">更换</span>
+					  		<span class="edit" ng-click="deleteCoachBindStudent(stuCoData.coachId)">删除</span>
+						</div>
+					</li>
+				</ul><!-- ul 结束 --> 
+				</div>
+				<div ng-class="['add-coach-car','no-coach-car',stuCoData.coachName?'hide':'show']" ng-click="addNewCoach()">
+					该学员还没有绑定教练 <a href="javascript:void(0)">绑定教练</a>
+				</div>
+			</div>
+			<!-- 个人账户 -->
+			<div>
+				<div class="account-block student-account">
+					<h1>余额信息</h1>
+					<div class="yue">
+						<p>账户余额</p>
+						<div><span ng-bind="stuAccount.money/100?stuAccount.money/100:0"></span>元</div>
+					</div>
+				</div> 
+				<div class="account-block student-account">
+					<h1>银行卡</h1>
+					<div class="bank-card">
+						<h5>该学员已绑定<span class="succes"> {{stuBankList.length?stuBankList.length:0}} </span>张银行卡</h5>
+						<div class="card">
+							<div class="card-block" ng-repeat="item in stuBankList">
+								<div class="top">
+									<div class="pull-left" ng-bind="item.bankName"></div>
+									<div class="pull-right"><span>尾号<i ng-bind="item.bankNo | idNumberLast4"></i></span> <span>储蓄卡</span></div>
+								</div>
+								<div class="bottom">
+									<div class="pull-left"><span>快捷支付：</span>已开通</div>
+									<div class="pull-right"><img src="assets/img/union-pay.png"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> 
+				<div class="account-block student-account">
+					<h1>资产交易明细</h1>
+					<div class="mingx">
+						<div class="search">
+							<div class="line">
+								<div style="width:50px;line-height:35px;">最近：</div>
+								<ul>
+									<li ng-click="getDataForTime($event,'1')" class="active">一周</li>
+									<li ng-click="getDataForTime($event,'2')">一月</li>
+									<li ng-click="getDataForTime($event,'3')">一年</li>
+								</ul>
+								<div class="input-prepend input-group">
+									<span class="add-on input-group-addon">
+										<i class="glyphicon glyphicon-calendar fa fa-calendar">
+										</i>
+									</span>
+									<input type="text" style="width: 200px" name="reservation" id="reservation"
+									class="form-control" placeholder="自定义时间筛选" />
+								</div>
+							</div>
+						</div>
+						<div class="total">
+							<div class="w-40">存入{{stuAccount.saveAccount?stuAccount.saveAccount:0}}笔，共计：<span class="green">{{stuAccount.saveMoney/100?stuAccount.saveMoney/100:0}}元</span></div>
+							<div>支出{{stuAccount.expendAccount?stuAccount.expendAccount:0}}笔，共计：<span class="oringe">{{stuAccount.expendMoney/100?stuAccount.expendMoney/100:0}}元</span></div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped stu-table-account">
+							  <tr>
+							  	<td><b>订单号|流水号</b></td>
+							  	<td><b>日期</b></td>
+							  	<td><b>名称|备注</b></td>
+							  	<td><b>存入(元)</b></td>
+							  	<td><b>支出(元)</b></td>
+							  </tr>
+							  <tr ng-repeat="item in stuMoneyList.dataList">
+							  	<td class="liushui">
+							  		<span ng-if="item.orderId">订单号：<i ng-bind="item.orderId"></i></span>
+							  		<span ng-if="item.waterId">流水号：<i ng-bind="item.waterId"></i></span>
+							  	</td>
+							  	<td ng-bind="item.operateTime | timeTex"></td>
+							  	<td ng-bind="item.remark"></td>
+							  	<td ng-class="{'green':item.saveValue?true:false}" ng-bind="item.changeValue<0?-item.changeValue/100:''"></td>
+							  	<td ng-class="{'oringe':item.expendValue?true:false}" ng-bind="item.changeValue>=0?item.changeValue/100:''"></td>
+							  </tr>
+							</table>
+						</div>
+						<div class="page">
+							<div id="total-page" class="copot-page"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 操作日志 -->
+			<div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td class="w-20"><b>更新时间</b></td>
+					  	<td class="w-10"><b>操作人</b></td>
+					  	<td><b>操作内容</b></td>
+					  </tr>
+					  <tr ng-repeat="data in studentLogs">
+					  	<td ng-bind="data.operateTime | timeTex"></td>
+					  	<td ng-bind="data.userName"></td>
+                          <td ng-bind="(data.detail&&data.detail!='{}')?(data.detail| studentUpdateText): data.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="log-page" class="copot-page"></div>
+				</div><!-- 操作日志结束 -->
+			</div>
+		</div>
+
+		<!-- 学员信息编辑 -->
+		<ng-include src="'edit/student.html'" onload="sutdentEditLoad()" ></ng-include>
+		<!-- 绑定教练 -->
+		<ng-include src="'edit/add-new-coach.html'" onload="addNewCoachLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/student-details.js"></script>
+</body>
+</html>

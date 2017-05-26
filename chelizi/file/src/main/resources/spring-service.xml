@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+<!-- 配置属性文件注入 -->
+<bean id="fileResources" class="java.util.ArrayList">  
+       <constructor-arg>  
+       <list>
+           <value>classpath:file.properties</value>  
+       </list>  
+       </constructor-arg>  
+</bean>
+<bean id="fileProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+    <property name="ignoreUnresolvablePlaceholders" value="true" />   
+    <property name="locations" ref="fileResources" />  
+    <property name="fileEncoding" value="UTF-8" />  
+</bean> 
+<bean id="fileService" class="com.lili.file.service.impl.FileServiceImpl"></bean>
+<bean id="fileManager" class="com.lili.file.manager.impl.FileManagerImpl"></bean>
+<bean id="configManager" class="com.lili.file.manager.impl.ConfigManagerImpl"></bean>
+<bean id="deviceManager" class="com.lili.file.manager.impl.DeviceManagerImpl"></bean>
+<bean id="posterService" class="com.lili.file.service.impl.PosterServiceImpl"></bean>
+<bean id="getAndPostService" class="com.lili.file.service.impl.GetAndPostServiceImpl"></bean>
+<bean id="posterManager" class="com.lili.file.manager.impl.PosterManagerImpl"></bean>
+<bean id="coursenewManager" class="com.lili.file.manager.impl.CoursenewManagerImpl"></bean>
+<bean id="htmlObjectManager" class="com.lili.file.manager.impl.HtmlObjectManagerImpl"></bean>
+</beans>

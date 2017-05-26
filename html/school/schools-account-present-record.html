@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="MyApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>提现记录</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">提现记录</div>
+		<ul class="table-li">
+			<li><a href="schools-account.html">钱包总览</a></li>
+			<li class="active"><a href="schools-account-present-record.html">提现记录</a></li>
+		</ul>
+		<!-- 提现记录列表详情 -->
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header">学员列表</div>
+			<div class="content table-qie">
+				<div class="search">
+					<div class="line">
+						<div>筛选时间</div>
+						<ul>
+							<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+							<li ng-click="getDataForTime($event,'0')">最近7天</li>
+							<li ng-click="getDataForTime($event,'1')">最近15天</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+							<input type="text" style="width: 200px" name="reservation" id="reservation"
+							class="form-control" placeholder="自定义时间筛选" />
+						</div>
+					</div>
+					<div class="line">
+						<div>筛选状态</div>
+						<ul>
+							<li ng-click="getDataForState($event,'')" class="active">全部</li>
+							<li ng-click="getDataForState($event,0)">审核中</li>
+							<li ng-click="getDataForState($event,3)">已确认</li>
+							<li ng-click="getDataForState($event,4)">银行处理中</li>
+							<li ng-click="getDataForState($event,1)">提现成功</li>
+							<li ng-click="getDataForState($event,2)">提现失败</li>
+						</ul>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<a ng-if="100302|isButtonShow" ng-click="schoolsAccountDataExport()" class="btn btn-sm btn-primary">数据导出</a>
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td><b>申请时间</b></td>
+					  	<td><b>流水号</b></td>
+					  	<td><b>提现金额</b></td>
+						<td><b>账户余额</b></td>
+					  	<td><b>开户银行</b></td>
+					  	<td><b>对公账号</b></td>
+					  	<td><b>提现状态</b></td>
+					  	<td><b>备注</b></td>
+					  </tr>
+					  <tr ng-repeat="item in datas">
+					 	<td ng-bind="item.applyTime|timeTex"></td>
+					  	<td><a href="schools-account-withdrawals-details.html?waterId={{item.waterId}}" ng-bind="item.waterId"></a></td>
+					  	<td ng-bind="item.money/100"></td>
+					  	<td ng-bind="item.accountMoney/100"></td>
+						<td ng-bind="item.bankName"><b></b></td>
+						<td ng-bind="item.bankCard"></td>
+					  	<td ng-bind="item.checkStatus|recoreStatusText"></td>
+					  	<td ng-bind="item.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+<!-- script -->
+</div>	
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/schools-account-present-record.js"></script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollPackageTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollPackageTemplate" >
+    <id column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="self_test" property="selfTest" jdbcType="TINYINT" />
+    <result column="proc_pic" property="procPic" jdbcType="VARCHAR" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+    <result column="first_step" property="firstStep" jdbcType="INTEGER" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="cuid" property="cuid" jdbcType="BIGINT" />
+    <result column="muid" property="muid" jdbcType="BIGINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="tmpTotalPrice" property="tmptotalprice" jdbcType="VARCHAR" />
+    <result column="tmpCourse" property="tmpcourse" jdbcType="VARCHAR" />
+    <result column="tmpCoursePrice" property="tmpcourseprice" jdbcType="VARCHAR" />
+    <result column="tmpEstimate" property="tmpestimate" jdbcType="VARCHAR" />
+    <result column="tmpNote" property="tmpnote" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.school.dto.EnrollPackageTemplateWithBLOBs" extends="BaseResultMap" >
+    <result column="protocol" property="protocol" jdbcType="LONGVARCHAR" />
+    <result column="price_detail" property="priceDetail" jdbcType="LONGVARCHAR" />
+    <result column="test_condition" property="testCondition" jdbcType="LONGVARCHAR" />
+    <result column="describtion" property="describtion" jdbcType="LONGVARCHAR" />
+    <result column="tmpService" property="tmpservice" jdbcType="LONGVARCHAR" />
+    <result column="tmpStandard" property="tmpstandard" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ttid, city_id, name, price, title, icon, self_test, proc_pic, order_by, first_step, 
+    isdel, cuid, muid, ctime, mtime, tmpTotalPrice, tmpCourse, tmpCoursePrice, tmpEstimate, 
+    tmpNote, extra
+  </sql>
+  <sql id="Blob_Column_List" >
+    protocol, price_detail, test_condition, describtion, tmpService, tmpStandard
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.school.dto.EnrollPackageTemplateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_enroll_package_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollPackageTemplateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_package_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_enroll_package_template
+    where ttid = #{ttid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_package_template
+    where ttid = #{ttid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollPackageTemplateExample" >
+    delete from t_enroll_package_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollPackageTemplateWithBLOBs" >
+    insert into t_enroll_package_template (ttid, city_id, name, 
+      price, title, icon, 
+      self_test, proc_pic, order_by, 
+      first_step, isdel, cuid, 
+      muid, ctime, mtime, 
+      tmpTotalPrice, tmpCourse, tmpCoursePrice, 
+      tmpEstimate, tmpNote, extra, 
+      protocol, price_detail, test_condition, 
+      describtion, tmpService, tmpStandard
+      )
+    values (#{ttid,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{selfTest,jdbcType=TINYINT}, #{procPic,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
+      #{firstStep,jdbcType=INTEGER}, #{isdel,jdbcType=TINYINT}, #{cuid,jdbcType=BIGINT}, 
+      #{muid,jdbcType=BIGINT}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{tmptotalprice,jdbcType=VARCHAR}, #{tmpcourse,jdbcType=VARCHAR}, #{tmpcourseprice,jdbcType=VARCHAR}, 
+      #{tmpestimate,jdbcType=VARCHAR}, #{tmpnote,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, 
+      #{protocol,jdbcType=LONGVARCHAR}, #{priceDetail,jdbcType=LONGVARCHAR}, #{testCondition,jdbcType=LONGVARCHAR}, 
+      #{describtion,jdbcType=LONGVARCHAR}, #{tmpservice,jdbcType=LONGVARCHAR}, #{tmpstandard,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollPackageTemplateWithBLOBs" >
+    insert into t_enroll_package_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ttid != null" >
+        ttid,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="selfTest != null" >
+        self_test,
+      </if>
+      <if test="procPic != null" >
+        proc_pic,
+      </if>
+      <if test="orderBy != null" >
+        order_by,
+      </if>
+      <if test="firstStep != null" >
+        first_step,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="cuid != null" >
+        cuid,
+      </if>
+      <if test="muid != null" >
+        muid,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="tmptotalprice != null" >
+        tmpTotalPrice,
+      </if>
+      <if test="tmpcourse != null" >
+        tmpCourse,
+      </if>
+      <if test="tmpcourseprice != null" >
+        tmpCoursePrice,
+      </if>
+      <if test="tmpestimate != null" >
+        tmpEstimate,
+      </if>
+      <if test="tmpnote != null" >
+        tmpNote,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="protocol != null" >
+        protocol,
+      </if>
+      <if test="priceDetail != null" >
+        price_detail,
+      </if>
+      <if test="testCondition != null" >
+        test_condition,
+      </if>
+      <if test="describtion != null" >
+        describtion,
+      </if>
+      <if test="tmpservice != null" >
+        tmpService,
+      </if>
+      <if test="tmpstandard != null" >
+        tmpStandard,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ttid != null" >
+        #{ttid,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="selfTest != null" >
+        #{selfTest,jdbcType=TINYINT},
+      </if>
+      <if test="procPic != null" >
+        #{procPic,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="firstStep != null" >
+        #{firstStep,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmptotalprice != null" >
+        #{tmptotalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpcourse != null" >
+        #{tmpcourse,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpcourseprice != null" >
+        #{tmpcourseprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpestimate != null" >
+        #{tmpestimate,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpnote != null" >
+        #{tmpnote,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        #{protocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="priceDetail != null" >
+        #{priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="testCondition != null" >
+        #{testCondition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="describtion != null" >
+        #{describtion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tmpservice != null" >
+        #{tmpservice,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tmpstandard != null" >
+        #{tmpstandard,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollPackageTemplateExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_package_template
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_package_template
+    <set >
+      <if test="record.ttid != null" >
+        ttid = #{record.ttid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selfTest != null" >
+        self_test = #{record.selfTest,jdbcType=TINYINT},
+      </if>
+      <if test="record.procPic != null" >
+        proc_pic = #{record.procPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderBy != null" >
+        order_by = #{record.orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstStep != null" >
+        first_step = #{record.firstStep,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.cuid != null" >
+        cuid = #{record.cuid,jdbcType=BIGINT},
+      </if>
+      <if test="record.muid != null" >
+        muid = #{record.muid,jdbcType=BIGINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tmptotalprice != null" >
+        tmpTotalPrice = #{record.tmptotalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tmpcourse != null" >
+        tmpCourse = #{record.tmpcourse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tmpcourseprice != null" >
+        tmpCoursePrice = #{record.tmpcourseprice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tmpestimate != null" >
+        tmpEstimate = #{record.tmpestimate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tmpnote != null" >
+        tmpNote = #{record.tmpnote,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protocol != null" >
+        protocol = #{record.protocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.priceDetail != null" >
+        price_detail = #{record.priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.testCondition != null" >
+        test_condition = #{record.testCondition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.describtion != null" >
+        describtion = #{record.describtion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.tmpservice != null" >
+        tmpService = #{record.tmpservice,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.tmpstandard != null" >
+        tmpStandard = #{record.tmpstandard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_enroll_package_template
+    set ttid = #{record.ttid,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      self_test = #{record.selfTest,jdbcType=TINYINT},
+      proc_pic = #{record.procPic,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      first_step = #{record.firstStep,jdbcType=INTEGER},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      cuid = #{record.cuid,jdbcType=BIGINT},
+      muid = #{record.muid,jdbcType=BIGINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      tmpTotalPrice = #{record.tmptotalprice,jdbcType=VARCHAR},
+      tmpCourse = #{record.tmpcourse,jdbcType=VARCHAR},
+      tmpCoursePrice = #{record.tmpcourseprice,jdbcType=VARCHAR},
+      tmpEstimate = #{record.tmpestimate,jdbcType=VARCHAR},
+      tmpNote = #{record.tmpnote,jdbcType=VARCHAR},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      protocol = #{record.protocol,jdbcType=LONGVARCHAR},
+      price_detail = #{record.priceDetail,jdbcType=LONGVARCHAR},
+      test_condition = #{record.testCondition,jdbcType=LONGVARCHAR},
+      describtion = #{record.describtion,jdbcType=LONGVARCHAR},
+      tmpService = #{record.tmpservice,jdbcType=LONGVARCHAR},
+      tmpStandard = #{record.tmpstandard,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_package_template
+    set ttid = #{record.ttid,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      self_test = #{record.selfTest,jdbcType=TINYINT},
+      proc_pic = #{record.procPic,jdbcType=VARCHAR},
+      order_by = #{record.orderBy,jdbcType=INTEGER},
+      first_step = #{record.firstStep,jdbcType=INTEGER},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      cuid = #{record.cuid,jdbcType=BIGINT},
+      muid = #{record.muid,jdbcType=BIGINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      tmpTotalPrice = #{record.tmptotalprice,jdbcType=VARCHAR},
+      tmpCourse = #{record.tmpcourse,jdbcType=VARCHAR},
+      tmpCoursePrice = #{record.tmpcourseprice,jdbcType=VARCHAR},
+      tmpEstimate = #{record.tmpestimate,jdbcType=VARCHAR},
+      tmpNote = #{record.tmpnote,jdbcType=VARCHAR},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollPackageTemplateWithBLOBs" >
+    update t_enroll_package_template
+    <set >
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="selfTest != null" >
+        self_test = #{selfTest,jdbcType=TINYINT},
+      </if>
+      <if test="procPic != null" >
+        proc_pic = #{procPic,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null" >
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="firstStep != null" >
+        first_step = #{firstStep,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="cuid != null" >
+        cuid = #{cuid,jdbcType=BIGINT},
+      </if>
+      <if test="muid != null" >
+        muid = #{muid,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmptotalprice != null" >
+        tmpTotalPrice = #{tmptotalprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpcourse != null" >
+        tmpCourse = #{tmpcourse,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpcourseprice != null" >
+        tmpCoursePrice = #{tmpcourseprice,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpestimate != null" >
+        tmpEstimate = #{tmpestimate,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpnote != null" >
+        tmpNote = #{tmpnote,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="protocol != null" >
+        protocol = #{protocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="priceDetail != null" >
+        price_detail = #{priceDetail,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="testCondition != null" >
+        test_condition = #{testCondition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="describtion != null" >
+        describtion = #{describtion,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tmpservice != null" >
+        tmpService = #{tmpservice,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="tmpstandard != null" >
+        tmpStandard = #{tmpstandard,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ttid = #{ttid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.school.dto.EnrollPackageTemplateWithBLOBs" >
+    update t_enroll_package_template
+    set city_id = #{cityId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      self_test = #{selfTest,jdbcType=TINYINT},
+      proc_pic = #{procPic,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      first_step = #{firstStep,jdbcType=INTEGER},
+      isdel = #{isdel,jdbcType=TINYINT},
+      cuid = #{cuid,jdbcType=BIGINT},
+      muid = #{muid,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      tmpTotalPrice = #{tmptotalprice,jdbcType=VARCHAR},
+      tmpCourse = #{tmpcourse,jdbcType=VARCHAR},
+      tmpCoursePrice = #{tmpcourseprice,jdbcType=VARCHAR},
+      tmpEstimate = #{tmpestimate,jdbcType=VARCHAR},
+      tmpNote = #{tmpnote,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      protocol = #{protocol,jdbcType=LONGVARCHAR},
+      price_detail = #{priceDetail,jdbcType=LONGVARCHAR},
+      test_condition = #{testCondition,jdbcType=LONGVARCHAR},
+      describtion = #{describtion,jdbcType=LONGVARCHAR},
+      tmpService = #{tmpservice,jdbcType=LONGVARCHAR},
+      tmpStandard = #{tmpstandard,jdbcType=LONGVARCHAR}
+    where ttid = #{ttid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollPackageTemplate" >
+    update t_enroll_package_template
+    set city_id = #{cityId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      self_test = #{selfTest,jdbcType=TINYINT},
+      proc_pic = #{procPic,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      first_step = #{firstStep,jdbcType=INTEGER},
+      isdel = #{isdel,jdbcType=TINYINT},
+      cuid = #{cuid,jdbcType=BIGINT},
+      muid = #{muid,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      tmpTotalPrice = #{tmptotalprice,jdbcType=VARCHAR},
+      tmpCourse = #{tmpcourse,jdbcType=VARCHAR},
+      tmpCoursePrice = #{tmpcourseprice,jdbcType=VARCHAR},
+      tmpEstimate = #{tmpestimate,jdbcType=VARCHAR},
+      tmpNote = #{tmpnote,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR}
+    where ttid = #{ttid,jdbcType=INTEGER}
+  </update>
+</mapper>

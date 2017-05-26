@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachCarMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.model.CoachCar">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="carId" property="carId" jdbcType="INTEGER" />
+		<result column="addTime" property="addTime" jdbcType="TIMESTAMP" />
+		<result column="isExist" property="isExist" jdbcType="INTEGER" />
+		<result column="syncType" property="syncType" jdbcType="INTEGER" />
+		<result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		coachId,carId,addTime,isExist,syncType,syncTime
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coachcar
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+	
+	<select id="queryCoachCarList" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coachcar
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+
+
+</mapper>

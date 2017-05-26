@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.coach.dto.Car" >
+    <id column="carId" property="carId" jdbcType="INTEGER" />
+    <result column="carType" property="carType" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="mileage" property="mileage" jdbcType="INTEGER" />
+    <result column="innerEnvir" property="innerEnvir" jdbcType="INTEGER" />
+    <result column="performance" property="performance" jdbcType="INTEGER" />
+    <result column="carNo" property="carNo" jdbcType="VARCHAR" />
+    <result column="carLevel" property="carLevel" jdbcType="INTEGER" />
+    <result column="driveType" property="driveType" jdbcType="TINYINT" />
+    <result column="driveNumber" property="driveNumber" jdbcType="VARCHAR" />
+    <result column="drivePhoto" property="drivePhoto" jdbcType="VARCHAR" />
+    <result column="UsePerson" property="usePerson" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="syncType" property="syncType" jdbcType="TINYINT" />
+    <result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="carOwner" property="carOwner" jdbcType="VARCHAR" />
+    <result column="carOwnerAddr" property="carOwnerAddr" jdbcType="VARCHAR" />
+    <result column="carUseType" property="carUseType" jdbcType="VARCHAR" />
+    <result column="carEngineNo" property="carEngineNo" jdbcType="VARCHAR" />
+    <result column="carVin" property="carVin" jdbcType="VARCHAR" />
+    <result column="carRegTime" property="carRegTime" jdbcType="DATE" />
+    <result column="carIssueTime" property="carIssueTime" jdbcType="DATE" />
+    <result column="brandId" property="brandId" jdbcType="INTEGER" />
+    <result column="brandName" property="brandName" jdbcType="VARCHAR" />
+    <result column="carColor" property="carColor" jdbcType="TINYINT" />
+    <result column="carPower" property="carPower" jdbcType="TINYINT" />
+    <result column="carImg" property="carImg" jdbcType="VARCHAR" />
+    <result column="verifyStart" property="verifyStart" jdbcType="DATE" />
+    <result column="verifyEnd" property="verifyEnd" jdbcType="DATE" />
+    <result column="verifyFee" property="verifyFee" jdbcType="INTEGER" />
+    <result column="verifyState" property="verifyState" jdbcType="TINYINT" />
+    <result column="insuranceType" property="insuranceType" jdbcType="TINYINT" />
+    <result column="insuranceMoney" property="insuranceMoney" jdbcType="INTEGER" />
+    <result column="insuranceStart" property="insuranceStart" jdbcType="DATE" />
+    <result column="insuranceEnd" property="insuranceEnd" jdbcType="DATE" />
+    <result column="insuranceCo" property="insuranceCo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    carId, carType, age, mileage, innerEnvir, performance, carNo, carLevel, driveType, 
+    driveNumber, drivePhoto, UsePerson, schoolId, syncType, syncTime, cityId, carOwner, 
+    carOwnerAddr, carUseType, carEngineNo, carVin, carRegTime, carIssueTime, brandId, 
+    brandName, carColor, carPower, carImg, verifyStart, verifyEnd, verifyFee, verifyState, 
+    insuranceType, insuranceMoney, insuranceStart, insuranceEnd, insuranceCo
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.CarExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_p_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_p_car
+    where carId = #{carId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="queryByCarNo" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Car" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_p_car
+    where 1=1
+		<trim suffixOverrides=",">
+			<if test="carNo != null and carNo != ''">
+				and carNo = #{carNo,jdbcType=VARCHAR}
+			</if>
+		</trim>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_p_car
+    where carId = #{carId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.coach.dto.CarExample" >
+    delete from t_p_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.coach.dto.Car" useGeneratedKeys="true" keyProperty="carId">
+    insert into t_p_car (carId, carType, age, 
+      mileage, innerEnvir, performance, 
+      carNo, carLevel, driveType, 
+      driveNumber, drivePhoto, UsePerson, 
+      schoolId, syncType, syncTime, 
+      cityId, carOwner, carOwnerAddr, 
+      carUseType, carEngineNo, carVin, 
+      carRegTime, carIssueTime, brandId, 
+      brandName, carColor, carPower, 
+      carImg, verifyStart, verifyEnd, 
+      verifyFee, verifyState, insuranceType, 
+      insuranceMoney, insuranceStart, insuranceEnd, 
+      insuranceCo)
+    values (#{carId,jdbcType=INTEGER}, #{carType,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{mileage,jdbcType=INTEGER}, #{innerEnvir,jdbcType=INTEGER}, #{performance,jdbcType=INTEGER}, 
+      #{carNo,jdbcType=VARCHAR}, #{carLevel,jdbcType=INTEGER}, #{driveType,jdbcType=TINYINT}, 
+      #{driveNumber,jdbcType=VARCHAR}, #{drivePhoto,jdbcType=VARCHAR}, #{usePerson,jdbcType=VARCHAR}, 
+      #{schoolId,jdbcType=INTEGER}, #{syncType,jdbcType=TINYINT}, #{syncTime,jdbcType=TIMESTAMP}, 
+      #{cityId,jdbcType=INTEGER}, #{carOwner,jdbcType=VARCHAR}, #{carOwnerAddr,jdbcType=VARCHAR}, 
+      #{carUseType,jdbcType=VARCHAR}, #{carEngineNo,jdbcType=VARCHAR}, #{carVin,jdbcType=VARCHAR}, 
+      #{carRegTime,jdbcType=DATE}, #{carIssueTime,jdbcType=DATE}, #{brandId,jdbcType=INTEGER}, 
+      #{brandName,jdbcType=VARCHAR}, #{carColor,jdbcType=TINYINT}, #{carPower,jdbcType=TINYINT}, 
+      #{carImg,jdbcType=VARCHAR}, #{verifyStart,jdbcType=DATE}, #{verifyEnd,jdbcType=DATE}, 
+      #{verifyFee,jdbcType=INTEGER}, #{verifyState,jdbcType=TINYINT}, #{insuranceType,jdbcType=TINYINT}, 
+      #{insuranceMoney,jdbcType=INTEGER}, #{insuranceStart,jdbcType=DATE}, #{insuranceEnd,jdbcType=DATE}, 
+      #{insuranceCo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.coach.dto.Car" useGeneratedKeys="true" keyProperty="carId">
+    insert into t_p_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carId != null" >
+        carId,
+      </if>
+      <if test="carType != null" >
+        carType,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="innerEnvir != null" >
+        innerEnvir,
+      </if>
+      <if test="performance != null" >
+        performance,
+      </if>
+      <if test="carNo != null" >
+        carNo,
+      </if>
+      <if test="carLevel != null" >
+        carLevel,
+      </if>
+      <if test="driveType != null" >
+        driveType,
+      </if>
+      <if test="driveNumber != null" >
+        driveNumber,
+      </if>
+      <if test="drivePhoto != null" >
+        drivePhoto,
+      </if>
+      <if test="usePerson != null" >
+        UsePerson,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="syncType != null" >
+        syncType,
+      </if>
+      <if test="syncTime != null" >
+        syncTime,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="carOwner != null" >
+        carOwner,
+      </if>
+      <if test="carOwnerAddr != null" >
+        carOwnerAddr,
+      </if>
+      <if test="carUseType != null" >
+        carUseType,
+      </if>
+      <if test="carEngineNo != null" >
+        carEngineNo,
+      </if>
+      <if test="carVin != null" >
+        carVin,
+      </if>
+      <if test="carRegTime != null" >
+        carRegTime,
+      </if>
+      <if test="carIssueTime != null" >
+        carIssueTime,
+      </if>
+      <if test="brandId != null" >
+        brandId,
+      </if>
+      <if test="brandName != null" >
+        brandName,
+      </if>
+      <if test="carColor != null" >
+        carColor,
+      </if>
+      <if test="carPower != null" >
+        carPower,
+      </if>
+      <if test="carImg != null" >
+        carImg,
+      </if>
+      <if test="verifyStart != null" >
+        verifyStart,
+      </if>
+      <if test="verifyEnd != null" >
+        verifyEnd,
+      </if>
+      <if test="verifyFee != null" >
+        verifyFee,
+      </if>
+      <if test="verifyState != null" >
+        verifyState,
+      </if>
+      <if test="insuranceType != null" >
+        insuranceType,
+      </if>
+      <if test="insuranceMoney != null" >
+        insuranceMoney,
+      </if>
+      <if test="insuranceStart != null" >
+        insuranceStart,
+      </if>
+      <if test="insuranceEnd != null" >
+        insuranceEnd,
+      </if>
+      <if test="insuranceCo != null" >
+        insuranceCo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carId != null" >
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="carType != null" >
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="mileage != null" >
+        #{mileage,jdbcType=INTEGER},
+      </if>
+      <if test="innerEnvir != null" >
+        #{innerEnvir,jdbcType=INTEGER},
+      </if>
+      <if test="performance != null" >
+        #{performance,jdbcType=INTEGER},
+      </if>
+      <if test="carNo != null" >
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carLevel != null" >
+        #{carLevel,jdbcType=INTEGER},
+      </if>
+      <if test="driveType != null" >
+        #{driveType,jdbcType=TINYINT},
+      </if>
+      <if test="driveNumber != null" >
+        #{driveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="drivePhoto != null" >
+        #{drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="usePerson != null" >
+        #{usePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="syncType != null" >
+        #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="carOwner != null" >
+        #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwnerAddr != null" >
+        #{carOwnerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="carUseType != null" >
+        #{carUseType,jdbcType=VARCHAR},
+      </if>
+      <if test="carEngineNo != null" >
+        #{carEngineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carVin != null" >
+        #{carVin,jdbcType=VARCHAR},
+      </if>
+      <if test="carRegTime != null" >
+        #{carRegTime,jdbcType=DATE},
+      </if>
+      <if test="carIssueTime != null" >
+        #{carIssueTime,jdbcType=DATE},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="carColor != null" >
+        #{carColor,jdbcType=TINYINT},
+      </if>
+      <if test="carPower != null" >
+        #{carPower,jdbcType=TINYINT},
+      </if>
+      <if test="carImg != null" >
+        #{carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyStart != null" >
+        #{verifyStart,jdbcType=DATE},
+      </if>
+      <if test="verifyEnd != null" >
+        #{verifyEnd,jdbcType=DATE},
+      </if>
+      <if test="verifyFee != null" >
+        #{verifyFee,jdbcType=INTEGER},
+      </if>
+      <if test="verifyState != null" >
+        #{verifyState,jdbcType=TINYINT},
+      </if>
+      <if test="insuranceType != null" >
+        #{insuranceType,jdbcType=TINYINT},
+      </if>
+      <if test="insuranceMoney != null" >
+        #{insuranceMoney,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceStart != null" >
+        #{insuranceStart,jdbcType=DATE},
+      </if>
+      <if test="insuranceEnd != null" >
+        #{insuranceEnd,jdbcType=DATE},
+      </if>
+      <if test="insuranceCo != null" >
+        #{insuranceCo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.coach.dto.CarExample" resultType="java.lang.Integer" >
+    select count(*) from t_p_car
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_p_car
+    <set >
+      <if test="record.carId != null" >
+        carId = #{record.carId,jdbcType=INTEGER},
+      </if>
+      <if test="record.carType != null" >
+        carType = #{record.carType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.mileage != null" >
+        mileage = #{record.mileage,jdbcType=INTEGER},
+      </if>
+      <if test="record.innerEnvir != null" >
+        innerEnvir = #{record.innerEnvir,jdbcType=INTEGER},
+      </if>
+      <if test="record.performance != null" >
+        performance = #{record.performance,jdbcType=INTEGER},
+      </if>
+      <if test="record.carNo != null" >
+        carNo = #{record.carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carLevel != null" >
+        carLevel = #{record.carLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.driveType != null" >
+        driveType = #{record.driveType,jdbcType=TINYINT},
+      </if>
+      <if test="record.driveNumber != null" >
+        driveNumber = #{record.driveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drivePhoto != null" >
+        drivePhoto = #{record.drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usePerson != null" >
+        UsePerson = #{record.usePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.syncType != null" >
+        syncType = #{record.syncType,jdbcType=TINYINT},
+      </if>
+      <if test="record.syncTime != null" >
+        syncTime = #{record.syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cityId != null" >
+        cityId = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.carOwner != null" >
+        carOwner = #{record.carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carOwnerAddr != null" >
+        carOwnerAddr = #{record.carOwnerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carUseType != null" >
+        carUseType = #{record.carUseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carEngineNo != null" >
+        carEngineNo = #{record.carEngineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carVin != null" >
+        carVin = #{record.carVin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carRegTime != null" >
+        carRegTime = #{record.carRegTime,jdbcType=DATE},
+      </if>
+      <if test="record.carIssueTime != null" >
+        carIssueTime = #{record.carIssueTime,jdbcType=DATE},
+      </if>
+      <if test="record.brandId != null" >
+        brandId = #{record.brandId,jdbcType=INTEGER},
+      </if>
+      <if test="record.brandName != null" >
+        brandName = #{record.brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.carColor != null" >
+        carColor = #{record.carColor,jdbcType=TINYINT},
+      </if>
+      <if test="record.carPower != null" >
+        carPower = #{record.carPower,jdbcType=TINYINT},
+      </if>
+      <if test="record.carImg != null" >
+        carImg = #{record.carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verifyStart != null" >
+        verifyStart = #{record.verifyStart,jdbcType=DATE},
+      </if>
+      <if test="record.verifyEnd != null" >
+        verifyEnd = #{record.verifyEnd,jdbcType=DATE},
+      </if>
+      <if test="record.verifyFee != null" >
+        verifyFee = #{record.verifyFee,jdbcType=INTEGER},
+      </if>
+      <if test="record.verifyState != null" >
+        verifyState = #{record.verifyState,jdbcType=TINYINT},
+      </if>
+      <if test="record.insuranceType != null" >
+        insuranceType = #{record.insuranceType,jdbcType=TINYINT},
+      </if>
+      <if test="record.insuranceMoney != null" >
+        insuranceMoney = #{record.insuranceMoney,jdbcType=INTEGER},
+      </if>
+      <if test="record.insuranceStart != null" >
+        insuranceStart = #{record.insuranceStart,jdbcType=DATE},
+      </if>
+      <if test="record.insuranceEnd != null" >
+        insuranceEnd = #{record.insuranceEnd,jdbcType=DATE},
+      </if>
+      <if test="record.insuranceCo != null" >
+        insuranceCo = #{record.insuranceCo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_p_car
+    set carId = #{record.carId,jdbcType=INTEGER},
+      carType = #{record.carType,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      mileage = #{record.mileage,jdbcType=INTEGER},
+      innerEnvir = #{record.innerEnvir,jdbcType=INTEGER},
+      performance = #{record.performance,jdbcType=INTEGER},
+      carNo = #{record.carNo,jdbcType=VARCHAR},
+      carLevel = #{record.carLevel,jdbcType=INTEGER},
+      driveType = #{record.driveType,jdbcType=TINYINT},
+      driveNumber = #{record.driveNumber,jdbcType=VARCHAR},
+      drivePhoto = #{record.drivePhoto,jdbcType=VARCHAR},
+      UsePerson = #{record.usePerson,jdbcType=VARCHAR},
+      schoolId = #{record.schoolId,jdbcType=INTEGER},
+      syncType = #{record.syncType,jdbcType=TINYINT},
+      syncTime = #{record.syncTime,jdbcType=TIMESTAMP},
+      cityId = #{record.cityId,jdbcType=INTEGER},
+      carOwner = #{record.carOwner,jdbcType=VARCHAR},
+      carOwnerAddr = #{record.carOwnerAddr,jdbcType=VARCHAR},
+      carUseType = #{record.carUseType,jdbcType=VARCHAR},
+      carEngineNo = #{record.carEngineNo,jdbcType=VARCHAR},
+      carVin = #{record.carVin,jdbcType=VARCHAR},
+      carRegTime = #{record.carRegTime,jdbcType=DATE},
+      carIssueTime = #{record.carIssueTime,jdbcType=DATE},
+      brandId = #{record.brandId,jdbcType=INTEGER},
+      brandName = #{record.brandName,jdbcType=VARCHAR},
+      carColor = #{record.carColor,jdbcType=TINYINT},
+      carPower = #{record.carPower,jdbcType=TINYINT},
+      carImg = #{record.carImg,jdbcType=VARCHAR},
+      verifyStart = #{record.verifyStart,jdbcType=DATE},
+      verifyEnd = #{record.verifyEnd,jdbcType=DATE},
+      verifyFee = #{record.verifyFee,jdbcType=INTEGER},
+      verifyState = #{record.verifyState,jdbcType=TINYINT},
+      insuranceType = #{record.insuranceType,jdbcType=TINYINT},
+      insuranceMoney = #{record.insuranceMoney,jdbcType=INTEGER},
+      insuranceStart = #{record.insuranceStart,jdbcType=DATE},
+      insuranceEnd = #{record.insuranceEnd,jdbcType=DATE},
+      insuranceCo = #{record.insuranceCo,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Car" >
+    update t_p_car
+    <set >
+      <if test="carType != null" >
+        carType = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="mileage != null" >
+        mileage = #{mileage,jdbcType=INTEGER},
+      </if>
+      <if test="innerEnvir != null" >
+        innerEnvir = #{innerEnvir,jdbcType=INTEGER},
+      </if>
+      <if test="performance != null" >
+        performance = #{performance,jdbcType=INTEGER},
+      </if>
+      <if test="carNo != null" >
+        carNo = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carLevel != null" >
+        carLevel = #{carLevel,jdbcType=INTEGER},
+      </if>
+      <if test="driveType != null" >
+        driveType = #{driveType,jdbcType=TINYINT},
+      </if>
+      <if test="driveNumber != null" >
+        driveNumber = #{driveNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="drivePhoto != null" >
+        drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="usePerson != null" >
+        UsePerson = #{usePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="syncType != null" >
+        syncType = #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="carOwner != null" >
+        carOwner = #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwnerAddr != null" >
+        carOwnerAddr = #{carOwnerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="carUseType != null" >
+        carUseType = #{carUseType,jdbcType=VARCHAR},
+      </if>
+      <if test="carEngineNo != null" >
+        carEngineNo = #{carEngineNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carVin != null" >
+        carVin = #{carVin,jdbcType=VARCHAR},
+      </if>
+      <if test="carRegTime != null" >
+        carRegTime = #{carRegTime,jdbcType=DATE},
+      </if>
+      <if test="carIssueTime != null" >
+        carIssueTime = #{carIssueTime,jdbcType=DATE},
+      </if>
+      <if test="brandId != null" >
+        brandId = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        brandName = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="carColor != null" >
+        carColor = #{carColor,jdbcType=TINYINT},
+      </if>
+      <if test="carPower != null" >
+        carPower = #{carPower,jdbcType=TINYINT},
+      </if>
+      <if test="carImg != null" >
+        carImg = #{carImg,jdbcType=VARCHAR},
+      </if>
+      <if test="verifyStart != null" >
+        verifyStart = #{verifyStart,jdbcType=DATE},
+      </if>
+      <if test="verifyEnd != null" >
+        verifyEnd = #{verifyEnd,jdbcType=DATE},
+      </if>
+      <if test="verifyFee != null" >
+        verifyFee = #{verifyFee,jdbcType=INTEGER},
+      </if>
+      <if test="verifyState != null" >
+        verifyState = #{verifyState,jdbcType=TINYINT},
+      </if>
+      <if test="insuranceType != null" >
+        insuranceType = #{insuranceType,jdbcType=TINYINT},
+      </if>
+      <if test="insuranceMoney != null" >
+        insuranceMoney = #{insuranceMoney,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceStart != null" >
+        insuranceStart = #{insuranceStart,jdbcType=DATE},
+      </if>
+      <if test="insuranceEnd != null" >
+        insuranceEnd = #{insuranceEnd,jdbcType=DATE},
+      </if>
+      <if test="insuranceCo != null" >
+        insuranceCo = #{insuranceCo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where carId = #{carId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Car" >
+    update t_p_car
+    set carType = #{carType,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      mileage = #{mileage,jdbcType=INTEGER},
+      innerEnvir = #{innerEnvir,jdbcType=INTEGER},
+      performance = #{performance,jdbcType=INTEGER},
+      carNo = #{carNo,jdbcType=VARCHAR},
+      carLevel = #{carLevel,jdbcType=INTEGER},
+      driveType = #{driveType,jdbcType=TINYINT},
+      driveNumber = #{driveNumber,jdbcType=VARCHAR},
+      drivePhoto = #{drivePhoto,jdbcType=VARCHAR},
+      UsePerson = #{usePerson,jdbcType=VARCHAR},
+      schoolId = #{schoolId,jdbcType=INTEGER},
+      syncType = #{syncType,jdbcType=TINYINT},
+      syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      cityId = #{cityId,jdbcType=INTEGER},
+      carOwner = #{carOwner,jdbcType=VARCHAR},
+      carOwnerAddr = #{carOwnerAddr,jdbcType=VARCHAR},
+      carUseType = #{carUseType,jdbcType=VARCHAR},
+      carEngineNo = #{carEngineNo,jdbcType=VARCHAR},
+      carVin = #{carVin,jdbcType=VARCHAR},
+      carRegTime = #{carRegTime,jdbcType=DATE},
+      carIssueTime = #{carIssueTime,jdbcType=DATE},
+      brandId = #{brandId,jdbcType=INTEGER},
+      brandName = #{brandName,jdbcType=VARCHAR},
+      carColor = #{carColor,jdbcType=TINYINT},
+      carPower = #{carPower,jdbcType=TINYINT},
+      carImg = #{carImg,jdbcType=VARCHAR},
+      verifyStart = #{verifyStart,jdbcType=DATE},
+      verifyEnd = #{verifyEnd,jdbcType=DATE},
+      verifyFee = #{verifyFee,jdbcType=INTEGER},
+      verifyState = #{verifyState,jdbcType=TINYINT},
+      insuranceType = #{insuranceType,jdbcType=TINYINT},
+      insuranceMoney = #{insuranceMoney,jdbcType=INTEGER},
+      insuranceStart = #{insuranceStart,jdbcType=DATE},
+      insuranceEnd = #{insuranceEnd,jdbcType=DATE},
+      insuranceCo = #{insuranceCo,jdbcType=VARCHAR}
+    where carId = #{carId,jdbcType=INTEGER}
+  </update>
+</mapper>

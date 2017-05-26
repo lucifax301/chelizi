@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.order.dao.mapper.OrderRefundMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.order.dao.po.OrderRefundPo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="order_id" jdbcType="VARCHAR" />
+    <result column="asker" property="asker" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="refundMoney" property="refundMoney" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="refundTime" property="refundTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, asker, operator, createTime, refundMoney, status, refundTime, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from t_order_refund
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order_refund
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.order.dao.po.OrderRefundPo" >
+    insert into t_order_refund (id, order_id, asker, 
+      operator, createTime, refundMoney, 
+      status, refundTime, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{order_id,jdbcType=VARCHAR}, #{asker,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{refundMoney,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{refundTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.order.dao.po.OrderRefundPo" >
+    insert into t_order_refund
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="order_id != null" >
+        order_id,
+      </if>
+      <if test="asker != null" >
+        asker,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="createTime != null" >
+        createTime,
+      </if>
+      <if test="refundMoney != null" >
+        refundMoney,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="refundTime != null" >
+        refundTime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="order_id != null" >
+        #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="asker != null" >
+        #{asker,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundMoney != null" >
+        #{refundMoney,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="refundTime != null" >
+        #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.order.dao.po.OrderRefundPo" >
+    update t_order_refund
+    <set >
+      <if test="order_id != null" >
+        order_id = #{order_id,jdbcType=VARCHAR},
+      </if>
+      <if test="asker != null" >
+        asker = #{asker,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundMoney != null" >
+        refundMoney = #{refundMoney,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="refundTime != null" >
+        refundTime = #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.order.dao.po.OrderRefundPo" >
+    update t_order_refund
+    set order_id = #{order_id,jdbcType=VARCHAR},
+      asker = #{asker,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      refundMoney = #{refundMoney,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      refundTime = #{refundTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_order_refund
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+</mapper>

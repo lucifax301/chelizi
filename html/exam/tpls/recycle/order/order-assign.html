@@ -1,0 +1,75 @@
+<div ng-cloak>
+	<div class="bg_fff pl15 pr15">
+		<div class="text-center f14 lh20 pt10 pb20">
+			<img src="img/icon/icon-ok-b.png" class="img-auto mb5"><br>
+			<span class="color_menu">您的预约信息已成功发送给{{order.coachName}}教练！</span><br>
+			教练接单后，喱喱会马上通知您，请及时关注系统消息！
+		</div>
+		<div class="border_top lh25 pt5 pb5">
+			<div>课程信息 <span class="fr"><img src="img/{{order.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">{{order.courseName}}</span></div>
+			<div>上课时间 <span class="fr">{{order.rstart | date:'yyyy-MM-dd HH:mm'}}</span></div>
+			<div>金额(元) <span class="fr">{{order.price|priceTex}}</span></div>
+		</div>
+	</div>
+	<div class="pl10 mt10 mb10 f15">
+		预约教练
+	</div>
+	<div class="coach-list y-comment mt0 ml10 mr10 ">
+		<div class="coach-user">
+			<div class="y-box-flex">
+				<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+					<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+					<img src="img/user.png" ng-if="!coachinfo.headIcon">
+				</div>
+				<div class="userinfo">
+					<div class="name">
+						{{coachinfo.name}} 
+						<span ng-if='itemcoachinfoimportSrc'>{{coachinfo.importSrc}}</span>
+						<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+						<a class="phone mind" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+					</div>
+					<div class="name">
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 ml10 mr10 ">
+		<div class="y-cell">
+			<div class="cell__bd">
+				车辆信息
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{order.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">{{order.carNo}}
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="h80"></div>
+<div class="user-nav y-box-flex">
+	<div class="box-1 pt5 pl10 pr5">
+		<a class="button-nav erro" ng-click="calloffshow=true">取消订单</a>
+	</div>
+	<div class="box-1 pt5 pl5 pr10">
+		<a class="button-nav" href="{{NURL}}user?type=1">我知道了</a>
+	</div>
+</div>
+
+<div id="pop-loginout" ng-show="calloffshow">
+	<div class="pop-mask"></div>
+	<div class="pop-body">
+		<div class="title">取消订单</div>
+		<div class="comment">是否确定取消订单？</div>
+		<div class="btnbox">
+			<div class="btn erro" ng-click="calloffshow=false">取消</div>
+			<div class="btn" ng-click="calloff()">确定</div>
+		</div>
+	</div>
+</div>

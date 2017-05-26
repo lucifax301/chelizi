@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ExcelDrfield">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入训练场信息结果</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>导入训练场信息</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">导入训练场错误列表</div>
+			<div class="content">
+
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>训练场名称</b></td>
+					  	<td><b>所属驾校</b></td>
+					  	<td><b>训练场经度</b></td>
+					  	<td><b>训练场纬度</b></td>
+					  	<td><b>所在行政区</b></td>
+					  	<td><b>地址</b></td>
+					  	<td><b>容纳量</b></td>
+					  	<td><b>联系电话</b></td>
+					  	<td><b>导入状态</b></td>
+					  	<td><b>备注</b></td>
+					  </tr>
+					  <tr ng-repeat="item in datas">
+					  	<td ng-bind="item.name"></td>
+					  	<td ng-bind="item.schoolName"></td>
+					  	<td ng-bind="item.lge"></td>
+					  	<td ng-bind="item.lae"></td>
+					  	<td ng-bind="item.region"></td>
+					  	<td ng-bind="item.posDesc"></td>
+					  	<td ng-bind="item.reverseLim"></td>
+					  	<td ng-bind="item.region">所在城市</td>
+					  	<td class="error">错误</td>
+					  	<td ng-bind="item.extra"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/excel-show-drfield.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Order">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>综合管理</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title ">
+			<div class="d-title">课程订单</div>
+			<ul class="table-li">
+				<li ng-if="120102|isAccessShow" class="active"><a href="order.html">综合管理</a></li>
+                <li ng-if="120109|isAccessShow"><a href="order-attemper.html">订单调度</a></li>
+				<li ng-if="120106|isAccessShow"><a href="refund.html">退款申请</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">订单列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+						 <div class="line">
+							<div>驾考类别</div>
+							<ul>
+								<li ng-click="getDataForCarType($event,'')" class="active">全部</li>
+								<li ng-click="getDataForCarType($event,1)">C1</li>
+								<li ng-click="getDataForCarType($event,2)">C2</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>筛选课程</div>
+							<ul>
+								<li ng-click="getDataForSubject($event,'')" class="active">全部</li>
+								<li ng-click="getDataForSubject($event,'1,11')">科目二基础训练</li>
+								<li ng-click="getDataForSubject($event,'6,16')">科目二应试训练</li>
+								<li ng-click="getDataForSubject($event,'2,12')">科目二考场模拟</li>
+								<li ng-click="getDataForSubject($event,'3,13')">科目三基础训练</li>
+								<li ng-click="getDataForSubject($event,'7,17')">科目三应试训练</li>
+								<li ng-click="getDataForSubject($event,'4,14')">科目三考场模拟</li>
+								<li ng-click="getDataForSubject($event,'5,15')">陪驾</li>
+								<li ng-click="getDataForSubject($event,101)">体验课程</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>支付状态</div>
+							<ul>
+								<li ng-click="getDataForPayment($event,'')" class="active">全部</li>
+								<li ng-click="getDataForPayment($event,1)">已付款</li>
+								<li ng-click="getDataForPayment($event,0)">未付款</li>
+								<li ng-click="getDataForPayment($event,2)">支付失败</li>
+								<li ng-click="getDataForPayment($event,9)">老学员自动付款</li>
+								<li ng-click="getDataForPayment($event,10)">已挂起</li>
+								<li ng-click="getDataForPayment($event,11)">退款中</li>
+								<li ng-click="getDataForPayment($event,12)">已退款</li>
+							</ul>
+						</div>
+						<!--<div class="line">-->
+							<!--<div>结款状态</div>-->
+							<!--<ul>-->
+								<!--<li ng-click="getForPayment($event,'')" class="active">全部</li>-->
+								<!--<li>未结款</li>-->
+								<!--<li>已结款</li>-->
+							<!--</ul>-->
+						<!--</div>-->
+						<div class="line">
+							<div>订单状态</div>
+							<ul>
+								<li ng-click="getOrderState($event,'')" class="active">全部</li>
+								<li ng-click="getOrderState($event,1)">已下单</li>
+								<li ng-click="getOrderState($event,2)">已接单</li>
+								<li ng-click="getOrderState($event,3)">上课中</li>
+								<li ng-click="getOrderState($event,4)">已下课</li>
+								<li ng-click="getOrderState($event,5)">教练已评</li>
+								<li ng-click="getOrderState($event,6)">学员已评</li>
+								<li ng-click="getOrderState($event,7)">双方已评</li>
+								<li ng-click="getOrderState($event,9)">已拒单</li>
+								<li ng-click="getOrderState($event,10)">缺课</li>
+								<li ng-click="getOrderState($event,0)">已取消</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>订单类型</div>
+							<ul>
+								<li ng-click="getDataForOtype($event,'')" class="active">全部</li>
+								<li ng-click="getDataForOtype($event,1)">现约订单</li>
+								<li ng-click="getDataForOtype($event,3)">预约订单</li>
+								<li ng-click="getDataForOtype($event,2)">续课订单</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>未支付持续时间</div>
+							<ul>
+								<li ng-click="getDataForOtype($event,'')" class="active">全部</li>
+							</ul>
+							<div class="input-group" style="width: 160px;">
+								<input type="text" ng-model="type" ng-blur="getSearchDay($event,type)" class="form-control margin-left-15" id="exampleInputAmount" style="width: 150px;">
+								<div class="input-group-addon" style="cursor: pointer;">(天) 以上</div>
+							</div>
+						</div>
+						<div class="line">
+							<div>高级查询</div>
+							<div class="input-group search-more-condition">
+							  <select ng-model="searchType" class="form-control" id="search_type">
+								<option value="orderId" selected="selected">订单号</option>
+								<option value="studentName">学员姓名</option>
+								<option value="coachName">教练姓名</option>
+								<option value="studentPhoneNum">学员电话</option>
+								<option value="coachPhoneNum">教练电话</option>
+							  </select>
+							  <input type="text" ng-model="search" class="form-control" placeholder="输入订单号" id="search_placeholder">
+							  <span class="input-group-btn">
+								<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+							  </span>
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<a ng-if="120101|isAccessShow" ng-click="closeOrder()" class="btn btn-sm btn-danger">关闭订单</a>
+							<a ng-if="120105|isAccessShow" ng-click="orderDataExport()" class="btn btn-sm btn-primary margin-left-15" ng-if="120105|isAccessShow">数据导出</a>
+							<a ng-click="hangUpOrder()" class="btn btn-sm btn-primary margin-left-15" ng-if="120104|isAccessShow">订单挂起</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+								<td><b>订单号</b></td>
+								<td><b>学员</b></td>
+								<td><b>学员电话</b></td>
+								<td><b>教练</b></td>
+								<td><b>教练电话</b></td>
+								<td><b>上课时间</b></td>
+								<td><b>下课时间</b></td>
+								<td><b>课程</b></td>
+								<!--<td class="t-150"><b>场地</b></td>-->
+								<td><b>教练车</b></td>
+								<td><b>金额(元)</b></td>
+								<td><b>支付状态</b></td>
+								<td><b>未支付持续时间</b></td>
+								<td><b>实付金额</b></td>
+								<td><b>支付方式</b></td>
+								<td><b>订单状态</b></td>
+							</tr>
+							<tr ng-repeat="item in datas" ng-class="{'disable-bac': item.orderState!=0?true:false}">
+								<td align="center"><input type="checkbox" id="{{item.orderId}}" ng-click="updateSelection($event,item.orderId)" ng-checked="isSelected(item.orderId)"></td>
+								<td><a href="order-details.html?orderId={{ item.orderId }}" data-bubble="{{ item.orderId }}" class="layerBubble" ng-bind="item.orderId | limitToSec:20" ng-if="120103|isAccessShow"></a><span data-bubble="{{ item.orderId }}" class="layerBubble" ng-bind="item.orderId | limitToSec:20" ng-if="!120103|isAccessShow"></span></td>
+								<td><a href="student-details.html?studentId={{item.studentId}}" ng-bind="item.studentName" ng-if="(120523|isAccessShow)&&(120508|isAccessShow)"></a><span ng-if="!((120523|isAccessShow)&&(120508|isAccessShow))"  ng-bind="item.studentName"></span></td>
+								<td ng-bind="item.studentPhoneNum"></td>
+								<td><a href="coach-details.html?coachId={{item.coachId}}" ng-bind="item.coachName" ng-if="(120316|isAccessShow)&&(120304|isAccessShow)"></a><span ng-if="!((120316|isAccessShow)&&(120304|isAccessShow))" ng-bind="item.coachName"></span></td>
+								<td ng-bind="item.coachPhoneNum"></td>
+								<td ng-bind="item.rstart | timeTex"></td>
+								<td ng-bind="item.rend | timeTex"></td>
+								<td ng-bind="item.courseName"></td>
+								<!--<td ng-bind="item.learnAddr"></td>-->
+								<td><a href="car-details.html?carId={{item.carId}}" ng-bind="item.carNo" ng-if="(120604|isAccessShow)&&(120607|isAccessShow)"></a><span ng-if="!((120604|isAccessShow)&&(120607|isAccessShow))" ng-bind="item.carNo"></span></td>
+								<td ng-bind="item.price/100"></td>
+								<td ng-bind="item.payState | payStateTex"></td>
+								<td ng-bind="item.payState==9?'':item.sustainTime | timeHour"></td>
+								<td ng-bind="item.payTotal/100"></td>
+								<td ng-bind="item.payWay | payWayType"></td>
+								<td ng-bind="item.orderState | orderStateTex"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/order.js?v=60831b736e1473298817690"></script>
+</body>
+</html>

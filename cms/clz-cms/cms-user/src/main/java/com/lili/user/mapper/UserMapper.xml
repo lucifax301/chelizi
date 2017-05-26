@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.user.mapper.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.lili.user.model.User">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="BIGINT" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="enabled" property="enabled" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,account,username,password,schoolId,phoneNum,email,enabled,creator,createTime,updator,updateTime
+	</sql>
+
+	<select id="findBatch" parameterType="com.lili.user.model.UserBDTO"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		Where
+		1=1
+		order by id asc
+	</select>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="account != null and account != ''">
+				and account = #{account}
+			</if>
+			<if test="password != null and password != ''">
+				and password = #{password}
+			</if>
+			<if test="schoolId != null and schoolId != ''">
+				and schoolId = #{schoolId}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="checkUserInfo" resultMap="BaseResultMap"
+		parameterType="com.lili.user.model.User">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		where account = #{account} and password = #{password}
+	</select>
+
+	<select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		where id = #{id}
+	</select>
+	
+	<select id="findUser" resultMap="BaseResultMap" parameterType="com.lili.user.model.UserBDTO">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		where 1=1
+		<if test="account != null and account != ''">
+				and account = #{account}
+		</if>
+		<if test="email != null and email != ''">
+				and email = #{email}
+		</if>
+		<if test="userName != null and userName != ''">
+				and username = #{userName}
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+		</if>
+		<if test="enabled !=-1">
+			and enabled = #{enabled}
+		</if>
+		and schoolId=0
+		order by enabled asc,createTime desc
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="findAvailUser" resultMap="BaseResultMap" parameterType="com.lili.user.model.UserBDTO">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		where id not in(select user_id from t_c_user_role where role_id=#{roleId})
+		<if test="account != null and account != ''">
+				and account = #{account}
+		</if>
+		<if test="email != null and email != ''">
+				and email = #{email}
+		</if>
+		<if test="userName != null and userName != ''">
+				and username = #{userName}
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+		</if>
+		<if test="enabled !=-1">
+			and enabled = #{enabled}
+		</if>
+		and schoolId=0
+		limit #{startIndex},#{pageSize}
+	</select>
+	
+	<select id="findUserTotal" resultType="int" parameterType="com.lili.user.model.UserBDTO">
+	select count(id)
+	from t_c_user
+		where 1=1
+		<if test="account != null and account != ''">
+				and account = #{account}
+		</if>
+		<if test="email != null and email != ''">
+				and email = #{email}
+		</if>
+		<if test="userName != null and userName != ''">
+				and username = #{userName}
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+		</if>
+		<if test="enabled !=-1">
+			and enabled = #{enabled}
+		</if>
+		and schoolId=0
+	</select>
+	
+	<select id="findAvailUserTotal" resultType="int" parameterType="com.lili.user.model.UserBDTO">
+	select count(id)
+	from t_c_user
+		where id not in(select user_id from t_c_user_role where role_id=#{roleId})
+		<if test="account != null and account != ''">
+				and account = #{account}
+		</if>
+		<if test="email != null and email != ''">
+				and email = #{email}
+		</if>
+		<if test="userName != null and userName != ''">
+				and username = #{userName}
+		</if>
+		<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+		</if>
+		<if test="enabled !=-1">
+			and enabled = #{enabled}
+		</if>
+	</select>
+
+	<select id="findByAccount" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_user
+		where account = #{account}
+	</select>
+
+	<update id="updatePassword">
+		update t_c_user
+		<set>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insertSelective" parameterType="com.lili.user.model.User">
+		insert into t_c_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="account != null">
+				ACCOUNT,
+			</if>
+			<if test="password != null">
+				PASSWORD,
+			</if>
+			<if test="email != null">
+				EMAIL,
+			</if>
+			<if test="userName != null">
+				USERNAME,
+			</if>
+			<if test="phoneNum != null">
+				phoneNum,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			createTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=CHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=CHAR},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			now(),
+		</trim>
+	</insert>
+	
+  <insert id="insert" parameterType="com.lili.user.model.User" >
+    insert into t_c_user (ID, schoolId, ACCOUNT, 
+      PASSWORD, EMAIL, USERNAME, 
+      phoneNum, enabled)
+    values (#{id,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{account,jdbcType=CHAR}, 
+      #{password,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{userName,jdbcType=CHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{enabled,jdbcType=TINYINT})
+  </insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.user.model.User">
+		update t_c_user
+		<set>
+			<if test="schoolId != null">
+				schoolId = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="account != null">
+				ACCOUNT = #{account,jdbcType=CHAR},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				USERNAME = #{userName,jdbcType=CHAR},
+			</if>
+			<if test="phonenum != null">
+				phoneNum = #{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="updator != null">
+				updator = #{updator,jdbcType=VARCHAR},
+			</if>
+			updateTime=now()
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.user.model.User">
+		update t_c_user
+		set 
+		<if test="schoolId != null and schoolId>0">
+				schoolId = #{schoolId,jdbcType=INTEGER},
+		</if>
+		
+		ACCOUNT = #{account,jdbcType=CHAR},
+		EMAIL = #{email,jdbcType=VARCHAR},
+		USERNAME = #{userName,jdbcType=CHAR},
+		phoneNum = #{phoneNum,jdbcType=VARCHAR},
+		<if test="enabled != null">
+		enabled = #{enabled,jdbcType=TINYINT},
+		</if>
+		updator = #{updator,jdbcType=VARCHAR},
+		updateTime=now()
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

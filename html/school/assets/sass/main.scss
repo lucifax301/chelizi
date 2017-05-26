@@ -1,0 +1,161 @@
+@import url(../common/css/common.css);
+@import url(../common/css/ionicons.min.css);
+@import url(../common/css/PopLayer.css);
+@import url(../common/boot/css/bootstrap.min.css);
+@import 'common.scss';
+@import url(../css/liliyun.css);
+@import url(../css/school.css);
+@import 'dingyu.scss';
+@import 'wangwei.scss';
+
+/*公共样式*/
+table .t-50{width:50px;}
+table .t-100{width:100px;}
+table .t-150{width:150px;} 
+table .t-200{width:200px;}
+table .t-400{width:400px;}
+.w-100{width:100px;}
+.w-300{width:300px;}
+.w-400{width:400px;}
+.w-500{width:500px;}
+.w-10{width:10%;}
+.w-20{width:20%;}
+.w-33{width:33.3333333333%;}
+.w-40{width:40%;}
+.w-50{width:50%;}
+.w-60{width:60%;}
+.w-80{width:80%;}
+.succes{color:$success-color;}
+.error{color:$error-color;}
+.green{color:#22B571;}
+.oringe{color:#F38F06;}
+.default{color:$font-color;}
+.mainColor{color:$menu-color;}
+.light{color:$light-color}
+.bold{font-weight:bold;}
+.margin-left-10{margin-left:10px!important;}
+.margin-left-15{margin-left:15px!important;}
+.margin-top-10{margin-top:10px!important;}
+.margin-top-20{margin-top:20px!important;}
+.margin-top-30{margin-top:30px!important;}
+.margin-top-50{margin-top:50px!important;}
+.margin-bottom-15{margin-bottom:15px!important;}
+.line-height-75{line-height:75px!important;}
+.margin-20{margin-left:20px;margin-right:20px;}
+.padding-20{padding-left:20px;padding-right:20px;}
+.text-left{text-align:left;}
+.text-right{text-align:right;}
+.big-size{font-size:18px!important;}
+.hrefLink{cursor:pointer;text-decoration:underline;color:$menu-color;}
+.hide{display:none;}
+.show{display:block;}
+
+/*标签样式*/
+a {color: $menu-color;}
+a.btn{font-family:"微软雅黑";}
+a:hover{color:$menu-active-color;}
+.btn-primary {background-color: $menu-color;border-color: $menu-color;}
+.btn-primary:hover{background:$menu-active-color;border:solid 1px $menu-active-color;}
+
+/*用户登陆*/
+.login-body{background:$table-color;}
+.admin .login{width:300px;height:220px;overflow:hidden;position:fixed;left:50%;top:50%;margin:-200px 0 0 -150px;background:-#ccc;}
+.admin .input-text{position:relative;margin-top:10px;}
+.admin .icon-user-info{display:inline-block;position:absolute;left:10px;top:0px;font-size:20px;color:#888;}
+.admin .input-text input{font-size:12px;padding-left:40px;background:transparent;border:none;border-bottom:solid 1px #ccc;height:35px;width:100%;}
+.admin .input-text input:focus {outline:none;}
+.admin .welcome{font-size:25px;letter-spacing:2px;text-align:center;}
+.admin .submit{margin-top:30px;}
+
+/*后台首页*/
+.index-left{width:220px;height:100%;font-family:"微软雅黑";position:fixed;left:0;top:0;background:$header-color;z-index:9991;border-right:solid 1px $border-color;}
+.index-left .logo{font-size:18px;margin-top:$mr-default;padding-left:30px;color:$light-color;font-size:20px;line-height:50px;display:none;}
+.admin-nav{overflow:hidden;margin:50px 0;}
+.admin-nav li{width:100%;height:auto;border-bottom: solid 1px $border-color;line-height:40px;color:$menu-color;cursor:pointer;background:$header-color;}
+.admin-nav li div:nth-child(1){font-size:13px;overflow:hidden;padding-left:20px;position:relative;}
+.admin-nav li div:nth-child(1) i{font-size:14px;position:absolute;right:10px;top:0px;}
+.admin-nav li a{text-decoration:none;}
+//.admin-nav li span{width:15px;height:20px;display:inline-block;font-size:18px;float:left;margin-right:10px;}
+.admin-nav li span{ width: 10px; height: 10px; border: 2px solid #4990E2; background: #F8F8F8; border-radius: 8px; display: inline-block; margin-right: 10px;}
+.admin-nav li div:hover{background:$active-coloe;}
+.admin-nav li div.active {background:$active-coloe;color:$menu-active-color;}
+.admin-nav li .second-menu{display:none;} 
+.admin-nav li .second-menu li{border-top: solid 1px $border-color;border-bottom:none;height:40px;line-height:40px;}
+.admin-nav li .second-menu li div{padding-left:45px;}
+.iphone-nav-but{display:none;}
+.index-right{width:auto;height:auto;margin-left:220px;}
+.index-right .top{font-family:"微软雅黑";width:100%;height:50px;background:$header-color;position:fixed;left:0;top:0;z-index:9992;line-height:50px;border-bottom:solid 1px $border-color;padding:0 $pd-default 0 35px;font-size:18px;color:$light-color;}
+.index-right .top .logo img{width:40px;height:40px;display:block;float:left;margin:5px 5px 0 0;border-radius:100%;}
+.index-right .top .logo span{padding:0 5px;}
+.index-right .top .top-right div{display:block;min-width:50px;height:50px;padding:0 10px;text-align:center;float:left;font-size:20px;position:relative;}
+.index-right .top .top-right div:not(:nth-child(2)):hover{background:$active-coloe;cursor:pointer;} 
+.index-right .top .top-right a{color:#666;}
+.index-right .top .top-right .username{font-size:15px;font-weight:100;}
+.index-right .top .top-right .msg{font-size:25px;cursor:pointer;}
+.index-right .top .top-right .msg .ion-email-unread{color:$menu-color;}
+.index-right .top .login-out{cursor:pointer;}
+.index-right .top .second-level-menu div{}
+.index-right .top .second-level-menu div span:nth-child(1){}
+.index-right .top .second-level-menu div span:nth-child(2){font-size:15px;margin-left:8px;}
+.index-right .top .second-level-menu ul{position:absolute;right:0;top:52px;width:200px;border:solid 1px #ccc;border-radius:$border-default;box-shadow:0 0 8px rgba(0,0,0,.2);display:none;background:#fff;}
+.index-right .top .second-level-menu li{text-align:left;font-size:12px;height:45px;line-height:45px;border-bottom:solid 1px $border-color;padding:0 $pd-default;}
+.index-right .top .second-level-menu li span{font-size:16px;margin-right:5px;}
+.index-right .top .second-level-menu li:hover{background:$active-coloe;cursor:pointer;}
+.main-content{overflow:auto;margin-top:50px;float:right;display:none;}
+
+/*分页插件样式*/
+.copot-page a{display:inline-block;padding:5px 10px;border:solid 1px $border-color;margin-right:5px;text-decoration:none;font-size:12px;background:#fff;border-radius:$border-default;}
+.copot-page a:hover{background:$menu-color;color:#fff;}
+.copot-page a.nowPage{background:$menu-color;border:solid 1px $border-color;color:#fff;} 
+.copot-page .Page-search-span{margin:0 5px 0 15px;}
+.copot-page #Page-search{width:40px;height:28px;padding-left:10px;margin:0 3px;border:solid 1px $border-color;border-radius:$border-default;}
+.copot-page #pageSearch{width:40px;height:28px;font-size:12px;border:solid 1px $border-color;background:$menu-color;color:#fff;cursor:pointer;border-radius:$border-default; }
+
+/*编辑详情弹出层样式*/
+.edit-alert{width:100%;height:100%;position:fixed;left:0;top:0;overflow:hidden;z-index:9995;display:none;}
+.edit-alert-big-zin{z-index:9996}
+.edit-alert>div{width:100%;height:100%;position:absolute;left:0;top:0;}
+.edit-alert .mask{z-index:9991;background:#000;opacity:0.5;}
+.edit-alert .main{z-index:9992;text-align:center;display:table;}
+.edit-alert .main .content{display:inline-block;background:#fff;border-radius:$border-default;}
+.edit-alert .main .title{height:40px;font-weight:bold;text-align:left;line-height:40px;padding:0 15px;background:$header-color;border-bottom:solid 1px $table-border-color;position:relative;}
+.edit-alert .main .title span{width:20px;height:20px;display:block;position:absolute;right:10px;top:8px;background:url(../common/img/PopLayer-close.png) no-repeat center center;cursor:pointer;}
+.edit-alert .main .con-main{overflow:hidden;padding:15px;text-align:left;}
+.edit-alert-width .content{min-width:380px;}
+/*student*/
+.student-position{position:relative;}
+.student-position .search-line{width:30%;position:absolute;left:30%;top:15px;}
+.student-position .search-line>div{width:100%;}
+/*冒泡层样式*/
+#layer-bubble{position:fixed;z-index:1000;padding:10px 15px;background:#fff;border:solid 1px #ddd;border-radius:$border-default;box-shadow:0 0 3px #ddd;}
+#layer-bubble span{display:block;position:absolute;width:20px;height:12px;left:10px;bottom:-11px;background:url(../img/jian-icon.png) no-repeat center center;z-index:1001;}
+
+/*微信内下载app时提示信息*/
+#isWeiXin{width:100%;height:100%;position:fixed;left:0;top:0;z-index:100000;background:rgba(0,0,0,0.6) url('../img/weixin-ts.png') no-repeat left top;background-size:100%;display:none;}
+
+/*弹出层(拒绝原因 | 确认，取消按钮)*/
+.custom-msg-but{overflow:hidden;}
+.custom-msg-but div{text-align:center;margin-top:20px;}
+.custom-msg-but div button{margin-right:10px;}
+
+
+
+/*媒体查询*/
+@media(max-width:768px) { 
+.w-20{width:100%;}
+.index-left{width:100%;height:50px;}
+.index-left .logo{margin-top:0;float:left;padding-left:$pd-default;display:block;}
+.admin-nav{height:auto;display:none;margin-top:0;background:$active-coloe;position:absolute;left:0;top:50px;width:100%;}
+.iphone-nav-but{display:block;float:right;width:40px;height:30px;background:#ddd;margin:10px 15px 0 0;border:solid 1px #ccc;border-radius:$border-default;
+	cursor:pointer;color:#666;text-align:center;font-size:30px;line-height:15px;}
+.index-right{margin-top:50px;}
+.index-right{margin-left:0;}
+.index-right .top{position:static;padding:0 $pd-default;}
+.index-right .top .pull-left{display:none;}
+.index-right .bottom{margin-top:0px;}
+.main-content{margin-top:0px;}
+.edit-alert-width .content{width:90%;}
+}
+
+
+

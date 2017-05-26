@@ -1,0 +1,93 @@
+<div class="edit-alert client-alert-out">
+<div class="mask"></div>
+<div class="main">
+<div id="client-alert-out" class="content" style="width: 800px;">
+	<div class="title">新增学员<span class="closeAlert-out"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<table class="table z-table-coupon-add z-noborder">
+				<tr>
+					<td width="50%">
+						<dl>
+							<dt class="z-t-r">姓名:</dt>
+							<dd class="z-pl10">
+								<input type="text" ng-model="addNewData.name"  maxlength="8" class="form-control" placeholder="请输入姓名">
+							</dd>
+						</dl>
+					</td>
+					<td width="50%">
+						<dl>
+							<dt class="z-t-r">性别:</dt>
+							<dd class="z-pl10">
+								<select class="form-control" ng-model="addNewData.sex" >
+								  <option value="">请选择性别</option>
+								  <option value="1">男</option>
+								  <option value="0">女</option>
+								</select>
+							</dd>
+						</dl>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<dl>
+							<dt class="z-t-r">联系电话</dt>
+							<dd class="z-pl10">
+								<input type="text" class="form-control" placeholder="请输入联系电话" ng-model="addNewData.phoneNum">
+							</dd>
+						</dl>
+					</td>
+					<td width="50%">
+						<dl>
+							<dt class="z-t-r">身份证号</dt>
+							<dd class="z-pl10">
+								<input type="text" class="form-control" placeholder="请输入身份证号" ng-model="addNewData.idNum">
+							</dd>
+						</dl>
+					</td>
+					
+				</tr>
+				<tr>
+					<td>
+						<dl>
+							<dt class="z-t-r">优惠方案</dt>
+							<dd class="z-pl10">
+								<select ng-model="$parent.rcid" class="form-control">
+									<option value="">请选择优惠方案</option>
+									<option ng-repeat="rcItem in rcDatas" ng-bind="rcItem.rcname" value="{{rcItem.rcid}}"></option>
+								</select>
+							</dd>
+						</dl>
+					</td>
+                    <td width="50%">
+                        <dl>
+                            <dt class="z-t-r">工号:</dt>
+                            <dd class="z-pl10">
+                                <input type="text" ng-model="addNewData.cid"  maxlength="8" class="form-control" placeholder="请输入工号">
+                            </dd>
+                        </dl>
+                    </td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<dl>
+							<dt class="z-t-r">户籍</dt>
+							<dd class="z-fl z-pl10">
+								 <select id="hometownP" name="province" class="province form-control" ng-init="province.id='0'" ng-model="province.id" ng-change="provinceChange(province.id);city.id='0';" ng-options="id as name for (id,name) in $parent.provinceArr"></select>
+							</dd>
+							<dd class="z-fl z-pl20">
+								<select id="hometownC" name="city" class="city form-control" ng-init="city.id='0'" ng-model="city.id" ng-change="cityChange(city.id);" ng-options="id as name for (id,name) in $parent.getCityArr"></select>
+							</dd>
+						</dl>
+					</td>
+				</tr>
+			</table>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert-out" ng-click="closeAlert()">取消</a>
+				<a ng-click="addNewStu()" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+	</div>
+</div>
+</div>
+</div>

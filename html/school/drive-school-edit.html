@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="driveSchool">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>驾校管理</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/common/js/commonStart.js"></script>
+    <script src="assets/js/ng-js/driveSchool.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>驾校管理 &gt; 基本信息 &gt; 编辑</h1></div>
+        <div class="clearfix"></div>
+        <h2 class="z-font-h2  z-border-b z-pb5">驾校相册封面</h2>
+        <p>选择本地图片上传，支持jpg、jpeg、gif、png、bmp格式的图片，不可大于2M</p>
+        <div class="z-auto-float">
+            <div class="z-fl" style="width: 49%;">
+                <div class="school-alarm-item">
+                    <div id="uploadWrap">
+                        <img class="form-control" id="addImgLog"  ng-click="uploadImg('2')"  style=" width: 200px; height: 150px;" src="http://o7d94lzvx.bkt.clouddn.com/{{data.logo}}">
+                        <p>
+                            <!--<button ng-click="uploadImg('2')" class="btn btn-xs btn-primary" ng-click="uploadConfirm($event)">更换</button>-->
+                            <button id="uploadButtonLog" class="btn btn-xs btn-primary z-fr z-locked" ng-click="uploadConfirm($event)">上传</button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="z-fl" style="width: 49%;">
+                <table class="school-logo-preview">
+                    <tr>
+                        <td colspan="2" height="34">LOGO预览</td>
+                    </tr>
+                    <tr>
+                        <td height="100" align="left">
+                            <img src="http://o7d94lzvx.bkt.clouddn.com/{{data.logo}}" id="logoPreview1" >
+                            <p>方形100x100</p>
+                        </td>
+                        <td align="center">
+                            <img src="http://o7d94lzvx.bkt.clouddn.com/{{data.logo}}" class="preview-radius" id="logoPreview2">
+                            <p>圆形100x100</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <h2 class="z-font-h2  z-border-b z-pb5">驾校信息</h2>
+        <table class="table z-table-school-edit z-noborder">
+            <tr>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>驾校名称<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写驾校名称" ng-model="data.name" maxlength="32">
+                    </div>
+                </td>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>联系电话<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写联系电话" ng-model="data.tell" maxlength="32">
+                    </div>
+                </td>
+            </tr>
+           <!-- <tr>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>教练数量</label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写教练数量" ng-model="data.coachCount">
+                    </div>
+                </td>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>教练车数量</label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写训练车数量" ng-model="data.carCount" maxlength="32">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>训练场数量</label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写训练场数量" ng-model="data.trfieldCount">
+                    </div>
+                </td>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>班别数量</label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写班别数量" ng-model="data.packageCount">
+                    </div>
+                </td>
+            </tr>-->
+            <tr>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>门店数量<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写门店数量" ng-model="data.storeCount" maxlength="11">
+                    </div>
+                </td>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>所属城市<span style="color:red"> *</span></label>
+                        <select class="form-control z-input-inline-item" ng-model="data.cityId">
+                            <option value="">请选择所属城市</option>
+                            <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>经度<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写经度" ng-model="data.lge" maxlength="10">
+                    </div>
+                </td>
+                <td width="50%">
+                    <div class="form-group">
+                        <label>纬度<span style="color:red"> *</span></label>
+                        <input type="text" class="form-control z-valid z-required" placeholder="请填写纬度" ng-model="data.lae" maxlength="10">
+                    </div>
+                </td>
+            </tr>
+            <tr><td colspan="2"><p style="padding-left: 120px;">根据地址查询经纬度：gpsspg.com/maps.htm</p></td></tr>
+        </table>
+        <table class="table z-table-school-edit z-noborder">
+            <tr>
+                <td width="120" align="right" style="vertical-align: middle;">
+                    <span style="padding-right: 20px;">驾校地址<span style="color:red"> *</span></span>
+                </td>
+                <td>
+                    <input type="text" class="form-control z-valid z-required" placeholder="请填写驾校地址" ng-model="data.address" maxlength="200">
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right" style="vertical-align: middle;">
+                    <span style="padding-right: 20px;">驾校简介<span style="color:red"> *</span></span>
+                </td>
+                <td>
+                    <textarea rows="10" ng-model="data.schoolInfo" placeholder="请输入驾校简介" style="width: 98%; margin-top: 30px; padding: 10px 1%; border-radius: 5px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right" style="vertical-align: middle;">
+                    <span style="padding-right: 20px;">报名须知<span style="color:red"> *</span></span>
+                </td>
+                <td>
+                    <textarea rows="5" ng-model="data.regInfo" placeholder="请输入报名须知" style="width: 98%; margin-top: 30px; padding: 10px 1%; border-radius: 5px;"></textarea>
+                </td>
+            </tr>
+        </table>
+        <div class="z-caozuo z-tc">
+            <a ng-click="cancle()" class="btn btn-default btn-sm" role="button">取消</a>
+            <a ng-click="submitEditMsg($event)" class="btn btn-primary btn-sm z-ml20" role="button">提交</a>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+</body>
+</html>

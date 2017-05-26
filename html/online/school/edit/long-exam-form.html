@@ -1,0 +1,58 @@
+<div id="edit-win" class="edit-alert">
+	<div class="mask"></div>
+	<div class="main">
+	<div id="edit-form" class="content">
+		<div class="title">新建长考课 <span ng-click="closeWin()"></span></div>
+		<div class="con-main">
+			<form>
+				<dl>
+					<dt>带教教练:</dt>
+					<dd>
+						<div class="input-group">
+						  <input type="text" ng-model="coach" class="form-control" placeholder="输入教练电话号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+						</div>
+						<div><i class="ion-close-circled error"></i> 未找到相关教练信息</div>
+						<div><i class="ion-checkmark-circled succes"></i> 主教练 | 男 | 5435345345453435</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>教练车:</dt>
+					<dd>
+						<div class="input-group">
+						  <input type="text" ng-model="car" class="form-control" placeholder="输入车牌号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+						</div>
+						<div><i class="ion-close-circled error"></i> 未找到相关车辆信息</div>
+						<div><i class="ion-checkmark-circled succes"></i>  porsche | 911 | C1</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>上车日期:</dt>
+					<dd><input type="text" class="form-control" id="boardDate"></dd>
+				</dl>
+				<dl>
+					<dt>上车时间:</dt>
+					<dd><input type="text" class="form-control" id="boardTime"></dd>
+				</dl>
+				<dl>
+					<dt>上车地点:</dt>
+					<dd><textarea row="2" class="form-control"></textarea></dd>
+				</dl>
+				<dl>
+					<dt>携带物品:</dt>
+					<dd><textarea row="2" class="form-control"></textarea></dd>
+				</dl>
+				<div class="chaozuo">
+					<a class="btn btn-sm btn-default" ng-click="closeWin()">取消</a>
+					<a class="btn btn-sm btn-primary" ng-click="submitEditMsg($event)" >确认</a>
+				</div>	
+			</form>		
+		</div>
+	</div>
+	</div>
+</div>		

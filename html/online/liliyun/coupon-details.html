@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CouponDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>优惠券详情</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-coupon">
+		<div class="d-title">优惠券 &gt; 优惠券详情</div>
+		<div class="top">
+			<div class="order-id">
+				<span class="light">名称：</span>
+				<span>{{data.name}}[{{data.verify | verifyType}}]</span>
+			</div>
+			<div class="order-id">
+				<span class="light">是否生效：</span>
+				<span ng-bind="data.isexist==0?'未生效':'已生效'"></span>
+			</div>
+			<div class="pull-right">
+				<a ng-click="addCoupon(data)" class="btn btn-sm btn-primary" ng-if="130208|isAccessShow">追加发行</a>
+				<a ng-if="data.isexist==1" ng-click="inactiveAction(data)" class="btn btn-sm btn-danger" ng-if="130207|isAccessShow">停止发放</a>
+				<a ng-if="data.isexist==0" ng-click="activeAction(data)" class="btn btn-sm btn-primary" ng-if="130206|isAccessShow">激活启用</a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="padding-20 table-margin">
+			<!-- 优惠券信息 -->
+			<table class="table table-bordered table-with-style">
+					<tr>
+						<td class="t-150"><b>建券时间</b></td>
+						<td class="w-40" ng-bind="data.createtime | timeTex"></td>
+						<td class="t-150"><b>创始人</b></td>
+						<td ng-bind="data.createuser"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>券类型</b></td>
+						<td ng-bind="data.type | couponType"></td>
+						<td class="t-150"><b>抵扣上限</b></td>
+						<td ng-bind="data.limitvalue/100 + '元'"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>抵扣金额/折扣</b></td>
+						<td>
+							<span ng-if="data.type==0" ng-bind="data.moneyvalue/100+'元'"></span>
+							<span ng-if="data.type==1">100%</span>
+							<span ng-if="data.type==2" ng-bind="data.discount+'%'"></span>
+						</td>
+						<td class="t-150"><b>是否独立使用</b></td>
+						<td ng-bind="data.indepentuse==1?'是':'不是'"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>发放上限</b></td>
+						<td><span ng-bind="data.total+'张'" ng-if="data.total"></span></td>
+						<td class="t-150"><b>已发放</b></td>
+						<td ng-bind="data.releasedAmount+'张'"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>已使用</b></td>
+						<td><span ng-bind="data.haveUsed+'张'" ng-if="data.haveUsed"></span></td>
+						<td class="t-150"><b>已过期</b></td>
+						<td ng-bind="data.expiredAmount+'张'"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>剩余库存</b></td>
+						<td><span ng-if="data.leftAmount" ng-bind="data.leftAmount+'张'"></span></td>
+						<td class="t-150"><b>二维码图片地址</b></td>
+						<td ng-bind="data.qrcodeurl"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>获取规则</b></td>
+						<td ng-bind="data.genRuleTmp"></td>
+						<td class="t-150"><b>使用规则</b></td>
+						<td ng-bind="data.useRuleTmp"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>有效期</b></td>
+						<!--有效期(-1,无限久，0表示使用expireTime字段，其他大于0的数值表示单位小时)-->
+						<td ng-if="data.validityperiod==0" ng-bind="data.expireTime | timeTex"></td>
+						<td ng-if="data.validityperiod==-1">无效久</td>
+						<td ng-if="data.validityperiod > 0" ng-bind="data.validityperiod+'小时'"></td>
+						<!--有效期结束-->
+						<td class="t-150"><b>背景颜色</b></td>
+						<td><span class="color-swatch" style="background-color:{{data.listbackimg}}"></span><span ng-bind="data.listbackimg"></span></td>
+					</tr>
+					<!--<tr>-->
+						<!--<td class="t-150"><b>发券模式</b></td>-->
+						<!--<td colspan="3"></td>-->
+					<!--</tr>-->
+					<tr>
+						<td class="t-150"><b>极光推送消息</b></td>
+						<td colspan="3" ng-bind="data.jpushmsg"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>短信推送模板</b></td>
+						<td colspan="3" ng-bind="data.smsmsgtype"></td>
+					</tr>
+					<tr>
+						<td class="t-150"><b>使用须知</b></td>
+						<td colspan="3" ng-bind="data.usenote.split('|').toString()"></td>
+					</tr>
+				</table>
+			<!-- 优惠券信息结束 -->
+
+			<!--已发放列表-->
+			<div class="table-margin common-table">
+				<div class="header">已发放列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>使用状态</div>
+							<ul>
+								<li ng-click="useType($event,'')" class="active">全部</li>
+								<li ng-click="useType($event,1)">未使用</li>
+								<li ng-click="useType($event,2)">已使用</li>
+								<li ng-click="useType($event,3)">已作废</li>
+								<li ng-click="useType($event,4)">已过期</li>
+							</ul>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<a ng-click="addStuCopon()" class="btn btn-sm btn-primary ng-scope"  ng-if="130209|isAccessShow">指定学员发券</a>
+							<a ng-click="writtenOff()" class="btn btn-sm btn-danger ng-scope" ng-if="130210|isAccessShow">注 销</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control ng-pristine ng-untouched ng-valid">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-with-style">
+							<tr>
+								<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+								<td><b>券ID</b></td>
+								<td><b>获得时间</b></td>
+								<!--<td><b>活动途径</b></td>-->
+								<td><b>过期时间</b></td>
+								<td><b>用户</b></td>
+								<td><b>手机号</b></td>
+								<td><b>使用状态</b></td>
+								<td><b>使用时间</b></td>
+							</tr>
+							<tr ng-repeat="item in datas" class="ng-scope">
+								<td align="center"><input type="checkbox" id="{{item.couponid}}" ng-click="updateSelection($event,item.couponid)" ng-checked="isSelected(item.couponid)"></td>
+								<td ng-bind="item.couponid"></td>
+								<td ng-bind="item.gettime | timeTex"></td>
+								<!--<td></td>-->
+								<td ng-bind="item.expiretime | timeTex"></td>
+								<td ng-bind="item.studentName"></td>
+								<td ng-bind="item.phoneNum"></td>
+								<td ng-bind="item.type | typeStateText"></td>
+								<td ng-bind="item.usetime | timeTex"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+			<!--已发放列表结束-->
+		</div>
+		<!-- 追加发行 -->
+		<ng-include src="'edit/add-coach.html'" onload="addCouponLoad()" ></ng-include>
+		<!-- 指定学员发券 -->
+		<ng-include src="'edit/add-new-coupon.html'" onload="addNewCouponLoad()" ></ng-include>
+
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/coupon-details.js?v=efec48dc081473298817690"></script>
+</body>
+</html>

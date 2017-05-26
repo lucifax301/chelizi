@@ -1,0 +1,4 @@
+2016-03-10 11:24:08  [ main:0 ] - [ INFO ]  using logger: com.alibaba.dubbo.common.logger.log4j.Log4jLoggerAdapter
+2016-03-10 11:24:08  [ main:518 ] - [ INFO ]  MLog clients using log4j logging.
+2016-03-10 11:24:08  [ main:610 ] - [ INFO ]  Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2016-03-10 11:24:08  [ main:626 ] - [ DEBUG ]  MBean: com.mchange.v2.c3p0:type=PooledDataSource[1hge13e9fq8gocn17znmf8|2175607e] registered.

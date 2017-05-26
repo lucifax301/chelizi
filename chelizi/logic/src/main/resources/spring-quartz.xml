@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	 <!-- 上课操作，时间要求精确，所以独立出来 -->
+	 <bean id="quartzInClzJPush" class="com.lili.logic.quartz.QuartzInClzJPush"></bean>
+	 <!-- 下课操作，时间要求精确，所以独立出来 -->
+	 <bean id="quartzOutClzJPush" class="com.lili.logic.quartz.QuartzOutClzJPush"></bean>
+	 <!-- 其他定时操作 -->
+	 <bean id="quartzJPush" class="com.lili.logic.quartz.QuartzJPush"></bean>
+	 <!-- 定时推送出车、收车消息 -->
+	 <bean id="quartzClassJpush" class="com.lili.logic.quartz.QuartzClassJpush"></bean>
+	 
+	 <bean id="inClzTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="quartzInClzJPush"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>doPush</value>
+            </property>
+       </bean>
+       <bean id="inClzTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="inClzTask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${logic.cronexpression}</value>
+            </property>
+        </bean>
+        <bean id="inClassTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="quartzClassJpush"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>doPush</value>
+            </property>
+       </bean>
+          <bean id="inClassTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="inClassTask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${class.cronexpression}</value>
+            </property>
+        </bean>
+        <bean id="outClzTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="quartzOutClzJPush"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>doPush</value>
+            </property>
+       </bean>
+       <bean id="outClzTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="outClzTask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${logic.cronexpression}</value>
+            </property>
+        </bean> 
+	   <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            <!-- 调用的类 -->
+            <property name="targetObject">
+                <ref bean="quartzJPush"/>
+            </property>
+            <!-- 调用类中的方法 -->
+            <property name="targetMethod">
+                <value>doPush</value>
+            </property>
+        </bean>
+        <!-- 定义触发时间 -->
+        <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+            <property name="jobDetail">
+                <ref bean="jobtask"/>
+            </property>
+            <!-- cron表达式 -->
+            <property name="cronExpression">
+                <value>${logic.cronexpression}</value>
+            </property>
+        </bean>
+        <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+        <bean id="startQuartz" lazy-init="true" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+            <property name="triggers">
+                <list>
+                	<ref bean="inClzTime"/>
+                	<ref bean="outClzTime"/>
+                    <ref bean="doTime"/>
+                    <ref bean="inClassTime"/>
+                </list>
+            </property>
+        </bean>
+</beans>

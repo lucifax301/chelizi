@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="upload-all" name="cms" basedir="./">
+	<description>
+	Chelizi自动编译打包脚本
+	</description>
+	<echo>Building chelizi...</echo>
+	<echo>basedir: ${basedir}</echo>
+
+	<!--发布变量设置-->
+	<property name="myhost" value="127.0.0.1" />
+	<property name="host" value="192.168.1.99" />
+	<property name="user" value="root" />
+	<property name="password" value="CLZ@2015" />
+
+	<!--定义相关编译变量-->
+	<property name="is-debug" value="on" />
+	<property name="java-version" value="1.7" />
+	<property name="app-version" value="0.1" />
+	<property name="webapp-version" value="0.1" />
+	<property name="exclude-svn" value="**/*.svn/*.*,servlet-api.jar" />
+	<property name="exclude-local" value="*.propertieslocal,terracotta-toolkit-1.6-runtime-5.5.0.jar" />
+
+	<!--输入变量定义-->
+	<property name="chelizi" value="${basedir}/chelizi-portal" />
+	<property name="portal" value="${basedir}/portal" />
+	<property name="portal" value="${basedir}/finance" />
+	<property name="portal" value="${basedir}/school" />
+	<property name="portal" value="${basedir}/student" />
+	<property name="portal" value="${basedir}/coach" />
+	<property name="portal" value="${basedir}/report" />
+	<property name="portal" value="${basedir}/order" />
+	
+	<!-- 自动上传设置 -->
+	<property name="ftpserverdir" value="/cms" />
+	<property name="webserverdir" value="${host}:${ftpserverdir}" />
+
+	<!-- 上传chelizi -->
+	<target name="upload-chelizi">
+		<echo>==========================chelizi upload==========================</echo>
+		<!-- 上传chelizi到服务器-->
+		<scp file="${chelizi}/target/chelizi-portal.war" todir="${user}:${password}@${webserverdir}/tomcat_chelizi/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================chelizi end upload==========================</echo>
+	</target>
+
+	<target name="upload-portal">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传coach到服务器-->
+		<scp file="${portal}/target/portal.war" todir="${user}:${password}@${webserverdir}/tomcat_portal/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-finance">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${portal}/target/cms-finance.war" todir="${user}:${password}@${webserverdir}/tomcat_finance/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-coach">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-coach到服务器-->
+		<scp file="${portal}/target/cms-coach.war" todir="${user}:${password}@${webserverdir}/tomcat_coach/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-student">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${portal}/target/cms-student.war" todir="${user}:${password}@${webserverdir}/tomcat_student/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-school">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${portal}/target/cms-school.war" todir="${user}:${password}@${webserverdir}/tomcat_school/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-report">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${portal}/target/cms-report.war" todir="${user}:${password}@${webserverdir}/tomcat_report/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+	
+	<target name="upload-order">
+		<echo>==========================portal upload==========================</echo>
+		<!-- 上传cms-finance到服务器-->
+		<scp file="${portal}/target/cms-order.war" todir="${user}:${password}@${webserverdir}/tomcat_order/webapps" trust="true" verbose="true">
+		</scp>
+		<echo>==========================portal end upload==========================</echo>
+	</target>
+
+	<target name="upload-all" depends="upload-chelizi, upload-portal,upload-finance,upload-order,upload-report,upload-school,upload-student,upload-coach">
+	</target>
+</project>

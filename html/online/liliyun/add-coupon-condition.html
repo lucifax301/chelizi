@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CouponCondition">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新建券条件</title>
+    <link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body class="coupon-condi-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>优惠券 > 新建券条件</h1></div>
+        <div class="z-border-box z-noborder">
+            <h3 class="z-mt0 z-common-h2">选择新建条件类型</h3>
+            <form>
+                <table class="table table-bordered table-coupon-condi-add form-group" cellpadding="20" border="1">
+                    <tr>
+                        <th class="radio-box" width="150">
+                            <input type="radio" name="condiType" value="2" ng-click="setType($event,2)">指定科目
+                        </th>
+                        <td valign="middle" class="zdkm-wrap">
+                            <div class="shade-wrap">
+                                <div class="check-box-item" ng-repeat="item in zdkmARR">
+                                    <!-- <input id="{{item.id}}" value="{{item.value}}" type="checkbox" name="zdkmBox" ng-checked="isSelZDKM(item.id)" ng-click="updateZDKM($event,item.value)">{{item.info}} -->
+                                    <input id="{{item.id}}" confirmTxt={{item.info}} value="{{item.value}}" type="checkbox" name="zdkmBox" >{{item.info}}
+                                </div>
+                                <div class="shade-color"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="z-error-txt-wrap"><p class="z-error-txt error-zdkm ion-close-circled"></p></div>
+                <table class="table table-bordered table-coupon-condi-add form-group">
+                    <tr>
+                        <th class="radio-box" width="150">
+                            <input type="radio" name="condiType" value="1" ng-click="setType($event,1)">指定区域
+                        </th>
+                        <td valign="middle" class="zdqy-wrap">
+                            <div class="shade-wrap">
+                                <div class="check-box-item" ng-repeat="item in citys">
+                                    <input confirmTxt="{{item.region}}" type="checkbox" name="zdqyBox" ng-value="{{item.rid}}">{{item.region}}
+                                </div>
+                                <div class="shade-color"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="z-error-txt-wrap"><p class="z-error-txt error-zdqy ion-close-circled"></p></div>
+                <table class="table table-bordered table-coupon-condi-add form-group">
+                    <tr>
+                        <th class="radio-box" width="150">
+                            <input type="radio" name="condiType" value="0" ng-click="setType($event,0)">指定时间
+                        </th>
+                        <td valign="middle">
+                            <div class="shade-wrap">
+                                <div class="check-box-item">起点时间：</div>
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                    <input type="text" style="width: 200px" name="reservStart" id="reservStart" class="form-control" placeholder="选择解封时间" ng-model="editData.reservStart"  />
+                                </div>
+                                <div class="shade-color"></div>
+                            </div>
+                        </td>
+                        <td valign="middle">
+                            <div class="shade-wrap">
+                                <div class="check-box-item">终止时间：</div>
+                                <div class="input-prepend input-group">
+                                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                    <input type="text" style="width: 200px" name="reservEnd" id="reservEnd" class="form-control" placeholder="选择解封时间" ng-model="editData.reservEnd" />
+                                </div>
+                                <div class="shade-color"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="z-error-txt-wrap"><p class="z-error-txt error-zdsj ion-close-circled"></p></div>
+                <table class="table table-bordered table-coupon-condi-add form-group">
+                    <tr>
+                        <th class="radio-box" width="150">
+                            <input type="radio" name="condiType" value="3" ng-click="setType($event,3)">限领次数
+                        </th>
+                        <td valign="middle">
+                            <div class="shade-wrap">
+                                <div class="check-box-item">每人限领：</div>
+                                <div class="z-num-control">
+                                    <span class="z-num-ctl-l" ng-click="zNumReduce($event)">-</span>
+							<span class="z-num-txt">
+								<input type="text" class="z-num-ctl" ng-value="zNumVal" ng-model="editData.getNum">
+							</span>
+                                    <span class="z-num-ctl-r" ng-click="zNumAdd($event)">+</span>
+                                </div>
+                                次
+                                <div class="shade-color"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="z-error-txt-wrap"><p class="z-error-txt error-xlcs ion-close-circled"></p></div>
+                <h3 class="z-mt0 z-common-h2 h2-condi-info">条件说明</h3>
+                <textarea class="form-control coupon-condi-desc" rows="4" ng-model="editData.descri"></textarea>
+                <div class="z-error-txt-wrap"><p class="z-error-txt error-tjsm ion-close-circled"></p></div>
+            </form>
+
+
+        </div>
+        <div class="z-caozuo">
+            <a href="javascript:;" class="btn btn-primary btn-md" role="button" ng-click="submitEditMsg()">提交</a>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script>window.hideLoading()</script>
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/add-coupon-condition.js?v=d1a753774e1473298817674"></script>
+</body>
+</html>

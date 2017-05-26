@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.lili.cms</groupId>
+    <artifactId>clz-cms</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.lili.cms</groupId>
+  <artifactId>privilege</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.lili</groupId>
+  		<artifactId>common</artifactId>
+  		<version>1.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.lili.cms</groupId>
+  		<artifactId>cms-intapi</artifactId>
+  		<version>1.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<!--  
+  	<dependency>
+  		<groupId>com.lili.cms</groupId>
+  		<artifactId>cms-cache</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	-->
+  </dependencies>
+  <build>
+    <!--  <finalName>${project.artifactId}-${project.version}</finalName>-->
+  	<resources>
+  	<resource>   
+                <directory>src/main/java</directory>   
+                <includes>   
+                    <include>**/*.xml</include>   
+                </includes>   
+                <!-- 是否替换资源中的属性-->   
+                <filtering>false</filtering>   
+    </resource>
+    <resource>   
+                <directory>src/main/resources</directory>   
+                <includes>   
+                    <include>**/*.xml</include>   
+                </includes>   
+                <excludes>
+                	<exclude>**/*.properties</exclude>
+                </excludes>
+                <!-- 是否替换资源中的属性-->   
+                <filtering>false</filtering>   
+    </resource>
+    <resource>   
+                <directory>src/main/resources</directory>   
+                <includes>   
+                    <include>**/*.properties</include>   
+                </includes>   
+                <excludes>
+                	<exclude>**/*.xml</exclude>
+                </excludes>
+                <!-- 是否替换资源中的属性-->   
+                <filtering>true</filtering>  
+                <targetPath>
+                ${basedir}/deploy/${env}/config
+                </targetPath> 
+    </resource>
+    </resources>
+  </build>
+</project>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.common.CMSCouponDao" >
+  <resultMap id="conditionResultMap" type="com.lili.coupon.dto.CCondition" >
+    <id column="conditionId" property="conditionid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="descri" property="descri" jdbcType="VARCHAR" />
+	<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="CouponResultMap" type="com.lili.coupon.dto.Coupon" >
+    <id column="couponTmpId" property="coupontmpid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="listBackImg" property="listbackimg" jdbcType="VARCHAR" />
+    <result column="indepentUse" property="indepentuse" jdbcType="TINYINT" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="validityPeriod" property="validityperiod" jdbcType="INTEGER" />
+    <result column="moneyValue" property="moneyvalue" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="INTEGER" />
+    <result column="isExist" property="isexist" jdbcType="TINYINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="useNote" property="usenote" jdbcType="VARCHAR" />
+    <result column="QRCodeUrl" property="qrcodeurl" jdbcType="VARCHAR" />
+    <result column="verify" property="verify" jdbcType="TINYINT" />
+    <result column="genRule" property="genrule" jdbcType="VARCHAR" />
+    <result column="useRule" property="userule" jdbcType="VARCHAR" />
+    <result column="createUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="jpushMsg" property="jpushmsg" jdbcType="VARCHAR" />
+    <result column="smsMsgType" property="smsmsgtype" jdbcType="INTEGER" />
+    <result column="limitValue" property="limitvalue" jdbcType="INTEGER" />
+    <result column="couponPic" property="couponpic" jdbcType="VARCHAR" />
+    <result column="couponUrl" property="couponurl" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+    <result column="groupType" property="groupType" jdbcType="TINYINT" />
+    <result column="course2" property="course2" jdbcType="TINYINT" />
+    <result column="course3" property="course3" jdbcType="TINYINT" />
+    <result column="courseDrive" property="courseDrive" jdbcType="TINYINT" />
+    <result column="courseEnroll" property="courseEnroll" jdbcType="TINYINT" />
+    <result column="cityId" property="cityId" jdbcType="VARCHAR" />
+    <result column="limitTime" property="limitTime" jdbcType="INTEGER" />
+  </resultMap>
+	<resultMap id="StudentCouponResultMap" type="com.lili.finance.vo.StudentCouponVo">
+		<id column="couponId" property="couponid" jdbcType="BIGINT" />
+		<result column="studentId" property="studentid" jdbcType="BIGINT" />
+		<result column="getTime" property="gettime" jdbcType="TIMESTAMP" />
+		<result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="couponTmpId" property="coupontmpid" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="stockId" property="stockid" jdbcType="INTEGER" />
+		<result column="isValid" property="isValid" jdbcType="TINYINT" />
+		<result column="isUsed" property="isUsed" jdbcType="TINYINT" />
+		<result column="expireTime" property="expiretime" jdbcType="TIMESTAMP" />
+		<result column="orderId" property="orderid" jdbcType="VARCHAR" />
+   		<result column="type" property="type" jdbcType="TINYINT" />
+	</resultMap>
+  <sql id="Condition_Column_List" >
+    conditionId, type, param1, param2, descri,createTime
+  </sql>
+  <sql id="Coupon_Column_List" >
+    couponTmpId, name, listBackImg, indepentUse, type, validityPeriod, moneyValue, discount, 
+    isExist, icon, useNote, QRCodeUrl, verify, genRule, useRule, createUser, createTime, 
+    jpushMsg, smsMsgType, limitValue, couponPic, couponUrl, extra, expireTime,maxNum, 
+    isUse, groupType, course2, course3, courseDrive, courseEnroll, cityId, limitTime
+  </sql>
+	<sql id="Student_Coupon_Column_List">
+		couponId, studentId, getTime, useTime, couponTmpId, stockId, isValid,
+		expireTime,orderId,isUsed
+	</sql>
+  
+   <select id="queryCouponName" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT name FROM t_s_coupon 
+		where couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="queryCouponVoList" resultType="com.lili.finance.vo.CouponVo" parameterType="com.lili.finance.model.CouponBTO">
+		SELECT couponTmpId, name, listBackImg, indepentUse, type, validityPeriod, moneyValue, discount, 
+		    isExist, icon, useNote, QRCodeUrl, verify, genRule, useRule, createUser, createTime, 
+		    jpushMsg, smsMsgType, limitValue, couponPic, couponUrl, extra, expireTime FROM t_s_coupon 
+		WHERE 1=1
+			<if test="coupontmpIds != null and coupontmpIds != ''">
+				 and couponTmpId in ('${coupontmpIds}')
+			</if>
+			<if test="verify != null and verify != ''">
+				and verify = #{verify}
+			</if>
+			<if test="isexist != null and isexist != ''">
+				and isExist = #{isexist}
+			</if>
+  </select>
+  
+   <select id="findCoupon" resultType="com.lili.finance.vo.CouponVo">
+		SELECT
+		a.couponTmpId, a.name, a.listBackImg, a.indepentUse, a.type, a.validityPeriod,
+		a.moneyValue, a.discount,
+		c.isExist, a.icon, a.useNote, a.QRCodeUrl, a.verify, a.genRule, a.useRule,
+		a.createUser, a.createTime,
+		a.jpushMsg, a.smsMsgType, a.limitValue, a.couponPic, a.couponUrl, a.extra,
+		a.expireTime,c.stockId,c.eventTopic
+		 <![CDATA[,c.total,sum(case when a.couponTmpId = b.couponTmpId then 1 else 0 end) releasedAmount 
+		,sum(case when b.expireTime < CURDATE() then 1 else 0 end) expiredAmount]]>
+		,sum(case b.isUsed when 1 then 1 else 0 end) haveUsed,(c.total - c.haveUsed) leftAmount
+		FROM
+		t_s_coupon a
+		left join `t_u_coupon` b on a.couponTmpId = b.couponTmpId
+		left join t_s_cstock c on a.couponTmpId = c.couponTempId
+		where 1=1
+    and a.couponTmpId = #{coupontmpid,jdbcType=VARCHAR}
+  </select>
+
+	<select id="findCouponBatch" resultType="com.lili.finance.vo.CouponVo">
+		SELECT
+		a.couponTmpId, a.name, a.listBackImg, a.indepentUse, a.type, a.validityPeriod,
+		a.moneyValue, a.discount,
+		c.isExist, a.icon, a.useNote, a.QRCodeUrl, a.verify, a.genRule, a.useRule,
+		a.createUser, a.createTime,
+		a.jpushMsg, a.smsMsgType, a.limitValue, a.couponPic, a.couponUrl, a.extra,
+		a.expireTime,c.stockId,c.eventTopic
+		 <![CDATA[,c.total,sum(case when a.couponTmpId = b.couponTmpId then 1 else 0 end) releasedAmount 
+		,sum(case when b.expireTime < CURDATE() then 1 else 0 end) expiredAmount]]>
+		,sum(case b.isUsed when 1 then 1 else 0 end) haveUsed,(c.total - c.haveUsed) leftAmount
+		,a.groupType
+		FROM
+		t_s_coupon a
+		left join `t_u_coupon` b on a.couponTmpId = b.couponTmpId
+		left join t_s_cstock c on a.couponTmpId = c.couponTempId
+		where 1=1
+		<if test="type == 0">
+			and a.type = 0
+		</if>
+		<if test="type != null and type != ''">
+			and a.type = #{type}
+		</if>
+		<if test="groupType != null and groupType != ''">
+			and a.groupType = #{groupType}
+		</if>
+		<if test="course2 != null and course2 != ''">
+			and a.course2 = #{course2}
+		</if>
+		<if test="course3 != null and course3 != ''">
+			and a.course3 = #{course3}
+		</if>
+		<if test="courseDrive != null and courseDrive != ''">
+			and a.courseDrive = #{courseDrive}
+		</if>
+		<if test="courseEnroll != null and courseEnroll != ''">
+			and a.courseEnroll = #{courseEnroll}
+		</if>
+		<if test="cityId != null and cityId != ''">
+			and a.cityId like '%${cityId}%'
+		</if>
+		<if test="limitTime != null and limitTime != ''">
+			and a.limitTime = #{limitTime}
+		</if>
+		<if test="verify == 0">
+			and a.verify = 0
+		</if>
+		<if test="isOver == 0">
+			<![CDATA[ and a.expireTime > now() ]]>
+		</if>
+		<if test="isOver == 1">
+			<![CDATA[ and a.expireTime < now() ]]>
+		</if>
+		<if test="verify != null and verify != ''">
+			and a.verify = #{verify}
+		</if>
+		<if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND a.createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>
+		</if>
+		<if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND a.createTime <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>
+		</if>
+		
+		GROUP BY a.couponTmpId
+		order by a.createTime desc
+	</select>
+
+	<select id="findConditionBatch" resultMap="conditionResultMap">
+		select
+		<include refid="Condition_Column_List" />
+		from t_s_ccondition
+		where 1=1
+		<if test="type == 0">
+			and type = 0
+		</if>
+		<if test="type != null and type != ''">
+			and type = #{type}
+		</if>
+		<if test="conditionid != null and conditionid != ''">
+			and conditionId = #{conditionid}
+		</if>
+		<if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>
+		</if>
+		<if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND createTime <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>
+		</if>
+	order by createTime desc
+	</select>
+	
+	<select id="queryCondition" resultMap="conditionResultMap">
+		select
+		<include refid="Condition_Column_List" />
+		from t_s_ccondition
+		where 1=1
+		<if test="conditionid != null and conditionid != ''">
+			and conditionId = #{conditionid}
+		</if>
+	</select>
+  
+  <resultMap id="StudentAccountResultMap" type="com.lili.finance.vo.StudentCouponVo">
+		<id column="couponId" property="couponid" jdbcType="BIGINT" />
+		<result column="studentId" property="studentid" jdbcType="BIGINT" />
+		<result column="getTime" property="gettime" jdbcType="TIMESTAMP" />
+		<result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="couponTmpId" property="coupontmpid" jdbcType="VARCHAR" />
+		<result column="stockId" property="stockid" jdbcType="INTEGER" />
+		<result column="isValid" property="isValid" jdbcType="TINYINT" />
+		<result column="isUsed" property="isUsed" jdbcType="TINYINT" />
+		<result column="expireTime" property="expiretime" jdbcType="TIMESTAMP" />
+		<result column="orderId" property="orderid" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="moneyValue" property="moneyValue" jdbcType="INTEGER" />
+		<result column="discount" property="discount" jdbcType="INTEGER" />
+	</resultMap>
+	
+  <select id="queryCouponList" resultMap="StudentAccountResultMap">
+    select 
+   		 u.couponId,u.studentId, u.getTime,u.useTime,u.couponTmpId,u.stockId,u.isValid,u.isUsed,u.expireTime,u.orderId,
+   		 s.name,s.type,s.moneyValue,s.discount
+    from t_u_coupon u, t_s_coupon s
+    	where u.couponTmpId=s.couponTmpId
+			<trim suffixOverrides=",">
+				<if test="studentid != null and studentid != ''">
+					and studentId = #{studentid}
+				</if>
+				<if test="isValid != null and isValid !='' or isValid==0">
+					and isValid = #{isValid}
+				</if>
+				<if test="isUsed != null and isUsed != '' or isUsed==0">
+					and isUsed = #{isUsed}
+				</if>
+			</trim>
+			order by getTime desc
+  </select>
+  
+   
+  <select id="findStudentCoupon" resultMap="StudentCouponResultMap">
+    select 
+    <include refid="Student_Coupon_Column_List" />
+    from t_u_coupon
+		Where 1=1 
+		and couponId=#{0}
+	        
+  </select>
+  
+  <select id="findStudentCouponBatch" resultMap="StudentCouponResultMap">
+    select 
+    	a.couponId, a.studentId, a.getTime, a.useTime, a.couponTmpId, a.stockId, a.isValid,
+		a.expireTime,a.orderId,a.isUsed,b.name studentName,b.phoneNum
+    from t_u_coupon a left join t_u_student b on b.studentId = a.studentId
+    
+		Where 1=1 
+	        <if test="type == 1">  
+	            <![CDATA[AND a.isUsed = 0 AND a.expireTime >  CURRENT_TIMESTAMP()  AND a.isValid = 1]]>  
+	        </if>  
+	        <if test="type == 2">  
+	            <![CDATA[AND a.isUsed = 1 AND a.isValid = 1]]>  
+	        </if>  
+	        <if test="type == 3">  
+	            <![CDATA[AND a.isValid = 0 AND a.isUsed = 0]]>  
+	        </if> 
+	        <if test="type == 4">  
+	            <![CDATA[AND a.expireTime <= CURRENT_TIMESTAMP() AND a.isUsed = 0 AND a.isValid = 1]]>  
+	        </if>  
+		<if test="coupontmpid != null and coupontmpid != ''">  
+	        and  a.couponTmpId = #{coupontmpid}
+		</if>
+		order by a.couponId desc
+  </select>
+</mapper>

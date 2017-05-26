@@ -1,0 +1,34 @@
+<div class="edit-alert coupon-defer-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="couponDeferCon" class="content">
+	<div class="title">延长有效期 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form style="margin: 0 auto 30px; padding: 0 30px;">
+            <dl class="z-mb10">
+                <dt style="width: 120px;">优惠券:</dt>
+                <dd ng-bind="deferData.name" style="line-height: 34px;"></dd>
+            </dl>
+            <dl class="z-mb10">
+                <dt style="width: 120px;">原有效期:</dt>
+                <dd ng-bind="deferData.expireTime" style="line-height: 34px;"></dd>
+            </dl>
+			<dl class="coach-lock-edit-time">
+				<dt style="width: 120px;">设置新有效期:</dt>
+				<dd>
+					<div class="input-prepend input-group">
+						<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+						<input type="text" style="width: 200px" name="reservation" id="deferReservation" class="form-control" placeholder="自定义时间" ng-model="$parent.deferTime" />
+					</div>
+				</dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert">取消</a>
+				<a ng-click="submitDeferMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.sync.mapper.CLZDataMapper">
+	<resultMap id="EnrollProgressTemplate" type="com.lili.school.dto.EnrollProgressTemplate" >
+    <id column="cpid" property="cpid" jdbcType="INTEGER" />
+    <result column="ttid" property="ttid" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="step_type" property="stepType" jdbcType="INTEGER" />
+    <result column="next_step" property="nextStep" jdbcType="INTEGER" />
+    <result column="retry_step" property="retryStep" jdbcType="INTEGER" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="dpage" property="dpage" jdbcType="VARCHAR" />
+    <result column="bpage" property="bpage" jdbcType="VARCHAR" />
+    <result column="pre_doc" property="preDoc" jdbcType="VARCHAR" />
+    <result column="none_doc" property="noneDoc" jdbcType="VARCHAR" />
+    <result column="submit_doc" property="submitDoc" jdbcType="VARCHAR" />
+    <result column="succ_doc" property="succDoc" jdbcType="VARCHAR" />
+    <result column="fail_doc" property="failDoc" jdbcType="VARCHAR" />
+    <result column="none_rec" property="noneRec" jdbcType="TINYINT" />
+    <result column="submit_rec" property="submitRec" jdbcType="TINYINT" />
+    <result column="succ_rec" property="succRec" jdbcType="TINYINT" />
+    <result column="fail_rec" property="failRec" jdbcType="TINYINT" />
+    <result column="submit_push" property="submitPush" jdbcType="VARCHAR" />
+    <result column="succ_push" property="succPush" jdbcType="VARCHAR" />
+    <result column="fail_push" property="failPush" jdbcType="VARCHAR" />
+    <result column="pre_display" property="preDisplay" jdbcType="TINYINT" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="red" property="red" jdbcType="TINYINT" />
+    <result column="reco_course" property="recoCourse" jdbcType="VARCHAR" />
+    <result column="other_course" property="otherCourse" jdbcType="VARCHAR" />
+    <result column="order_by" property="orderBy" jdbcType="INTEGER" />
+    <result column="recovery" property="recovery" jdbcType="TINYINT" />
+  </resultMap>
+  
+	<select id="selectDelCoach" parameterType="java.util.List" resultType="com.lili.sync.dto.SGCoach">
+		select coachId, name, phoneNum, idNumber from t_u_coach where schoolId in (1, 2, 3, 4, 5)
+		and (phoneNum in 
+		 <foreach item="item" collection="list" open="(" separator="," close=")">
+		 	#{item.phoneNum}
+		 </foreach>
+		 or idNumber in
+		 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+		 	#{item.idNumber}
+		 </foreach>)
+	</select>
+	
+	<update id="updateDelCoach" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";">
+			update t_u_coach set schoolId = 0, isImport = 0, StuCoachID = -1, importSrc = null, syncTime = now(), syncType = 2
+			where coachId = #{item.coachId}
+		</foreach>
+	</update>
+	
+	<delete id="delDelCoachInfo">
+		delete from t_u_mycoaches where type = 1 and coachId in (${coachIds});
+		delete from t_u_coachcar where coachId in (${coachIds})
+	</delete>
+	
+	<update id="updateCoach" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";">
+			update t_u_coach set
+				isImport = 1,
+				importSrc = #{item.importSrc},
+				schoolId = #{item.schoolId},
+				cityId = #{item.cityId},
+				StuCoachID = #{item.StuCoachID},
+				syncTime = now(),
+				syncType = 1
+			where idNumber = #{item.idNumber} or phoneNum = #{item.phoneNum}
+		</foreach>
+	</update>
+	
+	<insert id="insertCoach" parameterType="java.util.List">
+ 		<foreach item="item" collection="list" separator=";">
+			insert into t_u_coach 
+			(idNumber,name,sex,hometown,phoneNum,mailBox,StuCoachID,coachCard,coachCardDate,importSrc,password,syncTime,syncType,isImport,schoolId,cityId)
+			select 
+			#{item.idNumber}, #{item.name}, #{item.sex}, #{item.hometown}, #{item.phoneNum}, #{item.mailBox}, #{item.StuCoachID},
+			#{item.coachCard}, #{item.coachCardDate}, #{item.importSrc}, UPPER(MD5(#{item.password})), now(), 2, 1,  #{item.schoolId}, #{item.cityId}
+			from DUAL where not exists (select 1 from t_u_coach where idNumber = #{item.idNumber} or phoneNum = #{item.phoneNum})
+ 		</foreach>
+	</insert>
+	
+	<insert id="insertTempStudent" parameterType="java.util.List">
+		insert into t_jx_student(
+			idNumber, 
+			name, 
+			sex, 
+			hometown, 
+			phoneNum, 
+			mailBox, 
+			StuCoachEmpID, 
+			applyCarType, 
+			drType, 
+			course1, 
+			course2, 
+			course3, 
+			course4, 
+			importSrc, 
+			schoolId, 
+			cityId, 
+			applyexam, 
+			applystate,
+			type
+		) values
+		<foreach item="item" collection="list" open="(" close=")" separator="), (">
+			#{item.idNumber}, #{item.name}, #{item.sex}, #{item.hometown}, #{item.phoneNum}, #{item.mailBox}, #{item.StuCoachEmpID}, #{item.applyCarType}, #{item.applyCarType},
+			#{item.course1}, #{item.course2}, #{item.course3}, #{item.course4}, #{item.importSrc}, #{item.schoolId}, #{item.cityId}, 
+			#{item.applyexam}, #{item.applystate}, #{item.type}
+		</foreach>
+	</insert>
+		
+	<update id="updateJXStudentState">
+		update t_jx_student as t1, t_u_student as t2 set 
+			 t1.applyexam = t2.applyexam,
+			 t1.applystate = t2.applystate
+		<![CDATA[ where (t1.phoneNum = t2.phoneNum or t1.idNumber = t2.idNumber) and t1.applyexam < t2.applyexam and t1.type = 1 ]]>
+	</update>
+	
+	<update id="updateJXStudent">
+		update t_jx_student as t2, t_u_student as t1 set 
+			t1.StuCoachEmpID = t2.StuCoachEmpID,
+			t1.applyCarType = t2.applyCarType,
+			t1.drType = t2.applyCarType,
+			t1.course1 = t2.course1,
+			t1.course2 = t2.course2,
+			t1.course3 = t2.course3,
+			t1.course4 = t2.course4,
+			t1.importSrc = t2.importSrc,
+			t1.schoolId = t2.schoolId,
+			t1.cityId = t2.cityId,
+			t1.applyexam = t2.applyexam,
+			t1.applystate = t2.applystate,
+			t1.isImport = 1,
+			t1.syncTime = now(),
+			t1.syncType = 1
+		where t2.type = 1 and (t2.phoneNum = t1.phoneNum or t2.idNumber = t1.idNumber)
+	</update>
+	
+	<insert id="insertJXStudent">
+		insert into t_u_student (
+			idNumber, NAME, sex, hometown, phoneNum, mailBox, StuCoachEmpID, applyCarType, drType, course1, course2, course3, course4, 
+			importSrc, schoolId, cityId, applyexam, applystate, isImport, syncTime, syncType)
+		select 
+			idNumber, NAME, sex, hometown, phoneNum, mailBox, StuCoachEmpID, applyCarType, drType, course1, course2, course3, course4, 
+			importSrc, schoolId, cityId, applyexam, applystate, 1, now(), 2
+		from t_jx_student <![CDATA[ 
+			where type = 1 and phoneNum not in (select phoneNum from t_u_student where phoneNum is not null) 
+			and idNumber not in (select idNumber from t_u_student where idNumber is not null) ]]>
+	</insert>
+	
+	<insert id="insertCertificate" parameterType="java.util.List">
+		insert into t_jx_progress 
+		(name, phoneNum, idNumber, step, stepId, state, stateId, schoolId, cityId, classId, ctime, datatime, student_id, step_id, step_state, type, place)
+		values
+		<foreach item="item" collection="list" separator=",">
+		(#{item.name}, #{item.phoneNum}, #{item.idNumber}, #{item.step}, #{item.stepId}, #{item.state}, #{item.stateId}, #{item.schoolId}, #{item.cityId}, 
+		#{item.classId}, #{item.ctime}, #{item.datatime}, #{item.student_id}, #{item.step_id}, #{item.step_state}, #{item.type}, #{item.place})
+		</foreach>
+	</insert>
+	
+	<insert id="insertOfficial" parameterType="java.util.List">
+		insert into t_jx_progress 
+		(name, phoneNum, idNumber, step, stepId, state, stateId, schoolId, cityId, classId, ctime, datatime, student_id, step_id, step_state, type, place)
+		values
+		<foreach item="item" collection="list" separator=",">
+		(#{item.name}, #{item.phoneNum}, #{item.idNumber}, #{item.step}, #{item.stepId}, #{item.state}, #{item.stateId}, #{item.schoolId}, #{item.cityId}, 
+		#{item.classId}, #{item.ctime}, #{item.datatime}, #{item.student_id}, #{item.step_id}, #{item.step_state}, #{item.type}, #{item.place})
+		</foreach>
+	</insert>
+	
+	<update id="updateProgressState">
+		update t_jx_progress set applyexam = 6, applystate = 0 where stepId = 79 and type = 1;
+		update t_jx_progress set applyexam = 6, applystate = 1 where stepId in (15, 149) and type = 1;
+		update t_jx_progress set applyexam = 6, applystate = 100 where stepId = 12 and type = 1;
+		update t_jx_progress set applyexam = 101, applystate = 1 where stepId in (85, 155) and type = 2;
+		update t_jx_progress set applyexam = 101, applystate = 101 where stepId in (38, 156) and type = 1 and state != '到';
+		update t_jx_progress set applyexam = 101, applystate = 100 where stepId in (38, 156) and type = 1 and state = '到';
+		update t_jx_progress set applyexam = 301, applystate = 100 where stepId = 86 and type = 2;
+		update t_jx_progress set applyexam = 302, applystate = 101 where stepId = 30 and type = 1 and state != '合格';
+		update t_jx_progress set applyexam = 302, applystate = 100 where stepId = 30 and type = 1 and state = '合格';
+		update t_jx_progress set applyexam = 401, applystate = 100 where stepId in (111, 119) and type = 2;
+		update t_jx_progress set applyexam = 402, applystate = 101 where stepId in (112, 120) and type = 1 and state != '合格';
+		update t_jx_progress set applyexam = 402, applystate = 100 where stepId in (112, 120) and type = 1 and state = '合格';
+		update t_jx_progress set applyexam = 501, applystate = 1 where stepId = 89 and type = 2;
+		update t_jx_progress set applyexam = 501, applystate = 101 where stepId = 50 and type = 1 and state != '合格';
+		update t_jx_progress set applyexam = 501, applystate = 100 where stepId = 50 and type = 1 and state = '合格';
+		update t_jx_progress set applyexam = 601, applystate = 100 where stepId = 90 and type = 2;
+		update t_jx_progress set applyexam = 602, applystate = 101 where stepId = 32 and type = 1 and state != '合格';
+		update t_jx_progress set applyexam = 602, applystate = 100 where stepId = 32 and type = 1 and state = '合格';
+		update t_jx_progress set applyexam = 701, applystate = 100 where stepId in (114, 121) and type = 2;
+		update t_jx_progress set applyexam = 702, applystate = 101 where stepId in (113, 122) and type = 1 and state != '合格';
+		update t_jx_progress set applyexam = 702, applystate = 100 where stepId in (113, 122) and type = 1 and state = '合格';
+		update t_jx_progress set school = '深港' where schoolId = 1 and stepId = 12 and type = 1;
+		update t_jx_progress set school = '深圳港安' where schoolId = 4 and stepId = 12 and type = 1;
+		update t_jx_progress set school = '东莞广仁' where schoolId = 2 and stepId = 12 and type = 1;
+		update t_jx_progress set school = '深圳广仁' where schoolId = 5 and stepId = 12 and type = 1;
+		update t_jx_progress set school = '广州福华' where schoolId = 3 and stepId = 12 and type = 1;
+		update t_jx_progress as t1, t_jx_student as t2 set driveType = concat('C', t2.applyCarType) 
+			where stepId = 12 and t1.type = 1 and t1.idNumber = t2.idNumber
+	</update>
+	
+	<update id="updateTempStudentIdByIdNumber">
+		update t_jx_progress as t1, t_u_student as t2 set 
+			t1.student_id = t2.studentId 
+		where t1.idNumber = t2.idNumber;
+		update t_jx_student as t1, t_u_student as t2 set 
+			t1.student_id = t2.studentId 
+		where t1.idNumber = t2.idNumber
+	</update>
+	
+	<update id="updateTempStudentIdByPhone">
+		update t_jx_progress as t1, t_u_student as t2 set 
+			t1.student_id = t2.studentId 
+		where t1.phoneNum = t2.phoneNum and t1.student_id is not null;
+		update t_jx_student as t1, t_u_student as t2 set 
+			t1.student_id = t2.studentId 
+		where t1.phoneNum = t2.phoneNum and t1.student_id is not null 
+	</update>
+	
+	<update id="updateLastUpdateTime">
+		update t_jx_progress as t1, 
+		(select max(mtime) lastUpdate, max(cpid) cpid, student_id from t_enroll_progress_user where isDel = 0 
+		 and student_id in (select student_id from t_jx_progress) group by student_id) as t2
+		set
+			t1.lastUpdate = t2.lastUpdate,
+			t1.cpid = t2.cpid
+		where t1.student_id = t2.student_id
+	</update>
+	
+	<update id="updateLastInfo">
+		update t_jx_progress as t1, 
+		(select student_id, step_id, process_state, mtime lastUpdate from t_enroll_progress_user where cpid in
+		(select MAX(cpid) from t_enroll_progress_user where isdel = 0 and student_id in (select student_id from t_jx_student where type = 2) group by student_id )) as t2,
+			set t1.step_id = t2.step_id,
+				t1.setp_state = t2.process_state
+		where t1.student_id = t2.student_id
+	</update>
+	
+	<select id="selectProgressTemplate" resultMap="EnrollProgressTemplate">
+		select cpid, ttid, city_id, step_id, step_type, next_step, retry_step, icon, title, dpage, bpage, pre_doc, none_doc, 
+		submit_doc, succ_doc, fail_doc, none_rec, submit_rec, succ_rec, fail_rec, submit_push, succ_push, fail_push, 
+		pre_display, price, red, reco_course, other_course, order_by, recovery from t_enroll_progress_template where city_id = 100100
+	</select>
+	
+	<select id="selectNeedInsertProgress" resultType="com.lili.sync.dto.SGOfficial">
+		select name, phoneNum, idNumber, step, stepId, state, stateId, schoolId, cityId, classId, ctime, datatime, 
+		applyexam, applystate, student_id, step_id, step_state, type, cpid, place, school, driveType
+		from t_jx_progress where ctime > lastUpdate order by ctime asc
+<!-- 		from t_jx_progress where student_id = 34769916 order by ctime asc -->
+	</select>
+	
+	<insert id="insertProgress" parameterType="java.util.List">
+		insert into t_enroll_progress_user (
+			title, student_id, step_id, process_state, result, next_step, need_show, 
+			icon, price, city_id, ttid, school_id, red, reco_course, other_course, dpage, bpage, recovery, 
+			order_by, cuid, ctime )
+    	values 
+    	<foreach item="item" collection="list" open="(" close=")" separator="), (">
+			#{item.title}, #{item.studentId}, #{item.stepId}, #{item.processState}, #{item.result}, #{item.nextStep}, #{item.needShow}, 
+			#{item.icon}, #{item.price}, #{item.cityId}, #{item.ttid}, #{item.schoolId}, #{item.red}, #{item.recoCourse}, #{item.otherCourse}, 
+			#{item.dpage}, #{item.bpage}, #{item.recovery}, #{item.orderBy}, #{item.cuid}, #{item.ctime}
+		</foreach>
+	</insert>
+	
+	<update id="updateProgress" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";">
+			update t_enroll_progress_user set
+				result = #{item.result},
+				need_show = #{item.needShow},
+				process_state = #{item.processState},
+				muid = 0
+			where cpid = #{item.cpid}
+		</foreach>
+	</update>
+	
+	<update id="updateCLZTempStudentState">
+		update t_jx_student as t1,
+		(select student_id, step_id, process_state from t_enroll_progress_user where cpid in
+		(select MAX(cpid) from t_enroll_progress_user where isdel = 0 and student_id in (select student_id from t_jx_student where type = 2) group by student_id)) as t2
+		set
+			t1.applyexam = t2.step_id,
+			t1.applystate = t2.process_state
+		where t1.student_id = t2.student_id 
+	</update>
+	
+	<update id="updateCLZStudent">
+		update t_jx_student as t2, t_u_student as t1 set 
+			t1.StuCoachEmpID = t2.StuCoachEmpID,
+			t1.cityId = t2.cityId,
+			t1.schoolId = t2.schoolId,
+			t1.importSrc = t2.importSrc,
+			t1.isImport = 0,
+			t1.course1 = t2.course1,
+			t1.course2 = t2.course2,
+			t1.course3 = t2.course3,
+			t1.course4 = t2.course4,
+			t1.applyexam = t2.applyexam,
+			t1.applystate = t2.applystate,
+			t1.syncTime = now(),
+			t1.syncType = 1
+			where t2.type = 2 and (t2.phoneNum = t1.phoneNum or t2.idNumber = t1.idNumber)
+			<![CDATA[ and t1.applyexam - 2 < t2.applyexam ]]>
+	</update>
+	
+	<delete id="deleteTempTable">
+		truncate t_jx_student;
+		truncate t_jx_progress
+	</delete>
+	
+	<delete id="deleteCS">
+		delete from t_u_mycoaches where type = 1 and coachId in (select coachId from t_u_coach where schoolId in (1, 2, 3, 4, 5))
+	</delete>
+	
+	<insert id="insertCS">
+		insert into t_u_mycoaches (studentId, coachId, syncTime, syncType)
+		select studentId, coachId, now(), 2 from t_u_coach as t1 join t_u_student as t2 on t1.StuCoachID = t2.StuCoachEmpID and t1.StuCoachID > 0
+		where t1.schoolId in (1, 2, 3, 4, 5) 
+	</insert>
+	
+	<update id="updateCar" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";">
+			update t_p_car set 
+				carType = #{item.carType},
+				driveType = #{item.driveType},
+				UsePerson = #{item.UsePerson},
+				schoolId = #{item.schoolId},
+				cityId = #{item.cityId},
+				empId = #{item.empId},
+				syncTime = now(),
+				syncType = 1
+			where carNo = #{item.carNo}
+		</foreach>
+	</update>
+
+	<insert id="insertCar" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";">
+			insert into t_p_car (carType, carNo, driveType, UsePerson, syncTime, syncType, schoolId, cityId, empId)
+			select #{item.carType}, #{item.carNo}, #{item.driveType}, #{item.UsePerson}, now(), 2, #{item.schoolId}, #{item.cityId}, #{item.empId}
+			from DUAL where not exists (select 1 from t_p_car where carNo = #{item.carNo})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteCC">
+<!-- 		delete from t_u_coachcar where coachId in (select coachId from t_u_coach where schoolId in (1, 2, 3, 4, 5)) -->
+<!-- 		依运营要求，停止对4港安5深圳广仁两个驾校的车辆关系的同步 -->
+		delete from t_u_coachcar where coachId in (select coachId from t_u_coach where schoolId in (1, 2, 3))
+	</delete>
+	
+	<insert id="insertCC">
+		insert into t_u_coachcar (coachId, carId, syncTime, syncType)
+		select coachId, carId, now(), 2 from t_p_car as t1 join t_u_coach as t2 on t1.empId = t2.StuCoachID and t2.StuCoachID > 0
+<!-- 		where t1.schoolId in (1, 2, 3, 4, 5) -->
+		where t1.schoolId in (1, 2, 3)
+	</insert>
+</mapper>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Recharge">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>优惠充值</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 优惠券 -->
+		<div class="title ">
+			<div class="d-title">充值</div>
+			<ul class="table-li">
+				<li><a href="recharge.html" ng-if="130801|isAccessShow">个人充值</a></li>
+				<li class="active" ng-if="130901|isAccessShow"><a href="recharge-discount.html">优惠充值</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">充值记录</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+                        <div class="line">
+                            <div>用户类型</div>
+                            <ul>
+                                <li ng-click="getDataForUserType($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForUserType($event,'2')">喱喱学员</li>
+                                <li ng-click="getDataForUserType($event,'1')">喱喱大客户</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>审核状态</div>
+                            <ul>
+                                <li ng-click="getDataForvState($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForvState($event,'0')">未审核</li>
+                                <li ng-click="getDataForvState($event,'1')">审核通过</li>
+                                <li ng-click="getDataForvState($event,'2')">审核不通过</li>
+                            </ul>
+                        </div>
+						<div class="line">
+							<div>高级查询</div>
+							<div class="input-group search-more-condition">
+								<select ng-model="searchType" class="form-control" id="search_type">
+									<option value="mobile">手机号</option>
+									<option value="rcname">方案名</option>
+								</select>
+								<input type="text" ng-model="search" class="form-control" id="search_placeholder" placeholder="输入手机号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+							</div>
+						</div>
+					</div>
+
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4 col-md-8">
+							<a ng-click="verifyAction('vPass')" class="btn btn-sm btn-primary" ng-if="130902|isAccessShow">审核通过</a>
+							<a ng-click="verifyAction('vFail')" class="btn btn-sm btn-danger" ng-if="130903|isAccessShow">审核不通过</a>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                                <td><b>充值时间</b></td>
+                                <td><b>充值订单号</b></td>
+								<td><b>交易单号</b></td>
+								<td><b>帐户</b></td>
+								<td><b>姓名</b></td>
+								<td><b>充值送方案</b></td>
+								<td><b>电话</b></td>
+								<td><b>充值金额</b></td>
+								<td><b>赠送金额</b></td>
+								<td><b>充值方式</b></td>
+								<td><b>审核状态</b></td>
+								<td><b>审核时间</b></td>
+								<td><b>备注</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td align="center"><input type="checkbox" id="{{item.rrid}}" ng-click="updateSelection($event,item.rrid)" ng-checked="isSelected(item.rrid)"></td>
+								<td ng-bind="item.ctime | timeTex"></td>
+                                <td ng-bind="item.water_id"></td>
+								<td ng-bind="item.waterId"></td>
+								<td ng-bind="item.studentId"></td>
+								<td ng-bind="item.name"></td>
+								<!-- <td ng-bind="item.userType==1?'教练':'学员'"></td> -->
+								<td ng-bind="item.rcname"></td>
+								<td ng-bind="item.mobile"></td>
+								<td ng-bind="item.charge/100"></td>
+								<td ng-bind="item.recharge/100"></td>
+								<td ng-bind="item.payWay | payWayType"></td>
+								<td ng-class="{green: item.vstate==1, error: item.vstate==2}" ng-bind="item.vstate | verifyType"></td>
+								<td ng-bind="item.getTime | timeTex"></td>
+								<td class="error" ng-bind="item.reason"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ng-include src="'edit/recharge-discount-state.html'" onload="rdStateEditLoad()"></ng-include>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/recharge-discount.js?v=e2271864e61473298817690"></script>
+</body>
+</html>

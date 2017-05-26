@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coupon.mapper.dao.CConditionMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.coupon.dto.CCondition" >
+    <id column="conditionId" property="conditionid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="param1" property="param1" jdbcType="VARCHAR" />
+    <result column="param2" property="param2" jdbcType="VARCHAR" />
+    <result column="descri" property="descri" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    conditionId, type, param1, param2, descri
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_ccondition
+    where conditionId = #{conditionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_ccondition
+    where conditionId = #{conditionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.coupon.dto.CCondition" >
+    insert into t_s_ccondition (conditionId, type, param1, 
+      param2, descri)
+    values (#{conditionid,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{param1,jdbcType=VARCHAR}, 
+      #{param2,jdbcType=VARCHAR}, #{descri,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.coupon.dto.CCondition" >
+    insert into t_s_ccondition
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="conditionid != null" >
+        conditionId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="param1 != null" >
+        param1,
+      </if>
+      <if test="param2 != null" >
+        param2,
+      </if>
+      <if test="descri != null" >
+        descri,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="conditionid != null" >
+        #{conditionid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="param1 != null" >
+        #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="descri != null" >
+        #{descri,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.coupon.dto.CCondition" >
+    update t_s_ccondition
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="param1 != null" >
+        param1 = #{param1,jdbcType=VARCHAR},
+      </if>
+      <if test="param2 != null" >
+        param2 = #{param2,jdbcType=VARCHAR},
+      </if>
+      <if test="descri != null" >
+        descri = #{descri,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where conditionId = #{conditionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.coupon.dto.CCondition" >
+    update t_s_ccondition
+    set type = #{type,jdbcType=TINYINT},
+      param1 = #{param1,jdbcType=VARCHAR},
+      param2 = #{param2,jdbcType=VARCHAR},
+      descri = #{descri,jdbcType=VARCHAR}
+    where conditionId = #{conditionid,jdbcType=INTEGER}
+  </update>
+  <select id="getAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_ccondition
+  </select>
+</mapper>

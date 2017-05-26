@@ -1,0 +1,105 @@
+<div  ng-cloak>
+	<div class="coach-list y-comment">
+		<div class="coach-user">
+			<div class="y-box-flex">
+				<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+					<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+					<img src="img/user.png" ng-if="!coachinfo.headIcon">
+				</div>
+				<div class="userinfo">
+					<div class="name">
+						{{coachinfo.name}} 
+						<span ng-if='itemcoachinfoimportSrc'>{{coachinfo.importSrc}}</span>
+						<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+						<a class="phone mind" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+					</div>
+					<div class="name">
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15">
+		<div class="y-cell">
+			<div class="cell__bd">
+				车辆信息
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{courseShow.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">{{courseShow.carNo}}
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 mt10">
+		<div class="y-cell">
+			<div class="cell__bd">
+				课程	
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{courseShow.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">{{courseShow.courseName}}
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				课时	
+			</div>
+			<div class="cell__ft pr15">
+				{{courseShow.clzNum}}学时
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				上课人数	
+			</div>
+			<div class="cell__ft pr15">
+				{{courseShow.maxNum}}人
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				上课时间	
+			</div>
+			<div class="cell__ft pr15">
+				{{courseShow.rstart | date:'yyyy-MM-dd HH:mm'}} ~ {{courseShow.rend | date:'HH:mm'}}
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				课时费	
+			</div>
+			<div class="cell__ft pr15">
+				{{courseShow.price|priceTex}}元
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 mt10">
+		<div class="y-cell">
+			<div class="cell__bd">
+				训练场	
+			</div>
+			<div class="cell__ft pr15">
+				{{courseShow.placeName}}
+			</div>
+		</div>
+		<!--<div class="y-cell">
+			<div class="cell__bd">
+				训练场地址
+			</div>
+			<div class="cell__ft pr15">
+				<span>{{address.posDesc}}</span>
+			</div>
+		</div>-->
+	</div>
+	<div class="course-nav">
+		<div class="left">
+			应付金额：<span ng-bind="(courseShow.price|priceTex) + '元'"></span>
+		</div>
+		<div class="right" ng-click="goNext()">
+			提交订单
+		</div>
+	</div>
+</div>

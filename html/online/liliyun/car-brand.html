@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="car-brand">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>车类型</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>车类型</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">车类型列表</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>查找车型</div>
+						<!--<ul id="select-school">-->
+							<!--<li ng-click="getDataForDistSchool($event,'')" class="active">全部</li>-->
+						<!--</ul>-->
+						<select ng-model="brandName" ng-change="getBrandName(brandname)" class="form-control jia-xiao">
+						  <option value="">---选择品牌---</option>
+						  <option ng-repeat="item in brands" value="{{item.brandname}}" ng-bind="item.brandname"></option>
+						</select>
+						<select ng-model="carname" ng-change="getDataForCarName()" class="form-control jia-xiao">
+						  <option value="">---选择车系---</option>
+						  <option ng-repeat="item in carBrands" value="{{item.seqid}}" ng-bind="item.carname"></option>
+						</select>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-if="101801|isButtonShow" ng-click="carEdit('add')" class="btn btn-sm btn-primary">新增车型</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>品牌编码</b></td>
+					  	<td><b>品牌名称</b></td>
+					  	<td><b>汽车编码</b></td>
+					  	<td><b>汽车名称</b></td>
+					  	<td><b>是否常用</b></td>
+					  	<td><b>操作</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td ng-bind="data.brandno"></td>
+					  	<td ng-bind="data.brandname"></td>
+					  	<td ng-bind="data.carno"></td>
+					  	<td ng-bind="data.carname"></td>
+					  	<td ng-bind="data.iscommon | isCommonText"></td>
+					  	<td class="operation"><span class="edit" ng-if="101802|isButtonShow" ng-click="carEdit('edit',data)">编辑</span></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 教练车信息编辑 | 新增 -->
+		<ng-include src="'edit/eidt-car-brand.html'" onload="carEditLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/car-brand.js?v=91f1fc99211473298817674"></script>
+</body>
+</html>

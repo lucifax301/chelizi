@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Notice">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="witdh=device-witdh, initial-scale=1">
+    <title>通知</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+    <style>#edui_fixedlayer{ z-index: 9999!important;}</style>
+    <script src="assets/common/js/commonStart.js"></script>
+    <script type="text/javascript">window.UEDITOR_HOME_URL = "assets/common/ueditor/";</script>
+    <script type="text/javascript" charset="utf-8" src="assets/common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="assets/common/ueditor/ueditor.all.js"></script>
+    <style>
+        #edui_fixedlayer *{box-sizing:content-box;}
+        #edui19_button_body{width: 70px;}
+        .edui-for-preview .edui-dialog-titlebar{ height: 45px; background: #444; line-height: 45px;}
+        .edui-for-preview .edui-dialog-draghandle{ text-align: center;}
+        .edui-for-preview .edui-dialog-titlebar .edui-dialog-caption{ color: #fff; font-size: 20px;}
+        .edui-for-preview .edui-dialog-titlebar .edui-button-body{ background:url(assets/img/ico-close.png) no-repeat center!important; width: 26px; height: 26px; margin-top: 5px; margin-right: 5px;}
+
+    </style>
+</head>
+<body class="coach-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title"><h1>{{ saveType=='no'?'查看':(editType=='add'?'新增':'编辑') }}消息</h1></div>
+        <div class="con-main">
+
+            <table class="table z-table-coupon-add z-noborder" style="width: 1040px; margin-top:30px;">
+            <tr>
+                <td width="80"><span style="color:red">* </span>分类:</td>
+                <td width="750">
+                    <select ng-model="editData.type" class="form-control z-mb20" style="width: 80%">
+                        <option value="">请选择消息分类</option>
+                        <option ng-show="{{setType==10}}"value="1">活动消息</option>
+                        <option ng-show="{{setType==10}}" value="3">喱喱头条</option>
+                        <option ng-show="{{setType==10}}"value="4">我的消息</option>
+                        <option ng-show="{{setType==9}}"value="1">喱喱资讯</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span style="color:red">* </span>头图:</td>
+                <td>
+                    <img id="imgHide" style="display: none">
+                    <img class="form-control z-mb20" id="addImg" ng-click="uploadImg()"  style=" width: 174px; height: 174px;float: left;cursor: pointer;border-style:none" src="">
+                    <a class="edit z-mb20 z-inline-block" id="chooseImg"  style="margin-top:150px;text-decoration:none">
+                        <a href="javascript:" ng-click="uploadImg()" style="text-decoration:none">请选择图片...</a>      <span ng-show="{{setType==10}}" style="font-size: inherit;color: #c2ccd1">格式要求：png/jpg, 喱喱头条尺寸：939*480,   其他消息分类尺寸：174*174</span><span ng-show="{{setType==9}}" style="font-size: inherit;color: #c2ccd1">格式要求：png/jpg,  消息分类尺寸：750*320</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td><span style="color:red">* </span>标题:</td>
+                <td><input type="text" id="title" ng-model="editData.title" class="form-control  z-mb20" maxlength="20" ng-change="setShowLength('title',20, 'title_length')" style="width: 80%;display: inline"><span style="color: red;" id="title_length"></span></td>
+            </tr>
+                <tr>
+                    <td><span style="color:red">* </span>摘要:</td>
+                    <td><input type="text" id="digest" ng-model="editData.digest" class="form-control  z-mb20" maxlength="50" ng-change="setShowLength('digest',50, 'digest_length')" style="width: 80%;display: inline"><span style="color: red;" id="digest_length"></span></td>
+                </tr>
+            <tr>
+                <td width="80"><span style="color:red">* </span>内容:</td>
+                <input type="hidden" id="contentValue" value="">
+                <td>
+                    <!--<input type="text" ng-model="editData.content" class="form-control" maxlength="2000">-->
+                    <div style="width: 750px; margin-bottom: 40px">
+                        <script type="text/plain" id="myEditor">
+                            <p style="color:#adadad">请输入消息内容</p>
+                        </script>
+                    </div>
+                </td>
+            </tr>
+                <tr>
+                    <td width="80"></td>
+                    <td>
+                        <div class="chaozuo" id="submitButton" align="center">
+                            <a href="notice.html?setType={{setType}}" class="btn btn-sm btn-default closeAlert" style="width: 80px;background-color:#c2ccd1 ">{{ saveType=='no'?'返回':'取消'}}</a>
+                           <!-- <a ng-click="test()"  class="btn btn-sm btn-primary">预览</a>-->
+                            <a style="width: 100px;margin-left: 40px;background-color: green" href="notice-add-student.html?editType=edit&editNoticeId={{editNoticeId}}&saveType=no&setType=10"  ng-show="{{saveType=='no' && setType==10 && view!=3}}"  class="btn btn-sm btn-primary">查看发布设置</a>
+                            <a style="width: 100px;margin-left: 40px;background-color: green" href="notice-add-coach.html?editType=edit&editNoticeId={{editNoticeId}}&saveType=no&setType=9"    ng-show="{{saveType=='no' && setType==9 && view!=3}}" class="btn btn-sm btn-primary">查看发布设置</a>
+                            <a style="width: 80px;margin-left: 40px;background-color: green" ng-click="submitEditMsg($event)" ng-show="{{saveType!='no'}}" class="btn btn-sm btn-primary">保存</a>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+<!-- script -->
+<script type="text/javascript">
+    UE.getEditor('myEditor',{
+        //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+        toolbars:[['Source', 'Undo', 'Redo','Bold','|','italic', 'underline', 'fontborder', 'strikethrough','|','forecolor', 'backcolor','customstyle', 'paragraph', 'fontfamily', 'fontsize', '|','justifyleft', 'justifycenter', 'justifyright', 'justifyjustify','|','simpleupload','preview']],
+        //focus时自动清空初始化时的内容
+        autoClearinitialContent:true,
+        //关闭字数统计
+        wordCount:false,
+        //关闭elementPath
+        elementPathEnabled:false,
+        //默认的编辑区域高度
+        initialFrameHeight:500,
+        //更多其他参数，请参考ueditor.config.js中的配置项
+        //serverUrl: '/server/ueditor/controller.php'
+    })
+    var type=getQueryString("saveType");
+    if(type=="no"){
+      $("input").attr("readonly","readonly");
+      $("select").attr("disabled",true);
+        UE.getEditor('myEditor').ready(function() {
+            UE.getEditor('myEditor').setDisabled();
+        });
+    }
+</script>
+
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/notice.js"></script>
+</body>
+</html>

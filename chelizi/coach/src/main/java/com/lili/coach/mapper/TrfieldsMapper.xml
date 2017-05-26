@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.TrfieldsMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.Trfields">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="trfield_id" property="trainFieldId" jdbcType="INTEGER" />
+		<result column="lge" property="lge" jdbcType="DECIMAL" />
+		<result column="lae" property="lae" jdbcType="DECIMAL" />
+		<result column="posDesc" property="posDesc" jdbcType="VARCHAR" />
+		<result column="osType" property="osType" jdbcType="INTEGER" />
+		<result column="osv" property="osv" jdbcType="VARCHAR" />
+		<result column="deviceType" property="deviceType" jdbcType="VARCHAR" />
+		<result column="imei" property="imei" jdbcType="VARCHAR" />
+		<result column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,trfield_id,lge,lae,posDesc,osType,osv,deviceType,imei,ip,ctime
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="trainFieldId != null and trainFieldId != ''">
+				and trfield_id = #{trainFieldId}
+			</if>
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_trfield
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_u_trfield
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.Trfields"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_u_trfield
+		(id,trfield_id,lge,lae,posDesc,osType,osv,deviceType,imei,ip,ctime)
+		values
+		(#{id,jdbcType=INTEGER},#{trainFieldId,jdbcType=INTEGER},#{lge,jdbcType=DECIMAL},#{lae,jdbcType=DECIMAL},#{posDesc,jdbcType=VARCHAR},#{osType,jdbcType=INTEGER},#{osv,jdbcType=VARCHAR},#{deviceType,jdbcType=VARCHAR},#{imei,jdbcType=VARCHAR},#{ip,jdbcType=VARCHAR},#{ctime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.Trfields"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_u_trfield
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="trainFieldId != null">
+				trfield_id,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="posDesc != null">
+				posDesc,
+			</if>
+			<if test="osType != null">
+				osType,
+			</if>
+			<if test="osv != null">
+				osv,
+			</if>
+			<if test="deviceType != null">
+				deviceType,
+			</if>
+			<if test="imei != null">
+				imei,
+			</if>
+			<if test="ip != null">
+				ip,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="trainFieldId != null">
+				#{trainFieldId,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				#{lge,jdbcType=DECIMAL},
+			</if>
+			<if test="lae != null">
+				#{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="posDesc != null">
+				#{posDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="osType != null">
+				#{osType,jdbcType=INTEGER},
+			</if>
+			<if test="osv != null">
+				#{osv,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				#{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="imei != null">
+				#{imei,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				#{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Trfields">
+		update t_u_trfield
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="trainFieldId != null">
+				trfield_id = #{trainFieldId,jdbcType=INTEGER},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DECIMAL},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="posDesc != null">
+				posDesc = #{posDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="osType != null">
+				osType = #{osType,jdbcType=INTEGER},
+			</if>
+			<if test="osv != null">
+				osv = #{osv,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				deviceType = #{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="imei != null">
+				imei = #{imei,jdbcType=VARCHAR},
+			</if>
+			<if test="ip != null">
+				ip = #{ip,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Trfields">
+		update t_u_trfield
+		set
+		id = #{id,jdbcType=INTEGER},
+		trfield_id = #{trainFieldId,jdbcType=INTEGER},
+		lge = #{lge,jdbcType=DECIMAL},
+		lae = #{lae,jdbcType=DECIMAL},
+		posDesc = #{posDesc,jdbcType=VARCHAR},
+		osType = #{osType,jdbcType=INTEGER},
+		osv = #{lae,jdbcType=VARCHAR},
+		deviceType = #{deviceType,jdbcType=VARCHAR},
+		imei = #{imei,jdbcType=VARCHAR},
+		ip = #{ip,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP}
+		where
+		trainFieldId =
+		#{trainFieldId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Trfields">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_trfield
+		where 1=1
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_u_trfield
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<resultMap id="TrfieldsVoMap" type="com.lili.coach.vo.TrfieldsVo">
+		<result column="trainFieldId" property="trainFieldId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="lge" property="lge" jdbcType="DECIMAL" />
+		<result column="lae" property="lae" jdbcType="DECIMAL" />
+		<result column="posDesc" property="posDesc" jdbcType="VARCHAR" />
+		<result column="reverseLim" property="reverseLim" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="region" property="region" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="marked" property="marked" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="getTrfieldsSpecial" resultMap="TrfieldsVoMap"
+		parameterType="Object">
+		SELECT
+			t.trainFieldId,
+			t. NAME,
+			t.schoolId,
+			t.lge,
+			t.lae,
+			t.posDesc,
+			t.reverseLim,
+			t.phoneNum,
+			t.region,
+			t1.region regionName,
+			(
+				CASE
+				WHEN t.trainFieldId IN (
+					SELECT
+						trfield_id
+					FROM
+						t_u_trfield
+					WHERE
+						1=1
+						<!-- and imei = #{imei}  -->
+					GROUP BY
+						trfield_id
+				) THEN
+					1
+				ELSE
+					0
+				END
+			) AS marked
+		FROM
+			t_s_trfield t
+		INNER JOIN t_s_region t1 ON t.region = t1.rid
+		WHERE
+			1 = 1
+		<trim suffixOverrides=",">
+			<if test="region != null and region != ''">
+				and t.region like #{region}"%"
+			</if>
+			<if test="name != null and name != ''">
+				and t.name like "%"#{name}"%"
+			</if>
+		</trim>
+	</select>
+
+</mapper>

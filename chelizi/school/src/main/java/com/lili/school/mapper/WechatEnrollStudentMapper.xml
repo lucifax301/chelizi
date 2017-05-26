@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatEnrollStudentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatEnrollStudent">
+		<id column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="class_id" property="classId" jdbcType="INTEGER" />
+		<result column="class_name" property="className" jdbcType="VARCHAR" />
+		<result column="class_remark" property="classRemark" jdbcType="VARCHAR" />
+		<result column="drtype" property="drtype" jdbcType="TINYINT" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+		<result column="student_phone" property="studentPhone"
+			jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="pay_price" property="payPrice" jdbcType="INTEGER" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="pay_state" property="payState" jdbcType="TINYINT" />
+		<result column="pay_way" property="payWay" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="is_new" property="isNew" jdbcType="TINYINT" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="city_name" property="cityName" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		order_id, class_id, class_name, class_remark, drtype, coach_id, coach_name,
+		student_id,
+		student_name, student_phone, price, pay_price, pay_time, pay_state, pay_way,
+		status,
+		isdel,is_new, city_id, city_name, remark, ctime, mtime
+	</sql>
+	
+	 <sql id="myRowBoundsSQL">
+	    <if test="myRowBounds != null">
+	        limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		 </if>
+	 </sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_student
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryEnrollStudentList" resultMap="BaseResultMap" parameterType="com.lili.school.dto.WechatEnrollStudentDto">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_student
+		where isdel=0
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+						and coach_id= #{coachId}
+				</if>
+				<if test="classId != null and classId != ''">
+						and class_id= #{classId}
+				</if>
+				<if test="payState != null and payState != ''">
+						and pay_state= #{payState}
+				</if>
+			</trim>
+			<include refid="myRowBoundsSQL" />
+	</select>
+	
+	<select id="queryEnrollStudentInfo" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_student
+		where isdel =0
+			<trim suffixOverrides=",">
+				<if test="studentId != null and studentId != ''">
+						and student_id= #{studentId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+				<if test="classId != null and classId != ''">
+						and class_id= #{classId}
+				</if>
+			</trim>
+			limit 1
+	</select>
+	
+	<select id="queryNewEnrollStudent" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_enroll_student
+		where  isdel =0
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+						and coach_id= #{coachId}
+				</if>
+				<if test="payState != null and payState != ''">
+						and pay_state= #{payState}
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+			</trim>
+			order by pay_time desc limit 1
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_wechat_enroll_student
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		insert into t_wechat_enroll_student (order_id, class_id, class_name,
+		class_remark, drtype, coach_id,
+		coach_name, student_id, student_name,
+		student_phone, price, pay_price,
+		pay_time, pay_state, pay_way,
+		status, isdel,is_new, city_id,
+		city_name, remark, ctime,
+		mtime)
+		values (#{orderId,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER},
+		#{className,jdbcType=VARCHAR},
+		#{classRemark,jdbcType=VARCHAR}, #{drtype,jdbcType=TINYINT}, #{coachId,jdbcType=BIGINT},
+		#{coachName,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT},
+		#{studentName,jdbcType=VARCHAR},
+		#{studentPhone,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{payPrice,jdbcType=INTEGER},
+		#{payTime,jdbcType=TIMESTAMP}, #{payState,jdbcType=TINYINT},
+		#{payWay,jdbcType=VARCHAR},
+		#{status,jdbcType=TINYINT}, #{isdel,jdbcType=TINYINT},#{isNew,jdbcType=TINYINT}, #{cityId,jdbcType=INTEGER},
+		#{cityName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		insert into t_wechat_enroll_student
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="classId != null">
+				class_id,
+			</if>
+			<if test="className != null">
+				class_name,
+			</if>
+			<if test="classRemark != null">
+				class_remark,
+			</if>
+			<if test="drtype != null">
+				drtype,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="coachName != null">
+				coach_name,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="studentName != null">
+				student_name,
+			</if>
+			<if test="studentPhone != null">
+				student_phone,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="payPrice != null">
+				pay_price,
+			</if>
+			<if test="payTime != null">
+				pay_time,
+			</if>
+			<if test="payState != null">
+				pay_state,
+			</if>
+			<if test="payWay != null">
+				pay_way,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="isNew != null">
+				is_new,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="cityName != null">
+				city_name,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="classId != null">
+				#{classId,jdbcType=INTEGER},
+			</if>
+			<if test="className != null">
+				#{className,jdbcType=VARCHAR},
+			</if>
+			<if test="classRemark != null">
+				#{classRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="drtype != null">
+				#{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="coachName != null">
+				#{coachName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="studentName != null">
+				#{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentPhone != null">
+				#{studentPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="payPrice != null">
+				#{payPrice,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payState != null">
+				#{payState,jdbcType=TINYINT},
+			</if>
+			<if test="payWay != null">
+				#{payWay,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="isNew != null">
+				#{isNew,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				#{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateWechatEnrollStudent" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		update t_wechat_enroll_student
+		<set>
+			<if test="classId != null">
+				class_id = #{classId,jdbcType=INTEGER},
+			</if>
+			<if test="className != null">
+				class_name = #{className,jdbcType=VARCHAR},
+			</if>
+			<if test="classRemark != null">
+				class_remark = #{classRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="drtype != null">
+				drtype = #{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="studentName != null">
+				student_name = #{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentPhone != null">
+				student_phone = #{studentPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="payPrice != null">
+				pay_price = #{payPrice,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payState != null">
+				pay_state = #{payState,jdbcType=TINYINT},
+			</if>
+			<if test="payWay != null">
+				pay_way = #{payWay,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="isNew != null">
+				is_new = #{isNew,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+						and coach_id= #{coachId}
+				</if>
+				<if test="studentId != null and studentId != ''">
+						and student_id= #{studentId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+			</trim>
+	</update>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		update t_wechat_enroll_student
+		<set>
+			<if test="classId != null">
+				class_id = #{classId,jdbcType=INTEGER},
+			</if>
+			<if test="className != null">
+				class_name = #{className,jdbcType=VARCHAR},
+			</if>
+			<if test="classRemark != null">
+				class_remark = #{classRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="drtype != null">
+				drtype = #{drtype,jdbcType=TINYINT},
+			</if>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="coachName != null">
+				coach_name = #{coachName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="studentName != null">
+				student_name = #{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="studentPhone != null">
+				student_phone = #{studentPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="payPrice != null">
+				pay_price = #{payPrice,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payState != null">
+				pay_state = #{payState,jdbcType=TINYINT},
+			</if>
+			<if test="payWay != null">
+				pay_way = #{payWay,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="isNew != null">
+				is_new = #{isNew,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="cityName != null">
+				city_name = #{cityName,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatEnrollStudent">
+		update t_wechat_enroll_student
+		set class_id = #{classId,jdbcType=INTEGER},
+		class_name = #{className,jdbcType=VARCHAR},
+		class_remark = #{classRemark,jdbcType=VARCHAR},
+		drtype = #{drtype,jdbcType=TINYINT},
+		coach_id = #{coachId,jdbcType=BIGINT},
+		coach_name = #{coachName,jdbcType=VARCHAR},
+		student_id = #{studentId,jdbcType=BIGINT},
+		student_name = #{studentName,jdbcType=VARCHAR},
+		student_phone = #{studentPhone,jdbcType=VARCHAR},
+		price = #{price,jdbcType=INTEGER},
+		pay_price = #{payPrice,jdbcType=INTEGER},
+		pay_time = #{payTime,jdbcType=TIMESTAMP},
+		pay_state = #{payState,jdbcType=TINYINT},
+		pay_way = #{payWay,jdbcType=VARCHAR},
+		status = #{status,jdbcType=TINYINT},
+		isdel = #{isdel,jdbcType=TINYINT},
+		is_new = #{isNew,jdbcType=TINYINT},
+		city_id = #{cityId,jdbcType=INTEGER},
+		city_name = #{cityName,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</update>
+</mapper>

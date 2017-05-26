@@ -1,0 +1,33 @@
+
+<div class="edit-alert edit-alert-width change-error-students">
+<div class="mask"></div>
+<div class="main">
+<div id="change-error-students" class="content edit-alert-big-zin">
+	<div class="title">信息<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div><span class="mainColor"><b ng-bind="errDataList.canChange"></b></span> 位学员能重置此状态,<span class="error"><b ng-bind="errDataList.notChange"></b></span> 位学员不能重置此状态,请不要过多选择不同状态，以免重置失败</div>
+		<div class="margin-top-20">
+			<div class="table-responsive">
+				<table class="table table-bordered table-striped">
+				  <tr>
+				  	<td><b>姓名</b></td>
+				  	<td><b>学员所处状态</b></td>
+				  	<td><b>需要重置状态</b></td>
+				  	<td><b>是否能变更状态</b></td>
+				  </tr>
+				  <tr ng-repeat="item in errDataList.dataList">
+				  	<td ng-bind="item.studentName"></td>
+				  	<td ng-bind="item.applyexamAfter | studentStateText"></td>
+				  	<td ng-bind="item.applystateAfter |  studentStateText"></td>	
+				  	<td><span ng-show="item.canReset==0?true:false" class="ion-checkmark-round succes"></span><span ng-show="item.canReset==1?true:false" class="ion-close-round error"></span></td>
+				  </tr>
+				</table>
+			</div>
+		</div>	
+		<div class="chaozuo margin-top-30" >
+			<a ng-click="closeChanErrorStud($event)" class="btn btn-sm btn-primary closeAlert">确认</a>
+		</div>
+	</div>
+</div>
+</div>
+</div>

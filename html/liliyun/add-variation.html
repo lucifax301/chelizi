@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="variation">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>变更记录</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content bonus-content order-detail data-statistics student-position data-coupon">
+	<div class="d-title" style="border-bottom: 1px solid #ddd;">余额管理 &gt; 新建变更记录</div>
+	<!-- 主体内容 -->
+	<div class="d-variation">
+		<form class="form-horizontal">
+			<div class="d-group">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">用户类型</label>
+					<div class="col-sm-9">
+						<div  class="col-sm-6">
+							<input class="col-sm-3" ng-model="utype" type="radio" ng-checked="true"  class="form-control" name="utype" value="1">
+							<label class="col-sm-8">学员</label>
+						</div>
+						<div  class="col-sm-6">
+							<input class="col-sm-3" ng-model="utype" type="radio" class="form-control" name="utype" value="2">
+							<label class="col-sm-8">教练</label>
+						</div>
+
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">变更{{utype==1?'学员':'教练'}}</label>
+					<div class="col-sm-9">
+						<div class="input-group">
+							<input type="tel" class="form-control" maxlength="11" ng-model="phoneNum" placeholder="请输入手机号">
+							<div ng-click="stuSearch(phoneNum)" class="input-group-addon d-cursor">搜索</div>
+						</div>
+						<div ng-class="[isDatas?'show':'hide']">
+							<span style="height: auto;" ng-show="datas?true:false"><i class="ion-checkmark-circled succes"></i>{{datas.name}} | {{searchSex}} | {{datas.idNumber}}</span>
+							<span ng-show="datas?false:true"><i class="ion-information-circled error"></i>没有找到相关信息</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">变更金额(元)</label>
+					<div class="col-sm-9">
+						<input ng-model="recharge" type="text" class="form-control" placeholder="请输入变更金额">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">变更理由</label>
+					<div class="col-sm-9">
+						<textarea ng-model="rcname" class="form-control" rows="3" placeholder="请输入变更理由"></textarea>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label"></label>
+				<div class="col-sm-9">
+					<a ng-click="addVariation()" class="btn btn-primary btn-sm">增加变更记录</a>
+				</div>
+			</div> -->
+			<div class="form-group margin-top-50">
+				<label class="col-sm-3 control-label"></label>
+				<div class="col-sm-9">
+					<a href="bonus-balance.html" class="btn btn-default padding-20" role="button">取消</a>
+					<a class="btn btn-primary margin-left-15 padding-20" role="button" ng-click="confirmVariation()">确认</a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- script -->
+<script>window.hideLoading()</script>
+<script src="assets/js/ng-js/add-variation.js"></script>
+</body>
+</html>

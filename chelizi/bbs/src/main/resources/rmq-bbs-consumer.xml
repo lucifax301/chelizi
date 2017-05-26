@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<!-- rocketmq属性文件注入 -->
+	<util:properties id="rmqbbs" location="classpath:rmq-bbs-consumer.properties"/>
+	<bean id="allocateMessageQueueAveragely" class="com.alibaba.rocketmq.client.consumer.rebalance.AllocateMessageQueueAveragely"></bean>
+	<bean id="bBSTopicHandleListener" class="com.lili.bbs.rmq.BBSTopicHandleListener"></bean>
+	
+	<bean id="bBSTopicHandleConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" init-method="start">
+		<property name="namesrvAddr" value="${mq.client.namesrvAddr}"></property>
+		<property name="instanceName" value="#{rmqbbs['rmq.instanceName']}"></property>
+		<property name="clientCallbackExecutorThreads" value="#{rmqbbs['rmq.CallbackExecutorThreads']}"></property>
+		<property name="pollNameServerInteval" value="#{rmqbbs['rmq.pollNameServerInteval']}"></property>
+		<property name="heartbeatBrokerInterval" value="#{rmqbbs['rmq.heartbeatBrokerInterval']}"></property>
+		<property name="persistConsumerOffsetInterval" value="#{rmqbbs['rmq.persistConsumerOffsetInterval']}"></property>
+		<property name="consumerGroup" value="#{rmqbbs['rmq.consumerGroup']}"></property>
+		<property name="messageModel" value="#{rmqbbs['rmq.messageModel']}"></property>
+		<property name="consumeFromWhere" value="#{rmqbbs['rmq.consumeFromWhere']}"></property>
+		<property name="allocateMessageQueueStrategy" ref="allocateMessageQueueAveragely"></property>
+		<property name="subscription">
+			<map>	
+				<entry key="#{rmqbbs['rmq.subscriptionkey']}" value="#{rmqbbs['rmq.subscriptionvalue']}"></entry>
+			</map>
+		</property>
+		<property name="messageListener" ref="bBSTopicHandleListener"></property>
+		<property name="consumeThreadMin" value="#{rmqbbs['rmq.consumeThreadMin']}"></property>
+		<property name="consumeThreadMax" value="#{rmqbbs['rmq.consumeThreadMax']}"></property>
+		<property name="consumeConcurrentlyMaxSpan" value="#{rmqbbs['rmq.consumeConcurrentlyMaxSpan']}"></property>
+		<property name="pullThresholdForQueue" value="#{rmqbbs['rmq.pullThresholdForQueue']}"></property>
+		<property name="pullInterval" value="#{rmqbbs['rmq.pullInterval']}"></property>
+		<property name="consumeMessageBatchMaxSize" value="#{rmqbbs['rmq.consumeMessageBatchMaxSize']}"></property>
+		<property name="pullBatchSize" value="#{rmqbbs['rmq.pullBatchSize']}"></property>
+	</bean>
+
+	
+</beans>

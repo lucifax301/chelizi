@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Bonus">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>余额管理</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content bonus-content order-detail data-statistics student-position">
+	<div class="title">
+		<div class="d-title">余额管理</div>
+		<ul class="table-li">
+			<li><a href="bonus.html" ng-if="130401|isAccessShow">奖金列表</a></li>
+			<li class="active" ng-if="130501|isAccessShow"><a href="bonus-balance.html">变更余额列表</a></li>
+		</ul>
+	</div>
+
+	<!-- 主体内容 -->
+	<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header">余额列表</div>
+			<div class="content">
+				<div class="search">
+
+					<div class="line">
+						<div>筛选时间</div>
+						<ul>
+							<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+							<li ng-click="getDataForTime($event,'0')">最近7天</li>
+							<li ng-click="getDataForTime($event,'1')">最近15天</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+							<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+						</div>
+					</div>
+					<div class="line">
+						<div>审核状态</div>
+						<ul>
+							<li ng-click="getDataForVstate($event,'')" class="active">全部</li>
+							<li ng-click="getDataForVstate($event,0)">待审核</li>
+							<li ng-click="getDataForVstate($event,1)">已通过</li>
+							<li ng-click="getDataForVstate($event,2)">已拒绝</li>
+						</ul>
+					</div>
+					<div class="line">
+						<div>用户类型</div>
+						<ul>
+							<li ng-click="getDataForUtype($event,'')" class="active">全部</li>
+							<li ng-click="getDataForUtype($event,1)">学员</li>
+							<li ng-click="getDataForUtype($event,2)">教练</li>
+						</ul>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<a ng-click="setVpass()" class="btn btn-sm btn-primary" ng-if="130502|isAccessShow">审核通过</a>
+						<a ng-click="setVfail()" class="btn btn-sm btn-danger" ng-if="130503|isAccessShow">审核不通过</a>
+						<a href="add-variation.html" class="btn btn-sm btn-primary margin-left-15" ng-if="(130504|isAccessShow)&&(130506|isAccessShow)">新增变更记录</a>
+						<a ng-click="bonusDataExport()" class="btn btn-sm btn-primary margin-left-15" ng-if="130505|isAccessShow">数据导出</a>
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+							<td><b>变更账户</b></td>
+							<td><b>用户类型</b></td>
+							<td><b>姓名</b></td>
+							<td><b>手机号</b></td>
+							<td><b>变更金额(元)</b></td>
+							<td><b>变更理由</b></td>
+							<td><b>审核状态</b></td>
+							<td><b>创建人</b></td>
+							<td><b>创建时间</b></td>
+							<td><b>审核通过时间</b></td>
+							<td><b>备注</b></td>
+						</tr>
+						<tr ng-repeat="item in datas">
+							<td align="center"><input type="checkbox" id="{{item.rrid}}" ng-click="updateSelection($event,item.rrid)" ng-checked="isSelected(item.rrid)"></td>
+							<td ng-bind="item.studentId"></td>
+							<td ng-bind="item.utype | uType"></td>
+							<td ng-bind="item.name"></td>
+							<td ng-bind="item.mobile"></td>
+							<td ng-bind="item.recharge/100"></td>
+							<td ng-bind="item.rcname"></td>
+							<td ng-class="{green: item.vstate==1,error:item.vstate==2}" ng-bind="item.vstate | verifyType"></td>
+							<td ng-bind="item.createUser"></td>
+							<td ng-bind="item.ctime | timeTex"></td>
+							<td ng-bind="item.getTime | timeTex"></td>
+							<td ng-bind="item.reason"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/bonus-balance.js"></script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.StudentVipMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.StudentVip" >
+    <id column="vipId" property="vipId" jdbcType="INTEGER" />
+    <result column="vipName" property="vipName" jdbcType="VARCHAR" />
+    <result column="vipNickName" property="vipNickName" jdbcType="VARCHAR" />
+    <result column="vipCustomerManager" property="vipCustomerManager" jdbcType="VARCHAR" />
+    <result column="vipContactPhone" property="vipContactPhone" jdbcType="VARCHAR" />
+    <result column="citys" property="citys" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="chargeDiscountTmpId" property="chargeDiscountTmpId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.student.dto.StudentVipWithBLOBs" extends="BaseResultMap" >
+    <result column="vipProtocol" property="vipProtocol" jdbcType="LONGVARCHAR" />
+    <result column="vipPrivilege" property="vipPrivilege" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vipId, vipName, vipNickName, vipCustomerManager, vipContactPhone, citys, operator, 
+    ctime, mtime, extra, chargeDiscountTmpId
+  </sql>
+  <sql id="Blob_Column_List" >
+    vipProtocol, vipPrivilege
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.student.dto.StudentVipExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.student.dto.StudentVipExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_u_student_vip
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_u_student_vip
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.student.dto.StudentVipExample" >
+    delete from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.StudentVipWithBLOBs" >
+    insert into t_u_student_vip (vipId, vipName, vipNickName, 
+      vipCustomerManager, vipContactPhone, citys, 
+      operator, ctime, mtime, 
+      extra, chargeDiscountTmpId, vipProtocol, vipPrivilege
+      )
+    values (#{vipId,jdbcType=INTEGER}, #{vipName,jdbcType=VARCHAR}, #{vipNickName,jdbcType=VARCHAR}, 
+      #{vipCustomerManager,jdbcType=VARCHAR}, #{vipContactPhone,jdbcType=VARCHAR}, #{citys,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{extra,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{vipProtocol,jdbcType=LONGVARCHAR}, #{vipPrivilege,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.StudentVipWithBLOBs" >
+    insert into t_u_student_vip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        vipId,
+      </if>
+      <if test="vipName != null" >
+        vipName,
+      </if>
+      <if test="vipNickName != null" >
+        vipNickName,
+      </if>
+      <if test="vipCustomerManager != null" >
+        vipCustomerManager,
+      </if>
+      <if test="vipContactPhone != null" >
+        vipContactPhone,
+      </if>
+      <if test="citys != null" >
+        citys,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="chargeDiscountTmpId != null" >
+        chargeDiscountTmpId,
+      </if>
+      <if test="vipProtocol != null" >
+        vipProtocol,
+      </if>
+      <if test="vipPrivilege != null" >
+        vipPrivilege,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vipId != null" >
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="vipName != null" >
+        #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipNickName != null" >
+        #{vipNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipCustomerManager != null" >
+        #{vipCustomerManager,jdbcType=VARCHAR},
+      </if>
+      <if test="vipContactPhone != null" >
+        #{vipContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="citys != null" >
+        #{citys,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeDiscountTmpId != null" >
+        #{chargeDiscountTmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="vipProtocol != null" >
+        #{vipProtocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vipPrivilege != null" >
+        #{vipPrivilege,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.student.dto.StudentVipExample" resultType="java.lang.Integer" >
+    select count(*) from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_u_student_vip
+    <set >
+      <if test="record.vipId != null" >
+        vipId = #{record.vipId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipName != null" >
+        vipName = #{record.vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipNickName != null" >
+        vipNickName = #{record.vipNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipCustomerManager != null" >
+        vipCustomerManager = #{record.vipCustomerManager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipContactPhone != null" >
+        vipContactPhone = #{record.vipContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citys != null" >
+        citys = #{record.citys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vipProtocol != null" >
+        vipProtocol = #{record.vipProtocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.vipPrivilege != null" >
+        vipPrivilege = #{record.vipPrivilege,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_u_student_vip
+    set vipId = #{record.vipId,jdbcType=INTEGER},
+      vipName = #{record.vipName,jdbcType=VARCHAR},
+      vipNickName = #{record.vipNickName,jdbcType=VARCHAR},
+      vipCustomerManager = #{record.vipCustomerManager,jdbcType=VARCHAR},
+      vipContactPhone = #{record.vipContactPhone,jdbcType=VARCHAR},
+      citys = #{record.citys,jdbcType=VARCHAR},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      vipProtocol = #{record.vipProtocol,jdbcType=LONGVARCHAR},
+      vipPrivilege = #{record.vipPrivilege,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_u_student_vip
+    set vipId = #{record.vipId,jdbcType=INTEGER},
+      vipName = #{record.vipName,jdbcType=VARCHAR},
+      vipNickName = #{record.vipNickName,jdbcType=VARCHAR},
+      vipCustomerManager = #{record.vipCustomerManager,jdbcType=VARCHAR},
+      vipContactPhone = #{record.vipContactPhone,jdbcType=VARCHAR},
+      citys = #{record.citys,jdbcType=VARCHAR},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.StudentVipWithBLOBs" >
+    update t_u_student_vip
+    <set >
+      <if test="vipName != null" >
+        vipName = #{vipName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipNickName != null" >
+        vipNickName = #{vipNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="vipCustomerManager != null" >
+        vipCustomerManager = #{vipCustomerManager,jdbcType=VARCHAR},
+      </if>
+      <if test="vipContactPhone != null" >
+        vipContactPhone = #{vipContactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="citys != null" >
+        citys = #{citys,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="vipProtocol != null" >
+        vipProtocol = #{vipProtocol,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="vipPrivilege != null" >
+        vipPrivilege = #{vipPrivilege,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.student.dto.StudentVipWithBLOBs" >
+    update t_u_student_vip
+    set vipName = #{vipName,jdbcType=VARCHAR},
+      vipNickName = #{vipNickName,jdbcType=VARCHAR},
+      vipCustomerManager = #{vipCustomerManager,jdbcType=VARCHAR},
+      vipContactPhone = #{vipContactPhone,jdbcType=VARCHAR},
+      citys = #{citys,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR},
+      vipProtocol = #{vipProtocol,jdbcType=LONGVARCHAR},
+      vipPrivilege = #{vipPrivilege,jdbcType=LONGVARCHAR}
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.StudentVip" >
+    update t_u_student_vip
+    set vipName = #{vipName,jdbcType=VARCHAR},
+      vipNickName = #{vipNickName,jdbcType=VARCHAR},
+      vipCustomerManager = #{vipCustomerManager,jdbcType=VARCHAR},
+      vipContactPhone = #{vipContactPhone,jdbcType=VARCHAR},
+      citys = #{citys,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.lili.student.dto.StudentVipExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.lili.student.dto.StudentVipExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_student_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

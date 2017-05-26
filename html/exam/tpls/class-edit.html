@@ -1,0 +1,41 @@
+<div class="container2 container-addclass">
+    <div class="y-cell">
+        <div class="cell__hd">排班时间</div>
+        <div class="cell__bd">
+            <span ng-bind="dayInfo" class="font-light"></span> <span ng-bind="timeInfo" class="font-light"></span>
+        </div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">每小时价格</div>
+        <div class="cell__bd">
+            <span ng-bind="editData.outerPrice/100" class="font-light"></span>
+        </div>
+        <div class="cell__ft">元</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">C1车辆数</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input ml0" placeholder="C1车辆数" ng-model="editData.c1">
+        </div>
+        <div class="cell__ft">辆</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">C2车辆数</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input ml0" placeholder="C2车辆数" ng-model="editData.c2">
+        </div>
+        <div class="cell__ft">辆</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">奖励金额</div>
+        <div class="cell__bd">
+            <span ng-bind="editData.favorOut/100" class="font-light"></span>
+        </div>
+        <div class="cell__ft">元</div>
+    </div>
+    <button ng-click="submitClass($event)" class="button-submit border-r2 clear_border" style="margin-top: 120px;">提交</button>
+
+</div>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+
+

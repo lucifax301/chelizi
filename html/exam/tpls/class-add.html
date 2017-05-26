@@ -1,0 +1,71 @@
+
+<div class="container2 container-date line-gray20">
+    <div class="date-wrap y-box-flex">
+        <div class="box-1 text-center" ng-repeat="day in getDaysInfo" ng-class="{true:'hasClass'}[day.cls>0]" id="itemAuto{{$index}}">
+            <input type="checkbox" class="arrange-day" value="{{day.pdate}}" ng-click="selectDay($event)">
+            <div><i ng-bind="day.day|weekDay"></i><span ng-bind="day.pdate | timeTexD"></span></div>
+        </div>
+    </div>
+</div>
+<div class="container2 container-addclass">
+    <div class="settime">
+        <div class="y-cell item-auto-item" ng-repeat="step in timeSteps">
+            <div class="cell__hd"><span ng-if="$index==0">预约时间段</span></div>
+            <div class="cell__bd">
+                <input type="time" class="y__input date-time date-time-from" placeholder="开始时间" ng-model="step.timeFrom" ng-blur="checkTime($event,$index)">
+                <span>至</span>
+                <input type="time" class="y__input date-time date-time-to" placeholder="结束时间"  ng-model="step.timeTo">
+            </div>
+            <div class="cell__ft pr0" ng-if="$index>0"><i class="ion-ios-close-outline font-org f20" ng-click="objStepDel($index)"></i></div>
+        </div>
+        <div class="y-cell">
+            <div class="cell__hd"></div>
+            <div class="cell__bd">
+                <span ng-click="objStepAdd(1)" class="add-class-step"><i class="ion-ios-plus-outline font-org f18"></i>
+                    <span class="f15">1小时</span></span>
+                <span ng-click="objStepAdd(2)" class="add-class-step"><i class="ion-ios-plus-outline font-org f18"></i>
+                    <span class="f15">2小时</span></span>
+            </div>
+        </div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">每小时价格</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input" placeholder="每小时价格" ng-model="outerPrice">
+        </div>
+        <div class="cell__ft">元</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">C1车辆数</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input" placeholder="C1车辆数" ng-model="c1">
+        </div>
+        <div class="cell__ft">辆</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">C2车辆数</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input" placeholder="C2车辆数" ng-model="c2">
+        </div>
+        <div class="cell__ft">辆</div>
+    </div>
+    <div class="y-cell">
+        <div class="cell__hd">奖励金额</div>
+        <div class="cell__bd">
+            <input type="number" class="y__input" placeholder="每小时奖励金额" ng-model="favorOut">
+        </div>
+        <div class="cell__ft">元</div>
+    </div>
+    <button ng-click="submitClass($event)" class="button-submit border-r2 clear_border" style="margin-top: 120px;">提交</button>
+</div>
+<div class="container1 container-success" style="display: none;">
+    <i class="ion-checkmark-circled"></i>
+    <p class="f24" style="margin-top: 60px;">排班成功</p>
+    <div class="pt30 pb30 mt30 border_top border_bottom text-center">
+        <span ng-bind="pdateMsg"></span>
+        <p class="text-right"><a href="#/class-view?pdatelink={{pdateLink}}">查看 >></a></p>
+    </div>
+
+</div>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+

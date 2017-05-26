@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ArrangeExamClass">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>排班管理</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+    <script src="assets/common/js/echarts.common.min.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>考场管理 > 排班</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">排班管理</div>
+			<div class="content">
+                <div class="z-index-days">
+                    <table class="z-form-col2 z-arrange-exam-form z-noborder z-mt20">
+                        <tr class="z-input-valid">
+                            <td width="70">
+                                <span>练考日期：</span><br>
+                            </td>
+                            <td>
+                                <div class="z-select-days">
+                                    <div ng-repeat="day in getDaysInfo" ng-class="{true:'noArrangeClass'}[day.cls==0]" ng-click="setTheDay($event,day.pdate)">{{day.pdate|timeTexMD}}<span>{{day.day|weekDay}}</span><i class="class-mark"></i></div>
+                                </div>
+                            </td>
+                            <td width="100"><input type="text" name="customDate" id="customDate" class="form-control z-ml10 arrange-cdate" placeholder="自定义时间" ng-model="customDate" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <table class="table table-bordered z-arrange-class">
+                    <tr>
+                        <th colspan="6" class="z-tc">
+                            <span class="z-fl" ng-bind="theDay"></span>
+                            <span>预约概览</span>
+                        </th>
+                    </tr>
+                    <tr ng-if="getTheday.length>0" style="background: #e6f4fc;">
+                        <th style="background: none;">当日信息</th>
+                        <td>
+                            <span class="z-fl">外部均价:<span ng-bind="(outerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
+                            <span class="z-fr">内部均价:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
+                        </td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+c1All"></span><span class="z-fr">预留数:<span ng-bind="c1innerAll"></span></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+c2All"></span><span class="z-fr">预留数:<span ng-bind="c2innerAll"></span></span></td>
+                        <td><span class="arrange-process"><span class="proc-in" style="width: {{(c1bookAll + c2bookAll)/(c1All + c2All)*100}}%" ng-bind="(((c1bookAll + c2bookAll)/(c1All + c2All)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(c1bookAll + c2bookAll)+'/'+(c1All + c2All)"></span></td>
+                        <td class="edit">
+                            <a href="exam-ord.html?pdate={{theDay}}&currentOrder=1" target="_blank">查看订单</a>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in getTheday" ng-class="{true:'z-tr-disable'}[item.state==1]">
+                        <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span></th>
+                        <td>
+                            <span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
+                            <span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>
+                        </td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+item.c1"></span><span class="z-fr">预留数:<span ng-bind="item.c1inner"></span></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+item.c2"></span><span class="z-fr">预留数:<span ng-bind="item.c2inner"></span></span></td>
+                        <td><span class="arrange-process"><span class="proc-in" style="width: {{(item.c1book + item.c2book)/(item.c1 + item.c2)*100}}%" ng-bind="(((item.c1book + item.c2book)/(item.c1 + item.c2)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(item.c1book + item.c2book)+'/'+(item.c1 + item.c2)"></span></td>
+                        <td class="edit">
+                            <a href="exam-ord.html?pstart={{item.pstart}}&pend={{item.pend}}&classId={{item.id}}&currentOrder=1"  target="_blank">查看订单</a>
+                        </td>
+                    </tr>
+                    <tr ng-if="getTheday.length==0"><td colspan="6">
+                        <div style="margin: 30px auto;" class="z-t-c">
+                            <span class="z-font18">该日还没有进行排班</span><br>
+                        </div>
+                    </td></tr>
+                </table>
+
+                <div style="width: 500px; height: 400px; margin: 20px auto;" ng-if="getTheday.length>0">
+                    <div id="pieData" style="width: 500px; height: 400px;"></div>
+                </div>
+			</div>
+		</div>
+	</div>	
+</div>
+<script src="assets/js/ng-js/arrange-exam-class.js"></script>
+<script src="assets/common/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
+
+</body>
+</html>

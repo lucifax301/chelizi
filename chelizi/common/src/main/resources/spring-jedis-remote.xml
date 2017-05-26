@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p='http://www.springframework.org/schema/p'
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+   <bean id="sentinelConfigRemote" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+        <constructor-arg name="master" value="mymaster" />
+        <constructor-arg name="sentinelHostAndPorts">
+            <set>
+                <value>192.168.63.247:26379</value>
+            </set>
+        </constructor-arg>
+    </bean> 	
+   <bean  id="jedisPoolConfigRemote"  class="redis.clients.jedis.JedisPoolConfig" >  
+        <property  name="maxTotal"  value="${redis.pool.maxTotal}" />  
+        <property  name="maxIdle"  value="${redis.pool.maxIdle}" />   
+   </bean>
+   	<bean id="jedisConnectionFactoryRemote" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+   		<constructor-arg ref="sentinelConfigRemote" />
+		<property name="poolConfig" ref="jedisPoolConfig" />
+		<property name="timeout" value="${redis.timeout}" />
+		<property name="password" value="${redis.password}" />
+	</bean>
+	<bean id="redisTemplateRemote" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactoryRemote" >
+		<property name="keySerializer" ref="stringRedisSerializer"/>
+	    <property name="valueSerializer" ref="jdkSerializationRedisSerializer"/> 
+	    <property name="hashKeySerializer" ref="stringRedisSerializer" />
+	    <property name="hashValueSerializer" ref="jdkSerializationRedisSerializer"/>
+	</bean>
+	
+	<bean id="redisUtilRemote" class="com.lili.common.util.redis.RedisUtilRemote" >
+		<property name="redisTemplate" ref="redisTemplate"></property>
+		<property name="redisTemplateRemote" ref="redisTemplateRemote"></property>
+	</bean>	 
+	<bean id="redisUtilLocalRemote" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="redisUtil" />
+	    <property name="targetMethod" value="setRedisUtilRemote" />
+	    <property name="arguments" ref="redisUtilRemote"></property>
+	</bean>	
+</beans>

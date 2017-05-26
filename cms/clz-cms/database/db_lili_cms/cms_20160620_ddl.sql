@@ -1,0 +1,45 @@
+﻿CREATE TABLE `t_task_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `school_id` int(11) NOT NULL COMMENT '驾校ID',
+  `file_type` tinyint(4) NOT NULL COMMENT '文件类型：1-教练信息，2-学员信息，3-训练场信息，4-车辆信息，',
+  `file_name` varchar(255) NOT NULL COMMENT '上传的文件名',
+  `file_path` varchar(255) NOT NULL COMMENT '服务器文件存放路径',
+  `sum` int(11) DEFAULT '0' COMMENT '文件总记录数',
+  `suc_sum` int(11) DEFAULT '0' COMMENT '处理成功总数',
+  `fail_sum` int(11) DEFAULT '0' COMMENT '处理失败总数',
+  `status` tinyint(4) DEFAULT '1' COMMENT '处理状态：1-待处理，2-处理中，3-处理成功，4-处理失败',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '文件创建时间',
+  `handle_time` timestamp NULL DEFAULT NULL COMMENT '开始处理时间',
+  `cost_time` int(11) DEFAULT '0' COMMENT '文件处理耗时',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='驾校数据导入任务处理表';
+
+
+CREATE TABLE `t_task_fail_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `task_id` int(11) NOT NULL COMMENT '关联任务表ID',
+  `rowA` varchar(255) DEFAULT NULL COMMENT '第A列',
+  `rowB` varchar(255) DEFAULT NULL COMMENT '第B列',
+  `rowC` varchar(255) DEFAULT NULL COMMENT '第C列',
+  `rowD` varchar(255) DEFAULT NULL COMMENT '第D列',
+  `rowE` varchar(255) DEFAULT NULL COMMENT '第E列',
+  `rowF` varchar(255) DEFAULT NULL COMMENT '第F列',
+  `rowG` varchar(255) DEFAULT NULL COMMENT '第G列',
+  `rowH` varchar(255) DEFAULT NULL COMMENT '第H列',
+  `rowI` varchar(255) DEFAULT NULL COMMENT '第I列',
+  `rowJ` varchar(255) DEFAULT NULL COMMENT '第J列',
+  `rowK` varchar(255) DEFAULT NULL COMMENT '第K列',
+  `rowL` varchar(255) DEFAULT NULL COMMENT '第L列',
+  `rowM` varchar(255) DEFAULT NULL COMMENT '第M列',
+  `rowN` varchar(255) DEFAULT NULL COMMENT '第N列',
+  `rowO` varchar(255) DEFAULT NULL COMMENT '第O列',
+  `rowP` varchar(255) DEFAULT NULL COMMENT '第P列',
+  `rowQ` varchar(255) DEFAULT NULL COMMENT '第Q列',
+  `rowR` varchar(255) DEFAULT NULL COMMENT '第R列',
+  `rowS` varchar(255) DEFAULT NULL COMMENT '第S列',
+  `rowT` varchar(255) DEFAULT NULL COMMENT '第T列',
+  `rowU` varchar(255) DEFAULT NULL COMMENT '第U列',
+  `rowV` varchar(255) DEFAULT NULL COMMENT '第V列',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上传文件处理失败明细表';

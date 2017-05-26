@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p='http://www.springframework.org/schema/p'
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="redisResources" class="java.util.ArrayList">  
+        <constructor-arg>  
+        <list>  
+            <value>classpath*:jedis.properties</value>  
+        </list>  
+        </constructor-arg>  
+    </bean>  
+    
+	<bean id="redisProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+        <property name="order" value="11" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />   
+        <property name="locations" ref="redisResources" />  
+    </bean>
+    <bean id="genericPool" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
+    	<property name="maxTotal" value="${redis.pool.maxTotal}" />
+    	<property name="maxIdle" value="${redis.pool.maxIdle}" />
+    	<property name="minIdle" value="${redis.pool.minIdle}" />    	
+    </bean>
+    <bean id='masterNode1' class="redis.clients.jedis.HostAndPort">
+    	<constructor-arg  name="host" value="192.168.63.247" />  
+        <constructor-arg  name="port" value="7000" />  
+    </bean>
+    <bean id='masterNode2' class="redis.clients.jedis.HostAndPort">
+    	<constructor-arg name="host" value="192.168.63.247" />  
+        <constructor-arg name="port" value="7000" />  
+    </bean>
+    <bean id='masterNode3' class="redis.clients.jedis.HostAndPort">
+    	<constructor-arg name="host" value="192.168.63.247" />  
+        <constructor-arg name="port" value="7000" />  
+    </bean>
+	<bean id="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg >
+            <set>
+                <ref bean="masterNode1"/>
+                <ref bean="masterNode2"/>
+                <ref bean="masterNode3"/>
+            </set>
+        </constructor-arg>
+    </bean> 	
+    <bean id="binaryJedisCluster" class="redis.clients.jedis.BinaryJedisCluster">
+        <constructor-arg >
+            <set>
+                <ref bean="masterNode1"/>
+                <ref bean="masterNode2"/>
+                <ref bean="masterNode3"/>
+            </set>
+        </constructor-arg>
+    </bean>
+    
+	<bean id="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>
+	<bean id="valueSerializer" class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"></bean>    
+	<bean id="redisUtil" class="com.lili.common.util.redis.RedisUtil" ></bean>
+</beans>

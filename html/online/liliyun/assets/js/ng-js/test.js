@@ -1,0 +1,1 @@
+var app=angular.module("app",["ngFilter"]);app.controller("Test",["$scope",function(n){n.name="dingyu",n.testFun=function(a){alert(n.name)}}]);

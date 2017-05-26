@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-controller="formLogin">
+<head>
+    <meta charset="utf-8">
+    <title>登录喱喱驾培云</title>
+    <meta name="keywords" content="喱喱云,互联网驾校,网约平台,政府监管,驾校管理系统" />
+    <meta name="description" content="快乐学车，轻松考驾照！喱喱学车致力于推广随约随学、自主约考等一系列新理念，给您带来更多学车新体验！" />
+    <link rel="stylesheet" type="text/css" href="assets/css/base/minframe.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/website.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/PopLayer.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/chenchangji.css">
+    <script type="text/javascript" src="assets/js/thirdpart/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/validator/validator.min.js"></script>
+    <script type="text/javascript" src="assets/js/base/common.js"></script>
+    <script type="text/javascript" src="assets/js/base/PopLayer.js"></script>
+</head>
+
+<body ng-keydown="key($event);">
+<div class="page bg-gray">
+    <div class="container-wrap banner-common">
+        <div class="container">
+            <div class="apply-wrap apply-form">
+                <div class="apply-title">
+                    <h1 class="apply-title">欢迎来到喱喱驾培云</h1>
+                </div>
+                <div class="form-forget-pwd">
+                    <form id="formLog" class="alert-sm" novalidate>
+                        <div class="item form-group">
+                            <label><span class="f-required">*</span> 请输入登录手机号码</label>
+                            <input type="text" class="smooth form-control z-full-padding" placeholder="登录手机号码" data-validate-length-range="5,11" required="required" id="username">
+                        </div>
+                        <div class="item form-group">
+                            <label><span class="f-required">*</span> 请输入登录密码</label>
+                            <input type="password" class="smooth form-control z-full-padding" placeholder="6-20位登录密码" id="password" required="required">
+                        </div>
+                        <div class="item form-group">
+                            <label><span class="f-required">*</span> 请输入验证码</label><br>
+                            <input type="text" class="smooth form-control form-vcode" placeholder="请输入右边的验证码" id="authcode" required="required" style="width: 230px;">
+                            <img class="vcode" id="code" ng-click="refresh()">
+                        </div>
+                       <div class="form-group f14" style="margin-top:-5px;">
+                            <label><input id="isAutoLogin" type="checkbox">自动登录</label>
+                            <a href="web-forget-pwd.html" style="color:#35B9E9;margin:5px 3px 0 0 ;" class="fr">忘记密码</a>
+                        </div>  
+                        <div class="form-group" style="margin-top:-5px;">
+                            <span class="btn btn-a btn-sm smooth z-full z-tc lh40 f18" ng-click="logIn($event)">登录</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="z-clear"></div>
+    <div ng-include="'web-footer.html'"></div>
+</div>
+<script>
+var app = angular.module("app",[]);
+//登录表单
+app.controller("formLogin",["$scope",function($s){
+    $('form').on('blur', 'input[required]', validator.checkField)
+        .on('change', 'input[required]', validator.checkField)
+        .on('keyup', 'input[required]', validator.checkField);
+
+    $s.logIn = function($event){
+        var submit = true;
+        if (!validator.checkAll($("form#formLog"))) {
+            submit = false;
+        }
+        var params = {};
+        params.username = $("#username").val();
+        params.password = $("#password").val();
+        params.authcode = $("#authcode").val();
+        params.isAutoLogin = $("#isAutoLogin").is(':checked') == true ? "1" : "0";
+        if(submit) {
+            $.AJAX({
+                type : "POST",
+                url : config.basePath + "open/login",
+                data : params,
+                success : function (data) {
+                    if(data.code == 0) {
+                        if (params.isAutoLogin == 1) {
+                            localStorage.liliyun_username = params.username;
+                            localStorage.liliyun_isAutoLogin = 1;
+                            localStorage.liliyun_token = data.result.token;
+                        }
+                        window.location.href = config.webPath;
+                    } else if(data.code == 1) {
+                        Layer.alert({width:300,height:150,type:"msg",title:"帐号或密码错误！"});
+                        return false;
+                    } else {
+                        Layer.alert({width:300,height:150,type:"msg",title:data.msg});
+                        return false;
+                    }
+                }
+            });  
+        }      
+    }
+
+    $s.refresh = function() {
+        document.getElementById('code').src = config.basePath +　"open/authcode" + "?s=" + Math.random();
+    }
+
+    $s.refresh();
+
+    $s.key = function(e) {
+        if (e.keyCode == 13) {
+            $s.logIn();
+        }
+    }
+}])
+</script>
+</body>
+</html>

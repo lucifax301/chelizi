@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ApplicationAccount">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title ng-bind="applicationName"></title>
+    <link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+    <script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash">
+        <div class="title" ng-if="title"><h1 ng-bind="applicationName"></h1></div>
+        <div class="order-table table-margin common-table">
+            <!--未开通状态-->
+            <div class="d-account-text accountText" ng-show="accountText">
+                <h1>您尚未开通喱喱驾校钱包</h1>
+                <h2>使用喱喱驾校钱包可以随时查看和管理平台各项收益，高效进行各类资金结算</h2>
+                <a class="btn btn-sm btn-primary ng-scope" ng-click="opened()">申请开通</a>
+            </div>
+
+            <!--填写企业基本信息-->
+            <div class="basicInformation" ng-show="basicInformation">
+                <div class="d-load" ng-if="dLoad">
+                    <div class="load-h">1<i class="msg-h">填写企业基本信息</i></div><span></span>
+                    <div>2<i>填写喱喱企业账户</i></div><span></span>
+                    <div>3<i>等待喱喱审核</i></div>
+                </div>
+                <div class="content w-change-password d-change-password">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">商户名称：</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="30" ng-model="posName" class="form-control" placeholder="2-30个中文字符">
+                                <span ng-if="isposName" class="ion-minus-circled error"><em ng-bind="isposName"></em></span>
+                                <span ng-if="isposName===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">工商注册号：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="15" ng-model="RegistrationNumber" class="form-control" placeholder="15位数字">
+                                <span ng-if="isRegistrationNumber" class="ion-minus-circled error"><em ng-bind="isRegistrationNumber"></em></span>
+                                <span ng-if="isRegistrationNumber===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">组织机构代码：</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="20" ng-model="Organizations" class="form-control" placeholder="6-20位字母或数字">
+                                <span ng-if="isOrganizations" class="ion-minus-circled error"><em ng-bind="isOrganizations"></em></span>
+                                <span ng-if="isOrganizations===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">税务登记账号：</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="20" ng-model="TaxRegistration" class="form-control" placeholder="6-20位字母或数字">
+                                <span ng-if="isTaxRegistration"  class="ion-minus-circled error"><em ng-bind="isTaxRegistration"></em></span>
+                                <span ng-if="isTaxRegistration===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">对公账号：</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="20" ng-model="PublicAccount" class="form-control" placeholder="6-20位数字">
+                                <span ng-if="isPublicAccount" class="ion-minus-circled error"><em ng-bind="isPublicAccount"></em></span>
+                                <span ng-if="isPublicAccount===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">开户银行：</label>
+                            <div class="col-sm-6">
+                                <input type="text" maxlength="20" ng-model="BankDeposit" ng-focus="getDataBankDeposit()" class="form-control" placeholder="请输入开户银行">
+                                <span ng-if="isBankDeposit" class="ion-minus-circled error"><em ng-bind="isBankDeposit"></em></span>
+                                <span ng-if="isBankDeposit===0?true:false" class="ion-checkmark-circled succes"></span>
+                                <!--<select class="form-control" ng-model="BankDeposit" ng-click="getDataBankDeposit()">-->
+                                    <!--<option value="">-&#45;&#45;选择开户银行-&#45;&#45;</option>-->
+                                    <!--<option ng-model="BankDeposit" ng-bind="data.result.pageData"></option>-->
+                                <!--</select>-->
+                                <!--<span ng-if="isBankDeposit" class="ion-minus-circled error"><em ng-bind="isBankDeposit"></em></span>-->
+                                <!--<span ng-if="isBankDeposit===0?true:false" class="ion-checkmark-circled succes"></span>-->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">开户支行：</label>
+                            <div class="col-sm-6">
+                                <input type="text" ng-model="Branches" class="form-control" placeholder="请输入开户支行">
+                                <span ng-if="isBranches" class="ion-minus-circled error"><em ng-bind="isBranches"></em></span>
+                                <span ng-if="isBranches===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="textHide">
+                            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+                            <div class="col-sm-6">
+                                <span>注：申请变更商户信息后，提现功能暂不可用，经审核通过后方可使用</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <a ng-click="BasicInformation()" class="btn btn-primary" ng-show="BasicBtn">下一步</a>
+                                <a ng-click="ChangeInformation()" class="btn btn-primary" ng-show="ChangeBtn">确认提交</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--填写喱喱企业账户-->
+            <div class="businessAccount" ng-show="businessAccount">
+                <div class="d-load">
+                    <div class="load-h">1<i class="msg-h">填写企业基本信息</i></div><span class="load-h"></span>
+                    <div class="load-h">2<i class="msg-h">填写喱喱企业账户</i></div><span></span>
+                    <div>3<i>等待喱喱审核</i></div>
+                </div>
+                <div class="content w-change-password d-change-password">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-4 control-label">支付密码：</label>
+                            <div class="col-sm-6">
+                                <input type="password" maxlength="16" ng-model="password" class="form-control" placeholder="8-16的字母、数字或字符">
+                                <span ng-if="ispassword" class="ion-minus-circled error"><em ng-bind="ispassword"></em></span>
+                                <span ng-if="ispassword===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">确认密码：</label>
+                            <div class="col-sm-6">
+                                <input type="password" maxlength="16" ng-model="confirmPassword" class="form-control" placeholder="请重新输入您的密码">
+                                <span ng-if="isconfirmPassword" class="ion-minus-circled error"><em ng-bind="isconfirmPassword"></em></span>
+                                <span ng-if="isconfirmPassword===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">手机号：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="11" ng-model="telphone" class="form-control" placeholder="请输入手机号">
+                                <span ng-if="istelphone" class="ion-minus-circled error"><em ng-bind="istelphone"></em></span>
+                                <span ng-if="istelphone===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label"></label>
+                            <div class="col-sm-6">
+                                <button type="button" ng-disabled="!isClick" ng-click="ObtainCode()" class="btn btn-sm btn-primary">{{getMsgText}} {{nowMsgTime}}</button>
+                                <span ng-if="isobtainCode" class="ion-checkmark-circled succes d-code"><em ng-bind="isobtainCode"></em></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-4 control-label">验证码：</label>
+                            <div class="col-sm-6">
+                                <input type="tel" maxlength="6" ng-model="captcha" class="form-control" placeholder="请输入5-6位数字">
+                                <span ng-if="iscaptcha"  class="ion-minus-circled error"><em ng-bind="iscaptcha"></em></span>
+                                <span ng-if="iscaptcha===0?true:false" class="ion-checkmark-circled succes"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <a ng-click="BusinessAccount()" class="btn btn-primary">同意以下协议并提交</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-6">
+                                <textarea class="protocol">协议内容</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--等待喱喱审核-->
+            <div class="liliAudit" ng-if="liliAudit">
+                <div class="d-load">
+                    <div class="load-h">1<i class="msg-h">填写企业基本信息</i></div><span class="load-h"></span>
+                    <div class="load-h">2<i class="msg-h">填写喱喱企业账户</i></div><span class="load-h"></span>
+                    <div class="load-h">3<i class="msg-h">等待喱喱审核</i></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 d-account-text">
+                        <h1 style="margin-top: 0;"><i class="ion-android-time oringe"></i>申请已提交</h1>
+                        <h2>我们会在3个工作日内处理您的提交申请，请您耐心等候！</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!--审核未通过-->
+            <div class="auditNotpass" ng-if="auditNotpass">
+                <div class="row">
+                    <div class="col-md-12 d-account-text">
+                        <h1><i class="ion-ios-close error"></i>很遗憾！您提交的申请未审核通过</h1>
+                        <h2>填写的信息有误，查不到填写的对公账户</h2>
+                        <a href="schools-account-application.html" class="btn btn-sm btn-primary ng-scope">重新开通</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script>win.hideLoading()</script>
+<script src="assets/js/ng-js/angular-factory.js?v=6ce0c67ce71470826781015"></script>
+<script src="assets/js/ng-js/schools-account-application.js?v=01a1277d3a1470826781026"></script>
+</body>
+</html>

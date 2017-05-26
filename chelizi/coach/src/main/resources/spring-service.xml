@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+<bean id="coachServiceLocal" class="com.lili.coach.service.impl.CoachServiceImpl"></bean>
+<bean id="courseServiceLocal" class="com.lili.coach.service.impl.CourseServiceImpl"></bean>
+<bean id="courseSManagerLocal" class="com.lili.coach.manager.impl.CourseSManagerImpl"></bean>
+<bean id="coachManagerLocal" class="com.lili.coach.manager.impl.CoachManagerImpl"></bean>
+<bean id="coachCarManagerLocal" class="com.lili.coach.manager.impl.CoachCarManagerImpl"></bean>
+<bean id="carManagerLocal" class="com.lili.coach.manager.impl.CarManagerImpl"></bean>
+<bean id="schoolManagerLocal" class="com.lili.coach.manager.impl.SchoolManagerImpl"></bean>
+<bean id="trfieldManagerLocal" class="com.lili.coach.manager.impl.TrfieldManagerImpl"></bean>
+<bean id="trfieldsManagerLocal" class="com.lili.coach.manager.impl.TrfieldsManagerImpl"></bean>
+<bean id="trfieldRawManagerLocal" class="com.lili.coach.manager.impl.TrfieldRawManagerImpl"></bean>
+<!-- <bean id="noticeManagerLocal" class="com.lili.coach.manager.impl.NoticeManagerImpl"></bean> -->
+<bean id="arrangeTimeManagerLocal" class="com.lili.coach.manager.impl.ArrangeTimeManagerImpl"></bean>
+<bean id="regionManagerLocal" class="com.lili.coach.manager.impl.RegionManagerImpl"></bean>
+<bean id="brandCarManagerLocal" class="com.lili.coach.manager.impl.BrandCarManagerImpl"></bean>
+<bean id="coachErrorAppealManagerLocal" class="com.lili.coach.manager.impl.CoachErrorAppealManagerImpl"></bean>
+</beans>

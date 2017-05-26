@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="WithdrawCash">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>提现</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<style>
+		.custom-msg-but{overflow:hidden;}
+		.custom-msg-but div{text-align:center;margin-top:20px;}
+		.custom-msg-but div button{margin-right:10px;}
+	</style>
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body id="bodyCon">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="title">
+			<div class="d-title">提现</div>
+			<ul class="table-li">
+				<li class="active" ng-if="130601|isAccessShow"><a href="withdraw-cash.html">个人提现</a></li>
+				<li><a href="withdraw-school.html" ng-if="130701|isAccessShow">驾校提现</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">个人提现记录</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+						<div class="line">
+							<div>筛选状态</div>
+							<ul>
+								<li ng-click="getDataForState($event,'')" class="active">全部</li>
+								<li ng-click="getDataForState($event,0)">审核中</li>
+								<li ng-click="getDataForState($event,3)">已确认</li>
+								<li ng-click="getDataForState($event,4)">银行处理中</li>
+								<li ng-click="getDataForState($event,5)">银行处理失败</li>
+								<li ng-click="getDataForState($event,1)">交易成功</li>
+								<li ng-click="getDataForState($event,2)">提现失败</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>高级查询</div>
+							<div class="input-group search-more-condition">
+								<select id="search_type" ng-model="searchType" class="form-control">
+									<option value="cardName" selected="selected">户名</option>
+									<option value="phoneNo">电话号码</option>
+								</select>
+								<input id="search_placeholder" type="text" ng-model="search" class="form-control" placeholder="输入户名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-6">
+							<a ng-if="130602|isAccessShow" ng-click="finaConfirm()" class="btn btn-sm btn-primary">财务确认</a>
+							<a ng-if="130603|isAccessShow" ng-click="RefusedToFinance()" class="btn btn-sm btn-primary margin-left-15">财务拒绝</a>
+							<a ng-if="130604|isAccessShow" ng-click="theCashier()" class="btn btn-sm btn-primary margin-left-15">出纳转账</a>
+							<a ng-if="130605|isAccessShow" ng-click="success()" class="btn btn-sm btn-success margin-left-15">提现成功</a>
+							<a ng-if="130606|isAccessShow" ng-click="error()" class="btn btn-sm btn-danger margin-left-15">提现失败</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-2 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" ng-selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-with-style table-withdraw-cash">
+							<tr>
+								<td align="center" style="width:80px;"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+								<td><b>申请时间</b></td>
+								<td><b>户名</b></td>
+								<td><b>电话</b></td>
+								<td><b>提现金额</b></td>
+								<td><b>账户余额</b></td>
+								<td><b>开户行</b></td>
+								<td><b>卡号</b></td>
+								<td><b>提现状态</b></td>
+								<td><b>处理人</b></td>
+								<td><b>财务确认时间</b></td>
+								<td><b>出纳转账时间</b></td>
+								<td><b>银行反馈时间</b></td>
+								<td><b>备注</b></td>
+							</tr>
+							<tr ng-repeat="data in datas" ng-class="{'disable-bac': data.orderState!=0?true:false}">
+								<td align="center"><input ng-disabled="data.checkStatus==1||data.checkStatus==2?true:false" type="checkbox" id="{{data.id}}" ng-click="updateSelection($event,data.id)" ng-checked="isSelected(data.id)" ></td>
+								<td ng-bind="data.applyTime | timeTex"></td>
+								<td><a ng-href="{{data.userType==1?'coach-details.html?coachId='+data.userId:'student-details.html?studentId='+data.userId}}" ng-bind="data.cardName" ng-if="((data.userType==1)&&(120304|isAccessShow)&&(120316|isAccessShow))||(data.userType!=1)&&(120523|isAccessShow)&&(120508|isAccessShow)"></a><span ng-if="!((data.userType==1)&&(120304|isAccessShow)&&(120316|isAccessShow))&&!(data.userType!=1)&&(120523|isAccessShow)&&(120508|isAccessShow)" ng-bind="data.cardName"></span></td>
+								<td ng-bind="data.mobile"></td>
+								<td ng-bind="data.money/100 | number"></td>
+								<td ng-bind="data.accountMoney/100 | number"></td>
+								<td ng-bind="data.bankName"></td>
+								<td ng-bind="data.bankCard"></td>
+								<td ng-class="{succes: data.checkStatus==1?true:false, error: data.checkStatus==2||data.checkStatus==5?true:false, default:data.checkStatus==0?true:false}" ng-bind="data.checkStatus | checkStatusTex"></td>
+								<td ng-bind="data.checker"></td>
+								<td ng-bind="data.checkTime | timeTex"></td>
+								<td ng-bind="data.transferTime | timeTex"></td>
+								<td ng-bind="data.bankResTime | timeTex"></td>
+								<td ng-class="{error: data.checkStatus==2?true:false}" ng-bind="data.checkRemark"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+					<div class="expel">
+						<div>
+							<button ng-if="130607|isAccessShow" ng-click="downLoadTxt()" type="button" class="btn btn-primary">下载txt文档</button>
+							<button ng-if="130608|isAccessShow" ng-click="downLoadExcel()" type="button" class="btn btn-primary pull-right">下载excel表格</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/withdraw-cash.js?v=4f0457737e1473298817705"></script>
+</body>
+</html>

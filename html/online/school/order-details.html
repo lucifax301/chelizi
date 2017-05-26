@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="OrderDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>订单详情</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<!-- <ol class="breadcrumb">
+		  <li><a href="order.html">订单</a></li>
+		  <li><a href="" onclick="location.href=window.location.href;">订单详情</a></li>
+		</ol> -->
+		<div class="top">
+			<div class="order-id">
+				<span class="light">订单号：</span>
+				<span id="orderId" ng-bind="data.orderId"></span>
+				<!-- <span class="payment" id="payment" ng-bind="data.payState | payStateTex"></span> -->
+			</div>
+			<div class="order-id">
+				<span class="light">订单状态：</span>
+				<span id="orderId" ng-bind="data.orderState | orderStateTex"></span>
+			</div>
+			<div class="pull-right">
+				<a ng-if="100202|isButtonShow" ng-click="closeOrder()" class="btn btn-sm btn-danger">关闭订单</a>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active">订单信息</li>
+			<li ng-click="tableSwitch($event)">操作日志</li>
+		</ul>
+		<div class="order-table" id="order-table">
+			<!-- 订单信息 -->
+			<div>
+				<table class="table table-bordered table-with-style">
+				  <tr>
+				  	<td class="t-150"><b>学员</b></td>
+				  	<td><a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.studentName"></a></td>
+				  	<td class="t-150"><b>教练</b></td>
+				  	<td><a href="coach-details.html?coachId={{data.coachId}}" ng-bind="data.coachName"></a></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>教练车</b></td>
+				  	<td><a href="car-details.html?carId={{data.carId}}" ng-bind="data.carNo"></a></td>
+				  	<td class="t-150"><b>训练场</b></td>
+				  	<td ng-bind="data.stuAddr"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>科目</b></td>
+				  	<td ng-bind="data.courseName"></td>
+				  	<td class="t-150"><b>驾考类别</b></td>
+				  	<td ng-bind="data.dltype | applyCarTypeTex"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>生成订单时间</b></td>
+				  	<td ng-bind="data.gtime | timeTex"></td>
+				  	<td class="t-150"><b>开始上课时间</b></td>
+				  	<td ng-bind="data.rstart | timeTex"></td>
+				  </tr>	
+				  <tr>
+				  	<td class="t-150"><b>课程结束时间</b></td>
+				  	<td ng-bind="data.rend | timeTex"></td>
+				  	<td class="t-150"><b>教练评论时间</b></td>
+				  	<td></td>
+				  </tr>	
+	     		  <tr>
+				  	<td class="t-150"><b>学员评论时间</b></td>
+				  	<td></td>
+				  	<td class="t-150"><b>支付时间</b></td>
+				  	<td ng-bind="data.payTime | timeTex"></td>
+				  </tr>
+				  <tr>
+				  	<td class="t-150"><b>订单金额</b></td>
+				  	<td ng-bind="data.price/100"></td>
+				  	<td class="t-150"><b>支付状态</b></td>
+				  	<td ng-bind="data.payState | payStateTex"></td>
+				  </tr>
+				</table><!-- 订单信息结束 -->
+			</div>
+			<!-- 操作日志 -->
+			<div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td class="w-20"><b>更新时间</b></td>
+					  	<td class="w-10"><b>操作人</b></td>
+					  	<td><b>操作内容</b></td>
+					  </tr>
+					  <tr ng-repeat="data in orderLogs">
+					  	<td ng-bind="data.operateTime | timeTex"></td>
+					  	<td ng-bind="data.userName"></td>
+					  	<td ng-bind="data.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="log-page" class="copot-page"></div>
+				</div><!-- 操作日志结束 -->
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/order-details.js?v=d307e8aa391470826781025"></script>
+</body>
+</html>

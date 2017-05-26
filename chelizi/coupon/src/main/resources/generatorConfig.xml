@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="jdbc.properties"/>
+    <classPathEntry
+            location="/Users/Poorzerg/.m2/repository/mysql/mysql-connector-java/5.1.27/mysql-connector-java-5.1.27.jar"/>
+    <context id="MysqlContext" targetRuntime="MyBatis3"
+             defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <!-- 注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.99:3306/db_lili?useUnicode=true&amp;characterEncoding=UTF-8"
+                        userId="root"
+                        password="chelizi">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.lili.coupon.dto"
+                            targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="com.lili.coupon.mapper"
+                         targetProject="src/main/java"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.lili.coupon.mapper.dao" targetProject="src/main/java"/>
+
+        <table tableName="t_s_vip_package" domainObjectName="VipPackage"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+        </table>
+
+    </context>
+</generatorConfiguration>

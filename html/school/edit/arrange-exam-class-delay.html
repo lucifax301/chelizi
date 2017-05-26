@@ -1,0 +1,29 @@
+<div class="edit-alert delay-exam-class">
+    <div class="mask"></div>
+    <div class="main">
+        <div id="delayExamClassCon" class="content">
+            <div class="title">延迟排班<span class="closeAlert"></span></div>
+            <div class="con-main">
+            <form class="">
+                <dl>
+                    <dt style="width: 120px;">延迟时间(分钟):<span class="z-fontred">*</span> </dt>
+                    <dd>
+                        <input type="number" ng-model="delayData.delayTime" class="form-control" min="10" max="" placeholder="介于1-{{delayData.minHours*60-1}}之间">
+                        <p>该预约排班时段为<span ng-bind="delayData.delayTex"></span><span>, 将被延迟{{delayData.delayTime?delayData.delayTime:0}}分钟</span>如果其后有连续时间，则也将顺延</p>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt style="width: 120px;">延迟原因:<span class="z-fontred">*</span></dt>
+                    <dd>
+                        <textarea ng-model="delayData.delayReason" rows="6" style="width: 278px; padding: 5px;"></textarea>
+                    </dd>
+                </dl>
+                <div class="chaozuo">
+                    <a class="btn btn-sm btn-default closeAlert">取消</a>
+                    <a ng-click="submitDelay($event)" class="btn btn-sm btn-primary">确认</a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>

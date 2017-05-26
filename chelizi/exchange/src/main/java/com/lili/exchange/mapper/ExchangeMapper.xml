@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exchange.mapper.ExchangeMapper">
+
+	<select id="selectBookInfo" resultType="com.lili.exchange.vo.ExSubPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, flowNo flowCode, t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName,
+		car_no vehicleNo, order_id recnum, course_id subjcode, pstart startTime, pend endTime, TIMESTAMPDIFF(MINUTE, pstart, pend) duration, gtime inputTime, 
+		'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType, t5.subjectId subject, NULL remark
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		<![CDATA[ WHERE gtime >= #{0} AND gtime < #{1} AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>   
+	</select>
+	
+	<select id="selectBookCancelInfo" resultType="com.lili.exchange.vo.ExSubPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, flowNo flowCode, t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName,
+		car_no vehicleNo, t1.order_id recnum, course_id subjcode, pstart startTime, pend endTime, TIMESTAMPDIFF(MINUTE, pstart, pend) duration, cltime inputTime, 
+		'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType, t5.subjectId subject, reseaon remark
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		JOIN t_order_cancel AS t6 ON t1.order_id = t6.order_id
+		<![CDATA[ WHERE t6.cltime > #{0} AND t6.cltime < #{1} AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>  
+	</select>
+	
+	<select id="selectTrainInfo" resultType="com.lili.exchange.vo.ExTrainPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, flowNo flowCode, t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName,
+		car_no vehicleNo, NULL simunum, t1.order_id recnum, course_id subjcode, NULL photo1, NULL photo2, NULL photo3, rstart startTime, rend endTime, TIMESTAMPDIFF(MINUTE, rstart, rend) duration, 
+		20 mileage, NULL avevelocity, NULL coacmt, t1.`order_id` subsCode, 'chelizi' inputUserCode, '车厘子' inputUserName, t1.rend inputTime, 'WEB' TERMINAL_TYPE, t5.subjectId subject
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		<![CDATA[ WHERE rend > #{0} AND rend < #{1} AND order_state IN (4, 5, 6, 7) AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>
+	</select>
+	
+	<select id="selectPayInfo" resultType="com.lili.exchange.vo.ExPayPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, CONCAT('C',dltype) vehicleType, CASE otype WHEN 3 THEN 2 WHEN 1 THEN 9 END trainningMode, NULL trainningTime,
+		CASE t2.isImport WHEN 1 THEN 1 WHEN 0 THEN 2 END chargeMode, CASE t2.isImport WHEN 1 THEN 2 WHEN 0 THEN 1 END payMode, -changeValue/100 cost, payWay payType, flowNo flowCode, 
+		t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName, car_no vehicleNo, t1.order_id trainInfoId, t1.order_id recnum, operateTime payTime, 
+		operateTime inputTime, 'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType, rstart trainBeginTime, rend trainEndTime, t5.subjectId subject
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		JOIN t_u_money AS t6 ON t1.order_id = t6.orderId AND t6.operateType = 5 AND t6.userType = 2
+		<![CDATA[ WHERE pay_time > #{0} AND pay_time < #{1} AND pay_state = 1 AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>
+	</select>
+	
+	<select id="selectJXPayInfo" resultType="com.lili.exchange.vo.ExPayPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, CONCAT('C',dltype) vehicleType, CASE otype WHEN 3 THEN 2 WHEN 1 THEN 9 END trainningMode, NULL trainningTime,
+		CASE t2.isImport WHEN 1 THEN 1 WHEN 0 THEN 2 END chargeMode, CASE t2.isImport WHEN 1 THEN 2 WHEN 0 THEN 1 END payMode, 0 cost, '其他' payType, flowNo flowCode, 
+		t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName, car_no vehicleNo, t1.order_id trainInfoId, t1.order_id recnum, gtime payTime, 
+		gtime inputTime, 'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType, rstart trainBeginTime, rend trainEndTime, (t5.subjectId+1)*2 subject
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		<![CDATA[ WHERE gtime > #{0} AND gtime < #{1} AND pay_state = 9 AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>
+	</select>
+	
+	<select id="selectCoachEvalInfo" resultType="com.lili.exchange.vo.ExEvalPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, flowNo flowCode, t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName,
+		1 type, ROUND(score/20) overall, t1.order_id trainInfoId, t5.subjectId subject, t5.subjectId part, t6.cotime evaluation, NULL evaCodes, NULL evaNames, 
+		t6.ctid codes, NULL NAMES, t6.one_word personalEvel, CONCAT(t1.order_id, '1') recnum, t6.cotime inputTime, 'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		JOIN t_coach_comment AS t6 ON t1.order_id = t6.order_id
+		<![CDATA[ WHERE t6.cotime > #{0} AND t6.cotime < #{1} AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>
+	</select>
+	
+	<select id="selectStuEvalOrder" resultType="java.lang.String">
+		SELECT DISTINCT t1.order_id orderId
+		FROM t_order AS t1 JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		JOIN t_stu_comment AS t6 ON t1.order_id = t6.order_id
+		<![CDATA[ WHERE t6.cotime > #{0} AND t6.cotime < #{1} AND t5.subjectId IN (2, 3) AND t3.cityId = 100100 ]]>
+	</select>
+	
+	<select id="selectStuEvalInfo" resultType="com.lili.exchange.vo.ExEvalPostVo">
+		SELECT 'chelizi' platnum, t4.jstId schoolId, t4.name schoolName, flowNo flowCode, t2.idNumber stuIdCard, t2.name stuName, t3.idNumber coachIdCard, t3.name coachName,
+		2 type, ROUND(score/20) overall, t1.order_id trainInfoId, t5.subjectId subject, t5.subjectId part, t6.cotime evaluation, NULL evaCodes, NULL evaNames, 
+		t6.ctid codes, NULL NAMES, t6.one_word personalEvel, CONCAT(t1.order_id, '2') recnum, t6.cotime inputTime, 'chelizi' inputUserCode, '车厘子' inputUserName, 'WEB' terminalType
+		FROM t_order AS t1 JOIN t_u_student AS t2 ON t1.student_id = t2.studentId
+		JOIN t_u_coach AS t3 ON t1.coach_id = t3.coachId
+		JOIN t_s_school AS t4 ON t3.schoolId = t4.schoolId 
+		JOIN t_s_coursenew AS t5 ON t1.course_id = t5.courseTemId
+		JOIN t_stu_comment AS t6 ON t1.order_id = t6.order_id
+		WHERE t1.order_id = #{0}
+		ORDER BY overall DESC
+	</select>
+	
+	<select id="selectTag" resultType="java.lang.String">
+ 		SELECT tag FROM t_comment_tag WHERE ctid IN (${ctids})
+	</select>
+	
+</mapper>

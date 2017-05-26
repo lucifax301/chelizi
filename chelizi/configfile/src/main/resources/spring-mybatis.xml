@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<bean id="databaseResources" class="java.util.ArrayList">  
+     <constructor-arg>  
+     <list>  
+         <value>classpath:jdbc.properties</value>  
+     </list>  
+     </constructor-arg>  
+ </bean>
+ <bean id="databaseProp" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+     <property name="order" value="53" />  
+     <property name="ignoreUnresolvablePlaceholders" value="true" />   
+     <property name="locations" ref="databaseResources" />  
+ </bean> 
+
+
+
+</beans>

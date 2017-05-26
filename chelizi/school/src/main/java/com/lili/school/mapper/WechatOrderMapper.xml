@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatOrderMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatOrder">
+		<id column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+		<result column="coach_img" property="coachImg" jdbcType="VARCHAR" />
+		<result column="coach_mobile" property="coachMobile" jdbcType="VARCHAR" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="school_id" property="schoolId" jdbcType="INTEGER" />
+		<result column="course_id" property="courseId" jdbcType="VARCHAR" />
+		<result column="course_name" property="courseName" jdbcType="VARCHAR" />
+		<result column="learn_addr" property="learnAddr" jdbcType="VARCHAR" />
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+		<result column="stu_img" property="stuImg" jdbcType="VARCHAR" />
+		<result column="stu_mobile" property="stuMobile" jdbcType="VARCHAR" />
+		<result column="dltype" property="dltype" jdbcType="TINYINT" />
+		<result column="lge" property="lge" jdbcType="DOUBLE" />
+		<result column="lae" property="lae" jdbcType="DOUBLE" />
+		<result column="stu_addr" property="stuAddr" jdbcType="VARCHAR" />
+		<result column="pstart" property="pstart" jdbcType="TIMESTAMP" />
+		<result column="pend" property="pend" jdbcType="TIMESTAMP" />
+		<result column="clz_num" property="clzNum" jdbcType="TINYINT" />
+		<result column="order_state" property="orderState" jdbcType="TINYINT" />
+		<result column="rstart" property="rstart" jdbcType="TIMESTAMP" />
+		<result column="rend" property="rend" jdbcType="TIMESTAMP" />
+		<result column="cstart" property="cstart" jdbcType="TIMESTAMP" />
+		<result column="cend" property="cend" jdbcType="TIMESTAMP" />
+		<result column="need_trans" property="needTrans" jdbcType="TINYINT" />
+		<result column="gtime" property="gtime" jdbcType="TIMESTAMP" />
+		<result column="atime" property="atime" jdbcType="TIMESTAMP" />
+		<result column="otype" property="otype" jdbcType="TINYINT" />
+		<result column="coorder" property="coorder" jdbcType="VARCHAR" />
+		<result column="ccid" property="ccid" jdbcType="INTEGER" />
+		<result column="car_id" property="carId" jdbcType="INTEGER" />
+		<result column="car_name" property="carName" jdbcType="VARCHAR" />
+		<result column="car_img" property="carImg" jdbcType="VARCHAR" />
+		<result column="car_no" property="carNo" jdbcType="VARCHAR" />
+		<result column="place_id" property="placeId" jdbcType="INTEGER" />
+		<result column="place_name" property="placeName" jdbcType="VARCHAR" />
+		<result column="place_lge" property="placeLge" jdbcType="DOUBLE" />
+		<result column="place_lae" property="placeLae" jdbcType="DOUBLE" />
+		<result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		order_id, coach_id, coach_name, coach_img, coach_mobile,
+		city_id, school_id,
+		course_id,
+		course_name, learn_addr, student_id,
+		stu_name, stu_img, stu_mobile, dltype, lge,
+		lae, stu_addr, pstart,
+		pend, clz_num, order_state, rstart, rend,
+		cstart, cend, need_trans,
+		gtime, atime, otype, coorder, ccid, car_id, car_name, car_img, car_no,
+		place_id,
+		place_name, place_lge, place_lae, operate_time
+	</sql>
+	
+	<select id="queryWechatOrder" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatOrder">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_order
+		where 1=1
+		 	<trim suffixOverrides=",">
+				<if test="ccid != null">
+					ccid = #{ccid},
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+				<if test="studentId != null and studentId != ''">
+						and student_id= #{studentId}
+				</if>
+			</trim>
+	</select>
+	
+	<select id="queryWechatOrderList" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatOrder">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_order
+		where 1=1
+		 	<trim suffixOverrides=",">
+				<if test="ccid != null">
+					ccid = #{ccid},
+				</if>
+				<if test="coachId != null and coachId != ''">
+						and coach_id= #{coachId}
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+				<if test="studentId != null and studentId != ''">
+						and student_id= #{studentId}
+				</if>
+			</trim>
+			order by cstart desc
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_order
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_wechat_order
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.vo.WechatOrder">
+		insert into t_wechat_order
+		(order_id, coach_id, coach_name,
+		coach_img, coach_mobile, city_id,
+		school_id, course_id, course_name,
+		learn_addr, student_id, stu_name,
+		stu_img, stu_mobile, dltype,
+		lge, lae, stu_addr, pstart,
+		pend, clz_num,
+		order_state,
+		rstart, rend, cstart,
+		cend, need_trans, gtime,
+		atime, otype,
+		coorder,
+		ccid, car_id, car_name,
+		car_img, car_no, place_id,
+		place_name,
+		place_lge, place_lae,
+		operate_time)
+		values (#{orderId,jdbcType=VARCHAR},
+		#{coachId,jdbcType=BIGINT},
+		#{coachName,jdbcType=VARCHAR},
+		#{coachImg,jdbcType=VARCHAR}, #{coachMobile,jdbcType=VARCHAR},
+		#{cityId,jdbcType=INTEGER},
+		#{schoolId,jdbcType=INTEGER},
+		#{courseId,jdbcType=VARCHAR},
+		#{courseName,jdbcType=VARCHAR},
+		#{learnAddr,jdbcType=VARCHAR}, #{studentId,jdbcType=BIGINT},
+		#{stuName,jdbcType=VARCHAR},
+		#{stuImg,jdbcType=VARCHAR},
+		#{stuMobile,jdbcType=VARCHAR},
+		#{dltype,jdbcType=TINYINT},
+		#{lge,jdbcType=DOUBLE}, #{lae,jdbcType=DOUBLE},
+		#{stuAddr,jdbcType=VARCHAR},
+		#{pstart,jdbcType=TIMESTAMP},
+		#{pend,jdbcType=TIMESTAMP}, #{clzNum,jdbcType=TINYINT},
+		#{orderState,jdbcType=TINYINT},
+		#{rstart,jdbcType=TIMESTAMP},
+		#{rend,jdbcType=TIMESTAMP},
+		#{cstart,jdbcType=TIMESTAMP},
+		#{cend,jdbcType=TIMESTAMP}, #{needTrans,jdbcType=TINYINT},
+		#{gtime,jdbcType=TIMESTAMP},
+		#{atime,jdbcType=TIMESTAMP},
+		#{otype,jdbcType=TINYINT},
+		#{coorder,jdbcType=VARCHAR},
+		#{ccid,jdbcType=INTEGER}, #{carId,jdbcType=INTEGER},
+		#{carName,jdbcType=VARCHAR},
+		#{carImg,jdbcType=VARCHAR},
+		#{carNo,jdbcType=VARCHAR},
+		#{placeId,jdbcType=INTEGER},
+		#{placeName,jdbcType=INTEGER}, #{placeLge,jdbcType=DOUBLE},
+		#{placeLae,jdbcType=DOUBLE},
+		#{operateTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatOrder">
+		insert into t_wechat_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="coachName != null">
+				coach_name,
+			</if>
+			<if test="coachImg != null">
+				coach_img,
+			</if>
+			<if test="coachMobile != null">
+				coach_mobile,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="courseName != null">
+				course_name,
+			</if>
+			<if test="learnAddr != null">
+				learn_addr,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="stuName != null">
+				stu_name,
+			</if>
+			<if test="stuImg != null">
+				stu_img,
+			</if>
+			<if test="stuMobile != null">
+				stu_mobile,
+			</if>
+			<if test="dltype != null">
+				dltype,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="stuAddr != null">
+				stu_addr,
+			</if>
+			<if test="pstart != null">
+				pstart,
+			</if>
+			<if test="pend != null">
+				pend,
+			</if>
+			<if test="clzNum != null">
+				clz_num,
+			</if>
+			<if test="orderState != null">
+				order_state,
+			</if>
+			<if test="rstart != null">
+				rstart,
+			</if>
+			<if test="rend != null">
+				rend,
+			</if>
+			<if test="cstart != null">
+				cstart,
+			</if>
+			<if test="cend != null">
+				cend,
+			</if>
+			<if test="needTrans != null">
+				need_trans,
+			</if>
+			<if test="gtime != null">
+				gtime,
+			</if>
+			<if test="atime != null">
+				atime,
+			</if>
+			<if test="otype != null">
+				otype,
+			</if>
+			<if test="coorder != null">
+				coorder,
+			</if>
+			<if test="ccid != null">
+				ccid,
+			</if>
+			<if test="carId != null">
+				car_id,
+			</if>
+			<if test="carName != null">
+				car_name,
+			</if>
+			<if test="carImg != null">
+				car_img,
+			</if>
+			<if test="carNo != null">
+				car_no,
+			</if>
+			<if test="placeId != null">
+				place_id,
+			</if>
+			<if test="placeName != null">
+				place_name,
+			</if>
+			<if test="placeLge != null">
+				place_lge,
+			</if>
+			<if test="placeLae != null">
+				place_lae,
+			</if>
+			<if test="operateTime != null">
+				operate_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="coachName != null">
+				#{coachName,jdbcType=VARCHAR},
+			</if>
+			<if test="coachImg != null">
+				#{coachImg,jdbcType=VARCHAR},
+			</if>
+			<if test="coachMobile != null">
+				#{coachMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				#{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="learnAddr != null">
+				#{learnAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="stuName != null">
+				#{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="stuImg != null">
+				#{stuImg,jdbcType=VARCHAR},
+			</if>
+			<if test="stuMobile != null">
+				#{stuMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="dltype != null">
+				#{dltype,jdbcType=TINYINT},
+			</if>
+			<if test="lge != null">
+				#{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				#{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="stuAddr != null">
+				#{stuAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="pstart != null">
+				#{pstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pend != null">
+				#{pend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="clzNum != null">
+				#{clzNum,jdbcType=TINYINT},
+			</if>
+			<if test="orderState != null">
+				#{orderState,jdbcType=TINYINT},
+			</if>
+			<if test="rstart != null">
+				#{rstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rend != null">
+				#{rend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cstart != null">
+				#{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				#{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="needTrans != null">
+				#{needTrans,jdbcType=TINYINT},
+			</if>
+			<if test="gtime != null">
+				#{gtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="atime != null">
+				#{atime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="otype != null">
+				#{otype,jdbcType=TINYINT},
+			</if>
+			<if test="coorder != null">
+				#{coorder,jdbcType=VARCHAR},
+			</if>
+			<if test="ccid != null">
+				#{ccid,jdbcType=INTEGER},
+			</if>
+			<if test="carId != null">
+				#{carId,jdbcType=INTEGER},
+			</if>
+			<if test="carName != null">
+				#{carName,jdbcType=VARCHAR},
+			</if>
+			<if test="carImg != null">
+				#{carImg,jdbcType=VARCHAR},
+			</if>
+			<if test="carNo != null">
+				#{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="placeId != null">
+				#{placeId,jdbcType=INTEGER},
+			</if>
+			<if test="placeName != null">
+				#{placeName,jdbcType=INTEGER},
+			</if>
+			<if test="placeLge != null">
+				#{placeLge,jdbcType=DOUBLE},
+			</if>
+			<if test="placeLae != null">
+				#{placeLae,jdbcType=DOUBLE},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatOrder">
+		update t_wechat_order
+		<set>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="coachName != null">
+				coach_name = #{coachName,jdbcType=VARCHAR},
+			</if>
+			<if test="coachImg != null">
+				coach_img = #{coachImg,jdbcType=VARCHAR},
+			</if>
+			<if test="coachMobile != null">
+				coach_mobile = #{coachMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				course_name = #{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="learnAddr != null">
+				learn_addr = #{learnAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="stuName != null">
+				stu_name = #{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="stuImg != null">
+				stu_img = #{stuImg,jdbcType=VARCHAR},
+			</if>
+			<if test="stuMobile != null">
+				stu_mobile = #{stuMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="dltype != null">
+				dltype = #{dltype,jdbcType=TINYINT},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="stuAddr != null">
+				stu_addr = #{stuAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="pstart != null">
+				pstart = #{pstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pend != null">
+				pend = #{pend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="clzNum != null">
+				clz_num = #{clzNum,jdbcType=TINYINT},
+			</if>
+			<if test="orderState != null">
+				order_state = #{orderState,jdbcType=TINYINT},
+			</if>
+			<if test="rstart != null">
+				rstart = #{rstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rend != null">
+				rend = #{rend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cstart != null">
+				cstart = #{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				cend = #{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="needTrans != null">
+				need_trans = #{needTrans,jdbcType=TINYINT},
+			</if>
+			<if test="gtime != null">
+				gtime = #{gtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="atime != null">
+				atime = #{atime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="otype != null">
+				otype = #{otype,jdbcType=TINYINT},
+			</if>
+			<if test="coorder != null">
+				coorder = #{coorder,jdbcType=VARCHAR},
+			</if>
+			<if test="ccid != null">
+				ccid = #{ccid,jdbcType=INTEGER},
+			</if>
+			<if test="carId != null">
+				car_id = #{carId,jdbcType=INTEGER},
+			</if>
+			<if test="carName != null">
+				car_name = #{carName,jdbcType=VARCHAR},
+			</if>
+			<if test="carImg != null">
+				car_img = #{carImg,jdbcType=VARCHAR},
+			</if>
+			<if test="carNo != null">
+				car_no = #{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="placeId != null">
+				place_id = #{placeId,jdbcType=INTEGER},
+			</if>
+			<if test="placeName != null">
+				place_name = #{placeName,jdbcType=VARCHAR},
+			</if>
+			<if test="placeLge != null">
+				place_lge = #{placeLge,jdbcType=DOUBLE},
+			</if>
+			<if test="placeLae != null">
+				place_lae = #{placeLae,jdbcType=DOUBLE},
+			</if>
+			<if test="operateTime != null">
+				operate_time = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where order_id = #{orderId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByWechatOrder" parameterType="com.lili.school.vo.WechatOrder">
+		update t_wechat_order
+		<set>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="coachName != null">
+				coach_name = #{coachName,jdbcType=VARCHAR},
+			</if>
+			<if test="coachImg != null">
+				coach_img = #{coachImg,jdbcType=VARCHAR},
+			</if>
+			<if test="coachMobile != null">
+				coach_mobile = #{coachMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				course_name = #{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="learnAddr != null">
+				learn_addr = #{learnAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="stuName != null">
+				stu_name = #{stuName,jdbcType=VARCHAR},
+			</if>
+			<if test="stuImg != null">
+				stu_img = #{stuImg,jdbcType=VARCHAR},
+			</if>
+			<if test="dltype != null">
+				dltype = #{dltype,jdbcType=TINYINT},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DOUBLE},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DOUBLE},
+			</if>
+			<if test="stuAddr != null">
+				stu_addr = #{stuAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="pstart != null">
+				pstart = #{pstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pend != null">
+				pend = #{pend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="clzNum != null">
+				clz_num = #{clzNum,jdbcType=TINYINT},
+			</if>
+			<if test="orderState != null">
+				order_state = #{orderState,jdbcType=TINYINT},
+			</if>
+			<if test="rstart != null">
+				rstart = #{rstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="rend != null">
+				rend = #{rend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cstart != null">
+				cstart = #{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				cend = #{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="needTrans != null">
+				need_trans = #{needTrans,jdbcType=TINYINT},
+			</if>
+			<if test="gtime != null">
+				gtime = #{gtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="atime != null">
+				atime = #{atime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="otype != null">
+				otype = #{otype,jdbcType=TINYINT},
+			</if>
+			<if test="coorder != null">
+				coorder = #{coorder,jdbcType=VARCHAR},
+			</if>
+			<if test="ccid != null">
+				ccid = #{ccid,jdbcType=INTEGER},
+			</if>
+			<if test="carId != null">
+				car_id = #{carId,jdbcType=INTEGER},
+			</if>
+			<if test="carName != null">
+				car_name = #{carName,jdbcType=VARCHAR},
+			</if>
+			<if test="carImg != null">
+				car_img = #{carImg,jdbcType=VARCHAR},
+			</if>
+			<if test="carNo != null">
+				car_no = #{carNo,jdbcType=VARCHAR},
+			</if>
+			<if test="placeId != null">
+				place_id = #{placeId,jdbcType=INTEGER},
+			</if>
+			<if test="placeName != null">
+				place_name = #{placeName,jdbcType=VARCHAR},
+			</if>
+			<if test="placeLge != null">
+				place_lge = #{placeLge,jdbcType=DOUBLE},
+			</if>
+			<if test="placeLae != null">
+				place_lae = #{placeLae,jdbcType=DOUBLE},
+			</if>
+			<if test="operateTime != null">
+				operate_time = #{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		 where 1=1
+		 	<trim suffixOverrides=",">
+				<if test="ccid != null">
+					and ccid = #{ccid}
+				</if>
+				<if test="orderId != null and orderId != ''">
+						and order_id= #{orderId}
+				</if>
+				<if test="studentId != null and studentId != ''">
+						and student_id= #{studentId}
+				</if>
+				<if test="stuMobile != null and stuMobile != ''">
+						and stu_mobile = #{stuMobile}
+				</if>
+			</trim>
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatOrder">
+		update
+		t_wechat_order
+		set coach_id = #{coachId,jdbcType=BIGINT},
+		coach_name =
+		#{coachName,jdbcType=VARCHAR},
+		coach_img =
+		#{coachImg,jdbcType=VARCHAR},
+		coach_mobile =
+		#{coachMobile,jdbcType=VARCHAR},
+		city_id = #{cityId,jdbcType=INTEGER},
+		school_id = #{schoolId,jdbcType=INTEGER},
+		course_id =
+		#{courseId,jdbcType=VARCHAR},
+		course_name =
+		#{courseName,jdbcType=VARCHAR},
+		learn_addr =
+		#{learnAddr,jdbcType=VARCHAR},
+		student_id =
+		#{studentId,jdbcType=BIGINT},
+		stu_name = #{stuName,jdbcType=VARCHAR},
+		stu_img = #{stuImg,jdbcType=VARCHAR},
+		stu_mobile =
+		#{stuMobile,jdbcType=VARCHAR},
+		dltype = #{dltype,jdbcType=TINYINT},
+		lge
+		= #{lge,jdbcType=DOUBLE},
+		lae = #{lae,jdbcType=DOUBLE},
+		stu_addr =
+		#{stuAddr,jdbcType=VARCHAR},
+		pstart = #{pstart,jdbcType=TIMESTAMP},
+		pend = #{pend,jdbcType=TIMESTAMP},
+		clz_num =
+		#{clzNum,jdbcType=TINYINT},
+		order_state =
+		#{orderState,jdbcType=TINYINT},
+		rstart = #{rstart,jdbcType=TIMESTAMP},
+		rend = #{rend,jdbcType=TIMESTAMP},
+		cstart =
+		#{cstart,jdbcType=TIMESTAMP},
+		cend = #{cend,jdbcType=TIMESTAMP},
+		need_trans = #{needTrans,jdbcType=TINYINT},
+		gtime =
+		#{gtime,jdbcType=TIMESTAMP},
+		atime = #{atime,jdbcType=TIMESTAMP},
+		otype
+		= #{otype,jdbcType=TINYINT},
+		coorder = #{coorder,jdbcType=VARCHAR},
+		ccid = #{ccid,jdbcType=INTEGER},
+		car_id = #{carId,jdbcType=INTEGER},
+		car_name = #{carName,jdbcType=VARCHAR},
+		car_img =
+		#{carImg,jdbcType=VARCHAR},
+		car_no = #{carNo,jdbcType=VARCHAR},
+		place_id = #{placeId,jdbcType=INTEGER},
+		place_name =
+		#{placeName,jdbcType=VARCHAR},
+		place_lge = #{placeLge,jdbcType=DOUBLE},
+		place_lae = #{placeLae,jdbcType=DOUBLE},
+		operate_time =
+		#{operateTime,jdbcType=TIMESTAMP}
+		where order_id =
+		#{orderId,jdbcType=VARCHAR}
+	</update>
+	
+</mapper>

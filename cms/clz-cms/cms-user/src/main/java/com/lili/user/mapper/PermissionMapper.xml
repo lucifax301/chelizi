@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.user.mapper.dao.PermissionMapper">
+	<resultMap id="BaseResultMap" type="com.lili.user.model.Permission">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="TINYINT" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+		<result column="channel_type" property="channelType" jdbcType="TINYINT" />
+		<result column="enabled" property="enabled" jdbcType="TINYINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, pid, url, type, enabled, remark,channel_type as channelType
+	</sql>
+
+	<select id="findBatch" parameterType="com.lili.user.model.PermissionBDTO"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_permission
+		Where
+		1=1
+		order by id asc
+	</select>
+
+	<select id="findInterfaceByUserId" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_permission a
+		<!-- inner join t_c_user_permission b on a.id = b.permission_id -->
+		where
+		<!-- b.user_id = #{userId} and -->
+		a.type = 0 and a.enabled = 0
+	</select>
+
+	<select id="findMenuByUserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_permission a
+		<!-- inner join t_c_user_permission b on a.id = b.permission_id -->
+		where
+		<!-- b.user_id = #{userId} and -->
+		a.type = 1 and a.enabled = 0
+		<if test="cmsChannel == 1">
+			and a.channel_type != 1
+		</if>
+		<if test="cmsChannel == 2">
+			and a.channel_type != 2
+		</if>
+	</select>
+	<select id="findBtnList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_c_permission a
+		<!-- inner join t_c_user_permission b on a.id = b.permission_id -->
+		where
+		<!-- user_id = #{userId} and -->
+		a.type = 2 and a.enabled = 0
+
+		<if test="cmsChannel == 1">
+			and a.channel_type != 1
+		</if>
+		<if test="cmsChannel == 2">
+			and a.channel_type != 2
+		</if>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_c_permission
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.user.model.Permission">
+		insert into t_c_permission (id, name, pid,
+		url, type, enabled,
+		remark,channel_type)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{pid,jdbcType=TINYINT},
+		#{url,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{enabled,jdbcType=TINYINT},
+		#{remark,jdbcType=VARCHAR}, #{channelType,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.user.model.Permission">
+		insert into t_c_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="channelType != null">
+				channel_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=TINYINT},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="channelType != null">
+				#{channelType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.user.model.Permission">
+		update t_c_permission
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=TINYINT},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled,jdbcType=TINYINT},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="channelType != null">
+				channel_type = #{channelType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.user.model.Permission">
+		update t_c_permission
+		set name = #{name,jdbcType=VARCHAR},
+		pid = #{pid,jdbcType=TINYINT},
+		url = #{url,jdbcType=VARCHAR},
+		type = #{type,jdbcType=TINYINT},
+		enabled = #{enabled,jdbcType=TINYINT},
+		remark = #{remark,jdbcType=VARCHAR},
+		channel_type = #{channelType,jdbcType=TINYINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

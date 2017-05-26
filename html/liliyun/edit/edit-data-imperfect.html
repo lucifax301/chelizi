@@ -1,0 +1,33 @@
+<div class="edit-alert data-imperfect">
+<div class="mask"></div>
+<div class="main">
+<div id="imperfect-alert" class="content">
+	<div class="title">资料不全<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit d-imperfect">
+			<p>请根据收到的资料选择身份信息</p>
+			<select ng-change="getStatusDatas(statusId)" ng-model="statusId" class="form-control jia-xiao"  ng-class="{'error-select':statusDataError?true:false}">
+				<option value="">选择身份信息</option>
+				<option ng-repeat="item in statusdatas" value="{{item.ptype}}" ng-bind="item.pdesc"></option>
+			</select><br>
+			<p>请选择缺失的报名资料</p>
+			<div class="row">
+				<ul class="col-md-12">
+					<li ng-repeat="data in perdatas">
+						<input type="checkbox" class="fl checkEd" id="{{data.pmid}}" ng-click="updateSelection($event,data.pmid)" ng-checked="isSelected(data.pmid)">
+						<p class="fl margin-left-10" ng-bind="data.name"></p>
+					</li>
+				</ul>
+			</div>
+			<p>请填写缺失的资料说明</p>
+			<textarea ng-model="$parent.textRemark" placeholder="请输入内容..."></textarea>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitImperfectMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+</div>
+</div>

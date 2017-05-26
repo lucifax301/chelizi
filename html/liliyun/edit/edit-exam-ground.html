@@ -1,0 +1,64 @@
+<div class="edit-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content edit-exam-ground" style="width: 500px;">
+	<div class="title">{{titleText}}考场 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+            <dl>
+                <dt>考场名称:</dt>
+                <dd><input type="text" ng-model="editData.name" class="form-control"></dd>
+            </dl>
+            <dl>
+                <dt>考场类型:</dt>
+                <dd>
+                    <div style="line-height: 34px;">
+                        <input name="examtype" type="radio" class="examtype z-checkbox z-mr10" value="2" ng-checked="editData.type.indexOf(2)>=0">科目二
+                        <input name="examtype" type="radio" class="examtype z-checkbox z-mr10 z-ml20" value="3" ng-checked="editData.type.indexOf(3)>=0">科目三
+                    </div>
+                </dd>
+            </dl>
+			<dl>
+				<dt>面积范围(m²):</dt>
+				<dd><input type="number" ng-model="editData.area" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>联系电话:</dt>
+				<dd><input type="text" ng-model="editData.mobile" maxlength="11" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>选择驾校:</dt>
+				<dd>
+                    <select ng-model="editData.cityId" id="city_id" class="form-control jia-xiao" ng-change="getSchools(editData.cityId)" ng-class="{'error-select':cityError?true:false}" style="width:130px;display:inline-block;">
+                        <option value="">请选择城市</option>
+                        <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+                    </select>
+					<select ng-model="editData.schoolId" ng-click="checkHaveCity()" ng-change="getSchoolId(editData.schoolId)" class="form-control jia-xiao" style="width:130px;display:inline-block;">
+					  <option value="">选择驾校</option>
+					  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>地理位置:</dt>
+				<dd><input type="text" ng-model="editData.address" class="form-control"></dd>
+			</dl>
+            <dl>
+                <dt>状态:</dt>
+                <dd>
+                    <div style="line-height: 34px;">
+                        <input type="radio" name="examstate" class="z-checkbox" ng-click="setExamState(0)" ng-checked="editData.state==0">启动
+                        <input type="radio" name="examstate" class="z-ml20 z-checkbox" ng-click="setExamState(1)" ng-checked="editData.state==1">禁用
+                    </div>
+                </dd>
+            </dl>
+            <div class="chaozuo">
+                <a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+                <a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+            </div>
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

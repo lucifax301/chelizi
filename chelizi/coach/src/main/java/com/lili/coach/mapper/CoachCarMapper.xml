@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachCarMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.CoachCar">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="carId" property="carId" jdbcType="INTEGER" />
+		<result column="addTime" property="addTime" jdbcType="TIMESTAMP" />
+		<result column="isExist" property="isExist" jdbcType="INTEGER" />
+		<result column="syncType" property="syncType" jdbcType="INTEGER" />
+		<result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		coachId,carId,addTime,isExist,syncType,syncTime
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1 and isExist = 0
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=BIGINT}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coachcar
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+	
+	<delete id="deleteCoachCar" parameterType="com.lili.coach.dto.CoachCar">
+		delete from
+			t_u_coachcar
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId,jdbcType=BIGINT}
+			</if>
+			<if test="carId != null and carId != ''">
+				and carId = #{carId,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</delete>
+	
+	<delete id="deleteByCoachId" parameterType="java.lang.Long">
+		delete from
+		t_u_coachcar
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByCarId" parameterType="java.lang.Integer">
+		delete from
+		t_u_coachcar
+		where carId = #{carId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.CoachCar">
+		insert into t_u_coachcar
+		(coachId,carId,addTime,isExist,syncType,syncTime)
+		values
+		(#{coachId,jdbcType=BIGINT},#{carId,jdbcType=INTEGER},#{addTime,jdbcType=TIMESTAMP},#{isExist,jdbcType=INTEGER},#{syncType,jdbcType=INTEGER},#{syncTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.CoachCar">
+		insert into t_u_coachcar
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="coachId != null">
+				coachId,
+			</if>
+			<if test="carId != null">
+				carId,
+			</if>
+			<if test="addTime != null">
+				addTime,
+			</if>
+			<if test="isExist != null">
+				isExist,
+			</if>
+			<if test="syncType != null">
+				syncType,
+			</if>
+			<if test="syncTime != null">
+				syncTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="carId != null">
+				#{carId,jdbcType=INTEGER},
+			</if>
+			<if test="addTime != null">
+				#{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isExist != null">
+				#{isExist,jdbcType=INTEGER},
+			</if>
+			<if test="syncType != null">
+				#{syncType,jdbcType=INTEGER},
+			</if>
+			<if test="syncTime != null">
+				#{syncTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.CoachCar">
+		update t_u_coachcar
+		<set>
+			<if test="coachId != null">
+				coachId = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="carId != null">
+				carId = #{carId,jdbcType=INTEGER},
+			</if>
+			<if test="addTime != null">
+				addTime = #{addTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isExist != null">
+				isExist = #{isExist,jdbcType=INTEGER},
+			</if>
+			<if test="syncType != null">
+				syncType = #{syncType,jdbcType=INTEGER},
+			</if>
+			<if test="syncTime != null">
+				syncTime = #{syncTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.CoachCar">
+		update
+		t_u_coachcar
+		set
+		coachId = #{coachId,jdbcType=BIGINT},
+		carId =
+		#{carId,jdbcType=INTEGER},
+		coachCarId = #{coachCarId,jdbcType=INTEGER},
+		addTime = #{addTime,jdbcType=TIMESTAMP},
+		isExist =
+		#{isExist,jdbcType=INTEGER},
+		syncType =
+		#{syncType,jdbcType=INTEGER},
+		syncTime =
+		#{syncTime,jdbcType=TIMESTAMP}
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.CoachCar">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coachcar
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<select id="countAll" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from t_u_coachcar
+		<include refid="Example_Where_Clause" />
+	</select>
+
+</mapper>

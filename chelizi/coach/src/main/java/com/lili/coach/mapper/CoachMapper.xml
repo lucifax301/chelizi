@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachMapper">
+	<resultMap id="BaseResultMap" type="com.lili.coach.dto.Coach">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="coachCarId" property="coachCarId" jdbcType="INTEGER" />
+		<result column="drLicence" property="drLicence" jdbcType="VARCHAR" />
+	    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="coachLevel" property="coachLevel" jdbcType="INTEGER" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="courses" property="courses" jdbcType="VARCHAR" />
+		<result column="coursesDesc" property="coursesDesc" jdbcType="VARCHAR" />
+		<result column="acceptOrderDis" property="acceptOrderDis"
+			jdbcType="INTEGER" />
+		<result column="wstate" property="wstate" jdbcType="INTEGER" />
+		<result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="coachCard" property="coachCard" jdbcType="VARCHAR" />
+		<result column="coachCardDate" property="coachCardDate" jdbcType="VARCHAR" />
+		<result column="bankcardNum" property="bankcardNum" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="bankAccName" property="bankAccName" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+		<result column="StuCoachID" property="StuCoachID" jdbcType="INTEGER" />
+		<result column="starLevel" property="starLevel" jdbcType="INTEGER" />
+		<result column="coachCardPhoto" property="coachCardPhoto" jdbcType="VARCHAR" />
+	    <result column="drPhoto" property="drPhoto" jdbcType="VARCHAR" />
+    	<result column="isNewDrPhoto" property="isNewDrPhoto" jdbcType="INTEGER" />
+    	<result column="drPhoto2" property="drPhoto2" jdbcType="VARCHAR" />
+		<result column="eventDesc" property="eventDesc" jdbcType="VARCHAR" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="checkDriveIdState" property="checkDriveIdState" jdbcType="INTEGER" />
+    	<result column="checkDrState" property="checkDrState" jdbcType="INTEGER" />
+    	<result column="checkDrRemark" property="checkDrRemark" jdbcType="VARCHAR" />
+		<result column="syncType" property="syncType" jdbcType="INTEGER" />
+		<result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+		<result column="agreement" property="agreement" jdbcType="INTEGER" />
+		<result column="pwstate" property="pwstate" jdbcType="INTEGER" />
+	   <result column="idNation" property="idNation" jdbcType="VARCHAR" />
+	   <result column="idBirthday" property="idBirthday" jdbcType="DATE" />
+	   <result column="idAddr" property="idAddr" jdbcType="VARCHAR" />
+	   <result column="idExpires" property="idExpires" jdbcType="DATE" />
+	   <result column="drNation" property="drNation" jdbcType="VARCHAR" />
+	   <result column="drAddr" property="drAddr" jdbcType="VARCHAR" />
+	   <result column="drFirst" property="drFirst" jdbcType="DATE" />
+	   <result column="drType" property="drType" jdbcType="TINYINT" />
+	   <result column="drExpires" property="drExpires" jdbcType="DATE" />
+	   <result column="drFileNo" property="drFileNo" jdbcType="VARCHAR" />
+	   <result column="coachCardType" property="coachCardType" jdbcType="TINYINT" />
+	   <result column="coachCardAuth" property="coachCardAuth" jdbcType="VARCHAR" />
+       <result column="coachAge" property="coachAge" jdbcType="INTEGER" />
+       <result column="state" property="state" jdbcType="INTEGER" />
+       <result column="reviveTime" property="reviveTime" jdbcType="TIMESTAMP" />    	
+       <result column="extra" property="extra" jdbcType="VARCHAR" />	
+       <result column="schoolAge" property="schoolAge" jdbcType="INTEGER" />
+       <result column="area" property="area" jdbcType="VARCHAR" />
+       <result column="coachTag" property="coachTag" jdbcType="VARCHAR" />
+       <result column="profile" property="profile" jdbcType="VARCHAR" />
+       <result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+       <result column="firstLogin" property="firstLogin" jdbcType="TIMESTAMP" />
+       <result column="lastLogin" property="lastLogin" jdbcType="TIMESTAMP" />
+       <result column="teachStudent" property="teachStudent" jdbcType="INTEGER" />
+       <result column="rongToken" property="rongToken" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+    coachId, schoolId, schoolName, coachCarId, drLicence, idNumber, cityId,cityName, coachLevel, name, sex, 
+    age, hometown, phoneNum, mailBox, headIcon, password, courses, coursesDesc, acceptOrderDis, 
+    performance, wstate, registerTime, coachCard, coachCardDate, bankcardNum, bankName, 
+    bankAccName, idPhotoFront, idPhotoBack, isImport, importSrc, StuCoachID, starLevel, 
+    coachCardPhoto, drPhoto, drPhoto2, isNewDrPhoto,eventDesc, checkIdState, checkDriveIdState, checkDrState, checkDrRemark, syncType, 
+    syncTime, agreement, pwstate, idNation, idBirthday, idAddr, idExpires, drNation, 
+    drAddr, drFirst, drType, drExpires, drFileNo, coachCardType, coachCardAuth, coachAge,
+    state,reviveTime,extra,schoolAge, area, coachTag, profile, qrcode, firstLogin,lastLogin,teachStudent,rongToken
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="coachId != null and coachId != ''">
+				and coachId = #{coachId}
+			</if>
+			<if test="name != null and name != ''">
+				and name like '%${name}%'
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="idNumber != null and idNumber != ''">
+				and idNumber = #{idNumber}
+			</if>
+			<if test="coachCard != null and coachCard != ''">
+				and coachCard = #{coachCard}
+			</if>
+			<if test="qrcode != null and qrcode != ''">
+				and qrcode = #{qrcode}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coach
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+	<select id="selectByPhoneNum" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coach
+		where phoneNum = #{phoneNum,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_u_coach
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.lili.coach.dto.Coach" useGeneratedKeys="true" keyProperty="id">
+    insert into t_u_coach (coachId, schoolId, coachCarId, 
+      drLicence, idNumber, cityId, 
+      coachLevel, name, sex, 
+      age, hometown, phoneNum, 
+      mailBox, headIcon, password, 
+      courses, coursesDesc, acceptOrderDis, 
+      performance, wstate, registerTime, 
+      coachCard, coachCardDate, bankcardNum, 
+      bankName, bankAccName, idPhotoFront, 
+      idPhotoBack, isImport, importSrc, 
+      StuCoachID, starLevel, coachCardPhoto, 
+      drPhoto, drPhoto2, isNewDrPhoto, eventDesc, 
+      checkIdState, checkDriveIdState,  checkDrState, checkDrRemark, syncType, 
+      syncTime, agreement, pwstate, 
+      idNation, idBirthday, idAddr, 
+      idExpires, drNation, drAddr, 
+      drFirst, drType, drExpires, 
+      drFileNo, coachCardType, coachCardAuth, 
+      coachAge, state,reviveTime, extra, 
+      firstLogin, lastLogin)
+    values (#{coachId,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, #{coachCarId,jdbcType=INTEGER}, 
+      #{drLicence,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
+      #{coachLevel,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{age,jdbcType=SMALLINT}, #{hometown,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{mailBox,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{courses,jdbcType=VARCHAR}, #{coursesDesc,jdbcType=VARCHAR}, #{acceptOrderDis,jdbcType=INTEGER}, 
+      #{performance,jdbcType=INTEGER}, #{wstate,jdbcType=TINYINT}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{coachCard,jdbcType=VARCHAR}, #{coachCardDate,jdbcType=VARCHAR}, #{bankcardNum,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{bankAccName,jdbcType=VARCHAR}, #{idPhotoFront,jdbcType=VARCHAR}, 
+      #{idPhotoBack,jdbcType=VARCHAR}, #{isImport,jdbcType=TINYINT}, #{importSrc,jdbcType=VARCHAR}, 
+      #{stuCoachID,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{coachCardPhoto,jdbcType=VARCHAR}, 
+      #{drPhoto,jdbcType=VARCHAR}, #{drPhoto2,jdbcType=VARCHAR}, #{isNewDrPhoto,jdbcType=INTEGER}, #{eventDesc,jdbcType=VARCHAR}, 
+      #{checkIdState,jdbcType=TINYINT}, #{checkDriveIdState,jdbcType=TINYINT}, #{checkDrState,jdbcType=INTEGER},
+       #{checkDrRemark,jdbcType=VARCHAR} #{syncType,jdbcType=TINYINT}, 
+      #{syncTime,jdbcType=TIMESTAMP}, #{agreement,jdbcType=TINYINT}, #{pwstate,jdbcType=TINYINT}, 
+      #{idNation,jdbcType=VARCHAR}, #{idBirthday,jdbcType=DATE}, #{idAddr,jdbcType=VARCHAR}, 
+      #{idExpires,jdbcType=DATE}, #{drNation,jdbcType=VARCHAR}, #{drAddr,jdbcType=VARCHAR}, 
+      #{drFirst,jdbcType=DATE}, #{drType,jdbcType=TINYINT}, #{drExpires,jdbcType=DATE}, 
+      #{drFileNo,jdbcType=VARCHAR}, #{coachCardType,jdbcType=TINYINT}, #{coachCardAuth,jdbcType=VARCHAR}, 
+      #{coachAge,jdbcType=INTEGER}), #{state,jdbcType=INTEGER}), #{reviveTime,jdbcType=TIMESTAMP},
+      #{extra,jdbcType=VARCHAR}, #{firstLogin,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertAndGetCoachId" parameterType="com.lili.coach.dto.Coach" useGeneratedKeys="true" keyProperty="coachId">
+    insert into t_u_coach (coachId, schoolId, coachCarId, 
+      drLicence, idNumber, cityId, 
+      coachLevel, name, sex, 
+      age, hometown, phoneNum, 
+      mailBox, headIcon, password, 
+      courses, coursesDesc, acceptOrderDis, 
+      performance, wstate, registerTime, 
+      coachCard, coachCardDate, bankcardNum, 
+      bankName, bankAccName, idPhotoFront, 
+      idPhotoBack, isImport, importSrc, 
+      StuCoachID, starLevel, coachCardPhoto, 
+      drPhoto, drPhoto2, eventDesc, 
+      checkIdState, checkDriveIdState, syncType, 
+      syncTime, agreement, pwstate, 
+      idNation, idBirthday, idAddr, 
+      idExpires, drNation, drAddr, 
+      drFirst, drType, drExpires, 
+      drFileNo, coachCardType, coachCardAuth, 
+      coachAge, state, reviveTime,extra, 
+      firstLogin, lastLogin)
+    values (#{coachId,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, #{coachCarId,jdbcType=INTEGER}, 
+      #{drLicence,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
+      #{coachLevel,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+      #{age,jdbcType=SMALLINT}, #{hometown,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{mailBox,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{courses,jdbcType=VARCHAR}, #{coursesDesc,jdbcType=VARCHAR}, #{acceptOrderDis,jdbcType=INTEGER}, 
+      #{performance,jdbcType=INTEGER}, #{wstate,jdbcType=TINYINT}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{coachCard,jdbcType=VARCHAR}, #{coachCardDate,jdbcType=VARCHAR}, #{bankcardNum,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{bankAccName,jdbcType=VARCHAR}, #{idPhotoFront,jdbcType=VARCHAR}, 
+      #{idPhotoBack,jdbcType=VARCHAR}, #{isImport,jdbcType=TINYINT}, #{importSrc,jdbcType=VARCHAR}, 
+      #{stuCoachID,jdbcType=INTEGER}, #{starLevel,jdbcType=INTEGER}, #{coachCardPhoto,jdbcType=VARCHAR}, 
+      #{drPhoto,jdbcType=VARCHAR}, #{drPhoto2,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR}, 
+      #{checkIdState,jdbcType=TINYINT}, #{checkDriveIdState,jdbcType=TINYINT}, #{syncType,jdbcType=TINYINT}, 
+      #{syncTime,jdbcType=TIMESTAMP}, #{agreement,jdbcType=TINYINT}, #{pwstate,jdbcType=TINYINT}, 
+      #{idNation,jdbcType=VARCHAR}, #{idBirthday,jdbcType=DATE}, #{idAddr,jdbcType=VARCHAR}, 
+      #{idExpires,jdbcType=DATE}, #{drNation,jdbcType=VARCHAR}, #{drAddr,jdbcType=VARCHAR}, 
+      #{drFirst,jdbcType=DATE}, #{drType,jdbcType=TINYINT}, #{drExpires,jdbcType=DATE}, 
+      #{drFileNo,jdbcType=VARCHAR}, #{coachCardType,jdbcType=TINYINT}, #{coachCardAuth,jdbcType=VARCHAR}, 
+      #{coachAge,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}), #{reviveTime,jdbcType=TIMESTAMP}, 
+      #{extra,jdbcType=VARCHAR}, #{firstLogin,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.coach.dto.Coach" useGeneratedKeys="true" keyProperty="coachId">
+    insert into t_u_coach
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
+        coachId,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="coachCarId != null" >
+        coachCarId,
+      </if>
+      <if test="drLicence != null" >
+        drLicence,
+      </if>
+      <if test="idNumber != null" >
+        idNumber,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="coachLevel != null" >
+        coachLevel,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="hometown != null" >
+        hometown,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="mailBox != null" >
+        mailBox,
+      </if>
+      <if test="headIcon != null" >
+        headIcon,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="courses != null" >
+        courses,
+      </if>
+      <if test="coursesDesc != null" >
+        coursesDesc,
+      </if>
+      <if test="acceptOrderDis != null" >
+        acceptOrderDis,
+      </if>
+      <if test="performance != null" >
+        performance,
+      </if>
+      <if test="wstate != null" >
+        wstate,
+      </if>
+      <if test="registerTime != null" >
+        registerTime,
+      </if>
+      <if test="coachCard != null" >
+        coachCard,
+      </if>
+      <if test="coachCardDate != null" >
+        coachCardDate,
+      </if>
+      <if test="bankcardNum != null" >
+        bankcardNum,
+      </if>
+      <if test="bankName != null" >
+        bankName,
+      </if>
+      <if test="bankAccName != null" >
+        bankAccName,
+      </if>
+      <if test="idPhotoFront != null" >
+        idPhotoFront,
+      </if>
+      <if test="idPhotoBack != null" >
+        idPhotoBack,
+      </if>
+      <if test="isImport != null" >
+        isImport,
+      </if>
+      <if test="importSrc != null" >
+        importSrc,
+      </if>
+      <if test="stuCoachID != null" >
+        StuCoachID,
+      </if>
+      <if test="starLevel != null" >
+        starLevel,
+      </if>
+      <if test="coachCardPhoto != null" >
+        coachCardPhoto,
+      </if>
+      <if test="drPhoto != null" >
+        drPhoto,
+      </if>
+      <if test="drPhoto2 != null" >
+        drPhoto2,
+      </if>
+      <if test="isNewDrPhoto != null" >
+        isNewDrPhoto,
+      </if>
+      <if test="eventDesc != null" >
+        eventDesc,
+      </if>
+      <if test="checkIdState != null" >
+        checkIdState,
+      </if>
+      <if test="checkDriveIdState != null" >
+        checkDriveIdState,
+      </if>
+      <if test="checkDrState != null" >
+        checkDrState,
+      </if>
+      <if test="checkDrRemark != null" >
+        checkDrRemark,
+      </if>
+      <if test="syncType != null" >
+        syncType,
+      </if>
+      <if test="syncTime != null" >
+        syncTime,
+      </if>
+      <if test="agreement != null" >
+        agreement,
+      </if>
+      <if test="pwstate != null" >
+        pwstate,
+      </if>
+      <if test="idNation != null" >
+        idNation,
+      </if>
+      <if test="idBirthday != null" >
+        idBirthday,
+      </if>
+      <if test="idAddr != null" >
+        idAddr,
+      </if>
+      <if test="idExpires != null" >
+        idExpires,
+      </if>
+      <if test="drNation != null" >
+        drNation,
+      </if>
+      <if test="drAddr != null" >
+        drAddr,
+      </if>
+      <if test="drFirst != null" >
+        drFirst,
+      </if>
+      <if test="drType != null" >
+        drType,
+      </if>
+      <if test="drExpires != null" >
+        drExpires,
+      </if>
+      <if test="drFileNo != null" >
+        drFileNo,
+      </if>
+      <if test="coachCardType != null" >
+        coachCardType,
+      </if>
+      <if test="coachCardAuth != null" >
+        coachCardAuth,
+      </if>
+      <if test="coachAge != null" >
+        coachAge,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="reviveTime != null" >
+        reviveTime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="schoolAge != null" >
+        schoolAge,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="coachTag != null" >
+        coachTag,
+      </if>
+      <if test="profile != null" >
+        profile,
+      </if>
+      <if test="qrcode != null" >
+        qrcode,
+      </if>
+      <if test="firstLogin != null" >
+        firstLogin,
+      </if>
+      <if test="lastLogin != null" >
+        lastLogin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
+        #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="coachCarId != null" >
+        #{coachCarId,jdbcType=INTEGER},
+      </if>
+      <if test="drLicence != null" >
+        #{drLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="coachLevel != null" >
+        #{coachLevel,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null" >
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mailBox != null" >
+        #{mailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="headIcon != null" >
+        #{headIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="courses != null" >
+        #{courses,jdbcType=VARCHAR},
+      </if>
+      <if test="coursesDesc != null" >
+        #{coursesDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptOrderDis != null" >
+        #{acceptOrderDis,jdbcType=INTEGER},
+      </if>
+      <if test="performance != null" >
+        #{performance,jdbcType=INTEGER},
+      </if>
+      <if test="wstate != null" >
+        #{wstate,jdbcType=TINYINT},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coachCard != null" >
+        #{coachCard,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCardDate != null" >
+        #{coachCardDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardNum != null" >
+        #{bankcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccName != null" >
+        #{bankAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoFront != null" >
+        #{idPhotoFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoBack != null" >
+        #{idPhotoBack,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="importSrc != null" >
+        #{importSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCoachID != null" >
+        #{stuCoachID,jdbcType=INTEGER},
+      </if>
+      <if test="starLevel != null" >
+        #{starLevel,jdbcType=INTEGER},
+      </if>
+      <if test="coachCardPhoto != null" >
+        #{coachCardPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto != null" >
+        #{drPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto2 != null" >
+        #{drPhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewDrPhoto != null" >
+        #{isNewDrPhoto,jdbcType=INTEGER},
+      </if>
+      <if test="eventDesc != null" >
+        #{eventDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkIdState != null" >
+        #{checkIdState,jdbcType=TINYINT},
+      </if>
+      <if test="checkDriveIdState != null" >
+        #{checkDriveIdState,jdbcType=TINYINT},
+      </if>
+      <if test="checkDrState != null" >
+        #{checkDrState,jdbcType=INTEGER},
+      </if>
+      <if test="checkDrRemark != null" >
+        #{checkDrRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="syncType != null" >
+        #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agreement != null" >
+        #{agreement,jdbcType=TINYINT},
+      </if>
+      <if test="pwstate != null" >
+        #{pwstate,jdbcType=TINYINT},
+      </if>
+      <if test="idNation != null" >
+        #{idNation,jdbcType=VARCHAR},
+      </if>
+      <if test="idBirthday != null" >
+        #{idBirthday,jdbcType=DATE},
+      </if>
+      <if test="idAddr != null" >
+        #{idAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="idExpires != null" >
+        #{idExpires,jdbcType=DATE},
+      </if>
+      <if test="drNation != null" >
+        #{drNation,jdbcType=VARCHAR},
+      </if>
+      <if test="drAddr != null" >
+        #{drAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="drFirst != null" >
+        #{drFirst,jdbcType=DATE},
+      </if>
+      <if test="drType != null" >
+        #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="drExpires != null" >
+        #{drExpires,jdbcType=DATE},
+      </if>
+      <if test="drFileNo != null" >
+        #{drFileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCardType != null" >
+        #{coachCardType,jdbcType=TINYINT},
+      </if>
+      <if test="coachCardAuth != null" >
+        #{coachCardAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="coachAge != null" >
+        #{coachAge,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="reviveTime != null" >
+        #{reviveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAge != null" >
+        #{schoolAge,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="coachTag != null" >
+        #{coachTag,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null" >
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLogin != null" >
+        #{firstLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null" >
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.coach.dto.Coach">
+    update t_u_coach
+    <set >
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCarId != null" >
+        coachCarId = #{coachCarId,jdbcType=INTEGER},
+      </if>
+      <if test="drLicence != null" >
+        drLicence = #{drLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        idNumber = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        cityName = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachLevel != null" >
+        coachLevel = #{coachLevel,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null" >
+        hometown = #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mailBox != null" >
+        mailBox = #{mailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="headIcon != null" >
+        headIcon = #{headIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="courses != null" >
+        courses = #{courses,jdbcType=VARCHAR},
+      </if>
+      <if test="coursesDesc != null" >
+        coursesDesc = #{coursesDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptOrderDis != null" >
+        acceptOrderDis = #{acceptOrderDis,jdbcType=INTEGER},
+      </if>
+      <if test="performance != null" >
+        performance = #{performance,jdbcType=INTEGER},
+      </if>
+      <if test="wstate != null" >
+        wstate = #{wstate,jdbcType=TINYINT},
+      </if>
+      <if test="registerTime != null" >
+        registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coachCard != null" >
+        coachCard = #{coachCard,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCardDate != null" >
+        coachCardDate = #{coachCardDate,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardNum != null" >
+        bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bankName = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccName != null" >
+        bankAccName = #{bankAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoFront != null" >
+        idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoBack != null" >
+        idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        isImport = #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="importSrc != null" >
+        importSrc = #{importSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCoachID != null" >
+        StuCoachID = #{stuCoachID,jdbcType=INTEGER},
+      </if>
+      <if test="starLevel != null" >
+        starLevel = #{starLevel,jdbcType=INTEGER},
+      </if>
+      <if test="coachCardPhoto != null" >
+        coachCardPhoto = #{coachCardPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto != null" >
+        drPhoto = #{drPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto2 != null" >
+        drPhoto2 = #{drPhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="isNewDrPhoto != null" >
+        isNewDrPhoto = #{isNewDrPhoto,jdbcType=INTEGER},
+      </if>
+      <if test="eventDesc != null" >
+        eventDesc = #{eventDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkIdState != null" >
+        checkIdState = #{checkIdState,jdbcType=TINYINT},
+      </if>
+      <if test="checkDriveIdState != null" >
+        checkDriveIdState = #{checkDriveIdState,jdbcType=TINYINT},
+      </if>
+      <if test="checkDrState != null" >
+        checkDrState = #{checkDrState,jdbcType=INTEGER},
+      </if>
+      <if test="checkDrRemark != null" >
+        checkDrRemark = #{checkDrRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="syncType != null" >
+        syncType = #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agreement != null" >
+        agreement = #{agreement,jdbcType=TINYINT},
+      </if>
+      <if test="pwstate != null" >
+        pwstate = #{pwstate,jdbcType=TINYINT},
+      </if>
+      <if test="idNation != null" >
+        idNation = #{idNation,jdbcType=VARCHAR},
+      </if>
+      <if test="idBirthday != null" >
+        idBirthday = #{idBirthday,jdbcType=DATE},
+      </if>
+      <if test="idAddr != null" >
+        idAddr = #{idAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="idExpires != null" >
+        idExpires = #{idExpires,jdbcType=DATE},
+      </if>
+      <if test="drNation != null" >
+        drNation = #{drNation,jdbcType=VARCHAR},
+      </if>
+      <if test="drAddr != null" >
+        drAddr = #{drAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="drFirst != null" >
+        drFirst = #{drFirst,jdbcType=DATE},
+      </if>
+      <if test="drType != null" >
+        drType = #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="drExpires != null" >
+        drExpires = #{drExpires,jdbcType=DATE},
+      </if>
+      <if test="drFileNo != null" >
+        drFileNo = #{drFileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCardType != null" >
+        coachCardType = #{coachCardType,jdbcType=TINYINT},
+      </if>
+      <if test="coachCardAuth != null" >
+        coachCardAuth = #{coachCardAuth,jdbcType=VARCHAR},
+      </if>
+      <if test="coachAge != null" >
+        coachAge = #{coachAge,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="reviveTime != null" >
+        reviveTime = #{reviveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolAge != null" >
+        schoolAge = #{schoolAge,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="coachTag != null" >
+        coachTag = #{coachTag,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        profile = #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="qrcode != null" >
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLogin != null" >
+        firstLogin = #{firstLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null" >
+        lastLogin = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rongToken != null" >
+        rongToken = #{rongToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.coach.dto.Coach">
+    update t_u_coach
+    set schoolId = #{schoolId,jdbcType=INTEGER},
+      coachCarId = #{coachCarId,jdbcType=INTEGER},
+      drLicence = #{drLicence,jdbcType=VARCHAR},
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      cityId = #{cityId,jdbcType=INTEGER},
+      coachLevel = #{coachLevel,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      age = #{age,jdbcType=SMALLINT},
+      hometown = #{hometown,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      mailBox = #{mailBox,jdbcType=VARCHAR},
+      headIcon = #{headIcon,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      courses = #{courses,jdbcType=VARCHAR},
+      coursesDesc = #{coursesDesc,jdbcType=VARCHAR},
+      acceptOrderDis = #{acceptOrderDis,jdbcType=INTEGER},
+      performance = #{performance,jdbcType=INTEGER},
+      wstate = #{wstate,jdbcType=TINYINT},
+      registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      coachCard = #{coachCard,jdbcType=VARCHAR},
+      coachCardDate = #{coachCardDate,jdbcType=VARCHAR},
+      bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+      bankName = #{bankName,jdbcType=VARCHAR},
+      bankAccName = #{bankAccName,jdbcType=VARCHAR},
+      idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+      idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+      isImport = #{isImport,jdbcType=TINYINT},
+      importSrc = #{importSrc,jdbcType=VARCHAR},
+      StuCoachID = #{stuCoachID,jdbcType=INTEGER},
+      starLevel = #{starLevel,jdbcType=INTEGER},
+      coachCardPhoto = #{coachCardPhoto,jdbcType=VARCHAR},
+      drPhoto = #{drPhoto,jdbcType=VARCHAR},
+      drPhoto2 = #{drPhoto2,jdbcType=VARCHAR},
+      isNewDrPhoto = #{isNewDrPhoto,jdbcType=INTEGER},
+      eventDesc = #{eventDesc,jdbcType=VARCHAR},
+      checkIdState = #{checkIdState,jdbcType=TINYINT},
+      checkDriveIdState = #{checkDriveIdState,jdbcType=TINYINT},
+      checkDrState = #{checkDrState,jdbcType=INTEGER},
+      checkDrRemark = #{checkDrRemark,jdbcType=VARCHAR},
+      syncType = #{syncType,jdbcType=TINYINT},
+      syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      agreement = #{agreement,jdbcType=TINYINT},
+      pwstate = #{pwstate,jdbcType=TINYINT},
+      idNation = #{idNation,jdbcType=VARCHAR},
+      idBirthday = #{idBirthday,jdbcType=DATE},
+      idAddr = #{idAddr,jdbcType=VARCHAR},
+      idExpires = #{idExpires,jdbcType=DATE},
+      drNation = #{drNation,jdbcType=VARCHAR},
+      drAddr = #{drAddr,jdbcType=VARCHAR},
+      drFirst = #{drFirst,jdbcType=DATE},
+      drType = #{drType,jdbcType=TINYINT},
+      drExpires = #{drExpires,jdbcType=DATE},
+      drFileNo = #{drFileNo,jdbcType=VARCHAR},
+      coachCardType = #{coachCardType,jdbcType=TINYINT},
+      coachCardAuth = #{coachCardAuth,jdbcType=VARCHAR},
+      coachAge = #{coachAge,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      reviveTime = #{reviveTime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR},
+      schoolAge = #{schoolAge,jdbcType=INTEGER},
+      area = #{area,jdbcType=VARCHAR},
+      coachTag = #{coachTag,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      firstLogin = #{firstLogin,jdbcType=TIMESTAMP},
+      lastLogin = #{lastLogin,jdbcType=TIMESTAMP},
+      rongToken = #{rongToken,jdbcType=VARCHAR}
+    where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.coach.dto.Coach">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_coach
+		<include refid="Example_Where_Clause" />
+		order by lastLogin desc limit 30
+	</select>
+	
+	<select id="getCoachesByStudentId" resultMap="BaseResultMap" >
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+			t_u_coach
+		WHERE
+			coachId IN (
+				SELECT
+					coachId
+				FROM
+					t_u_mycoaches
+				WHERE
+					1 = 1
+					and studentId = #{studentId,jdbcType=BIGINT}
+					and status = 0
+					and type = #{type,jdbcType=INTEGER}
+			)
+	</select>
+
+	<select id="countAll" resultType="java.lang.Long"
+		parameterType="com.lili.coach.dto.Coach">
+		select count(1) from t_u_coach
+		<include refid="Example_Where_Clause" />
+	</select>
+	
+	<resultMap id="CoachInfoVoMap" type="com.lili.coach.vo.CoachInfoVo">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="drLicence" property="drLicence" jdbcType="VARCHAR" />
+		<result column="coachLevel" property="coachLevel" jdbcType="INTEGER" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="acceptOrderDis" property="acceptOrderDis"
+			jdbcType="INTEGER" />
+		<result column="wstate" property="wstate" jdbcType="INTEGER" />
+		<result column="coachCard" property="coachCard" jdbcType="VARCHAR" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+		<result column="carsCount" property="carsCount" jdbcType="INTEGER" />
+		<result column="agreement" property="agreement" jdbcType="INTEGER" />
+		<result column="pwstate" property="pwstate" jdbcType="INTEGER" />
+		
+	   <result column="idNation" property="idNation" jdbcType="VARCHAR" />
+	   <result column="idBirthday" property="idBirthday" jdbcType="DATE" />
+	   <result column="idAddr" property="idAddr" jdbcType="VARCHAR" />
+	   <result column="idExpires" property="idExpires" jdbcType="DATE" />
+	   <result column="drNation" property="drNation" jdbcType="VARCHAR" />
+	   <result column="drAddr" property="drAddr" jdbcType="VARCHAR" />
+	   <result column="drFirst" property="drFirst" jdbcType="DATE" />
+	   <result column="drType" property="drType" jdbcType="TINYINT" />
+	   <result column="drExpires" property="drExpires" jdbcType="DATE" />
+	   <result column="drFileNo" property="drFileNo" jdbcType="VARCHAR" />
+	   <result column="coachCardType" property="coachCardType" jdbcType="TINYINT" />
+	   <result column="coachCardAuth" property="coachCardAuth" jdbcType="VARCHAR" />
+	   <result column="coachAge" property="coachAge" jdbcType="INTEGER" /> 
+       <result column="state" property="state" jdbcType="INTEGER" />
+       <result column="reviveTime" property="reviveTime" jdbcType="TIMESTAMP" />   
+       <result column="extra" property="extra" jdbcType="VARCHAR" />   
+	</resultMap>
+	<select id="selectCoachInfoVo" resultMap="CoachInfoVoMap" parameterType="java.lang.Long">
+		SELECT
+			tc.coachId,
+			tc.schoolId,
+			tc.drLicence,
+			tc.coachLevel,
+			tc.idNumber,
+			tc. NAME,
+			tc.sex,
+			tc.age,
+			tc.phoneNum,
+			tc.mailBox,
+			tc.headIcon,
+			tc.acceptOrderDis,
+			tc.wstate,
+			tc.coachCard,
+			tc.agreement,
+			tc.pwstate,
+			tc.idNation,
+			tc.idBirthday,
+			tc.idAddr,
+			tc.idExpires,
+			tc.drNation,
+			tc.drAddr,
+			tc.drFirst,
+			tc.drType,
+			tc.drExpires,
+			tc.drFileNo,
+			tc.coachCardType,
+			tc.coachCardAuth,
+			tc.coachAge,
+			tc.state,
+			tc.reviveTime,
+			tc.extra,
+			tss. NAME AS schoolName,
+			count(tuc.carId) AS carsCount
+		FROM
+			t_u_coach tc
+		LEFT JOIN t_s_school tss ON tc.schoolId = tss.schoolId
+		LEFT JOIN t_u_coachcar tuc ON tc.coachId = tuc.coachId
+		AND tuc.isExist != 0
+		WHERE
+			tc.coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+	
+	<resultMap id="CoachVoMap" type="com.lili.coach.vo.CoachVo">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="coachCarId" property="coachCarId" jdbcType="INTEGER" />
+		<result column="drLicence" property="drLicence" jdbcType="VARCHAR" />
+		<result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+	    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="coachLevel" property="coachLevel" jdbcType="INTEGER" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+
+		<result column="courses" property="courses" jdbcType="VARCHAR" />
+		<result column="coursesDesc" property="coursesDesc" jdbcType="VARCHAR" />
+		<result column="acceptOrderDis" property="acceptOrderDis"
+			jdbcType="INTEGER" />
+		<result column="wstate" property="wstate" jdbcType="INTEGER" />
+
+		<result column="coachCard" property="coachCard" jdbcType="VARCHAR" />
+		<result column="coachCardDate" property="coachCardDate" jdbcType="VARCHAR" />
+
+
+
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+
+		<result column="starLevel" property="starLevel" jdbcType="INTEGER" />
+		<result column="coachCardPhoto" property="coachCardPhoto" jdbcType="VARCHAR" />
+	    <result column="drPhoto" property="drPhoto" jdbcType="VARCHAR" />
+	    <result column="drPhoto2" property="drPhoto2" jdbcType="VARCHAR" />
+		<result column="eventDesc" property="eventDesc" jdbcType="VARCHAR" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="checkDriveIdState" property="checkDriveIdState" jdbcType="INTEGER" />
+        <result column="agreement" property="agreement" jdbcType="INTEGER" />
+        <result column="pwstate" property="pwstate" jdbcType="INTEGER" />
+		
+		<result column="carId" property="carId" jdbcType="BIGINT" />
+		<result column="carType" property="carType" jdbcType="VARCHAR" />
+
+		<result column="mileage" property="mileage" jdbcType="INTEGER" />
+		<result column="innerEnvir" property="innerEnvir" jdbcType="INTEGER" />
+
+		<result column="carNo" property="carNo" jdbcType="VARCHAR" />
+		<result column="carLevel" property="carLevel" jdbcType="INTEGER" />
+		<result column="driveType" property="driveType" jdbcType="INTEGER" />
+		<result column="driveNumber" property="driveNumber" jdbcType="VARCHAR" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+		<result column="checkDrState" property="checkDrState" jdbcType="INTEGER" />
+		<result column="teachStudent" property="teachStudent" jdbcType="INTEGER" />
+		<result column="rongToken" property="rongToken" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getCoachesByIds" resultMap="CoachVoMap" parameterType="java.util.List">
+		SELECT
+			co.coachId,
+			co.schoolId,
+			co.coachCarId,
+			co.drLicence,
+			co.cityId,
+			co.coachLevel,
+			co.idNumber,
+			co. NAME,
+			co.sex,
+			co.age,
+			co.hometown,
+			co.phoneNum,
+			co.mailBox,
+			co.headIcon,
+			co.courses,
+			co.coursesDesc,
+			co.acceptOrderDis,
+			co.performance,
+			co.wstate,
+			co.coachCard,
+			co.coachCardDate,
+			co.isImport,
+			co.importSrc,
+			co.starLevel,
+			co.coachCardPhoto,
+			co.drPhoto,
+			co.drPhoto2,
+			co.eventDesc,
+			co.checkIdState,
+			co.checkDriveIdState,
+			co.agreement,
+			co.pwstate,
+			co.extra,
+			ca.carId,
+			ca.carType,
+			ca.mileage,
+			ca.innerEnvir,
+			ca.carNo,
+			ca.carLevel,
+			ca.driveType,
+			ca.driveNumber,
+			co.schoolName,
+			co.checkDrState,
+			co.teachStudent
+		FROM
+			t_u_coach co
+		LEFT JOIN t_p_car ca ON co.coachCarId = ca.carId
+		WHERE
+			co.coachId IN 
+				<foreach item="item" collection="list" 
+                         open="(" separator="," close=")">
+                        #{item}
+                </foreach>
+	</select>
+	
+	
+	
+	<resultMap id="CoachAccountMap" type="com.lili.coach.dto.CoachAccount">
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="performance" property="performance" jdbcType="INTEGER" />
+		<result column="lastPerTime" property="lastPerTime" jdbcType="TIMESTAMP" />
+		<result column="passwd" property="passwd" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getCoachMoney" resultMap="CoachAccountMap"
+		parameterType="java.lang.Long">
+		select
+		coachId,money,performance,lastPerTime,passwd 
+		from t_u_coachaccount
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</select>
+	
+	<update id="updateCoachAccount" parameterType="com.lili.coach.dto.CoachAccount">
+		update t_u_coachaccount
+		<set>
+			<if test="money != null">
+				money = #{money,jdbcType=INTEGER},
+			</if>
+			<if test="performance != null">
+				performance = #{performance,jdbcType=INTEGER},
+			</if>
+			<if test="lastPerTime != null">
+				lastPerTime = #{lastPerTime, jdbcType=TIMESTAMP},
+			</if>
+			<if test="passwd != null">
+				passwd = #{passwd, jdbcType=VARCHAR},
+			</if>
+		</set>
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	<insert id="insertCoachAccount" parameterType="com.lili.coach.dto.CoachAccount" useGeneratedKeys="true" keyProperty="coachId">
+		insert into t_u_coachaccount
+		(coachId,money,performance,lastPerTime,passwd)
+		values
+		(#{coachId,jdbcType=BIGINT},#{money,jdbcType=INTEGER},#{performance,jdbcType=INTEGER},#{lastPerTime,jdbcType=TIMESTAMP},#{passwd,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="checkCoachCorrectPw" resultType="java.lang.Long" parameterType="map">
+		select
+		 count(1)
+		from t_u_coachaccount
+		where coachId = #{coachId,jdbcType=BIGINT} and 
+			passwd = #{passwd,jdbcType=VARCHAR} 
+	</select>
+	
+	<select id="queryByCoachIsNotOff" resultMap="CoachVoMap" >
+		select
+			c.coachId,	schoolId,coachCarId,	c.cityId,	c.NAME,c.phoneNum,	wstate,coachCard,c.isImport,importSrc,coachCardType,c.schoolName,c.checkDrState,c.teachStudent
+		from t_user_push p,t_u_coach c where p.phoneNum=c.phoneNum and p.userType=1 and p.isDel=0 and p.pushType=0 and c.wstate=0
+	</select>
+	
+	<select id="queryByCoachIsNotOn" resultMap="CoachVoMap" >
+		select
+			c.coachId,	schoolId,coachCarId,	c.cityId,	c.NAME,c.phoneNum,	wstate,coachCard,c.isImport,importSrc,coachCardType,c.schoolName,c.checkDrState,c.teachStudent
+		from t_user_push p,t_u_coach c where p.phoneNum=c.phoneNum and p.userType=1 and p.isDel=0 and p.pushType=0 and c.wstate!=0
+	</select>
+	
+	<select id="queryTYCoaches" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from t_u_coach
+		where extra='1'
+	</select>
+	
+	<update id="updateCoachPassword"  parameterType="map">
+		update t_u_coachaccount
+		<set>
+			<if test="passwd != null">
+				passwd = #{passwd,jdbcType=BIGINT},
+			</if>
+		</set>
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+	<insert id="insertStatusRecord" parameterType="com.lili.coach.vo.CoachStatusRecord" useGeneratedKeys="true" keyProperty="id">
+		insert into t_coach_status_record
+		(coachId,carId, lat,lon,status,createDate)
+		values
+		(#{coachId,jdbcType=BIGINT},#{carId,jdbcType=INTEGER},#{lat,jdbcType=VARCHAR},#{lon,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},now())
+	</insert>
+	
+	<update id="addLoginCount"  parameterType="com.lili.coach.dto.Coach">
+		update t_u_coach
+		set loginCount=loginCount+1
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="addCoachInCount"  parameterType="com.lili.coach.vo.CoachStatusRecord">
+		update t_u_coach
+		set inCount=inCount+1,listenTime=listenTime+#{duration,jdbcType=INTEGER}
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+	<update id="addCoachOutCount"  parameterType="com.lili.coach.vo.CoachStatusRecord">
+		update t_u_coach
+		set outCount=outCount+1
+		where coachId = #{coachId,jdbcType=BIGINT}
+	</update>
+	
+	<select id="getLatestStatusRecord" resultType="com.lili.coach.vo.CoachStatusRecord" >
+		select  coachId,carId,status,createDate from t_coach_status_record where coachId=#{coachId,jdbcType=BIGINT} order by createDate desc limit 1
+	</select>
+	
+</mapper>

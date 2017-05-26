@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollPurposeMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollPurpose">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="student_id" property="studentId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="head_icon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="ttid" property="ttid" jdbcType="INTEGER" />
+		<result column="class_id" property="classId" jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="school_id" property="schoolId" jdbcType="INTEGER" />
+		<result column="coach_id" property="coachId" jdbcType="BIGINT" />
+		<result column="package_name" property="packageName" jdbcType="VARCHAR" />
+		<result column="market_price" property="marketPrice" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="cuid" property="cuid" jdbcType="BIGINT" />
+		<result column="muid" property="muid" jdbcType="BIGINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="extra" property="extra" jdbcType="VARCHAR" />
+		<result column="cType" property="ctype" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, student_id, name, phone_num, head_icon, channel, class_id, ttid, city_id,
+		school_id, coach_id,
+		package_name, market_price, price, isdel, cuid, muid, ctime, mtime, extra, cType
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_enroll_purpose
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getEnrollPurpose" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollPurpose">
+		select
+			<include refid="Base_Column_List" />
+		from t_enroll_purpose
+		where isdel = 0
+			<trim suffixOverrides=",">
+				<if test="ttid != null and ttid != ''">
+					and ttid = #{ttid}
+				</if>
+				<if test="classId != null and classId != ''">
+					and class_id = #{classId}
+				</if>
+				<if test="studentId != null and studentId != ''">
+					and student_id = #{studentId}
+				</if>
+				<if test="channel != null and channel != ''">
+					and channel = #{channel}
+				</if>
+				<if test="schoolId != null and schoolId != ''">
+					and school_id = #{schoolId}
+				</if>
+				<if test="coachId != null and coachId != ''">
+					and coach_id = #{coachId}
+				</if>
+			</trim>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_enroll_purpose
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.lili.school.dto.EnrollPurpose">
+		insert into t_enroll_purpose (id, student_id, name,
+		phone_num, head_icon, channel,
+		ttid, class_id,  city_id, school_id,
+		coach_id, package_name, market_price,
+		price, isdel, cuid,
+		muid, ctime, mtime,
+		extra, cType)
+		values (#{id,jdbcType=INTEGER}, #{studentId,jdbcType=BIGINT},
+		#{name,jdbcType=VARCHAR},
+		#{phoneNum,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, #{channel,jdbcType=TINYINT},
+		#{ttid,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
+		#{schoolId,jdbcType=INTEGER},
+		#{coachId,jdbcType=BIGINT}, #{packageName,jdbcType=VARCHAR}, #{marketPrice,jdbcType=INTEGER},
+		#{price,jdbcType=INTEGER}, #{isdel,jdbcType=TINYINT},
+		#{cuid,jdbcType=BIGINT},
+		#{muid,jdbcType=BIGINT}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP},
+		#{extra,jdbcType=VARCHAR}, #{ctype,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.school.dto.EnrollPurpose">
+		insert into t_enroll_purpose
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="phoneNum != null">
+				phone_num,
+			</if>
+			<if test="headIcon != null">
+				head_icon,
+			</if>
+			<if test="channel != null">
+				channel,
+			</if>
+			<if test="ttid != null">
+				ttid,
+			</if>
+			<if test="classId != null">
+				class_id,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="coachId != null">
+				coach_id,
+			</if>
+			<if test="packageName != null">
+				package_name,
+			</if>
+			<if test="marketPrice != null">
+				market_price,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="extra != null">
+				extra,
+			</if>
+			<if test="ctype != null">
+				cType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				#{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				#{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="channel != null">
+				#{channel,jdbcType=TINYINT},
+			</if>
+			<if test="ttid != null">
+				#{ttid,jdbcType=INTEGER},
+			</if>
+			<if test="classId != null">
+				#{classId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="packageName != null">
+				#{packageName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketPrice != null">
+				#{marketPrice,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=BIGINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="extra != null">
+				#{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="ctype != null">
+				#{ctype,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollPurpose">
+		update t_enroll_purpose
+		<set>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneNum != null">
+				phone_num = #{phoneNum,jdbcType=VARCHAR},
+			</if>
+			<if test="headIcon != null">
+				head_icon = #{headIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="ttid != null">
+				ttid = #{ttid,jdbcType=INTEGER},
+			</if>
+			<if test="classId != null">
+				class_id = #{classId,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="coachId != null">
+				coach_id = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="packageName != null">
+				package_name = #{packageName,jdbcType=VARCHAR},
+			</if>
+			<if test="marketPrice != null">
+				market_price = #{marketPrice,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="extra != null">
+				extra = #{extra,jdbcType=VARCHAR},
+			</if>
+			<if test="ctype != null">
+				cType = #{ctype,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollPurpose">
+		update t_enroll_purpose
+		set student_id = #{studentId,jdbcType=BIGINT},
+		name = #{name,jdbcType=VARCHAR},
+		phone_num = #{phoneNum,jdbcType=VARCHAR},
+		head_icon = #{headIcon,jdbcType=VARCHAR},
+		channel = #{channel,jdbcType=TINYINT},
+		ttid = #{ttid,jdbcType=INTEGER},
+		class_id = #{classId,jdbcType=INTEGER},
+		city_id = #{cityId,jdbcType=INTEGER},
+		school_id = #{schoolId,jdbcType=INTEGER},
+		coach_id = #{coachId,jdbcType=BIGINT},
+		package_name = #{packageName,jdbcType=VARCHAR},
+		market_price = #{marketPrice,jdbcType=INTEGER},
+		price = #{price,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=TINYINT},
+		cuid = #{cuid,jdbcType=BIGINT},
+		muid = #{muid,jdbcType=BIGINT},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		extra = #{extra,jdbcType=VARCHAR},
+		cType = #{ctype,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

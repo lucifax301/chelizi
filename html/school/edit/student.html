@@ -1,0 +1,57 @@
+<div class="edit-alert student-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="student-alert" class="content">
+	<div class="title">{{ editType=='add'?'设置':'编辑' }}学员的个人资料 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>姓名:</dt>
+				<dd><input type="text" ng-model="editData.name" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>姓别:</dt>
+				<dd>
+					<select ng-model="editData.sex" class="form-control">
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">男</option>
+					  <option value="0">女</option>
+					</select>
+				</dd>
+			</dl>
+			<!-- <dl>
+				<dt>生日:</dt>
+				<dd>	
+					<div class="input-prepend input-group">
+						<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+						<input type="text" ng-model="editData.birthday" id="birthday" class="form-control"  placeholder="选择时间"/>
+					</div>
+				</dd>
+			</dl> -->
+			<dl>
+				<dt>电话:</dt>
+				<dd><input type="text" ng-model="editData.phoneNum" maxlength="11" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>身份证:</dt>
+				<dd><input type="text" ng-model="editData.idNumber" maxlength="18" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>驾考类别:</dt>
+				<dd>
+					<select ng-model="editData.applyCarType" class="form-control">
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">C1</option>
+					  <option value="2">C2</option>
+					</select>
+				</dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+	</div>
+</div>
+</div>
+</div>

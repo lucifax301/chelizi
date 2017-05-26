@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.StudentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.student.dto.Student">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="course1" property="course1" jdbcType="INTEGER" />
+		<result column="course2" property="course2" jdbcType="INTEGER" />
+		<result column="course3" property="course3" jdbcType="INTEGER" />
+		<result column="course4" property="course4" jdbcType="INTEGER" />
+		<result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="bankcardNum" property="bankcardNum" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="bankAccName" property="bankAccName" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+		<result column="stuCoachEmpID" property="stuCoachEmpID" jdbcType="INTEGER" />
+		<result column="applyCarType" property="applyCarType" jdbcType="VARCHAR" />
+		<result column="eventState" property="eventState" jdbcType="INTEGER" />
+		<result column="eventDesc" property="eventDesc" jdbcType="VARCHAR" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="syncType" property="syncType" jdbcType="INTEGER" />
+		<result column="syncTime" property="syncTime" jdbcType="TIMESTAMP" />
+		<result column="drLicence" property="drLicence" jdbcType="VARCHAR" />
+		<result column="drPhoto" property="drPhoto" jdbcType="VARCHAR" />
+		<result column="drPhoto2" property="drPhoto2" jdbcType="VARCHAR" />
+		<result column="drType" property="drType" jdbcType="INTEGER" />
+		<result column="drExpires" property="drExpires" jdbcType="TIMESTAMP" />
+		<result column="agreement" property="agreement" jdbcType="INTEGER" />
+		<result column="applyexam" property="applyexam" jdbcType="INTEGER" />
+		<result column="pwstate" property="pwstate" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="applystate" property="applystate" jdbcType="INTEGER" />
+		<result column="applyttid" property="applyttid" jdbcType="INTEGER" />
+		<result column="applyorder" property="applyorder" jdbcType="VARCHAR" />
+		<result column="flowNo" property="flowNo" jdbcType="VARCHAR" />
+		<result column="idNation" property="idNation" jdbcType="VARCHAR" />
+	    <result column="idBirthday" property="idBirthday" jdbcType="DATE" />
+	    <result column="idAddr" property="idAddr" jdbcType="VARCHAR" />
+	    <result column="idExpires" property="idExpires" jdbcType="DATE" />
+	    <result column="drNation" property="drNation" jdbcType="VARCHAR" />
+	    <result column="drAddr" property="drAddr" jdbcType="VARCHAR" />
+	    <result column="drFirst" property="drFirst" jdbcType="DATE" />
+	    <result column="drFileNo" property="drFileNo" jdbcType="VARCHAR" />
+		<result column="checkDriveIdState" property="checkDriveIdState" jdbcType="TINYINT" />	
+	    <result column="openId" property="openId" jdbcType="VARCHAR" />
+	    <result column="extra" property="extra" jdbcType="VARCHAR" />
+	    <result column="vipId" property="vipId" jdbcType="INTEGER" />
+	    <result column="state" property="state" jdbcType="INTEGER" />
+        <result column="reviveTime" property="reviveTime" jdbcType="TIMESTAMP" />
+        <result column="vipPackageId" property="vipPackageId" jdbcType="VARCHAR" />
+        <result column="firstLogin" property="firstLogin" jdbcType="TIMESTAMP" />
+       	<result column="lastLogin" property="lastLogin" jdbcType="TIMESTAMP" />
+       	<result column="basicHour2" property="basicHour2" jdbcType="INTEGER" />
+       	<result column="testHour2" property="testHour2" jdbcType="INTEGER" />
+       	<result column="simTestHour2" property="simTestHour2" jdbcType="INTEGER" />
+       	<result column="basicHour3" property="basicHour3" jdbcType="INTEGER" />
+       	<result column="testHour3" property="testHour3" jdbcType="INTEGER" />
+       	<result column="simTestHour3" property="simTestHour3" jdbcType="INTEGER" />
+       	<result column="driveHour" property="driveHour" jdbcType="INTEGER" />
+       	<result column="packageId" property="packageId" jdbcType="INTEGER" />
+       	<result column="relevanceTime" property="relevanceTime" jdbcType="TIMESTAMP" />
+       	<result column="qqOpenId" property="qqOpenId" jdbcType="VARCHAR" />
+        <result column="bmHour" property="bmHour" jdbcType="INTEGER" />
+        <result column="applyChannel" property="applyChannel" jdbcType="INTEGER" />
+        <result column="unionId" property="unionId" jdbcType="VARCHAR" />
+        <result column="rongToken" property="rongToken" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+    studentId, idNumber, name, sex, age, hometown, phoneNum, mailBox, headIcon, password, 
+    course1, course2, course3, course4, studyDis, registerTime, bankcardNum, bankName, 
+    bankAccName, idPhotoFront, idPhotoBack, isImport, importSrc, stuCoachEmpID, applyCarType, 
+    eventState, eventDesc, checkIdState, schoolId, syncType, syncTime, drLicence, drPhoto, 
+    drPhoto2, drType, drExpires, agreement, applyexam, pwstate, cityId, applystate, applyorder, 
+    applyttid, flowNo, idNation, idBirthday, idAddr, idExpires, drNation, drAddr, drFirst, 
+    drFileNo, checkDriveIdState, openId, extra, vipId, state, reviveTime, vipPackageId,
+    firstLogin, lastLogin, basicHour2, testHour2, simTestHour2, basicHour3, testHour3, simTestHour3, driveHour,
+    packageId, relevanceTime, qqOpenId, bmHour, unionId,rongToken,applyChannel
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="studentId != null and studentId != ''">
+				and studentId = #{studentId}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name}
+			</if>
+			<if test="phoneNum != null and phoneNum != ''">
+				and phoneNum = #{phoneNum}
+			</if>
+			<if test="isImport != null and isImport != ''">
+				and isImport = #{isImport}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		where studentId = #{studentId,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByPhoneNum" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		where phoneNum = #{phoneNum,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getStudentNear" resultMap="BaseResultMap" parameterType="com.lili.student.dto.Student">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		where name = #{name,jdbcType=VARCHAR} order by registerTime desc limit 1
+	</select>
+	
+	<select id="selectByIdNumber" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		where idNumber = #{idNumber,jdbcType=VARCHAR}
+		limit 1
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_u_student
+		where studentId = #{studentId,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.lili.student.dto.Student">
+    insert into t_u_student (
+      studentId, idNumber, name,
+      sex, age, hometown, 
+      phoneNum, mailBox, headIcon, 
+      password, course1, course2, 
+      course3, course4, studyDis, 
+      registerTime, bankcardNum, bankName, 
+      bankAccName, idPhotoFront, idPhotoBack, 
+      isImport, importSrc, stuCoachEmpID, 
+      applyCarType, eventState, eventDesc, 
+      checkIdState, schoolId, syncType, 
+      syncTime, drLicence, drPhoto, 
+      drPhoto2, drType, drExpires, 
+      agreement, applyexam, pwstate, 
+      cityId, applystate, applyorder, 
+      applyttid, flowNo, idNation, 
+      idBirthday, idAddr, idExpires, 
+      drNation, drAddr, drFirst, 
+      drFileNo, checkDriveIdState, openId, 
+      extra, vipId, state, reviveTime,
+      vipPackageId, firstLogin, lastLogin,
+      basicHour2, testHour2, simTestHour2, 
+      basicHour3, testHour3, simTestHour3, driveHour,
+      packageId, relevanceTime, qqOpenId, bmHour, unionId,applyChannel
+      )
+    values (
+      #{studentId,jdbcType=BIGINT}, #{idNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{sex,jdbcType=TINYINT}, #{age,jdbcType=SMALLINT}, #{hometown,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{mailBox,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{course1,jdbcType=SMALLINT}, #{course2,jdbcType=SMALLINT}, 
+      #{course3,jdbcType=SMALLINT}, #{course4,jdbcType=SMALLINT}, #{studyDis,jdbcType=INTEGER}, 
+      #{registerTime,jdbcType=TIMESTAMP}, #{bankcardNum,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{bankAccName,jdbcType=VARCHAR}, #{idPhotoFront,jdbcType=VARCHAR}, #{idPhotoBack,jdbcType=VARCHAR}, 
+      #{isImport,jdbcType=TINYINT}, #{importSrc,jdbcType=VARCHAR}, #{stuCoachEmpID,jdbcType=INTEGER}, 
+      #{applyCarType,jdbcType=VARCHAR}, #{eventState,jdbcType=TINYINT}, #{eventDesc,jdbcType=VARCHAR}, 
+      #{checkIdState,jdbcType=TINYINT}, #{schoolId,jdbcType=TINYINT}, #{syncType,jdbcType=TINYINT}, 
+      #{syncTime,jdbcType=TIMESTAMP}, #{drLicence,jdbcType=VARCHAR}, #{drPhoto,jdbcType=VARCHAR}, 
+      #{drPhoto2,jdbcType=VARCHAR}, #{drType,jdbcType=TINYINT}, #{drExpires,jdbcType=TIMESTAMP}, 
+      #{agreement,jdbcType=TINYINT}, #{applyexam,jdbcType=INTEGER}, #{pwstate,jdbcType=TINYINT}, 
+      #{cityId,jdbcType=INTEGER}, #{applystate,jdbcType=INTEGER}, #{applyorder,jdbcType=VARCHAR}, 
+      #{applyttid,jdbcType=INTEGER}, #{flowNo,jdbcType=VARCHAR}, #{idNation,jdbcType=VARCHAR}, 
+      #{idBirthday,jdbcType=DATE}, #{idAddr,jdbcType=VARCHAR}, #{idExpires,jdbcType=DATE}, 
+      #{drNation,jdbcType=VARCHAR}, #{drAddr,jdbcType=VARCHAR}, #{drFirst,jdbcType=DATE}, 
+      #{drFileNo,jdbcType=VARCHAR}, #{checkDriveIdState,jdbcType=TINYINT}, #{openId,jdbcType=VARCHAR}, 
+      #{extra,jdbcType=VARCHAR}, #{vipId,jdbcType=INTEGER},
+      #{state,jdbcType=INTEGER}, #{reviveTime,jdbcType=TIMESTAMP},
+      #{vipPackageId,jdbcType=VARCHAR}, #{firstLogin,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP},
+      #{basicHour2,jdbcType=INTEGER}, #{testHour2,jdbcType=INTEGER}, #{simTestHour2,jdbcType=INTEGER},
+      #{basicHour3,jdbcType=INTEGER}, #{testHour3,jdbcType=INTEGER}, #{simTestHour3,jdbcType=INTEGER},
+      #{driveHour,jdbcType=INTEGER}, #{packageId,jdbcType=INTEGER}, #{relevanceTime,jdbcType=TIMESTAMP}, 
+      #{qqOpenId,jdbcType=VARCHAR}, #{bmHour,jdbcType=INTEGER}, #{unionId,jdbcType=VARCHAR},#{applyChannel,jdbcType=INTEGER}
+      )
+	</insert>
+	<insert id="insertAndGetStudentId" parameterType="com.lili.student.dto.Student"
+		useGeneratedKeys="true" keyProperty="studentId">
+    insert into t_u_student (
+      studentId, idNumber, name,
+      sex, age, hometown, 
+      phoneNum, mailBox, headIcon, 
+      password, course1, course2, 
+      course3, course4, studyDis, 
+      registerTime, bankcardNum, bankName, 
+      bankAccName, idPhotoFront, idPhotoBack, 
+      isImport, importSrc, stuCoachEmpID, 
+      applyCarType, eventState, eventDesc, 
+      checkIdState, schoolId, syncType, 
+      syncTime, drLicence, drPhoto, 
+      drPhoto2, drType, drExpires, 
+      agreement, applyexam, pwstate, 
+      cityId, applystate, applyorder, 
+      applyttid, flowNo, idNation, 
+      idBirthday, idAddr, idExpires, 
+      drNation, drAddr, drFirst, 
+      drFileNo, checkDriveIdState, openId, 
+      extra, vipId, state, reviveTime,
+      vipPackageId, firstLogin, lastLogin,
+      basicHour2, testHour2, simTestHour2, 
+      basicHour3, testHour3, simTestHour3, driveHour,
+      packageId, relevanceTime, qqOpenId, bmHour, unionId,applyChannel
+      )
+    values (
+      #{studentId,jdbcType=BIGINT}, #{idNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{sex,jdbcType=TINYINT}, #{age,jdbcType=SMALLINT}, #{hometown,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{mailBox,jdbcType=VARCHAR}, #{headIcon,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{course1,jdbcType=SMALLINT}, #{course2,jdbcType=SMALLINT}, 
+      #{course3,jdbcType=SMALLINT}, #{course4,jdbcType=SMALLINT}, #{studyDis,jdbcType=INTEGER}, 
+      #{registerTime,jdbcType=TIMESTAMP}, #{bankcardNum,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, 
+      #{bankAccName,jdbcType=VARCHAR}, #{idPhotoFront,jdbcType=VARCHAR}, #{idPhotoBack,jdbcType=VARCHAR}, 
+      #{isImport,jdbcType=TINYINT}, #{importSrc,jdbcType=VARCHAR}, #{stuCoachEmpID,jdbcType=INTEGER}, 
+      #{applyCarType,jdbcType=VARCHAR}, #{eventState,jdbcType=TINYINT}, #{eventDesc,jdbcType=VARCHAR}, 
+      #{checkIdState,jdbcType=TINYINT}, #{schoolId,jdbcType=TINYINT}, #{syncType,jdbcType=TINYINT}, 
+      #{syncTime,jdbcType=TIMESTAMP}, #{drLicence,jdbcType=VARCHAR}, #{drPhoto,jdbcType=VARCHAR}, 
+      #{drPhoto2,jdbcType=VARCHAR}, #{drType,jdbcType=TINYINT}, #{drExpires,jdbcType=TIMESTAMP}, 
+      #{agreement,jdbcType=TINYINT}, #{applyexam,jdbcType=INTEGER}, #{pwstate,jdbcType=TINYINT}, 
+      #{cityId,jdbcType=INTEGER}, #{applystate,jdbcType=INTEGER}, #{applyorder,jdbcType=VARCHAR}, 
+      #{applyttid,jdbcType=INTEGER}, #{flowNo,jdbcType=VARCHAR}, #{idNation,jdbcType=VARCHAR}, 
+      #{idBirthday,jdbcType=DATE}, #{idAddr,jdbcType=VARCHAR}, #{idExpires,jdbcType=DATE}, 
+      #{drNation,jdbcType=VARCHAR}, #{drAddr,jdbcType=VARCHAR}, #{drFirst,jdbcType=DATE}, 
+      #{drFileNo,jdbcType=VARCHAR}, #{checkDriveIdState,jdbcType=TINYINT}, #{openId,jdbcType=VARCHAR}, 
+      #{extra,jdbcType=VARCHAR}, #{vipId,jdbcType=INTEGER},
+      #{state,jdbcType=INTEGER}, #{reviveTime,jdbcType=TIMESTAMP},
+      #{vipPackageId,jdbcType=VARCHAR}, #{firstLogin,jdbcType=TIMESTAMP}, #{lastLogin,jdbcType=TIMESTAMP},
+      #{basicHour2,jdbcType=INTEGER}, #{testHour2,jdbcType=INTEGER}, #{simTestHour2,jdbcType=INTEGER},
+      #{basicHour3,jdbcType=INTEGER}, #{testHour3,jdbcType=INTEGER}, #{simTestHour3,jdbcType=INTEGER},
+      #{driveHour,jdbcType=INTEGER}, #{packageId,jdbcType=INTEGER}, #{relevanceTime,jdbcType=TIMESTAMP}, 
+      #{qqOpenId,jdbcType=VARCHAR}, #{bmHour,jdbcType=INTEGER}, #{unionId,jdbcType=VARCHAR}, #{applyChannel,jdbcType=INTEGER}
+      )
+	</insert>
+	<insert id="insertSelective" parameterType="com.lili.student.dto.Student"
+		useGeneratedKeys="true" keyProperty="studentId">
+    insert into t_u_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="idNumber != null" >
+        idNumber,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="hometown != null" >
+        hometown,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="mailBox != null" >
+        mailBox,
+      </if>
+      <if test="headIcon != null" >
+        headIcon,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="course1 != null" >
+        course1,
+      </if>
+      <if test="course2 != null" >
+        course2,
+      </if>
+      <if test="course3 != null" >
+        course3,
+      </if>
+      <if test="course4 != null" >
+        course4,
+      </if>
+      <if test="studyDis != null" >
+        studyDis,
+      </if>
+      <if test="registerTime != null" >
+        registerTime,
+      </if>
+      <if test="bankcardNum != null" >
+        bankcardNum,
+      </if>
+      <if test="bankName != null" >
+        bankName,
+      </if>
+      <if test="bankAccName != null" >
+        bankAccName,
+      </if>
+      <if test="idPhotoFront != null" >
+        idPhotoFront,
+      </if>
+      <if test="idPhotoBack != null" >
+        idPhotoBack,
+      </if>
+      <if test="isImport != null" >
+        isImport,
+      </if>
+      <if test="importSrc != null" >
+        importSrc,
+      </if>
+      <if test="stuCoachEmpID != null" >
+        stuCoachEmpID,
+      </if>
+      <if test="applyCarType != null" >
+        applyCarType,
+      </if>
+      <if test="eventState != null" >
+        eventState,
+      </if>
+      <if test="eventDesc != null" >
+        eventDesc,
+      </if>
+      <if test="checkIdState != null" >
+        checkIdState,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="syncType != null" >
+        syncType,
+      </if>
+      <if test="syncTime != null" >
+        syncTime,
+      </if>
+      <if test="drLicence != null" >
+        drLicence,
+      </if>
+      <if test="drPhoto != null" >
+        drPhoto,
+      </if>
+      <if test="drPhoto2 != null" >
+        drPhoto2,
+      </if>
+      <if test="drType != null" >
+        drType,
+      </if>
+      <if test="drExpires != null" >
+        drExpires,
+      </if>
+      <if test="agreement != null" >
+        agreement,
+      </if>
+      <if test="applyexam != null" >
+        applyexam,
+      </if>
+      <if test="pwstate != null" >
+        pwstate,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="applystate != null" >
+        applystate,
+      </if>
+      <if test="applyorder != null" >
+        applyorder,
+      </if>
+      <if test="applyttid != null" >
+        applyttid,
+      </if>
+      <if test="flowNo != null" >
+        flowNo,
+      </if>
+      <if test="idNation != null" >
+        idNation,
+      </if>
+      <if test="idBirthday != null" >
+        idBirthday,
+      </if>
+      <if test="idAddr != null" >
+        idAddr,
+      </if>
+      <if test="idExpires != null" >
+        idExpires,
+      </if>
+      <if test="drNation != null" >
+        drNation,
+      </if>
+      <if test="drAddr != null" >
+        drAddr,
+      </if>
+      <if test="drFirst != null" >
+        drFirst,
+      </if>
+      <if test="drFileNo != null" >
+        drFileNo,
+      </if>
+      <if test="checkDriveIdState != null" >
+        checkDriveIdState,
+      </if>
+      <if test="openId != null" >
+        openId,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="vipId != null" >
+        vipId,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="reviveTime != null" >
+        reviveTime,
+      </if>
+      <if test="vipPackageId != null" >
+        vipPackageId,
+      </if>
+      <if test="firstLogin != null" >
+        firstLogin,
+      </if>
+      <if test="lastLogin != null" >
+        lastLogin,
+      </if>
+      <if test="basicHour2 != null" >
+        basicHour2,
+      </if>
+      <if test="testHour2 != null" >
+        testHour2,
+      </if>
+      <if test="simTestHour2 != null" >
+        simTestHour2,
+      </if>
+      <if test="basicHour3 != null" >
+        basicHour3,
+      </if>
+      <if test="testHour3 != null" >
+        testHour3,
+      </if>
+      <if test="simTestHour3 != null" >
+        simTestHour3,
+      </if>
+      <if test="driveHour != null" >
+        driveHour,
+      </if>
+      <if test="packageId != null" >
+        packageId,
+      </if>
+      <if test="relevanceTime != null" >
+        relevanceTime,
+      </if>
+      <if test="qqOpenId != null" >
+        qqOpenId,
+      </if>
+      <if test="bmHour != null" >
+        bmHour,
+      </if>
+      <if test="unionId != null" >
+        unionId,
+      </if>
+      <if test="applyChannel != null" >
+        applyChannel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null" >
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mailBox != null" >
+        #{mailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="headIcon != null" >
+        #{headIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="course1 != null" >
+        #{course1,jdbcType=SMALLINT},
+      </if>
+      <if test="course2 != null" >
+        #{course2,jdbcType=SMALLINT},
+      </if>
+      <if test="course3 != null" >
+        #{course3,jdbcType=SMALLINT},
+      </if>
+      <if test="course4 != null" >
+        #{course4,jdbcType=SMALLINT},
+      </if>
+      <if test="studyDis != null" >
+        #{studyDis,jdbcType=INTEGER},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankcardNum != null" >
+        #{bankcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccName != null" >
+        #{bankAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoFront != null" >
+        #{idPhotoFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoBack != null" >
+        #{idPhotoBack,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="importSrc != null" >
+        #{importSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCoachEmpID != null" >
+        #{stuCoachEmpID,jdbcType=INTEGER},
+      </if>
+      <if test="applyCarType != null" >
+        #{applyCarType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventState != null" >
+        #{eventState,jdbcType=TINYINT},
+      </if>
+      <if test="eventDesc != null" >
+        #{eventDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkIdState != null" >
+        #{checkIdState,jdbcType=TINYINT},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=TINYINT},
+      </if>
+      <if test="syncType != null" >
+        #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drLicence != null" >
+        #{drLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto != null" >
+        #{drPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto2 != null" >
+        #{drPhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="drType != null" >
+        #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="drExpires != null" >
+        #{drExpires,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agreement != null" >
+        #{agreement,jdbcType=TINYINT},
+      </if>
+      <if test="applyexam != null" >
+        #{applyexam,jdbcType=INTEGER},
+      </if>
+      <if test="pwstate != null" >
+        #{pwstate,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="applystate != null" >
+        #{applystate,jdbcType=INTEGER},
+      </if>
+      <if test="applyorder != null" >
+        #{applyorder,jdbcType=VARCHAR},
+      </if>
+      <if test="applyttid != null" >
+        #{applyttid,jdbcType=INTEGER},
+      </if>
+      <if test="flowNo != null" >
+        #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idNation != null" >
+        #{idNation,jdbcType=VARCHAR},
+      </if>
+      <if test="idBirthday != null" >
+        #{idBirthday,jdbcType=DATE},
+      </if>
+      <if test="idAddr != null" >
+        #{idAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="idExpires != null" >
+        #{idExpires,jdbcType=DATE},
+      </if>
+      <if test="drNation != null" >
+        #{drNation,jdbcType=VARCHAR},
+      </if>
+      <if test="drAddr != null" >
+        #{drAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="drFirst != null" >
+        #{drFirst,jdbcType=DATE},
+      </if>
+      <if test="drFileNo != null" >
+        #{drFileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDriveIdState != null" >
+        #{checkDriveIdState,jdbcType=TINYINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="vipId != null" >
+        #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="reviveTime != null" >
+        #{reviveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipPackageId != null" >
+        #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLogin != null" >
+        #{firstLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null" >
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basicHour2 != null" >
+      	#{basicHour2,jdbcType=INTEGER},
+      </if>
+      <if test="testHour2 != null" >
+        #{testHour2,jdbcType=INTEGER},
+      </if>
+      <if test="simTestHour2 != null" >
+        #{simTestHour2,jdbcType=INTEGER},
+      </if>
+      <if test="basicHour3 != null" >
+        #{basicHour3,jdbcType=INTEGER},
+      </if>
+      <if test="testHour3 != null" >
+        #{testHour3,jdbcType=INTEGER},
+      </if>
+      <if test="simTestHour3 != null" >
+        #{simTestHour3,jdbcType=INTEGER},
+      </if>
+      <if test="driveHour != null" >
+        #{driveHour,jdbcType=INTEGER},
+      </if>
+      <if test="packageId != null" >
+        #{packageId,jdbcType=INTEGER},
+      </if>
+      <if test="relevanceTime != null" >
+        #{relevanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qqOpenId != null" >
+        #{qqOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="bmHour != null" >
+        #{bmHour,jdbcType=INTEGER},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyChannel != null" >
+        #{applyChannel,jdbcType=INTEGER},
+      </if>
+    </trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.Student">
+    update t_u_student
+    <set >
+      <if test="idNumber != null" >
+        idNumber = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null" >
+        hometown = #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="mailBox != null" >
+        mailBox = #{mailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="headIcon != null" >
+        headIcon = #{headIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="course1 != null" >
+        course1 = #{course1,jdbcType=SMALLINT},
+      </if>
+      <if test="course2 != null" >
+        course2 = #{course2,jdbcType=SMALLINT},
+      </if>
+      <if test="course3 != null" >
+        course3 = #{course3,jdbcType=SMALLINT},
+      </if>
+      <if test="course4 != null" >
+        course4 = #{course4,jdbcType=SMALLINT},
+      </if>
+      <if test="studyDis != null" >
+        studyDis = #{studyDis,jdbcType=INTEGER},
+      </if>
+      <if test="registerTime != null" >
+        registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankcardNum != null" >
+        bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bankName = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccName != null" >
+        bankAccName = #{bankAccName,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoFront != null" >
+        idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+      </if>
+      <if test="idPhotoBack != null" >
+        idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+      </if>
+      <if test="isImport != null" >
+        isImport = #{isImport,jdbcType=TINYINT},
+      </if>
+      <if test="importSrc != null" >
+        importSrc = #{importSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="stuCoachEmpID != null" >
+        stuCoachEmpID = #{stuCoachEmpID,jdbcType=INTEGER},
+      </if>
+      <if test="applyCarType != null" >
+        applyCarType = #{applyCarType,jdbcType=VARCHAR},
+      </if>
+      <if test="eventState != null" >
+        eventState = #{eventState,jdbcType=TINYINT},
+      </if>
+      <if test="eventDesc != null" >
+        eventDesc = #{eventDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkIdState != null" >
+        checkIdState = #{checkIdState,jdbcType=TINYINT},
+      </if>
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=TINYINT},
+      </if>
+      <if test="syncType != null" >
+        syncType = #{syncType,jdbcType=TINYINT},
+      </if>
+      <if test="syncTime != null" >
+        syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drLicence != null" >
+        drLicence = #{drLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto != null" >
+        drPhoto = #{drPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="drPhoto2 != null" >
+        drPhoto2 = #{drPhoto2,jdbcType=VARCHAR},
+      </if>
+      <if test="drType != null" >
+        drType = #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="drExpires != null" >
+        drExpires = #{drExpires,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agreement != null" >
+        agreement = #{agreement,jdbcType=TINYINT},
+      </if>
+      <if test="applyexam != null" >
+        applyexam = #{applyexam,jdbcType=INTEGER},
+      </if>
+      <if test="pwstate != null" >
+        pwstate = #{pwstate,jdbcType=TINYINT},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="applystate != null" >
+        applystate = #{applystate,jdbcType=INTEGER},
+      </if>
+      <if test="applyorder != null" >
+        applyorder = #{applyorder,jdbcType=VARCHAR},
+      </if>
+      <if test="applyttid != null" >
+        applyttid = #{applyttid,jdbcType=INTEGER},
+      </if>
+      <if test="flowNo != null" >
+        flowNo = #{flowNo,jdbcType=VARCHAR},
+      </if>
+      <if test="idNation != null" >
+        idNation = #{idNation,jdbcType=VARCHAR},
+      </if>
+      <if test="idBirthday != null" >
+        idBirthday = #{idBirthday,jdbcType=DATE},
+      </if>
+      <if test="idAddr != null" >
+        idAddr = #{idAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="idExpires != null" >
+        idExpires = #{idExpires,jdbcType=DATE},
+      </if>
+      <if test="drNation != null" >
+        drNation = #{drNation,jdbcType=VARCHAR},
+      </if>
+      <if test="drAddr != null" >
+        drAddr = #{drAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="drFirst != null" >
+        drFirst = #{drFirst,jdbcType=DATE},
+      </if>
+      <if test="drFileNo != null" >
+        drFileNo = #{drFileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDriveIdState != null" >
+        checkDriveIdState = #{checkDriveIdState,jdbcType=TINYINT},
+      </if>
+      <if test="openId != null" >
+        openId = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="vipId != null" >
+        vipId = #{vipId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="reviveTime != null" >
+        reviveTime = #{reviveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipPackageId != null" >
+        vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstLogin != null" >
+        firstLogin = #{firstLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLogin != null" >
+        lastLogin = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basicHour2 != null" >
+      	basicHour2 = #{basicHour2,jdbcType=INTEGER},
+      </if>
+      <if test="testHour2 != null" >
+        testHour2 = #{testHour2,jdbcType=INTEGER},
+      </if>
+      <if test="simTestHour2 != null" >
+        simTestHour2 = #{simTestHour2,jdbcType=INTEGER},
+      </if>
+      <if test="basicHour3 != null" >
+        basicHour3 = #{basicHour3,jdbcType=INTEGER},
+      </if>
+      <if test="testHour3 != null" >
+        testHour3 = #{testHour3,jdbcType=INTEGER},
+      </if>
+      <if test="simTestHour3 != null" >
+        simTestHour3 = #{simTestHour3,jdbcType=INTEGER},
+      </if>
+      <if test="driveHour != null" >
+        driveHour = #{driveHour,jdbcType=INTEGER},
+      </if>
+      <if test="packageId != null" >
+        packageId = #{packageId,jdbcType=INTEGER},
+      </if>
+      <if test="relevanceTime != null" >
+        relevanceTime = #{relevanceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qqOpenId != null" >
+        qqOpenId = #{qqOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="bmHour != null" >
+        bmHour = #{bmHour,jdbcType=INTEGER},
+      </if>
+      <if test="unionId != null" >
+        unionId = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="rongToken != null" >
+        rongToken = #{rongToken,jdbcType=VARCHAR},
+      </if>
+      <if test="applyChannel != null" >
+        applyChannel = #{applyChannel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where studentId = #{studentId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.lili.student.dto.Student">
+    update t_u_student
+    set
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=TINYINT},
+      age = #{age,jdbcType=SMALLINT},
+      hometown = #{hometown,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      mailBox = #{mailBox,jdbcType=VARCHAR},
+      headIcon = #{headIcon,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      course1 = #{course1,jdbcType=SMALLINT},
+      course2 = #{course2,jdbcType=SMALLINT},
+      course3 = #{course3,jdbcType=SMALLINT},
+      course4 = #{course4,jdbcType=SMALLINT},
+      studyDis = #{studyDis,jdbcType=INTEGER},
+      registerTime = #{registerTime,jdbcType=TIMESTAMP},
+      bankcardNum = #{bankcardNum,jdbcType=VARCHAR},
+      bankName = #{bankName,jdbcType=VARCHAR},
+      bankAccName = #{bankAccName,jdbcType=VARCHAR},
+      idPhotoFront = #{idPhotoFront,jdbcType=VARCHAR},
+      idPhotoBack = #{idPhotoBack,jdbcType=VARCHAR},
+      isImport = #{isImport,jdbcType=TINYINT},
+      importSrc = #{importSrc,jdbcType=VARCHAR},
+      stuCoachEmpID = #{stuCoachEmpID,jdbcType=INTEGER},
+      applyCarType = #{applyCarType,jdbcType=VARCHAR},
+      eventState = #{eventState,jdbcType=TINYINT},
+      eventDesc = #{eventDesc,jdbcType=VARCHAR},
+      checkIdState = #{checkIdState,jdbcType=TINYINT},
+      schoolId = #{schoolId,jdbcType=TINYINT},
+      syncType = #{syncType,jdbcType=TINYINT},
+      syncTime = #{syncTime,jdbcType=TIMESTAMP},
+      drLicence = #{drLicence,jdbcType=VARCHAR},
+      drPhoto = #{drPhoto,jdbcType=VARCHAR},
+      drPhoto2 = #{drPhoto2,jdbcType=VARCHAR},
+      drType = #{drType,jdbcType=TINYINT},
+      drExpires = #{drExpires,jdbcType=TIMESTAMP},
+      agreement = #{agreement,jdbcType=TINYINT},
+      applyexam = #{applyexam,jdbcType=INTEGER},
+      pwstate = #{pwstate,jdbcType=TINYINT},
+      cityId = #{cityId,jdbcType=INTEGER},
+      applystate = #{applystate,jdbcType=INTEGER},
+      applyorder = #{applyorder,jdbcType=VARCHAR},
+      applyttid = #{applyttid,jdbcType=INTEGER},
+      flowNo = #{flowNo,jdbcType=VARCHAR},
+      idNation = #{idNation,jdbcType=VARCHAR},
+      idBirthday = #{idBirthday,jdbcType=DATE},
+      idAddr = #{idAddr,jdbcType=VARCHAR},
+      idExpires = #{idExpires,jdbcType=DATE},
+      drNation = #{drNation,jdbcType=VARCHAR},
+      drAddr = #{drAddr,jdbcType=VARCHAR},
+      drFirst = #{drFirst,jdbcType=DATE},
+      drFileNo = #{drFileNo,jdbcType=VARCHAR},
+      checkDriveIdState = #{checkDriveIdState,jdbcType=TINYINT},
+      openId = #{openId,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      vipId = #{vipId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      reviveTime = #{reviveTime,jdbcType=TIMESTAMP},
+      vipPackageId = #{vipPackageId,jdbcType=VARCHAR},
+      firstLogin = #{firstLogin,jdbcType=TIMESTAMP},
+      lastLogin = #{lastLogin,jdbcType=TIMESTAMP},
+      basicHour2 = #{basicHour2,jdbcType=INTEGER},
+      testHour2 = #{testHour2,jdbcType=INTEGER},
+      simTestHour2 = #{simTestHour2,jdbcType=INTEGER},
+      basicHour3 = #{basicHour3,jdbcType=INTEGER},
+      testHour3 = #{testHour3,jdbcType=INTEGER},
+      simTestHour3 = #{simTestHour3,jdbcType=INTEGER},
+      driveHour = #{driveHour,jdbcType=INTEGER},
+      packageId = #{packageId,jdbcType=INTEGER},
+      relevanceTime = #{relevanceTime,jdbcType=TIMESTAMP},
+      qqOpenId = #{qqOpenId,jdbcType=VARCHAR},
+      bmHour = #{bmHour,jdbcType=INTEGER},
+      unionId = #{unionId,jdbcType=VARCHAR},
+      rongToken = #{rongToken,jdbcType=VARCHAR},
+      applyChannel = #{applyChannel,jdbcType=INTEGER}
+    where studentId = #{studentId,jdbcType=BIGINT}
+	</update>
+
+	<select id="getAll" resultMap="BaseResultMap" parameterType="com.lili.student.dto.Student">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		<include refid="Example_Where_Clause" />
+	</select>
+	
+	<select id="getStudentsByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_student
+		WHERE
+		studentId IN 
+		<foreach item="item" collection="list" 
+                 open="(" separator="," close=")">
+                #{item}
+        </foreach>
+	</select>
+
+	<select id="countAll" resultType="java.lang.Long" parameterType="com.lili.student.dto.Student">
+		select count(1) from t_u_student
+		<include refid="Example_Where_Clause" />
+	</select>
+
+	<resultMap id="StudentAccountMap" type="com.lili.student.dto.StudentAccount">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="passwd" property="passwd" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getStudentMoney" resultMap="StudentAccountMap"
+		parameterType="java.lang.Long">
+		select
+		studentId,money,passwd
+		from t_u_stuaccount
+		where studentId
+		= #{studentId,jdbcType=BIGINT}
+	</select>
+
+	<update id="updateStudentMoney" parameterType="com.lili.student.dto.StudentAccount">
+		update t_u_stuaccount
+		<set>
+			<if test="studentId != null">
+				studentId = #{studentId,jdbcType=BIGINT},
+			</if>
+			<if test="money != null">
+				money = #{money, jdbcType=INTEGER},
+			</if>
+			<if test="passwd != null">
+				passwd = #{passwd, jdbcType=INTEGER},
+			</if>
+		</set>
+		where studentId = #{studentId,jdbcType=BIGINT}
+	</update>
+	<select id="getStudentByCoachId" resultMap="BaseResultMap"
+		parameterType="com.lili.student.mapper.dao.StudentPage">
+		SELECT
+		tt.studentId,tt.idNumber,tt.name,tt.sex,tt.age,tt.hometown,tt.phoneNum,tt.mailBox,tt.headIcon,tt.password,tt.course1,tt.course2,tt.course3,tt.course4,tt.studyDis,
+		tt.registerTime,tt.bankcardNum,tt.bankName,tt.bankAccName,tt.idPhotoFront,tt.idPhotoBack,tt.isImport,tt.importSrc,tt.stuCoachEmpID,tt.applyCarType,
+		tt.eventState,tt.eventDesc,tt.checkIdState,tt.schoolId,tt.syncType,tt.syncTime,tt.drLicence,tt.drPhoto,tt.drPhoto2,tt.drType,tt.drExpires,tt.agreement,tt.applyexam,
+		tt.pwstate,tt.cityId,tt.applystate,tt.applyorder,tt.applyttid,tt.flowNo,
+		tt.idNation,tt.idBirthday,tt.idAddr,tt.idExpires,tt.drNation,tt.drAddr,tt.drFirst,tt.drFileNo,tt.checkDriveIdState,tt.openId,tt.vipId,tt.state,tt.reviveTime
+		FROM t_u_student tt 
+		WHERE tt.studentId IN 
+		(SELECT
+		t.studentId
+		FROM
+		t_u_mycoaches t
+		WHERE
+		1 = 1
+		and t.coachId = #{coachId,jdbcType=BIGINT}
+		and t.status = 0
+		and t.type = 1) 
+		and (tt.course4 is null or tt.course4 != 100)
+		limit
+		#{pageNo, jdbcType=INTEGER},#{pageSize, jdbcType=INTEGER}
+	</select>
+
+	<insert id="insertStudentAccount" parameterType="com.lili.student.dto.StudentAccount">
+		insert into t_u_stuaccount
+		(studentId,money,passwd)
+		values
+		(#{studentId,jdbcType=BIGINT}, #{money, jdbcType=INTEGER}, #{passwd, jdbcType=VARCHAR})
+	</insert>	
+	
+	<select id="checkStudentCorrectPw" resultType="java.lang.Long"	parameterType="map">
+		select
+		 count(1)
+		from t_u_stuaccount
+		where studentId = #{studentId,jdbcType=BIGINT} and 
+			passwd = #{passwd,jdbcType=VARCHAR} 
+	</select>
+	
+	<update id="updateStudentPassword"  parameterType="map">
+		update t_u_stuaccount
+		<set>
+			<if test="passwd != null">
+				passwd = #{passwd,jdbcType=BIGINT},
+			</if>
+		</set>
+		where studentId = #{studentId,jdbcType=BIGINT}
+	</update>
+	
+	<sql id="queryAndparam1">
+    <where>
+      <if test="param1.studentId!=null ">And studentId=#{param1.studentId}</if>
+      <if test="param1.idNumber!=null ">And idNumber=#{param1.idNumber}</if>
+      <if test="param1.name!=null ">And name=#{param1.name}</if>
+      <if test="param1.sex!=null ">And sex=#{param1.sex}</if>
+      <if test="param1.age!=null ">And age=#{param1.age}</if>
+      <if test="param1.hometown!=null ">And hometown=#{param1.hometown}</if>
+      <if test="param1.phoneNum!=null ">And phoneNum=#{param1.phoneNum}</if>
+      <if test="param1.mailBox!=null ">And mailBox=#{param1.mailBox}</if>
+      <if test="param1.headIcon!=null ">And headIcon=#{param1.headIcon}</if>
+      <if test="param1.password!=null ">And password=#{param1.password}</if>
+      <if test="param1.course1!=null ">And course1=#{param1.course1}</if>
+      <if test="param1.course2!=null ">And course2=#{param1.course2}</if>
+      <if test="param1.course3!=null ">And course3=#{param1.course3}</if>
+      <if test="param1.course4!=null ">And course4=#{param1.course4}</if>
+      <if test="param1.studyDis!=null ">And studyDis=#{param1.studyDis}</if>
+      <if test="param1.registerTime!=null ">And registerTime=#{param1.registerTime}</if>
+      <if test="param1.bankcardNum!=null ">And bankcardNum=#{param1.bankcardNum}</if>
+      <if test="param1.bankName!=null ">And bankName=#{param1.bankName}</if>
+      <if test="param1.bankAccName!=null ">And bankAccName=#{param1.bankAccName}</if>
+      <if test="param1.idPhotoFront!=null ">And idPhotoFront=#{param1.idPhotoFront}</if>
+      <if test="param1.idPhotoBack!=null ">And idPhotoBack=#{param1.idPhotoBack}</if>
+      <if test="param1.isImport!=null ">And isImport=#{param1.isImport}</if>
+      <if test="param1.importSrc!=null ">And importSrc=#{param1.importSrc}</if>
+      <if test="param1.stuCoachEmpID!=null ">And stuCoachEmpID=#{param1.stuCoachEmpID}</if>
+      <if test="param1.applyCarType!=null ">And applyCarType=#{param1.applyCarType}</if>
+      <if test="param1.eventState!=null ">And eventState=#{param1.eventState}</if>
+      <if test="param1.eventDesc!=null ">And eventDesc=#{param1.eventDesc}</if>
+      <if test="param1.checkIdState!=null ">And checkIdState=#{param1.checkIdState}</if>
+      <if test="param1.schoolId!=null ">And schoolId=#{param1.schoolId}</if>
+      <if test="param1.syncType!=null ">And syncType=#{param1.syncType}</if>
+      <if test="param1.syncTime!=null ">And syncTime=#{param1.syncTime}</if>
+      <if test="param1.drLicence!=null ">And drLicence=#{param1.drLicence}</if>
+      <if test="param1.drPhoto!=null ">And drPhoto=#{param1.drPhoto}</if>
+      <if test="param1.drPhoto2!=null ">And drPhoto2=#{param1.drPhoto2}</if>
+      <if test="param1.drType!=null ">And drType=#{param1.drType}</if>
+      <if test="param1.drExpires!=null ">And drExpires=#{param1.drExpires}</if>
+      <if test="param1.agreement!=null ">And agreement=#{param1.agreement}</if>
+      <if test="param1.applyexam!=null ">And applyexam=#{param1.applyexam}</if>
+      <if test="param1.pwstate!=null ">And pwstate=#{param1.pwstate}</if>
+      <if test="param1.cityId!=null ">And cityId=#{param1.cityId}</if>
+      <if test="param1.applystate!=null ">And applystate=#{param1.applystate}</if>
+      <if test="param1.applyorder!=null ">And applyorder=#{param1.applyorder}</if>
+      <if test="param1.applyttid!=null ">And applyttid=#{param1.applyttid}</if>
+      <if test="param1.flowNo!=null ">And flowNo=#{param1.flowNo}</if>
+      <if test="param1.idNation!=null ">And idNation=#{param1.idNation}</if>
+      <if test="param1.idBirthday!=null ">And idBirthday=#{param1.idBirthday}</if>
+      <if test="param1.idAddr!=null ">And idAddr=#{param1.idAddr}</if>
+      <if test="param1.idExpires!=null ">And idExpires=#{param1.idExpires}</if>
+      <if test="param1.drNation!=null ">And drNation=#{param1.drNation}</if>
+      <if test="param1.drAddr!=null ">And drAddr=#{param1.drAddr}</if>
+      <if test="param1.drFirst!=null ">And drFirst=#{param1.drFirst}</if>
+      <if test="param1.drFileNo!=null ">And drFileNo=#{param1.drFileNo}</if>
+      <if test="param1.checkDriveIdState!=null ">And checkDriveIdState=#{param1.checkDriveIdState}</if>
+      <if test="param1.openId!=null ">And openId=#{param1.openId}</if>
+      <if test="param1.extra!=null ">And extra=#{param1.extra}</if>
+      <if test="param1.vipId!=null ">And vipId=#{param1.vipId}</if>
+      <if test="param1.state!=null ">And state=#{param1.state}</if>
+      <if test="param1.reviveTime!=null ">And reviveTime=#{param1.reviveTime}</if>
+      <if test="param1.vipPackageId!=null ">And vipPackageId=#{param1.vipPackageId}</if>
+      ${param2}
+    </where>
+  </sql>
+	<select id="queryByObjectAnd" resultMap="BaseResultMap">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select studentId as studentId,idNumber as idNumber,name as name,sex as sex,age as age,hometown as hometown,phoneNum as phoneNum,mailBox as mailBox,headIcon as headIcon,password as password,course1 as course1,course2 as course2,course3 as course3,course4 as course4,studyDis as studyDis,registerTime as registerTime,bankcardNum as bankcardNum,bankName as bankName,bankAccName as bankAccName,idPhotoFront as idPhotoFront,idPhotoBack as idPhotoBack,isImport as isImport,importSrc as importSrc,stuCoachEmpID as stuCoachEmpID,applyCarType as applyCarType,eventState as eventState,eventDesc as eventDesc,checkIdState as checkIdState,schoolId as schoolId,syncType as syncType,syncTime as syncTime,drLicence as drLicence,drPhoto as drPhoto,drPhoto2 as drPhoto2,drType as drType,drExpires as drExpires,agreement as agreement,applyexam as applyexam,pwstate as pwstate,cityId as cityId,applystate as applystate,applyorder as applyorder,applyttid as applyttid,flowNo as flowNo,idNation as idNation,idBirthday as idBirthday,idAddr as idAddr,idExpires as idExpires,drNation as drNation,drAddr as drAddr,drFirst as drFirst,drFileNo as drFileNo,checkDriveIdState as checkDriveIdState,openId as openId,extra as extra,vipId as vipId,state as state,reviveTime as reviveTime,vipPackageId as vipPackageId, firstLogin, lastLogin, basicHour2, testHour2, simTestHour2, basicHour3, testHour3, simTestHour3, driveHour, packageId, relevanceTime, qqOpenId from t_u_student
+    <include refid="queryAndparam1"/> 
+  </select>
+  <select id="countByObjectAnd" resultType="int">
+    select count(1) from t_u_student
+    <include refid="queryAndparam1"/>
+  </select>
+  
+  <select id="selectNewRegisterMobile" parameterType="map" resultType="java.lang.String">
+	SELECT phoneNum FROM t_u_student WHERE registerTime 
+	BETWEEN #{date1, jdbcType=VARCHAR} and #{date2, jdbcType=VARCHAR} 
+	and isImport =1 and course1 is null 
+	and schoolId = #{schoolId, jdbcType=INTEGER}
+	ORDER BY schoolId
+  </select>
+  
+</mapper>

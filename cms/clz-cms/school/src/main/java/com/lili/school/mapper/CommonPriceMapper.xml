@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.CommonPriceMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.CommonPrice">
+		<id column="upid" property="upid" jdbcType="INTEGER" />
+		<result column="city_id" property="cityId" jdbcType="INTEGER" />
+		<result column="course_id" property="courseId" jdbcType="INTEGER" />
+		<result column="colid" property="colid" jdbcType="INTEGER" />
+		<result column="calid" property="calid" jdbcType="INTEGER" />
+		<result column="dftype" property="dftype" jdbcType="INTEGER" />
+		<result column="tstart" property="tstart" jdbcType="VARCHAR" />
+		<result column="tend" property="tend" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="INTEGER" />
+		<result column="allowance" property="allowance" jdbcType="INTEGER" />
+		<result column="verify" property="verify" jdbcType="TINYINT" />
+		<result column="isdel" property="isdel" jdbcType="TINYINT" />
+		<result column="cuid" property="cuid" jdbcType="INTEGER" />
+		<result column="muid" property="muid" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		upid, city_id, course_id, colid, calid, dftype, tstart, tend, price,
+		allowance, verify,
+		isdel, cuid, muid, ctime, mtime
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_common_price
+		where upid = #{upid,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryCommonPriceList" parameterType="com.lili.school.model.CommonPrice" resultMap="BaseResultMap" >
+		select
+			<include refid="Base_Column_List" />
+		from t_common_price
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and city_id = #{cityId}
+				</if>
+				<if test="courseId != null and courseId != ''">
+					and course_id = #{courseId}
+				</if>
+			</trim>
+			order by coursenewNo desc
+	</select>
+	
+	<select id="queryComPriceList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+			<include refid="Base_Column_List" />
+		from t_common_price
+			where 1=1 
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and upid in (${_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and upid in ('')
+				</if>
+			</trim>
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_common_price
+		where upid = #{upid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.model.CommonPrice">
+		insert into t_common_price (upid, city_id, course_id,
+		colid, calid, dftype,
+		tstart, tend, price,
+		allowance, verify, isdel,
+		cuid, muid, ctime,
+		mtime)
+		values (#{upid,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER},
+		#{courseId,jdbcType=INTEGER},
+		#{colid,jdbcType=INTEGER}, #{calid,jdbcType=INTEGER}, #{dftype,jdbcType=INTEGER},
+		#{tstart,jdbcType=VARCHAR}, #{tend,jdbcType=VARCHAR},
+		#{price,jdbcType=INTEGER},
+		#{allowance,jdbcType=INTEGER}, #{verify,jdbcType=TINYINT}, #{isdel,jdbcType=TINYINT},
+		#{cuid,jdbcType=INTEGER}, #{muid,jdbcType=INTEGER},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.model.CommonPrice">
+		insert into t_common_price
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="upid != null">
+				upid,
+			</if>
+			<if test="cityId != null">
+				city_id,
+			</if>
+			<if test="courseId != null">
+				course_id,
+			</if>
+			<if test="colid != null">
+				colid,
+			</if>
+			<if test="calid != null">
+				calid,
+			</if>
+			<if test="dftype != null">
+				dftype,
+			</if>
+			<if test="tstart != null">
+				tstart,
+			</if>
+			<if test="tend != null">
+				tend,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="allowance != null">
+				allowance,
+			</if>
+			<if test="verify != null">
+				verify,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="upid != null">
+				#{upid,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="colid != null">
+				#{colid,jdbcType=INTEGER},
+			</if>
+			<if test="calid != null">
+				#{calid,jdbcType=INTEGER},
+			</if>
+			<if test="dftype != null">
+				#{dftype,jdbcType=INTEGER},
+			</if>
+			<if test="tstart != null">
+				#{tstart,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				#{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=INTEGER},
+			</if>
+			<if test="allowance != null">
+				#{allowance,jdbcType=INTEGER},
+			</if>
+			<if test="verify != null">
+				#{verify,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.model.CommonPrice">
+		update t_common_price
+		<set>
+			<if test="cityId != null">
+				city_id = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				course_id = #{courseId,jdbcType=INTEGER},
+			</if>
+			<if test="colid != null">
+				colid = #{colid,jdbcType=INTEGER},
+			</if>
+			<if test="calid != null">
+				calid = #{calid,jdbcType=INTEGER},
+			</if>
+			<if test="dftype != null">
+				dftype = #{dftype,jdbcType=INTEGER},
+			</if>
+			<if test="tstart != null">
+				tstart = #{tstart,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				tend = #{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=INTEGER},
+			</if>
+			<if test="allowance != null">
+				allowance = #{allowance,jdbcType=INTEGER},
+			</if>
+			<if test="verify != null">
+				verify = #{verify,jdbcType=TINYINT},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=TINYINT},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where upid = #{upid,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.model.CommonPrice">
+		update t_common_price
+		set city_id = #{cityId,jdbcType=INTEGER},
+		course_id = #{courseId,jdbcType=INTEGER},
+		colid = #{colid,jdbcType=INTEGER},
+		calid = #{calid,jdbcType=INTEGER},
+		dftype = #{dftype,jdbcType=INTEGER},
+		tstart = #{tstart,jdbcType=VARCHAR},
+		tend = #{tend,jdbcType=VARCHAR},
+		price = #{price,jdbcType=INTEGER},
+		allowance = #{allowance,jdbcType=INTEGER},
+		verify = #{verify,jdbcType=TINYINT},
+		isdel = #{isdel,jdbcType=TINYINT},
+		cuid = #{cuid,jdbcType=INTEGER},
+		muid = #{muid,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where upid = #{upid,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

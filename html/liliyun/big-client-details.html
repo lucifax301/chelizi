@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="clientDetails">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>大客户详情</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content">
+    <div class="common-style withdraw-cash order-detail data-coupon">
+        <div class="title">
+            <div class="d-title"><span>{{ item.company }}</span></div>
+            <div class="d-title d-details">
+                <div>
+                    <span>标识简称：{{ item.shorter }}</span>
+                    <span>地区：{{ item.city }}</span>
+                    <a href="import-bigclient-log.html?coid={{item.coid}}" class="btn btn-sm btn-primary z-fr">导学员表记录</a>
+                </div>
+                <div>
+                <span>客户经理：{{ item.manger }}</span>
+                <span>协议：<!-- <a href="#">点击查看</a> --></span>
+                </div>
+                <div><span>联系电话：{{ item.mobile }}</span>
+                	<span style="width: auto;">H5地址：http://www.lilixc.com/appPro/gainreceive_n/client-receive.html?coid={{item.coid}}</span>
+                </div>
+            </div>
+        </div>
+        <!--学员列表-->
+        <div class="padding-20">
+            <div class="table-margin common-table">
+                <div class="header">学员列表</div>
+                <div class="content">
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-5">
+                            <div class="liliyun-search">高级查询</div>
+                            <div class="input-group search-more-condition">
+                                <select ng-model="searchType" class="form-control">
+                                    <option value="cname">姓名</option>
+                                    <option value="mobile">电话</option>
+                                    <option value="rcname">充值送方案</option>
+                                </select>
+                                <input type="text" ng-model="search" class="form-control" placeholder="输入名字/电话/充值送方案查询">
+									<span class="input-group-btn">
+										<a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+									</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="senior-search row">
+                        <div class="col-xs-12 col-sm-9">
+                            <a ng-click="setVpass()" class="btn btn-sm btn-primary" ng-if="120911|isAccessShow">审核通过</a>
+                            <a ng-click="setVfail()" class="btn btn-sm btn-danger margin-left-15" ng-if="120912|isAccessShow">审核不通过</a>
+                            <a ng-if="(item.coid!=4)&&(120909|isAccessShow)" ng-click="addIn()" class="btn btn-sm btn-primary margin-left-15">添加已有学员</a>
+                            <a ng-if="(item.coid!=4)&&(120910|isAccessShow)" ng-click="addOut()" class="btn btn-sm btn-primary margin-left-15">新增学员</a>
+                            <a ng-if="(item.coid!=4)&&(120913|isAccessShow)" ng-click="createFileForm()" class="btn btn-sm btn-primary margin-left-15">学员导入</a>
+                            <a ng-click="downLoadData()" class="btn btn-sm btn-primary margin-left-15" ng-if="120903|isAccessShow">数据导出</a>
+                            <a ng-click="downLoadTemp()" class="btn btn-sm btn-primary margin-left-15" ng-if="120914|isAccessShow">模板下载</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control ng-pristine ng-untouched ng-valid">
+                                <option value="10" selected="selected">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                                <td><b>创建时间</b></td>
+                                <td><b>姓名</b></td>
+                                <td><b>电话</b></td>
+                                <td><b>性别</b></td>
+                                <td><b>工号</b></td>
+                                <td><b>所属城市</b></td>
+                                <td><b>所属驾校</b></td>
+                                <td><b>所学车型</b></td>
+                                <td><b>充值送方案</b></td>
+                                <!-- <td><b>券ID</b></td> -->
+                                <td><b>身份证号</b></td>
+                                <td><b>学员状态</b></td>
+                                <td><b>流水号</b></td>
+                                <td><b>审核状态</b></td>
+                                <td><b>账号状态</b></td>
+                            </tr>
+                            <tr ng-repeat="item in datas" class="ng-scope">
+                                <td align="center"><input type="checkbox" id="{{item.studentId}}" ng-click="updateSelection($event,item.studentId)" ng-checked="isSelected(item.studentId)"></td>
+                                <td ng-bind="item.ctime | timeTex"></td>
+                                <!--<td><a ng-bind="item.name ? item.name : '喱喱同学'"></a></td>-->
+                                <td><a href="student-details.html?studentId={{item.studentId}}" ng-bind="item.name?item.name:'喱喱同学'" ng-if="(120523|isAccessShow)&&(120508|isAccessShow)" ></a><span ng-if="!((120523|isAccessShow)&&(120508|isAccessShow))" ng-bind="item.name?item.name:'喱喱同学'"></span></td>
+                                <td ng-bind="item.phoneNum"></td>
+                                <td ng-bind="item.sex | sexText"></td>
+                                <td ng-bind="item.cid"></td>
+                                <td ng-bind="item.cityName"></td>
+                                <td ng-bind="item.schoolName | schoolTex"></td>
+                                <td ng-bind="item.applyCarType | applyCarTypeTex"></td>
+                                <td><a href="app-client-plan-details.html?rcid={{item.vipPackageId}}" ng-bind="item.rcname" ng-if="item.vipPackageId"></a><span ng-bind="item.rcname" ng-if="!item.vipPackageId"></span></td>
+                                <!-- <td ng-bind="item.id"></td> -->
+                                <td ng-bind="item.idNumber"></td>
+                                <td ng-bind="(item.applyexam+','+item.applystate) | studentStateText"></td>
+                                <td ng-bind="item.flowNo"></td>
+                                <td ng-class="{green:item.vstate==1,error:item.vstate==2}" ng-bind="item.vstate | verifyType"></td>
+                                <!-- <td ng-bind="data.state | accountStateText"></td> -->
+                                <td ng-bind="item.state | accountStateText"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-include src="'edit/add-client-student-in.html'" onload="myload()"></ng-include>
+    <ng-include src="'edit/add-client-student-out.html'"></ng-include>
+    <!--<ng-include src="'edit/edit-client-student.html'"></ng-include>-->
+</div>
+
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/big-client-details.js"></script>
+<script src="assets/common/js/city.js"></script>
+</body>
+</html>

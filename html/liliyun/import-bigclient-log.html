@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ImportBigclientLog">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员导表记录</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 优惠券 -->
+		<div class="title ">
+			<div class="d-title">学员导表记录</div>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td><b>导表时间</b></td>
+								<td><b>表编号</b></td>
+								<td><b>导入表格名称</b></td>
+								<td><b>总数据</b></td>
+								<td><b>有效数据</b></td>
+								<td><b>操作人</b></td>
+							</tr>
+							<tr ng-repeat="item in datas" >
+								<td ng-bind="item.createTime | timeTex"></td>
+                                <td ng-bind="item.id"></td>
+								<td><a target="_blank" ng-bind="item.fileName" href="import-bigclient-loglist.html?exportId={{item.id}}"></a></td>
+								<td ng-bind="item.sum"></td>
+								<td ng-bind="item.validSum"></td>
+								<td ng-bind="item.creator"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ng-include src="'edit/add-coach.html'" onload="addCouponLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/import-bigclient-log.js"></script>
+</body>
+</html>

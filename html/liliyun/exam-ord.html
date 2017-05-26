@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ExamGroundOrder">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>考场订单</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style media="screen">
+        .onlyprint{ display: none!important;}
+    </style>
+    <style media="print">
+        .noprint {
+            display: none;
+        }
+        .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{ padding:1px 5px!important; text-align: center!important;}
+        .common-table{ border: none; margin-top: 0!important;}
+        .common-table .content{ padding: 0;}
+        .common-table .header{ padding: 0!important;}
+        .onlyprint{ display: table-cell!important;}
+        .index-left{ display: none!important;}
+        .index-right{ display: none!important;}
+        #content{ width: 100%!important; height: 100%!important;}
+        .z-font12{ font-size: 14px!important;}
+
+    </style>
+    <link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
+    <script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <!-- 主体内容 -->
+    <div class="common-style withdraw-cash order-detail data-statistics student-position">
+        <!-- 订单管理 -->
+        <div class="title noprint">
+            <div class="d-title" ng-bind="currentOrder?'考场预约订单':'订单管理'"></div>
+            <ul class="table-li" ng-if="!currentOrder">
+                <li class="active"><a href="exam-ord.html">考场预约订单</a></li>
+            </ul>
+        </div>
+        <div class="padding-20">
+            <div class="table-margin common-table">
+                <div class="header"><span ng-bind="pdate+' '+pstart+' 的'" ng-if="currentOrder"></span>预约订单列表 (<span ng-bind="'C'+drtype"></span>) <span class="fr onlyprint">打印时间：<span id="printTime"></span></span></div>
+                <div class="content">
+                    <div class="search noprint">
+                        <div  class="line" ng-if="currentOrder">
+                            <div>当前时段</div>
+                            <ul>
+                                <li class="active" ng-bind="pdate+' '+pstart"></li>
+                                <li><a href="exam-ord.html" class="z-fontdark" style="text-decoration: none;">查看全部</a></li>
+                            </ul>
+                        </div>
+                        <div class="line" ng-class="{'z-disnone':currentOrder,'z-disblock':!currentOrder}">
+                            <div>练考日期</div>
+                            <ul class="getOneDay">
+                                <li ng-click="getDataForDate($event,'all')" class="active">全部</li>
+                                <li ng-click="getDataForDate($event,'0')">今天</li>
+                                <li ng-click="getDataForDate($event,'1')">明天</li>
+                                <li ng-click="getDataForDate($event,'2')">后天</li>
+                            </ul>
+                            <div class="input-prepend form-inline">
+                                <input type="text" class="form-control dateSelect select-from" value="" style="width: 100px;" placeholder="起始日期"/>
+                                <span class="z-ml5 z-mr5">到</span>
+                                <input type="text" class="form-control dateSelect select-to" value="" style="width: 100px;" placeholder="截止日期"/>
+                            </div>
+                        </div>
+                        <div class="line" ng-class="{'z-disnone':currentOrder||!pdate||!showTimePicker,'z-disblock':!currentOrder&&showTimePicker}">
+                            <div>练考时段</div>
+                            <ul>
+                                <li ng-click="getDataForTimeAll($event)" class="active" id="getAllTime">全部</li>
+                                <!--<li ng-click="getDataForTime($event,'cur')">当前时段</li>-->
+                            </ul>
+                            <div class="input-prepend form-inline">
+                                <input type="text" placeholder="起始时间" class="form-control date-time date-time-from" style="width: 100px" >
+                                <span class="z-ml10 z-mr10">到</span>
+                                <input type="text" placeholder="结束时间" class="form-control date-time date-time-to"  style="width: 100px">
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div>订单状态</div>
+                            <ul>
+                                <li ng-click="getDataForOrderState($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForOrderState($event,0)">未支付</li>
+                                <li ng-click="getDataForOrderState($event,4)">已取消</li>
+                                <li ng-click="getDataForOrderState($event,5)">已关闭</li>
+                                <li ng-click="getDataForOrderState($event,1)">已支付</li>
+                                <li ng-click="getDataForOrderState($event,2)">练考中</li>
+                                <li ng-click="getDataForOrderState($event,3)">已完成</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>练考车型</div>
+                            <ul>
+                                <li ng-click="getDataForCarType($event,'')" class="active">全部</li>
+                                <li ng-click="getDataForCarType($event,1)">C1</li>
+                                <li ng-click="getDataForCarType($event,2)">C2</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>订单搜索</div>
+                            <div class="input-group search-more-condition" style="width:400px;">
+                                <select ng-model="searchType" class="form-control" id="search_type">
+                                    <option value="coachName">教练姓名</option>
+                                    <option value="schoolName">驾校名称</option>
+                                    <option value="carNo">车牌号</option>
+                                    <option value="coachMobile">教练电话</option>
+                                    <option value="orderId">订单号</option>
+                                </select>
+                                <input type="text" ng-model="search" class="form-control"  placeholder="输入订单号" id="search_placeholder">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="senior-search row noprint">
+                        <div class="col-xs-12 col-sm-4">
+                            <!--<a ng-click="orderDataExport()" class="btn btn-sm btn-primary margin-left-15">数据导出</a>-->
+                            <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-primary" >打印</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+                            <span>每页</span>
+                            <select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="40" selected="selected">40</option>
+                                <option value="80">80</option>
+                            </select>
+                            <span>条记录</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped z-font12">
+                            <tr>
+                                <td class="onlyprint"><b>序号</b></td>
+                                <td class="noprint"><b>订单号</b></td>
+                                <td class="noprint"><b>练考时间</b></td>
+                                <td><b>练考车牌</b></td>
+                                <td class="noprint"><b>练考科目</b></td>
+                                <td><b><span class="noprint">练考</span>车型</b></td>
+                                <td class="noprint"><b>教练姓名</b></td>
+                                <td><b>所属驾校</b></td>
+                                <td><b>预约时长 <span class="noprint">(小时)</span></b></td>
+                                <td><b>教练电话</b></td>
+                                <td class="noprint"><b>可获优惠</b></td>
+                                <td class="noprint"><b>是否顺延(分钟)</b></td>
+                                <td class="noprint"><b>订单金额(元)</b></td>
+                                <td class="noprint"><b>支付金额(元)</b></td>
+                                <td class="noprint"><b>订单状态</b></td>
+                                <td class="noprint"><b>订单备注</b></td>
+                                <td class="onlyprint"><b>进场确认</b></td>
+                                <td class="onlyprint"><b>离场确认</b></td>
+                                <td class="onlyprint" style="width: 8em"><b>备注</b></td>
+                                <!--<td class="noprint"><b>操作</b></td>-->
+                            </tr>
+                            <tr ng-repeat="data in datas">
+                                <td class="onlyprint">{{(defaultPage-1)*pageSize+$index+1}}</td>
+                                <td class="noprint">
+                                    <a target="_blank" href="exam-ord-details.html?orderId={{data.orderId}}" data-bubble="{{ data.orderId }}" class="layerBubble" ng-bind="data.orderId | limitToSec:10" ng-if="121201|isAccessShow"></a>
+                                    <span data-bubble="{{ data.orderId }}" class="layerBubble" ng-bind="data.orderId | limitToSec:10" ng-if="!(121201|isAccessShow)"></span>
+                                </td>
+                                <td class="noprint"><span ng-bind="data.pstart|timeTexYMDHI"></span>~<span ng-bind="data.pend|timeTexHI"></span></td>
+                                <td ng-bind="data.carNo"></td>
+                                <td class="noprint" ng-bind="'科目'+data.type"></td>
+                                <td ng-bind="data.drtype|applyCarTypeTex"></td>
+                                <td class="noprint" ng-bind="data.coachName"></td>
+                                <td ng-bind="data.school"></td>
+                                <td ng-bind="data.duration"></td>
+                                <td ng-bind="data.coachMobile"></td>
+                                <td class="noprint" ng-bind="data.favorGen/100"></td>
+                                <td class="noprint" ng-bind="data.delay==0?'否':data.delay"></td>
+                                <td class="noprint" ng-bind="data.priceTotal/100"></td>
+                                <td class="noprint" ng-bind="data.payTotal/100"></td>
+                                <td class="noprint" ng-bind="data.state|examOrderState"></td>
+                                <td class="noprint" ng-bind="data.remark"></td>
+                                <td class="onlyprint"></td>
+                                <td class="onlyprint"></td>
+                                <td class="onlyprint"></td>
+                                <!--<td class="noprint"><a ng-if="data.state<=1" href="javascript:;" ng-click="closeOrder(data)">关闭订单</a></td>-->
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="page noprint">
+                        <div id="copot-page" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/exam-ground-order.js"></script>
+<script src="assets/common/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.common.CMSCStockDao" >
+  <resultMap id="BaseResultMap" type="com.lili.coupon.dto.CStock" >
+    <id column="stockId" property="stockid" jdbcType="INTEGER" />
+    <result column="eventTopic" property="eventtopic" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="haveUsed" property="haveused" jdbcType="INTEGER" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="createUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="isExist" property="isexist" jdbcType="TINYINT" />
+    <result column="couponTempId" property="coupontempid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    stockId, eventTopic, total, haveUsed, createTime, createUser, isExist, couponTempId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_cstock
+    where stockId = #{stockid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_cstock
+    where stockId = #{stockid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lili.coupon.dto.CStock" >
+    insert into t_s_cstock (stockId, eventTopic, total, 
+      haveUsed, createTime, createUser, 
+      isExist, couponTempId)
+    values (#{stockid,jdbcType=INTEGER}, #{eventtopic,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER}, 
+      #{haveused,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, 
+      #{isexist,jdbcType=TINYINT}, #{coupontempid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.coupon.dto.CStock" >
+    insert into t_s_cstock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        stockId,
+      </if>
+      <if test="eventtopic != null" >
+        eventTopic,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="haveused != null" >
+        haveUsed,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="createuser != null" >
+        createUser,
+      </if>
+      <if test="isexist != null" >
+        isExist,
+      </if>
+      <if test="coupontempid != null" >
+        couponTempId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockid != null" >
+        #{stockid,jdbcType=INTEGER},
+      </if>
+      <if test="eventtopic != null" >
+        #{eventtopic,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="haveused != null" >
+        #{haveused,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="isexist != null" >
+        #{isexist,jdbcType=TINYINT},
+      </if>
+      <if test="coupontempid != null" >
+        #{coupontempid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.coupon.dto.CStock" >
+    update t_s_cstock
+    <set >
+      <if test="eventtopic != null" >
+        eventTopic = #{eventtopic,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="haveused != null" >
+        haveUsed = #{haveused,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        createUser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="isexist != null" >
+        isExist = #{isexist,jdbcType=TINYINT},
+      </if>
+      <if test="coupontempid != null" >
+        couponTempId = #{coupontempid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stockId = #{stockid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.coupon.dto.CStock" >
+    update t_s_cstock
+    set eventTopic = #{eventtopic,jdbcType=VARCHAR},
+      total = #{total,jdbcType=INTEGER},
+      haveUsed = #{haveused,jdbcType=INTEGER},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      createUser = #{createuser,jdbcType=VARCHAR},
+      isExist = #{isexist,jdbcType=TINYINT},
+      couponTempId = #{coupontempid,jdbcType=VARCHAR}
+    where stockId = #{stockid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="recoverStock" parameterType="java.lang.Integer" >
+    update t_s_cstock
+    set 
+    haveUsed = haveUsed-1
+    where stockId = #{stockid,jdbcType=INTEGER} and haveUsed &gt; 0
+  </update>
+  
+  <update id="useStock" parameterType="java.lang.Integer" >
+    update t_s_cstock
+    set 
+    haveUsed = haveUsed+1
+    where stockId = #{stockid,jdbcType=INTEGER} and haveUsed &lt; total
+  </update>
+  
+  <select id="getAllValidStock" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_cstock
+    where eventTopic = #{0} and isExist = 1 and total &gt; haveUsed group by eventTopic,couponTempId
+  </select>
+
+  <select id="getStockByCouponTmpId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from t_s_cstock
+    where couponTempId = #{couponTmpId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findStockList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_s_cstock
+    where 
+     <![CDATA[eventTopic is not null and eventTopic != '']]>
+     group by eventTopic
+  </select>
+  
+  <update id="updateStockBatch"  >
+    update t_s_cstock
+    set 
+    isExist=#{1}
+	WHERE  couponTmpId in (#{0})
+  </update>
+</mapper>

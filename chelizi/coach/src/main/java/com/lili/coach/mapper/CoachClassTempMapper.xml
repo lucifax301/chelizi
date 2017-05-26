@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.coach.mapper.dao.CoachClassTempMapper">
+	<resultMap id="BaseResultMap" type="com.lili.order.vo.CoachClassTemp">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tempId" property="tempId" jdbcType="INTEGER" />
+		<result column="tempName" property="tempName" jdbcType="VARCHAR" />
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="cstart" property="cstart" jdbcType="TIMESTAMP" />
+		<result column="cend" property="cend" jdbcType="TIMESTAMP" />
+		<result column="stime" property="stime" jdbcType="VARCHAR" />
+		<result column="tend" property="tend" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="courseId" property="courseId" jdbcType="VARCHAR" />
+		<result column="courseName" property="courseName" jdbcType="VARCHAR" />
+		<result column="maxNum" property="maxNum" jdbcType="TINYINT" />
+		<result column="fieldId" property="fieldId" jdbcType="INTEGER" />
+		<result column="fieldName" property="fieldName" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="coachCarId" property="coachCarId" jdbcType="INTEGER" />
+		<result column="drType" property="drType" jdbcType="TINYINT" />
+		<result column="channel" property="channel" jdbcType="TINYINT" />
+		<result column="isUse" property="isUse" jdbcType="TINYINT" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="lge" property="lge" jdbcType="DECIMAL" />
+		<result column="lae" property="lae" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, tempId, tempName, coachId, cstart, cend, stime, tend, duration,
+		courseId, courseName,
+		maxNum, fieldId, fieldName, ctime, coachCarId, drType, channel, isUse, cityId,
+		mtime, schoolId, lge, lae,
+		remark
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_coach_class_temp
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<resultMap id="QueryResultMap" type="com.lili.order.vo.CoachClassTempQuery">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="tempId" property="tempId" jdbcType="INTEGER" />
+		<result column="tempName" property="tempName" jdbcType="VARCHAR" />
+		<result column="coachId" property="coachId" jdbcType="BIGINT" />
+		<result column="cstart" property="cstart" jdbcType="TIMESTAMP" />
+		<result column="cend" property="cend" jdbcType="TIMESTAMP" />
+		<result column="stime" property="stime" jdbcType="VARCHAR" />
+		<result column="tend" property="tend" jdbcType="VARCHAR" />
+		<result column="duration" property="duration" jdbcType="INTEGER" />
+		<result column="courseId" property="courseId" jdbcType="VARCHAR" />
+		<result column="courseName" property="courseName" jdbcType="VARCHAR" />
+		<result column="maxNum" property="maxNum" jdbcType="TINYINT" />
+		<result column="fieldId" property="fieldId" jdbcType="INTEGER" />
+		<result column="fieldName" property="fieldName" jdbcType="VARCHAR" />
+		<result column="coachCarId" property="coachCarId" jdbcType="INTEGER" />
+		<result column="drType" property="drType" jdbcType="TINYINT" />
+		<result column="lge" property="lge" jdbcType="DECIMAL" />
+		<result column="lae" property="lae" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<select id="queryTemplate" resultMap="QueryResultMap" parameterType="com.lili.order.vo.CoachClassTemp">
+		select
+			id, tempId, tempName, coachId, cstart, cend, stime, tend, duration,
+			courseId, courseName, maxNum, fieldId, fieldName, coachCarId, drType, lge, lae
+		from t_coach_class_temp
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and  coachId = #{coachId}
+				</if>
+				<if test="tempId != null and tempId != ''">
+					and tempId = #{tempId}
+				</if>
+				<if test="tempName != null and tempName != ''">
+					and tempName = #{tempName}
+				</if>
+			</trim>
+			order by HOUR(cstart) asc
+	</select>
+	
+	<select id="queryIsExitClassTempName" resultType="java.lang.Integer" parameterType="com.lili.order.vo.CoachClassTempVo">
+		select
+			count(1)
+		from t_coach_class_temp
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and  coachId = #{coachId}
+				</if>
+				<if test="tempName != null and tempName != ''">
+					and tempName = #{tempName}
+				</if>
+			</trim>
+	</select>
+	
+	<resultMap id="TempResultMap" type="com.lili.order.vo.CoachClassTempNameVo">
+		<result column="tempId" property="tempId" jdbcType="INTEGER" />
+		<result column="tempName" property="tempName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryTemplateName" resultMap="TempResultMap" parameterType="com.lili.order.vo.CoachClassTemp">
+		select
+			 tempId, tempName
+		from t_coach_class_temp
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="coachId != null and coachId != ''">
+					and  coachId = #{coachId}
+				</if>
+			</trim>
+			group by tempId order by cstart asc
+	</select>
+	
+	<select id="saveClassTemp" resultMap="BaseResultMap" parameterType="com.lili.order.vo.CoachClassTempVo">
+		  insert into t_coach_class_temp ( tempId, tempName, coachId, cstart, cend, stime, tend, duration,
+						courseId, courseName, maxNum, fieldId, fieldName, ctime, coachCarId, drType, channel,
+						cityId,  schoolId, remark, lge,lae) values
+			<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+				(#{item.tempId}, #{item.tempName}, #{item.coachId},#{item.cstart},#{item.cend},#{item.stime}
+				,#{item.tend}, #{item.duration}, #{item.courseId}, #{item.courseName}, #{item.maxNum}, #{item.fieldId}, #{item.fieldName}, NOW()
+				,#{item.coachCarId}, #{item.drType}, #{item.channel}, #{item.cityId}, #{item.schoolId}, #{item.remark}, #{item.lge}, #{item.lae})
+		</foreach>
+	</select>
+	
+	 <update id="updateClassTemp"  parameterType="java.util.List">
+       <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+             update t_coach_class_temp 
+                <set>
+						tempName='${item.tempName}',
+					    cstart='${item.cstart}',
+					    cend='${item.cend}',
+					    duration =${item.duration},
+					    maxNum =${item.maxNum},
+					    fieldId =${item.fieldId},
+					    fieldName ='${item.fieldName}',
+					    drType =${item.drType},
+					    courseId=${item.courseId},
+					    lge=${item.lge},
+					    lae=${item.lae}
+                </set>
+                <where>  
+		       		 id=${item.id}
+		     </where> 
+       </foreach>
+    </update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_coach_class_temp
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByTempId" parameterType="java.lang.Integer">
+		delete from t_coach_class_temp
+		where tempId = #{tempId,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.order.vo.CoachClassTemp">
+		insert into t_coach_class_temp (id, tempId, tempName,
+		coachId, cstart, cend,
+		stime, tend, duration,
+		courseId, courseName, maxNum,
+		fieldId, fieldName, ctime,
+		coachCarId, drType, channel,isUse,
+		cityId, mtime, schoolId,
+		remark, lge,lae)
+		values (#{id,jdbcType=INTEGER}, #{tempId,jdbcType=INTEGER},
+		#{tempName,jdbcType=VARCHAR},
+		#{coachId,jdbcType=BIGINT}, #{cstart,jdbcType=TIMESTAMP}, #{cend,jdbcType=TIMESTAMP},
+		#{stime,jdbcType=VARCHAR}, #{tend,jdbcType=VARCHAR},
+		#{duration,jdbcType=INTEGER},
+		#{courseId,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, #{maxNum,jdbcType=TINYINT},
+		#{fieldId,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP},
+		#{coachCarId,jdbcType=INTEGER}, #{drType,jdbcType=TINYINT}, #{channel,jdbcType=TINYINT}, #{isUse,jdbcType=TINYINT},
+		#{cityId,jdbcType=INTEGER}, #{mtime,jdbcType=TIMESTAMP},
+		#{schoolId,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}),
+		#{lge,jdbcType=DECIMAL},
+		#{lae,jdbcType=DECIMAL}
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.order.vo.CoachClassTemp">
+		insert into t_coach_class_temp
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="tempId != null">
+				tempId,
+			</if>
+			<if test="tempName != null">
+				tempName,
+			</if>
+			<if test="coachId != null">
+				coachId,
+			</if>
+			<if test="cstart != null">
+				cstart,
+			</if>
+			<if test="cend != null">
+				cend,
+			</if>
+			<if test="stime != null">
+				stime,
+			</if>
+			<if test="tend != null">
+				tend,
+			</if>
+			<if test="duration != null">
+				duration,
+			</if>
+			<if test="courseId != null">
+				courseId,
+			</if>
+			<if test="courseName != null">
+				courseName,
+			</if>
+			<if test="maxNum != null">
+				maxNum,
+			</if>
+			<if test="fieldId != null">
+				fieldId,
+			</if>
+			<if test="fieldName != null">
+				fieldName,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="coachCarId != null">
+				coachCarId,
+			</if>
+			<if test="drType != null">
+				drType,
+			</if>
+			<if test="channel != null">
+				channel,
+			</if>
+			<if test="isUse != null">
+				isUse,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="schoolId != null">
+				schoolId,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="lae != null">
+				lae,
+			</if>
+			<if test="lge != null">
+				lge,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="tempId != null">
+				#{tempId,jdbcType=INTEGER},
+			</if>
+			<if test="tempName != null">
+				#{tempName,jdbcType=VARCHAR},
+			</if>
+			<if test="coachId != null">
+				#{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="cstart != null">
+				#{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				#{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stime != null">
+				#{stime,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				#{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				#{duration,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				#{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				#{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				#{maxNum,jdbcType=TINYINT},
+			</if>
+			<if test="fieldId != null">
+				#{fieldId,jdbcType=INTEGER},
+			</if>
+			<if test="fieldName != null">
+				#{fieldName,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="coachCarId != null">
+				#{coachCarId,jdbcType=INTEGER},
+			</if>
+			<if test="drType != null">
+				#{drType,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				#{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isUse != null">
+				#{isUse,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.order.vo.CoachClassTemp">
+		update t_coach_class_temp
+		<set>
+			<if test="tempId != null">
+				tempId = #{tempId,jdbcType=INTEGER},
+			</if>
+			<if test="tempName != null">
+				tempName = #{tempName,jdbcType=VARCHAR},
+			</if>
+			<if test="coachId != null">
+				coachId = #{coachId,jdbcType=BIGINT},
+			</if>
+			<if test="cstart != null">
+				cstart = #{cstart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cend != null">
+				cend = #{cend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stime != null">
+				stime = #{stime,jdbcType=VARCHAR},
+			</if>
+			<if test="tend != null">
+				tend = #{tend,jdbcType=VARCHAR},
+			</if>
+			<if test="duration != null">
+				duration = #{duration,jdbcType=INTEGER},
+			</if>
+			<if test="courseId != null">
+				courseId = #{courseId,jdbcType=VARCHAR},
+			</if>
+			<if test="courseName != null">
+				courseName = #{courseName,jdbcType=VARCHAR},
+			</if>
+			<if test="maxNum != null">
+				maxNum = #{maxNum,jdbcType=TINYINT},
+			</if>
+			<if test="fieldId != null">
+				fieldId = #{fieldId,jdbcType=INTEGER},
+			</if>
+			<if test="fieldName != null">
+				fieldName = #{fieldName,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="coachCarId != null">
+				coachCarId = #{coachCarId,jdbcType=INTEGER},
+			</if>
+			<if test="drType != null">
+				drType = #{drType,jdbcType=TINYINT},
+			</if>
+			<if test="channel != null">
+				channel = #{channel,jdbcType=TINYINT},
+			</if>
+			<if test="isUse != null">
+				channel = #{isUse,jdbcType=TINYINT},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=INTEGER},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="schoolId != null">
+				schoolId = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="lae != null">
+				lae = #{lae,jdbcType=DECIMAL},
+			</if>
+			<if test="lge != null">
+				lge = #{lge,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.order.vo.CoachClassTemp">
+		update t_coach_class_temp
+		set tempId = #{tempId,jdbcType=INTEGER},
+		tempName = #{tempName,jdbcType=VARCHAR},
+		coachId = #{coachId,jdbcType=BIGINT},
+		cstart = #{cstart,jdbcType=TIMESTAMP},
+		cend = #{cend,jdbcType=TIMESTAMP},
+		stime = #{stime,jdbcType=VARCHAR},
+		tend = #{tend,jdbcType=VARCHAR},
+		duration = #{duration,jdbcType=INTEGER},
+		courseId = #{courseId,jdbcType=VARCHAR},
+		courseName = #{courseName,jdbcType=VARCHAR},
+		maxNum = #{maxNum,jdbcType=TINYINT},
+		fieldId = #{fieldId,jdbcType=INTEGER},
+		fieldName = #{fieldName,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		coachCarId = #{coachCarId,jdbcType=INTEGER},
+		drType = #{drType,jdbcType=TINYINT},
+		channel = #{channel,jdbcType=TINYINT},
+		isUse = #{isUse,jdbcType=TINYINT},
+		cityId = #{cityId,jdbcType=INTEGER},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		schoolId = #{schoolId,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		lge = {lge,jdbcType=DECIMAL},
+		lae = {lae,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

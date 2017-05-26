@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Order">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>报名订单</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title">
+			<div class="d-title">订单管理</div>
+			<ul class="table-li">
+				<li><a href="order.html">课程订单</a></li>
+				<li class="active"><a href="sign-up-orde.html">报名订单</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table liliyun-common-table">
+				<div class="header">报名订单</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>订单状态</div>
+							<ul>
+								<li ng-click="getDataForIsdel($event,'')" class="active">全部</li>
+								<li ng-click="getDataForIsdel($event,0)">未结款</li>
+								<li ng-click="getDataForIsdel($event,1)">已结款</li>
+							</ul>
+						</div>
+						<div class="line">
+							<div>驾照类型</div>
+							<ul>
+								<li ng-click="getDataForDriveType($event,'')" class="active">全部</li>
+								<li ng-click="getDataForDriveType($event,1)">C1</li>
+								<li ng-click="getDataForDriveType($event,2)">C2</li>
+							</ul>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="liliyun-search">高级查询</div>
+							<div class="input-group search-more-condition">
+								<select ng-model="searchType" class="form-control">
+									<option value="orderId" selected="selected">订单号</option>
+									<option value="name">姓名</option>
+									<option value="phoneNum">电话</option>
+								</select>
+								<input type="text" ng-model="search" class="form-control" placeholder="输入订单号/名字/电话查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-with-style">
+							<tr>
+								<td><b>报名单号</b></td>
+								<td><b>学员学员</b></td>
+								<td><b>学员电话</b></td>
+								<td><b>驾考类型</b></td>
+								<td><b>报名城市</b></td>
+								<td><b>金额</b></td>
+								<td><b>订单状态</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td><a href="javascript:void(0)" data-bubble="{{ item.orderId }}" ng-bind="item.orderId | limitToSec:10" class="layerBubble"></a></td>
+								<td><a href="student-details.html?studentId={{item.studentId}}" ng-bind="item.name?item.name:'喱喱同学'"></a></td>
+								<td ng-bind="item.phoneNum"></td>
+								<td ng-bind="item.dltype | applyCarTypeTex"></td>
+								<td ng-bind="item.region"></td>
+								<td ng-bind="item.price/100"></td>
+								<td ng-bind="item.isdel | isdelText"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/sign-up-order.js?v=30188edf9e1470826781028"></script>
+</body>
+</html>

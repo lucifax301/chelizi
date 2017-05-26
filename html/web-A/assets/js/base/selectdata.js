@@ -1,0 +1,17 @@
+//车型
+var perdritype =  [{id: "C1",value: 'C1'}, 
+                    {id: "C2",value: 'C2'}, 
+                    {id: "C3",value: 'C3'},
+                    {id: "C4",value: 'C4'}, 
+                    {id: "C5",value: 'C5'},
+                    {id: "A1",value: 'A1'},
+                    {id: "A2",value: 'A2'}, 
+                    {id: "A3",value: 'A3'}, 
+                    {id: "B1",value: 'B1'}, 
+                    {id: "B2",value: 'B2'},
+                    {id: "D",value: 'D'}, 
+                    {id: "E",value: 'E'},
+                    {id: "F",value: 'F'}, 
+                    {id: "M",value: 'M'}, 
+                    {id: "N",value: 'N'}, 
+                    {id: "P",value: 'P'}];

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<import resource="classpath*:cms-dubbo-client.xml"/>
+	<import resource="classpath*:cms-school-client.xml"/>
+	<import resource="classpath*:cms-user-client.xml"/>
+	<import resource="classpath*:cms-coach-client.xml"/>
+	<import resource="classpath*:cms-log-client.xml"/>
+	<import resource="classpath*:cms-order-client.xml"/>
+	<import resource="classpath*:cms-student-client.xml"/>
+	<import resource="classpath*:cms-spring-stustates.xml"/>
+	<import resource="classpath*:cms-finance-client.xml"/>
+	<import resource="classpath*:cms-report-client.xml"/>
+	<import resource="classpath*:cms-privilege-client.xml"/>
+	<import resource="classpath*:spring-jedis.xml"/>
+	<import resource="classpath*:exam-client.xml"/>
+	<import resource="classpath*:coach-client.xml"/>
+	<import resource="classpath*:school-client.xml"/>
+	<import resource="spring-conf.xml"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>  
+	
+</beans>

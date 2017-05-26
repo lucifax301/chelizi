@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.cms.IBonusDetailDao" >
+  <resultMap id="BaseResultMap" type="com.lili.finance.vo.BonusDetailVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bonus_id" property="bonusId" jdbcType="INTEGER" />
+    <result column="coach_name" property="coachName" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
+    <result column="bonus_reason" property="bonusReason" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, bonus_id, coach_name, phoneNum, region, bonus_reason, money,status
+  </sql>
+  
+   <select id="queryList" resultMap="BaseResultMap" parameterType="com.lili.finance.vo.BonusDetailVo">
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_u_bonus_detail
+	    where bonus_id = #{bonusId,jdbcType=INTEGER}
+			order by id ASC
+  </select>
+  
+   <select id="queryRepeatList" resultMap="BaseResultMap" parameterType="com.lili.finance.vo.BonusDetailVo">
+	    select 
+	    		id,bonus_id,coach_name,phoneNum,region,bonus_reason,sum(money) as money,status
+	    from t_u_bonus_detail
+	    where bonus_id = #{bonusId,jdbcType=INTEGER} GROUP BY phoneNum
+			order by id ASC
+  </select>
+  
+   <select id="queryRepeat" resultType="java.lang.Integer"  >
+	    select  count(1)  from t_u_bonus_detail
+	    where bonus_id = #{bonusId,jdbcType=INTEGER} 
+	  	   group by  phoneNum having count(phoneNum) > 1
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_bonus_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+    <delete id="deleteByBonusId" parameterType="java.lang.Integer" >
+   		 delete from t_u_bonus_detail   where bonus_id = #{bonusId,jdbcType=INTEGER}
+  </delete>
+  
+   <insert id="insertList" parameterType="java.util.List" >
+	    insert into t_u_bonus_detail ( bonus_id, coach_name, phoneNum, region, bonus_reason, money)values
+			<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+				(#{item.bonusId},#{item.coachName},#{item.phoneNum},#{item.region},#{item.bonusReason},#{item.money})
+		</foreach>
+  </insert>
+  
+  <update id="updateStatus" parameterType="map">
+    update t_u_bonus_detail  set status = #{status,jdbcType=INTEGER}  where bonus_id = #{bonusId,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_u_bonus_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lili.finance.vo.BonusDetailVo" >
+    insert into t_u_bonus_detail (id, bonus_id, coach_name, 
+      phoneNum, region, bonus_reason,  money, status)
+    values (#{id,jdbcType=INTEGER}, #{bonusId,jdbcType=INTEGER}, #{coachName,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{bonusReason,jdbcType=VARCHAR}, 
+      #{money,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.finance.vo.BonusDetailVo" >
+    insert into t_u_bonus_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bonusId != null" >
+        bonus_id,
+      </if>
+      <if test="coachName != null" >
+        coach_name,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="region != null" >
+        region,
+      </if>
+      <if test="bonusReason != null" >
+        bonus_reason,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bonusId != null" >
+        #{bonusId,jdbcType=INTEGER},
+      </if>
+      <if test="coachName != null" >
+        #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="bonusReason != null" >
+        #{bonusReason,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.finance.vo.BonusDetailVo" >
+    update t_u_bonus_detail
+    <set >
+      <if test="bonusId != null" >
+        bonus_id = #{bonusId,jdbcType=INTEGER},
+      </if>
+      <if test="coachName != null" >
+        coach_name = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="bonusReason != null" >
+        bonus_reason = #{bonusReason,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        money = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.finance.vo.BonusDetailVo" >
+    update t_u_bonus_detail
+    set bonus_id = #{bonusId,jdbcType=INTEGER},
+      coach_name = #{coachName,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      region = #{region,jdbcType=VARCHAR},
+      bonus_reason = #{bonusReason,jdbcType=VARCHAR},
+      money = #{money,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>

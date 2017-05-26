@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="DataOrdStatistics">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>学员统计</title>
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="../assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">教务报表</div>
+		<ul class="table-li">
+			<li><a href="data-statistics.html">数据统计</a></li>
+			<li class="active"><a href="data-stu-statistics.html">学员统计</a></li>
+			<li><a href="data-coa-statistics.html">教练统计</a></li>
+		</ul>
+		<!-- 订单统计列表详情 -->
+		<div class="order-table table-margin common-table accounts-balance no-connon d-order-table">
+			<div class="content">
+				<div class="senior-search row search">
+					<div class="col-xs-12 col-sm-6">
+						<div class="search">
+							<div class="line">
+								<div>筛选时间</div>
+								<ul>
+									<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+									<li ng-click="getDataForTime($event,'0')">最近7天</li>
+									<li ng-click="getDataForTime($event,'1')">最近15天</li>
+								</ul>
+								<div class="input-prepend input-group">
+									<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+									<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-offset-2 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+							<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+						<tr>
+							<td><b>日期</b></td>
+							<td><b>总登录人数</b></td>
+							<td><b>总上课人数</b></td>
+							<td><b>总约课课时</b></td>
+							<td><b>实际总上课课时</b></td>
+							<td><b>评价教练次数</b></td>
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td ng-bind="data.dTime | timeTexYMD"></td>
+							<td ng-bind="data.loginNum"></td>
+							<td ng-bind="data.hadClassNum"></td>
+							<td ng-bind="data.classTime"></td>
+							<td ng-bind="data.rClassTime"></td>
+							<td ng-bind="data.commentNum"></td>
+						</tr>
+						<tr ng-show="allDatas">
+							<td class="t-200">总计</td>
+							<td ng-bind="allDatas.loginNumSum"></td>
+							<td ng-bind="allDatas.hadClassNumSum"></td>
+							<td ng-bind="allDatas.classTimeSum"></td>
+							<td ng-bind="allDatas.rClassTimeSum"></td>
+							<td ng-bind="allDatas.commentNumSum"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- script -->
+<script src="../assets/common/daterangepicker/js/moment.js"></script>
+<script src="../assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="../assets/js/ng-js/data-stu-statistics.js"></script>
+</body>
+</html>

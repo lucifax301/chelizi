@@ -1,0 +1,585 @@
+@charset "UTF-8";
+/*公共颜色*/
+/*头部底色*/
+/*table头部底色*/
+/*table布局边框*/
+/*active底色*/
+/*网页文字主体颜色*/
+/*文本淡色*/
+/*menu颜色*/
+/*menu active颜色*/
+/*边框颜色*/
+/*成功相关的color*/
+/*失败相关的color*/
+/* 数据统计总和color*/
+/*代金券*/
+/*课时券*/
+/*折扣券*/
+/*字体大小*/
+/*padding / margin 值 */
+/*边框圆角*/
+/*默认行高*/
+/*less CSS3新特性兼容前缀开始*/
+/*less CSS3新特性兼容前缀结束*/
+/*喱喱云样式*/
+/*数据统计*/
+.data-statistics .d-title {
+  background: #F8F8F8;
+  padding: 10px 20px 6px;
+  font-size: 25px;
+  font-family: "微软雅黑"; }
+
+.data-statistics .table-li a {
+  text-decoration: none;
+  color: #333; }
+
+.data-top {
+  margin: 0 -10px 20px; }
+
+.data-top .w-20 {
+  padding: 0 10px; }
+
+.data-top > div {
+  float: left; }
+
+.common-data-sta {
+  border: solid 1px #DDD;
+  background: #F8F8F8;
+  border-radius: 3px;
+  padding: 20px; }
+
+.common-data-sta dl {
+  overflow: hidden;
+  margin-bottom: 0;
+  font-family: "微软雅黑"; }
+
+.common-data-sta dl dt {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  float: left; }
+
+.common-data-sta dl dt img {
+  width: auto;
+  height: auto;
+  border-radius: 100%; }
+
+.common-data-sta dl dd:nth-child(2) {
+  font-weight: bold; }
+
+.common-data-sta dl dd:nth-child(3) {
+  font-size: 12px;
+  color: #888; }
+
+.common-data-sta div {
+  font-size: 28px;
+  color: #4990E2; }
+
+.data-statisti-table table {
+  font-family: "微软雅黑"; }
+
+.data-statisti-table table tr:nth-child(1) td:nth-child(1) {
+  font-weight: bold;
+  font-size: 18px; }
+
+.data-statisti-table table tr:not(:nth-child(1)) td:not(:nth-child(1)) {
+  color: #4990E2;
+  font-size: 16px; }
+
+.data-statisti-table table tr:not(:nth-child(1)) td:last-child {
+  color: #56B573; }
+
+/*订单详情*/
+.order-detail {
+  overflow: hidden;
+  padding: 0; }
+
+.order-detail .top {
+  overflow: hidden;
+  font-size: 25px;
+  font-family: "微软雅黑";
+  background: #F8F8F8;
+  padding: 20px; }
+
+.order-detail .top .order-id {
+  overflow: hidden;
+  display: inline-block;
+  overflow: hidden;
+  margin-right: 30px; }
+
+.order-detail .top span {
+  display: block;
+  float: left; }
+
+.order-detail .top .payment {
+  font-size: 12px;
+  height: 25px;
+  color: #4990E2;
+  border: solid 1px #4990E2;
+  border-radius: 3px;
+  margin: 5px 0 0 10px;
+  padding: 3px 5px; }
+
+.order-detail .table-li {
+  background: #F8F8F8;
+  padding: 0 20px;
+  font-family: "微软雅黑";
+  border-bottom: solid 1px #DDD; }
+
+.order-detail .table-li li {
+  float: left;
+  margin-right: 30px;
+  line-height: 30px;
+  position: relative;
+  cursor: pointer; }
+
+.order-detail .table-li li.active:before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #4990E2;
+  position: absolute;
+  left: 0;
+  bottom: 0; }
+
+.order-detail .order-table {
+  overflow: hidden;
+  padding: 20px; }
+
+.order-detail .order-table > div {
+  display: none; }
+
+.order-detail .order-table > div:nth-child(1) {
+  display: block; }
+
+.order-detail table.table-with-style tr td:nth-of-type(odd) {
+  background: #F8F8F8 !important; }
+
+.breadcrumb {
+  margin-bottom: 0 !important;
+  background: #F8F8F8 !important;
+  font-family: "微软雅黑";
+  font-size: 12px; }
+
+.breadcrumb a {
+  color: #888; }
+
+.order-details-rz {
+  padding: 0 20px; }
+
+.search-more-condition {
+  overflow: hidden;
+  position: relative; }
+
+.search-more-condition select.form-control {
+  width: 90px;
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  background: #F5F5F5; }
+
+.search-more-condition input.form-control {
+  width: 95%;
+  position: absolute;
+  left: 3px;
+  top: 0;
+  padding-left: 100px;
+  border-left: none; }
+
+.search-more-condition span.input-group-btn button {
+  background: #4990E2;
+  color: #fff;
+  border: solid 1px #4990E2; }
+
+/*学员详情*/
+.order-detail .student {
+  overflow: hidden;
+  height: 174px;
+  background: #F8F8F8;
+  padding: 20px;
+  position: relative; }
+
+.order-detail .student .head {
+  width: 90px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 100%;
+  border: solid 2px #E7E7E7;
+  margin: 10px 0 0 0; }
+
+.order-detail .student .head img {
+  width: 100%;
+  height: 100%; }
+
+.order-detail .student .details {
+  margin-left: 25px; }
+
+.order-detail .student .msg {
+  color: #666; }
+
+.order-detail .student .msg dt {
+  font-size: 18px;
+  font-family: "微软雅黑";
+  font-weight: 400;
+  margin-bottom: 10px; }
+
+.order-detail .student .msg dt span.type {
+  margin-left: 10px;
+  padding: 3px 6px;
+  font-size: 12px;
+  border-radius: 3px; }
+
+.order-detail .student .msg dt span.type.succes {
+  color: #4990E2;
+  border: solid 1px #4990E2; }
+
+.order-detail .student .msg dt span.type.error {
+  color: #c9302c;
+  border: solid 1px #c9302c; }
+
+.order-detail .student .msg dd {
+  line-height: 25px; }
+
+.order-detail .student .msg .pingji {
+  margin: 0 10px;
+  font-size: 20px; }
+
+.order-detail .student .msg .pingji i {
+  margin-left: 3px; }
+
+.order-detail .student .msg .pingji .ion-ios-star-outline {
+  color: #A6A6A6; }
+
+.order-detail .student .msg .pingji .ion-ios-star {
+  color: #F5A623; }
+
+.order-detail .student .edit {
+  position: absolute;
+  right: 20px;
+  top: 20px; }
+
+.order-detail .student .edit span {
+  font-family: "微软雅黑";
+  color: #4990E2;
+  border: solid 1px #4990E2;
+  padding: 5px 15px;
+  border-radius: 3px;
+  cursor: pointer; }
+
+.order-table {
+  border: none; }
+
+.order-table .senior-search {
+  overflow: hidden;
+  margin-bottom: 20px; }
+
+.order-table .senior-search div.select select {
+  display: inline-block;
+  width: 80px; }
+
+.common-table .senior-search span.search-span {
+  margin-right: 20px;
+  color: #888;
+  float: left;
+  line-height: 35px; }
+
+.order-table .page {
+  text-align: right; }
+
+.order-table .bind-coach-table {
+  font-family: "微软雅黑"; }
+
+.order-table .bind-coach-table dl {
+  overflow: hidden;
+  padding-left: 10px;
+  line-height: 25px; }
+
+.order-table .bind-coach-table dl dt {
+  overflow: hidden;
+  float: left;
+  height: 98px;
+  margin-right: 20px; }
+
+.order-table .bind-coach-table dl dt img {
+  width: 60px;
+  height: 60px;
+  margin-top: 20px;
+  border-radius: 100%;
+  border: solid 2px #E7E7E7; }
+
+.order-table .bind-coach-table h1 {
+  font-size: 20px;
+  color: #4990E2;
+  margin: 0;
+  margin-top: 20px; }
+
+.order-table .bind-coach-table tr td:not(:nth-child(1)) {
+  text-align: center; }
+
+.order-table .bind-coach-table tr td:not(:nth-child(1)) h1 {
+  margin: 30px 0 8px; }
+
+.order-detail .order-table table.table-with-style tr td:nth-of-type(odd) {
+  background: none; }
+
+.order-detail .order-table table.table-with-style tr td:nth-child(1) {
+  background: #F8F8F8; }
+
+.common-style table.table-with-style .td-small-width {
+  width: 50px; }
+
+.common-table .stu-table-account td.liushui span {
+  display: block; }
+
+.common-table .input-prepend {
+  padding-left: 10px; }
+
+/*学员编辑弹出层*/
+.edit-alert dl {
+  overflow: hidden; }
+
+.edit-alert dl dt {
+  width: 80px;
+  font-weight: bold;
+  float: left;
+  line-height: 35px; }
+
+.edit-alert dl dd {
+  float: left;
+  width: 280px; }
+
+.edit-alert dl dd.diqu {
+  overflow: hidden; }
+
+.edit-alert dl dd.diqu select {
+  width: 130px;
+  display: inline-block;
+  margin-right: 8px; }
+
+.edit-alert .chaozuo {
+  overflow: hidden;
+  text-align: center; }
+
+.edit-alert .chaozuo a:nth-child(1) {
+  margin-right: 20px; }
+
+.edit-alert .daterangepicker .top {
+  height: 0px; }
+
+.common-style .table-with-style .operation span.edit {
+  font-family: "微软雅黑";
+  color: #4990E2;
+  cursor: pointer; }
+
+/*教练详情 绑定车辆*/
+.div-responsive {
+  width: 100%;
+  overflow: hidden; }
+
+.div-responsive ul {
+  min-width: 800px; }
+
+.coach-car {
+  overflow: hidden;
+  width: 100%;
+  font-family: "微软雅黑"; }
+
+.coach-car .no-borde {
+  overflow: hidden; }
+
+.coach-car .no-borde div {
+  float: left;
+  color: #888;
+  text-indent: 20px; }
+
+.coach-car li div:nth-child(1) {
+  width: 10%; }
+
+.coach-car li div:nth-child(4) {
+  width: 15%; }
+
+.coach-car li div:nth-child(2) {
+  width: 37%; }
+
+.coach-car li div:nth-child(3) {
+  width: 38%; }
+
+.coach-car li div p {
+  width: 50%;
+  float: left; }
+
+.coach-car .is-border {
+  border: solid 1px #DDD;
+  margin: 10px 0 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #DDD; }
+
+.coach-car .is-border div {
+  height: 65px;
+  line-height: 65px;
+  float: left;
+  padding: 0 20px;
+  white-space: nowrap; }
+
+.coach-car .is-border div:nth-child(1),
+.coach-car .is-border div:nth-child(2),
+.coach-car .is-border div:nth-child(3) {
+  border-right: solid 1px #DDD; }
+
+.coach-car .is-border div.operation span {
+  color: #4990E2;
+  cursor: pointer;
+  margin-right: 10px; }
+
+.coach-car .is-border div:nth-child(2) span:nth-child(2) {
+  margin-left: 20px; }
+
+.coach-car .is-border div:nth-child(3) {
+  padding: 0 35px; }
+
+.coach-car .is-border .student img {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+  border-radius: 100%;
+  border: solid 2px #E7E7E7; }
+
+.add-coach-car {
+  width: 100%;
+  height: 65px;
+  line-height: 65px;
+  text-align: center;
+  border-radius: 5px;
+  border: dashed 2px #DDD;
+  cursor: pointer;
+  font-family: "微软雅黑"; }
+
+.add-coach-car span {
+  font-size: 50px;
+  color: #DDD; }
+
+.no-coach-car {
+  color: #888;
+  text-align: left;
+  text-indent: 25px; }
+
+.edit-big-size .main .content {
+  width: 800px; }
+
+.edit-big-size .main .content .name-search {
+  width: 300px; }
+
+.edit-big-size .no-data {
+  font-size: 16px; }
+
+/*个人账户*/
+.account-block {
+  overflow: hidden;
+  font-family: "微软雅黑"; }
+
+.account-block h1 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  border-bottom: solid 1px #E7E7E7;
+  padding-bottom: 10px; }
+
+.student-account {
+  margin-bottom: 20px; }
+
+.student-account .yue {
+  line-height: 25px;
+  border: solid 1px #E7E7E7;
+  background: #F8F8F8;
+  padding: 15px;
+  overflow: hidden; }
+
+.student-account .yue > p,
+.student-account .yue .coach-account p {
+  margin: 0;
+  font-size: 14px;
+  color: #888; }
+
+.student-account .yue > div,
+.student-account .yue .coach-account div {
+  font-size: 25px; }
+
+.student-account .yue .coach-account {
+  width: 30%;
+  float: left; }
+
+.student-account .yue .coach-account:nth-child(2) {
+  border-left: solid 1px #DDD;
+  padding-left: 20px; }
+
+.student-account .bank-card {
+  overflow: hidden; }
+
+.student-account .bank-card .card {
+  overflow: hidden; }
+
+.student-account .card > div {
+  width: 260px;
+  float: left;
+  margin: 0 20px 20px 0;
+  border-radius: 3px;
+  border: solid 1px #E7E7E7;
+  overflow: hidden; }
+
+.student-account .card > div .top {
+  color: #666;
+  overflow: hidden;
+  border-bottom: solid 1px #E7E7E7;
+  background: #EEEEEE;
+  padding: 10px;
+  font-size: 14px; }
+
+.student-account .card > div .top .pull-right span:nth-child(2) {
+  font-size: 12px;
+  padding: 3px 5px;
+  background: #BCD0E9;
+  border-radius: 3px;
+  color: #fff;
+  margin-left: 5px; }
+
+.student-account .card > div .bottom {
+  overflow: hidden;
+  padding: 20px 10px 0;
+  line-height: 50px;
+  background: #f9f9f9; }
+
+.student-account .card > div .bottom .pull-left span:nth-child(1) {
+  color: #888; }
+
+.student-account .mingx .total {
+  padding: 10px;
+  overflow: hidden;
+  border: solid 1px #E7E7E7;
+  background: #F5F5F5;
+  margin-bottom: 10px; }
+
+.student-account .mingx .total div {
+  float: left; }
+
+.student-account .mingx .total span {
+  font-size: 20px; }
+
+/*其他*/
+.common-table .search .line select.jia-xiao {
+  width: 150px;
+  display: inline-block; }
+
+/*媒体查询*/
+@media (max-width: 768px) {
+  .common-table .search .line .input-group {
+    width: 70%; }
+  .div-responsive {
+    overflow-x: auto; }
+  .div-responsive ul {
+    min-width: 1100px; }
+  .edit-big-size .main .content {
+    width: 350px; }
+  .edit-big-size .main .content .name-search {
+    width: 100%; } }

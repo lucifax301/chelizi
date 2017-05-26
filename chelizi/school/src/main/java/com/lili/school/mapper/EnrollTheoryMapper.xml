@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollTheoryMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollTheory" >
+    <id column="theoryId" property="theoryId" jdbcType="INTEGER" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="classDate" property="classDate" jdbcType="TIMESTAMP" />
+    <result column="classTime" property="classTime" jdbcType="VARCHAR" />
+    <result column="className" property="className" jdbcType="VARCHAR" />
+    <result column="classPlace" property="classPlace" jdbcType="VARCHAR" />
+    <result column="contactName" property="contactName" jdbcType="VARCHAR" />
+    <result column="contactMobile" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="cardType" property="cardType" jdbcType="TINYINT" />
+    <result column="cardDesc" property="cardDesc" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="INTEGER" />
+    <result column="absence" property="absence" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    theoryId, schoolId, classDate, classTime, className, classPlace, contactName, contactMobile, 
+    cardType, cardDesc, total, absence, state, ctime, mtime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollTheoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_theory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_theory
+    where theoryId = #{theoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enroll_theory
+    where theoryId = #{theoryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollTheoryExample" >
+    delete from t_enroll_theory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollTheory" >
+    insert into t_enroll_theory (theoryId, schoolId, classDate, 
+      classTime, className, classPlace, 
+      contactName, contactMobile, cardType, 
+      cardDesc, total, absence, 
+      state, ctime, mtime, 
+      extra)
+    values (#{theoryId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{classDate,jdbcType=TIMESTAMP}, 
+      #{classTime,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{classPlace,jdbcType=VARCHAR}, 
+      #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, #{cardType,jdbcType=TINYINT}, 
+      #{cardDesc,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER}, #{absence,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollTheory" >
+    insert into t_enroll_theory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="theoryId != null" >
+        theoryId,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="classDate != null" >
+        classDate,
+      </if>
+      <if test="classTime != null" >
+        classTime,
+      </if>
+      <if test="className != null" >
+        className,
+      </if>
+      <if test="classPlace != null" >
+        classPlace,
+      </if>
+      <if test="contactName != null" >
+        contactName,
+      </if>
+      <if test="contactMobile != null" >
+        contactMobile,
+      </if>
+      <if test="cardType != null" >
+        cardType,
+      </if>
+      <if test="cardDesc != null" >
+        cardDesc,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="absence != null" >
+        absence,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="theoryId != null" >
+        #{theoryId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="classDate != null" >
+        #{classDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classTime != null" >
+        #{classTime,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classPlace != null" >
+        #{classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardDesc != null" >
+        #{cardDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="absence != null" >
+        #{absence,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollTheoryExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_theory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_theory
+    <set >
+      <if test="record.theoryId != null" >
+        theoryId = #{record.theoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.classDate != null" >
+        classDate = #{record.classDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.classTime != null" >
+        classTime = #{record.classTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.className != null" >
+        className = #{record.className,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classPlace != null" >
+        classPlace = #{record.classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactName != null" >
+        contactName = #{record.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactMobile != null" >
+        contactMobile = #{record.contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null" >
+        cardType = #{record.cardType,jdbcType=TINYINT},
+      </if>
+      <if test="record.cardDesc != null" >
+        cardDesc = #{record.cardDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.total != null" >
+        total = #{record.total,jdbcType=INTEGER},
+      </if>
+      <if test="record.absence != null" >
+        absence = #{record.absence,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_theory
+    set theoryId = #{record.theoryId,jdbcType=INTEGER},
+      schoolId = #{record.schoolId,jdbcType=INTEGER},
+      classDate = #{record.classDate,jdbcType=TIMESTAMP},
+      classTime = #{record.classTime,jdbcType=VARCHAR},
+      className = #{record.className,jdbcType=VARCHAR},
+      classPlace = #{record.classPlace,jdbcType=VARCHAR},
+      contactName = #{record.contactName,jdbcType=VARCHAR},
+      contactMobile = #{record.contactMobile,jdbcType=VARCHAR},
+      cardType = #{record.cardType,jdbcType=TINYINT},
+      cardDesc = #{record.cardDesc,jdbcType=VARCHAR},
+      total = #{record.total,jdbcType=INTEGER},
+      absence = #{record.absence,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollTheory" >
+    update t_enroll_theory
+    <set >
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="classDate != null" >
+        classDate = #{classDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="classTime != null" >
+        classTime = #{classTime,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        className = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="classPlace != null" >
+        classPlace = #{classPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        contactName = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        contactMobile = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null" >
+        cardType = #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="cardDesc != null" >
+        cardDesc = #{cardDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="absence != null" >
+        absence = #{absence,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where theoryId = #{theoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollTheory" >
+    update t_enroll_theory
+    set schoolId = #{schoolId,jdbcType=INTEGER},
+      classDate = #{classDate,jdbcType=TIMESTAMP},
+      classTime = #{classTime,jdbcType=VARCHAR},
+      className = #{className,jdbcType=VARCHAR},
+      classPlace = #{classPlace,jdbcType=VARCHAR},
+      contactName = #{contactName,jdbcType=VARCHAR},
+      contactMobile = #{contactMobile,jdbcType=VARCHAR},
+      cardType = #{cardType,jdbcType=TINYINT},
+      cardDesc = #{cardDesc,jdbcType=VARCHAR},
+      total = #{total,jdbcType=INTEGER},
+      absence = #{absence,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where theoryId = #{theoryId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollTheoryExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_theory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

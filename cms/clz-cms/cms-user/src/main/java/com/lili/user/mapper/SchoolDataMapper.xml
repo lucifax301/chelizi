@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.user.mapper.dao.SchoolDataMapper">
+
+
+  <sql id="student_Column_List">
+    id, flowNo, StuCoachName, idNumber, name, sex, age, hometown, phoneNum, course1, 
+    course2, course3, course4, applyCarType, schoolId, drType, cityId, createTime, extra
+    ,schoolName,cityName
+  </sql>
+  
+  
+  <sql id="school_data_Column_List">
+    id, creatorName, billNo, schoolName, schoolId, fileType, sum, sucSum, failSum, status, 
+    createTime, extra
+  </sql>
+  
+  
+  <sql id="car_Column_List">
+    id, creatorName, carType, age, carPower, driveType, carNo, coachPhoneNum, coachName, 
+    schoolId, createTime, carEngineNo, carVin, extra
+    ,schoolName,cityName,buytime
+  </sql>
+  
+  
+  <sql id="coach_Column_List">
+    id, creatorName, idNumber, name, sex, age, hometown, phoneNum, coachCard, schoolId, 
+    cityId, createTime, coachCardDate, extra
+    ,schoolName,cityName
+  </sql>
+  
+  
+  <sql id="field_Column_List">
+    id, creatorName, schoolId, lge, lae, posDesc, reverseLim, phoneNum, region, name, 
+    extra, createTime
+    ,schoolName,cityName
+  </sql>
+
+  <insert id="insertCarFile" parameterType="com.lili.user.model.CarFile">
+    insert into t_p_car_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="buyTime != null">
+        buyTime,
+      </if>
+      <if test="schoolName != null">
+        schoolName,
+      </if>
+      <if test="cityName != null">
+        cityName,
+      </if>
+      <if test="billNo != null">
+        billNo,
+      </if>
+      <if test="creatorName != null">
+        creatorName,
+      </if>
+      <if test="cartype != null">
+        carType,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="carpower != null">
+        carPower,
+      </if>
+      <if test="drivetype != null">
+        driveType,
+      </if>
+      <if test="carno != null">
+        carNo,
+      </if>
+      <if test="coachphonenum != null">
+        coachPhoneNum,
+      </if>
+      <if test="coachname != null">
+        coachName,
+      </if>
+      <if test="schoolid != null">
+        schoolId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="carengineno != null">
+        carEngineNo,
+      </if>
+      <if test="carvin != null">
+        carVin,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="buyTime != null">
+        #{buyTime,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="cartype != null">
+        #{cartype,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="carpower != null">
+        #{carpower,jdbcType=TINYINT},
+      </if>
+      <if test="drivetype != null">
+        #{drivetype,jdbcType=TINYINT},
+      </if>
+      <if test="carno != null">
+        #{carno,jdbcType=VARCHAR},
+      </if>
+      <if test="coachphonenum != null">
+        #{coachphonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="coachname != null">
+        #{coachname,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carengineno != null">
+        #{carengineno,jdbcType=VARCHAR},
+      </if>
+      <if test="carvin != null">
+        #{carvin,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <insert id="insertCoachFile" parameterType="com.lili.user.model.CoachFile">
+    insert into t_u_coach_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="schoolName != null">
+        schoolName,
+      </if>
+      <if test="cityName != null">
+        cityName,
+      </if>
+      <if test="billNo != null">
+        billNo,
+      </if>
+      <if test="creatorName != null">
+        creatorName,
+      </if>
+      <if test="idnumber != null">
+        idNumber,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="hometown != null">
+        hometown,
+      </if>
+      <if test="phonenum != null">
+        phoneNum,
+      </if>
+      <if test="coachcard != null">
+        coachCard,
+      </if>
+      <if test="schoolid != null">
+        schoolId,
+      </if>
+      <if test="cityid != null">
+        cityId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="coachcarddate != null">
+        coachCardDate,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null">
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null">
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null">
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="coachcard != null">
+        #{coachcard,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=TINYINT},
+      </if>
+      <if test="cityid != null">
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coachcarddate != null">
+        #{coachcarddate,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ <insert id="insertStudentFile" parameterType="com.lili.user.model.StudentFile">
+    insert into t_u_student_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="schoolName != null">
+        schoolName,
+      </if>
+      <if test="cityName != null">
+        cityName,
+      </if>
+      <if test="billNo != null">
+        billNo,
+      </if>
+      <if test="flowno != null">
+        flowNo,
+      </if>
+      <if test="stucoachname != null">
+        StuCoachName,
+      </if>
+      <if test="idnumber != null">
+        idNumber,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="hometown != null">
+        hometown,
+      </if>
+      <if test="phonenum != null">
+        phoneNum,
+      </if>
+      <if test="course1 != null">
+        course1,
+      </if>
+      <if test="course2 != null">
+        course2,
+      </if>
+      <if test="course3 != null">
+        course3,
+      </if>
+      <if test="course4 != null">
+        course4,
+      </if>
+      <if test="applycartype != null">
+        applyCarType,
+      </if>
+      <if test="schoolid != null">
+        schoolId,
+      </if>
+      <if test="drtype != null">
+        drType,
+      </if>
+      <if test="cityid != null">
+        cityId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flowno != null">
+        #{flowno,jdbcType=VARCHAR},
+      </if>
+      <if test="stucoachname != null">
+        #{stucoachname,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null">
+        #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+      <if test="hometown != null">
+        #{hometown,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenum != null">
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="course1 != null">
+        #{course1,jdbcType=SMALLINT},
+      </if>
+      <if test="course2 != null">
+        #{course2,jdbcType=SMALLINT},
+      </if>
+      <if test="course3 != null">
+        #{course3,jdbcType=SMALLINT},
+      </if>
+      <if test="course4 != null">
+        #{course4,jdbcType=SMALLINT},
+      </if>
+      <if test="applycartype != null">
+        #{applycartype,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=TINYINT},
+      </if>
+      <if test="drtype != null">
+        #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="cityid != null">
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+ <insert id="insertSchoolDataFile" parameterType="com.lili.user.model.SchoolDataFile">
+    insert into t_school_data_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="creatorName != null">
+        creatorName,
+      </if>
+      <if test="billNo != null">
+        billNo,
+      </if>
+      <if test="schoolname != null">
+        schoolName,
+      </if>
+      <if test="schoolid != null">
+        schoolId,
+      </if>
+      <if test="filetype != null">
+        fileType,
+      </if>
+      <if test="sum != null">
+        sum,
+      </if>
+      <if test="sucsum != null">
+        sucSum,
+      </if>
+      <if test="failsum != null">
+        failSum,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolname != null">
+        #{schoolname,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="filetype != null">
+        #{filetype,jdbcType=TINYINT},
+      </if>
+      <if test="sum != null">
+        #{sum,jdbcType=INTEGER},
+      </if>
+      <if test="sucsum != null">
+        #{sucsum,jdbcType=INTEGER},
+      </if>
+      <if test="failsum != null">
+        #{failsum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    <insert id="insertFieldFile" parameterType="com.lili.user.model.FieldFile">
+    insert into t_s_trfield_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="schoolName != null">
+        schoolName,
+      </if>
+      <if test="cityName != null">
+        cityName,
+      </if>
+      <if test="billNo != null">
+        billNo,
+      </if>
+      <if test="creatorName != null">
+        creatorName,
+      </if>
+      <if test="schoolid != null">
+        schoolId,
+      </if>
+      <if test="lge != null">
+        lge,
+      </if>
+      <if test="lae != null">
+        lae,
+      </if>
+      <if test="posdesc != null">
+        posDesc,
+      </if>
+      <if test="reverselim != null">
+        reverseLim,
+      </if>
+      <if test="phonenum != null">
+        phoneNum,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="extra != null">
+        extra,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null">
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null">
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creatorName != null">
+        #{creatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null">
+        #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null">
+        #{lge,jdbcType=DECIMAL},
+      </if>
+      <if test="lae != null">
+        #{lae,jdbcType=DECIMAL},
+      </if>
+      <if test="posdesc != null">
+        #{posdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="reverselim != null">
+        #{reverselim,jdbcType=INTEGER},
+      </if>
+      <if test="phonenum != null">
+        #{phonenum,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+	<select id="findStudentBatch" resultType="com.lili.user.model.StudentFile">
+	    select 
+	    <include refid="student_Column_List" />
+	    from t_u_student_file
+	    where 1=1  
+			<if test="billNo != null and billNo != ''">
+				and billNo = #{billNo}
+			</if>
+	    order by createTime desc
+	</select>
+	
+	
+  
+	<select id="findCoachBatch" resultType="com.lili.user.model.CoachFile">
+	    select 
+	    <include refid="coach_Column_List" />
+	    from t_u_coach_file
+	    where 1=1  
+			<if test="billNo != null and billNo != ''">
+				and billNo = #{billNo}
+			</if>
+	    order by createTime desc
+	</select>
+	
+	
+  
+	<select id="findFieldBatch" resultType="com.lili.user.model.FieldFile">
+	    select 
+	    <include refid="field_Column_List" />
+	    from t_s_trfield_file
+	    where 1=1  
+			<if test="billNo != null and billNo != ''">
+				and billNo = #{billNo}
+			</if>
+	    order by createTime desc
+	</select>
+	
+	
+  
+	<select id="findCarBatch" resultType="com.lili.user.model.CarFile">
+	    select 
+	    <include refid="car_Column_List" />
+	    from t_p_car_file
+	    where 1=1  
+			<if test="billNo != null and billNo != ''">
+				and billNo = #{billNo}
+			</if>
+	    order by createTime desc
+	</select>
+	
+  
+	<select id="findSchoolDataBatch" resultType="com.lili.user.model.SchoolDataFile">
+	    select 
+	    <include refid="school_data_Column_List" />
+	    from t_school_data_file
+	    where 1=1  
+	    
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND createTime >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND createTime <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+	    order by createTime desc
+	</select>
+  
+  
+</mapper>

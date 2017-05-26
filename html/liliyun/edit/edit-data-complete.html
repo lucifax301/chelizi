@@ -1,0 +1,22 @@
+<div class="edit-alert data-complete">
+<div class="mask"></div>
+<div class="main">
+<div id="complete-alert" class="content">
+	<div class="title">资料齐全<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit d-imperfect">
+			<p>请根据收到的资料选择身份信息</p>
+			<select ng-model="item.ptype" class="form-control jia-xiao" ng-change="getStatusinf(item.ptype)" ng-class="{'error-select':statusDataError?true:false}">
+				<option value="">选择身份信息</option>
+				<option ng-repeat="item in statusdatas" value="{{item.ptype}}" ng-bind="item.pdesc"></option>
+			</select><br>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitCompleteMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>
+		</form>
+
+	</div>
+</div>
+</div>
+</div>

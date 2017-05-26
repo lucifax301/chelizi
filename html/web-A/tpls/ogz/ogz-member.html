@@ -1,0 +1,363 @@
+	<div class="right_col">
+         <div class="page-title">
+            <div class="title_left">
+                <h3>员工列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-8 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="姓名/手机号码" ng-model="condition" ng-keyup="getkey($event)">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addModal" ng-click="resetForm()" ng-if="100412 | isAccessShow">新增员工</button>
+                    <!--    <a class="btn btn-default btn-sm" ng-click="uploadfile()" ng-show="uploadbtn">上传人员资料 </a>
+                        <a class="btn btn-default btn-sm" ng-click="importFile('1')" ng-show="!uploadbtn">确认导入</a>
+						<a class="btn btn-default btn-sm" ng-click="importFile('2')" ng-show="!uploadbtn">取消导入</a> -->
+                    </div>
+                    <div class="x_content">
+							<div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+                                    <th class="column-title">头像 </th>
+                                    <th class="column-title">姓名 </th>
+									<th class="column-title">职务 </th>
+									<th class="column-title">性别 </th>
+                                    <th class="column-title">电话 </th>
+									<th class="column-title">身份证 </th>
+                                    <th class="column-title">入职时间 </th>
+									<th class="column-title">联系地址 </th>
+                                    <th class="column-title" ng-show="uploadbtn">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in datas">
+                                    <td class="column-data">
+										<a ng-if="item.photo_url!='' && item.photo_url!=null" ng-href
+                                        ="{{baseImgurl}}{{item.photo_url}}" target="view_window"> <img  ng-src="{{baseImgurl}}{{item.photo_url}}" alt="" style="width:80px;height:102px"/></a>   
+										<a ng-if="item.photo_url=='' || item.photo_url==null" target="view_window"> <img ng-src="assets/images/user.png" style="width:80px;height:102px"/></a> 
+									</td>
+                                    <td class="column-data" ng-bind="item.name"></td>
+									<td class="column-data" ng-bind="item.post | postText"></td>
+									<td class="column-data" ng-bind="item.sex | sexText"></td>
+                                    <td class="column-data" ng-bind="item.mobile"></td>
+									<td class="column-data" ng-bind="item.idcard"></td>
+									<td class="column-data" ng-bind="item.hiredate"></td>
+                                    <td class="column-data" ng-bind="item.address"></td>
+									<td class="column-data" ng-show="uploadbtn">
+										<span class="click-green" data-toggle="modal" ng-click="edit($index)" data-target="#editModal" ng-if="100413 | isAccessShow">编辑</span>&nbsp;&nbsp;
+										<span class="click-red" ng-click="delete(item,$index)" ng-if="100414 | isAccessShow">删除</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+						<div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 新增弹框-->
+<div id="addModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">新增员工</h4>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="clearfix"></div>
+                    <form id="addMemberForm" class="form-horizontal form-label-left">
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+										<input name="name" type="text" class="form-control" ng-model="saveData.name" placeholder="请输入姓名">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">性别 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select name="sex" class="form-control" ng-model="saveData.sex">
+                                           <option ng-repeat="v in sexDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                       </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">职务 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select name="post" class="form-control" ng-model="saveData.post">
+                                           <option ng-repeat="v in postDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                       </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">证件初领时间 <span class="required">*</span></label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="fstdrilicdate" type="text" class="form-control" ng-model="fstdrilicdate" placeholder="请选择初领证时间" onclick="initCheckDate(this)">
+									</div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">驾驶证号 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="drilicence" type="text" class="form-control" ng-model="saveData.drilicence" placeholder="请输入驾驶证号">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">手机号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="mobile" type="text" class="form-control" ng-model="saveData.mobile" placeholder="输入11位手机号码">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">入职时间 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="hiredate" type="text" class="form-control" ng-model="hiredate" placeholder="请选择入职时间" onclick="initCheckDate(this)">
+                                    </div>
+                                </div>
+                            </div>
+							 <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">身份证号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="idcard" type="text" class="form-control" ng-model="saveData.idcard" placeholder="输入身份证号码"> 
+								   </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+						     <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">备案状态 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <select name="recordType" class="form-control" ng-model="saveData.recordType">
+                                        <option ng-repeat="v in recordTypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                           <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">联系地址 </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="address" type="text" class="form-control" ng-model="saveData.address" placeholder="输入联系地址"> 
+                                    </div>
+                                </div>
+                            </div>
+		
+                        </div>
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-4 col-sm-4 col-xs-12">上传头像<span class="required"></span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <a class="form-control" id="addImg" ng-click="uploadImg('1')">选择图片 </a><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+										</div>
+									</div>
+							</div>
+						</div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-success">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑弹框-->
+<div id="editModal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">编辑员工</h4>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="clearfix"></div>
+                    <form id="editMemberForm" class="form-horizontal form-label-left">
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="name" type="text" class="form-control" ng-model="editData.name" placeholder="请输入姓名">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">性别 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <select name="sex" class="form-control" ng-model="editData.sex">
+                                          <option ng-repeat="v in sexDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">职务 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select name="post" class="form-control" ng-model="editData.post">
+                                           <option ng-repeat="v in postDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                       </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">备案状态 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <select name="recordType" class="form-control" ng-model="editData.recordType">
+                                        <option ng-repeat="v in recordTypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">证件初领时间 <span class="required">*</span> 
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input id="fstdrilicdate" name="fstdrilicdate" type="text" class="form-control" ng-model="editData.fstdrilicdate" placeholder="请选择初领证时间" onclick="initCheckDate(this)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">驾驶证号 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <input name="drilicence" type="text" class="form-control" ng-model="editData.drilicence" placeholder="输入驾驶证号">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">手机号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <input name="mobile" type="text" class="form-control" ng-model="editData.mobile" required placeholder="输入11位手机号码">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">联系地址 </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                      <input name="address" type="text" class="form-control" placeholder="输入联系地址" ng-model="editData.address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+						    <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">入职时间<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input id="hiredate" name="hiredate" type="text" class="form-control" ng-model="editData.hiredate" placeholder="请选择入职时间" onclick="initCheckDate(this)">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">身份证号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input name="idcard" type="text" readonly="true" class="form-control" ng-model="editData.idcard" placeholder="输入身份证号码"> 
+								   </div>
+                                </div>
+                            </div>
+
+						    <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+									<div class="item form-group">
+										<label class="control-label col-md-4 col-sm-4 col-xs-12">员工头像 <span class="required"></span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12" ng-if="editData.photo_url==null || editData.photo_url=='' ">
+										  <a class="form-control" id="editImg" ng-click="uploadImg('2')">选择图片 </a><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+										</div> 
+										<div class="col-md-8 col-sm-8 col-xs-12"  ng-if="editData.photo_url!=null && editData.photo_url!='' ">
+											<img  ng-src="{{baseImgurl}}{{editData.photo_url}}"  alt="" class="img-responsive z-radios5" style="width:80px;height:102px">
+											<a href="javascript:void(0);" id="updateImg" ng-click="uploadImg('2')">更改头像</a>
+										</div>
+									</div>
+							</div>
+						</div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-success">提交</button>
+                            </div>
+                        </div>
+				    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

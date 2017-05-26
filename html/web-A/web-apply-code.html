@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <title>申请邀请码</title>
+    <meta name="keywords" content="喱喱云,互联网驾校,网约平台,政府监管,驾校管理系统" />
+    <meta name="description" content="快乐学车，轻松考驾照！喱喱学车致力于推广随约随学、自主约考等一系列新理念，给您带来更多学车新体验！" />
+    <link rel="stylesheet" type="text/css" href="assets/css/base/minframe.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/website.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/PopLayer.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/base/chenchangji.css">
+    <script type="text/javascript" src="assets/js/thirdpart/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/angular/angular.min.js"></script>
+    <script type="text/javascript" src="assets/js/thirdpart/validator/validator.min.js"></script>
+    <script type="text/javascript" src="assets/js/base/common.js"></script>
+    <script type="text/javascript" src="assets/js/base/PopLayer.js"></script>
+</head>
+<body>
+<div class="page bg-gray">
+
+    <div class="z-clear"></div>
+    <div class="container-wrap banner-common">
+        <div class="container">
+            <div class="apply-wrap apply-form">
+                <div class="apply-title">
+                    <h1 class="apply-title">注册喱喱驾培云账号</h1>
+                </div>
+                <div class="form-code">
+                    <form novalidate>
+                    <div class="row">
+                       <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 登录手机号</label>
+                            <input id="telephone" type="text" class="smooth form-control z-full-padding" data-validate-length-range="11,11" required="required" placeholder="请填写登录手机号">
+                        </div>
+                        <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 手机验证码</label>
+                             <span class="z-fontinfo z-cursorP" id="sendMsg" style="float:right;margin-top:6px;">发送手机验证码</span><br>
+                            <input id="code" type="text" required="required" class="smooth form-control z-full-padding" placeholder="请填写手机验证码">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 驾校名称</label>
+                            <input id="schoolname" type="text" class="smooth form-control z-full-padding" required="required" placeholder="请填写驾校名称">
+                        </div>
+                        <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 申请人姓名</label>
+                            <input id="applyname" type="text"class="smooth form-control z-full-padding" required="required"placeholder="请填写申请人姓名">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 登录密码</label>
+                            <input id="password" type="password" class="smooth form-control z-full-padding" required="required" placeholder="请填写登录密码">
+                        </div>
+                        <div class="item col c6 form-group">
+                            <label><span class="f-required">*</span> 确认密码</label>
+                            <input id="password1" type="password" class="smooth form-control z-full-padding" required="required" placeholder="请填写确认密码">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="item col c12 form-group">
+                            <label> 如何得知喱喱驾培云</label>
+                            <textarea name="acquire" rows="4" class="z-block z-full" placeholder="如何得知我们系统"></textarea>
+                        </div>
+						<div class="item col c12 form-group">
+							<button type="submit" class="btn btn-a btn-sm smooth z-full z-tc apply-btn">提交申请</button>
+						</div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <div style="display: none;" class="apply-wrap apply-rzt">
+                <div class="apply-rztico">
+                    <i>☑</i>
+                </div>
+                <div class="apply-title">
+                    <h1 class="apply-title">邀请码申请成功</h1>
+                    <p class="apply-subtit">恭喜您申请成功，请查看手机短信，获取注册邀请码</p>
+                </div>
+                <div style="padding:0 60px;margin-bottom: 30px;">
+                <div>
+                    <a href="web-register.html" class="btn btn-a btn-sm smooth z-full z-tc lh40 f18 apply-btn">激活邀请码</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="z-clear"></div>
+	<div ng-include="'web-footer.html'"></div>
+</div>
+<script type="text/javascript" src="assets/js/validator.min.js"></script>
+<script>
+	var app = angular.module("app",[]);
+    $('form').on('blur', 'input[required]', validator.checkField)
+        .on('change', 'input[required]', validator.checkField)
+        .on('keyup', 'input[required]', validator.checkField);
+
+    $('form').submit(function(e) {
+        e.preventDefault();
+        var submit = true;
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+        var data = {};
+        data.contact = $("#telephone").val();
+        data.schoolname = $("#schoolname").val();
+        data.applyname = $("#applyname").val();
+        data.email = $("#email").val();
+        data.password = $("#password").val(); 
+        data.acquire = $("#acquire").val();
+        if (submit) {
+            $.AJAX({
+                type : "POST",
+                url : config.basePath + "open/register",
+                data : data,
+                success:function(data) {
+                    $(".apply-form").hide();
+                    $(".apply-rzt").fadeIn();
+                },
+                error:function(){
+                    alert("操作失败！");
+                }
+            })
+        }
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.pay.mapper.dao.BrokerageCourseMapper">
+    <resultMap id="BaseResultMap" type="com.lili.pay.dto.BrokerageCourse">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="regionId" property="regionId" jdbcType="INTEGER"/>
+        <result column="courseTmpId" property="courseTmpId" jdbcType="INTEGER"/>
+        <result column="dltype" property="dltype" jdbcType="TINYINT"/>
+        <result column="dateRule" property="dateRule" jdbcType="VARCHAR"/>
+        <result column="brokerageType" property="brokerageType" jdbcType="TINYINT"/>
+        <result column="brokerage" property="brokerage" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, regionId, courseTmpId, dltype, dateRule, brokerageType, brokerage, description
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_brokerage_course
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_brokerage_course
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.lili.pay.dto.BrokerageCourse">
+        insert into t_brokerage_course (
+          id,
+          regionId,
+          courseTmpId,
+          dltype,
+          dateRule,
+          brokerageType,
+          brokerage,
+          description
+          )
+        values (
+          #{id,jdbcType=INTEGER},
+          #{regionId,jdbcType=INTEGER},
+          #{courseTmpId,jdbcType=INTEGER},
+          #{dltype,jdbcType=TINYINT},
+          #{dateRule,jdbcType=VARCHAR},
+          #{brokerageType,jdbcType=TINYINT},
+          #{brokerage,jdbcType=INTEGER},
+          #{description,jdbcType=VARCHAR}
+          )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.lili.pay.dto.BrokerageCourse">
+        insert into t_brokerage_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="regionId != null">
+                regionId,
+            </if>
+            <if test="courseTmpId != null">
+                courseTmpId,
+            </if>
+            <if test="dltype != null">
+                dltype,
+            </if>
+            <if test="dateRule != null">
+                dateRule,
+            </if>
+            <if test="brokerageType != null">
+                brokerageType,
+            </if>
+            <if test="brokerage != null">
+                brokerage,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="regionId != null">
+                #{regionId,jdbcType=INTEGER},
+            </if>
+            <if test="courseTmpId != null">
+                #{courseTmpId,jdbcType=INTEGER},
+            </if>
+            <if test="dltype != null">
+                #{dltype,jdbcType=TINYINT},
+            </if>
+            <if test="dateRule != null">
+                #{dateRule,jdbcType=VARCHAR},
+            </if>
+            <if test="brokerageType != null">
+                #{brokerageType,jdbcType=TINYINT},
+            </if>
+            <if test="brokerage != null">
+                #{brokerage,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lili.pay.dto.BrokerageCourse">
+        update t_brokerage_course
+        <set>
+            <if test="regionId != null">
+                regionId = #{regionId,jdbcType=INTEGER},
+            </if>
+            <if test="courseTmpId != null">
+                courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+            </if>
+            <if test="dltype != null">
+                dltype = #{dltype,jdbcType=TINYINT},
+            </if>
+            <if test="dateRule != null">
+                dateRule = #{dateRule,jdbcType=VARCHAR},
+            </if>
+            <if test="brokerageType != null">
+                brokerageType = #{brokerageType,jdbcType=TINYINT},
+            </if>
+            <if test="brokerage != null">
+                brokerage = #{brokerage,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{brokerage,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.lili.pay.dto.BrokerageCourse">
+        update t_brokerage_course
+        set
+            regionId = #{regionId,jdbcType=INTEGER},
+            courseTmpId = #{courseTmpId,jdbcType=INTEGER},
+            dltype = #{dltype,jdbcType=TINYINT},
+            dateRule = #{dateRule,jdbcType=VARCHAR},
+            brokerageType = #{brokerageType,jdbcType=TINYINT},
+            brokerage = #{brokerage,jdbcType=INTEGER}
+            description = #{description,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectRightBrokerage" resultMap="BaseResultMap" parameterType="com.lili.pay.dto.BrokerageCourse">
+        select
+          <include refid="Base_Column_List"/>
+        from t_brokerage_course
+        where
+            regionId = #{regionId,jdbcType=INTEGER}
+        and courseTmpId = #{courseTmpId,jdbcType=INTEGER}
+        and dltype = #{dltype,jdbcType=TINYINT}
+        and dateRule like "%"#{dateRule,jdbcType=VARCHAR}"%"
+    </select>
+</mapper>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="MyApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>提现</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body> 
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title w-withdraw-top">驾校钱包 / 提现</div>
+		<!-- 提现记录列表详情 -->
+		<div class="padding-20">
+		
+			<!-- 账户提现输入 -->
+			<div ng-show="type==0" class="w-balance">
+				<div class="block top-block">
+					<div class="left">钱包余额(元)</div>
+					<div class="right"><span class="oringe" ng-bind="accountData.money|priceTex"></span>元</div>
+				</div>
+				<div class="block">
+					<div class="left">提现金额(元)</div>
+					<div class="right">
+						<input type="text" class="form-control" ng-model="withdraMoney" ng-change="isThanTotalMoney(withdraMoney)" placeholder="请输入金额">
+						<span class="error" ng-if="isThanTotal"><i class="ion-minus-circled"></i><span ng-bind="isThanTotal">您的余额只有{{accountData.money|priceTex}}元</span></span>
+					</div>
+				</div>
+				<div class="block">
+					<div class="left">提现账户</div>
+					<div class="right">
+						<div class="card">
+							<p ng-bind="accountData.subBankName"></p>
+							<p ng-bind="accountData.merName"></p>
+							<p ng-bind="accountData.publicAccount|secretNumber"></p>
+						</div>
+					</div>
+				</div>
+				<div class="block">
+					<div class="left">支付密码</div>
+					<div class="right">
+						<input type="password" ng-model="password" class="form-control" placeholder="请输入交易支付密码">
+						<span class="error" ng-if="isTransPasswordError"><i class="ion-minus-circled"></i><span ng-bind="isTransPasswordError">密码输入错误,连续输错5次驾校钱包将自动锁定</span></span>
+						<a href="schools-account-setpassword.html?type=set&mobile={{schoolDetails.mobile}}" class="zhmi">找回密码</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="left"> </div>
+					<div class="right">
+						<button class="btn btn-sm btn-primary" ng-click="submitAccount()">确认提现</button>
+					</div>
+				</div>
+				<div class="light zhu">注：工作日16:00之前提交申请的视为当日提现申请，其他时间视为次日提现申请，提现身亲成功后1-2个工作日内到账，周按周一0点整至周日24点整定义，提现次数不会累积</div>
+			</div> 
+
+			<!-- 账户密码输入错误5次后提示 -->
+			<div ng-show="type==1" class="w-msg w-error margin-top-20">
+				<div class="block">
+					<i class="ion-minus-circled error"></i>
+					<strong>密码错误次数已达5次，驾校钱包已被锁定</strong>
+					<a href="schools-account-setpassword.html?type=set&mobile={{schoolDetails.mobile}}">找回密码</a>
+					<a href="schools-account.html">返回驾校钱包</a>
+				</div>
+			</div>
+			
+			<!-- 提现超额提示 -->
+			<div ng-show="type==2" class="w-msg w-error margin-top-20">
+				<div class="block">
+					<i class="ion-minus-circled error"></i>
+					<strong>提现次数为每周一次</strong>
+					<a href="schools-account.html">返回驾校钱包</a>
+				</div>
+				<div class="block light margin-left-15">周按周一0点整至周日24点整定义，提现次数不会累积</div>
+			</div>
+
+			
+		</div>
+	</div>
+<!-- script -->
+</div>	
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/schools-account-withdrawals.js?v=e4ff212d121470826781028"></script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.pay.mapper.dao.DepositDtoMapper">
+	<resultMap id="BaseResultMap" type="com.lili.pay.dto.DepositDto">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="waterId" property="waterid" jdbcType="VARCHAR" />
+		<result column="user_type" property="userType" jdbcType="INTEGER" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="money" property="money" jdbcType="INTEGER" />
+		<result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="verify_id" property="verifyId" jdbcType="INTEGER" />
+		<result column="order_id" property="orderId" jdbcType="VARCHAR" />
+		<result column="bank_card" property="bankCard" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="card_name" property="cardName" jdbcType="VARCHAR" />
+		<result column="checker" property="checker" jdbcType="VARCHAR" />
+		<result column="check_status" property="checkStatus" jdbcType="INTEGER" />
+		<result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="check_remark" property="checkRemark" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,waterId, user_type, user_id, money, apply_time, type, verify_id,order_id, bank_card,bank_name,
+		card_name, checker, check_status, check_time, check_remark, remark
+	</sql>
+	
+	 <sql id="myRowBoundsSQL">
+	    <if test="myRowBounds != null">
+	        limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		 </if>
+	 </sql>
+	 
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" 
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_deposit
+		where waterId = #{waterid,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="queryDepositList" resultMap="BaseResultMap"  parameterType="com.lili.pay.dto.DepositDto">
+		select
+			<include refid="Base_Column_List" />
+		from t_u_deposit
+			where  user_id = #{userId,jdbcType=VARCHAR} and 
+				 user_type = #{userType,jdbcType=INTEGER} 
+				 <include refid="myRowBoundsSQL" />
+	</select>
+	
+	<select id="queryHasDeposit" resultMap="BaseResultMap"  parameterType="com.lili.pay.dto.DepositDto">
+		select
+			<include refid="Base_Column_List" />
+		from t_u_deposit
+			 where 1=1
+				<trim suffixOverrides=",">
+					<if test="userId != null and userId != ''">
+					 and	user_id = #{userId,jdbcType=VARCHAR}
+					</if>
+					<if test="userType != null and userType != ''">
+						and user_type = #{userType,jdbcType=INTEGER} 
+					</if>
+					<if test="checkStatus != null and checkStatus != ''">
+						and check_status = #{checkStatus,jdbcType=INTEGER} 
+					</if>
+				</trim>
+	</select>
+	
+	<update id="updateDepositList"  parameterType="java.util.List">
+       <foreach collection="list" item="depList" index="index" open="" close="" separator=";">
+             update t_u_deposit 
+                <set>
+						check_status=${depList.checkStatus}
+                </set>
+                <where>  
+		       		 user_id=${depList.userId},
+		       		 user_type=${depList.userType}		       		 
+		     </where> 
+       </foreach>
+    </update>
+	
+	<select id="queryLeftDepositCount" resultType="java.lang.Integer" parameterType="Map">
+		select
+			count(*)
+		from t_u_deposit
+			where user_id = #{userId,jdbcType=VARCHAR} and 
+				 user_type = #{userType,jdbcType=INTEGER}  and 
+				apply_time between #{startTime} and 	#{endTime}
+				and check_status in (0,1,3,4)
+	</select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+		delete from t_u_deposit
+    where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.pay.dto.DepositDto">
+    insert into t_u_deposit (id, waterId, user_type, user_id
+		money, apply_time, type,
+		verify_id, order_id,bank_card, bank_name,
+		card_name, checker, check_status,
+		check_time, check_remark, remark
+		)
+		values (#{id,jdbcType=INTEGER}, #{waterid,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER},
+		#{userId,jdbcType=BIGINT},
+		#{money,jdbcType=INTEGER}, #{applyTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR},
+		#{verifyId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR},#{bankCard,jdbcType=VARCHAR},
+		#{bankName,jdbcType=VARCHAR},
+		#{cardName,jdbcType=VARCHAR}, #{checker,jdbcType=VARCHAR}, #{checkStatus,jdbcType=INTEGER},
+		#{checkTime,jdbcType=TIMESTAMP}, #{checkRemark,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.pay.dto.DepositDto">
+		insert into t_u_deposit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="waterid != null">
+				waterId,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="money != null">
+				money,
+			</if>
+			<if test="applyTime != null">
+				apply_time,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="verifyId != null">
+				verify_id,
+			</if>
+			<if test="orderId != null">
+				order_id,
+			</if>
+			<if test="bankCard != null">
+				bank_card,
+			</if>
+			<if test="bankName != null">
+				bank_name,
+			</if>
+			<if test="cardName != null">
+				card_name,
+			</if>
+			<if test="checker != null">
+				checker,
+			</if>
+			<if test="checkStatus != null">
+				check_status,
+			</if>
+			<if test="checkTime != null">
+				check_time,
+			</if>
+			<if test="checkRemark != null">
+				check_remark,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="waterid != null">
+				#{waterid,jdbcType=VARCHAR},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=INTEGER},
+			</if>
+			<if test="applyTime != null">
+				#{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyId != null">
+				#{verifyId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				#{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cardName != null">
+				#{cardName,jdbcType=VARCHAR},
+			</if>
+			<if test="checker != null">
+				#{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkStatus != null">
+				#{checkStatus,jdbcType=INTEGER},
+			</if>
+			<if test="checkTime != null">
+				#{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkRemark != null">
+				#{checkRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.pay.dto.DepositDto">
+		update t_u_deposit
+		<set>
+      <if test="waterid != null" >
+        waterId = #{waterid,jdbcType=VARCHAR},
+      </if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="money != null">
+				money = #{money,jdbcType=INTEGER},
+			</if>
+			<if test="applyTime != null">
+				apply_time = #{applyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="verifyId != null">
+				verify_id = #{verifyId,jdbcType=INTEGER},
+			</if>
+			<if test="orderId != null">
+				order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				bank_card = #{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				bank_name = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="cardName != null">
+				card_name = #{cardName,jdbcType=VARCHAR},
+			</if>
+			<if test="checker != null">
+				checker = #{checker,jdbcType=VARCHAR},
+			</if>
+			<if test="checkStatus != null">
+				check_status = #{checkStatus,jdbcType=INTEGER},
+			</if>
+			<if test="checkTime != null">
+				check_time = #{checkTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="checkRemark != null">
+				check_remark = #{checkRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+    where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.pay.dto.DepositDto">
+		update t_u_deposit
+    set waterId = #{waterid,jdbcType=VARCHAR},
+		user_type = #{userType,jdbcType=INTEGER},
+		user_id = #{userId,jdbcType=BIGINT},
+		money = #{money,jdbcType=INTEGER},
+		apply_time = #{applyTime,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=VARCHAR},
+		verify_id = #{verifyId,jdbcType=INTEGER},
+		order_id = #{orderId,jdbcType=VARCHAR},
+		bank_card = #{bankCard,jdbcType=VARCHAR},
+		bank_name = #{bankName,jdbcType=VARCHAR},
+		card_name = #{cardName,jdbcType=VARCHAR},
+		checker = #{checker,jdbcType=VARCHAR},
+		check_status = #{checkStatus,jdbcType=INTEGER},
+		check_time = #{checkTime,jdbcType=TIMESTAMP},
+		check_remark = #{checkRemark,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

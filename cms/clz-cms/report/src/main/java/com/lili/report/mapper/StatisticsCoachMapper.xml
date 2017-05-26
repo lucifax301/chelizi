@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.report.mapper.dao.IStatisticsCoachDao">
+	<resultMap id="BaseResultMap" type="com.lili.report.vo.StatisticsCoachVo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="classNum" property="classNum" jdbcType="INTEGER" />
+		<result column="maxStuNum" property="maxStuNum" jdbcType="INTEGER" />
+		<result column="hadClassNum" property="hadClassNum" jdbcType="INTEGER" />
+		<result column="classTime" property="classTime" jdbcType="INTEGER" />
+		<result column="rClassTIme" property="rClassTIme" jdbcType="INTEGER" />
+		<result column="loginNum" property="loginNum" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="dTime" property="dTime" jdbcType="DATE" />
+		<result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+		<result column="classRR" property="classRR" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<resultMap id="SumResultMap" type="com.lili.report.vo.StatisticsCoachVo">
+		<result column="classNumSum" property="classNumSum" jdbcType="INTEGER" />
+		<result column="maxStuNumSum" property="maxStuNumSum" jdbcType="INTEGER" />
+		<result column="hadClassNumSum" property="hadClassNumSum" jdbcType="INTEGER" />
+		<result column="classTimeSum" property="classTimeSum" jdbcType="INTEGER" />
+		<result column="rClassTImeSum" property="rClassTImeSum" jdbcType="INTEGER" />
+		<result column="loginNumSum" property="loginNumSum" jdbcType="INTEGER" />
+		<result column="classRRSum" property="classRRSum" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, classNum, maxStuNum, hadClassNum, classTime, rClassTIme, loginNum,
+		cityId, dTime,
+		cTime
+	</sql>
+	
+	<select id="queryCoachList" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />,
+		  ifnull(truncate((rClassTIme/classTime*100),2),0) as classRR
+		from t_statistics_coach
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+			   <if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+	<select id="queryCoachByDateList" resultMap="BaseResultMap" >
+		select dTime,
+			ifnull(sum(classNum),0) as classNum, ifnull(sum(maxStuNum),0) as maxStuNum, 
+			ifnull(sum(hadClassNum),0) as hadClassNum, ifnull(sum(classTime/60),0) as classTime,
+			ifnull(sum(rClassTIme/60),0) as rClassTIme, ifnull(sum(loginNum),0) as loginNum,		
+			ifnull(truncate((sum(rClassTIme)/sum(classTime)*100),2),0) as classRR
+		from t_statistics_coach
+		where 1=1
+			<trim suffixOverrides=",">
+			   <if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			group by dTime order by dTime desc
+	</select>
+	
+	<select id="queryCoachSum" resultMap="SumResultMap" >
+		select 
+			ifnull(sum(classNum),0) as classNumSum, ifnull(sum(maxStuNum),0) as maxStuNumSum, 
+			ifnull(sum(hadClassNum),0) as hadClassNumSum, ifnull(sum(classTime/60),0) as classTimeSum, 
+			ifnull(sum(rClassTIme/60),0) as rClassTImeSum, ifnull(sum(loginNum),0) as loginNumSum,		
+			ifnull(truncate((sum(rClassTIme)/sum(classTime)*100),2),0) as classRRSum
+			from t_statistics_coach
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+			   <if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_statistics_coach
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_statistics_coach
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.report.vo.StatisticsCoachVo">
+		insert into t_statistics_coach (id, classNum, maxStuNum,
+		hadClassNum, classTime, rClassTIme,
+		loginNum, cityId, dTime,
+		cTime)
+		values (#{id,jdbcType=BIGINT}, #{classNum,jdbcType=INTEGER},
+		#{maxStuNum,jdbcType=INTEGER},
+		#{hadClassNum,jdbcType=INTEGER}, #{classTime,jdbcType=INTEGER}, #{rClassTIme,jdbcType=INTEGER},
+		#{loginNum,jdbcType=INTEGER}, #{cityId,jdbcType=VARCHAR},
+		#{dTime,jdbcType=DATE},
+		#{cTime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.report.vo.StatisticsCoachVo">
+		insert into t_statistics_coach
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="classNum != null">
+				classNum,
+			</if>
+			<if test="maxStuNum != null">
+				maxStuNum,
+			</if>
+			<if test="hadClassNum != null">
+				hadClassNum,
+			</if>
+			<if test="classTime != null">
+				classTime,
+			</if>
+			<if test="rClassTIme != null">
+				rClassTIme,
+			</if>
+			<if test="loginNum != null">
+				loginNum,
+			</if>
+			<if test="cityId != null">
+				cityId,
+			</if>
+			<if test="dTime != null">
+				dTime,
+			</if>
+			<if test="cTime != null">
+				cTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="classNum != null">
+				#{classNum,jdbcType=INTEGER},
+			</if>
+			<if test="maxStuNum != null">
+				#{maxStuNum,jdbcType=INTEGER},
+			</if>
+			<if test="hadClassNum != null">
+				#{hadClassNum,jdbcType=INTEGER},
+			</if>
+			<if test="classTime != null">
+				#{classTime,jdbcType=INTEGER},
+			</if>
+			<if test="rClassTIme != null">
+				#{rClassTIme,jdbcType=INTEGER},
+			</if>
+			<if test="loginNum != null">
+				#{loginNum,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				#{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="dTime != null">
+				#{dTime,jdbcType=DATE},
+			</if>
+			<if test="cTime != null">
+				#{cTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.report.vo.StatisticsCoachVo">
+		update t_statistics_coach
+		<set>
+			<if test="classNum != null">
+				classNum = #{classNum,jdbcType=INTEGER},
+			</if>
+			<if test="maxStuNum != null">
+				maxStuNum = #{maxStuNum,jdbcType=INTEGER},
+			</if>
+			<if test="hadClassNum != null">
+				hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+			</if>
+			<if test="classTime != null">
+				classTime = #{classTime,jdbcType=INTEGER},
+			</if>
+			<if test="rClassTIme != null">
+				rClassTIme = #{rClassTIme,jdbcType=INTEGER},
+			</if>
+			<if test="loginNum != null">
+				loginNum = #{loginNum,jdbcType=INTEGER},
+			</if>
+			<if test="cityId != null">
+				cityId = #{cityId,jdbcType=VARCHAR},
+			</if>
+			<if test="dTime != null">
+				dTime = #{dTime,jdbcType=DATE},
+			</if>
+			<if test="cTime != null">
+				cTime = #{cTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.report.vo.StatisticsCoachVo">
+		update t_statistics_coach
+		set classNum = #{classNum,jdbcType=INTEGER},
+		maxStuNum = #{maxStuNum,jdbcType=INTEGER},
+		hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+		classTime = #{classTime,jdbcType=INTEGER},
+		rClassTIme = #{rClassTIme,jdbcType=INTEGER},
+		loginNum = #{loginNum,jdbcType=INTEGER},
+		cityId = #{cityId,jdbcType=VARCHAR},
+		dTime = #{dTime,jdbcType=DATE},
+		cTime = #{cTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+</mapper>

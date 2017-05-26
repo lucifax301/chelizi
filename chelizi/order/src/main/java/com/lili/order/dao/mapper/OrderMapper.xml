@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.OrderMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="courseId!=null">course_id=#{courseId},</if>
+      <if test="price!=null">price=#{price},</if>
+      <if test="learnAddr!=null">learn_addr=#{learnAddr},</if>
+      <if test="studentId!=null">student_id=#{studentId},</if>
+      <if test="dltype!=null">dltype=#{dltype},</if>
+      <if test="lge!=null">lge=#{lge},</if>
+      <if test="lae!=null">lae=#{lae},</if>
+      <if test="stuAddr!=null">stu_addr=#{stuAddr},</if>
+      <if test="pstart!=null">pstart=#{pstart},</if>
+      <if test="pend!=null">pend=#{pend},</if>
+      <if test="clzNum!=null">clz_num=#{clzNum},</if>
+      <if test="orderState!=null">order_state=#{orderState},</if>
+      <if test="rstart!=null">rstart=#{rstart},</if>
+      <if test="rend!=null">rend=#{rend},</if>
+      <if test="cstart!=null">cstart=#{cstart},</if>
+      <if test="cend!=null">cend=#{cend},</if>
+      <if test="payState!=null">pay_state=#{payState},</if>
+      <if test="checkoutState!=null">checkout_state=#{checkoutState},</if>
+      <if test="needTrans!=null">need_trans=#{needTrans},</if>
+      <if test="transState!=null">trans_state=#{transState},</if>
+      <if test="payId!=null">pay_id=#{payId},</if>
+      <if test="gtime!=null">gtime=#{gtime},</if>
+      <if test="atime!=null">atime=#{atime},</if>
+      <if test="otype!=null">otype=#{otype},</if>
+      <if test="coorder!=null">coorder=#{coorder},</if>
+      <if test="ccid!=null">ccid=#{ccid},</if>
+      <if test="unitPrice!=null">unit_price=#{unitPrice},</if>
+      <if test="transPrice!=null">trans_price=#{transPrice},</if>
+      <if test="placeId!=null">place_id=#{placeId},</if>
+      <if test="transName!=null">trans_name=#{transName},</if>
+      <if test="carId!=null">car_id=#{carId},</if>
+      <if test="carName!=null">car_name=#{carName},</if>
+      <if test="carImg!=null">car_img=#{carImg},</if>
+      <if test="carNo!=null">car_no=#{carNo},</if>
+      <if test="insId!=null">ins_id=#{insId},</if>
+      <if test="insPrice!=null">ins_price=#{insPrice},</if>
+      <if test="insName!=null">ins_name=#{insName},</if>
+      <if test="coachName!=null">coach_name=#{coachName},</if>
+      <if test="coachImg!=null">coach_img=#{coachImg},</if>
+      <if test="coachMobile!=null">coach_mobile=#{coachMobile},</if>
+      <if test="coachStar!=null">coach_star=#{coachStar},</if>
+      <if test="stuName!=null">stu_name=#{stuName},</if>
+      <if test="stuImg!=null">stu_img=#{stuImg},</if>
+      <if test="stuMobile!=null">stu_mobile=#{stuMobile},</if>
+      <if test="courseName!=null">course_name=#{courseName},</if>
+      <if test="allowance!=null">allowance=#{allowance},</if>
+      <if test="priceTotal!=null">price_total=#{priceTotal},</if>
+      <if test="payTotal!=null">pay_total=#{payTotal},</if>
+      <if test="payTime!=null">pay_time=#{payTime},</if>
+      <if test="placeLge!=null">place_lge=#{placeLge},</if>
+      <if test="placeLae!=null">place_lae=#{placeLae},</if>
+      <if test="cityId!=null">city_id=#{cityId},</if>
+      <if test="coupon!=null">coupon=#{coupon},</if>
+      <if test="couponTotal!=null">coupon_total=#{couponTotal},</if>
+      <if test="couponName!=null">coupon_name=#{couponName},</if>
+      <if test="courseType!=null">course_type=#{courseType},</if>
+      <if test="schoolId!=null">school_Id=#{schoolId},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.orderId!=null">order_id=#{param1.orderId},</if>
+      <if test="param1.coachId!=null">coach_id=#{param1.coachId},</if>
+      <if test="param1.courseId!=null">course_id=#{param1.courseId},</if>
+      <if test="param1.price!=null">price=#{param1.price},</if>
+      <if test="param1.learnAddr!=null">learn_addr=#{param1.learnAddr},</if>
+      <if test="param1.studentId!=null">student_id=#{param1.studentId},</if>
+      <if test="param1.dltype!=null">dltype=#{param1.dltype},</if>
+      <if test="param1.lge!=null">lge=#{param1.lge},</if>
+      <if test="param1.lae!=null">lae=#{param1.lae},</if>
+      <if test="param1.stuAddr!=null">stu_addr=#{param1.stuAddr},</if>
+      <if test="param1.pstart!=null">pstart=#{param1.pstart},</if>
+      <if test="param1.pend!=null">pend=#{param1.pend},</if>
+      <if test="param1.clzNum!=null">clz_num=#{param1.clzNum},</if>
+      <if test="param1.orderState!=null">order_state=#{param1.orderState},</if>
+      <if test="param1.rstart!=null">rstart=#{param1.rstart},</if>
+      <if test="param1.rend!=null">rend=#{param1.rend},</if>
+      <if test="param1.cstart!=null">cstart=#{param1.cstart},</if>
+      <if test="param1.cend!=null">cend=#{param1.cend},</if>
+      <if test="param1.payState!=null">pay_state=#{param1.payState},</if>
+      <if test="param1.checkoutState!=null">checkout_state=#{param1.checkoutState},</if>
+      <if test="param1.needTrans!=null">need_trans=#{param1.needTrans},</if>
+      <if test="param1.transState!=null">trans_state=#{param1.transState},</if>
+      <if test="param1.payId!=null">pay_id=#{param1.payId},</if>
+      <if test="param1.gtime!=null">gtime=#{param1.gtime},</if>
+      <if test="param1.atime!=null">atime=#{param1.atime},</if>
+      <if test="param1.otype!=null">otype=#{param1.otype},</if>
+      <if test="param1.coorder!=null">coorder=#{param1.coorder},</if>
+      <if test="param1.ccid!=null">ccid=#{param1.ccid},</if>
+      <if test="param1.unitPrice!=null">unit_price=#{param1.unitPrice},</if>
+      <if test="param1.transPrice!=null">trans_price=#{param1.transPrice},</if>
+      <if test="param1.placeId!=null">place_id=#{param1.placeId},</if>
+      <if test="param1.transName!=null">trans_name=#{param1.transName},</if>
+      <if test="param1.carId!=null">car_id=#{param1.carId},</if>
+      <if test="param1.carName!=null">car_name=#{param1.carName},</if>
+      <if test="param1.carImg!=null">car_img=#{param1.carImg},</if>
+      <if test="param1.carNo!=null">car_no=#{param1.carNo},</if>
+      <if test="param1.insId!=null">ins_id=#{param1.insId},</if>
+      <if test="param1.insPrice!=null">ins_price=#{param1.insPrice},</if>
+      <if test="param1.insName!=null">ins_name=#{param1.insName},</if>
+      <if test="param1.coachName!=null">coach_name=#{param1.coachName},</if>
+      <if test="param1.coachImg!=null">coach_img=#{param1.coachImg},</if>
+      <if test="param1.coachMobile!=null">coach_mobile=#{param1.coachMobile},</if>
+      <if test="param1.coachStar!=null">coach_star=#{param1.coachStar},</if>
+      <if test="param1.stuName!=null">stu_name=#{param1.stuName},</if>
+      <if test="param1.stuImg!=null">stu_img=#{param1.stuImg},</if>
+      <if test="param1.stuMobile!=null">stu_mobile=#{param1.stuMobile},</if>
+      <if test="param1.courseName!=null">course_name=#{param1.courseName},</if>
+      <if test="param1.allowance!=null">allowance=#{param1.allowance},</if>
+      <if test="param1.priceTotal!=null">price_total=#{param1.priceTotal},</if>
+      <if test="param1.payTotal!=null">pay_total=#{param1.payTotal},</if>
+      <if test="param1.payTime!=null">pay_time=#{param1.payTime},</if>
+      <if test="param1.placeLge!=null">place_lge=#{param1.placeLge},</if>
+      <if test="param1.placeLae!=null">place_lae=#{param1.placeLae},</if>
+      <if test="param1.cityId!=null">city_id=#{param1.cityId},</if>
+      <if test="param1.coupon!=null">coupon=#{param1.coupon},</if>
+      <if test="param1.couponTotal!=null">coupon_total=#{param1.couponTotal},</if>
+      <if test="param1.couponName!=null">coupon_name=#{param1.couponName},</if>
+      <if test="param1.courseType!=null">course_type=#{param1.courseType},</if>
+      <if test="param1.schoolId!=null">school_Id=#{param1.schoolId},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.orderId!=null">order_id=#{param2.orderId},</if>
+      <if test="param2.coachId!=null">coach_id=#{param2.coachId},</if>
+      <if test="param2.courseId!=null">course_id=#{param2.courseId},</if>
+      <if test="param2.price!=null">price=#{param2.price},</if>
+      <if test="param2.learnAddr!=null">learn_addr=#{param2.learnAddr},</if>
+      <if test="param2.studentId!=null">student_id=#{param2.studentId},</if>
+      <if test="param2.dltype!=null">dltype=#{param2.dltype},</if>
+      <if test="param2.lge!=null">lge=#{param2.lge},</if>
+      <if test="param2.lae!=null">lae=#{param2.lae},</if>
+      <if test="param2.stuAddr!=null">stu_addr=#{param2.stuAddr},</if>
+      <if test="param2.pstart!=null">pstart=#{param2.pstart},</if>
+      <if test="param2.pend!=null">pend=#{param2.pend},</if>
+      <if test="param2.clzNum!=null">clz_num=#{param2.clzNum},</if>
+      <if test="param2.orderState!=null">order_state=#{param2.orderState},</if>
+      <if test="param2.rstart!=null">rstart=#{param2.rstart},</if>
+      <if test="param2.rend!=null">rend=#{param2.rend},</if>
+      <if test="param2.cstart!=null">cstart=#{param2.cstart},</if>
+      <if test="param2.cend!=null">cend=#{param2.cend},</if>
+      <if test="param2.payState!=null">pay_state=#{param2.payState},</if>
+      <if test="param2.checkoutState!=null">checkout_state=#{param2.checkoutState},</if>
+      <if test="param2.needTrans!=null">need_trans=#{param2.needTrans},</if>
+      <if test="param2.transState!=null">trans_state=#{param2.transState},</if>
+      <if test="param2.payId!=null">pay_id=#{param2.payId},</if>
+      <if test="param2.gtime!=null">gtime=#{param2.gtime},</if>
+      <if test="param2.atime!=null">atime=#{param2.atime},</if>
+      <if test="param2.otype!=null">otype=#{param2.otype},</if>
+      <if test="param2.coorder!=null">coorder=#{param2.coorder},</if>
+      <if test="param2.ccid!=null">ccid=#{param2.ccid},</if>
+      <if test="param2.unitPrice!=null">unit_price=#{param2.unitPrice},</if>
+      <if test="param2.transPrice!=null">trans_price=#{param2.transPrice},</if>
+      <if test="param2.placeId!=null">place_id=#{param2.placeId},</if>
+      <if test="param2.transName!=null">trans_name=#{param2.transName},</if>
+      <if test="param2.carId!=null">car_id=#{param2.carId},</if>
+      <if test="param2.carName!=null">car_name=#{param2.carName},</if>
+      <if test="param2.carImg!=null">car_img=#{param2.carImg},</if>
+      <if test="param2.carNo!=null">car_no=#{param2.carNo},</if>
+      <if test="param2.insId!=null">ins_id=#{param2.insId},</if>
+      <if test="param2.insPrice!=null">ins_price=#{param2.insPrice},</if>
+      <if test="param2.insName!=null">ins_name=#{param2.insName},</if>
+      <if test="param2.coachName!=null">coach_name=#{param2.coachName},</if>
+      <if test="param2.coachImg!=null">coach_img=#{param2.coachImg},</if>
+      <if test="param2.coachMobile!=null">coach_mobile=#{param2.coachMobile},</if>
+      <if test="param2.coachStar!=null">coach_star=#{param2.coachStar},</if>
+      <if test="param2.stuName!=null">stu_name=#{param2.stuName},</if>
+      <if test="param2.stuImg!=null">stu_img=#{param2.stuImg},</if>
+      <if test="param2.stuMobile!=null">stu_mobile=#{param2.stuMobile},</if>
+      <if test="param2.courseName!=null">course_name=#{param2.courseName},</if>
+      <if test="param2.allowance!=null">allowance=#{param2.allowance},</if>
+      <if test="param2.priceTotal!=null">price_total=#{param2.priceTotal},</if>
+      <if test="param2.payTotal!=null">pay_total=#{param2.payTotal},</if>
+      <if test="param2.payTime!=null">pay_time=#{param2.payTime},</if>
+      <if test="param2.placeLge!=null">place_lge=#{param2.placeLge},</if>
+      <if test="param2.placeLae!=null">place_lae=#{param2.placeLae},</if>
+      <if test="param2.cityId!=null">city_id=#{param2.cityId},</if>
+      <if test="param2.coupon!=null">coupon=#{param2.coupon},</if>
+      <if test="param2.couponTotal!=null">coupon_total=#{param2.couponTotal},</if>
+      <if test="param2.couponName!=null">coupon_name=#{param2.couponName},</if>
+      <if test="param2.courseType!=null">course_type=#{param2.courseType},</if>
+      <if test="param2.schoolId!=null">school_Id=#{param2.schoolId},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set order_id=#{orderId}, coach_id=#{coachId}, course_id=#{courseId}, price=#{price}, learn_addr=#{learnAddr}, student_id=#{studentId}, dltype=#{dltype}, lge=#{lge}, lae=#{lae}, stu_addr=#{stuAddr}, pstart=#{pstart}, pend=#{pend}, clz_num=#{clzNum}, order_state=#{orderState}, rstart=#{rstart}, rend=#{rend}, cstart=#{cstart}, cend=#{cend}, pay_state=#{payState},checkout_state=#{checkoutState}, need_trans=#{needTrans}, trans_state=#{transState}, pay_id=#{payId}, gtime=#{gtime}, atime=#{atime}, otype=#{otype}, coorder=#{coorder}, ccid=#{ccid}, unit_price=#{unitPrice}, trans_price=#{transPrice}, place_id=#{placeId}, trans_name=#{transName}, car_id=#{carId}, car_name=#{carName}, car_img=#{carImg}, car_no=#{carNo}, ins_id=#{insId}, ins_price=#{insPrice}, ins_name=#{insName}, coach_name=#{coachName}, coach_img=#{coachImg}, coach_mobile=#{coachMobile}, coach_star=#{coachStar}, stu_name=#{stuName}, stu_img=#{stuImg}, stu_mobile=#{stuMobile}, course_name=#{courseName}, allowance=#{allowance}, price_total=#{priceTotal}, pay_total=#{payTotal}, pay_time=#{payTime}, place_lge=#{placeLge}, place_lae=#{placeLae}, city_id=#{cityId}, coupon=#{coupon}, coupon_total=#{couponTotal}, coupon_name=#{couponName}, course_type=#{courseType}, school_Id=#{schoolId}</sql>
+  <sql id="setAllparam1">set order_id=#{param1.orderId}, coach_id=#{param1.coachId}, course_id=#{param1.courseId}, price=#{param1.price}, learn_addr=#{param1.learnAddr}, student_id=#{param1.studentId}, dltype=#{param1.dltype}, lge=#{param1.lge}, lae=#{param1.lae}, stu_addr=#{param1.stuAddr}, pstart=#{param1.pstart}, pend=#{param1.pend}, clz_num=#{param1.clzNum}, order_state=#{param1.orderState}, rstart=#{param1.rstart}, rend=#{param1.rend}, cstart=#{param1.cstart}, cend=#{param1.cend}, pay_state=#{param1.payState}, checkout_state=#{param1.checkoutState}, need_trans=#{param1.needTrans}, trans_state=#{param1.transState}, pay_id=#{param1.payId}, gtime=#{param1.gtime}, atime=#{param1.atime}, otype=#{param1.otype}, coorder=#{param1.coorder}, ccid=#{param1.ccid}, unit_price=#{param1.unitPrice}, trans_price=#{param1.transPrice}, place_id=#{param1.placeId}, trans_name=#{param1.transName}, car_id=#{param1.carId}, car_name=#{param1.carName}, car_img=#{param1.carImg}, car_no=#{param1.carNo}, ins_id=#{param1.insId}, ins_price=#{param1.insPrice}, ins_name=#{param1.insName}, coach_name=#{param1.coachName}, coach_img=#{param1.coachImg}, coach_mobile=#{param1.coachMobile}, coach_star=#{param1.coachStar}, stu_name=#{param1.stuName}, stu_img=#{param1.stuImg}, stu_mobile=#{param1.stuMobile}, course_name=#{param1.courseName}, allowance=#{param1.allowance}, price_total=#{param1.priceTotal}, pay_total=#{param1.payTotal}, pay_time=#{param1.payTime}, place_lge=#{param1.placeLge}, place_lae=#{param1.placeLae}, city_id=#{param1.cityId}, coupon=#{param1.coupon}, coupon_total=#{param1.couponTotal}, coupon_name=#{param1.couponName}, course_type=#{param1.courseType}, school_Id=#{param1.schoolId}</sql>
+  <sql id="setAllparam2">set order_id=#{param2.orderId}, coach_id=#{param2.coachId}, course_id=#{param2.courseId}, price=#{param2.price}, learn_addr=#{param2.learnAddr}, student_id=#{param2.studentId}, dltype=#{param2.dltype}, lge=#{param2.lge}, lae=#{param2.lae}, stu_addr=#{param2.stuAddr}, pstart=#{param2.pstart}, pend=#{param2.pend}, clz_num=#{param2.clzNum}, order_state=#{param2.orderState}, rstart=#{param2.rstart}, rend=#{param2.rend}, cstart=#{param2.cstart}, cend=#{param2.cend}, pay_state=#{param2.payState}, checkout_state=#{param1.checkoutState}, need_trans=#{param2.needTrans}, trans_state=#{param2.transState}, pay_id=#{param2.payId}, gtime=#{param2.gtime}, atime=#{param2.atime}, otype=#{param2.otype}, coorder=#{param2.coorder}, ccid=#{param2.ccid}, unit_price=#{param2.unitPrice}, trans_price=#{param2.transPrice}, place_id=#{param2.placeId}, trans_name=#{param2.transName}, car_id=#{param2.carId}, car_name=#{param2.carName}, car_img=#{param2.carImg}, car_no=#{param2.carNo}, ins_id=#{param2.insId}, ins_price=#{param2.insPrice}, ins_name=#{param2.insName}, coach_name=#{param2.coachName}, coach_img=#{param2.coachImg}, coach_mobile=#{param2.coachMobile}, coach_star=#{param2.coachStar}, stu_name=#{param2.stuName}, stu_img=#{param2.stuImg}, stu_mobile=#{param2.stuMobile}, course_name=#{param2.courseName}, allowance=#{param2.allowance}, price_total=#{param2.priceTotal}, pay_total=#{param2.payTotal}, pay_time=#{param2.payTime}, place_lge=#{param2.placeLge}, place_lae=#{param2.placeLae}, city_id=#{param2.cityId}, coupon=#{param2.coupon}, coupon_total=#{param2.couponTotal}, coupon_name=#{param2.couponName}, course_type=#{param2.courseType}, school_Id=#{param2.schoolId}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="orderId!=null and orderId != '' ">And order_id=#{orderId}</if>
+      <if test="coachId!=null and coachId != '' ">And coach_id=#{coachId}</if>
+      <if test="courseId!=null and courseId != '' ">And course_id=#{courseId}</if>
+      <if test="price!=null and price != '' ">And price=#{price}</if>
+      <if test="learnAddr!=null and learnAddr != '' ">And learn_addr=#{learnAddr}</if>
+      <if test="studentId!=null and studentId != '' ">And student_id=#{studentId}</if>
+      <if test="dltype!=null and dltype != '' ">And dltype=#{dltype}</if>
+      <if test="lge!=null and lge != '' ">And lge=#{lge}</if>
+      <if test="lae!=null and lae != '' ">And lae=#{lae}</if>
+      <if test="stuAddr!=null and stuAddr != '' ">And stu_addr=#{stuAddr}</if>
+      <if test="pstart!=null and pstart != '' ">And pstart=#{pstart}</if>
+      <if test="pend!=null and pend != '' ">And pend=#{pend}</if>
+      <if test="clzNum!=null and clzNum != '' ">And clz_num=#{clzNum}</if>
+      <if test="orderState!=null and orderState != '' ">And order_state=#{orderState}</if>
+      <if test="rstart!=null and rstart != '' ">And rstart=#{rstart}</if>
+      <if test="rend!=null and rend != '' ">And rend=#{rend}</if>
+      <if test="cstart!=null and cstart != '' ">And cstart=#{cstart}</if>
+      <if test="cend!=null and cend != '' ">And cend=#{cend}</if>
+      <if test="payState!=null ">And pay_state=#{payState}</if>
+      <if test="checkoutState!=null ">And checkout_state=#{checkoutState}</if>
+      <if test="needTrans!=null and needTrans != '' ">And need_trans=#{needTrans}</if>
+      <if test="transState!=null and transState != '' ">And trans_state=#{transState}</if>
+      <if test="payId!=null and payId != '' ">And pay_id=#{payId}</if>
+      <if test="gtime!=null and gtime != '' ">And gtime=#{gtime}</if>
+      <if test="atime!=null and atime != '' ">And atime=#{atime}</if>
+      <if test="otype!=null and otype != '' ">And otype=#{otype}</if>
+      <if test="coorder!=null and coorder != '' ">And coorder=#{coorder}</if>
+      <if test="ccid!=null and ccid != '' ">And ccid=#{ccid}</if>
+      <if test="unitPrice!=null and unitPrice != '' ">And unit_price=#{unitPrice}</if>
+      <if test="transPrice!=null and transPrice != '' ">And trans_price=#{transPrice}</if>
+      <if test="placeId!=null and placeId != '' ">And place_id=#{placeId}</if>
+      <if test="transName!=null and transName != '' ">And trans_name=#{transName}</if>
+      <if test="carId!=null and carId != '' ">And car_id=#{carId}</if>
+      <if test="carName!=null and carName != '' ">And car_name=#{carName}</if>
+      <if test="carImg!=null and carImg != '' ">And car_img=#{carImg}</if>
+      <if test="carNo!=null and carNo != '' ">And car_no=#{carNo}</if>
+      <if test="insId!=null and insId != '' ">And ins_id=#{insId}</if>
+      <if test="insPrice!=null and insPrice != '' ">And ins_price=#{insPrice}</if>
+      <if test="insName!=null and insName != '' ">And ins_name=#{insName}</if>
+      <if test="coachName!=null and coachName != '' ">And coach_name=#{coachName}</if>
+      <if test="coachImg!=null and coachImg != '' ">And coach_img=#{coachImg}</if>
+      <if test="coachMobile!=null and coachMobile != '' ">And coach_mobile=#{coachMobile}</if>
+      <if test="coachStar!=null and coachStar != '' ">And coach_star=#{coachStar}</if>
+      <if test="stuName!=null and stuName != '' ">And stu_name=#{stuName}</if>
+      <if test="stuImg!=null and stuImg != '' ">And stu_img=#{stuImg}</if>
+      <if test="stuMobile!=null and stuMobile != '' ">And stu_mobile=#{stuMobile}</if>
+      <if test="courseName!=null and courseName != '' ">And course_name=#{courseName}</if>
+      <if test="allowance!=null and allowance != '' ">And allowance=#{allowance}</if>
+      <if test="priceTotal!=null and priceTotal != '' ">And price_total=#{priceTotal}</if>
+      <if test="payTotal!=null and payTotal != '' ">And pay_total=#{payTotal}</if>
+      <if test="payTime!=null and payTime != '' ">And pay_time=#{payTime}</if>
+      <if test="placeLge!=null and placeLge != '' ">And place_lge=#{placeLge}</if>
+      <if test="placeLae!=null and placeLae != '' ">And place_lae=#{placeLae}</if>
+      <if test="cityId!=null and cityId != '' ">And city_id=#{cityId}</if>
+      <if test="coupon!=null ">And coupon=#{coupon}</if>
+      <if test="couponTotal!=null ">And coupon_total=#{couponTotal}</if>
+      <if test="couponName!=null ">And coupon_name=#{couponName}</if>
+      <if test="courseType!=null ">And course_type=#{courseType}</if>
+      <if test="schoolId!=null ">And school_Id=#{schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="orderId!=null and orderId != '' ">Or order_id=#{orderId}</if>
+      <if test="coachId!=null and coachId != '' ">Or coach_id=#{coachId}</if>
+      <if test="courseId!=null and courseId != '' ">Or course_id=#{courseId}</if>
+      <if test="price!=null and price != '' ">Or price=#{price}</if>
+      <if test="learnAddr!=null and learnAddr != '' ">Or learn_addr=#{learnAddr}</if>
+      <if test="studentId!=null and studentId != '' ">Or student_id=#{studentId}</if>
+      <if test="dltype!=null and dltype != '' ">Or dltype=#{dltype}</if>
+      <if test="lge!=null and lge != '' ">Or lge=#{lge}</if>
+      <if test="lae!=null and lae != '' ">Or lae=#{lae}</if>
+      <if test="stuAddr!=null and stuAddr != '' ">Or stu_addr=#{stuAddr}</if>
+      <if test="pstart!=null and pstart != '' ">Or pstart=#{pstart}</if>
+      <if test="pend!=null and pend != '' ">Or pend=#{pend}</if>
+      <if test="clzNum!=null and clzNum != '' ">Or clz_num=#{clzNum}</if>
+      <if test="orderState!=null and orderState != '' ">Or order_state=#{orderState}</if>
+      <if test="rstart!=null and rstart != '' ">Or rstart=#{rstart}</if>
+      <if test="rend!=null and rend != '' ">Or rend=#{rend}</if>
+      <if test="cstart!=null and cstart != '' ">Or cstart=#{cstart}</if>
+      <if test="cend!=null and cend != '' ">Or cend=#{cend}</if>
+      <if test="payState!=null ">Or pay_state=#{payState}</if>
+      <if test="checkoutState!=null ">Or checkout_state=#{checkoutState}</if>
+      <if test="needTrans!=null and needTrans != '' ">Or need_trans=#{needTrans}</if>
+      <if test="transState!=null and transState != '' ">Or trans_state=#{transState}</if>
+      <if test="payId!=null and payId != '' ">Or pay_id=#{payId}</if>
+      <if test="gtime!=null and gtime != '' ">Or gtime=#{gtime}</if>
+      <if test="atime!=null and atime != '' ">Or atime=#{atime}</if>
+      <if test="otype!=null and otype != '' ">Or otype=#{otype}</if>
+      <if test="coorder!=null and coorder != '' ">Or coorder=#{coorder}</if>
+      <if test="ccid!=null and ccid != '' ">Or ccid=#{ccid}</if>
+      <if test="unitPrice!=null and unitPrice != '' ">Or unit_price=#{unitPrice}</if>
+      <if test="transPrice!=null and transPrice != '' ">Or trans_price=#{transPrice}</if>
+      <if test="placeId!=null and placeId != '' ">Or place_id=#{placeId}</if>
+      <if test="transName!=null and transName != '' ">Or trans_name=#{transName}</if>
+      <if test="carId!=null and carId != '' ">Or car_id=#{carId}</if>
+      <if test="carName!=null and carName != '' ">Or car_name=#{carName}</if>
+      <if test="carImg!=null and carImg != '' ">Or car_img=#{carImg}</if>
+      <if test="carNo!=null and carNo != '' ">Or car_no=#{carNo}</if>
+      <if test="insId!=null and insId != '' ">Or ins_id=#{insId}</if>
+      <if test="insPrice!=null and insPrice != '' ">Or ins_price=#{insPrice}</if>
+      <if test="insName!=null and insName != '' ">Or ins_name=#{insName}</if>
+      <if test="coachName!=null and coachName != '' ">Or coach_name=#{coachName}</if>
+      <if test="coachImg!=null and coachImg != '' ">Or coach_img=#{coachImg}</if>
+      <if test="coachMobile!=null and coachMobile != '' ">Or coach_mobile=#{coachMobile}</if>
+      <if test="coachStar!=null and coachStar != '' ">Or coach_star=#{coachStar}</if>
+      <if test="stuName!=null and stuName != '' ">Or stu_name=#{stuName}</if>
+      <if test="stuImg!=null and stuImg != '' ">Or stu_img=#{stuImg}</if>
+      <if test="stuMobile!=null and stuMobile != '' ">Or stu_mobile=#{stuMobile}</if>
+      <if test="courseName!=null and courseName != '' ">Or course_name=#{courseName}</if>
+      <if test="allowance!=null and allowance != '' ">Or allowance=#{allowance}</if>
+      <if test="priceTotal!=null and priceTotal != '' ">Or price_total=#{priceTotal}</if>
+      <if test="payTotal!=null and payTotal != '' ">Or pay_total=#{payTotal}</if>
+      <if test="payTime!=null and payTime != '' ">Or pay_time=#{payTime}</if>
+      <if test="placeLge!=null and placeLge != '' ">Or place_lge=#{placeLge}</if>
+      <if test="placeLae!=null and placeLae != '' ">Or place_lae=#{placeLae}</if>
+      <if test="cityId!=null and cityId != '' ">Or city_id=#{cityId}</if>
+      <if test="coupon!=null ">Or coupon=#{coupon}</if>
+      <if test="couponTotal!=null ">Or coupon_total=#{couponTotal}</if>
+      <if test="couponName!=null ">Or coupon_name=#{couponName}</if>
+      <if test="courseType!=null ">Or course_type=#{courseType}</if>
+      <if test="schoolId!=null ">Or school_Id=#{schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.learnAddr!=null and param1.learnAddr != '' ">And learn_addr=#{param1.learnAddr}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">And student_id=#{param1.studentId}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">And dltype=#{param1.dltype}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">And lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">And lae=#{param1.lae}</if>
+      <if test="param1.stuAddr!=null and param1.stuAddr != '' ">And stu_addr=#{param1.stuAddr}</if>
+      <if test="param1.pstart!=null and param1.pstart != '' ">And pstart=#{param1.pstart}</if>
+      <if test="param1.pend!=null and param1.pend != '' ">And pend=#{param1.pend}</if>
+      <if test="param1.clzNum!=null and param1.clzNum != '' ">And clz_num=#{param1.clzNum}</if>
+      <if test="param1.orderState!=null and param1.orderState != '' ">And order_state=#{param1.orderState}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">And cend=#{param1.cend}</if>
+      <if test="param1.payState!=null ">And pay_state=#{param1.payState}</if>
+      <if test="param1.checkoutState!=null ">And checkout_state=#{param1.checkoutState}</if>
+      <if test="param1.needTrans!=null and param1.needTrans != '' ">And need_trans=#{param1.needTrans}</if>
+      <if test="param1.transState!=null and param1.transState != '' ">And trans_state=#{param1.transState}</if>
+      <if test="param1.payId!=null and param1.payId != '' ">And pay_id=#{param1.payId}</if>
+      <if test="param1.gtime!=null and param1.gtime != '' ">And gtime=#{param1.gtime}</if>
+      <if test="param1.atime!=null and param1.atime != '' ">And atime=#{param1.atime}</if>
+      <if test="param1.otype!=null and param1.otype != '' ">And otype=#{param1.otype}</if>
+      <if test="param1.coorder!=null and param1.coorder != '' ">And coorder=#{param1.coorder}</if>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.unitPrice!=null and param1.unitPrice != '' ">And unit_price=#{param1.unitPrice}</if>
+      <if test="param1.transPrice!=null and param1.transPrice != '' ">And trans_price=#{param1.transPrice}</if>
+      <if test="param1.placeId!=null and param1.placeId != '' ">And place_id=#{param1.placeId}</if>
+      <if test="param1.transName!=null and param1.transName != '' ">And trans_name=#{param1.transName}</if>
+      <if test="param1.carId!=null and param1.carId != '' ">And car_id=#{param1.carId}</if>
+      <if test="param1.carName!=null and param1.carName != '' ">And car_name=#{param1.carName}</if>
+      <if test="param1.carImg!=null and param1.carImg != '' ">And car_img=#{param1.carImg}</if>
+      <if test="param1.carNo!=null and param1.carNo != '' ">And car_no=#{param1.carNo}</if>
+      <if test="param1.insId!=null and param1.insId != '' ">And ins_id=#{param1.insId}</if>
+      <if test="param1.insPrice!=null and param1.insPrice != '' ">And ins_price=#{param1.insPrice}</if>
+      <if test="param1.insName!=null and param1.insName != '' ">And ins_name=#{param1.insName}</if>
+      <if test="param1.coachName!=null and param1.coachName != '' ">And coach_name=#{param1.coachName}</if>
+      <if test="param1.coachImg!=null and param1.coachImg != '' ">And coach_img=#{param1.coachImg}</if>
+      <if test="param1.coachMobile!=null and param1.coachMobile != '' ">And coach_mobile=#{param1.coachMobile}</if>
+      <if test="param1.coachStar!=null and param1.coachStar != '' ">And coach_star=#{param1.coachStar}</if>
+      <if test="param1.stuName!=null and param1.stuName != '' ">And stu_name=#{param1.stuName}</if>
+      <if test="param1.stuImg!=null and param1.stuImg != '' ">And stu_img=#{param1.stuImg}</if>
+      <if test="param1.stuMobile!=null and param1.stuMobile != '' ">And stu_mobile=#{param1.stuMobile}</if>
+      <if test="param1.courseName!=null and param1.courseName != '' ">And course_name=#{param1.courseName}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">And allowance=#{param1.allowance}</if>
+      <if test="param1.priceTotal!=null and param1.priceTotal != '' ">And price_total=#{param1.priceTotal}</if>
+      <if test="param1.payTotal!=null and param1.payTotal != '' ">And pay_total=#{param1.payTotal}</if>
+      <if test="param1.payTime!=null and param1.payTime != '' ">And pay_time=#{param1.payTime}</if>
+      <if test="param1.placeLge!=null and param1.placeLge != '' ">And place_lge=#{param1.placeLge}</if>
+      <if test="param1.placeLae!=null and param1.placeLae != '' ">And place_lae=#{param1.placeLae}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">And city_id=#{param1.cityId}</if>
+      <if test="param1.coupon!=null ">And coupon=#{param1.coupon}</if>
+      <if test="param1.couponTotal!=null ">And coupon_total=#{param1.couponTotal}</if>
+      <if test="param1.couponName!=null ">And coupon_name=#{param1.couponName}</if>
+      <if test="param1.courseType!=null ">And course_type=#{param1.courseType}</if>
+      <if test="param1.schoolId!=null ">And school_Id=#{param1.schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.orderId!=null and param2.orderId != '' ">And order_id=#{param2.orderId}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">And coach_id=#{param2.coachId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">And course_id=#{param2.courseId}</if>
+      <if test="param2.price!=null and param2.price != '' ">And price=#{param2.price}</if>
+      <if test="param2.learnAddr!=null and param2.learnAddr != '' ">And learn_addr=#{param2.learnAddr}</if>
+      <if test="param2.studentId!=null and param2.studentId != '' ">And student_id=#{param2.studentId}</if>
+      <if test="param2.dltype!=null and param2.dltype != '' ">And dltype=#{param2.dltype}</if>
+      <if test="param2.lge!=null and param2.lge != '' ">And lge=#{param2.lge}</if>
+      <if test="param2.lae!=null and param2.lae != '' ">And lae=#{param2.lae}</if>
+      <if test="param2.stuAddr!=null and param2.stuAddr != '' ">And stu_addr=#{param2.stuAddr}</if>
+      <if test="param2.pstart!=null and param2.pstart != '' ">And pstart=#{param2.pstart}</if>
+      <if test="param2.pend!=null and param2.pend != '' ">And pend=#{param2.pend}</if>
+      <if test="param2.clzNum!=null and param2.clzNum != '' ">And clz_num=#{param2.clzNum}</if>
+      <if test="param2.orderState!=null and param2.orderState != '' ">And order_state=#{param2.orderState}</if>
+      <if test="param2.rstart!=null and param2.rstart != '' ">And rstart=#{param2.rstart}</if>
+      <if test="param2.rend!=null and param2.rend != '' ">And rend=#{param2.rend}</if>
+      <if test="param2.cstart!=null and param2.cstart != '' ">And cstart=#{param2.cstart}</if>
+      <if test="param2.cend!=null and param2.cend != '' ">And cend=#{param2.cend}</if>
+      <if test="param2.payState!=null  ">And pay_state=#{param2.payState}</if>
+      <if test="param2.checkoutState!=null  ">And checkout_state=#{param2.checkoutState}</if>
+      <if test="param2.needTrans!=null and param2.needTrans != '' ">And need_trans=#{param2.needTrans}</if>
+      <if test="param2.transState!=null and param2.transState != '' ">And trans_state=#{param2.transState}</if>
+      <if test="param2.payId!=null and param2.payId != '' ">And pay_id=#{param2.payId}</if>
+      <if test="param2.gtime!=null and param2.gtime != '' ">And gtime=#{param2.gtime}</if>
+      <if test="param2.atime!=null and param2.atime != '' ">And atime=#{param2.atime}</if>
+      <if test="param2.otype!=null and param2.otype != '' ">And otype=#{param2.otype}</if>
+      <if test="param2.coorder!=null and param2.coorder != '' ">And coorder=#{param2.coorder}</if>
+      <if test="param2.ccid!=null and param2.ccid != '' ">And ccid=#{param2.ccid}</if>
+      <if test="param2.unitPrice!=null and param2.unitPrice != '' ">And unit_price=#{param2.unitPrice}</if>
+      <if test="param2.transPrice!=null and param2.transPrice != '' ">And trans_price=#{param2.transPrice}</if>
+      <if test="param2.placeId!=null and param2.placeId != '' ">And place_id=#{param2.placeId}</if>
+      <if test="param2.transName!=null and param2.transName != '' ">And trans_name=#{param2.transName}</if>
+      <if test="param2.carId!=null and param2.carId != '' ">And car_id=#{param2.carId}</if>
+      <if test="param2.carName!=null and param2.carName != '' ">And car_name=#{param2.carName}</if>
+      <if test="param2.carImg!=null and param2.carImg != '' ">And car_img=#{param2.carImg}</if>
+      <if test="param2.carNo!=null and param2.carNo != '' ">And car_no=#{param2.carNo}</if>
+      <if test="param2.insId!=null and param2.insId != '' ">And ins_id=#{param2.insId}</if>
+      <if test="param2.insPrice!=null and param2.insPrice != '' ">And ins_price=#{param2.insPrice}</if>
+      <if test="param2.insName!=null and param2.insName != '' ">And ins_name=#{param2.insName}</if>
+      <if test="param2.coachName!=null and param2.coachName != '' ">And coach_name=#{param2.coachName}</if>
+      <if test="param2.coachImg!=null and param2.coachImg != '' ">And coach_img=#{param2.coachImg}</if>
+      <if test="param2.coachMobile!=null and param2.coachMobile != '' ">And coach_mobile=#{param2.coachMobile}</if>
+      <if test="param2.coachStar!=null and param2.coachStar != '' ">And coach_star=#{param2.coachStar}</if>
+      <if test="param2.stuName!=null and param2.stuName != '' ">And stu_name=#{param2.stuName}</if>
+      <if test="param2.stuImg!=null and param2.stuImg != '' ">And stu_img=#{param2.stuImg}</if>
+      <if test="param2.stuMobile!=null and param2.stuMobile != '' ">And stu_mobile=#{param2.stuMobile}</if>
+      <if test="param2.courseName!=null and param2.courseName != '' ">And course_name=#{param2.courseName}</if>
+      <if test="param2.allowance!=null and param2.allowance != '' ">And allowance=#{param2.allowance}</if>
+      <if test="param2.priceTotal!=null and param2.priceTotal != '' ">And price_total=#{param2.priceTotal}</if>
+      <if test="param2.payTotal!=null and param2.payTotal != '' ">And pay_total=#{param2.payTotal}</if>
+      <if test="param2.payTime!=null and param2.payTime != '' ">And pay_time=#{param2.payTime}</if>
+      <if test="param2.placeLge!=null and param2.placeLge != '' ">And place_lge=#{param2.placeLge}</if>
+      <if test="param2.placeLae!=null and param2.placeLae != '' ">And place_lae=#{param2.placeLae}</if>
+      <if test="param2.cityId!=null and param2.cityId != '' ">And city_id=#{param2.cityId}</if>
+      <if test="param2.coupon!=null ">And coupon=#{param2.coupon}</if>
+      <if test="param2.couponTotal!=null ">And coupon_total=#{param2.couponTotal}</if>
+      <if test="param2.couponName!=null ">And coupon_name=#{param2.couponName}</if>
+      <if test="param2.courseType!=null ">And course_type=#{param2.courseType}</if>
+      <if test="param2.schoolId!=null ">And school_Id=#{param2.schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam3">
+    <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.learnAddr!=null and param1.learnAddr != '' ">And learn_addr=#{param1.learnAddr}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">And studentid=#{param1.studentId}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">And dltype=#{param1.dltype}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">And lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">And lae=#{param1.lae}</if>
+      <if test="param1.stuAddr!=null and param1.stuAddr != '' ">And stu_addr=#{param1.stuAddr}</if>
+      <if test="param1.pstart!=null and param1.pstart != '' ">And pstart=#{param1.pstart}</if>
+      <if test="param1.pend!=null and param1.pend != '' ">And pend=#{param1.pend}</if>
+      <if test="param1.clzNum!=null and param1.clzNum != '' ">And clz_num=#{param1.clzNum}</if>
+      <if test="param1.orderState!=null and param1.orderState != '' ">And order_state=#{param1.orderState}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">And cend=#{param1.cend}</if>
+      <if test="param1.payState!=null ">And pay_state=#{param1.payState}</if>
+      <if test="param1.checkoutState!=null ">And checkout_state=#{param1.checkoutState}</if>
+      <if test="param1.needTrans!=null and param1.needTrans != '' ">And need_trans=#{param1.needTrans}</if>
+      <if test="param1.transState!=null and param1.transState != '' ">And trans_state=#{param1.transState}</if>
+      <if test="param1.payId!=null and param1.payId != '' ">And pay_id=#{param1.payId}</if>
+      <if test="param1.gtime!=null and param1.gtime != '' ">And gtime=#{param1.gtime}</if>
+      <if test="param1.atime!=null and param1.atime != '' ">And atime=#{param1.atime}</if>
+      <if test="param1.otype!=null and param1.otype != '' ">And otype=#{param1.otype}</if>
+      <if test="param1.coorder!=null and param1.coorder != '' ">And coorder=#{param1.coorder}</if>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.unitPrice!=null and param1.unitPrice != '' ">And unit_price=#{param1.unitPrice}</if>
+      <if test="param1.transPrice!=null and param1.transPrice != '' ">And trans_price=#{param1.transPrice}</if>
+      <if test="param1.placeId!=null and param1.placeId != '' ">And place_id=#{param1.placeId}</if>
+      <if test="param1.transName!=null and param1.transName != '' ">And trans_name=#{param1.transName}</if>
+      <if test="param1.carId!=null and param1.carId != '' ">And car_id=#{param1.carId}</if>
+      <if test="param1.carName!=null and param1.carName != '' ">And car_name=#{param1.carName}</if>
+      <if test="param1.carImg!=null and param1.carImg != '' ">And car_img=#{param1.carImg}</if>
+      <if test="param1.carNo!=null and param1.carNo != '' ">And car_no=#{param1.carNo}</if>
+      <if test="param1.insId!=null and param1.insId != '' ">And ins_id=#{param1.insId}</if>
+      <if test="param1.insPrice!=null and param1.insPrice != '' ">And ins_price=#{param1.insPrice}</if>
+      <if test="param1.insName!=null and param1.insName != '' ">And ins_name=#{param1.insName}</if>
+      <if test="param1.coachName!=null and param1.coachName != '' ">And coach_name=#{param1.coachName}</if>
+      <if test="param1.coachImg!=null and param1.coachImg != '' ">And coach_img=#{param1.coachImg}</if>
+      <if test="param1.coachMobile!=null and param1.coachMobile != '' ">And coach_mobile=#{param1.coachMobile}</if>
+      <if test="param1.coachStar!=null and param1.coachStar != '' ">And coach_star=#{param1.coachStar}</if>
+      <if test="param1.stuName!=null and param1.stuName != '' ">And stu_name=#{param1.stuName}</if>
+      <if test="param1.stuImg!=null and param1.stuImg != '' ">And stu_img=#{param1.stuImg}</if>
+      <if test="param1.stuMobile!=null and param1.stuMobile != '' ">And stu_mobile=#{param1.stuMobile}</if>
+      <if test="param1.courseName!=null and param1.courseName != '' ">And course_name=#{param1.courseName}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">And allowance=#{param1.allowance}</if>
+      <if test="param1.priceTotal!=null and param1.priceTotal != '' ">And price_total=#{param1.priceTotal}</if>
+      <if test="param1.payTotal!=null and param1.payTotal != '' ">And pay_total=#{param1.payTotal}</if>
+      <if test="param1.payTime!=null and param1.payTime != '' ">And pay_time=#{param1.payTime}</if>
+      <if test="param1.placeLge!=null and param1.placeLge != '' ">And place_lge=#{param1.placeLge}</if>
+      <if test="param1.placeLae!=null and param1.placeLae != '' ">And place_lae=#{param1.placeLae}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">And city_id=#{param1.cityId}</if>
+      <if test="param1.coupon!=null ">And coupon=#{param1.coupon}</if>
+      <if test="param1.couponTotal!=null ">And coupon_total=#{param1.couponTotal}</if>
+      <if test="param1.couponName!=null ">And coupon_name=#{param1.couponName}</if>
+      <if test="param1.courseType!=null ">And course_type=#{param1.courseType}</if>
+      <if test="param1.schoolId!=null ">And school_Id=#{param1.schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">Or order_id=#{param1.orderId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">Or coach_id=#{param1.coachId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">Or course_id=#{param1.courseId}</if>
+      <if test="param1.price!=null and param1.price != '' ">Or price=#{param1.price}</if>
+      <if test="param1.learnAddr!=null and param1.learnAddr != '' ">Or learn_addr=#{param1.learnAddr}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">Or student_id=#{param1.studentId}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">Or dltype=#{param1.dltype}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">Or lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">Or lae=#{param1.lae}</if>
+      <if test="param1.stuAddr!=null and param1.stuAddr != '' ">Or stu_addr=#{param1.stuAddr}</if>
+      <if test="param1.pstart!=null and param1.pstart != '' ">Or pstart=#{param1.pstart}</if>
+      <if test="param1.pend!=null and param1.pend != '' ">Or pend=#{param1.pend}</if>
+      <if test="param1.clzNum!=null and param1.clzNum != '' ">Or clz_num=#{param1.clzNum}</if>
+      <if test="param1.orderState!=null and param1.orderState != '' ">Or order_state=#{param1.orderState}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">Or rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">Or rend=#{param1.rend}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">Or cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">Or cend=#{param1.cend}</if>
+      <if test="param1.payState!=null  ">Or pay_state=#{param1.payState}</if>
+      <if test="param1.checkoutState!=null  ">Or checkout_state=#{param1.checkoutState}</if>
+      <if test="param1.needTrans!=null and param1.needTrans != '' ">Or need_trans=#{param1.needTrans}</if>
+      <if test="param1.transState!=null and param1.transState != '' ">Or trans_state=#{param1.transState}</if>
+      <if test="param1.payId!=null and param1.payId != '' ">Or pay_id=#{param1.payId}</if>
+      <if test="param1.gtime!=null and param1.gtime != '' ">Or gtime=#{param1.gtime}</if>
+      <if test="param1.atime!=null and param1.atime != '' ">Or atime=#{param1.atime}</if>
+      <if test="param1.otype!=null and param1.otype != '' ">Or otype=#{param1.otype}</if>
+      <if test="param1.coorder!=null and param1.coorder != '' ">Or coorder=#{param1.coorder}</if>
+      <if test="param1.ccid!=null and param1.ccid != '' ">Or ccid=#{param1.ccid}</if>
+      <if test="param1.unitPrice!=null and param1.unitPrice != '' ">Or unit_price=#{param1.unitPrice}</if>
+      <if test="param1.transPrice!=null and param1.transPrice != '' ">Or trans_price=#{param1.transPrice}</if>
+      <if test="param1.placeId!=null and param1.placeId != '' ">Or place_id=#{param1.placeId}</if>
+      <if test="param1.transName!=null and param1.transName != '' ">Or trans_name=#{param1.transName}</if>
+      <if test="param1.carId!=null and param1.carId != '' ">Or car_id=#{param1.carId}</if>
+      <if test="param1.carName!=null and param1.carName != '' ">Or car_name=#{param1.carName}</if>
+      <if test="param1.carImg!=null and param1.carImg != '' ">Or car_img=#{param1.carImg}</if>
+      <if test="param1.carNo!=null and param1.carNo != '' ">Or car_no=#{param1.carNo}</if>
+      <if test="param1.insId!=null and param1.insId != '' ">Or ins_id=#{param1.insId}</if>
+      <if test="param1.insPrice!=null and param1.insPrice != '' ">Or ins_price=#{param1.insPrice}</if>
+      <if test="param1.insName!=null and param1.insName != '' ">Or ins_name=#{param1.insName}</if>
+      <if test="param1.coachName!=null and param1.coachName != '' ">Or coach_name=#{param1.coachName}</if>
+      <if test="param1.coachImg!=null and param1.coachImg != '' ">Or coach_img=#{param1.coachImg}</if>
+      <if test="param1.coachMobile!=null and param1.coachMobile != '' ">Or coach_mobile=#{param1.coachMobile}</if>
+      <if test="param1.coachStar!=null and param1.coachStar != '' ">Or coach_star=#{param1.coachStar}</if>
+      <if test="param1.stuName!=null and param1.stuName != '' ">Or stu_name=#{param1.stuName}</if>
+      <if test="param1.stuImg!=null and param1.stuImg != '' ">Or stu_img=#{param1.stuImg}</if>
+      <if test="param1.stuMobile!=null and param1.stuMobile != '' ">Or stu_mobile=#{param1.stuMobile}</if>
+      <if test="param1.courseName!=null and param1.courseName != '' ">Or course_name=#{param1.courseName}</if>
+      <if test="param1.allowance!=null and param1.allowance != '' ">Or allowance=#{param1.allowance}</if>
+      <if test="param1.priceTotal!=null and param1.priceTotal != '' ">Or price_total=#{param1.priceTotal}</if>
+      <if test="param1.payTotal!=null and param1.payTotal != '' ">Or pay_total=#{param1.payTotal}</if>
+      <if test="param1.payTime!=null and param1.payTime != '' ">Or pay_time=#{param1.payTime}</if>
+      <if test="param1.placeLge!=null and param1.placeLge != '' ">Or place_lge=#{param1.placeLge}</if>
+      <if test="param1.placeLae!=null and param1.placeLae != '' ">Or place_lae=#{param1.placeLae}</if>
+      <if test="param1.cityId!=null and param1.cityId != '' ">Or city_id=#{param1.cityId}</if>
+      <if test="param1.coupon!=null ">Or coupon=#{param1.coupon}</if>
+      <if test="param1.couponTotal!=null ">Or coupon_total=#{param1.couponTotal}</if>
+      <if test="param1.couponName!=null ">Or coupon_name=#{param1.couponName}</if>
+      <if test="param1.courseType!=null ">Or course_type=#{param1.courseType}</if>
+      <if test="param1.schoolId!=null ">Or school_Id=#{param1.schoolId}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.orderId!=null and param2.orderId != '' ">Or order_id=#{param2.orderId}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">Or coach_id=#{param2.coachId}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">Or course_id=#{param2.courseId}</if>
+      <if test="param2.price!=null and param2.price != '' ">Or price=#{param2.price}</if>
+      <if test="param2.learnAddr!=null and param2.learnAddr != '' ">Or learn_addr=#{param2.learnAddr}</if>
+      <if test="param2.studentId!=null and param2.studentId != '' ">Or student_id=#{param2.studentId}</if>
+      <if test="param2.dltype!=null and param2.dltype != '' ">Or dltype=#{param2.dltype}</if>
+      <if test="param2.lge!=null and param2.lge != '' ">Or lge=#{param2.lge}</if>
+      <if test="param2.lae!=null and param2.lae != '' ">Or lae=#{param2.lae}</if>
+      <if test="param2.stuAddr!=null and param2.stuAddr != '' ">Or stu_addr=#{param2.stuAddr}</if>
+      <if test="param2.pstart!=null and param2.pstart != '' ">Or pstart=#{param2.pstart}</if>
+      <if test="param2.pend!=null and param2.pend != '' ">Or pend=#{param2.pend}</if>
+      <if test="param2.clzNum!=null and param2.clzNum != '' ">Or clz_num=#{param2.clzNum}</if>
+      <if test="param2.orderState!=null and param2.orderState != '' ">Or order_state=#{param2.orderState}</if>
+      <if test="param2.rstart!=null and param2.rstart != '' ">Or rstart=#{param2.rstart}</if>
+      <if test="param2.rend!=null and param2.rend != '' ">Or rend=#{param2.rend}</if>
+      <if test="param2.cstart!=null and param2.cstart != '' ">Or cstart=#{param2.cstart}</if>
+      <if test="param2.cend!=null and param2.cend != '' ">Or cend=#{param2.cend}</if>
+      <if test="param2.payState!=null ">Or pay_state=#{param2.payState}</if>
+      <if test="param2.checkoutState!=null ">Or checkout_state=#{param2.checkoutState}</if>
+      <if test="param2.needTrans!=null and param2.needTrans != '' ">Or need_trans=#{param2.needTrans}</if>
+      <if test="param2.transState!=null and param2.transState != '' ">Or trans_state=#{param2.transState}</if>
+      <if test="param2.payId!=null and param2.payId != '' ">Or pay_id=#{param2.payId}</if>
+      <if test="param2.gtime!=null and param2.gtime != '' ">Or gtime=#{param2.gtime}</if>
+      <if test="param2.atime!=null and param2.atime != '' ">Or atime=#{param2.atime}</if>
+      <if test="param2.otype!=null and param2.otype != '' ">Or otype=#{param2.otype}</if>
+      <if test="param2.coorder!=null and param2.coorder != '' ">Or coorder=#{param2.coorder}</if>
+      <if test="param2.ccid!=null and param2.ccid != '' ">Or ccid=#{param2.ccid}</if>
+      <if test="param2.unitPrice!=null and param2.unitPrice != '' ">Or unit_price=#{param2.unitPrice}</if>
+      <if test="param2.transPrice!=null and param2.transPrice != '' ">Or trans_price=#{param2.transPrice}</if>
+      <if test="param2.placeId!=null and param2.placeId != '' ">Or place_id=#{param2.placeId}</if>
+      <if test="param2.transName!=null and param2.transName != '' ">Or trans_name=#{param2.transName}</if>
+      <if test="param2.carId!=null and param2.carId != '' ">Or car_id=#{param2.carId}</if>
+      <if test="param2.carName!=null and param2.carName != '' ">Or car_name=#{param2.carName}</if>
+      <if test="param2.carImg!=null and param2.carImg != '' ">Or car_img=#{param2.carImg}</if>
+      <if test="param2.carNo!=null and param2.carNo != '' ">Or car_no=#{param2.carNo}</if>
+      <if test="param2.insId!=null and param2.insId != '' ">Or ins_id=#{param2.insId}</if>
+      <if test="param2.insPrice!=null and param2.insPrice != '' ">Or ins_price=#{param2.insPrice}</if>
+      <if test="param2.insName!=null and param2.insName != '' ">Or ins_name=#{param2.insName}</if>
+      <if test="param2.coachName!=null and param2.coachName != '' ">Or coach_name=#{param2.coachName}</if>
+      <if test="param2.coachImg!=null and param2.coachImg != '' ">Or coach_img=#{param2.coachImg}</if>
+      <if test="param2.coachMobile!=null and param2.coachMobile != '' ">Or coach_mobile=#{param2.coachMobile}</if>
+      <if test="param2.coachStar!=null and param2.coachStar != '' ">Or coach_star=#{param2.coachStar}</if>
+      <if test="param2.stuName!=null and param2.stuName != '' ">Or stu_name=#{param2.stuName}</if>
+      <if test="param2.stuImg!=null and param2.stuImg != '' ">Or stu_img=#{param2.stuImg}</if>
+      <if test="param2.stuMobile!=null and param2.stuMobile != '' ">Or stu_mobile=#{param2.stuMobile}</if>
+      <if test="param2.courseName!=null and param2.courseName != '' ">Or course_name=#{param2.courseName}</if>
+      <if test="param2.allowance!=null and param2.allowance != '' ">Or allowance=#{param2.allowance}</if>
+      <if test="param2.priceTotal!=null and param2.priceTotal != '' ">Or price_total=#{param2.priceTotal}</if>
+      <if test="param2.payTotal!=null and param2.payTotal != '' ">Or pay_total=#{param2.payTotal}</if>
+      <if test="param2.payTime!=null and param2.payTime != '' ">Or pay_time=#{param2.payTime}</if>
+      <if test="param2.placeLge!=null and param2.placeLge != '' ">Or place_lge=#{param2.placeLge}</if>
+      <if test="param2.placeLae!=null and param2.placeLae != '' ">Or place_lae=#{param2.placeLae}</if>
+      <if test="param2.cityId!=null and param2.cityId != '' ">Or city_id=#{param2.cityId}</if>
+      <if test="param2.coupon!=null ">Or coupon=#{param2.coupon}</if>
+      <if test="param2.couponTotal!=null ">Or coupon_total=#{param2.couponTotal}</if>
+      <if test="param2.couponName!=null ">Or coupon_name=#{param2.couponName}</if>
+      <if test="param2.courseType!=null ">Or course_type=#{param2.courseType}</if>
+      <if test="param2.schoolId!=null ">Or school_Id=#{param2.schoolId}</if>
+    </where>
+  </sql>
+  <insert id="addOrder">
+    <!--/*新增一个对象*/-->insert into t_order
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addOrderList">
+    <!--/*新增一批对象*/-->insert into t_order values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.orderId},#{one.coachId},#{one.courseId},#{one.price},#{one.learnAddr},#{one.studentId},#{one.dltype},#{one.lge},#{one.lae},#{one.stuAddr},#{one.pstart},#{one.pend},#{one.clzNum},#{one.orderState},#{one.rstart},#{one.rend},#{one.cstart},#{one.cend},#{one.payState},#{one.needTrans},#{one.transState},#{one.payId},#{one.gtime},#{one.atime},#{one.otype},#{one.coorder},#{one.ccid},#{one.unitPrice},#{one.transPrice},#{one.placeId},#{one.transName},#{one.carId},#{one.carName},#{one.carImg},#{one.carNo},#{one.insId},#{one.insPrice},#{one.insName},#{one.coachName},#{one.coachImg},#{one.coachMobile},#{one.coachStar},#{one.stuName},#{one.stuImg},#{one.stuMobile},#{one.courseName},#{one.allowance},#{one.priceTotal},#{one.payTotal},#{one.payTime},#{one.placeLge},#{one.placeLae},#{one.cityId},#{one.coupon},#{one.couponTotal},#{one.couponName},#{one.courseType},#{one.schoolId})</foreach>
+  </insert>
+  <delete id="delOrderById">
+    <!--/*根据id删除一个对象*/-->delete from t_order where order_id=#{orderId}
+  </delete>
+  <delete id="delOrderByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_order where order_id in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delOrderByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_order
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveOrder">
+    <!--/*新增或者更新一个对象*/-->replace into t_order
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveOrderList">
+    <!--/*新增或者更新一批对象*/-->replace into t_order values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.orderId},#{one.coachId},#{one.courseId},#{one.price},#{one.learnAddr},#{one.studentId},#{one.dltype},#{one.lge},#{one.lae},#{one.stuAddr},#{one.pstart},#{one.pend},#{one.clzNum},#{one.orderState},#{one.rstart},#{one.rend},#{one.cstart},#{one.cend},#{one.payState},#{one.needTrans},#{one.transState},#{one.payId},#{one.gtime},#{one.atime},#{one.otype},#{one.coorder},#{one.ccid},#{one.unitPrice},#{one.transPrice},#{one.placeId},#{one.transName},#{one.carId},#{one.carName},#{one.carImg},#{one.carNo},#{one.insId},#{one.insPrice},#{one.insName},#{one.coachName},#{one.coachImg},#{one.coachMobile},#{one.coachStar},#{one.stuName},#{one.stuImg},#{one.stuMobile},#{one.courseName},#{one.allowance},#{one.priceTotal},#{one.payTotal},#{one.payTime},#{one.placeLge},#{one.placeLae},#{one.cityId},#{one.coupon},#{one.couponTotal},#{one.couponName},#{one.courseType},#{one.schoolId})</foreach>
+  </insert>
+  <update id="updateByOrderId">
+    <!--/*根据字段orderId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where order_id=#{param2}
+  </update>
+  <update id="updateByCoachId">
+    <!--/*根据字段coachId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coach_id=#{param2}
+  </update>
+  <update id="updateByCourseId">
+    <!--/*根据字段courseId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where course_id=#{param2}
+  </update>
+  <update id="updateByPrice">
+    <!--/*根据字段price更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where price=#{param2}
+  </update>
+  <update id="updateByLearnAddr">
+    <!--/*根据字段learnAddr更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where learn_addr=#{param2}
+  </update>
+  <update id="updateByStudentId">
+    <!--/*根据字段studentId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where student_id=#{param2}
+  </update>
+  <update id="updateByDltype">
+    <!--/*根据字段dltype更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where dltype=#{param2}
+  </update>
+  <update id="updateByLge">
+    <!--/*根据字段lge更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where lge=#{param2}
+  </update>
+  <update id="updateByLae">
+    <!--/*根据字段lae更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where lae=#{param2}
+  </update>
+  <update id="updateByStuAddr">
+    <!--/*根据字段stuAddr更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where stu_addr=#{param2}
+  </update>
+  <update id="updateByPstart">
+    <!--/*根据字段pstart更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where pstart=#{param2}
+  </update>
+  <update id="updateByPend">
+    <!--/*根据字段pend更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where pend=#{param2}
+  </update>
+  <update id="updateByClzNum">
+    <!--/*根据字段clzNum更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where clz_num=#{param2}
+  </update>
+  <update id="updateByOrderState">
+    <!--/*根据字段orderState更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where order_state=#{param2}
+  </update>
+  <update id="updateByRstart">
+    <!--/*根据字段rstart更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where rstart=#{param2}
+  </update>
+  <update id="updateByRend">
+    <!--/*根据字段rend更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where rend=#{param2}
+  </update>
+  <update id="updateByCstart">
+    <!--/*根据字段cstart更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where cstart=#{param2}
+  </update>
+  <update id="updateByCend">
+    <!--/*根据字段cend更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where cend=#{param2}
+  </update>
+  <update id="updateByPayState">
+    <!--/*根据字段payState更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where pay_state=#{param2}
+  </update>
+  <update id="updateByNeedTrans">
+    <!--/*根据字段needTrans更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where need_trans=#{param2}
+  </update>
+  <update id="updateByTransState">
+    <!--/*根据字段transState更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where trans_state=#{param2}
+  </update>
+  <update id="updateByPayId">
+    <!--/*根据字段payId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where pay_id=#{param2}
+  </update>
+  <update id="updateByGtime">
+    <!--/*根据字段gtime更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where gtime=#{param2}
+  </update>
+  <update id="updateByAtime">
+    <!--/*根据字段atime更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where atime=#{param2}
+  </update>
+  <update id="updateByOtype">
+    <!--/*根据字段otype更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where otype=#{param2}
+  </update>
+  <update id="updateByCoorder">
+    <!--/*根据字段coorder更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coorder=#{param2}
+  </update>
+  <update id="updateByCcid">
+    <!--/*根据字段ccid更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where ccid=#{param2}
+  </update>
+  <update id="updateByUnitPrice">
+    <!--/*根据字段unitPrice更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where unit_price=#{param2}
+  </update>
+  <update id="updateByTransPrice">
+    <!--/*根据字段transPrice更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where trans_price=#{param2}
+  </update>
+  <update id="updateByPlaceId">
+    <!--/*根据字段placeId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where place_id=#{param2}
+  </update>
+  <update id="updateByTransName">
+    <!--/*根据字段transName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where trans_name=#{param2}
+  </update>
+  <update id="updateByCarId">
+    <!--/*根据字段carId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where car_id=#{param2}
+  </update>
+  <update id="updateByCarName">
+    <!--/*根据字段carName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where car_name=#{param2}
+  </update>
+  <update id="updateByCarImg">
+    <!--/*根据字段carImg更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where car_img=#{param2}
+  </update>
+  <update id="updateByCarNo">
+    <!--/*根据字段carNo更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where car_no=#{param2}
+  </update>
+  <update id="updateByInsId">
+    <!--/*根据字段insId更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where ins_id=#{param2}
+  </update>
+  <update id="updateByInsPrice">
+    <!--/*根据字段insPrice更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where ins_price=#{param2}
+  </update>
+  <update id="updateByInsName">
+    <!--/*根据字段insName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where ins_name=#{param2}
+  </update>
+  <update id="updateByCoachName">
+    <!--/*根据字段coachName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coach_name=#{param2}
+  </update>
+  <update id="updateByCoachImg">
+    <!--/*根据字段coachImg更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coach_img=#{param2}
+  </update>
+  <update id="updateByCoachMobile">
+    <!--/*根据字段coachMobile更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coach_mobile=#{param2}
+  </update>
+  <update id="updateByCoachStar">
+    <!--/*根据字段coachStar更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where coach_star=#{param2}
+  </update>
+  <update id="updateByStuName">
+    <!--/*根据字段stuName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where stu_name=#{param2}
+  </update>
+  <update id="updateByStuImg">
+    <!--/*根据字段stuImg更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where stu_img=#{param2}
+  </update>
+  <update id="updateByStuMobile">
+    <!--/*根据字段stuMobile更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where stu_mobile=#{param2}
+  </update>
+  <update id="updateByCourseName">
+    <!--/*根据字段courseName更新一个或者多个对象*/-->update t_order
+    <include refid="setNotNullparam1"/> where course_name=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryOrderById" resultType="OrderPo">
+    <!--/*根据主键查询一个对象*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryOrderByIds" resultType="OrderPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState, checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where order_id in
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState, checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId,operate_time as operateTime from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  
+  <select id="queryByObjectAndNew" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select s.orderid as orderId,o.coach_id as coachId,s.courseid as courseId,s.price as price,o.learn_addr as learnAddr,s.studentid as studentId,s.dltype as dltype,s.lge as lge,s.lae as lae,o.stu_addr as stuAddr,o.pstart as pstart,o.pend as pend,s.clznum as clzNum,o.order_state as orderState,o.rstart as rstart,o.rend as rend,s.cstart as cstart,s.cend as cend,o.pay_state as payState, o.checkout_state as checkoutState,o.need_trans as needTrans,o.trans_state as transState,o.pay_id as payId,o.gtime as gtime,o.atime as atime,o.otype as otype,o.coorder as coorder,o.ccid as ccid,o.unit_price as unitPrice,o.trans_price as transPrice,o.place_id as placeId,o.trans_name as transName,o.car_id as carId,o.car_name as carName,o.car_img as carImg,o.car_no as carNo,o.ins_id as insId,o.ins_price as insPrice,o.ins_name as insName,o.coach_name as coachName,o.coach_img as coachImg,o.coach_mobile as coachMobile,o.coach_star as coachStar,s.stuname as stuName,s.stuimg as stuImg,s.stumobile as stuMobile,s.coursename as courseName,o.allowance as allowance,o.price_total as priceTotal,o.pay_total as payTotal,o.pay_time as payTime,o.place_lge as placeLge,o.place_lae as placeLae,s.regionid as cityId,o.coupon as coupon,o.coupon_total as couponTotal,o.coupon_name as couponName,o.course_type as courseType,o.school_Id as schoolId,s.state as preOrderState,s.direct  from t_student_class s left join t_order o on s.orderid=o.order_id
+    <include refid="queryAndparam3"/> ${param2}
+  </select>
+  
+  <select id="queryByObjectOr" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByOrderId" resultType="OrderPo">
+    <!--/*根据字段orderId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachId" resultType="OrderPo">
+    <!--/*根据字段coachId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseId" resultType="OrderPo">
+    <!--/*根据字段courseId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where course_id=#{param1} ${param2}
+  </select>
+  <select id="queryByPrice" resultType="OrderPo">
+    <!--/*根据字段price查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where price=#{param1} ${param2}
+  </select>
+  <select id="queryByLearnAddr" resultType="OrderPo">
+    <!--/*根据字段learnAddr查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where learn_addr=#{param1} ${param2}
+  </select>
+  <select id="queryByStudentId" resultType="OrderPo">
+    <!--/*根据字段studentId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where student_id=#{param1} ${param2}
+  </select>
+  <select id="queryByDltype" resultType="OrderPo">
+    <!--/*根据字段dltype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where dltype=#{param1} ${param2}
+  </select>
+  <select id="queryByLge" resultType="OrderPo">
+    <!--/*根据字段lge查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where lge=#{param1} ${param2}
+  </select>
+  <select id="queryByLae" resultType="OrderPo">
+    <!--/*根据字段lae查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where lae=#{param1} ${param2}
+  </select>
+  <select id="queryByStuAddr" resultType="OrderPo">
+    <!--/*根据字段stuAddr查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where stu_addr=#{param1} ${param2}
+  </select>
+  <select id="queryByPstart" resultType="OrderPo">
+    <!--/*根据字段pstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where pstart=#{param1} ${param2}
+  </select>
+  <select id="queryByPend" resultType="OrderPo">
+    <!--/*根据字段pend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where pend=#{param1} ${param2}
+  </select>
+  <select id="queryByClzNum" resultType="OrderPo">
+    <!--/*根据字段clzNum查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where clz_num=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderState" resultType="OrderPo">
+    <!--/*根据字段orderState查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where order_state=#{param1} ${param2}
+  </select>
+  <select id="queryByRstart" resultType="OrderPo">
+    <!--/*根据字段rstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where rstart=#{param1} ${param2}
+  </select>
+  <select id="queryByRend" resultType="OrderPo">
+    <!--/*根据字段rend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where rend=#{param1} ${param2}
+  </select>
+  <select id="queryByCstart" resultType="OrderPo">
+    <!--/*根据字段cstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where cstart=#{param1} ${param2}
+  </select>
+  <select id="queryByCend" resultType="OrderPo">
+    <!--/*根据字段cend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where cend=#{param1} ${param2}
+  </select>
+  <select id="queryByPayState" resultType="OrderPo">
+    <!--/*根据字段payState查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where pay_state=#{param1} ${param2}
+  </select>
+  <select id="queryByNeedTrans" resultType="OrderPo">
+    <!--/*根据字段needTrans查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where need_trans=#{param1} ${param2}
+  </select>
+  <select id="queryByTransState" resultType="OrderPo">
+    <!--/*根据字段transState查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where trans_state=#{param1} ${param2}
+  </select>
+  <select id="queryByPayId" resultType="OrderPo">
+    <!--/*根据字段payId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where pay_id=#{param1} ${param2}
+  </select>
+  <select id="queryByGtime" resultType="OrderPo">
+    <!--/*根据字段gtime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where gtime=#{param1} ${param2}
+  </select>
+  <select id="queryByAtime" resultType="OrderPo">
+    <!--/*根据字段atime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where atime=#{param1} ${param2}
+  </select>
+  <select id="queryByOtype" resultType="OrderPo">
+    <!--/*根据字段otype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where otype=#{param1} ${param2}
+  </select>
+  <select id="queryByCoorder" resultType="OrderPo">
+    <!--/*根据字段coorder查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coorder=#{param1} ${param2}
+  </select>
+  <select id="queryByCcid" resultType="OrderPo">
+    <!--/*根据字段ccid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryByUnitPrice" resultType="OrderPo">
+    <!--/*根据字段unitPrice查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where unit_price=#{param1} ${param2}
+  </select>
+  <select id="queryByTransPrice" resultType="OrderPo">
+    <!--/*根据字段transPrice查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where trans_price=#{param1} ${param2}
+  </select>
+  <select id="queryByPlaceId" resultType="OrderPo">
+    <!--/*根据字段placeId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where place_id=#{param1} ${param2}
+  </select>
+  <select id="queryByTransName" resultType="OrderPo">
+    <!--/*根据字段transName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where trans_name=#{param1} ${param2}
+  </select>
+  <select id="queryByCarId" resultType="OrderPo">
+    <!--/*根据字段carId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where car_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCarName" resultType="OrderPo">
+    <!--/*根据字段carName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where car_name=#{param1} ${param2}
+  </select>
+  <select id="queryByCarImg" resultType="OrderPo">
+    <!--/*根据字段carImg查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where car_img=#{param1} ${param2}
+  </select>
+  <select id="queryByCarNo" resultType="OrderPo">
+    <!--/*根据字段carNo查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where car_no=#{param1} ${param2}
+  </select>
+  <select id="queryByInsId" resultType="OrderPo">
+    <!--/*根据字段insId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where ins_id=#{param1} ${param2}
+  </select>
+  <select id="queryByInsPrice" resultType="OrderPo">
+    <!--/*根据字段insPrice查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where ins_price=#{param1} ${param2}
+  </select>
+  <select id="queryByInsName" resultType="OrderPo">
+    <!--/*根据字段insName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where ins_name=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachName" resultType="OrderPo">
+    <!--/*根据字段coachName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coach_name=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachImg" resultType="OrderPo">
+    <!--/*根据字段coachImg查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coach_img=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachMobile" resultType="OrderPo">
+    <!--/*根据字段coachMobile查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coach_mobile=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachStar" resultType="OrderPo">
+    <!--/*根据字段coachStar查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where coach_star=#{param1} ${param2}
+  </select>
+  <select id="queryByStuName" resultType="OrderPo">
+    <!--/*根据字段stuName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where stu_name=#{param1} ${param2}
+  </select>
+  <select id="queryByStuImg" resultType="OrderPo">
+    <!--/*根据字段stuImg查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where stu_img=#{param1} ${param2}
+  </select>
+  <select id="queryByStuMobile" resultType="OrderPo">
+    <!--/*根据字段stuMobile查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where stu_mobile=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseName" resultType="OrderPo">
+    <!--/*根据字段courseName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order where course_name=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+     <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.learnAddr!=null and param1.learnAddr != '' ">And learn_addr=#{param1.learnAddr}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">And student_id=#{param1.studentId}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">And dltype=#{param1.dltype}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">And lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">And lae=#{param1.lae}</if>
+      <if test="param1.stuAddr!=null and param1.stuAddr != '' ">And stu_addr=#{param1.stuAddr}</if>
+      <if test="param1.pstart!=null and param1.pstart != '' ">And pstart between #{param1.pstart} and #{param1.pend}</if>
+      <if test="param1.clzNum!=null and param1.clzNum != '' ">And clz_num=#{param1.clzNum}</if>
+      <if test="param1.orderState!=null and param1.orderState != '' ">And order_state=#{param1.orderState}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">And cend=#{param1.cend}</if>
+      <if test="param1.payState!=null ">And pay_state=#{param1.payState}</if>
+      <if test="param1.checkoutState!=null ">And checkout_state=#{param1.checkoutState}</if>
+      <if test="param1.needTrans!=null and param1.needTrans != '' ">And need_trans=#{param1.needTrans}</if>
+      <if test="param1.transState!=null and param1.transState != '' ">And trans_state=#{param1.transState}</if>
+      <if test="param1.payId!=null and param1.payId != '' ">And pay_id=#{param1.payId}</if>
+      <if test="param1.gtime!=null and param1.gtime != '' ">And gtime=#{param1.gtime}</if>
+      <if test="param1.atime!=null and param1.atime != '' ">And atime=#{param1.atime}</if>
+      <if test="param1.otype!=null and param1.otype != '' ">And otype=#{param1.otype}</if>
+      <if test="param1.coorder!=null and param1.coorder != '' ">And coorder=#{param1.coorder}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew1" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+     <where>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.learnAddr!=null and param1.learnAddr != '' ">And learn_addr=#{param1.learnAddr}</if>
+      <if test="param1.studentId!=null and param1.studentId != '' ">And student_id=#{param1.studentId}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">And dltype=#{param1.dltype}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">And lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">And lae=#{param1.lae}</if>
+      <if test="param1.stuAddr!=null and param1.stuAddr != '' ">And stu_addr=#{param1.stuAddr}</if>
+      <if test="param1.pstart!=null and param1.pstart != '' ">And pstart=#{param1.pstart}</if>
+      <if test="param1.pend!=null and param1.pend != '' ">And pend=#{param1.pend}</if>
+      <if test="param1.clzNum!=null and param1.clzNum != '' ">And clz_num=#{param1.clzNum}</if>
+      <if test="param1.orderState!=null and param1.orderState != '' ">And order_state=#{param1.orderState}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend between #{param1.rstart} and #{param1.rend}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">And cend=#{param1.cend}</if>
+      <if test="param1.payState!=null ">And pay_state=#{param1.payState}</if>
+      <if test="param1.checkoutState!=null ">And checkout_state=#{param1.checkoutState}</if>
+      <if test="param1.needTrans!=null and param1.needTrans != '' ">And need_trans=#{param1.needTrans}</if>
+      <if test="param1.transState!=null and param1.transState != '' ">And trans_state=#{param1.transState}</if>
+      <if test="param1.payId!=null and param1.payId != '' ">And pay_id=#{param1.payId}</if>
+      <if test="param1.gtime!=null and param1.gtime != '' ">And gtime=#{param1.gtime}</if>
+      <if test="param1.atime!=null and param1.atime != '' ">And atime=#{param1.atime}</if>
+      <if test="param1.otype!=null and param1.otype != '' ">And otype=#{param1.otype}</if>
+      <if test="param1.coorder!=null and param1.coorder != '' ">And coorder=#{param1.coorder}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew2" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="OrderPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <sql id="sqlByObject">
+    <where>
+      <if test="param1.orderId!=null "><![CDATA[ ${param2.orderId} ]]></if>
+      <if test="param1.coachId!=null "><![CDATA[ ${param2.coachId} ]]></if>
+      <if test="param1.courseId!=null "><![CDATA[ ${param2.courseId} ]]></if>
+      <if test="param1.price!=null "><![CDATA[ ${param2.price} ]]></if>
+      <if test="param1.learnAddr!=null "><![CDATA[ ${param2.learnAddr} ]]></if>
+      <if test="param1.studentId!=null "><![CDATA[ ${param2.studentId} ]]></if>
+      <if test="param1.dltype!=null "><![CDATA[ ${param2.dltype} ]]></if>
+      <if test="param1.lge!=null "><![CDATA[ ${param2.lge} ]]></if>
+      <if test="param1.lae!=null "><![CDATA[ ${param2.lae} ]]></if>
+      <if test="param1.stuAddr!=null "><![CDATA[ ${param2.stuAddr} ]]></if>
+      <if test="param1.pstart!=null "><![CDATA[ ${param2.pstart} ]]></if>
+      <if test="param1.pend!=null "><![CDATA[ ${param2.pend} ]]></if>
+      <if test="param1.clzNum!=null "><![CDATA[ ${param2.clzNum} ]]></if>
+      <if test="param1.orderState!=null "><![CDATA[ ${param2.orderState} ]]></if>
+      <if test="param1.rstart!=null "><![CDATA[ ${param2.rstart} ]]></if>
+      <if test="param1.rend!=null "><![CDATA[ ${param2.rend} ]]></if>
+      <if test="param1.cstart!=null "><![CDATA[ ${param2.cstart} ]]></if>
+      <if test="param1.cend!=null "><![CDATA[ ${param2.cend} ]]></if>
+      <if test="param1.payState!=null "><![CDATA[ ${param2.payState} ]]></if>
+      <if test="param1.checkoutState!=null "><![CDATA[ ${param2.checkoutState} ]]></if>
+      <if test="param1.needTrans!=null "><![CDATA[ ${param2.needTrans} ]]></if>
+      <if test="param1.transState!=null "><![CDATA[ ${param2.transState} ]]></if>
+      <if test="param1.payId!=null "><![CDATA[ ${param2.payId} ]]></if>
+      <if test="param1.gtime!=null "><![CDATA[ ${param2.gtime} ]]></if>
+      <if test="param1.atime!=null "><![CDATA[ ${param2.atime} ]]></if>
+      <if test="param1.otype!=null "><![CDATA[ ${param2.otype} ]]></if>
+      <if test="param1.coorder!=null "><![CDATA[ ${param2.coorder} ]]></if>
+      <if test="param1.ccid!=null "><![CDATA[ ${param2.ccid} ]]></if>
+      <if test="param1.unitPrice!=null "><![CDATA[ ${param2.unitPrice} ]]></if>
+      <if test="param1.transPrice!=null "><![CDATA[ ${param2.transPrice} ]]></if>
+      <if test="param1.placeId!=null "><![CDATA[ ${param2.placeId} ]]></if>
+      <if test="param1.transName!=null "><![CDATA[ ${param2.transName} ]]></if>
+      <if test="param1.carId!=null "><![CDATA[ ${param2.carId} ]]></if>
+      <if test="param1.carName!=null "><![CDATA[ ${param2.carName} ]]></if>
+      <if test="param1.carImg!=null "><![CDATA[ ${param2.carImg} ]]></if>
+      <if test="param1.carNo!=null "><![CDATA[ ${param2.carNo} ]]></if>
+      <if test="param1.insId!=null "><![CDATA[ ${param2.insId} ]]></if>
+      <if test="param1.insPrice!=null "><![CDATA[ ${param2.insPrice} ]]></if>
+      <if test="param1.insName!=null "><![CDATA[ ${param2.insName} ]]></if>
+      <if test="param1.coachName!=null "><![CDATA[ ${param2.coachName} ]]></if>
+      <if test="param1.coachImg!=null "><![CDATA[ ${param2.coachImg} ]]></if>
+      <if test="param1.coachMobile!=null "><![CDATA[ ${param2.coachMobile} ]]></if>
+      <if test="param1.coachStar!=null "><![CDATA[ ${param2.coachStar} ]]></if>
+      <if test="param1.stuName!=null "><![CDATA[ ${param2.stuName} ]]></if>
+      <if test="param1.stuImg!=null "><![CDATA[ ${param2.stuImg} ]]></if>
+      <if test="param1.stuMobile!=null "><![CDATA[ ${param2.stuMobile} ]]></if>
+      <if test="param1.courseName!=null "><![CDATA[ ${param2.courseName} ]]></if>
+      <if test="param1.placeLge!=null "><![CDATA[ ${param2.placeLge} ]]></if>
+      <if test="param1.placeLae!=null "><![CDATA[ ${param2.placeLae} ]]></if>
+    </where>
+  </sql>
+  <select id="queryByObject" resultType="OrderPo">
+    <!--/*使用第一个对象和Query对象在表中查询结果集，第二个参数query对象*/-->
+	select order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,pay_state as payState,checkout_state as checkoutState,need_trans as needTrans,trans_state as transState,pay_id as payId,gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid,unit_price as unitPrice,trans_price as transPrice,place_id as placeId,trans_name as transName,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,ins_id as insId,ins_price as insPrice,ins_name as insName,coach_name as coachName,coach_img as coachImg,coach_mobile as coachMobile,coach_star as coachStar,stu_name as stuName,stu_img as stuImg,stu_mobile as stuMobile,course_name as courseName,allowance as allowance,price_total as priceTotal,pay_total as payTotal,pay_time as payTime,place_lge as placeLge,place_lae as placeLae,city_id as cityId,coupon as coupon,coupon_total as couponTotal,coupon_name as couponName,course_type as courseType,school_Id as schoolId from t_order
+    <include refid="sqlByObject"/> <![CDATA[ ${param2.sqlPost} ]]>
+  </select>
+   <select id="searchBmClass" resultType="OrderPo">
+	select o.order_id as orderId,o.coach_id as coachId,o.student_id as studentId,
+	o.pstart,o.pend,o.rstart,o.rend,c.max_num as clzNum from t_order o,t_coach_class c
+    where o.ccid=c.ccid and o.student_id=#{studentId} and o.coach_id=#{coachId} and o.order_state not in (0,9)
+     and o.otype=3 and o.allowance=0 and o.gtime>=STR_TO_DATE('2016-10-01','%Y-%m-%d') 
+  </select>
+</mapper>

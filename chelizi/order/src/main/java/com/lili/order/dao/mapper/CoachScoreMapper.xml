@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.CoachScoreMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="acceptOrder!=null">accept_order=#{acceptOrder},</if>
+      <if test="refuseOrder!=null">refuse_order=#{refuseOrder},</if>
+      <if test="cancelOrder!=null">cancel_order=#{cancelOrder},</if>
+      <if test="orderTotal!=null">order_total=#{orderTotal},</if>
+      <if test="scoreTotal!=null">score_total=#{scoreTotal},</if>
+      <if test="company!=null">company=#{company},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.coachId!=null">coach_id=#{param1.coachId},</if>
+      <if test="param1.acceptOrder!=null">accept_order=#{param1.acceptOrder},</if>
+      <if test="param1.refuseOrder!=null">refuse_order=#{param1.refuseOrder},</if>
+      <if test="param1.cancelOrder!=null">cancel_order=#{param1.cancelOrder},</if>
+      <if test="param1.orderTotal!=null">order_total=#{param1.orderTotal},</if>
+      <if test="param1.scoreTotal!=null">score_total=#{param1.scoreTotal},</if>
+      <if test="param1.company!=null">company=#{param1.company},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.coachId!=null">coach_id=#{param2.coachId},</if>
+      <if test="param2.acceptOrder!=null">accept_order=#{param2.acceptOrder},</if>
+      <if test="param2.refuseOrder!=null">refuse_order=#{param2.refuseOrder},</if>
+      <if test="param2.cancelOrder!=null">cancel_order=#{param2.cancelOrder},</if>
+      <if test="param2.orderTotal!=null">order_total=#{param2.orderTotal},</if>
+      <if test="param2.scoreTotal!=null">score_total=#{param2.scoreTotal},</if>
+      <if test="param2.company!=null">company=#{param2.company},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set coach_id=#{coachId}, accept_order=#{acceptOrder}, refuse_order=#{refuseOrder}, cancel_order=#{cancelOrder}, order_total=#{orderTotal}, score_total=#{scoreTotal}, company=#{company}</sql>
+  <sql id="setAllparam1">set coach_id=#{param1.coachId}, accept_order=#{param1.acceptOrder}, refuse_order=#{param1.refuseOrder}, cancel_order=#{param1.cancelOrder}, order_total=#{param1.orderTotal}, score_total=#{param1.scoreTotal}, company=#{param1.company}</sql>
+  <sql id="setAllparam2">set coach_id=#{param2.coachId}, accept_order=#{param2.acceptOrder}, refuse_order=#{param2.refuseOrder}, cancel_order=#{param2.cancelOrder}, order_total=#{param2.orderTotal}, score_total=#{param2.scoreTotal}, company=#{param2.company}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="coachId!=null and coachId != '' ">And coach_id=#{coachId}</if>
+      <if test="acceptOrder!=null and acceptOrder != '' ">And accept_order=#{acceptOrder}</if>
+      <if test="refuseOrder!=null and refuseOrder != '' ">And refuse_order=#{refuseOrder}</if>
+      <if test="cancelOrder!=null and cancelOrder != '' ">And cancel_order=#{cancelOrder}</if>
+      <if test="orderTotal!=null and orderTotal != '' ">And order_total=#{orderTotal}</if>
+      <if test="scoreTotal!=null and scoreTotal != '' ">And score_total=#{scoreTotal}</if>
+      <if test="company!=null and company != '' ">And company=#{company}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="coachId!=null and coachId != '' ">Or coach_id=#{coachId}</if>
+      <if test="acceptOrder!=null and acceptOrder != '' ">Or accept_order=#{acceptOrder}</if>
+      <if test="refuseOrder!=null and refuseOrder != '' ">Or refuse_order=#{refuseOrder}</if>
+      <if test="cancelOrder!=null and cancelOrder != '' ">Or cancel_order=#{cancelOrder}</if>
+      <if test="orderTotal!=null and orderTotal != '' ">Or order_total=#{orderTotal}</if>
+      <if test="scoreTotal!=null and scoreTotal != '' ">Or score_total=#{scoreTotal}</if>
+      <if test="company!=null and company != '' ">Or company=#{company}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.acceptOrder!=null and param1.acceptOrder != '' ">And accept_order=#{param1.acceptOrder}</if>
+      <if test="param1.refuseOrder!=null and param1.refuseOrder != '' ">And refuse_order=#{param1.refuseOrder}</if>
+      <if test="param1.cancelOrder!=null and param1.cancelOrder != '' ">And cancel_order=#{param1.cancelOrder}</if>
+      <if test="param1.orderTotal!=null and param1.orderTotal != '' ">And order_total=#{param1.orderTotal}</if>
+      <if test="param1.scoreTotal!=null and param1.scoreTotal != '' ">And score_total=#{param1.scoreTotal}</if>
+      <if test="param1.company!=null and param1.company != '' ">And company=#{param1.company}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.coachId!=null and param2.coachId != '' ">And coach_id=#{param2.coachId}</if>
+      <if test="param2.acceptOrder!=null and param2.acceptOrder != '' ">And accept_order=#{param2.acceptOrder}</if>
+      <if test="param2.refuseOrder!=null and param2.refuseOrder != '' ">And refuse_order=#{param2.refuseOrder}</if>
+      <if test="param2.cancelOrder!=null and param2.cancelOrder != '' ">And cancel_order=#{param2.cancelOrder}</if>
+      <if test="param2.orderTotal!=null and param2.orderTotal != '' ">And order_total=#{param2.orderTotal}</if>
+      <if test="param2.scoreTotal!=null and param2.scoreTotal != '' ">And score_total=#{param2.scoreTotal}</if>
+      <if test="param2.company!=null and param2.company != '' ">And company=#{param2.company}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.coachId!=null and param1.coachId != '' ">Or coach_id=#{param1.coachId}</if>
+      <if test="param1.acceptOrder!=null and param1.acceptOrder != '' ">Or accept_order=#{param1.acceptOrder}</if>
+      <if test="param1.refuseOrder!=null and param1.refuseOrder != '' ">Or refuse_order=#{param1.refuseOrder}</if>
+      <if test="param1.cancelOrder!=null and param1.cancelOrder != '' ">Or cancel_order=#{param1.cancelOrder}</if>
+      <if test="param1.orderTotal!=null and param1.orderTotal != '' ">Or order_total=#{param1.orderTotal}</if>
+      <if test="param1.scoreTotal!=null and param1.scoreTotal != '' ">Or score_total=#{param1.scoreTotal}</if>
+      <if test="param1.company!=null and param1.company != '' ">Or company=#{param1.company}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.coachId!=null and param2.coachId != '' ">Or coach_id=#{param2.coachId}</if>
+      <if test="param2.acceptOrder!=null and param2.acceptOrder != '' ">Or accept_order=#{param2.acceptOrder}</if>
+      <if test="param2.refuseOrder!=null and param2.refuseOrder != '' ">Or refuse_order=#{param2.refuseOrder}</if>
+      <if test="param2.cancelOrder!=null and param2.cancelOrder != '' ">Or cancel_order=#{param2.cancelOrder}</if>
+      <if test="param2.orderTotal!=null and param2.orderTotal != '' ">Or order_total=#{param2.orderTotal}</if>
+      <if test="param2.scoreTotal!=null and param2.scoreTotal != '' ">Or score_total=#{param2.scoreTotal}</if>
+      <if test="param2.company!=null and param2.company != '' ">Or company=#{param2.company}</if>
+    </where>
+  </sql>
+  <insert id="addCoachScore">
+    <!--/*新增一个对象*/-->insert into t_coach_score
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addCoachScoreList">
+    <!--/*新增一批对象*/-->insert into t_coach_score values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.coachId},#{one.acceptOrder},#{one.refuseOrder},#{one.cancelOrder},#{one.orderTotal},#{one.scoreTotal},#{one.company})</foreach>
+  </insert>
+  <delete id="delCoachScoreById">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_score where coach_id=#{coachId}
+  </delete>
+  <delete id="delCoachScoreByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_score where coach_id in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delCoachScoreByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_coach_score
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveCoachScore">
+    <!--/*新增或者更新一个对象*/-->replace into t_coach_score
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveCoachScoreList">
+    <!--/*新增或者更新一批对象*/-->replace into t_coach_score values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.coachId},#{one.acceptOrder},#{one.refuseOrder},#{one.cancelOrder},#{one.orderTotal},#{one.scoreTotal},#{one.company})</foreach>
+  </insert>
+  <update id="updateByCoachId">
+    <!--/*根据字段coachId更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where coach_id=#{param2}
+  </update>
+  <update id="updateByAcceptOrder">
+    <!--/*根据字段acceptOrder更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where accept_order=#{param2}
+  </update>
+  <update id="updateByRefuseOrder">
+    <!--/*根据字段refuseOrder更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where refuse_order=#{param2}
+  </update>
+  <update id="updateByCancelOrder">
+    <!--/*根据字段cancelOrder更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where cancel_order=#{param2}
+  </update>
+  <update id="updateByOrderTotal">
+    <!--/*根据字段orderTotal更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where order_total=#{param2}
+  </update>
+  <update id="updateByScoreTotal">
+    <!--/*根据字段scoreTotal更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where score_total=#{param2}
+  </update>
+  <update id="updateByCompany">
+    <!--/*根据字段company更新一个或者多个对象*/-->update t_coach_score
+    <include refid="setNotNullparam1"/> where company=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_score 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_score
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryCoachScoreById" resultType="CoachScorePo">
+    <!--/*根据主键查询一个对象*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryCoachScoreByIds" resultType="CoachScorePo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where coach_id in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByCoachId" resultType="CoachScorePo">
+    <!--/*根据字段coachId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryByAcceptOrder" resultType="CoachScorePo">
+    <!--/*根据字段acceptOrder查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where accept_order=#{param1} ${param2}
+  </select>
+  <select id="queryByRefuseOrder" resultType="CoachScorePo">
+    <!--/*根据字段refuseOrder查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where refuse_order=#{param1} ${param2}
+  </select>
+  <select id="queryByCancelOrder" resultType="CoachScorePo">
+    <!--/*根据字段cancelOrder查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where cancel_order=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderTotal" resultType="CoachScorePo">
+    <!--/*根据字段orderTotal查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where order_total=#{param1} ${param2}
+  </select>
+  <select id="queryByScoreTotal" resultType="CoachScorePo">
+    <!--/*根据字段scoreTotal查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where score_total=#{param1} ${param2}
+  </select>
+  <select id="queryByCompany" resultType="CoachScorePo">
+    <!--/*根据字段company查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score where company=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew1" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="CoachScorePo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select coach_id as coachId,accept_order as acceptOrder,refuse_order as refuseOrder,cancel_order as cancelOrder,order_total as orderTotal,score_total as scoreTotal,company as company from t_coach_score
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

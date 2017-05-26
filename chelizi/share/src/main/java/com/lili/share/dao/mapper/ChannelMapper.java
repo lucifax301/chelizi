@@ -1,0 +1,70 @@
+package com.lili.share.dao.mapper;
+
+import java.util.Date;
+import java.util.List;
+
+import com.lili.common.util.BaseQuery;
+import com.lili.share.dao.po.ChannelPo;
+
+public interface ChannelMapper{
+
+  public void add(ChannelPo channelPo);
+  public void addList(List<ChannelPo> channelPoList);
+  public void updateObject(ChannelPo channelPo);
+  public void updateList(List<ChannelPo> channelPoList);
+  public void delById(Integer cid);
+  public void delListByIds(List<Integer> ids);
+  public void delByObject(ChannelPo channelPo);
+  public int updateByCid(ChannelPo channelPo,Integer cid);
+  public int updateBySuid(ChannelPo channelPo,String suid);
+  public int updateBySendPhone(ChannelPo channelPo,String sendPhone);
+  public int updateBySendType(ChannelPo channelPo,Integer sendType);
+  public int updateBySendUser(ChannelPo channelPo,Long sendUser);
+  public int updateBySendState(ChannelPo channelPo,Integer sendState);
+  public int updateBySendTime(ChannelPo channelPo,Date sendTime);
+  public int updateBySendTotal(ChannelPo channelPo,Integer sendTotal);
+  public int updateByRecevieName(ChannelPo channelPo,String recevieName);
+  public int updateByReceviePhone(ChannelPo channelPo,String receviePhone);
+  public int updateByRecevieUser(ChannelPo channelPo,Long recevieUser);
+  public int updateByRecevieState(ChannelPo channelPo,Integer recevieState);
+  public int updateByRecevieCoupon(ChannelPo channelPo,Integer recevieCoupon);
+  public int updateByRegName(ChannelPo channelPo,String regName);
+  public int updateByRegPic(ChannelPo channelPo,String regPic);
+  public int updateByRegType(ChannelPo channelPo,Integer regType);
+  public int updateByCheckState(ChannelPo channelPo,Integer checkState);
+  public int updateByIsdel(ChannelPo channelPo,Integer isdel);
+  public int updateByCuid(ChannelPo channelPo,Long cuid);
+  public int updateByMuid(ChannelPo channelPo,Long muid);
+  public int updateByCtime(ChannelPo channelPo,Date ctime);
+  public int updateByMtime(ChannelPo channelPo,String mtime);
+  public int updateNotNullByObject(ChannelPo channelPo,ChannelPo search);
+  public int updateAllByObject(ChannelPo channelPo,ChannelPo search);
+  public ChannelPo queryById(Integer cid);
+  public List<ChannelPo> queryListByIds(List<Integer> ids,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByObjectAnd(ChannelPo channelPo,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByObject(ChannelPo channelPo,BaseQuery ChannelQuery);
+  public List<Integer> queryIdByObject(ChannelPo channelPo,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySuid(String suid,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendPhone(String sendPhone,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendType(Integer sendType,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendUser(Long sendUser,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendState(Integer sendState,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendTime(Date sendTime,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryBySendTotal(Integer sendTotal,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRecevieName(String recevieName,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByReceviePhone(String receviePhone,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRecevieUser(Long recevieUser,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRecevieState(Integer recevieState,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRecevieCoupon(Integer recevieCoupon,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRegName(String regName,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRegPic(String regPic,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByRegType(Integer regType,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByCheckState(Integer checkState,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByIsdel(Integer isdel,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByCuid(Long cuid,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByMuid(Long muid,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByCtime(Date ctime,BaseQuery ChannelQuery);
+  public List<ChannelPo> queryByMtime(String mtime,BaseQuery ChannelQuery);
+  public Integer queryMaxPk();
+  public ChannelPo queryReceviePhoneIsExit(String receviePhone);
+}

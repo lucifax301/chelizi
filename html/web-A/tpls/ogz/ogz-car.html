@@ -1,0 +1,606 @@
+<style type="text/css">
+    #map_canvas{height:650px;width:100%;}
+</style>
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>教练车列表</h3>
+            </div>
+            <div class="title_right">
+                <div class="col-md-8 col-sm-8 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group mt10">
+                        <input type="text" class="form-control" placeholder="车牌号码"  ng-model="condition" ng-keyup="getkey($event)">
+                        <span class="input-group-btn">
+                              <button type="button" class="btn btn-primary z-fontwhite" ng-click="searchList()">查询</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title z-heightauto">
+                       <!--  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target=".add-modal" 
+                            ng-click="resetForm();">新增教练车</button> -->
+						<button type="button" class="btn btn-default btn-sm" ng-click="toAddHref()" ng-if="100312 | isAccessShow">新增教练车</button>	
+                    </div>
+                        <div class="x_content">
+                           <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                    <tr class="headings">
+                                        <th style="text-align: center;" class="column-title">车辆照片</th> 
+                                        <th style="text-align: center;" class="column-title">车牌号码</th>
+                                        <th style="text-align: center;" class="column-title">车辆颜色</th>
+                                        <th style="text-align: center;" class="column-title">培训车型</th>
+                                        <th style="text-align: center;" class="column-title">生产厂商</th>
+                                        <th style="text-align: center;" class="column-title">车辆品牌</th>
+                                        <th style="text-align: center;" class="column-title">使用状态</th>
+                                        <th style="text-align: center;" class="column-title">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in items">
+                                    <td style="vertical-align:middle; text-align:center;">  
+                                    	<img  ng-src="{{baseImgurl}}{{ item.photo_url }}" ng-if="item.photo_url != undefined && item.photo_url != ''" style="width:110px;height:80px">
+                                    	<img  src="./././assets/images/car.jpg" ng-if="item.photo_url == undefined || item.photo_url == ''" style="width:110px;height:80px">  
+                                    </td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.licnum"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.platecolor | colorText"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.perdritype"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.manufacture"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.brand"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.status | statusText"></td>
+                                    <td class="last" style="vertical-align:middle; text-align: center;">
+                                        <!--<a href="javascript:void(0);" data-toggle="modal" data-target=".show-map-modal" ng-click="showMap(item.licnum);">实时地图</a>&nbsp;&nbsp; -->
+                                        <span class="click-green" ng-click="toEditHref(item.carid)"  ng-if="100313 | isAccessShow">编辑</span>&nbsp;&nbsp; 
+                                        <!-- <span class="click-red"  ng-click="delete(item.carid)" ng-if="100314 | isAccessShow">删除</span>&nbsp;&nbsp; -->
+                                        <span style="cursor: pointer;"  ng-click="coachList(item.carid);" ng-if="100315 | isAccessShow">绑定教练</span>&nbsp;&nbsp;
+                                        <span style="cursor: pointer;"  ng-click="alloedCoachList(item.carid);" ng-if="100316 | isAccessShow">查看教练</span>&nbsp;&nbsp;
+
+                                      
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page">
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- <div class="modal fade add-modal" tabindex="-1" role="dialog" aria-hidden="true" id="addCoachCar">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">新增教练车</h4>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                    <br />
+                    <form class="form-horizontal form-label-left" novalidate name="addForm" id="addForm" ng-submit="addCoachCar();">  
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车牌号码<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="licnum" id="licnum" ng-model="addData.licnum" placeholder="请输入车牌号码" required>
+                                        <span class="tips-error" ng-show="addForm.licnum.$error.required && addForm.licnum.$dirty">请输入车牌号码</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车架号</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="franum" id="franum" ng-model="addData.franum" placeholder="请输入车架号">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">发动机号</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="engnum" id="engnum" ng-model="addData.engnum" placeholder="请输入发动机号">
+                                        <span class="tips-error" ng-show="addForm.engnum.$error.required && addForm.engnum.$dirty">请输入发动机号</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆颜色<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="platecolor" ng-model="addData.platecolor" class="form-control">
+                                            <option ng-repeat="v in platecolorDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">生产厂家 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="manufacture" id="manufacture" ng-model="addData.manufacture" placeholder="请输入生产厂家" required>
+                                        <span class="tips-error" ng-show="addForm.manufacture.$error.required && addForm.manufacture.$dirty">请输入生产厂家</span>
+                                    </div>
+                                </div>
+                            </div>
+                           	<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆品牌 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="brand" id="brand" ng-model="addData.brand" placeholder="请输入车辆品牌" required>
+                                        <span class="tips-error" ng-show="addForm.brand.$error.required && addForm.brand.$dirty">请输入车辆品牌</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">培训车型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="perdritype" ng-model="addData.perdritype" class="form-control">
+                                            <option ng-repeat="v in perdritypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">购买时间
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="buydate" type="text" class="form-control" placeholder="请选择购买日期" ng-model="addData.buydate" onclick="laydate({format: 'YYYYMMDD'})">
+                                        <span class="tips-error" ng-show="false">请输入正确的日期</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="skillstatus">车辆评定 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="skillstatus" ng-model="addData.skillstatus" class="form-control">
+                                            <option ng-repeat="v in skillstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="skilldate">评定时间 
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="skilldate" type="text" class="form-control" placeholder="请选择评定时间" ng-model="addData.skilldate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="checkstatus">车辆检测<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="checkstatus" ng-model="addData.checkstatus" class="form-control">
+                                            <option ng-repeat="v in checkstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="checkdate">检测时间</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="checkdate" type="text" class="form-control" placeholder="请选择检测时间" ng-model="addData.checkdate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="secondstatus">二次维保记录<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="secondstatus" ng-model="addData.secondstatus" class="form-control">
+                                            <option ng-repeat="v in secondstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="seconddate">二次维保时间</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="seconddate" type="text" class="form-control" placeholder="请选择二次维保时间"  ng-model="addData.seconddate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="secondstatus">车辆状态<span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="status" ng-model="addData.status" class="form-control">
+                                            <option ng-repeat="v in statusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    	<div class="row">
+                    		<input type="hidden" name="photo_url" id="photo_url"/>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-4 col-sm-4 col-xs-12">上传车照<span class="required"></span>
+										</label>
+										<div class="col-md-7 col-sm-7 col-xs-12">
+										   <a class="form-control" id="addImg" ng-click="uploadImg('1')" >选择图片 </a>
+										   <span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+										</div>
+									</div>
+							</div>
+						</div>
+                        <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                            <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-success" ng-disabled="addForm.$invalid">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   -->
+
+<!-- 编辑弹框-->
+ <div class="modal fade edit-modal" id="editCoachCar">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">编辑教练车</h4>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="clearfix"></div>
+                    <form class="form-horizontal form-label-left" novalidate id="editForm" name="editForm" ng-submit="editCoarchCar(editData.carid)">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车牌号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="licnum" id="licnum" readonly="readonly" ng-model="editData.licnum" placeholder="请输入车牌号码" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车架号</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="franum" id="franum" ng-model="editData.franum" placeholder="" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">发动机号</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="engnum" id="engnum" ng-model="editData.engnum" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆颜色 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="platecolor" ng-model="editData.platecolor" class="form-control">
+                                            <option ng-repeat="v in platecolorDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">生产厂家 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="manufacture" id="manufacture" ng-model="editData.manufacture" placeholder="请输入生产厂家" required>
+                                        <span class="tips-error" ng-show="editForm.manufacture.$error.required && editForm.manufacture.$dirty">请输入生产厂家</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆品牌 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input type="text" class="form-control" name="brand" id="brand" ng-model="editData.brand"   placeholder="" required>
+                                        <span class="tips-error" ng-show="editForm.brand.$error.required && editForm.brand.$dirty">请输入车辆品牌</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">培训车型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="perdritype" ng-model="editData.perdritype" class="form-control">
+                                            <option ng-repeat="v in perdritypeDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">购买时间
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="buydate" type="text" class="form-control"   placeholder="请选择购买日期"  ng-model="editData.buydate" onclick="laydate({format: 'YYYYMMDD'})">
+                                        <span class="tips-error" ng-show="false">请输入正确的日期</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆评定 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="skillstatus" ng-model="editData.skillstatus" class="form-control">
+                                            <option ng-repeat="v in skillstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">评定时间</label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="skilldate" type="text" class="form-control" placeholder="请选择评定时间" ng-model="editData.skilldate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆检测 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="checkstatus" ng-model="editData.checkstatus" class="form-control">
+                                            <option ng-repeat="v in checkstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">检测时间
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="checkdate" type="text" class="form-control" placeholder="请选择检测时间"  ng-model="editData.checkdate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">二次维保记录 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="secondstatus" ng-model="editData.secondstatus" class="form-control">
+                                            <option ng-repeat="v in secondstatusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">二次维保时间
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="seconddate" type="text" class="form-control" placeholder="请选择二次维保时间" ng-model="editData.seconddate" onclick="laydate({format: 'YYYYMMDD'})">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">车辆状态 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <select name="status" ng-model="editData.status" class="form-control">
+                                            <option ng-repeat="v in statusDatas" value="{{ v.id }}"> {{ v.value }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12">上传车照</span>
+                                    </label>
+                                   <!-- <div class="col-md-7 col-sm-7 col-xs-12">
+                                        <input name="token" type="hidden">
+                                        <input name="file" id="editFile" type="file" /><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+                                        <span class="tips-error" ng-show="fileEditTypeMsg">文件格式不正确</span>
+                                    </div> -->
+									<input type="hidden" name="photo_url" id="edit_photo_url"/>
+									<div class="col-md-7 col-sm-7 col-xs-12" ng-if="editData.photo_url==null || editData.photo_url=='' ">
+										  <a class="form-control" id="editImg" ng-click="uploadImg('2')" >选择图片 </a><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+									</div> 
+									<div class="col-md-7 col-sm-7 col-xs-12"  ng-if="editData.photo_url!=null && editData.photo_url!='' ">
+										<img  ng-src="{{baseImgurl}}{{editData.photo_url}}"  alt="" class="img-responsive z-radios5"  style="width:110px;height:80px">
+										<a href="javascript:void(0);" id="updateImg" ng-click="uploadImg('2')">更改车照</a>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group text-center">
+                            <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary">取消</button>
+                                <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-success">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div> 
+
+<!-- 教练列表-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="coachList">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">绑定教练</h4>
+            </div>
+            <div class="x_panel">
+                <input type="hidden" ng-model="caridHidden">
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th style="text-align: center;" class="column-title">教练编号 </th>
+                                <th style="text-align: center;" class="column-title">教练姓名 </th>
+                                <th style="text-align: center;" class="column-title">性别 </th>
+                                <th style="text-align: center;" class="column-title">电话 </th>
+                                <th style="text-align: center;" class="column-title">身份证号 </th>
+                                <th style="text-align: center;" class="column-title">状态 </th>
+                                <th style="text-align: center;" class="column-title no-link last"><span class="nobr">操作</span>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="even pointer" ng-repeat="data in datas">
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.coachid"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.name"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.sex | sexText"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.mobile"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.idcard"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.employstatus | coachStatus"></td>
+                                <td class=" last" style="vertical-align:middle; text-align:center;">
+                                    <a ng-click="alloCoachCar(data.coachid)" href="javascript:void(0);" ng-if="data.isbind!='1'">绑定</a>
+									<span ng-if="data.isbind=='1'"  style="color:red">已绑定</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page2" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+
+<!-- 教练车已分配的教练列表-->
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="alloCoachList">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">已绑定教练</h4>
+            </div>
+            <div class="x_panel">
+                <input type="hidden" ng-model="caridHidden">
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table class="table table-striped jambo_table bulk_action">
+                            <thead>
+                            <tr class="headings">
+                                <th style="text-align: center;" class="column-title">教练编号</th>
+                                <th style="text-align: center;" class="column-title">教练姓名</th>
+                                <th style="text-align: center;" class="column-title">性别</th>
+                                <th style="text-align: center;" class="column-title">电话</th>
+                                <th style="text-align: center;" class="column-title">身份证号 </th>
+                                <th style="text-align: center;" class="column-title">状态 </th>
+                                <th style="text-align: center;" class="column-title no-link last"><span class="nobr">操作</span>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="even pointer" ng-repeat="data in datas">
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.coachid"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.name"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.sex | sexText"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.mobile"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.idcard"></td>
+                                <td style="vertical-align:middle; text-align:center;" ng-bind="data.employstatus | coachStatus"></td>
+                                <td class=" last" style="vertical-align:middle; text-align:center;">
+                                    <a ng-click="cancelCoachCar(data.coachid)" href="javascript:void(0);" ng-if="100317 | isAccessShow">取消绑定</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div id="copot-page3" class="copot-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<!-- 查看地图-->
+<div class="modal fade show-map-modal" id="mappanel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                <span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">教练车实时地图</h4>
+            </div>
+            <div class="x_panel">
+                <div class="x_content">
+                <div id="map_canvas" class="action_list"></div>
+                </div>
+            </div>              
+          </div> 
+    </div><!-- /.modal-content -->
+</div>

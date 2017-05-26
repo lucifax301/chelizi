@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.share.dao.mapper.StudentMapper">
+	<resultMap id="BaseResultMap" type="com.lili.share.dao.po.StudentPo">
+		<result column="studentId" property="studentId" jdbcType="BIGINT" />
+		<result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+		<result column="hometown" property="hometown" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="mailBox" property="mailBox" jdbcType="VARCHAR" />
+		<result column="headIcon" property="headIcon" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="course1" property="course1" jdbcType="INTEGER" />
+		<result column="course2" property="course2" jdbcType="INTEGER" />
+		<result column="course3" property="course3" jdbcType="INTEGER" />
+		<result column="course4" property="course4" jdbcType="INTEGER" />
+		<result column="registerTime" property="registerTime" jdbcType="TIMESTAMP" />
+		<result column="bankcardNum" property="bankcardNum" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="bankAccName" property="bankAccName" jdbcType="VARCHAR" />
+		<result column="idPhotoFront" property="idPhotoFront" jdbcType="VARCHAR" />
+		<result column="idPhotoBack" property="idPhotoBack" jdbcType="VARCHAR" />
+		<result column="isImport" property="isImport" jdbcType="INTEGER" />
+		<result column="importSrc" property="importSrc" jdbcType="VARCHAR" />
+		<result column="StuCoachEmpID" property="StuCoachEmpID" jdbcType="INTEGER" />
+		<result column="checkIdState" property="checkIdState" jdbcType="INTEGER" />
+		<result column="applyCarType" property="applyCarType" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		studentId,idNumber,name,sex,age,hometown,phoneNum,mailBox,headIcon,course1,course2,course3,course4,studyDis,
+		registerTime,bankcardNum,bankName,bankAccName,idPhotoFront,idPhotoBack,isImport,importSrc,StuCoachEmpID,applyCarType,
+		checkIdState
+	</sql>
+	
+  <select id="queryByPhone"  resultMap="BaseResultMap">
+	    select 
+		 <include refid="Base_Column_List" />
+	    from t_u_student
+		 where 
+		 	phoneNum = #{phoneNum}
+  </select>
+	
+  	 
+</mapper>

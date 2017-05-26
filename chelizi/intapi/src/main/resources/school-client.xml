@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <dubbo:reference id="schoolService" interface="com.lili.school.service.SchoolService" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="schoolManager" interface="com.lili.school.manager.SchoolManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollPackageTemplateManager" interface="com.lili.school.manager.EnrollPackageTemplateManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollMaterialAddressManager" interface="com.lili.school.manager.EnrollMaterialAddressManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollMaterialManager" interface="com.lili.school.manager.EnrollMaterialManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollMaterialItemManager" interface="com.lili.school.manager.EnrollMaterialItemManager" check="false" retries="0" timeout="30000"  />
+    
+    <dubbo:reference id="enrollTheoryManager" interface="com.lili.school.manager.EnrollTheoryManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollTheoryStudentManager" interface="com.lili.school.manager.EnrollTheoryStudentManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollExamNoticeManager" interface="com.lili.school.manager.EnrollExamNoticeManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollLongtrainManager" interface="com.lili.school.manager.EnrollLongtrainManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollSubjectManager" interface="com.lili.school.manager.EnrollSubjectManager" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="enrollOrderManager" interface="com.lili.school.manager.EnrollOrderManager" check="false" retries="0" timeout="30000"  />
+    
+    <dubbo:reference id="wechatSchoolService" interface="com.lili.school.service.WechatSchoolService" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="wechatCoachService" interface="com.lili.school.service.WechatCoachService" check="false" retries="0" timeout="30000"  />
+    <dubbo:reference id="wechatSchoolManager" interface="com.lili.school.manager.WechatSchoolManager" check="false" retries="0" timeout="30000"  />
+    
+</beans>

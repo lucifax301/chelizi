@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="School">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>驾校</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<div class="title ">
+			<div class="d-title">驾校管理</div>
+			<ul class="table-li">
+				<li class="active" ng-if="120801|isAccessShow"><a href="schools.html">综合管理</a></li>
+				<li ng-if="120805|isAccessShow"><a href="schools-purse.html">驾校钱包管理</a></li>
+                <li ng-if="120810|isAccessShow"><a href="schools-applys.html">驾校帐号审核</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">驾校列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>所在城市</div>
+							<select class="form-control jia-xiao" id="getDataForCitySel" ng-model="cityId" ng-change="getDataForCity()">
+								<option value="">---请选择省---</option>
+								<option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+							</select>
+						</div>
+						<div class="line">
+							<div>高级查询</div>
+							<div class="input-group">
+								<input type="text" ng-model="name" class="form-control" placeholder="输入驾校名查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<a ng-if="120802|isAccessShow" ng-click="schoolEdit('add')" class="btn btn-sm btn-primary">新增驾校</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td><b>驾校</b></td>
+								<td><b>所在城市</b></td>
+								<td><b>客服电话</b></td>
+								<td><b>驾校地址</b></td>
+								<td><b>教练人数(人)</b></td>
+								<td><b>学员人数(人)</b></td>
+								<td><b>教练车数量(辆)</b></td>
+								<td><b>训练场数量(个)</b></td>
+								<td><b>操作</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td><a target="_blank" href="schools-details.html?schoolId={{item.schoolId}}" ng-bind="item.name" ng-if="(120813|isAccessShow)&&(120817|isAccessShow)"></a><span  ng-bind="item.name" ng-if="!((120813|isAccessShow)&&(120817|isAccessShow))"></span></td>
+								<td ng-bind="item.region"></td>
+								<td ng-bind="item.phoneNum"></td>
+								<td ng-bind="item.address"></td>
+								<td ng-bind="item.coachCount"></td>
+								<td ng-bind="item.studentCount"></td>
+								<td ng-bind="item.carCount"></td>
+								<td ng-bind="item.fieldCount"></td>
+								<td class="operation"><a href="javascript:;" class="edit" ng-if="120803|isAccessShow" ng-click="schoolEdit('edit',item)">编辑</a></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 训练场信息编辑 | 新增 -->
+		<ng-include src="'edit/edit-school.html'" onload="schoolEditLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/school.js?v=b4b0d2a0c61473298817690"></script>
+
+</body>
+</html>

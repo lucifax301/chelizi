@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="accountSchool">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>驾校钱包</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/monthpicker.css">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+	<script src="assets/common/daterangepicker/js/monthpicker.js"></script>
+    <style>
+        .d-statistics .top{ overflow: visible;}
+        .monthPickerWrap{ font-size: 16px; padding: 0 20px;}
+        #monthpicker{ line-height: 40px;}
+        .monthpicker{ right: 20px; top: 50px;}
+        .monthpicker:before,.monthpicker:after{ left: auto; right: 20px;}
+        .monthpickerico{ color: #59a3f9; font-size: 14px; margin-left: 5px;}
+    </style>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title">驾校钱包</div>
+		<ul class="table-li">
+			<li class="active"><a href="schools-account.html">钱包总览</a></li>
+			<li><a href="schools-account-present-record.html">提现记录</a></li>
+		</ul>
+		<div class="padding-20 margin-top-20">
+			<!--变更商户信息提交的提示-->
+			<div class="row bg-warning d-point" ng-show="isChange==2?true:false">
+				<div class="col-md-12">
+					<h1><i class="ion-android-time oringe"></i>变更商户信息的申请已提交，我们会在3个工作日内处理您的申请，等待审核期间提现功能暂无法使用</h1>
+				</div>
+			</div>
+
+			<!--变更商户信息提交"通过"审核的提示-->
+			<div class="row bg-success d-point" ng-show="isChange==3?true:false || isChange==5?false:false">
+				<div class="col-md-12">
+					<h1><i class="ion-ios-checkmark green"></i>您提交的变更商户信息的申请已审核通过，商户信息已经变更</h1>
+				</div>
+				<span class="ion-ios-close-empty" ng-click="passClose()"></span>
+			</div>
+
+			<!--变更商户信息提交"未通过"审核的提示-->
+			<div class="row bg-warning d-point" ng-show="isChange==4?true:false || isChange==5?false:false">
+				<div class="col-md-12">
+					<h1><i class="ion-ios-close error"></i>很遗憾，您提交的变更商户信息的申请未审核通过，继续使用原来的商户资料</h1>
+					<h2>审核意见：经喱喱查询，您提交的表更的资料与商户登记信息不符，如有疑问请联系喱喱客服</h2>
+				</div>
+				<span class="ion-ios-close-empty" ng-click="passClose()"></span>
+			</div>
+
+			<!--账户总揽主页-->
+			<div class="row d-account-tab">
+				<div class="student">
+					<!--<div class="pull-left head"><img></div>-->
+					<div class="pull-left margin-left-15">
+						<dl class="msg">
+							<dt><span class="ng-binding"><a ng-bind="schoolDetails.merName?schoolDetails.merName:'深圳市深圳驾培集团'"></a></span></dt>
+							<dd>绑定对公账户：{{schoolDetails.publicAccount?schoolDetails.publicAccount:'00000000000'}} [{{schoolDetails.subBankName?schoolDetails.subBankName:'深圳科技园支行'}}]</dd>
+							<dd>
+								<a class="btn btn-default btn-xs active" disabled="disabled" role="button">工商</a> {{schoolDetails.registNo?schoolDetails.registNo:'3123215125125'}}&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="btn btn-default btn-xs active" disabled="disabled" role="button">组织</a> {{schoolDetails.orgCode?schoolDetails.orgCode:'3123215125125'}}&nbsp;&nbsp;&nbsp;&nbsp;
+								<a class="btn btn-default btn-xs active" disabled="disabled" role="button">税号</a> {{schoolDetails.taxId?schoolDetails.taxId:'31232151251252'}}&nbsp;&nbsp;&nbsp;&nbsp;
+							</dd>
+
+							<dd class="margin-top-30"><a class="ischangetype" ng-if="schoolDetails.isChange!=2" href="schools-account-application.html?type=change&&schoolId={{schoolDetails.schoolId}}">申请变更商户信息</a><span class="ischangetype" ng-if="schoolDetails.isChange==2">您已申请资料变更，正在审核中...</span></dd>
+						</dl>
+					</div>
+				</div>
+				<div class="student">
+					<div class="pull-left">
+						<dl class="msg">
+							<dt><span class="ng-binding">账户余额 <label ng-bind="schoolDetails.money | priceTex"></label>元</span><a href="schools-account-balance-bill.html" class="margin-left-15" style="font-size: 14px;">查看余额账单</a>
+							</dt>
+							<dd><a class="btn btn-primary btn-sm dy" ng-click="withdrawals()" ng-disabled="isChange==2?true:false">申请提现</a></dd>
+							<dd class="w-500 margin-top-20">
+								<div class="row">
+									<div class="col-md-6">
+										绑定手机号<br>{{schoolDetails.mobile?schoolDetails.mobile:'000****0000'}}&nbsp;&nbsp;&nbsp;&nbsp;<a href="schools-account-updateTel.html?mobile={{schoolDetails.mobile}}">修改</a>
+									</div>
+									<div class="col-md-6">
+										支付密码<br>已设置&nbsp;&nbsp;&nbsp;&nbsp;<a href="schools-account-setpassword.html?type=update">修改</a> / <a href="schools-account-setpassword.html?type=set&mobile={{schoolDetails.mobile}}">找回</a>
+									</div>
+								</div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<!--月度统计-->
+			<div class="row d-statistics">
+				<div class="top"><span>月度统计</span><div class="monthPickerWrap" style="text-align: right;"><a href="#monthpicker" id="monthpicker"></a><i class="monthpickerico ion-chevron-down"></i></div></div>
+				<div class="center">
+					<div>
+						<div id="mainA" class="borderRadius"></div>
+						<dl>
+							<dt><span ng-bind="thismonth"></span>月收入流水统计</dt>
+							<dt><span ng-bind="schoolMoneFree.income/100"></span>元</dt>
+							<dt><a href="schools-account-income-detail.html">查看收益账单</a></dt>
+							<dt><span style="background: #2F4554;">1</span>课时费收益<span style="background: #C23531; margin-left: 10%;">2</span>报名费收益</dt>
+						</dl>
+					</div>
+					<div>
+						<div id="mainB" class="borderRadius"></div>
+						<script type="text/javascript">
+						</script>
+						<dl>
+							<dt><span ng-bind="thismonth"></span>月费用流水统计</dt>
+							<dt><span ng-bind="schoolMoneFree.expenseFree/100"></span>元</dt>
+							<dt><a href="schools-account-cost-detail.html">查看费用账单</a></dt>
+							<dt>
+								<span style="background: #2F4554;">佣金</span>佣金
+								<span style="background: #C23531; margin-left: 10%;">退款</span>退款
+								<span style="background: #61A0A8; margin-left: 10%;">罚款</span>罚款
+							</dt>
+						</dl>
+					</div>
+					<div class="d-c-b"></div>
+				</div>
+				<div class="bottom">
+					<span>实际月收益：<i ng-bind="schoolMoneFree.profitLossFree/100"></i>元</span>
+					<p>实际月收入=收入-费用</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- script -->
+</div>
+<script src="assets/js/ng-js/schools-account.js?v=078930a0121470826781028"></script>
+</body>
+</html>

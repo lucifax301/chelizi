@@ -1,0 +1,128 @@
+
+<div class="ml5 mr5 course-search">
+	<form id="search">
+	<input type="text" ng-model='search' ng-focus="searchfocus()" ng-blur='searchblur()'>
+	<div class="init-text" ng-show="(search.length==0) || !search && searchtext"><i class="weui_icon_search f14"/></i>请输入教练的名字进行搜索</div>	
+	</form>
+</div>
+<div class="coach-chetype y-comment">
+	<label>
+		<input type="radio" name="chetype" ng-model="chetype" value="1" ng-click="chetype_Close()">
+		C{{check.chexing}}
+		<i class="ion-chevron-down"></i>
+	</label>
+	<label>
+		<input type="radio" name="chetype" ng-model="chetype" value="2" ng-click="chetype_Close()">
+		{{check.kemu}}
+		<i class="ion-chevron-down"></i>
+	</label>
+	<label>
+		<input type="radio" name="chetype" ng-model="chetype" value="3" ng-click="chetype_Close()">
+		{{check.kecheng}}
+		<i class="ion-chevron-down"></i>
+	</label>
+	<label>
+		<input type="radio" name="chetype" ng-model="chetype" value="4" ng-click="chetype_Close()">
+		{{check.riqi | date:'MM-dd'}}
+		<i class="ion-chevron-down"></i>
+	</label>
+	<div class="y-comment"></div>
+	<div class="showbox" ng-show="chetype==1">
+		<label ng-class="{true:'active'}[check.chexing==1]">
+			<input type="radio" name="chexing" ng-model="check.chexing" value="1" ng-click='checlick()'>
+			<img src="img/C1{{check.chexing==1?'-cai':''}}.png" class="img-auto mr5" >
+		</label>
+		<label ng-class="{true:'active'}[check.chexing==2]">
+			<input type="radio" name="chexing" ng-model="check.chexing" value="2" ng-click='checlick()'>
+			<img src="img/C2{{check.chexing==2?'-cai':''}}.png" class="img-auto mr5" >
+		</label>
+	</div>
+	<div class="showbox" ng-show="chetype==2">
+		<label ng-class="{true:'active'}[check.kemu=='科目二']">
+			<input type="radio" name="kemu" ng-model="check.kemu" value="科目二" ng-click='checlick()'>科目二
+		</label>
+		<label ng-class="{true:'active'}[check.kemu=='科目三']">
+			<input type="radio" name="kemu" ng-model="check.kemu" value="科目三" ng-click='checlick()'>科目三
+		</label>
+		
+	</div>
+	<div class="showbox" ng-show="chetype==3">
+		<label ng-class="{true:'active'}[check.kecheng=='基础训练']">
+			<input type="radio" name="kecheng" ng-model="check.kecheng" value="基础训练" ng-click='checlick()'>基础训练
+		</label>
+		<label ng-class="{true:'active'}[check.kecheng=='应试训练']">
+			<input type="radio" name="kecheng" ng-model="check.kecheng" value="应试训练" ng-click='checlick()'>应试训练
+		</label>
+		<label ng-class="{true:'active'}[check.kecheng=='考场模拟']">
+			<input type="radio" name="kecheng" ng-model="check.kecheng" value="考场模拟" ng-click='checlick()'>考场模拟
+		</label>
+	</div>
+	<div class="showbox" ng-show="chetype==4">
+		<label ng-repeat="item in datatime" ng-class="{true:'active'}[$parent.check.riqi == item]">
+			<input type="radio" name="riqi" ng-model="$parent.check.riqi" value="{{item}}" ng-click='checlick()'>{{item | date: 'MM-dd' }}{{item | timeWeekDay }}
+		</label>
+	</div>
+</div>
+
+<div class="coach-list y-comment" ng-repeat="item in coachList" ng-click="goNext(item)">
+	<div class="coach-user">
+		<div class="y-box-flex">
+			<div class="photo" ng-class="{true:'isvip'}[item.extra==1]">
+				<img src="{{item.headimg}}" ng-if="item.headIcon">
+				<img src="img/user.png" ng-if="!item.headIcon">
+			</div>
+			<div class="userinfo">
+				<div class="name">
+					{{item.name}} 
+					<span ng-if='item.importSrc'>{{item.importSrc}}</span>
+					<span ng-if='item.coachLevel'>{{item.coachLevel | goChines}}级</span>
+					<a class="phone" href="tel:{{item.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+				</div>
+				<div class="name">
+					<div class="star" ng-class="{true:'active'}[item.starLevel>=20]"></div>
+					<div class="star" ng-class="{true:'active'}[item.starLevel>=40]"></div>
+					<div class="star" ng-class="{true:'active'}[item.starLevel>=60]"></div>
+					<div class="star" ng-class="{true:'active'}[item.starLevel>=80]"></div>
+					<div class="star" ng-class="{true:'active'}[item.starLevel>=100]"></div>
+					<i class="fr ion-chevron-right"></i>
+		
+				</div>
+			</div>
+		</div>
+		<div class="user-text y-comment mt5 mb10">
+			<li class="">喱喱教练：{{item.age}}年</li>
+			<li class="">带教学员：{{item.bookSum}}人</li>
+			<li class="">距离：0.7公里</li>
+		</div>
+	</div>
+	<div class="border_top pt5">
+		<div class="y-box-flex">
+			<div class="coach-time box-1">
+				<li ng-repeat="x in item.classes">
+					<div class="jdt" style="width:{{100* x.bookNum/x.maxNum}}%"></div>
+					<span>{{x.rstart | date:'HH:mm'}}~{{x.rend | date:'HH:mm'}}</span>
+				</li>
+				<li ng-repeat="x in item.classes" ng-if='item.classes.lenght==0'>
+					暂时没有排版
+				</li>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="text-center mt30 pt30 f15 blod" ng-show='showmore_none'>
+	<img src="img/no-coach.png" class="mt50" style="width: auto;">
+	<br><br>
+	暂时还没有教练排班
+</div>
+<div class="h80"></div>
+<div class="user-nav y-box-flex">
+	<a class="box-1 active pt5" href="{{NURL}}course/coach">
+		<img src="img/user/icon-yk-a.png" class="img-auto" /><br>
+		约课
+	</a>
+	<a class="box-1 pt5"  href="{{NURL}}user?type=1">
+		<img src="img/user/icon-user.png" class="img-auto" /><br>
+		个人中心
+	</a>
+</div>

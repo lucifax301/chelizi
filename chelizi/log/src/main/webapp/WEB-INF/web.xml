@@ -1,0 +1,15 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app id="log">
+  	<display-name>log</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- 应用上下文配置文件 -->
+		<param-value>classpath*:/spring-init.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+</web-app>

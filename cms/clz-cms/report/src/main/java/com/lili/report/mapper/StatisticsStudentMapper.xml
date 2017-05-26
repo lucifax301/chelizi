@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.report.mapper.dao.IStatisticsStudentDao" >
+  <resultMap id="BaseResultMap" type="com.lili.report.vo.StatisticsStudentVo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="hadClassNum" property="hadClassNum" jdbcType="INTEGER" />
+    <result column="classTime" property="classTime" jdbcType="INTEGER" />
+    <result column="rClassTime" property="rClassTime" jdbcType="INTEGER" />
+    <result column="registerNum" property="registerNum" jdbcType="INTEGER" />
+    <result column="loginNum" property="loginNum" jdbcType="INTEGER" />
+    <result column="signUpNum" property="signUpNum" jdbcType="INTEGER" />
+    <result column="cityId" property="cityId" jdbcType="VARCHAR" />
+    <result column="dTime" property="dTime" jdbcType="DATE" />
+    <result column="cTime" property="cTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="SumResultMap" type="com.lili.report.vo.StatisticsStudentVo" >
+    <result column="hadClassNumSum" property="hadClassNumSum" jdbcType="INTEGER" />
+    <result column="classTimeSum" property="classTimeSum" jdbcType="INTEGER" />
+    <result column="rClassTimeSum" property="rClassTimeSum" jdbcType="INTEGER" />
+    <result column="registerNumSum" property="registerNumSum" jdbcType="INTEGER" />
+    <result column="loginNumSum" property="loginNumSum" jdbcType="INTEGER" />
+    <result column="signUpNumSum" property="signUpNumSum" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+  <sql id="Base_Column_List" >
+    id, hadClassNum, classTime, rClassTime, registerNum, loginNum, signUpNum, cityId, 
+    dTime, cTime
+  </sql>
+  
+  <select id="queryStudentList" resultMap="BaseResultMap" >
+		select
+		<include refid="Base_Column_List" />
+		from t_statistics_student
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+			<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+	<select id="queryStudentByDateList" resultMap="BaseResultMap" >
+		select dTime,
+			ifnull(sum(hadClassNum),0) as hadClassNum, ifnull(sum(classTime/60),0) as classTime, 
+			ifnull(sum(rClassTime/60),0) as rClassTime, ifnull(sum(registerNum),0) as registerNum,	
+			ifnull(sum(loginNum),0) as loginNum, ifnull(sum(signUpNum),0) as signUpNum
+		from t_statistics_student
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			group by dTime order by dTime desc
+	</select>
+	
+	<select id="queryStudentSum" resultMap="SumResultMap" >
+		select 
+			ifnull(sum(hadClassNum),0) as hadClassNumSum, ifnull(sum(classTime/60),0) as classTimeSum, 
+			ifnull(sum(rClassTime/60),0) as rClassTimeSum, ifnull(sum(registerNum),0) as registerNumSum,	
+			ifnull(sum(loginNum),0) as loginNumSum, ifnull(sum(signUpNum),0) as signUpNumSum
+		from t_statistics_student
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="cityId != null and cityId != ''">
+					and cityId = #{cityId}
+				</if>
+				<if test="startTime != null and startTime != ''">
+					<![CDATA[ and dTime >= #{startTime} ]]>
+				</if>
+				<if test="endTime != null and endTime != ''">
+					<![CDATA[ and dTime <= #{endTime} ]]>
+				</if>
+			</trim>
+			order by dTime desc
+	</select>
+	
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_statistics_student
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_statistics_student
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lili.report.vo.StatisticsStudentVo" >
+    insert into t_statistics_student (id, hadClassNum, classTime, 
+      rClassTime, registerNum, loginNum, 
+      signUpNum, cityId, dTime, 
+      cTime)
+    values (#{id,jdbcType=BIGINT}, #{hadClassNum,jdbcType=INTEGER}, #{classTime,jdbcType=INTEGER}, 
+      #{rClassTime,jdbcType=INTEGER}, #{registerNum,jdbcType=INTEGER}, #{loginNum,jdbcType=INTEGER}, 
+      #{signUpNum,jdbcType=INTEGER}, #{cityId,jdbcType=VARCHAR}, #{dTime,jdbcType=DATE}, 
+      #{cTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.report.vo.StatisticsStudentVo" >
+    insert into t_statistics_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hadClassNum != null" >
+        hadClassNum,
+      </if>
+      <if test="classTime != null" >
+        classTime,
+      </if>
+      <if test="rClassTime != null" >
+        rClassTime,
+      </if>
+      <if test="registerNum != null" >
+        registerNum,
+      </if>
+      <if test="loginNum != null" >
+        loginNum,
+      </if>
+      <if test="signUpNum != null" >
+        signUpNum,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="dTime != null" >
+        dTime,
+      </if>
+      <if test="cTime != null" >
+        cTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="hadClassNum != null" >
+        #{hadClassNum,jdbcType=INTEGER},
+      </if>
+      <if test="classTime != null" >
+        #{classTime,jdbcType=INTEGER},
+      </if>
+      <if test="rClassTime != null" >
+        #{rClassTime,jdbcType=INTEGER},
+      </if>
+      <if test="registerNum != null" >
+        #{registerNum,jdbcType=INTEGER},
+      </if>
+      <if test="loginNum != null" >
+        #{loginNum,jdbcType=INTEGER},
+      </if>
+      <if test="signUpNum != null" >
+        #{signUpNum,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="dTime != null" >
+        #{dTime,jdbcType=DATE},
+      </if>
+      <if test="cTime != null" >
+        #{cTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.report.vo.StatisticsStudentVo" >
+    update t_statistics_student
+    <set >
+      <if test="hadClassNum != null" >
+        hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+      </if>
+      <if test="classTime != null" >
+        classTime = #{classTime,jdbcType=INTEGER},
+      </if>
+      <if test="rClassTime != null" >
+        rClassTime = #{rClassTime,jdbcType=INTEGER},
+      </if>
+      <if test="registerNum != null" >
+        registerNum = #{registerNum,jdbcType=INTEGER},
+      </if>
+      <if test="loginNum != null" >
+        loginNum = #{loginNum,jdbcType=INTEGER},
+      </if>
+      <if test="signUpNum != null" >
+        signUpNum = #{signUpNum,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="dTime != null" >
+        dTime = #{dTime,jdbcType=DATE},
+      </if>
+      <if test="cTime != null" >
+        cTime = #{cTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.report.vo.StatisticsStudentVo" >
+    update t_statistics_student
+    set hadClassNum = #{hadClassNum,jdbcType=INTEGER},
+      classTime = #{classTime,jdbcType=INTEGER},
+      rClassTime = #{rClassTime,jdbcType=INTEGER},
+      registerNum = #{registerNum,jdbcType=INTEGER},
+      loginNum = #{loginNum,jdbcType=INTEGER},
+      signUpNum = #{signUpNum,jdbcType=INTEGER},
+      cityId = #{cityId,jdbcType=VARCHAR},
+      dTime = #{dTime,jdbcType=DATE},
+      cTime = #{cTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+</mapper>

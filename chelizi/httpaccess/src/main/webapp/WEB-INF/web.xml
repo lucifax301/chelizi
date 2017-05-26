@@ -1,0 +1,96 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app id="WebApp_1446447805960">
+	<display-name>httpaccess</display-name>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- 应用上下文配置文件 -->
+		<param-value>classpath*:/spring-init.xml</param-value>
+	</context-param>
+	
+		<!-- 强制转换utf8 -->
+	<filter>  
+        <filter-name>characterEncodingFilter</filter-name>  
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+        <init-param>  
+            <param-name>encoding</param-name>  
+            <param-value>UTF-8</param-value>  
+        </init-param>  
+        <init-param>  
+            <param-name>forceEncoding</param-name>  
+            <param-value>true</param-value>  
+        </init-param>  
+    </filter> 
+	
+	<!-- 处理页面跨域请求 -->
+    <filter>
+    	<filter-name>crossFilter</filter-name>
+    	<filter-class>com.lili.httpaccess.intercepter.CrossFilter</filter-class>
+    </filter>
+    <!-- 处理put、delete请求 -->
+	<filter>
+		<filter-name>HttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+    <!-- 日志记录 -->
+    <filter>
+    	<filter-name>logFilter</filter-name>
+    	<filter-class>com.lili.httpaccess.intercepter.LogFilter</filter-class>
+    </filter>
+    <!-- 通过时间戳、签名过滤请求 -->
+    <filter>
+    	<filter-name>signFilter</filter-name>
+    	<filter-class>com.lili.httpaccess.intercepter.SignFilter</filter-class>
+    </filter>
+    <!-- 通过登录令牌过滤请求 -->
+    <filter>
+    	<filter-name>tokenFilter</filter-name>
+    	<filter-class>com.lili.httpaccess.intercepter.TokenFilter</filter-class>
+    </filter>
+
+    <filter-mapping>  
+        <filter-name>characterEncodingFilter</filter-name>  
+        <url-pattern>/*</url-pattern>  
+    </filter-mapping> 
+	
+	<filter-mapping>
+    	<filter-name>crossFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+		<filter-name>HttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+		<filter-mapping>
+    	<filter-name>logFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+    	<filter-name>signFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+    	<filter-name>tokenFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:/spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+</web-app>

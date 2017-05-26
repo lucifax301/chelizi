@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.EnrollExamRegMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.EnrollExamReg" >
+    <id column="tableNo" property="tableNo" jdbcType="VARCHAR" />
+    <id column="flowNo" property="flowNo" jdbcType="BIGINT" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="studentId" property="studentId" jdbcType="BIGINT" />
+    <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="schoolName" property="schoolName" jdbcType="VARCHAR" />
+    <result column="drType" property="drType" jdbcType="TINYINT" />
+    <result column="registState" property="registState" jdbcType="INTEGER" />
+    <result column="registTime" property="registTime" jdbcType="TIMESTAMP" />
+    <result column="registPeriod" property="registPeriod" jdbcType="TIMESTAMP" />
+    <result column="waitDays" property="waitDays" jdbcType="INTEGER" />
+    <result column="bookResult" property="bookResult" jdbcType="INTEGER" />
+    <result column="examPlace" property="examPlace" jdbcType="VARCHAR" />
+    <result column="examDate" property="examDate" jdbcType="TIMESTAMP" />
+    <result column="examTime" property="examTime" jdbcType="VARCHAR" />
+    <result column="examOrder" property="examOrder" jdbcType="VARCHAR" />
+    <result column="queueTime" property="queueTime" jdbcType="TIMESTAMP" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="applystate" property="applystate" jdbcType="INTEGER" />
+    <result column="importState" property="importState" jdbcType="INTEGER" />
+    <result column="subjectId" property="subjectId" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tableNo, flowNo, schoolId, studentId, idNumber, name, schoolName, drType, registState, 
+    registTime, registPeriod, waitDays, bookResult, examPlace, examDate, examTime, examOrder, 
+    queueTime, isdel, applystate, importState, subjectId, ctime, mtime, extra
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollExamRegExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_exam_reg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollExamRegKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enroll_exam_reg
+    where tableNo = #{tableNo,jdbcType=VARCHAR}
+      and flowNo = #{flowNo,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lili.school.dto.EnrollExamRegKey" >
+    delete from t_enroll_exam_reg
+    where tableNo = #{tableNo,jdbcType=VARCHAR}
+      and flowNo = #{flowNo,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.EnrollExamRegExample" >
+    delete from t_enroll_exam_reg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.EnrollExamReg" >
+    insert into t_enroll_exam_reg (tableNo, flowNo, schoolId, 
+      studentId, idNumber, name, 
+      schoolName, drType, registState, 
+      registTime, registPeriod, waitDays, 
+      bookResult, examPlace, examDate, 
+      examTime, examOrder, queueTime, 
+      isdel, applystate, importState, 
+      subjectId, ctime, mtime, 
+      extra)
+    values (#{tableNo,jdbcType=VARCHAR}, #{flowNo,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, 
+      #{studentId,jdbcType=BIGINT}, #{idNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{schoolName,jdbcType=VARCHAR}, #{drType,jdbcType=TINYINT}, #{registState,jdbcType=INTEGER}, 
+      #{registTime,jdbcType=TIMESTAMP}, #{registPeriod,jdbcType=TIMESTAMP}, #{waitDays,jdbcType=INTEGER}, 
+      #{bookResult,jdbcType=INTEGER}, #{examPlace,jdbcType=VARCHAR}, #{examDate,jdbcType=TIMESTAMP}, 
+      #{examTime,jdbcType=VARCHAR}, #{examOrder,jdbcType=VARCHAR}, #{queueTime,jdbcType=TIMESTAMP}, 
+      #{isdel,jdbcType=TINYINT}, #{applystate,jdbcType=INTEGER}, #{importState,jdbcType=INTEGER}, 
+      #{subjectId,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{extra,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.EnrollExamReg" >
+    insert into t_enroll_exam_reg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tableNo != null" >
+        tableNo,
+      </if>
+      <if test="flowNo != null" >
+        flowNo,
+      </if>
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="studentId != null" >
+        studentId,
+      </if>
+      <if test="idNumber != null" >
+        idNumber,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="schoolName != null" >
+        schoolName,
+      </if>
+      <if test="drType != null" >
+        drType,
+      </if>
+      <if test="registState != null" >
+        registState,
+      </if>
+      <if test="registTime != null" >
+        registTime,
+      </if>
+      <if test="registPeriod != null" >
+        registPeriod,
+      </if>
+      <if test="waitDays != null" >
+        waitDays,
+      </if>
+      <if test="bookResult != null" >
+        bookResult,
+      </if>
+      <if test="examPlace != null" >
+        examPlace,
+      </if>
+      <if test="examDate != null" >
+        examDate,
+      </if>
+      <if test="examTime != null" >
+        examTime,
+      </if>
+      <if test="examOrder != null" >
+        examOrder,
+      </if>
+      <if test="queueTime != null" >
+        queueTime,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="applystate != null" >
+        applystate,
+      </if>
+      <if test="importState != null" >
+        importState,
+      </if>
+      <if test="subjectId != null" >
+        subjectId,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tableNo != null" >
+        #{tableNo,jdbcType=VARCHAR},
+      </if>
+      <if test="flowNo != null" >
+        #{flowNo,jdbcType=BIGINT},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="drType != null" >
+        #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="registState != null" >
+        #{registState,jdbcType=INTEGER},
+      </if>
+      <if test="registTime != null" >
+        #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registPeriod != null" >
+        #{registPeriod,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waitDays != null" >
+        #{waitDays,jdbcType=INTEGER},
+      </if>
+      <if test="bookResult != null" >
+        #{bookResult,jdbcType=INTEGER},
+      </if>
+      <if test="examPlace != null" >
+        #{examPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="examDate != null" >
+        #{examDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examTime != null" >
+        #{examTime,jdbcType=VARCHAR},
+      </if>
+      <if test="examOrder != null" >
+        #{examOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="queueTime != null" >
+        #{queueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="applystate != null" >
+        #{applystate,jdbcType=INTEGER},
+      </if>
+      <if test="importState != null" >
+        #{importState,jdbcType=INTEGER},
+      </if>
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.EnrollExamRegExample" resultType="java.lang.Integer" >
+    select count(*) from t_enroll_exam_reg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enroll_exam_reg
+    <set >
+      <if test="record.tableNo != null" >
+        tableNo = #{record.tableNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowNo != null" >
+        flowNo = #{record.flowNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentId != null" >
+        studentId = #{record.studentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.idNumber != null" >
+        idNumber = #{record.idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolName != null" >
+        schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drType != null" >
+        drType = #{record.drType,jdbcType=TINYINT},
+      </if>
+      <if test="record.registState != null" >
+        registState = #{record.registState,jdbcType=INTEGER},
+      </if>
+      <if test="record.registTime != null" >
+        registTime = #{record.registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.registPeriod != null" >
+        registPeriod = #{record.registPeriod,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.waitDays != null" >
+        waitDays = #{record.waitDays,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookResult != null" >
+        bookResult = #{record.bookResult,jdbcType=INTEGER},
+      </if>
+      <if test="record.examPlace != null" >
+        examPlace = #{record.examPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examDate != null" >
+        examDate = #{record.examDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.examTime != null" >
+        examTime = #{record.examTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examOrder != null" >
+        examOrder = #{record.examOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.queueTime != null" >
+        queueTime = #{record.queueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.applystate != null" >
+        applystate = #{record.applystate,jdbcType=INTEGER},
+      </if>
+      <if test="record.importState != null" >
+        importState = #{record.importState,jdbcType=INTEGER},
+      </if>
+      <if test="record.subjectId != null" >
+        subjectId = #{record.subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enroll_exam_reg
+    set tableNo = #{record.tableNo,jdbcType=VARCHAR},
+      flowNo = #{record.flowNo,jdbcType=BIGINT},
+      schoolId = #{record.schoolId,jdbcType=INTEGER},
+      studentId = #{record.studentId,jdbcType=BIGINT},
+      idNumber = #{record.idNumber,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      schoolName = #{record.schoolName,jdbcType=VARCHAR},
+      drType = #{record.drType,jdbcType=TINYINT},
+      registState = #{record.registState,jdbcType=INTEGER},
+      registTime = #{record.registTime,jdbcType=TIMESTAMP},
+      registPeriod = #{record.registPeriod,jdbcType=TIMESTAMP},
+      waitDays = #{record.waitDays,jdbcType=INTEGER},
+      bookResult = #{record.bookResult,jdbcType=INTEGER},
+      examPlace = #{record.examPlace,jdbcType=VARCHAR},
+      examDate = #{record.examDate,jdbcType=TIMESTAMP},
+      examTime = #{record.examTime,jdbcType=VARCHAR},
+      examOrder = #{record.examOrder,jdbcType=VARCHAR},
+      queueTime = #{record.queueTime,jdbcType=TIMESTAMP},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      applystate = #{record.applystate,jdbcType=INTEGER},
+      importState = #{record.importState,jdbcType=INTEGER},
+      subjectId = #{record.subjectId,jdbcType=INTEGER},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      extra = #{record.extra,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.EnrollExamReg" >
+    update t_enroll_exam_reg
+    <set >
+      <if test="schoolId != null" >
+        schoolId = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="studentId != null" >
+        studentId = #{studentId,jdbcType=BIGINT},
+      </if>
+      <if test="idNumber != null" >
+        idNumber = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolName != null" >
+        schoolName = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="drType != null" >
+        drType = #{drType,jdbcType=TINYINT},
+      </if>
+      <if test="registState != null" >
+        registState = #{registState,jdbcType=INTEGER},
+      </if>
+      <if test="registTime != null" >
+        registTime = #{registTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registPeriod != null" >
+        registPeriod = #{registPeriod,jdbcType=TIMESTAMP},
+      </if>
+      <if test="waitDays != null" >
+        waitDays = #{waitDays,jdbcType=INTEGER},
+      </if>
+      <if test="bookResult != null" >
+        bookResult = #{bookResult,jdbcType=INTEGER},
+      </if>
+      <if test="examPlace != null" >
+        examPlace = #{examPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="examDate != null" >
+        examDate = #{examDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examTime != null" >
+        examTime = #{examTime,jdbcType=VARCHAR},
+      </if>
+      <if test="examOrder != null" >
+        examOrder = #{examOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="queueTime != null" >
+        queueTime = #{queueTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="applystate != null" >
+        applystate = #{applystate,jdbcType=INTEGER},
+      </if>
+      <if test="importState != null" >
+        importState = #{importState,jdbcType=INTEGER},
+      </if>
+      <if test="subjectId != null" >
+        subjectId = #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tableNo = #{tableNo,jdbcType=VARCHAR}
+      and flowNo = #{flowNo,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.EnrollExamReg" >
+    update t_enroll_exam_reg
+    set schoolId = #{schoolId,jdbcType=INTEGER},
+      studentId = #{studentId,jdbcType=BIGINT},
+      idNumber = #{idNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      schoolName = #{schoolName,jdbcType=VARCHAR},
+      drType = #{drType,jdbcType=TINYINT},
+      registState = #{registState,jdbcType=INTEGER},
+      registTime = #{registTime,jdbcType=TIMESTAMP},
+      registPeriod = #{registPeriod,jdbcType=TIMESTAMP},
+      waitDays = #{waitDays,jdbcType=INTEGER},
+      bookResult = #{bookResult,jdbcType=INTEGER},
+      examPlace = #{examPlace,jdbcType=VARCHAR},
+      examDate = #{examDate,jdbcType=TIMESTAMP},
+      examTime = #{examTime,jdbcType=VARCHAR},
+      examOrder = #{examOrder,jdbcType=VARCHAR},
+      queueTime = #{queueTime,jdbcType=TIMESTAMP},
+      isdel = #{isdel,jdbcType=TINYINT},
+      applystate = #{applystate,jdbcType=INTEGER},
+      importState = #{importState,jdbcType=INTEGER},
+      subjectId = #{subjectId,jdbcType=INTEGER},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      extra = #{extra,jdbcType=VARCHAR}
+    where tableNo = #{tableNo,jdbcType=VARCHAR}
+      and flowNo = #{flowNo,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.EnrollExamRegExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_enroll_exam_reg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

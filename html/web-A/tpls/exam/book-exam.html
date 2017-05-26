@@ -1,0 +1,150 @@
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3 >考试管理 >> 约考管理 <span ng-if="flag == 2">>> 确认导入 </span></h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row" ng-show="flag == 1">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                	<div class="x_panel">
+                		<h4><p>您可以通过导入车管所下载的预约登记表来更新学员进度</p></h4>
+						<P>1.每周从车管所下载最新的各科目的学员考试预约登记表（车管所每周一更新）</P>
+						<p>2.再把各个科目的预约登记表上传到喱喱云解析即可更新学员进度</p>
+                	</div>
+                	<button class="btn btn-default btn-sm" ng-click="uploadfile()" ng-if="101113 | isAccessShow">上传约考批复表</button>
+                    <div class="x_title">
+						<a href="javascript:void(0);" class="underline" ng-if="101111 | isAccessShow">约考列表</a>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" ng-click="showPage()" ng-if="101112 | isAccessShow">操作日志</a>
+                    </div>
+					<div>
+						<div class="form-inline mb10" ng-if="101114 | isAccessShow">
+							<div class="form-group group-inline z-mr20">
+								<label>考试日期：</label>
+								<input id="b_startTime" type="text" onclick="laydate({format: 'YYYY-MM-DD'})" placeholder="开始时间" class="form-control input-sm" style="width:100px;"> -
+								<input id="b_endTime" type="text" onclick="laydate({format: 'YYYY-MM-DD'})" placeholder="结束时间" class="form-control input-sm" style="width:100px;">
+							</div>
+							<div class="form-group group-inline z-mr20">
+								<label>考试科目：</label>
+								<select ng-model="$parent.subjectName" class="form-control input-sm">
+                                    <option value="">全部科目</option>
+                                    <option value="科目一">科目一</option>
+                                    <option value="科目二">科目二</option>
+                                    <option value="科目三">科目三</option>
+                                    <option value="科目四">科目四</option>
+                                </select>
+							</div>
+							<div class="form-group group-inline z-mr20">
+								<label>是否符合条件：</label>
+									<select ng-model="$parent.isQualified" class="form-control input-sm">
+                                        <option value="">全部结果</option>
+                                        <option value="符合">符合</option>
+                                        <option value="不符合">不符合</option>
+                                	</select>
+							</div>
+							<div class="form-group group-inline z-mr20">
+								<label>考试学员：</label>
+								<input ng-model="$parent.condition" placeholder="学员姓名/证件号码" class="form-control input-sm" style="width:200px;">
+							</div>
+							<div class="form-group group-inline">
+								<button class="btn btn-default btn-sm mb0" ng-click="getDataList()">搜索</button>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+						<table class="table table-striped jambo_table bulk_action">
+	                            <thead>
+	                        <tr class="headings">
+	                            <th style='text-align: center;' class="column-title">考场名称</th>
+	                            <th style='text-align: center;' class="column-title">考试科目</th>
+								<th style='text-align: center;' class="column-title">考试日期</th>
+	                            <th style='text-align: center;' class="column-title">场次信息</th>
+	                            <th style='text-align: center;' class="column-title">所属驾校</th>
+	                            <th style='text-align: center;' class="column-title">学员姓名</th>
+	                            <th style='text-align: center;' class="column-title">流水号</th>
+	                            <th style='text-align: center;' class="column-title">身份证号</th>
+	                            <th style='text-align: center;' class="column-title">是否符合条件</th>
+	                            <th style='text-align: center;' class="column-title">说明</th>
+	                            <th style='text-align: center;' class="column-title">平台预约时间</th>
+	                            <th style='text-align: center;' class="column-title">系统读取时间</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr class="even pointer" ng-repeat="item in datas">
+	                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examPlace" ></td>
+	                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.subjectName" ></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.examDate | timeTexYMD" ></td>
+	                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examTime"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.schoolName"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.name"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.flowNo"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.idNumber"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.isQualified"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.comment"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.orderTime | timeTex"></td>
+								<td style="vertical-align:middle; text-align:center;" ng-bind="item.readTime | timeTex"></td>
+	                        </tr>
+	                    </tbody>
+	                    </table>
+	                    <div class="x_content">
+							<div class="page" >
+								<div id="copot-page" class="copot-page"></div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" ng-show="flag == 2">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+            	<div class="x_panel">
+            		<h4><p>成功上传 << {{name}} >></p></h4>
+					<p>共读取到 {{ count }} 条数据，其中有 {{ validCount }} 条有效数据，详情请查阅下表</p>
+					<div class="pull-right">
+		            	<button class="btn btn-default btn-sm" ng-click="confirmImport()">确认导入</button>
+		            	<button class="btn btn-default btn-sm" ng-click="cancelImport()">放弃导入</button>
+	            	</div>
+            	</div>
+            	<div class="x_title"></div>
+				<table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                        <tr class="headings">
+                            <th style='text-align: center;' class="column-title">考场名称</th>
+                            <th style='text-align: center;' class="column-title">考试科目</th>
+							<th style='text-align: center;' class="column-title">考试日期</th>
+                            <th style='text-align: center;' class="column-title">场次信息</th>
+                            <th style='text-align: center;' class="column-title">所属驾校</th>
+                            <th style='text-align: center;' class="column-title">学员姓名</th>
+                            <th style='text-align: center;' class="column-title">流水号</th>
+                            <th style='text-align: center;' class="column-title">身份证号</th>
+                            <th style='text-align: center;' class="column-title">是否符合条件</th>
+                            <th style='text-align: center;' class="column-title">说明</th>
+                            <th style='text-align: center;' class="column-title">互联网平台预约时间</th>
+                            <th style='text-align: center;' class="column-title">考试系统读取时间</th>
+                            <th style='text-align: center;' class="column-title">数据状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="item in importDatas">
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examPlace" ></td>
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examPlace.indexOf('安全文明') > 0 ? '科目四' : item.examPlace.substr(-3)" ></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.examDate | timeTexYMD" ></td>
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examTime"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.schoolName"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.name"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.flowNo"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.idNumber"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.isQualified"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.comment"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.orderTime | timeTex"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.readTime | timeTex"></td>
+							<td style="vertical-align:middle; text-align:center; color:red;" ng-bind="item.condition"></td>
+                        </tr>
+                    </tbody>
+                </table>
+			</div>
+        </div>
+    </div>
+	</div>

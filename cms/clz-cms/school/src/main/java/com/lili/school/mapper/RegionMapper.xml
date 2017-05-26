@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.dao.RegionMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.model.Region">
+		<result column="rid" property="rid" jdbcType="INTEGER" />
+		<result column="region" property="region" jdbcType="VARCHAR" />
+		<result column="rlevel" property="rlevel" jdbcType="INTEGER" />
+		<result column="pid" property="pid" jdbcType="INTEGER" />
+		<result column="isdel" property="isdel" jdbcType="INTEGER" />
+		<result column="cuid" property="cuid" jdbcType="INTEGER" />
+		<result column="muid" property="muid" jdbcType="INTEGER" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="shield" property="shield" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		rid,region,rlevel,pid,isdel,cuid,muid,ctime,mtime
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="rid != null and rid != ''">
+				and rid = #{rid}
+			</if>
+			<if test="rlevel != null and rlevel != ''">
+				and rlevel = #{rlevel}
+			</if>
+			<if test="isdel != null and isdel != ''">
+				and isdel = #{isdel}
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="findCityList" resultMap="BaseResultMap">
+		select
+				<include refid="Base_Column_List" />
+		from t_s_region
+			where isdel = 0 
+				<trim suffixOverrides=",">
+				<if test="rid != null">
+					and rid = #{rid}
+				</if>
+				<if test="region != null">
+					and region = #{region}
+				</if>
+				<if test="rlevel != null">
+					and rlevel = #{rlevel}
+				</if>
+				<if test="pid != null">
+					and pid = #{pid}
+				</if>
+				<if test="shield != null">
+					and shield = #{shield}
+				</if>
+			</trim>
+			order by mtime desc
+	</select>
+	
+	
+	<select id="findByName" resultMap="BaseResultMap">
+		select
+				<include refid="Base_Column_List" />
+		from t_s_region
+			where 1=1
+				<trim suffixOverrides=",">
+				<if test="region != null and region != ''">
+	           		 <![CDATA[and region = #{region}]]>  
+				</if>
+			</trim>
+	</select>
+
+	<select id="findOne" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_region
+		where rid = #{0}
+	</select>
+	
+	
+	<select id="findBatch" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_s_region
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_s_region
+		where rid = #{rid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="addOne" parameterType="com.lili.school.model.Region" useGeneratedKeys="true" keyProperty="rid">>
+		insert into t_s_region
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rid != null">
+				rid,
+			</if>
+			<if test="region != null">
+				region,
+			</if>
+			<if test="rlevel != null">
+				rlevel,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rid != null">
+				#{rid,jdbcType=INTEGER},
+			</if>
+			<if test="region != null">
+				#{region,jdbcType=VARCHAR},
+			</if>
+			<if test="rlevel != null">
+				#{rlevel,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateOne" parameterType="com.lili.school.model.Region">
+		update t_s_region
+		<set>
+			<if test="rid != null">
+				rid = #{rid,jdbcType=INTEGER},
+			</if>
+			<if test="region != null">
+				region = #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="rlevel != null">
+				rlevel = #{rlevel,jdbcType=INTEGER},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				isdel = #{carCount,jdbcType=INTEGER},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=INTEGER},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=INTEGER},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where rid = #{rid,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.model.Region">
+		update t_s_region
+		set
+		rid = #{rid,jdbcType=INTEGER},
+		region = #{region,jdbcType=VARCHAR},
+		rlevel = #{rlevel,jdbcType=INTEGER},
+		pid = #{pid,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=INTEGER},
+		cuid = #{cuid,jdbcType=INTEGER},
+		muid = #{muid,jdbcType=INTEGER},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where rid = #{rid,jdbcType=INTEGER}
+	</update>
+
+</mapper>

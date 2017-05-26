@@ -1,0 +1,160 @@
+<div ng-cloak>
+	<div class="coach-list y-comment">
+		<div class="coach-user">
+			<div class="y-box-flex">
+				<div class="photo" ng-class="{true:'isvip'}[coachinfo.extra==1]">
+					<img src="{{coachinfo.headimg}}" ng-if="coachinfo.headIcon">
+					<img src="img/user.png" ng-if="!coachinfo.headIcon">
+				</div>
+				<div class="userinfo">
+					<div class="name">
+						{{coachinfo.name}} 
+						<span ng-if='itemcoachinfoimportSrc'>{{coachinfo.importSrc}}</span>
+						<span ng-if='coachinfo.coachLevel'>{{coachinfo.coachLevel | goChines}}级</span>
+						<a class="phone mind" href="tel:{{coachinfo.phoneNum}}"><img src="img/icon/icon-phone.png"></a>
+					</div>
+					<div class="name">
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=20]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=40]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=60]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=80]"></div>
+						<div class="star" ng-class="{true:'active'}[coachinfo.starLevel>=100]"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15">
+		<div class="y-cell">
+			<div class="cell__bd">
+				车辆信息
+			</div>
+			<div class="cell__ft pr15">
+				<img src="img/{{order.dltype==1?'C1':'C2'}}-cai.png" class="img-auto mr5">{{order.carNo}}
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 mt10 border_bottom">
+		<a class="y-cell" ng-if="order.orderText == '待评价'" href="{{NURL}}order/commentAdd?orderId={{order.orderId}}">
+			<div class="cell__bd y-comment">
+				<div class="star"></div>
+				<div class="star"></div>
+				<div class="star"></div>
+				<div class="star"></div>
+				<div class="star"></div>
+			</div>
+			<div class="cell__ft pr15">
+				<i class="ion-chevron-right"></i>
+			</div>
+		</a>
+		<a class="y-cell" ng-if="order.orderText == '已完成'" ng-click="commentShow()">
+			<div class="cell__bd y-comment">
+				<div class="star" ng-class="{true:'active'}[comment.score>=1]"></div>
+				<div class="star" ng-class="{true:'active'}[comment.score>=2]"></div>
+				<div class="star" ng-class="{true:'active'}[comment.score>=3]"></div>
+				<div class="star" ng-class="{true:'active'}[comment.score>=4]"></div>
+				<div class="star" ng-class="{true:'active'}[comment.score>=5]"></div>
+			</div>
+			<div class="cell__ft pr15">
+				去评价<i class="ion-chevron-right"></i>
+			</div>
+		</a>
+		<div class="y-cell">
+			<div class="cell__bd">
+				课程	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.courseName}}
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				课时	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.clzNum}}学时
+			</div>
+		</div>
+		<div class="y-cell" ng-if="order.clzNum">
+			<div class="cell__bd">
+				上课人数	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.clzNum}}人
+			</div>
+		</div>
+		<div class="y-cell">
+			<div class="cell__bd">
+				上课时间	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.rstart | date:'yyyy-MM-dd HH:mm'}} ~ {{order.rend | date:'HH:mm'}}
+			</div>
+		</div>
+		
+		<div class="y-cell">
+			<div class="cell__bd">
+				课时费	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.price|priceTex}}元
+			</div>
+		</div>
+		<div class="y-cell" ng-if="order.learnAddr">
+			<div class="cell__bd">
+				训练场名称
+			</div>
+			<div class="cell__ft pr15">
+				{{order.learnAddr}}
+			</div>
+		</div>
+		<div class="y-cell" ng-if="!address.posDesc">
+			<div class="cell__bd">
+				训练场地址
+			</div>
+			<div class="cell__ft pr15">
+				<span>{{address.posDesc}}</span>
+			</div>
+		</div>
+	</div>
+	<div class="border_top bg_fff pl15 mt10" ng-if="order.payTime">
+		<div class="y-cell">
+			<div class="cell__bd">
+				实付金额	
+			</div>
+			<div class="cell__ft pr15 color_menu">
+				{{order.payTotal|priceTex}}元
+			</div>
+		</div>
+		<div class="y-cell" >
+			<div class="cell__bd">
+				付款时间	
+			</div>
+			<div class="cell__ft pr15">
+				{{order.payTime | date:'yyyy-MM-dd HH:mm:ss'}}
+			</div>
+		</div>
+	</div>
+	<div class="order-show-type mt10 mb30">
+		<div class="ordertype">{{order | orderType}}</div>
+	</div>
+</div>
+<div ng-if="order.orderText != '已完成' && order.orderText != '已取消' && order.orderText != '缺课' && order.orderText != '已超时' && order.orderText != '教练取消' && order.orderText != '已成功'">
+<div class="h80"></div>
+<div class="user-nav y-box-flex h40 pt5">
+	<div style="position: absolute; right: 0;">
+		<a class="button-nav erro w80 h30 lh30 mr15" ng-click="cancle_order()">取消订单</a>
+	</div>
+</div>
+</div>
+<div id="pop-loginout" ng-show="calloffshow">
+	<div class="pop-mask"></div>
+	<div class="pop-body">
+		<div class="title">取消订单</div>
+		<div class="comment">是否确定取消订单？</div>
+		<div class="btnbox">
+			<div class="btn erro" ng-click="calloffshow=false">取消</div>
+			<div class="btn" ng-click="calloff()">确定</div>
+		</div>
+	</div>
+</div>

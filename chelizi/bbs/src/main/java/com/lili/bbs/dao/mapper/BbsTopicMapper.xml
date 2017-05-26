@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.bbs.dao.mapper.BbsTopicMapper">
+	<resultMap id="BaseResultMap" type="com.lili.bbs.dto.BbsTopic">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="bbs_num" property="bbsNum" jdbcType="INTEGER" />
+		<result column="top_level" property="topLevel" jdbcType="TINYINT" />
+		<result column="user_type" property="userType" jdbcType="TINYINT" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="is_open" property="isOpen" jdbcType="TINYINT" />
+		<result column="is_del" property="isDel" jdbcType="TINYINT" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="cuid" property="cuid" jdbcType="BIGINT" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+		<result column="muid" property="muid" jdbcType="BIGINT" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, topic_name, icon, bbs_num, top_level, user_type, status, is_open,
+		is_del, ctime, cuid, mtime, muid
+	</sql>
+	
+	 <sql id="myRowBoundsSQL">
+	    <if test="myRowBounds != null">
+	        limit ${myRowBounds.offset}, ${myRowBounds.limit}
+		 </if>
+	 </sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" 	parameterType="java.lang.Integer">
+		select
+			<include refid="Base_Column_List" />
+		from t_s_bbs_topic
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="countBbsTopicSize" resultType="java.lang.Integer" parameterType="com.lili.bbs.dto.BbsTopic">
+		select  count(*)  from t_s_bbs_topic where is_del = 0
+	</select>
+	
+	<update id="updateTopicBbsNum" parameterType="com.lili.bbs.dto.BbsTopic">
+		update t_s_bbs_topic
+		set bbs_num=bbs_num +1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="queryBBSTopicList" resultMap="BaseResultMap" parameterType="com.lili.bbs.dto.BbsTopic">
+		select
+			<include refid="Base_Column_List" />
+		from t_s_bbs_topic
+		where is_del=0
+			<trim suffixOverrides=",">
+				<if test="userType != null and userType != ''">
+					and user_type = #{userType,jdbcType=INTEGER} 
+				</if>
+				<if test="status != null and status != '' or status==0">
+					and status = #{status,jdbcType=INTEGER} 
+				</if>
+				<if test="isOpen != null and isOpen != '' or isOpen==0">
+					and is_open = #{isOpen,jdbcType=INTEGER} 
+				</if>
+			</trim>
+			order by top_level asc
+			<include refid="myRowBoundsSQL" />
+	</select>
+	
+	<select id="queryBBSTopic" resultMap="BaseResultMap" parameterType="com.lili.bbs.dto.BbsTopic">
+		select
+			<include refid="Base_Column_List" />
+		from t_s_bbs_topic
+		where is_del = 0 
+			<trim suffixOverrides=",">
+				<if test="userType != null and userType != ''">
+					and user_type = #{userType,jdbcType=INTEGER} 
+				</if>
+				<if test="topicName != null and topicName != ''">
+					and topic_name = #{topicName,jdbcType=VARCHAR} 
+				</if>
+				<if test="id != null and id != ''">
+					and id = #{id,jdbcType=INTEGER} 
+				</if>
+				<if test="topLevel != null and topLevel != ''">
+					and top_level = #{topLevel,jdbcType=INTEGER} 
+				</if>
+			</trim>
+			limit 1
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_s_bbs_topic
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.bbs.dto.BbsTopic">
+		insert into t_s_bbs_topic (id, topic_name, icon,
+		bbs_num, top_level, user_type,
+		status, is_open, is_del,
+		ctime, cuid, mtime,
+		muid)
+		values (#{id,jdbcType=INTEGER}, #{topicName,jdbcType=VARCHAR},
+		#{icon,jdbcType=VARCHAR},
+		#{bbsNum,jdbcType=INTEGER}, #{topLevel,jdbcType=TINYINT}, #{userType,jdbcType=TINYINT},
+		#{status,jdbcType=TINYINT}, #{isOpen,jdbcType=TINYINT},
+		#{isDel,jdbcType=TINYINT},
+		#{ctime,jdbcType=TIMESTAMP}, #{cuid,jdbcType=BIGINT}, #{mtime,jdbcType=TIMESTAMP},
+		#{muid,jdbcType=BIGINT})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.bbs.dto.BbsTopic">
+		insert into t_s_bbs_topic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="topicName != null">
+				topic_name,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="bbsNum != null">
+				bbs_num,
+			</if>
+			<if test="topLevel != null">
+				top_level,
+			</if>
+			<if test="userType != null">
+				user_type,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="isOpen != null">
+				is_open,
+			</if>
+			<if test="isDel != null">
+				is_del,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="cuid != null">
+				cuid,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+			<if test="muid != null">
+				muid,
+			</if>
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="topicName != null">
+				#{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="bbsNum != null">
+				#{bbsNum,jdbcType=INTEGER},
+			</if>
+			<if test="topLevel != null">
+				#{topLevel,jdbcType=TINYINT},
+			</if>
+			<if test="userType != null">
+				#{userType,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="isOpen != null">
+				#{isOpen,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				#{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				#{muid,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.bbs.dto.BbsTopic">
+		update t_s_bbs_topic
+		<set>
+			<if test="topicName != null">
+				topic_name = #{topicName,jdbcType=VARCHAR},
+			</if>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="bbsNum != null">
+				bbs_num = #{bbsNum,jdbcType=INTEGER},
+			</if>
+			<if test="topLevel != null">
+				top_level = #{topLevel,jdbcType=TINYINT},
+			</if>
+			<if test="userType != null">
+				user_type = #{userType,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="isOpen != null">
+				is_open = #{isOpen,jdbcType=TINYINT},
+			</if>
+			<if test="isDel != null">
+				is_del = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cuid != null">
+				cuid = #{cuid,jdbcType=BIGINT},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="muid != null">
+				muid = #{muid,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.bbs.dto.BbsTopic">
+		update t_s_bbs_topic
+		set topic_name = #{topicName,jdbcType=VARCHAR},
+		icon = #{icon,jdbcType=VARCHAR},
+		bbs_num = #{bbsNum,jdbcType=INTEGER},
+		top_level = #{topLevel,jdbcType=TINYINT},
+		user_type = #{userType,jdbcType=TINYINT},
+		status = #{status,jdbcType=TINYINT},
+		is_open = #{isOpen,jdbcType=TINYINT},
+		is_del = #{isDel,jdbcType=TINYINT},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		cuid = #{cuid,jdbcType=BIGINT},
+		mtime = #{mtime,jdbcType=TIMESTAMP},
+		muid = #{muid,jdbcType=BIGINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

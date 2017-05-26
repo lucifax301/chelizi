@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Bonus">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>余额管理</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content bonus-content order-detail data-statistics student-position">
+	<div class="title ">
+		<div class="d-title">余额管理</div>
+		<ul class="table-li">
+			<li class="active" ng-if="130401|isAccessShow"><a href="bonus.html">奖金列表</a></li>
+			<li><a href="bonus-balance.html" ng-if="130501|isAccessShow">变更余额列表</a></li>
+		</ul>
+	</div>
+
+	<!-- 主体内容 -->
+	<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header">奖金列表</div>
+			<div class="content">
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-click="createFileForm()" ng-if="130403|isAccessShow" class="btn btn-sm btn-primary">导入新表</a>
+						<a ng-click="downLoadTemp()" ng-if="130402|isAccessShow" class="btn btn-sm btn-primary">模板下载</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td><b>提交时间</b></td>
+					  	<td><b>奖金项目名称</b></td>
+					  	<td><b>获奖人数</b></td>
+					  	<td><b>总奖金(元)</b></td>
+					  	<td><b>状态</b></td>
+					  	<td><b>提交人</b></td>
+					  	<td><b>处理人</b></td>
+					  	<td><b>处理时间</b></td>
+					  	<td><b>备注</b></td>
+					  	<td><b>操作</b></td>
+					  </tr>
+					  <tr ng-repeat="item in datas">
+					  	<td ng-bind="item.createTime | timeTex"></td>
+					  	<td><a href="javascript:void(0)" ng-click="alertBonusDetails(item.id)" ng-bind="item.bonusName"></a></td>
+					  	<td ng-bind="item.bonusNum"></td>
+					  	<td ng-bind="item.bonusMoney/100"></td>
+					  	<td ng-class="{oringe: item.status==2, green: item.status==3,error:item.status==5}" ng-bind="item.status | bonusStatusText"></td>
+					  	<td ng-bind="item.creator"></td>
+					  	<td ng-bind="item.verifier"></td>
+					  	<td ng-bind="item.verifieTime | timeTex"></td>
+					  	<td ng-bind="item.remark | limitTo:40"></td>
+					  	<td class="operation">
+					  		<a ng-click="confirmSubmit($event,item.id)" ng-if="130404|isAccessShow" ng-show="item.status==1" class="btn btn-xs btn-default btn-primary">确认提交</a>
+					  		<a ng-click="deteleSubmit(item.id)" ng-if="130405|isAccessShow" ng-show="item.status==1" class="btn btn-xs btn-default btn-danger">删除</a>
+					  		<a ng-click="successSubmit($event,item.id)" ng-if="130406|isAccessShow" ng-show="item.status==2" class="btn btn-xs btn-default btn-success">发放奖金</a>
+					  		<a ng-click="financialRejectionSubmit(item.id)" ng-if="130407|isAccessShow" ng-show="item.status==2" class="btn btn-xs btn-default btn-danger">财务拒绝</a>
+					  	</td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/bonus.js"></script>
+</body>
+</html>

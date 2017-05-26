@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.cms.IBonusDao" >
+  <resultMap id="BaseResultMap" type="com.lili.finance.vo.BonusVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bonus_name" property="bonusName" jdbcType="VARCHAR" />
+    <result column="bonus_num" property="bonusNum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="bonus_money" property="bonusMoney" jdbcType="INTEGER" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="verifier" property="verifier" jdbcType="VARCHAR" />
+    <result column="verifie_time" property="verifieTime" jdbcType="TIMESTAMP" />
+    <result column="award" property="award" jdbcType="VARCHAR" />
+    <result column="award_time" property="awardTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <sql id="Base_Column_List" >
+    id, bonus_name, bonus_num, status, bonus_money, creator, create_time, verifier, verifie_time, 
+    award, award_time, remark
+  </sql>
+  
+  <select id="queryList" resultMap="BaseResultMap"  parameterType="com.lili.finance.vo.BonusVo" >
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_u_bonus
+	   		where 1=1
+			<trim suffixOverrides=",">
+				<if test="bonusName != null and bonusName != ''">
+					and bonus_name = #{bonusName}
+				</if>
+				<if test="status != null and status != ''">
+					and status = #{status}
+				</if>
+			</trim>
+			order by create_time desc
+  </select>
+  
+  <select id="queryBonus" resultMap="BaseResultMap"  parameterType="com.lili.finance.vo.BonusVo" >
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_u_bonus
+	   		where 1=1
+			<trim suffixOverrides=",">
+				<if test="bonusName != null and bonusName != ''">
+					and bonus_name = #{bonusName}
+				</if>
+				<if test="bonusNum != null and bonusNum != ''">
+					and bonus_num = #{bonusNum}
+				</if>
+				<if test="bonusMoney != null and bonusMoney != ''">
+					and bonus_money = #{bonusMoney}
+				</if>
+			</trim>
+			and status = 1
+			order by id desc limit 1
+  </select>
+  
+  <select id="queryBonusInfo" resultMap="BaseResultMap"  parameterType="com.lili.finance.vo.BonusVo" >
+	    select 
+	    		<include refid="Base_Column_List" />
+	    from t_u_bonus
+	   		where 1=1
+			<trim suffixOverrides=",">
+				<if test="id != null and id != ''">
+					and id = #{id}
+				</if>
+			</trim>
+			order by id desc limit 1
+  </select>
+  
+   <update id="updateState" parameterType="com.lili.finance.vo.BonusVo" >
+    update t_u_bonus
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="verifier != null" >
+        verifier = #{verifier,jdbcType=VARCHAR},
+      </if>
+      <if test="verifieTime != null" >
+        verifie_time = #{verifieTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="award != null" >
+        award = #{award,jdbcType=VARCHAR},
+      </if>
+      <if test="awardTime != null" >
+        award_time = #{awardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_bonus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_u_bonus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.lili.finance.vo.BonusVo" >
+    insert into t_u_bonus (id, bonus_name, bonus_num, 
+      status, bonus_money, creator, 
+      create_time, verifier, verifie_time, 
+      award, award_time, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{bonusName,jdbcType=VARCHAR}, #{bonusNum,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{bonusMoney,jdbcType=INTEGER}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{verifier,jdbcType=VARCHAR}, #{verifieTime,jdbcType=TIMESTAMP}, 
+      #{award,jdbcType=VARCHAR}, #{awardTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.lili.finance.vo.BonusVo" >
+    insert into t_u_bonus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bonusName != null" >
+        bonus_name,
+      </if>
+      <if test="bonusNum != null" >
+        bonus_num,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="bonusMoney != null" >
+        bonus_money,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="verifier != null" >
+        verifier,
+      </if>
+      <if test="verifieTime != null" >
+        verifie_time,
+      </if>
+      <if test="award != null" >
+        award,
+      </if>
+      <if test="awardTime != null" >
+        award_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bonusName != null" >
+        #{bonusName,jdbcType=VARCHAR},
+      </if>
+      <if test="bonusNum != null" >
+        #{bonusNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bonusMoney != null" >
+        #{bonusMoney,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="verifier != null" >
+        #{verifier,jdbcType=VARCHAR},
+      </if>
+      <if test="verifieTime != null" >
+        #{verifieTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="award != null" >
+        #{award,jdbcType=VARCHAR},
+      </if>
+      <if test="awardTime != null" >
+        #{awardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.finance.vo.BonusVo" >
+    update t_u_bonus
+    <set >
+      <if test="bonusName != null" >
+        bonus_name = #{bonusName,jdbcType=VARCHAR},
+      </if>
+      <if test="bonusNum != null" >
+        bonus_num = #{bonusNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bonusMoney != null" >
+        bonus_money = #{bonusMoney,jdbcType=INTEGER},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="verifier != null" >
+        verifier = #{verifier,jdbcType=VARCHAR},
+      </if>
+      <if test="verifieTime != null" >
+        verifie_time = #{verifieTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="award != null" >
+        award = #{award,jdbcType=VARCHAR},
+      </if>
+      <if test="awardTime != null" >
+        award_time = #{awardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.lili.finance.vo.BonusVo" >
+    update t_u_bonus
+    set bonus_name = #{bonusName,jdbcType=VARCHAR},
+      bonus_num = #{bonusNum,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      bonus_money = #{bonusMoney,jdbcType=INTEGER},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      verifier = #{verifier,jdbcType=VARCHAR},
+      verifie_time = #{verifieTime,jdbcType=TIMESTAMP},
+      award = #{award,jdbcType=VARCHAR},
+      award_time = #{awardTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+	<select id="getYesterdayMoney"  resultType="java.lang.Long">
+		 SELECT <![CDATA[ ifnull(SUM(bonus_money),0) bonusMoney ]]> FROM  t_u_bonus where
+		<![CDATA[ DATE_FORMAT(award_time,'%Y-%m-%d') = date_sub( curdate(), interval 1 day) ]]> 
+	</select>
+  
+</mapper>

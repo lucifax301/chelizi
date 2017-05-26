@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Student">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>训练场</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>训练场</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">训练场列表</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>所属城市</div>
+						<select ng-model="cityId" ng-change="getDataForCity()" class="form-control jia-xiao">
+							<option value="">---请选择市---</option>
+							<option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>所属驾校</div>
+						<select ng-model="schoolNo" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">---选择驾校---</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>训练场查询</div>
+						<div class="input-group">
+					      <input type="text" ng-model="name" class="form-control" placeholder="输入训练场查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-if="120702|isAccessShow" ng-click="siteEdit('add')" class="btn btn-sm btn-primary">新增训练场</a>
+						<a ng-if="120704|isAccessShow" ng-click="fieldDataExport()" class="btn btn-sm btn-primary margin-left-15">数据导出</a>
+						<a ng-click="fieldDisconnected()" class="btn btn-sm btn-primary margin-left-15">激活启用</a>
+						<a ng-click="fieldMaintenance ()" class="btn btn-sm btn-primary margin-left-15">停用维护</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+						<tr>
+							<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+							<td><b>训练场</b></td>
+							<td><b>所属驾校</b></td>
+							<td><b>所属城市</b></td>
+							<td><b>位置</b></td>
+							<td><b>训练场面积(m²)</b></td>
+							<td><b>联系电话</b></td>
+							<td><b>启用状态</b></td>
+							<td><b>操作</b></td>
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td align="center"><input type="checkbox" id="{{data.fieldId}}" ng-click="updateSelection($event,data.fieldId)" ng-checked="isSelected(data.fieldId)"></td>
+							<td><a href="field-details.html?fieldId={{ data.fieldId }}" ng-bind="data.name" ng-if="(120706|isAccessShow)&&(120705|isAccessShow)"></a><span ng-bind="data.name" ng-if="!((120706|isAccessShow)&&(120705|isAccessShow))"></span></td>
+							<td ng-bind="data.schoolName"></td>
+							<td ng-bind="data.city"></td>
+							<td ng-bind="data.posDesc"></td>
+							<td ng-bind="data.reverseLim"></td>
+							<td ng-bind="data.phoneNum"></td>
+							<td ng-bind="data.isdel==0?'启用中':'已停用'"></td>
+							<td class="operation"><span class="edit" ng-if="120703|isAccessShow" ng-click="siteEdit('edit',data)">编辑</span></td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 训练场信息编辑 | 新增 -->
+		<ng-include src="'edit/edit-field.html'" onload="siteEditLoad()" ></ng-include>
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/field.js"></script>
+</body>
+</html>

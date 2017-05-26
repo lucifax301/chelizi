@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="BonusDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>奖金</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<script src="assets/common/js/jquery-1.11.3.min.js?v=cdcf7fad161473298817674"></script>
+	<script src="assets/common/js/common.js?v=1b43e91ef71473298817674"></script>
+</head>
+<body>
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped table-with-style">
+			  <tr>
+			  	<td><b>获奖人</b></td>
+			  	<td><b>电话</b></td>
+			  	<td><b>所属城市</b></td>
+			  	<td><b>获奖理由</b></td>
+			  	<td><b>奖金</b></td>
+			  	<td><b>发放状态</b></td>
+			  </tr>
+			  <tr ng-repeat="item in datas">
+			  	<td ng-bind="item.coachName"></td>
+			  	<td ng-bind="item.phoneNum"></td>
+			  	<td ng-bind="item.region"></td>
+			  	<td ng-bind="item.bonusReason"></td>
+			  	<td ng-bind="item.money/100"></td>
+			  	<td ng-class="{green: item.status==1, error: item.status==2}" ng-bind="item.status | bonusStatusDetailsText"></td>
+			  </tr>
+			</table>
+		</div>
+		<div class="page text-right">
+			<div id="copot-page" class="copot-page"></div>
+		</div>
+	</div>	
+<!-- script -->
+<script src="assets/common/js/angular.min.js?v=83eedabcb41473298817659"></script>
+<script src="assets/js/function.js?v=fe1f3ece7f1473298817659"></script>
+<script src="assets/common/js/PopLayer.js?v=cf019d76d41473298817674"></script>
+<script src="assets/common/js/Page.js?v=c2ecd6837e1473298817674"></script>
+<script src="assets/js/ng-js/angular-filter.js?v=3cc18246221473298817674"></script>
+<script src="assets/js/ng-js/bonus-details.js?v=9b1844d2921473298817674"></script>
+</body>
+</html>

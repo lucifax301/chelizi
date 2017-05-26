@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.common.UserMoneyDao" >
+  <resultMap id="BaseResultMap" type="com.lili.finance.vo.UserMoneyVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="userType" property="userType" jdbcType="TINYINT" />
+    <result column="operateType" property="operateType" jdbcType="TINYINT" />
+    <result column="changeValue" property="changeValue" jdbcType="INTEGER" />
+    <result column="operateTime" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="payWay" property="payWay" jdbcType="VARCHAR" />
+    <result column="leftValue" property="leftValue" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isEarning" property="isEarning" jdbcType="INTEGER" />
+    <result column="isBalance" property="isBalance" jdbcType="INTEGER" />
+    <result column="tranObject" property="tranObject" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, userType, operateType, changeValue, operateTime, payWay, leftValue, remark, orderId,status,isEarning, isBalance, tranObject
+  </sql>
+  
+   <update id="updateUserStatus" parameterType="java.util.List" >
+	    update t_u_money
+	    		set  status =1
+	    where 1=1 and 	orderId in 
+			<foreach collection="list" index="index" item="item" open="("	separator="," close=")"> #{item} 	</foreach>
+  </update>
+  
+   <update id="updateUserStatusFail" parameterType="java.util.List" >
+	    update t_u_money
+	    		set  status =2
+	    where 1=1 and 	orderId in 
+			<foreach collection="list" index="index" item="item" open="("	separator="," close=")"> #{item} 	</foreach>
+  </update>
+  
+  <insert id="insertUserMoneyList" parameterType="java.util.List" >
+	    insert into t_u_money (userId, userType, operateType, changeValue, operateTime, payWay, leftValue, remark,orderId,status,isEarning,isBalance,tranObject)values
+			<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+				(#{item.userId},#{item.userType},#{item.operateType},#{item.changeValue},#{item.operateTime},#{item.payWay},#{item.leftValue},
+				#{item.remark},#{item.orderId},#{item.status},#{item.isEarning},#{item.isBalance},#{item.tranObject})
+		</foreach>
+  </insert>
+  
+  <insert id="insertUserMoneyInfo" parameterType="com.lili.finance.vo.UserMoneyVo" >
+    insert into t_u_money (id, userId, userType, 
+      operateType, changeValue, operateTime, 
+      payWay, leftValue, remark,orderId,status,isEarning
+      ,isBalance
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{userType,jdbcType=TINYINT}, 
+      #{operateType,jdbcType=TINYINT}, #{changeValue,jdbcType=INTEGER}, #{operateTime,jdbcType=TIMESTAMP}, 
+      #{payWay,jdbcType=VARCHAR}, #{leftValue,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{orderId, jdbcType=VARCHAR}
+      , #{status,jdbcType=INTEGER}}, #{isEarning,jdbcType=INTEGER}, #{isBalance,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <resultMap id="ArrayResultMap" type="com.lili.finance.vo.UserMoneyVo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="BIGINT" />
+    <result column="userType" property="userType" jdbcType="TINYINT" />
+    <result column="operateType" property="operateType" jdbcType="TINYINT" />
+    <result column="changeValue" property="changeValue" jdbcType="INTEGER" />
+    <result column="operateTime" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="payWay" property="payWay" jdbcType="VARCHAR" />
+    <result column="leftValue" property="leftValue" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="isEarning" property="isEarning" jdbcType="INTEGER" />
+    <result column="isBalance" property="isBalance" jdbcType="INTEGER" />
+    <result column="saveValue" property="saveValue" jdbcType="INTEGER" />
+    <result column="expendValue" property="expendValue" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="waterNum" property="waterNum" jdbcType="VARCHAR" />
+    <result column="tranObject" property="tranObject" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <select id="queryUserDetailList"  resultMap="ArrayResultMap" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 	 <include refid="Base_Column_List" />
+			from  t_u_money m where 1=1 and m.isBalance = 1
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId != ''">
+					and m.userId = #{userId}
+				</if>
+				<if test="userType != null and userType != ''">
+					and m.userType = #{userType}
+				</if>
+				<if test="operateType != null and operateType != '' or operateType==0">
+					and m.operateType = #{operateType}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+	 				and  DATE(m.operateTime) between #{startTime} and #{endTime} 
+				</if>
+			</trim>
+			order by m.operateTime desc
+  </select>
+  
+   <select id="queryCostDetailList"  resultMap="ArrayResultMap" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 	 id, userId, userType, operateType, changeValue * -1 as changeValue, 
+		operateTime, payWay, leftValue, remark, orderId,status,isEarning, isBalance, tranObject
+			from  t_u_money m where 1=1 and m.isEarning = 0
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId != ''">
+					and m.userId = #{userId}
+				</if>
+				<if test="userType != null and userType != ''">
+					and m.userType = #{userType}
+				</if>
+				<if test="operateType != null and operateType != '' or operateType==0">
+					and m.operateType = #{operateType}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+	 				and  DATE(m.operateTime) between #{startTime} and #{endTime} 
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and orderId = #{orderId}
+				</if>
+			</trim>
+			order by m.operateTime desc
+  </select>
+  
+   <select id="queryPayHistoryList"  resultMap="ArrayResultMap">
+		select <include refid="Base_Column_List" />,
+				CASE m.userType
+				WHEN 1 THEN
+					c. NAME
+				WHEN 2 THEN
+					s. NAME
+				END AS NAME,
+				 CASE m.userType
+				WHEN 1 THEN
+					c.phoneNum
+				WHEN 2 THEN
+					s.phoneNum
+				END AS phoneNum,
+					(select p.waterNum from db_log.t_log_pay p where p.orderId=m.orderId) as waterNum
+			from
+				t_u_money m
+					left join t_u_student s  on m.userType = 2 and m.userId = s.studentId
+					left join t_u_coach c  on m.userType=1 and m.userId = c.coachId
+			where m.operateType = 0
+				<trim suffixOverrides=",">
+					<if test="userType != null and userType != ''">
+						and m.userType = #{userType}
+					</if>
+					<if test="phoneNum != null and phoneNum != ''">
+						and case when m.userType=1
+									then c.phoneNum = #{phoneNum}
+							 	when m.userType=2
+							 		then s.phoneNum= #{phoneNum}
+							 	else
+							 	1=1
+						end
+					</if>
+					<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+		 				and  DATE(m.operateTime) between #{startTime} and #{endTime} 
+					</if>
+				</trim>
+			order by m.operateTime desc
+  </select>
+  
+   <select id="queryTotalBalancePaid"  resultType="java.lang.Long">
+		SELECT <![CDATA[ ifnull(sum(changeValue),0) balancePaid]]>
+		FROM  t_u_money
+		where payWay='balance' AND 
+		<![CDATA[ DATE_FORMAT(operateTime,'%Y-%m-%d') = date_sub( curdate(), interval 1 day) ]]> 
+		and userType in (1,2)
+  </select>
+  
+   <select id="queryTotalRecharge"  resultType="java.lang.Long">
+		SELECT <![CDATA[ ifnull(sum(changeValue),0) recharge]]>
+		FROM  t_u_money
+		where  operateType in (0,18) AND 
+		<![CDATA[ DATE_FORMAT(operateTime,'%Y-%m-%d') = date_sub( curdate(), interval 1 day) ]]> 
+		and userType in (1,2)
+  </select>
+  
+   <select id="queryIncome"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as income
+		from  t_u_money 
+		where isEarning=1
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+  
+   <select id="queryExpenseFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as expenseFree
+		from  t_u_money 
+		where isEarning=0
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+   <select id="queryCourseFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as courseFree
+		from  t_u_money 
+		where  operateType =5
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+  
+   <select id="queryEnrollFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as enrollFree
+		from  t_u_money 
+		where  operateType =7
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+   <select id="queryComFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as comFree
+		from  t_u_money 
+		where  operateType in (8,9)
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+
+   <select id="queryRefundFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as refundFree
+		from  t_u_money 
+		where  operateType in (10,11)
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+  
+   <select id="queryFineFree"  resultType="java.lang.Integer" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		select 
+			 ifnull(sum(ABS(changeValue)),0)  as fineFree
+		from  t_u_money 
+		where  operateType=12
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="operateTime != null and operateTime !='' ">
+					and  date_format(operateTime,'%Y-%m')=date_format(#{operateTime},'%Y-%m')
+				</if>
+			</trim>
+  </select>
+  
+   <select id="querySumMoneyByIsEarning"  resultType="java.lang.Long" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <![CDATA[ifnull(sum(ABS(changeValue)),0) recharge]]>
+		FROM  t_u_money
+		where  1=1
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="yearMonth != null and yearMonth !=''">
+					and EXTRACT(YEAR_MONTH FROM operateTime) =#{yearMonth}
+				</if>
+			</trim>
+  </select>
+  
+   <select id="querySumMoneyFlowOut"  resultType="java.lang.Long" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <![CDATA[ifnull(sum(-1*(changeValue)),0) recharge]]>
+		FROM  t_u_money
+		where  1=1 and isEarning = 0
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and orderId = #{orderId}
+				</if>
+				<if test="operateType != null and operateType != '' or operateType==0">
+					and operateType = #{operateType}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+	 				and  DATE(operateTime) between #{startTime} and #{endTime} 
+				</if>
+			</trim>
+  </select>
+   <select id="querySumMoneyFlowIn"  resultType="java.lang.Long" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <![CDATA[ifnull(sum(changeValue),0) recharge]]>
+		FROM  t_u_money
+		where  1=1 and isEarning = 1
+			<trim suffixOverrides=",">
+				<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and orderId = #{orderId}
+				</if>
+				<if test="operateType != null and operateType != '' or operateType==0">
+					and operateType = #{operateType}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+	 				and  DATE(operateTime) between #{startTime} and #{endTime} 
+				</if>
+			</trim>
+  </select>
+  
+   <select id="queryTouchBalance"  resultMap="ArrayResultMap" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <include refid="Base_Column_List" />
+		FROM  t_u_money
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="isEarning != null and isEarning !='' or isEarning==0">
+					and isEarning = #{isEarning}
+				</if>
+				<if test="isBalance != null and isBalance !='' or isBalance==0">
+					and isBalance = #{isBalance}
+				</if>
+				<if test="orderId != null and orderId != ''">
+					and orderId = #{orderId}
+				</if>
+				<if test="operateType != null and operateType != '' or operateType==0">
+					and operateType = #{operateType}
+				</if>
+				<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+	 				and  DATE(operateTime) between #{startTime} and #{endTime} 
+				</if>
+					<if test="userId != null and userId !=''">
+					and userId = #{userId}
+				</if>
+				<if test="userType != null and userType !=''">
+					and userType = #{userType}
+				</if>
+			</trim>
+		order by operateTime desc
+  </select>
+  
+   <select id="queryTotalDeposit"  resultType="java.lang.Long" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <![CDATA[ ifnull(sum(changeValue),0) deposit]]>
+		FROM  t_u_money
+		where  operateType=1 AND 
+		<![CDATA[ DATE_FORMAT(operateTime,'%Y-%m-%d') = date_sub( curdate(), interval 1 day) ]]> 
+		and userType in (1,2)
+  </select>
+  
+   <select id="queryTotalBonus"  resultType="java.lang.Long" parameterType="com.lili.finance.vo.UserMoneyVo" >
+		SELECT <![CDATA[ ifnull(sum(changeValue),0) recharge]]>
+		FROM  t_u_money
+		where  operateType=2 AND 
+		<![CDATA[ DATE_FORMAT(operateTime,'%Y-%m-%d') = date_sub( curdate(), interval 1 day) ]]> 
+		and userType in (1,2)
+  </select>
+  
+</mapper>

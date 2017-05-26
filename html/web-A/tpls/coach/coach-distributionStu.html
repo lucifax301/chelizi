@@ -1,0 +1,881 @@
+    <div class="right_col" role="main">
+        <div class="page-title">
+            <div class="title_left" style="margin-top:8px;">
+                <h3>学员列表</h3>
+            </div>
+ 
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+
+                    <div class="x_content">
+						<div class="form-inline">
+                                <div class="form-group group-inline z-mr20 z-mb10">
+                                    <label>报名日期：</label>
+                                    <input id="startTime" type="text" onclick="laydate({format: 'YYYY-MM-DD'})" placeholder="开始时间" class="form-control input-sm" style="width:100px;"> -
+                                    <input id="endTime" type="text" onclick="laydate({format: 'YYYY-MM-DD'})" placeholder="结束时间" class="form-control input-sm" style="width:100px;">
+                                </div>
+								<div class="form-group group-inline z-mr20 z-mb10">
+                                    <label>学员姓名/手机号/证件号：</label>
+                                    <input ng-model="condition" placeholder="姓名/手机号码/证件号" class="form-control input-sm" style="width:210px;">
+                                </div>
+                               
+                        </div>
+						<div class="form-inline">
+								<div class="form-group group-inline z-mr20 z-mb10" >
+                                    <label>所属班别：</label>
+                                    <select ng-model="workType" class="form-control input-sm" style="width:210px;">
+                           
+                                    </select>
+                                </div>
+                                <div class="form-group group-inline z-mr20 z-mb10">
+                                    <label>所属门店：</label>
+                                    <select ng-model="status" class="form-control input-sm" style="width:100px;">
+                                    </select>
+									<select ng-model="status" class="form-control input-sm" style="width:100px;">
+                                    </select>
+									<select ng-model="status" class="form-control input-sm" style="width:100px;">
+                                    </select>
+                                </div>
+                                <div class="form-group group-inline z-mb10">
+                                    <button class="btn btn-default btn-sm mb0" ng-click="getDataList()">搜索</button>
+                                </div>
+						</div>
+					
+					
+                        <div class="table-responsive">
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings">
+  
+                                    <th style='text-align: center;' class="column-title">学员姓名 </th>
+									<th style='text-align: center;' class="column-title">性别 </th>
+                                    <th style='text-align: center;' class="column-title">手机号码 </th>
+									<th style='text-align: center;' class="column-title">证件号码 </th>
+                                    <th style='text-align: center;' class="column-title">培训车型 </th>
+									<th style='text-align: center;' class="column-title">报名时间 </th>
+									<th style='text-align: center;' class="column-title">所属班别 </th>	
+									<th style='text-align: center;' class="column-title">带教教练 </th>
+									<th style='text-align: center;' class="column-title">流水号 </th>
+                                    <th style='text-align: center;' class="column-title">学车状态 </th>
+                                    <th style='text-align: center;'class="column-title">所属片区</th>
+									 <th style='text-align: center;'class="column-title">所属代理商</th>
+									 <th style='text-align: center;'class="column-title">所属门店</th>
+                                    <th style='text-align: center;'class="column-title no-link last"><span class="nobr">操作</span>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in datas">
+      
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.name" ></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.sex | sexText" ></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.phone"><i class="success fa fa-long-arrow-up"></i></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.idcard"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.traintype"></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.applydate"></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.className"></td>
+									<td style="vertical-align:middle; text-align:center;" ng-bind="item.coachNames" ></td>
+									<td style="vertical-align:middle; text-align:center;"  >流水号</td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.applyexam | applyexamText"></td>
+									<td style="vertical-align:middle; text-align:center;"  >所属片区</td>
+									<td style="vertical-align:middle; text-align:center;"  >所属代理商</td>
+									<td style="vertical-align:middle; text-align:center;"  >所属门店</td>
+									
+									
+									<td class="last" style="vertical-align:middle; text-align:center;" >
+										<span class="click-green" ng-click="distribution($index)" href="javascript:void(0);" >分配</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="page" >
+                            <div id="copot-page" class="copot-page"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- 新增弹框-->
+    <div class="modal fade bs-example-modal-lg" id="addmodal" >
+        <div class="modal-dialog modal-lg"  >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">新增学员</h4>
+                </div>
+
+                <div class="x_panel"  style="">
+
+                    <div class="x_content"  >
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="addform" name="myForm" ng-submit="submitAddForm(myForm.$valid)">
+
+						<div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">姓名 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+										<input type="text" class="form-control"   placeholder="请输入姓名" required name="name" ng-model="saveData.name" ng-pattern="/^[\da-zA-Z\u4E00-\u9FA5]{0,20}$/">
+										<span style="color:red" ng-show="myForm.name.$error.required && myForm.name.$dirty">姓名是必须的。</span>
+										<span class="help-inline" style="color:red" ng-show="!myForm.name.$error.required && myForm.name.$invalid">最长为20个字符。</span>
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">性别 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <select class="form-control" ng-model="saveData.sex"   ng-options="o.id as o.value for o in sexDatas">
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+						 <div class="row">
+                        </div>
+						 <div class="row">
+                            
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">身份证号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12"> 
+                                           <input type="text" class="form-control"   placeholder="输入身份证号码" required name="idcard" ng-model="saveData.idcard" ng-pattern="/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/">
+									   <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.idcard.$valid"></span>
+									   <span style="color:red" ng-show="myForm.idcard.$error.required && myForm.idcard.$dirty">身份证号码是必须的。</span>
+									   <span class="help-inline" style="color:red" ng-show="!myForm.idcard.$error.required && myForm.idcard.$invalid">必须是正确身份证号码。</span> 
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">业务类型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select class="form-control" ng-model="saveData.busitype"  ng-options="o.id as o.value for o in busitypeDatas">
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+						 <div class="row">
+                            
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">培训车型 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <select class="form-control" ng-model="saveData.traintype"  ng-options="o.id as o.value for o in traintypeDatas">
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+								<div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">报名时间 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12" id="divTime">
+										<input id="q_startDate" type="text" class="form-control"    placeholder="" ng-model="applydate" >
+                                        <span style="color:red" ng-show="timeAddMsg">日期格式不正确。</span>
+									</div>
+                                </div> 
+                            </div>
+                        </div>
+
+
+						 <div class="row">
+                            
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">报名方式 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                         <select class="form-control" ng-model="saveData.applytype"   ng-options="o.id as o.value for o in applytypeDatas">
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+							 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">备案状态 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select class="form-control" ng-model="saveData.recordType"  ng-options="o.id as o.value for o in recordTypeDatas">
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+						 <div class="row">
+                           
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">已学学时数 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                         <input type="number" class="form-control" placeholder="请输入整数" required name="completeTime" ng-model="saveData.completeTime">
+										 <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.completeTime.$valid"></span>
+										 <span style="color:red" ng-show="myForm.completeTime.$error.required && myForm.completeTime.$dirty">学时是必须的。</span>
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">分配班别
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <!-- <select id="trainmethod" class="form-control" ng-model="saveData.classid"  ng-options="o.classid as o.classname for o in classidDatas">
+										</select> -->
+										<select id="trainmethod" class="form-control" ng-model="saveData.classid" ng-init="saveData.classid=''"  ng-options="o.classid as o.classname for o in classidDatas">
+											<option value="">请选择班别</option>
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class="row">
+							
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">学员状态 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                         <select class="form-control" ng-model="saveData.applyexam"  ng-options="o.id as o.value for o in applyexamDatas">
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+							 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">培训方式 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <select id="trainmethod" class="form-control" ng-model="saveData.trainmethod"  ng-options="o.id as o.value for o in trainmethodDatas">
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+						
+						 <div class="row">
+							
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">订单金额 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="number" class="form-control" ng-model="saveData.money"   placeholder="请输入金额" required name="money"   ng-pattern="/^[1-9].*$/">
+										<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.money.$valid"></span>
+										<span style="color:red" ng-show="myForm.money.$error.required && myForm.money.$dirty">金额是必须的。</span>
+										<span class="help-inline" style="color:red" ng-show="!myForm.money.$error.required && myForm.money.$invalid">必须是正整数。</span>
+								   </div>
+                                </div>
+								
+                            </div>
+							<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">电话号码 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <input type="text"  class="form-control" placeholder="输入11位电话号码" name="phone" required ng-model="saveData.phone" ng-pattern="/^1[3|4|5|7|8]\d{9}$/">
+                                       <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.phone.$valid"></span>
+									   <span style="color:red" ng-show="myForm.phone.$error.required && myForm.phone.$dirty">电话号码是必须的。</span>
+										<span class="help-inline" style="color:red" ng-show="!myForm.phone.$error.required && myForm.phone.$invalid">必须是正确电话号码。</span>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+						
+					
+						
+						<div class="row">
+						    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">国籍 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <select class="form-control" ng-model="saveData.nationality"  ng-options="o.id as o.value for o in nationalityDatas">
+
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+							 
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">上传头像<span class="required"></span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       <a class="form-control" id="addImg" ng-click="uploadImg('1')" style="color:#999999;">选择图片</a><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+						<div class="row">
+						    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">联系地址 <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+									   <input type="text" class="form-control"  ng-model="saveData.address"   placeholder="请输入地址" required name="address" ng-pattern="/^[\da-zA-Z\u4E00-\u9FA5]{0,120}$/">
+                                        <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="myForm.address.$valid"></span>
+										<span style="color:red" ng-show="myForm.address.$error.required && myForm.address.$dirty">联系地址是必须的。</span>
+										<span class="help-inline" style="color:red" ng-show="!myForm.address.$error.required && myForm.address.$invalid">最长为120个字符。</span> 
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button"  data-dismiss="modal"  class="btn btn-primary">取消</button>
+                                   <!--  <button id="send" type="submit" class="btn btn-success" >保存</button> -->
+									<input class="btn btn-success" ng-disabled="myForm.$invalid" type="submit" value="提交" />
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+
+    <!-- 编辑弹框-->
+    <div class="modal  fade edit-example-modal-lg" id="mymodal" >
+        <div class="modal-dialog modal-lg" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">编辑学员信息</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content" >
+                        <br />
+                        <form class="form-horizontal form-label-left" novalidate id="editform" name="editForm" ng-submit="submitEditForm(editForm.$valid)">
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">姓名 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12 controls">
+										   <input type="text" class="form-control" ng-model="editData.name" required name="name">
+											 <span  class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.name.$valid"></span> 
+											<span style="color:red" ng-show="editForm.name.$error.required">姓名是必须的。</span>
+																													
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">性别 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<select class="form-control" ng-model="editData.sex" required="required" ng-options="o.id as o.value for o in sexDatas">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						   <div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">国籍 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <select class="form-control" ng-model="editData.nationality"  ng-options="o.id as o.value for o in nationalityDatas">
+                                    </select>
+
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">电话号码 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input type="text"  ng-model="editData.phone" class="form-control" placeholder="" name="phone" required  ng-pattern="/^1[3|4|5|7|8]\d{9}$/">
+										    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.phone.$valid"></span>
+											<span style="color:red" ng-show="editForm.phone.$error.required">电话号码是必须的。</span>
+											<span class="help-inline" style="color:red" ng-show="!editForm.phone.$error.required && editForm.phone.$invalid">必须是正确电话号码。</span>
+		
+										</div>
+									</div>
+								</div>
+							</div>
+
+							 <div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">证件号码 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										    <input type="text" class="form-control" readonly="readonly" placeholder="" ng-model="editData.idcard">
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">业务类型 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<select class="form-control" ng-model="editData.busitype" ng-options="o.id as o.value for o in busitypeDatas">
+
+                                    </select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							 <div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">培训车型 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										    <select class="form-control" ng-model="editData.traintype" ng-options="o.id as o.value for o in traintypeDatas">
+                                    </select>
+
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">报名时间 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<input id="q_endDate" type="text" class="form-control"   placeholder="" disabled="disabled"  ng-model="editData.applydate">
+										</div>
+									</div>
+								</div>
+							</div>
+
+							 <div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">报名方式 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <select class="form-control" ng-model="editData.trainmethod"  disabled="disabled"  ng-options="o.id as o.value for o in applytypeDatas">
+                                    </select>
+
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">培训方式 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<select class="form-control" disabled="disabled" ng-model="editData.trainmethod" ng-options="o.id as o.value for o in trainmethodDatas">
+                                      </select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							 <div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">学员状态 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <select class="form-control" disabled ng-model="editData.applyexam" ng-options="o.id as o.value for o in applyexamDatas" ></select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">备案状态 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+											<select class="form-control" disabled="disabled" ng-model="editData.recordType" ng-options="o.id as o.value for o in recordTypeDatas">
+                                      </select>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+							
+								<!-- <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">支付状态</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <select class="form-control"   ng-model="editData.paystatus" ng-options="o.id as o.value for o in paystatusDatas" >
+											</select>
+										</div>
+									</div>
+								</div> -->
+								
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+
+										<label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">分配班别</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <select id="trainmethod" class="form-control" ng-model="editData.classid"  ng-options="o.classid as o.classname for o in classidDatas">
+												<option value="">请选择班别</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">支付金额 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12" >
+											<input  type="text" class="form-control" readonly="readonly"   placeholder=""  ng-model="editData.money">
+											
+										</div> 
+										
+									</div>
+								</div>
+
+							</div>
+							
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">已学学时数 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <input  readonly="readonly" class="form-control" placeholder="" ng-model="editData.completeTime"  >
+
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">联系地址 <span class="required">*</span>
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12">
+										   <input type="text"  ng-model="editData.address" class="form-control" placeholder=""   required name="address">
+											<span class="glyphicon glyphicon-ok form-control-feedback" ng-show="editForm.address.$valid"></span>
+											<span style="color:red" ng-show="editForm.address.$error.required">联系地址是必须的。</span>
+											
+										</div>
+									</div>
+								</div>
+
+							</div>
+							
+							<div class="row">
+							
+							    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+									<div class="item form-group">
+										<label class="control-label col-md-3 col-sm-3 col-xs-12">学员头像
+										</label>
+										<div class="col-md-8 col-sm-8 col-xs-12" ng-if="editData.photo_url==null || editData.photo_url=='' ">
+										  <a class="form-control" id="editImg" ng-click="uploadImg('2')" >选择图片 </a><span style="color:#999999;">(格式为jpg/jpeg/png/bmp)</span>
+										</div> 
+										<div class="col-md-8 col-sm-8 col-xs-12"  ng-if="editData.photo_url!=null && editData.photo_url!='' ">
+											<img  ng-src="{{baseImgurl}}{{editData.photo_url}}"  alt="" class="img-responsive z-radios5"  style="width:80px;height:102px">
+											<a href="javascript:void(0);" id="updateImg" ng-click="uploadImg('2')">更换头像</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group text-center">
+                                <div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+
+                                    <!-- <button id="send" type="submit" class="btn btn-success" >保存</button> -->
+									<input class="btn btn-success" ng-disabled="editForm.$invalid" type="submit" value="提交" />
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                  <!--  <div style="float:left;margin-left:10px;border:1px solid #969696;width:120px;"><img src="assets/images/picture.jpg" style="width:120px;heigth:140px;"/> </div> -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+	
+	
+	<!-- 分配教练弹框-->
+    <div class="modal  fade coach-example-modal-lg" id="fenpeiCoach" >
+        <div class="modal-dialog modal-mg" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">分配教练</h4>
+                </div>
+                <div class="x_panel" >
+
+                    <div class="x_content" >
+                        <br />
+                         <div class="table-responsive">
+						
+                            <table class="table table-striped jambo_table bulk_action">
+                                <thead>
+                                <tr class="headings" >
+
+                                    <th style='text-align: center;' class="column-title">教练姓名 </th>
+                                    <th style='text-align: center;' class="column-title">已分配学员数量 </th>
+                                    <th style='text-align: center;' class="column-title">选择 </th>
+
+                                    <th class="bulk-actions" colspan="7">
+                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="even pointer" ng-repeat="item in coachdatas">
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.coachName"></td>
+                                    <td style="vertical-align:middle; text-align:center;" ng-bind="item.stuNumOfCoach + item.add"></td>
+									<td class=" last" style="vertical-align:middle; text-align:center;" >
+                                        <input name="coachid" type="radio"  ng-click="clecked($index)" > 
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+					
+                        </div>
+						<div class="form-group" >
+						     <div class="page" >
+									<div id="copot-page2" class="copot-page"></div>
+							</div>
+							
+						</div>
+                        <div class="ln_solid"></div>
+						<div class="form-group text-center">
+							<div class="col-md-6 col-sm-9 col-xs-12 col-md-offset-3">
+								<button type="button"  data-dismiss="modal" class="btn btn-primary">取消</button>
+
+								<button  type="submit" class="btn btn-success" ng-click="fenpeiCoach()">保存</button>
+							</div>
+                         </div>
+                    </div>
+
+                  <!--  <div style="float:left;margin-left:10px;border:1px solid #969696;width:120px;"><img src="assets/images/picture.jpg" style="width:120px;heigth:140px;"/> </div> -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>   <!-- /.modal-dialog -->
+
+    <!-- 查看-->
+    <div class="modal fade show-example-modal-lg" id="showMymodal" >
+        <div class="modal-dialog modal-lg"  >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">查看学员信息</h4>
+                </div>
+                <div class="x_panel"  >
+
+                    <div class="x_content"  >
+
+
+						<div class="row">
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">姓名 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                       {{showData.name}}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">性别 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+									{{showData.sex | sexText}}
+                                    </div>
+                                </div>
+                            </div>
+							<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+                                <div class="item form-group">
+                                    <label class="control-label col-md-5 col-sm-5 col-xs-12">性别 :
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+
+									{{showData.nationality | nationalityText}}
+                                    </div>
+                                </div>
+                            </div>
+                 </div>
+
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">手机号码 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.phone}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">证件类型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.cardtype | cardtypeText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">证件号码 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.idcard}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">联系地址 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.address}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">业务类型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.busitype | busitypeText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">培训车型 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.traintype}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+				 <div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">报名时间 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.applydate}}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">培训状态 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.applyexam | applyexamText}}
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">备案状态 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+
+							{{showData.recordType | icpText}}
+							</div>
+						</div>
+					</div>
+                 </div>
+
+				 <div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">已学学时数 :
+							</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+							   {{showData.completeTime}}
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+						
+						<div class="item form-group">
+							<label class="control-label col-md-5 col-sm-5 col-xs-12">学员头像:
+							</label> 
+							
+							   <div class="left col-xs-6 text-center"  >
+									<img  src="{{showData.photo_url}}"  alt="" class="img-responsive z-radios5">
+								</div>
+
+							 
+						</div>
+					
+					</div>
+				</div>
+
+                    <!-- <div style="float:left;margin-left:10px;border:1px solid #969696;width:120px;"><img src="assets/images/picture2.jpg" style="width:120px;heigth:140px;"/> </div> -->
+                   <div class="col-md-6 col-md-offset-3">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    </div> 
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+   <style>
+        .btn-file {  position: relative;  overflow: hidden;  }
+        .btn-file input[type=file] {  position: absolute;  top: 0;  right: 0;  min-width: 100%;  min-height: 100%;  font-size: 100px;  text-align: right;  filter: alpha(opacity=0);  opacity: 0;  outline: none;  background: white;  cursor: inherit;  display: block;  }
+    </style>
+
+
+

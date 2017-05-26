@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.WechatTemplateMapper">
+	<resultMap id="BaseResultMap" type="com.lili.school.vo.WechatTemplate">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="template_name" property="templateName" jdbcType="VARCHAR" />
+		<result column="template_id" property="templateId" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="template_param" property="templateParam" 	jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, template_name, template_id, url, template_param, ctime, mtime
+	</sql>
+	
+	<select id="queryWechatTemplate" resultMap="BaseResultMap" parameterType="com.lili.school.vo.WechatTemplate">
+		select
+			<include refid="Base_Column_List" />
+		from t_wechat_template
+		where 1=1
+			<trim suffixOverrides=",">
+				<if test="templateName != null and templateName != ''">
+						and template_name= #{templateName}
+				</if>
+				<if test="id != null and id != ''">
+						and id= #{id}
+				</if>
+				<if test="templateId != null and templateId != ''">
+						and template_id= #{templateId}
+				</if>
+			</trim>
+			order by mtime desc limit 1
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_wechat_template
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_wechat_template
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.school.vo.WechatTemplate">
+		insert into t_wechat_template (id, template_name, template_id,
+		url, template_param, ctime,
+		mtime)
+		values (#{id,jdbcType=INTEGER}, #{templateName,jdbcType=VARCHAR},
+		#{templateId,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR}, #{templateParam,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP},
+		#{mtime,jdbcType=TIMESTAMP})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.school.vo.WechatTemplate">
+		insert into t_wechat_template
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="templateName != null">
+				template_name,
+			</if>
+			<if test="templateId != null">
+				template_id,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="templateParam != null">
+				template_param,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="mtime != null">
+				mtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="templateName != null">
+				#{templateName,jdbcType=VARCHAR},
+			</if>
+			<if test="templateId != null">
+				#{templateId,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="templateParam != null">
+				#{templateParam,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				#{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.school.vo.WechatTemplate">
+		update t_wechat_template
+		<set>
+			<if test="templateName != null">
+				template_name = #{templateName,jdbcType=VARCHAR},
+			</if>
+			<if test="templateId != null">
+				template_id = #{templateId,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="templateParam != null">
+				template_param = #{templateParam,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="mtime != null">
+				mtime = #{mtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.school.vo.WechatTemplate">
+		update t_wechat_template
+		set template_name = #{templateName,jdbcType=VARCHAR},
+		template_id = #{templateId,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		template_param = #{templateParam,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		mtime = #{mtime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+</mapper>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.file.mapper.PosterMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.file.dto.Poster" >
+    <id column="posterId" property="posterid" jdbcType="INTEGER" />
+    <result column="posterName" property="postername" jdbcType="VARCHAR" />
+    <result column="posterPic" property="posterpic" jdbcType="VARCHAR" />
+    <result column="posterPic2" property="posterpic2" jdbcType="VARCHAR" />
+    <result column="posterPic3" property="posterpic3" jdbcType="VARCHAR" />
+    <result column="posterUrl" property="posterurl" jdbcType="VARCHAR" />
+    <result column="posterUrl2" property="posterurl2" jdbcType="VARCHAR" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="isdel" property="isdel" jdbcType="TINYINT" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+    <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    posterId, posterName, posterPic, posterPic2, posterPic3, posterUrl, posterUrl2, extra, 
+    type, isdel, ctime, mtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.file.dto.PosterExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_poster
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_u_poster
+    where posterId = #{posterid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_u_poster
+    where posterId = #{posterid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.file.dto.PosterExample" >
+    delete from t_u_poster
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.file.dto.Poster" >
+    insert into t_u_poster (posterId, posterName, posterPic, 
+      posterPic2, posterPic3, posterUrl, 
+      posterUrl2, extra, type, 
+      isdel, ctime, mtime
+      )
+    values (#{posterid,jdbcType=INTEGER}, #{postername,jdbcType=VARCHAR}, #{posterpic,jdbcType=VARCHAR}, 
+      #{posterpic2,jdbcType=VARCHAR}, #{posterpic3,jdbcType=VARCHAR}, #{posterurl,jdbcType=VARCHAR}, 
+      #{posterurl2,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{isdel,jdbcType=TINYINT}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.file.dto.Poster" >
+    insert into t_u_poster
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="posterid != null" >
+        posterId,
+      </if>
+      <if test="postername != null" >
+        posterName,
+      </if>
+      <if test="posterpic != null" >
+        posterPic,
+      </if>
+      <if test="posterpic2 != null" >
+        posterPic2,
+      </if>
+      <if test="posterpic3 != null" >
+        posterPic3,
+      </if>
+      <if test="posterurl != null" >
+        posterUrl,
+      </if>
+      <if test="posterurl2 != null" >
+        posterUrl2,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="ctime != null" >
+        ctime,
+      </if>
+      <if test="mtime != null" >
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="posterid != null" >
+        #{posterid,jdbcType=INTEGER},
+      </if>
+      <if test="postername != null" >
+        #{postername,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic != null" >
+        #{posterpic,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic2 != null" >
+        #{posterpic2,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic3 != null" >
+        #{posterpic3,jdbcType=VARCHAR},
+      </if>
+      <if test="posterurl != null" >
+        #{posterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="posterurl2 != null" >
+        #{posterurl2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.file.dto.PosterExample" resultType="java.lang.Integer" >
+    select count(*) from t_u_poster
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_u_poster
+    <set >
+      <if test="record.posterid != null" >
+        posterId = #{record.posterid,jdbcType=INTEGER},
+      </if>
+      <if test="record.postername != null" >
+        posterName = #{record.postername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterpic != null" >
+        posterPic = #{record.posterpic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterpic2 != null" >
+        posterPic2 = #{record.posterpic2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterpic3 != null" >
+        posterPic3 = #{record.posterpic3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterurl != null" >
+        posterUrl = #{record.posterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterurl2 != null" >
+        posterUrl2 = #{record.posterurl2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=TINYINT},
+      </if>
+      <if test="record.ctime != null" >
+        ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.mtime != null" >
+        mtime = #{record.mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_u_poster
+    set posterId = #{record.posterid,jdbcType=INTEGER},
+      posterName = #{record.postername,jdbcType=VARCHAR},
+      posterPic = #{record.posterpic,jdbcType=VARCHAR},
+      posterPic2 = #{record.posterpic2,jdbcType=VARCHAR},
+      posterPic3 = #{record.posterpic3,jdbcType=VARCHAR},
+      posterUrl = #{record.posterurl,jdbcType=VARCHAR},
+      posterUrl2 = #{record.posterurl2,jdbcType=VARCHAR},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      isdel = #{record.isdel,jdbcType=TINYINT},
+      ctime = #{record.ctime,jdbcType=TIMESTAMP},
+      mtime = #{record.mtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.file.dto.Poster" >
+    update t_u_poster
+    <set >
+      <if test="postername != null" >
+        posterName = #{postername,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic != null" >
+        posterPic = #{posterpic,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic2 != null" >
+        posterPic2 = #{posterpic2,jdbcType=VARCHAR},
+      </if>
+      <if test="posterpic3 != null" >
+        posterPic3 = #{posterpic3,jdbcType=VARCHAR},
+      </if>
+      <if test="posterurl != null" >
+        posterUrl = #{posterurl,jdbcType=VARCHAR},
+      </if>
+      <if test="posterurl2 != null" >
+        posterUrl2 = #{posterurl2,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=TINYINT},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where posterId = #{posterid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.file.dto.Poster" >
+    update t_u_poster
+    set posterName = #{postername,jdbcType=VARCHAR},
+      posterPic = #{posterpic,jdbcType=VARCHAR},
+      posterPic2 = #{posterpic2,jdbcType=VARCHAR},
+      posterPic3 = #{posterpic3,jdbcType=VARCHAR},
+      posterUrl = #{posterurl,jdbcType=VARCHAR},
+      posterUrl2 = #{posterurl2,jdbcType=VARCHAR},
+      extra = #{extra,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      isdel = #{isdel,jdbcType=TINYINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where posterId = #{posterid,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.lili.file.dto.PosterExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_u_poster
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

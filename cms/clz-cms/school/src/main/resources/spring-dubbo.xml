@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+<!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="dubbo-server"  />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+   <!-- <dubbo:registry address="zookeeper://115.159.79.223:2181" />  -->
+   <dubbo:registry address="${zookeeper.addr}" />
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="22005" />
+ 	<dubbo:consumer timeout="3000"  retries="0"/>
+ 	
+    <dubbo:service id="cmsCarService" interface="com.lili.school.service.CMSCarService" ref="cmsCarServiceLocal" />
+    <dubbo:service id="cmsBrandCarService" interface="com.lili.school.service.CMSBrandCarService" ref="cmsBrandCarServiceLocal" />
+    <dubbo:service id="cmsSchoolService" interface="com.lili.school.service.CMSSchoolService" ref="cmsSchoolServiceLocal" />
+    <dubbo:service id="cmsFieldService" interface="com.lili.school.service.CMSFieldService" ref="cmsFieldServiceLocal" />
+    <dubbo:service id="cmsRegionService" interface="com.lili.school.service.CMSRegionService" ref="cmsRegionServiceLocal" />
+    <dubbo:service id="cmsPosterService" interface="com.lili.school.service.ICmsPosterService" ref="cmsPosterServiceLocal" />
+    <dubbo:service id="cmsCourseService" interface="com.lili.school.service.ICmsCourseService" ref="cmsCourseServiceLocal" />
+    <dubbo:service id="cmsCommonPriceService" interface="com.lili.school.service.ICmsCommonPriceService" ref="cmsCommonPriceServiceLocal" />
+    
+    <dubbo:service id="cmsEPTService" interface="com.lili.school.service.CMSEPTService" ref="cmsEPTServiceLocal" />
+    
+</beans>

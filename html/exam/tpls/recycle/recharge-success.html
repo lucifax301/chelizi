@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="App" ng-controller="AppCtrl">
+<head>
+    <meta charset="UTF-8">
+    <title>充值成功</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/css/ionicons.min.css">
+</head>
+<body class="b-w container">
+    <div class="siginSue">
+        <i class="ion-checkmark-circled"></i>
+        <h1>充值成功</h1>
+        <p>赠送金额{{money}}元将在48小时以内到帐<br>常规金额{{price}}元已经到帐</p>
+        <a href="http://www.lilixc.com/download_app_student.html" class="fastener">下载APP查看余额</a>
+    </div>
+    <script src="assets/common/js/common.js"></script>
+    <script src="assets/js/ng-js/recharge-success.js"></script>
+    <script>window.onload=function(){win.hideLoading();}</script>
+</body>
+</html>

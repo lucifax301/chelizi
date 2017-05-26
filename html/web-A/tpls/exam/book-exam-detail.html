@@ -1,0 +1,60 @@
+<div class="right_col" role="main">
+    <div class="page-title">
+        <div class="title_left" style="margin-top:8px;">
+            <h3 >考试管理 >> 导入约考明细</h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+            	<div class="x_panel">
+            		<h4><p> {{tableNo}} </p></h4>
+					<p><< {{ name }} >> | {{ total }} 条有效数据</p>
+            	</div>
+        	    <div class="x_title">
+                    <a href="javascript:void(0);" ng-click="showPage(1)" ng-if="101111 | isAccessShow">约考列表</a>&nbsp;&nbsp;&nbsp; <a href="javascript:void(0);" ng-click="showPage(2)" ng-if="101112 | isAccessShow">操作日志</a>
+                </div>      
+				<table class="table table-striped jambo_table bulk_action">
+                    <thead>
+                        <tr class="headings">
+                            <th style='text-align: center;' class="column-title">考场名称</th>
+                            <th style='text-align: center;' class="column-title">考试科目</th>
+							<th style='text-align: center;' class="column-title">考试日期</th>
+                            <th style='text-align: center;' class="column-title">场次信息</th>
+                            <th style='text-align: center;' class="column-title">所属驾校</th>
+                            <th style='text-align: center;' class="column-title">学员姓名</th>
+                            <th style='text-align: center;' class="column-title">流水号</th>
+                            <th style='text-align: center;' class="column-title">身份证号</th>
+                            <th style='text-align: center;' class="column-title">是否符合条件</th>
+                            <th style='text-align: center;' class="column-title">说明</th>
+                            <th style='text-align: center;' class="column-title">互联网平台预约时间</th>
+                            <th style='text-align: center;' class="column-title">考试系统读取时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="even pointer" ng-repeat="item in datas">
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examPlace"></td>
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.subjectName"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.examDate | timeTexYMD"></td>
+                            <td style="vertical-align:middle; text-align:center;" ng-bind="item.examTime"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.schoolName"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.name"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.flowNo"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.idNumber"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.isQualified"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.comment"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.orderTime | timeTex"></td>
+							<td style="vertical-align:middle; text-align:center;" ng-bind="item.readTime | timeTex"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="x_content">
+					<div class="page" >
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

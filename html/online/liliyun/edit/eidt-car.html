@@ -1,0 +1,46 @@
+<div class="edit-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}教练车的基本资料<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>车牌号:</dt>
+				<dd><input type="text" ng-model="editData.carNo" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>驾驶类别:</dt>
+				<dd>
+					<select ng-model="editData.driveType" class="form-control">
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">C1</option>
+					  <option value="2">C2</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>汽车等级:</dt>
+				<dd>
+					<select ng-model="editData.carLevel" class="form-control">
+					  <option value="" selected="selected">请选择</option>	
+					  <option value="1">普通</option>
+					  <option value="2">舒适</option>
+					  <option value="3">豪华</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>行驶证编号:</dt>
+				<dd><input type="text" ng-model="editData.driveNumber" class="form-control" ></dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

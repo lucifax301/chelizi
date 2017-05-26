@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:p='http://www.springframework.org/schema/p'
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<bean id="redisTemplateString" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory" >
+		<property name="keySerializer" ref="stringRedisSerializer"/>
+	    <property name="valueSerializer" ref="stringRedisSerializer"/> 
+	    <property name="hashKeySerializer" ref="stringRedisSerializer" />
+	    <property name="hashValueSerializer" ref="stringRedisSerializer"/>
+	</bean>
+	
+<!-- 	<bean id="complexCacheProcessor" class="com.lili.common.util.annotation.ComplexCachePostProcessor"></bean > -->
+
+<!-- 	<bean id="complexCacheInterceptor" class="com.lili.common.util.annotation.interceptor.ComplexCacheInterceptor"></bean> -->
+<!-- 	<bean id="updateCacheInterceptor" class="com.lili.common.util.annotation.interceptor.UpdateCacheInterceptor"></bean> -->
+<!-- 	<bean id="deleteCacheInterceptor" class="com.lili.common.util.annotation.interceptor.DeleteCacheInterceptor"></bean> -->
+<!-- 	<bean id="queryCacheInterceptor" class="com.lili.common.util.annotation.interceptor.QueryCacheInterceptor"></bean> -->
+<!-- 	<bean id="reloadCacheInterceptor" class="com.lili.common.util.annotation.interceptor.ReloadCacheInterceptor"></bean> -->
+	
+<!-- 	<aop:config>   -->
+<!-- 	        <aop:aspect id="complexCacheAspect" ref="complexCacheInterceptor">   -->
+<!-- 	            <aop:pointcut id="complexCachePoint" expression="execution(* com.lili.order.service.impl..*ServiceImpl.get*(..)) and @annotation(complexCache)"/>   -->
+<!-- 	            <aop:around method="doAround"  pointcut-ref="complexCachePoint"/> -->
+<!-- 	        </aop:aspect> -->
+<!-- 	        <aop:aspect id="updateCacheAspect" ref="updateCacheInterceptor">   -->
+<!-- 	            <aop:pointcut id="updateCachePoint" expression="execution(* com.lili.order.service.base..*Base.add(..))) or (execution(* com.lili.order.service.base..*Base.addList(..))) or (execution(* com.lili.order.service.base..*Base.update(..))) or (execution(* com.lili.order.service.base..*Base.updateList(..)))"/>   -->
+<!-- 	            <aop:around method="doAround"  pointcut-ref="updateCachePoint"/> -->
+<!-- 	        </aop:aspect> -->
+<!-- 	        <aop:aspect id="deleteCacheAspect" ref="deleteCacheInterceptor">   -->
+<!-- 	            <aop:pointcut id="deleteCachePoint" expression="execution(* com.lili.order.service.base..*Base.del(..))) or (execution(* com.lili.order.service.base..*Base.delList(..)))"/>   -->
+<!-- 	            <aop:around method="doAround"  pointcut-ref="deleteCachePoint"/> -->
+<!-- 	        </aop:aspect> -->
+<!-- 	        <aop:aspect id="queryCacheAspect" ref="queryCacheInterceptor">   -->
+<!-- 	            <aop:pointcut id="queryCachePoint" expression="execution(* com.lili.order.service.base..*Base.query(..))) or (execution(* com.lili.order.service.base..*Base.queryList(..)))"/>   -->
+<!-- 	            <aop:around method="doAround"  pointcut-ref="queryCachePoint"/> -->
+<!-- 	        </aop:aspect> -->
+<!-- 	        <aop:aspect id="reloadCacheAspect" ref="reloadCacheInterceptor">   -->
+<!-- 	            <aop:pointcut id="reloadCachePoint" expression="execution(* com.lili.order.service.base..*Base.reload(..))) or (execution(* com.lili.order.service.base..*Base.reloadList(..)))"/>   -->
+<!-- 	            <aop:around method="doAround"  pointcut-ref="reloadCachePoint"/> -->
+<!-- 	        </aop:aspect>    -->
+<!-- 	</aop:config> -->
+	 
+</beans>

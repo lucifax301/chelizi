@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>喱喱学车</title>
+<script>
+
+/*注入 微信code*/
+if(getQueryString('code')){
+	sessionStorage.setItem("weixin-code",getQueryString('code')); //注入sessionStorage中
+};
+if(sessionStorage.getItem("weixin-code")){
+	window.location.href=sessionStorage.getItem("weixin-url")||'http://'+window.location.host+'/index.html';
+};
+/*获取url hash*/
+function getQueryString(name) {
+    var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
+
+
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<div class="edit-alert edit-notice">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-notice" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}消息 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>标题:</dt>
+				<dd><input type="text" ng-model="editData.title" class="form-control" maxlength="20"></dd>
+			</dl>
+			<dl>
+				<dt>副标题:</dt>
+				<dd><input type="text" ng-model="editData.content" class="form-control" maxlength="50"></dd>
+			</dl>
+			<dl>
+				<dt>内容链接:</dt>
+				<dd><input type="text" ng-model="editData.extra" maxlength="200" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>消息类别:</dt>
+				<dd>
+					<select ng-model="editData.type" class="form-control">
+					  <option value="0" selected="selected">今日重点播报</option>
+					  <option value="1">优惠活动</option>
+					  <option value="2">订单消息</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>消息范围:</dt>
+				<dd>
+					<select id="userTypeSel" ng-model="editData.userType" class="form-control" ng-change="changeUserId()">
+					  <option value="0" selected="selected">全体用户</option>
+					  <option value="1">全体教练</option>
+					  <option value="2">全体学员</option>
+					  <option value="9">指定教练</option>
+					  <option value="10">指定学员</option>
+					  <option value="3">驾校教练</option>
+				      <option value="4">驾校学员</option>
+					  <option value="5">城市教练</option>
+					  <option value="6">城市学员</option>
+					  <option value="7">特约教练</option>
+					  <option value="8">普通教练</option>
+					</select>
+				</dd>
+			</dl>
+			<dl id="user" style="display: none;">
+				<dt id="userText">通知用户ID:</dt>
+				<dd>
+					<input id="userValue" type="text" ng-model="editData.userId" style="width: 160px;height: 30px" readonly="true" maxlength="11" class="">
+					<input id="showCoach" style="display: none;width: 110px" type='button' value='选择教练' ng-click='searchCoach()' class='btn btn-sm btn-default'>
+					<input id="showStudent" style="display: none;width: 110px" type='button' value='选择学员' ng-click='searchStudent()' class='btn btn-sm btn-default'>
+					<input id="showSchool" style="display: none;width: 110px" type='button' value='选择驾校' ng-click='searchSchool()' class='btn btn-sm btn-default'>
+                    <select id="showCity"  ng-model="editData.cityId" style="width: 110px;height: 30px;display: none;" ng-change="getCityId()">
+						<option value="">请选择城市</option>
+						<option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+					</select>
+
+				</dd>
+
+			</dl>
+			<dl>
+				<dt >有效期:</dt>
+				<dd>
+					<div class="input-prepend input-group">
+						<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+						<input type="text" name="reservation" id="reservationEdit"  class="form-control" ng-model="editData.etime" placeholder="选择过期时间"/>
+					</div>
+				</dd>
+			</dl>
+			<div class="chaozuo" id="submitButton">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)"  class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,39 @@
+<div class="edit-alert school-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}驾校<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt><span class="text-require">*</span>驾校名称:</dt>
+				<dd><input type="text" ng-model="editData.name" class="form-control" ></dd>
+			</dl>
+			<dl>
+				<dt><span class="text-require">*</span>所在城市:</dt>
+				<dd>
+					<select ng-model="editData.cityId" class="form-control jia-xiao" >
+					  <option value="">请选择城市</option>
+					  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>驾校地址:</dt>
+				<dd><input type="text" ng-model="editData.address" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>客服电话:</dt>
+				<dd><input type="text" ng-model="editData.phoneNum" class="form-control"></dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>
+

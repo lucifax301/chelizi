@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.CoachClassMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="ccid!=null">ccid=#{ccid},</if>
+      <if test="ctype!=null">ctype=#{ctype},</if>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="cstart!=null">cstart=#{cstart},</if>
+      <if test="cend!=null">cend=#{cend},</if>
+      <if test="rstart!=null">rstart=#{rstart},</if>
+      <if test="rend!=null">rend=#{rend},</if>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="maxNum!=null">max_num=#{maxNum},</if>
+      <if test="bookNum!=null">book_num=#{bookNum},</if>
+      <if test="carId!=null">car_id=#{carId},</if>
+      <if test="carName!=null">car_name=#{carName},</if>
+      <if test="carImg!=null">car_img=#{carImg},</if>
+      <if test="carNo!=null">car_no=#{carNo},</if>
+      <if test="courseId!=null">course_id=#{courseId},</if>
+      <if test="courseName!=null">course_name=#{courseName},</if>
+      <if test="placeId!=null">place_id=#{placeId},</if>
+      <if test="placeName!=null">place_name=#{placeName},</if>
+      <if test="price!=null">price=#{price},</if>
+      <if test="dltype!=null">dltype=#{dltype},</if>
+      <if test="tid!=null">tid=#{tid},</if>
+      <if test="isdel!=null">isdel=#{isdel},</if>
+      <if test="lge!=null">lge=#{lge},</if>
+      <if test="lae!=null">lae=#{lae},</if>
+      <if test="rid!=null">rid=#{rid},</if>
+      <if test="reason!=null">reason=#{reason},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.ccid!=null">ccid=#{param1.ccid},</if>
+      <if test="param1.ctype!=null">ctype=#{param1.ctype},</if>
+      <if test="param1.coachId!=null">coach_id=#{param1.coachId},</if>
+      <if test="param1.cstart!=null">cstart=#{param1.cstart},</if>
+      <if test="param1.cend!=null">cend=#{param1.cend},</if>
+      <if test="param1.rstart!=null">rstart=#{param1.rstart},</if>
+      <if test="param1.rend!=null">rend=#{param1.rend},</if>
+      <if test="param1.orderId!=null">order_id=#{param1.orderId},</if>
+      <if test="param1.maxNum!=null">max_num=#{param1.maxNum},</if>
+      <if test="param1.bookNum!=null">book_num=#{param1.bookNum},</if>
+      <if test="param1.carId!=null">car_id=#{param1.carId},</if>
+      <if test="param1.carName!=null">car_name=#{param1.carName},</if>
+      <if test="param1.carImg!=null">car_img=#{param1.carImg},</if>
+      <if test="param1.carNo!=null">car_no=#{param1.carNo},</if>
+      <if test="param1.courseId!=null">course_id=#{param1.courseId},</if>
+      <if test="param1.courseName!=null">course_name=#{param1.courseName},</if>
+      <if test="param1.placeId!=null">place_id=#{param1.placeId},</if>
+      <if test="param1.placeName!=null">place_name=#{param1.placeName},</if>
+      <if test="param1.price!=null">price=#{param1.price},</if>
+      <if test="param1.dltype!=null">dltype=#{param1.dltype},</if>
+      <if test="param1.tid!=null">tid=#{param1.tid},</if>
+      <if test="param1.isdel!=null">isdel=#{param1.isdel},</if>
+      <if test="param1.lge!=null">lge=#{param1.lge},</if>
+      <if test="param1.lae!=null">lae=#{param1.lae},</if>
+      <if test="param1.rid!=null">rid=#{param1.rid},</if>
+      <if test="param1.reason!=null">reason=#{param1.reason},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.ccid!=null">ccid=#{param2.ccid},</if>
+      <if test="param2.ctype!=null">ctype=#{param2.ctype},</if>
+      <if test="param2.coachId!=null">coach_id=#{param2.coachId},</if>
+      <if test="param2.cstart!=null">cstart=#{param2.cstart},</if>
+      <if test="param2.cend!=null">cend=#{param2.cend},</if>
+      <if test="param2.rstart!=null">rstart=#{param2.rstart},</if>
+      <if test="param2.rend!=null">rend=#{param2.rend},</if>
+      <if test="param2.orderId!=null">order_id=#{param2.orderId},</if>
+      <if test="param2.maxNum!=null">max_num=#{param2.maxNum},</if>
+      <if test="param2.bookNum!=null">book_num=#{param2.bookNum},</if>
+      <if test="param2.carId!=null">car_id=#{param2.carId},</if>
+      <if test="param2.carName!=null">car_name=#{param2.carName},</if>
+      <if test="param2.carImg!=null">car_img=#{param2.carImg},</if>
+      <if test="param2.carNo!=null">car_no=#{param2.carNo},</if>
+      <if test="param2.courseId!=null">course_id=#{param2.courseId},</if>
+      <if test="param2.courseName!=null">course_name=#{param2.courseName},</if>
+      <if test="param2.placeId!=null">place_id=#{param2.placeId},</if>
+      <if test="param2.placeName!=null">place_name=#{param2.placeName},</if>
+      <if test="param2.price!=null">price=#{param2.price},</if>
+      <if test="param2.dltype!=null">dltype=#{param2.dltype},</if>
+      <if test="param2.tid!=null">tid=#{param2.tid},</if>
+      <if test="param2.isdel!=null">isdel=#{param2.isdel},</if>
+      <if test="param2.lge!=null">lge=#{param2.lge},</if>
+      <if test="param2.lae!=null">lae=#{param2.lae},</if>
+      <if test="param2.rid!=null">rid=#{param2.rid},</if>
+      <if test="param2.reason!=null">reason=#{param2.reason},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set ccid=#{ccid}, ctype=#{ctype}, coach_id=#{coachId}, cstart=#{cstart}, cend=#{cend}, rstart=#{rstart}, rend=#{rend}, order_id=#{orderId}, max_num=#{maxNum}, book_num=#{bookNum}, car_id=#{carId}, car_name=#{carName}, car_img=#{carImg}, car_no=#{carNo}, course_id=#{courseId}, course_name=#{courseName}, place_id=#{placeId}, place_name=#{placeName}, price=#{price}, dltype=#{dltype}, tid=#{tid}, isdel=#{isdel}, lge=#{lge}, lae=#{lae}, rid=#{rid}, reason=#{reason}</sql>
+  <sql id="setAllparam1">set ccid=#{param1.ccid}, ctype=#{param1.ctype}, coach_id=#{param1.coachId}, cstart=#{param1.cstart}, cend=#{param1.cend}, rstart=#{param1.rstart}, rend=#{param1.rend}, order_id=#{param1.orderId}, max_num=#{param1.maxNum}, book_num=#{param1.bookNum}, car_id=#{param1.carId}, car_name=#{param1.carName}, car_img=#{param1.carImg}, car_no=#{param1.carNo}, course_id=#{param1.courseId}, course_name=#{param1.courseName}, place_id=#{param1.placeId}, place_name=#{param1.placeName}, price=#{param1.price}, dltype=#{param1.dltype}, tid=#{param1.tid}, isdel=#{param1.isdel}, lge=#{param1.lge}, lae=#{param1.lae}, rid=#{param1.rid}, reason=#{param1.reason}</sql>
+  <sql id="setAllparam2">set ccid=#{param2.ccid}, ctype=#{param2.ctype}, coach_id=#{param2.coachId}, cstart=#{param2.cstart}, cend=#{param2.cend}, rstart=#{param2.rstart}, rend=#{param2.rend}, order_id=#{param2.orderId}, max_num=#{param2.maxNum}, book_num=#{param2.bookNum}, car_id=#{param2.carId}, car_name=#{param2.carName}, car_img=#{param2.carImg}, car_no=#{param2.carNo}, course_id=#{param2.courseId}, course_name=#{param2.courseName}, place_id=#{param2.placeId}, place_name=#{param2.placeName}, price=#{param2.price}, dltype=#{param2.dltype}, tid=#{param2.tid}, isdel=#{param2.isdel}, lge=#{param2.lge}, lae=#{param2.lae}, rid=#{param2.rid}, reason=#{param2.reason}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="ccid!=null and ccid != '' ">And ccid=#{ccid}</if>
+      <if test="ctype!=null and ctype != '' ">And ctype=#{ctype}</if>
+      <if test="coachId!=null and coachId != '' ">And coach_id=#{coachId}</if>
+      <if test="cstart!=null and cstart != '' ">And cstart=#{cstart}</if>
+      <if test="cend!=null and cend != '' ">And cend=#{cend}</if>
+      <if test="rstart!=null and rstart != '' ">And rstart=#{rstart}</if>
+      <if test="rend!=null and rend != '' ">And rend=#{rend}</if>
+      <if test="orderId!=null and orderId != '' ">And order_id=#{orderId}</if>
+      <if test="maxNum!=null and maxNum != '' ">And max_num=#{maxNum}</if>
+      <if test="bookNum!=null and bookNum != '' ">And book_num=#{bookNum}</if>
+      <if test="carId!=null and carId != '' ">And car_id=#{carId}</if>
+      <if test="carName!=null and carName != '' ">And car_name=#{carName}</if>
+      <if test="carImg!=null and carImg != '' ">And car_img=#{carImg}</if>
+      <if test="carNo!=null and carNo != '' ">And car_no=#{carNo}</if>
+      <if test="courseId!=null and courseId != '' ">And course_id=#{courseId}</if>
+      <if test="courseName!=null and courseName != '' ">And course_name=#{courseName}</if>
+      <if test="placeId!=null and placeId != '' ">And place_id=#{placeId}</if>
+      <if test="placeName!=null and placeName != '' ">And place_name=#{placeName}</if>
+      <if test="price!=null and price != '' ">And price=#{price}</if>
+      <if test="dltype!=null and dltype != '' ">And dltype=#{dltype}</if>
+      <if test="tid!=null and tid != '' ">And tid=#{tid}</if>
+      <if test="isdel!=null  ">And isdel=#{isdel}</if>
+      <if test="lge!=null and lge != '' ">And lge=#{lge}</if>
+      <if test="lae!=null and lae != '' ">And lae=#{lae}</if>
+      <if test="rid!=null and rid != '' ">And rid=#{rid}</if>
+      <if test="reason!=null and reason != '' ">And reason=#{reason}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="ccid!=null and ccid != '' ">Or ccid=#{ccid}</if>
+      <if test="ctype!=null and ctype != '' ">Or ctype=#{ctype}</if>
+      <if test="coachId!=null and coachId != '' ">Or coach_id=#{coachId}</if>
+      <if test="cstart!=null and cstart != '' ">Or cstart=#{cstart}</if>
+      <if test="cend!=null and cend != '' ">Or cend=#{cend}</if>
+      <if test="rstart!=null and rstart != '' ">Or rstart=#{rstart}</if>
+      <if test="rend!=null and rend != '' ">Or rend=#{rend}</if>
+      <if test="orderId!=null and orderId != '' ">Or order_id=#{orderId}</if>
+      <if test="maxNum!=null and maxNum != '' ">Or max_num=#{maxNum}</if>
+      <if test="bookNum!=null and bookNum != '' ">Or book_num=#{bookNum}</if>
+      <if test="carId!=null and carId != '' ">Or car_id=#{carId}</if>
+      <if test="carName!=null and carName != '' ">Or car_name=#{carName}</if>
+      <if test="carImg!=null and carImg != '' ">Or car_img=#{carImg}</if>
+      <if test="carNo!=null and carNo != '' ">Or car_no=#{carNo}</if>
+      <if test="courseId!=null and courseId != '' ">Or course_id=#{courseId}</if>
+      <if test="courseName!=null and courseName != '' ">Or course_name=#{courseName}</if>
+      <if test="placeId!=null and placeId != '' ">Or place_id=#{placeId}</if>
+      <if test="placeName!=null and placeName != '' ">Or place_name=#{placeName}</if>
+      <if test="price!=null and price != '' ">Or price=#{price}</if>
+      <if test="dltype!=null and dltype != '' ">Or dltype=#{dltype}</if>
+      <if test="tid!=null and tid != '' ">Or tid=#{tid}</if>
+      <if test="isdel!=null   ">Or isdel=#{isdel}</if>
+      <if test="lge!=null and lge != '' ">Or lge=#{lge}</if>
+      <if test="lae!=null and lae != '' ">Or lae=#{lae}</if>
+      <if test="rid!=null and rid != '' ">Or rid=#{rid}</if>
+      <if test="reason!=null and reason != '' ">Or reason=#{reason}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">And cend=#{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null ">And book_num=#{param1.bookNum}</if>
+      <if test="param1.carId!=null and param1.carId != '' ">And car_id=#{param1.carId}</if>
+      <if test="param1.carName!=null and param1.carName != '' ">And car_name=#{param1.carName}</if>
+      <if test="param1.carImg!=null and param1.carImg != '' ">And car_img=#{param1.carImg}</if>
+      <if test="param1.carNo!=null and param1.carNo != '' ">And car_no=#{param1.carNo}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">And course_id=#{param1.courseId}</if>
+      <if test="param1.courseName!=null and param1.courseName != '' ">And course_name=#{param1.courseName}</if>
+      <if test="param1.placeId!=null and param1.placeId != '' ">And place_id=#{param1.placeId}</if>
+      <if test="param1.placeName!=null and param1.placeName != '' ">And place_name=#{param1.placeName}</if>
+      <if test="param1.price!=null and param1.price != '' ">And price=#{param1.price}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">And dltype=#{param1.dltype}</if>
+      <if test="param1.tid!=null and param1.tid != '' ">And tid=#{param1.tid}</if>
+      <if test="param1.isdel!=null   ">And isdel=#{param1.isdel}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">And lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">And lae=#{param1.lae}</if>
+      <if test="param1.rid!=null and param1.rid != '' ">And rid=#{param1.rid}</if>
+      <if test="param1.reason!=null and param1.reason != '' ">And reason=#{param1.reason}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.ccid!=null and param2.ccid != '' ">And ccid=#{param2.ccid}</if>
+      <if test="param2.ctype!=null and param2.ctype != '' ">And ctype=#{param2.ctype}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">And coach_id=#{param2.coachId}</if>
+      <if test="param2.cstart!=null and param2.cstart != '' ">And cstart=#{param2.cstart}</if>
+      <if test="param2.cend!=null and param2.cend != '' ">And cend=#{param2.cend}</if>
+      <if test="param2.rstart!=null and param2.rstart != '' ">And rstart=#{param2.rstart}</if>
+      <if test="param2.rend!=null and param2.rend != '' ">And rend=#{param2.rend}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">And order_id=#{param2.orderId}</if>
+      <if test="param2.maxNum!=null and param2.maxNum != '' ">And max_num=#{param2.maxNum}</if>
+      <if test="param2.bookNum!=null and param2.bookNum != '' ">And book_num=#{param2.bookNum}</if>
+      <if test="param2.carId!=null and param2.carId != '' ">And car_id=#{param2.carId}</if>
+      <if test="param2.carName!=null and param2.carName != '' ">And car_name=#{param2.carName}</if>
+      <if test="param2.carImg!=null and param2.carImg != '' ">And car_img=#{param2.carImg}</if>
+      <if test="param2.carNo!=null and param2.carNo != '' ">And car_no=#{param2.carNo}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">And course_id=#{param2.courseId}</if>
+      <if test="param2.courseName!=null and param2.courseName != '' ">And course_name=#{param2.courseName}</if>
+      <if test="param2.placeId!=null and param2.placeId != '' ">And place_id=#{param2.placeId}</if>
+      <if test="param2.placeName!=null and param2.placeName != '' ">And place_name=#{param2.placeName}</if>
+      <if test="param2.price!=null and param2.price != '' ">And price=#{param2.price}</if>
+      <if test="param2.dltype!=null and param2.dltype != '' ">And dltype=#{param2.dltype}</if>
+      <if test="param2.tid!=null and param2.tid != '' ">And tid=#{param2.tid}</if>
+      <if test="param2.isdel!=null   ">And isdel=#{param2.isdel}</if>
+      <if test="param2.lge!=null and param2.lge != '' ">And lge=#{param2.lge}</if>
+      <if test="param2.lae!=null and param2.lae != '' ">And lae=#{param2.lae}</if>
+      <if test="param2.rid!=null and param2.rid != '' ">And rid=#{param2.rid}</if>
+      <if test="param2.reason!=null and param2.reason != '' ">And reason=#{param2.reason}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">Or ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">Or ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">Or coach_id=#{param1.coachId}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">Or cstart=#{param1.cstart}</if>
+      <if test="param1.cend!=null and param1.cend != '' ">Or cend=#{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">Or rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">Or rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">Or order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">Or max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">Or book_num=#{param1.bookNum}</if>
+      <if test="param1.carId!=null and param1.carId != '' ">Or car_id=#{param1.carId}</if>
+      <if test="param1.carName!=null and param1.carName != '' ">Or car_name=#{param1.carName}</if>
+      <if test="param1.carImg!=null and param1.carImg != '' ">Or car_img=#{param1.carImg}</if>
+      <if test="param1.carNo!=null and param1.carNo != '' ">Or car_no=#{param1.carNo}</if>
+      <if test="param1.courseId!=null and param1.courseId != '' ">Or course_id=#{param1.courseId}</if>
+      <if test="param1.courseName!=null and param1.courseName != '' ">Or course_name=#{param1.courseName}</if>
+      <if test="param1.placeId!=null and param1.placeId != '' ">Or place_id=#{param1.placeId}</if>
+      <if test="param1.placeName!=null and param1.placeName != '' ">Or place_name=#{param1.placeName}</if>
+      <if test="param1.price!=null and param1.price != '' ">Or price=#{param1.price}</if>
+      <if test="param1.dltype!=null and param1.dltype != '' ">Or dltype=#{param1.dltype}</if>
+      <if test="param1.tid!=null and param1.tid != '' ">Or tid=#{param1.tid}</if>
+      <if test="param1.isdel!=null   ">Or isdel=#{param1.isdel}</if>
+      <if test="param1.lge!=null and param1.lge != '' ">Or lge=#{param1.lge}</if>
+      <if test="param1.lae!=null and param1.lae != '' ">Or lae=#{param1.lae}</if>
+      <if test="param1.rid!=null and param1.rid != '' ">Or rid=#{param1.rid}</if>
+      <if test="param1.reason!=null and param1.reason != '' ">Or reason=#{param1.reason}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.ccid!=null and param2.ccid != '' ">Or ccid=#{param2.ccid}</if>
+      <if test="param2.ctype!=null and param2.ctype != '' ">Or ctype=#{param2.ctype}</if>
+      <if test="param2.coachId!=null and param2.coachId != '' ">Or coach_id=#{param2.coachId}</if>
+      <if test="param2.cstart!=null and param2.cstart != '' ">Or cstart=#{param2.cstart}</if>
+      <if test="param2.cend!=null and param2.cend != '' ">Or cend=#{param2.cend}</if>
+      <if test="param2.rstart!=null and param2.rstart != '' ">Or rstart=#{param2.rstart}</if>
+      <if test="param2.rend!=null and param2.rend != '' ">Or rend=#{param2.rend}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">Or order_id=#{param2.orderId}</if>
+      <if test="param2.maxNum!=null and param2.maxNum != '' ">Or max_num=#{param2.maxNum}</if>
+      <if test="param2.bookNum!=null and param2.bookNum != '' ">Or book_num=#{param2.bookNum}</if>
+      <if test="param2.carId!=null and param2.carId != '' ">Or car_id=#{param2.carId}</if>
+      <if test="param2.carName!=null and param2.carName != '' ">Or car_name=#{param2.carName}</if>
+      <if test="param2.carImg!=null and param2.carImg != '' ">Or car_img=#{param2.carImg}</if>
+      <if test="param2.carNo!=null and param2.carNo != '' ">Or car_no=#{param2.carNo}</if>
+      <if test="param2.courseId!=null and param2.courseId != '' ">Or course_id=#{param2.courseId}</if>
+      <if test="param2.courseName!=null and param2.courseName != '' ">Or course_name=#{param2.courseName}</if>
+      <if test="param2.placeId!=null and param2.placeId != '' ">Or place_id=#{param2.placeId}</if>
+      <if test="param2.placeName!=null and param2.placeName != '' ">Or place_name=#{param2.placeName}</if>
+      <if test="param2.price!=null and param2.price != '' ">Or price=#{param2.price}</if>
+      <if test="param2.dltype!=null and param2.dltype != '' ">Or dltype=#{param2.dltype}</if>
+      <if test="param2.tid!=null and param2.tid != '' ">Or tid=#{param2.tid}</if>
+      <if test="param2.isdel!=null  ">Or isdel=#{param2.isdel}</if>
+      <if test="param2.lge!=null and param2.lge != '' ">Or lge=#{param2.lge}</if>
+      <if test="param2.lae!=null and param2.lae != '' ">Or lae=#{param2.lae}</if>
+      <if test="param2.rid!=null and param2.rid != '' ">Or rid=#{param2.rid}</if>
+      <if test="param2.reason!=null and param2.reason != '' ">Or reason=#{param2.reason}</if>
+    </where>
+  </sql>
+  <insert id="addCoachClass">
+    <!--/*新增一个对象*/-->insert into t_coach_class
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addCoachClassList">
+    <!--/*新增一批对象*/-->insert into t_coach_class values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.ccid},#{one.ctype},#{one.coachId},#{one.cstart},#{one.cend},#{one.rstart},#{one.rend},#{one.orderId},#{one.maxNum},#{one.bookNum},#{one.carId},#{one.carName},#{one.carImg},#{one.carNo},#{one.courseId},#{one.courseName},#{one.placeId},#{one.placeName},#{one.price},#{one.dltype},#{one.tid},#{one.isdel},#{one.lge},#{one.lae},#{one.rid},#{one.reason})</foreach>
+  </insert>
+  <delete id="delCoachClassById">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_class where ccid=#{ccid}
+  </delete>
+  <delete id="delCoachClassByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_coach_class where ccid in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delCoachClassByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_coach_class
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveCoachClass">
+    <!--/*新增或者更新一个对象*/-->replace into t_coach_class
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveCoachClassList">
+    <!--/*新增或者更新一批对象*/-->replace into t_coach_class values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.ccid},#{one.ctype},#{one.coachId},#{one.cstart},#{one.cend},#{one.rstart},#{one.rend},#{one.orderId},#{one.maxNum},#{one.bookNum},#{one.carId},#{one.carName},#{one.carImg},#{one.carNo},#{one.courseId},#{one.courseName},#{one.placeId},#{one.placeName},#{one.price},#{one.dltype},#{one.tid},#{one.isdel},#{one.lge},#{one.lae},#{one.rid},#{one.reason})</foreach>
+  </insert>
+  <update id="updateByCcid">
+    <!--/*根据字段ccid更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where ccid=#{param2}
+  </update>
+  <update id="updateByCtype">
+    <!--/*根据字段ctype更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where ctype=#{param2}
+  </update>
+  <update id="updateByCoachId">
+    <!--/*根据字段coachId更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where coach_id=#{param2}
+  </update>
+  <update id="updateByCstart">
+    <!--/*根据字段cstart更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where cstart=#{param2}
+  </update>
+  <update id="updateByCend">
+    <!--/*根据字段cend更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where cend=#{param2}
+  </update>
+  <update id="updateByRstart">
+    <!--/*根据字段rstart更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where rstart=#{param2}
+  </update>
+  <update id="updateByRend">
+    <!--/*根据字段rend更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where rend=#{param2}
+  </update>
+  <update id="updateByOrderId">
+    <!--/*根据字段orderId更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where order_id=#{param2}
+  </update>
+  <update id="updateByMaxNum">
+    <!--/*根据字段maxNum更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where max_num=#{param2}
+  </update>
+  <update id="updateByBookNum">
+    <!--/*根据字段bookNum更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where book_num=#{param2}
+  </update>
+  <update id="updateByCarId">
+    <!--/*根据字段carId更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where car_id=#{param2}
+  </update>
+  <update id="updateByCarName">
+    <!--/*根据字段carName更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where car_name=#{param2}
+  </update>
+  <update id="updateByCarImg">
+    <!--/*根据字段carImg更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where car_img=#{param2}
+  </update>
+  <update id="updateByCarNo">
+    <!--/*根据字段carNo更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where car_no=#{param2}
+  </update>
+  <update id="updateByCourseId">
+    <!--/*根据字段courseId更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where course_id=#{param2}
+  </update>
+  <update id="updateByCourseName">
+    <!--/*根据字段courseName更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where course_name=#{param2}
+  </update>
+  <update id="updateByPlaceId">
+    <!--/*根据字段placeId更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where place_id=#{param2}
+  </update>
+  <update id="updateByPlaceName">
+    <!--/*根据字段placeName更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where place_name=#{param2}
+  </update>
+  <update id="updateByPrice">
+    <!--/*根据字段price更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where price=#{param2}
+  </update>
+  <update id="updateByDltype">
+    <!--/*根据字段dltype更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where dltype=#{param2}
+  </update>
+  <update id="updateByTid">
+    <!--/*根据字段tid更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where tid=#{param2}
+  </update>
+  <update id="updateByIsdel">
+    <!--/*根据字段isdel更新一个或者多个对象*/-->update t_coach_class
+    <include refid="setNotNullparam1"/> where isdel=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_class 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_coach_class
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryCoachClassById" resultType="CoachClassPo">
+    <!--/*根据主键查询一个对象*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryCoachClassByIds" resultType="CoachClassPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where ccid in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByCcid" resultType="CoachClassPo">
+    <!--/*根据字段ccid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryByCtype" resultType="CoachClassPo">
+    <!--/*根据字段ctype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where ctype=#{param1} ${param2}
+  </select>
+  <select id="queryByCoachId" resultType="CoachClassPo">
+    <!--/*根据字段coachId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryBookNumByCoachId" resultType="java.lang.Integer">
+     select ifnull(sum(book_num),0)  from t_coach_class where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryBookNumByCoachId2" resultType="java.lang.Integer">
+     SELECT count(book_num) FROM `t_coach_class` where coach_id=#{param1} ${param2}
+  </select>
+  <select id="queryBookNumByCcId" resultType="java.lang.Integer">
+     select book_num  from t_coach_class where ccid=#{param1} ${param2}
+  </select>
+  <select id="queryBookNumByOrderId" resultType="java.lang.Integer">
+     select book_num  from t_coach_class where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCstart" resultType="CoachClassPo">
+    <!--/*根据字段cstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where cstart=#{param1} ${param2}
+  </select>
+  <select id="queryByCend" resultType="CoachClassPo">
+    <!--/*根据字段cend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where cend=#{param1} ${param2}
+  </select>
+  <select id="queryByRstart" resultType="CoachClassPo">
+    <!--/*根据字段rstart查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where rstart=#{param1} ${param2}
+  </select>
+  <select id="queryByRend" resultType="CoachClassPo">
+    <!--/*根据字段rend查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where rend=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderId" resultType="CoachClassPo">
+    <!--/*根据字段orderId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByMaxNum" resultType="CoachClassPo">
+    <!--/*根据字段maxNum查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where max_num=#{param1} ${param2}
+  </select>
+  <select id="queryByBookNum" resultType="CoachClassPo">
+    <!--/*根据字段bookNum查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where book_num=#{param1} ${param2}
+  </select>
+  <select id="queryByCarId" resultType="CoachClassPo">
+    <!--/*根据字段carId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where car_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCarName" resultType="CoachClassPo">
+    <!--/*根据字段carName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where car_name=#{param1} ${param2}
+  </select>
+  <select id="queryByCarImg" resultType="CoachClassPo">
+    <!--/*根据字段carImg查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where car_img=#{param1} ${param2}
+  </select>
+  <select id="queryByCarNo" resultType="CoachClassPo">
+    <!--/*根据字段carNo查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,reason as reason from t_coach_class where car_no=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseId" resultType="CoachClassPo">
+    <!--/*根据字段courseId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where course_id=#{param1} ${param2}
+  </select>
+  <select id="queryByCourseName" resultType="CoachClassPo">
+    <!--/*根据字段courseName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where course_name=#{param1} ${param2}
+  </select>
+  <select id="queryByPlaceId" resultType="CoachClassPo">
+    <!--/*根据字段placeId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where place_id=#{param1} ${param2}
+  </select>
+  <select id="queryByPlaceName" resultType="CoachClassPo">
+    <!--/*根据字段placeName查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where place_name=#{param1} ${param2}
+  </select>
+  <select id="queryByPrice" resultType="CoachClassPo">
+    <!--/*根据字段price查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where price=#{param1} ${param2}
+  </select>
+  <select id="queryByDltype" resultType="CoachClassPo">
+    <!--/*根据字段dltype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where dltype=#{param1} ${param2}
+  </select>
+  <select id="queryByTid" resultType="CoachClassPo">
+    <!--/*根据字段tid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where tid=#{param1} ${param2}
+  </select>
+  <select id="queryByIsdel" resultType="CoachClassPo">
+    <!--/*根据字段isdel查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class where isdel=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">
+      <![CDATA[
+      And ((cstart between #{param1.cstart} And #{param1.cstart})
+   	  or
+      (cend between #{param1.cend} And cend<#{param1.cend}))
+      ]]>
+      </if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.isdel!=null  ">And isdel=#{param1.isdel}</if>
+    </where>
+     ${param2}
+  </select>
+  <select id="queryByNew1" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId}</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And  cstart between #{param1.cstart} and #{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">And book_num=#{param1.bookNum}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew8" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,(price/max_num) as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId} And price is not null</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And  cstart between #{param1.cstart} and #{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">And book_num=#{param1.bookNum}</if>
+       <if test="param1.dltype!=null ">And dltype=#{param1.dltype}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew9" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,(price/max_num) as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId} And price is null</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And  cstart between #{param1.cstart} and #{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">And book_num=#{param1.bookNum}</if>
+       <if test="param1.dltype!=null ">And dltype=#{param1.dltype}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew10" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,(price/max_num) as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId} And price is not null And course_id in(1,11)</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And  cstart between #{param1.cstart} and #{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">And book_num=#{param1.bookNum}</if>
+       <if test="param1.dltype!=null ">And dltype=#{param1.dltype}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew11" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,(price/max_num) as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+     <where>
+      <if test="param1.ccid!=null and param1.ccid != '' ">And ccid=#{param1.ccid}</if>
+      <if test="param1.ctype!=null and param1.ctype != '' ">And ctype=#{param1.ctype}</if>
+      <if test="param1.coachId!=null and param1.coachId != '' ">And coach_id=#{param1.coachId} And price is not null And course_id in(1,2,6,11,12,16)</if>
+      <if test="param1.cstart!=null and param1.cstart != '' ">And  cstart between #{param1.cstart} and #{param1.cend}</if>
+      <if test="param1.rstart!=null and param1.rstart != '' ">And rstart=#{param1.rstart}</if>
+      <if test="param1.rend!=null and param1.rend != '' ">And rend=#{param1.rend}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.maxNum!=null and param1.maxNum != '' ">And max_num=#{param1.maxNum}</if>
+      <if test="param1.bookNum!=null and param1.bookNum != '' ">And book_num=#{param1.bookNum}</if>
+      <if test="param1.dltype!=null ">And dltype=#{param1.dltype}</if>
+      <if test="param1.isdel!=null ">And isdel=#{param1.isdel}</if>
+    </where>
+    ${param2}
+  </select>
+  <select id="queryByNew2" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="CoachClassPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select ccid as ccid,ctype as ctype,coach_id as coachId,cstart as cstart,cend as cend,rstart as rstart,rend as rend,order_id as orderId,max_num as maxNum,book_num as bookNum,car_id as carId,car_name as carName,car_img as carImg,car_no as carNo,course_id as courseId,course_name as courseName,place_id as placeId,place_name as placeName,price as price,dltype as dltype,tid as tid,isdel as isdel,lge as lge,lae as lae,rid as rid,reason as reason from t_coach_class
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

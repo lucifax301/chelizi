@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="historyPayment">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>结款历史记录</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="student-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title">
+			<div class="d-title">报名订单 > 结款历史记录</div>
+		</div>
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header header-tab" id="header-table">
+				<li><a href="student.html" >结款历史记录</a></li>
+			</div>
+			<div class="content table-qie">
+				<div class="search">
+					<div class="line">
+						<div>结款时间</div>
+						<ul>
+							<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+							<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+						</div>
+					</div>
+					<div class="line">
+						<div>分配的驾校</div>
+						<ul id="select-school">
+							<li ng-click="getDataForDistSchool($event,'')" class="active">全部</li>
+						</ul>
+						<select ng-model="cityId" class="form-control jia-xiao" ng-change="getSchools()" ng-class="{'error-select':cityError?true:false}">
+						  <option value="">请选择城市</option>
+						  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+						</select>
+						<select ng-model="schoolNo" ng-click="checkHaveCity()" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">选择驾校</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div>
+					<div class="line">
+						<div>高级查询</div>
+						<div class="input-group search-more-condition">
+							<select ng-model="searchType" class="form-control">
+								<option value="orderId" selected="selected">订单号</option>
+								<option value="name">姓名</option>
+								<option value="phoneNum">电话</option>
+							</select>
+							<input type="text" ng-model="search" class="form-control" placeholder="输入订单号/学员姓名/电话号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<a ng-click="orderDataExport()" class="btn btn-sm btn-primary">数据导出</a>
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>结款时间</b></td>
+					  	<td><b>报名单号</b></td>
+					  	<td><b>学员姓名</b></td>
+					  	<td><b>学员电话</b></td>
+					  	<td><b>分配的驾校</b></td>
+					  	<td><b>订单金额</b></td>
+						<td><b>佣金金额</b></td>
+						<td><b>结款人</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+						  <td align="center"><input type="checkbox" id="{{data.orderId}}" ng-click="updateSelection($event,data.orderId)" ng-checked="isSelected(data.orderId)"></td>
+						  <td ng-bind="data.checkoutTime"></td>
+						  <td><a href="sign-up-orde-details.html?orderId={{data.orderId}}" ng-bind="data.orderId?data.orderId:'喱喱同学'"></a></td>
+						  <td ng-bind="data.name"></td>
+						  <td ng-bind="data.phoneNum"></td>
+						  <td ng-bind="data.schoolName"></td>
+						  <td ng-bind="data.price"></td>
+						  <td ng-bind="data.brokerage"></td>
+						  <td ng-bind="data.checkouter"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- 学员信息编辑 -->
+		<ng-include src="'edit/edit-student.html'" onload="sutdentEditLoad()" ></ng-include>
+		<!-- 学员状态 -->
+		<ng-include src="'edit/change-student-state.html'" onload="StudentStateLoad()" ></ng-include>
+		<!--资料不全-->
+		<ng-include src="'edit/edit-data-imperfect.html'" onload="infImperfect()"></ng-include>
+		<!--资料齐全-->
+		<ng-include src="'edit/edit-data-complete.html'" onload="infComplete()"></ng-include>
+		<!-- 编辑学员状态错误弹出层 -->
+		<ng-include src="'edit/change-error-students.html'" onload="changeErrorStudentLoad()" ></ng-include>
+		
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/historyPayment.js"></script>
+</body>
+</html>

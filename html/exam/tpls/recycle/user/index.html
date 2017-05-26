@@ -1,0 +1,144 @@
+<div class="user-index-info">
+	<div class="y-comment text-center bg_fff h125 border_bottom" style="background: url(img/user/banner.png);">
+		<img src="../../../images/student-default-header.png" class="img-auto mt20" ng-if="!userInfo.headIcon">
+		<img src="{{userinfo.headIcon}}" class="img-auto mt20" ng-if="userInfo.headIcon">
+		<p class="f16 mt5 lh20 white">{{userinfo.name}}</p>
+		<a href="javascript:" onclick="$('#pop-loginout').show()" class="close">退出登录</a>
+	</div>
+	<div class="info-tabs bg_fff y-comment">
+		<label ng-class="{true:'active'}[infotabs==1]">
+			<input type="radio" name="infotabs" ng-model="infotabs" class="hide" value="1"> 
+			我的订单
+		</label>
+		<div class="fenge"></div>
+		<label ng-class="{true:'active'}[infotabs==2]">
+			<input type="radio" name="infotabs" ng-model="infotabs" class="hide" value="2">
+			我的钱包
+		</label>
+	</div>
+	<div class="" ng-if="infotabs==1" ng-cloak>
+		
+		<div class="y-comment bg_fff mt10 border_bottom" ng-repeat="item in user_order">
+			<a class="y-cell" ng-href="{{item.order_href}}">
+				<div class="cell__bd first">
+					{{item.courseName}}
+				</div>
+				<div class="cell__ft color_title">
+					<i class="ion-chevron-right"></i>
+				</div>
+			</a>
+			<div class="user-order-list y-box-flex">
+				<div>
+					上课时间： {{item.pstart | date:"MM'月'dd'日' HH:mm"}}~{{item.pend|date:"HH:mm"}} <br>
+					总计：<span ng-bind="item.payTotal|priceTex"></span>元
+				</div>
+				<div class="box-1">
+					<a class="btn-pay" ng-if="item.orderText == '待付款'"  href="{{NURL}}order/pay?orderId={{item.orderId}}">付款</a>
+					<a class="btn-pay hollow" ng-if="item.orderText == '待评价'"  href="{{NURL}}order/commentAdd?orderId={{item.orderId}}">评价</a>
+					<a class="btn-pay minor" ng-if="item.orderText == '待上课'">待上课</a>
+					<a class="btn-pay minor" ng-if="item.orderText == '上课中'">上课中</a>
+					<a class="btn-pay minor" ng-if="item.orderText == '待接单'">待接单</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已成功'">已成功</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已取消'">已取消</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已超时'">已超时</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '教练取消'">教练取消</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已超时'">已超时</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已完成'">已完成</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '已拒单'">已拒单</a>
+					<a class="btn-pay erro" ng-if="item.orderText == '缺课'">缺课</a>
+				</div>
+			</div>
+		</div>
+		<div class="c-showmore" ng-show="showmore">正在加载数据...</div>
+		<div class="c-showmore" ng-show="showmore_end">已经加载完了</div>
+		<div class="text-center mt30 pt30 f15 blod" ng-show='showmore_none'>
+			<img src="img/user/datanone.png" class="mt50" style="width: auto;">
+			<br><br>
+			您暂时还没有订单
+		</div>
+	</div>
+	<div ng-if="infotabs==2" ng-cloak>
+		<div class="bg_fff y-cell lh50" >
+			<div class="cell__hd">
+				<img src="img/user/icon-price.png" class="img-auto"/>
+			</div>
+			<div class="cell__bd clear_border">
+				账户余额
+			</div>
+			<div class="cell__ft clear_border color_title">
+				{{user_info.money|priceTex}}元
+			</div>
+		</div>
+		<div class="mt10 y-comment bg_fff">
+			<a class="y-cell" href="{{NURL}}order/recharge">
+				<div class="cell__hd">
+					<img src="img/user/icon-1.png" class="img-auto"/>
+				</div>
+				<div class="cell__bd">
+					充值
+				</div>
+				<div class="cell__ft">
+					<i class="ion-chevron-right"></i>
+				</div>
+			</a>
+			<a class="y-cell"  href="{{NURL}}user/coupons">
+				<div class="cell__hd">
+					<img src="img/user/icon-2.png" class="img-auto"/>
+				</div>
+				<div class="cell__bd">
+					优惠券
+				</div>
+				<div class="cell__ft">
+					{{user_info.couponCount}}张
+					<i class="ion-chevron-right"></i>
+				</div>
+			</a>
+			<a class="y-cell" href="{{NURL}}user/bill">
+				<div class="cell__hd">
+					<img src="img/user/icon-3.png" class="img-auto"/>
+				</div>
+				<div class="cell__bd">
+					账单明细
+				</div>
+				<div class="cell__ft">
+					{{user_info.bankCount}}张
+					<i class="ion-chevron-right"></i>
+				</div>
+			</a>
+			<a class="y-cell" href="{{NURL}}user/password">
+				<div class="cell__hd">
+					<img src="img/user/icon-4.png" class="img-auto"/>
+				</div>
+				<div class="cell__bd">
+					支付管理
+				</div>
+				<div class="cell__ft">
+					找回、修改支付密码
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="h80"></div>
+	<div class="user-nav y-box-flex">
+		<a class="box-1 pt5" href="{{NURL}}course/coach">
+			<img src="img/user/icon-yk.png" class="img-auto" /><br>
+			约课
+		</a>
+		<a class="box-1 active pt5"  href="{{NURL}}user">
+			<img src="img/user/icon-user-a.png" class="img-auto" /><br>
+			个人中心
+		</a>
+	</div>
+</div>
+
+<div id="pop-loginout" style="display: none;">
+	<div class="pop-mask"></div>
+	<div class="pop-body">
+		<div class="title">退出登录</div>
+		<div class="comment">是否确定退出登录？</div>
+		<div class="btnbox">
+			<div class="btn erro" onclick="$('#pop-loginout').hide();">取消</div>
+			<div class="btn" ng-click="loginout()">确定</div>
+		</div>
+	</div>
+</div>

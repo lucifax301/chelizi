@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="MyApp">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>提现</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body> 
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics">
+		<div class="d-title w-withdraw-top">驾校钱包 / 提现</div>
+		<!-- 提现记录列表详情 -->
+		<div class="padding-20">
+			
+			<!-- 提现申请中 -->
+			<div ng-show="type==0" class="w-msg w-error margin-top-20">
+				<div class="block">
+					<i class="glyphicon glyphicon-time oringe"></i>
+					<strong>提现申请已提交，等待工作人员审核</strong>
+				</div>
+			</div>
+			<!-- 提现失败 -->
+			<div ng-show="type==2" class="w-msg w-error margin-top-20">
+				<div class="block">
+					<i class="ion-close-circled error"></i>
+					<strong>提现失败</strong>
+				</div>
+				<div class="block light margin-left-15">提现意见：提现金额过大，储备金不够</div>
+			</div>
+			<!-- 提现成功 -->
+			<div ng-show="type==1" class="w-msg w-success margin-top-20">
+				<div class="block">
+					<i class="ion-ios-checkmark-outline green"></i>
+					<strong>提现成功</strong>
+				</div>
+			</div>
+			<div ng-show="type==0||type==1||type==2" class="w-balance w-balance-other">
+				<div class="topth">
+					<div class="block">
+						<div class="left text">提现账户</div>
+						<div class="right">
+							<p ng-bind="queryDeposit.cardName"></p>
+							<p><span ng-bind="queryDeposit.bankName"></span> <span ng-bind="queryDeposit.bankCard|secretNumber"></span></p>
+						</div>
+					</div>
+					<div class="block">
+						<div class="left text">提现金额(元)</div>
+						<div class="left oringe" ng-bind="queryDeposit.money|priceTex">1000.00</div>
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="jindu">
+						<div class="item active">
+							<span>1</span>
+							<h1>提交提现申请</h1>
+							<h5 class="light" ng-bind="queryDeposit.applyTime|timeTex"></h5>
+						</div>
+						<div class="item item1 active">
+							<i></i>
+							<span>2</span>
+							<h1>等待审核</h1>
+							<h5 class="light">1-2个工作日内审核</h5>
+						</div>
+						<div class="item item1" ng-class="{'active':queryDeposit.checkStatus==1||queryDeposit.checkStatus==2}">
+							<i></i>
+							<span>3</span>
+							<h1 class="light" ng-bind="'提现状态：'+(queryDeposit.checkStatus|recoreStatusText)"></h1>
+						</div>
+					</div>
+					<div class="more"><a href="schools-account-present-record.html">查看提现记录</a></div>
+				</div>	
+			</div>
+
+		</div>
+	</div>
+<!-- script -->
+</div>	
+<script src="assets/js/ng-js/schools-account-withdrawals-details.js?v=3b00d9c8d61470826781028"></script>
+</body>
+</html>

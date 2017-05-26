@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.share.dao.mapper.BigCustomerMapper">
+	<resultMap id="BaseResultMap" type="com.lili.share.dao.po.BigCustomer">
+		<id column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="company_name" property="companyName" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		phone, company_name, name, ctime, remark
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_u_big_customer
+		where phone = #{phone,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_u_big_customer
+		where phone = #{phone,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.share.dao.po.BigCustomer">
+		insert into t_u_big_customer (phone, company_name, name,
+		ctime, remark)
+		values (#{phone,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{ctime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.share.dao.po.BigCustomer">
+		insert into t_u_big_customer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="companyName != null">
+				company_name,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="ctime != null">
+				ctime,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="companyName != null">
+				#{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				#{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.share.dao.po.BigCustomer">
+		update t_u_big_customer
+		<set>
+			<if test="companyName != null">
+				company_name = #{companyName,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="ctime != null">
+				ctime = #{ctime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where phone = #{phone,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.share.dao.po.BigCustomer">
+		update t_u_big_customer
+		set company_name = #{companyName,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		ctime = #{ctime,jdbcType=TIMESTAMP},
+		remark = #{remark,jdbcType=VARCHAR}
+		where phone = #{phone,jdbcType=VARCHAR}
+	</update>
+</mapper>

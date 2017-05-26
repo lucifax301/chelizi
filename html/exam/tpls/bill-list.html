@@ -1,0 +1,19 @@
+<div class="container1 container-dash line-gray20">
+    <div class="dash-view y-box-flex">
+        <div class="box-1 border_right text-center"><h4 class="noBold mb15">昨日收益<span class="fon-24">(元)</span></h4><p ng-bind="incomeData.yestIncome/100"></p></div>
+        <div class="box-1 text-center"><h4 class="noBold mb15">累计收益<span class="fon-24">(元)</span></h4><p ng-bind="incomeData.totalIncome/100"></p></div>
+    </div>
+</div>
+<div class="container2 container-bill-list">
+    <div>
+        <a class="y-cell font-normal" ng-repeat="item in datas" href="#/order-view?orderId={{item.orderId}}">
+            <div class="cell__hd">教练约考场<br><span class="font-light font-28" ng-bind="item.ctime|timeTex"></span></div>
+            <div class="cell__bd text-right"><span class="font-succes" ng-bind="'+'+item.payTotal/100"></span><br><span ng-bind="item.state|examOrderState" class="font-light font-28"></span></div>
+            <div class="cell__ft"><i class="ion-ios-arrow-right ml10" ></i></div>
+        </a>
+    </div>
+</div>
+<div class="show-more-btn" ng-if="showMoreEnd">没有更多数据了</div>
+<a href="#/dashboard" class="homeLink ion-android-home"></a>
+
+

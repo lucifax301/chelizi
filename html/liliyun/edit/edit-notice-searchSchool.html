@@ -1,0 +1,45 @@
+<div class="edit-alert edit-notice-searchSchool">
+    <div class="mask"></div>
+    <div class="main">
+        <div id="edit-notice-searchSchool" class="content" style="width: 750px;">
+            <div class="title">选择驾校 <span class="schoolCloseAlert"></span></div>
+            <div class="con-main">
+                <div class="form-inline z-mb20">
+                    <div class="form-group z-mr20">
+                        <label>城市</label>
+                        <select id="schoolCityId" class="form-control">
+                            <option value="">---全部---</option>
+                            <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>驾校</label>
+                        <input id="schoolName" class="form-control">
+                    </div>
+                    <div class="form-group" style="margin-left: 20px">
+                        <button class="btn btn-sm btn-primary" ng-click="schoolSearch()">搜索</button>
+                        <button class="btn btn-sm btn-default" ng-click="schoolRest()">重置</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-with-style">
+                        <tr>
+                            <td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+                            <td><b>驾校</b></td>
+                            <td><b>城市</b></td>
+                        </tr>
+                        <tr ng-repeat="schoolData in schoolDatas">
+                            <td align="center"><input type="checkbox" id="{{schoolData.schoolId}}" ng-click="updateSelection($event,schoolData.schoolId)" ng-checked="isSelected(schoolData.schoolId)"></td>
+                            <td ng-bind="schoolData.name"></td>
+                            <td ng-bind="schoolData.region"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="chaozuo" id="submitButton">
+                    <a class="btn btn-sm btn-default" ng-click="schoolSearchCancle()">取消</a>
+                    <a ng-click="choseSchool()"  class="btn btn-sm btn-primary">确认</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

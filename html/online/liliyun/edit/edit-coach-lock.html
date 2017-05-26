@@ -1,0 +1,40 @@
+<div class="edit-alert coach-lock-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">教练封号 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="coach-edit">
+			<dl>
+				<dt>封号类型:</dt>
+				<dd class="coach-lock-edit">
+					<div><input type="radio" name="coachEditState" ng-model="editData.state" value="1" ng-click="lockTimeShow($event)" ng-checked="true">临时封号</div>
+					<div><input type="radio" name="coachEditState" ng-model="editData.state" value="2" ng-click="lockTimeHidden($event)">永久封号</div>
+					<div><input type="radio" name="coachEditState" ng-model="editData.state" value="0" ng-click="lockTimeHidden($event)">解封帐号</div>
+				</dd>
+			</dl>
+			<dl class="coach-lock-edit-time">
+				<dt>解封时间:</dt>
+				<dd>
+					<div class="input-prepend input-group">
+						<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+						<input type="text" style="width: 200px" name="reservation" id="reservation" class="form-control" placeholder="选择解封时间" ng-model="editData.reviveTime" />
+					</div>
+				</dd>
+			</dl>
+			<dl>
+				<dt>封号理由:</dt>
+				<dd>
+					<input type="text" ng-model="editData.note" class="form-control" maxlength="30" minlength="2">
+				</dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitCoachLock($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

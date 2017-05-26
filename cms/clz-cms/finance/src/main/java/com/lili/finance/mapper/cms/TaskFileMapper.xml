@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.cms.TaskFileDao">
+	<resultMap id="BaseResultMap" type="com.lili.finance.model.cms.TaskFile">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="school_id" property="schoolId" jdbcType="INTEGER" />
+		<result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="TINYINT" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
+		<result column="sum" property="sum" jdbcType="INTEGER" />
+		<result column="suc_sum" property="sucSum" jdbcType="INTEGER" />
+		<result column="fail_sum" property="failSum" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="handle_time" property="handleTime" jdbcType="TIMESTAMP" />
+		<result column="cost_time" property="costTime" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, school_id, school_name, file_type, file_name, file_path, sum, suc_sum, fail_sum,
+		status, create_time,
+		handle_time, cost_time, remark
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_task_file
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="queryIsUnHandleTask" resultMap="BaseResultMap" parameterType="com.lili.finance.model.cms.TaskFile">
+		select
+			<include refid="Base_Column_List" />
+		from t_task_file
+			where status = 1 order by file_type ASC
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_task_file
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.finance.model.cms.TaskFile">
+		insert into t_task_file (id, school_id, file_type,
+		file_name, file_path, sum,
+		suc_sum, fail_sum, status,
+		create_time, handle_time, cost_time,
+		remark)
+		values (#{id,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER},
+		#{schoolName,jdbcType=VARCHAR},#{fileType,jdbcType=TINYINT},
+		#{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{sum,jdbcType=INTEGER},
+		#{sucSum,jdbcType=INTEGER}, #{failSum,jdbcType=INTEGER},
+		#{status,jdbcType=TINYINT},
+		#{createTime,jdbcType=TIMESTAMP}, #{handleTime,jdbcType=TIMESTAMP}, #{costTime,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.finance.model.cms.TaskFile">
+		insert into t_task_file
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="schoolId != null">
+				school_id,
+			</if>
+			<if test="schoolName != null">
+				school_name,
+			</if>
+			<if test="fileType != null">
+				file_type,
+			</if>
+			<if test="fileName != null">
+				file_name,
+			</if>
+			<if test="filePath != null">
+				file_path,
+			</if>
+			<if test="sum != null">
+				sum,
+			</if>
+			<if test="sucSum != null">
+				suc_sum,
+			</if>
+			<if test="failSum != null">
+				fail_sum,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="handleTime != null">
+				handle_time,
+			</if>
+			<if test="costTime != null">
+				cost_time,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="schoolId != null">
+				#{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolName != null">
+				#{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				#{fileType,jdbcType=TINYINT},
+			</if>
+			<if test="fileName != null">
+				#{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				#{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="sum != null">
+				#{sum,jdbcType=INTEGER},
+			</if>
+			<if test="sucSum != null">
+				#{sucSum,jdbcType=INTEGER},
+			</if>
+			<if test="failSum != null">
+				#{failSum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="handleTime != null">
+				#{handleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="costTime != null">
+				#{costTime,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.finance.model.cms.TaskFile">
+		update t_task_file
+		<set>
+			<if test="schoolId != null">
+				school_id = #{schoolId,jdbcType=INTEGER},
+			</if>
+			<if test="schoolName != null">
+				school_name = #{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				file_type = #{fileType,jdbcType=TINYINT},
+			</if>
+			<if test="fileName != null">
+				file_name = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				file_path = #{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="sum != null">
+				sum = #{sum,jdbcType=INTEGER},
+			</if>
+			<if test="sucSum != null">
+				suc_sum = #{sucSum,jdbcType=INTEGER},
+			</if>
+			<if test="failSum != null">
+				fail_sum = #{failSum,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="handleTime != null">
+				handle_time = #{handleTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="costTime != null">
+				cost_time = #{costTime,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.finance.model.cms.TaskFile">
+		update t_task_file
+			set school_id = #{schoolId,jdbcType=INTEGER},
+				school_name = #{schoolName,jdbcType=VARCHAR},
+				file_type = #{fileType,jdbcType=TINYINT},
+				file_name = #{fileName,jdbcType=VARCHAR},
+				file_path = #{filePath,jdbcType=VARCHAR},
+				sum = #{sum,jdbcType=INTEGER},
+				suc_sum = #{sucSum,jdbcType=INTEGER},
+				fail_sum = #{failSum,jdbcType=INTEGER},
+				status = #{status,jdbcType=TINYINT},
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+				handle_time = #{handleTime,jdbcType=TIMESTAMP},
+				cost_time = #{costTime,jdbcType=INTEGER},
+				remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="driveSchool">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>驾校管理</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+    <script src="assets/common/js/commonStart.js"></script>
+
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+    <div class="common-style order-detail">
+        <div class="top">
+            <div class="title"><h1>驾校管理</h1></div>
+        </div>
+        <div class="clearfix"></div>
+        <ul class="table-li">
+            <li ng-click="tableSwitch($event)" class="active">驾校信息</li>
+            <li ng-click="tableSwitch($event)">驾校相册</li>
+        </ul>
+        <div class="order-table" id="order-table">
+            <!--基本信息-->
+            <div>
+                <div>
+                    <img src="http://o7d94lzvx.bkt.clouddn.com/{{data.logo}}?imageView2/1/w/120/h/120/q/100" class="img-school-radius">
+                    <a href="drive-school-edit.html" class="btn btn-primary btn-default z-fr" role="button">编辑</a>
+                </div>
+                <div class="z-auto-float z-mt20">
+                    <h2 class="z-font-h2 z-fl z-mtb0" ng-bind="data.name"></h2>
+                    <div class="star-wrap z-fl z-ml20">
+                        <div class="star-outer"></div>
+                        <div class="star-in" style="width: {{data.score*20}}%"></div>
+                    </div>
+                </div>
+                <div class="z-mt20 z-mb30">
+                    <div class="z-mb10"><span ng-bind="data.address"></span> &nbsp; | &nbsp; <span ng-bind="data.tell"></span></div>
+                    <div>
+                        <span class="ion-university"></span><span class="z-mr20 z-ml5">{{data.orderNum}}位学员</span>
+                        <span class="ion-person"></span><span class="z-mr20 z-ml5">{{data.coachCount}}位教练</span>
+                        <span class="ion-model-s"></span><span class="z-mr20 z-ml5">{{data.carCount}}台教练车</span>
+                        <span class="ion-pull-request"></span><span class="z-mr20 z-ml5">{{data.trfieldCount}}个训练场</span>
+                        <span class="ion-home"></span><span class="z-mr20 z-ml5">{{data.storeCount}}个门店</span>
+                        <span class="ion-ios-people"></span><span class="z-mr20 z-ml5">{{data.packageCount}}个班别</span>
+                    </div>
+                </div>
+
+                <h2 class="z-font-h2">驾校简介</h2>
+                <div><p  ng-bind="data.schoolInfo"></p></div>
+                <h2 class="z-font-h2">报名须知</h2>
+                <div><p  ng-bind="data.regInfo"></p></div>
+
+            </div>
+            <!--驾校相册-->
+            <div>
+                <div class="z-auto-float z-mb30" style="border-bottom: 1px solid #e7e7e7;">
+                    <span class="z-block z-fl school-alarm-item z-mr20"><img id="icon" src="http://o7d94lzvx.bkt.clouddn.com/{{data.icon}}?imageView2/1/w/200/h/135/q/100"></span>
+                    <h2 class="z-font-h2 z-fl z-mtb0" style=" line-height: 135px;">驾校相册封面</h2>
+                    <h2><a ng-click="submitEditMsg($event)" class="btn btn-primary btn-default z-fr" role="button">保存修改</a></h2>
+                </div>
+                <div>
+                    <!--<img src="assets/img/image.png" width="200px" height="150px">-->
+                    <!--<input type="file">-->
+                    <span class="school-alarm-item" id="fistImage">
+                        <div id="uploadWrap">
+                            <img class="form-control" id="addImg" ng-click="uploadImg('1')" style=" width: 200px; height: 120px;"  src="assets/img/image.png">
+                            <p><button id="uploadButton" class="btn btn-xs btn-primary z-fr z-locked" ng-click="uploadConfirm($event)">上传</button></p>
+
+                        </div>
+                    </span>
+                    <span ng-repeat="item in images" class="school-alarm-item">
+                    <img src="http://o7d94lzvx.bkt.clouddn.com/{{item}}" width="200px" height="150px">
+                    <div class="alarm-action">
+                        <button  class="btn btn-xs btn-primary" ng-click="changIcon(item)">设为封面</button>
+                        <button  class="btn btn-xs btn-primary z-ml10" ng-click="itemDel($event,item)">删除</button>
+                    </div>
+                    <input type="hidden" value="{{item}}" name="image">
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/driveSchool.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="statement">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>报名费结算</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body class="student-body">
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title">
+			<div class="d-title">报名订单</div>
+			<ul class="table-li">
+				<li><a href="sign-up-orde.html" ng-if="120201|isAccessShow">信息查询</a></li>
+				<li class="active"><a href="sign-up-statement.html" ng-if="120202|isAccessShow">报名费结算</a></li>
+			</ul>
+		</div>
+		<div class="padding-20">
+		<div class="table-margin common-table">
+			<div class="header header-tab" id="header-table">
+				<li>报名费结算</li>
+			</div>
+			<div class="content table-qie">
+				<div class="search">
+					<div class="line">
+						<div>所属驾校</div>
+						<ul id="select-school">
+							<li ng-click="getDataForDistSchool($event,'')" class="active">全部</li>
+						</ul>
+						<select ng-model="cityId" class="form-control jia-xiao" ng-change="getSchools()" ng-class="{'error-select':cityError?true:false}">
+						  <option value="">请选择城市</option>
+						  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region"></option>
+						</select>
+						<select ng-model="schoolNo" ng-click="checkHaveCity()" ng-change="getDataForSchool()" class="form-control jia-xiao">
+						  <option value="">选择驾校</option>
+						  <option ng-repeat="item in schools" value="{{item.schoolId}}" ng-bind="item.name"></option>
+						</select>
+					</div>
+					<div class="line tab-line">
+						<div>学员状态</div>
+						<ul>
+							<li><div class="tab-par active" ng-click="comSearTabCheck($event,'all')"><i>全部</i></div></li>
+							<li ng-repeat="item in studentStatesList">
+								<div class="tab-par" ng-click="comSearTabCheck($event)"><i ng-bind="item.name">报名相关</i><span class="ion-arrow-up-b"></span></div>
+								<div class="tab-chr">
+									<div data-chr="children" ng-repeat="data in item.list track by $index" ng-click="getDataForStudentState($event,data)" ng-bind="data | studentStateText">未报名</div>
+								</div>
+							</li>	
+						</ul>
+					</div>
+					<div class="line">
+						<div>姓名查询</div>
+						<div class="input-group search-more-condition">
+							<select ng-model="searchType" class="form-control">
+								<option value="orderId" selected="selected">订单号</option>
+								<option value="name">姓名</option>
+								<option value="phoneNum">电话</option>
+							</select>
+							<input type="text" ng-model="search" class="form-control" placeholder="输入订单号/学员姓名/电话号查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default btn-primary" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="w-search-tag">
+					<div>已选条件</div>
+					<div class="selected">
+						<div class="sel-con">
+							<div ng-repeat="(key, value) in checkAllTag" ng-click="removeTag(key)">{{value}}<span class="ion-ios-close-empty"></span></div>
+						</div>
+						<div class="delete-all" ng-click="removeAllTag()"><span class="ion-ios-trash-outline"></span>清空</div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-8">
+						<a ng-click="statement()" class="btn btn-sm btn-primary" ng-if="120203|isAccessShow">结款给驾校</a>
+					</div>
+					<div class="col-xs-12 col-sm-4 select text-right">
+						<span>每页</span>
+						<select style="width:80px;" ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td align="center" class="td-small-width"><input type="checkbox" ng-model="checkAll" ng-click="selectionAll($event)"></td>
+					  	<td><b>报名单号</b></td>
+					  	<td><b>学员姓名</b></td>
+					  	<td><b>学员电话</b></td>
+					  	<td><b>分配的驾校</b></td>
+					  	<td><b>学员状态</b></td>
+					  	<td><b>订单金额</b></td>
+					  	<td><b>订单状态</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+						  <td align="center"><input type="checkbox" id="{{data.orderId}}" ng-click="updateSelection($event,data.orderId)" ng-checked="isSelected(data.orderId)"></td>
+						  <td><a href="sign-up-orde-details.html?orderId={{data.orderId}}" ng-bind="data.orderId?data.orderId:'喱喱同学'"></a></td>
+						  <td ng-bind="data.name"></td>
+						  <td ng-bind="data.phoneNum"></td>
+						  <td ng-bind="data.schoolName"></td>
+						  <td ng-bind="(data.applyexam+','+data.applystate) | studentStateText"></td>
+						  <td ng-bind="data.price"></td>
+						  <td ng-bind="data.payState | payStateType"></td>
+					  </tr>
+					</table>
+					<span><a href="historyPayment.html">查看历史结款记录</a></span>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- 学员信息编辑 -->
+		<ng-include src="'edit/edit-student.html'" onload="sutdentEditLoad()" ></ng-include>
+		<!-- 学员状态 -->
+		<ng-include src="'edit/change-student-state.html'" onload="StudentStateLoad()" ></ng-include>
+		<!--资料不全-->
+		<ng-include src="'edit/edit-data-imperfect.html'" onload="infImperfect()"></ng-include>
+		<!--资料齐全-->
+		<ng-include src="'edit/edit-data-complete.html'" onload="infComplete()"></ng-include>
+		<!-- 编辑学员状态错误弹出层 -->
+		<ng-include src="'edit/change-error-students.html'" onload="changeErrorStudentLoad()" ></ng-include>
+		
+	</div>
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/sign-up-statement.js"></script>
+</body>
+</html>

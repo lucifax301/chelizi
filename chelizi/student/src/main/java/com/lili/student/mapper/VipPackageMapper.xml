@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.student.mapper.dao.VipPackageMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.student.dto.VipPackage" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="isValid" property="isvalid" jdbcType="TINYINT" />
+    <result column="isDisableEnrollCoupon" property="isDisableEnrollCoupon" jdbcType="TINYINT" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="expireTime" property="expiretime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, isValid, isDisableEnrollCoupon, extra, expireTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_s_vip_package
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_s_vip_package
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lili.student.dto.VipPackage" >
+    insert into t_s_vip_package (
+      id,
+      isValid,
+      isDisableEnrollCoupon,
+      extra,
+      expireTime
+      )
+    values (
+      #{id,jdbcType=VARCHAR},
+      #{isvalid,jdbcType=TINYINT},
+      #{isDisableEnrollCoupon,jdbcType=TINYINT},
+      #{extra,jdbcType=VARCHAR},
+      #{expiretime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.student.dto.VipPackage" >
+    insert into t_s_vip_package
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="isvalid != null" >
+        isValid,
+      </if>
+      <if test="isDisableEnrollCoupon != null" >
+        isDisableEnrollCoupon,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="expiretime != null" >
+        expireTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=TINYINT},
+      </if>
+      <if test="isDisableEnrollCoupon != null" >
+        #{isDisableEnrollCoupon,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="expiretime != null" >
+        #{expiretime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.student.dto.VipPackage" >
+    update t_s_vip_package
+    <set >
+      <if test="isvalid != null" >
+        isValid = #{isvalid,jdbcType=TINYINT},
+      </if>
+      <if test="isDisableEnrollCoupon != null" >
+        isDisableEnrollCoupon = #{isDisableEnrollCoupon,jdbcType=TINYINT},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="expiretime != null" >
+        expireTime = #{expiretime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.student.dto.VipPackage" >
+    update t_s_vip_package
+    set
+      isValid = #{isvalid,jdbcType=TINYINT},
+      isDisableEnrollCoupon = #{isDisableEnrollCoupon,jdbcType=TINYINT},
+      extra = #{extra,jdbcType=VARCHAR},
+      expireTime = #{expiretime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

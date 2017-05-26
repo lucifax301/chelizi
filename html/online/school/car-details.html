@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="CarDetails">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>教练车</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<div class="student">
+			<div class="pull-left">
+				<dl class="msg">
+					<dt>
+						<span ng-bind="carDetails.carNo"></span>
+						<span class="type succes" >已认证</span>
+					</dt>
+					<dd>所属：<span ng-bind="carDetails.schoolName"></span> &nbsp;&nbsp;|&nbsp;&nbsp; 等级：<span ng-bind="carDetails.carLevel | carLevelText"></span> &nbsp;&nbsp;|&nbsp;&nbsp; 驾驶类别：<span ng-bind="carDetails.driveType | applyCarTypeTex"></span></dd>
+					<dd>里程：<span ng-bind="carDetails.mileage"></span></dd>
+					<dd>行驶证：<span ng-bind="carDetails.driveNumber"></span></dd>
+					<dd>车型类别：<span ng-bind="carDetails.carType"></span></dd>
+				</dl>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<ul class="table-li">
+			<li ng-click="tableSwitch($event)" class="active">历史订单</li>
+			<li ng-click="tableSwitch($event)">操作日志</li>
+		</ul>
+		<div class="order-table" id="order-table">
+			<!-- 历史订单 -->
+			<div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4 select">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4">
+						<div class="input-group">
+					      <input type="text" ng-model="orderId" class="form-control" placeholder="订单号查询">
+					      <span class="input-group-btn">
+					        <button class="btn btn-default" ng-click="getDataForSearch()" type="button">搜索</button>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td><b>订单号</b></td>
+					  	<td><b>学员</b></td>
+					  	<td><b>教练</b></td>
+					  	<td><b>上课时间</b></td>
+					  	<td><b>下课时间</b></td>
+					  	<td><b>科目</b></td>
+					  	<td><b>场地</b></td>
+					  	<td><b>教练车</b></td>
+					  	<td><b>金额(元)</b></td>
+					  	<td><b>付款情况</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td> <a href="order-details.html?orderId={{ data.orderId }}" data-bubble="{{ data.orderId }}" class="layerBubble" ng-bind="data.orderId | limitToSec:10"></a> </td>
+					  	<td> <a href="student-details.html?studentId={{data.studentId}}" ng-bind="data.studentName"></a> </td>
+					  	<td> <a href="coach-details.html?coachId={{data.coachId}}" ng-bind="data.coachName"></a> </td>
+					  	<td ng-bind="data.rstart | timeTex"></td>
+					  	<td ng-bind="data.rend | timeTex"></td>
+					  	<td ng-bind="data.courseName"></td>
+					  	<td ng-bind="data.learnAddr"></td>
+					  	<td><a href="car-details.html?carId={{data.carId}}" ng-bind="data.carNo"></a></td>
+					  	<td ng-bind="data.price/100"></td>
+					  	<td ng-bind="data.payState | payStateTex"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+			<!-- 操作日志 -->
+			<div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped">
+					  <tr>
+					  	<td class="w-20"><b>更新时间</b></td>
+					  	<td class="w-10"><b>操作人</b></td>
+					  	<td><b>操作内容</b></td>
+					  </tr>
+					  <tr ng-repeat="data in carLogs">
+					  	<td ng-bind="data.operateTime | timeTex"></td>
+					  	<td ng-bind="data.userName"></td>
+					  	<td ng-bind="data.remark"></td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="log-page" class="copot-page"></div>
+				</div><!-- 操作日志结束 -->
+			</div>
+
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/car-details.js?v=ef8c7ad0361470826781017"></script>
+</body>
+</html>

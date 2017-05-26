@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="30 seconds" debug="false">
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">  
+			<level>INFO</level>
+		</filter>  
+		<encoder>
+			<pattern>%d|%-5level|%thread|%caller{1}%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="MYDEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
+			<level>DEBUG</level>  
+			<onMatch>ACCEPT</onMatch>  
+			<onMismatch>DENY</onMismatch>  
+		</filter>  
+		<encoder>
+			<pattern>%d|%-5level|%thread|%caller{1}%msg%n</pattern>
+		</encoder>
+		<File>log/debug.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+			<FileNamePattern>log/debug.log.%i</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>20MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="MYINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">		
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
+			<level>INFO</level>  
+			<onMatch>ACCEPT</onMatch>  
+			<onMismatch>DENY</onMismatch>  
+		</filter>  
+		<encoder>
+			<pattern>%d|%-5level|%thread|%caller{1}%msg%n</pattern>
+		</encoder>
+		<File>log/info.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+			<FileNamePattern>log/info.log.%i</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>20MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="MYWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
+			<level>WARN</level>  
+			<onMatch>ACCEPT</onMatch>  
+			<onMismatch>DENY</onMismatch>  
+		</filter>  
+		<encoder>
+			<pattern>%d|%-5level|%thread|%caller{1}%msg%n</pattern>
+		</encoder>
+		<File>log/warn.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+			<FileNamePattern>log/warn.log.%i</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>20MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="MYERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">  
+			<level>ERROR</level>  
+			<onMatch>ACCEPT</onMatch>  
+			<onMismatch>DENY</onMismatch>  
+		</filter>  
+		<encoder>
+			<pattern>%d|%-5level|%thread|%caller{1}%msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>log/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+
+	</appender>
+	<logger name="org.apache.mina.filter" level="TRACE"/>
+	<logger name="org.apache.mina.core.filterchain.IoFilterEvent" level="TRACE"/>
+	<logger name="org.eclipse.jetty" level="ERROR"/>
+	<logger name="com.lili.LiliAccess" level="INFO" />
+	<!-- TRACE, DEBUG, INFO, WARN, ERROR, ALL, OFF -->
+	<!-- 发布时用ERROR -->
+	<root level="ERROR">
+		<appender-ref ref="CONSOLE"/>
+		<appender-ref ref="MYDEBUG"/>
+		<appender-ref ref="MYINFO"/>
+		<appender-ref ref="MYWARN"/>
+		<appender-ref ref="MYERROR"/>
+	</root>
+</configuration>

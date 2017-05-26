@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Order">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>订单调度</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+	<style>
+		.address_list{
+			position: relative;
+		}
+		.address_list .box{
+			top: -20px;
+			left: 0;
+			width: 100%;
+			height: auto;
+			position: absolute;
+			background: #ECECEC;
+			padding: 0 10px;
+			max-height: 280px;
+		}
+		.address_list .box li{
+			line-height: 25px;
+			padding:5px 5px;
+			font-size: 14px;
+			
+		}
+		.address_list .box li:hover{
+			background:#59a3f9;
+			color: #FFFFFF;
+			cursor: pointer;
+		}
+	</style>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail data-statistics student-position">
+		<!-- 订单管理 -->
+		<div class="title ">
+			<div class="d-title">课程订单>订单调度>指派教练</div>
+		</div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">订单列表</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+                            <div>是否特约教练</div>
+                            <ul>
+                                <li ng-click="getDataisVip($event,'')" class="active">全部</li>
+                                <li ng-click="getDataisVip($event,'1')">是</li>
+                                <li ng-click="getDataisVip($event,'0')">否</li>
+                            </ul>
+                        </div>
+                        <div class="line">
+                            <div>驾考类别</div>
+                            <ul>
+                                <li ng-click="getDatadltype($event,'')" class="active">全部</li>
+                                <li ng-click="getDatadltype($event,'1')">C1</li>
+                                <li ng-click="getDatadltype($event,'2')">C2</li>
+                            </ul>
+                        </div>
+
+						
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-4">
+							<a ng-click="appoint()" class="btn btn-sm btn-primary margin-left-15 ng-scope" ng-if="120111|isAccessShow">指派教练</a>
+						</div>
+						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td align="center" class="td-small-width"></td>
+								<td><b>教练</b></td>
+								<td><b>教练电话</b></td>
+								<td><b>驾考类别</b></td>
+								<td><b>性别</b></td>
+								<td><b>所属驾校</b></td>
+								<td><b>距离学员</b></td>
+								<td><b>是否出车</b></td>
+								<td><b>是否特约教练</b></td>
+							</tr>
+							<tr ng-repeat="item in datas" ng-class="{'disable-bac': item.orderState!=0?true:false}" ng-cloak>
+								<td align="center"><input type="radio" ng-model="$parent.chelist" name="chelist" value="{{item.coachId}}"></td>
+								
+								<td ng-bind="item.coachName"></td>
+								<td ng-bind="item.coachMobile"></td>
+								<td>C{{item.dltype}}</td>
+								<td ng-bind="item.gender | sexText"></td>
+								<td ng-bind="item.schoolName"></td>	
+								<td>{{item.distance | number }} 公里</td>
+								<td>
+									<span ng-if="(item.wstate == 0)">收车</span>
+									<span ng-if="(item.wstate == 1)">出车</span>
+									<span ng-if="(item.wstate == 2)">上课</span>
+									<span ng-if="(item.wstate == 3)">上课准备</span>
+									<span ng-if="(item.wstate == 4)">预约上课中</span>
+									<span ng-if="(item.wstate == 5)">预约上课准备</span>
+								</td>
+								<td>
+									<span ng-if="(item.isVip == 1)">是</span>
+									<span ng-if="(item.isVip == 0)">否</span>
+								</td>
+								
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+
+<div class="edit-alert alert_address">
+<div class="mask"></div>
+<div class="main">
+<div id="alert_address" class="content">
+	<div class="title">{{ editType=='add'?'设置':'编辑' }}学员的个人资料 <span class="closeAlert"></span></div>
+	<div class="con-main" style="overflow:visible;">
+			<p>您确定要给学员指派所选教练？</p>
+			<dl>
+				<dt>上车地点:</dt>
+				<dd><input type="text" ng-change="addressChe()" ng-model="address" placeholder="请输入上车地点" class="form-control"></dd>
+			</dl>
+			<div class="address_list" ng-show="address_watch">
+				<div class="box">
+					<li ng-repeat="v in address_list" ng-bind="v.title" ng-click="che_address($index)">123</li>
+				</div>
+			</div>
+			<div id="l-map"></div>
+		<div class="chaozuo show margin-top-50" >
+			<button type="button" class="btn btn-sm btn-default closeAlert">取消</button>
+			<button type="button" ng-click="address_btn()" class="btn btn-sm btn-primary">确认</button>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js"></script>
+<script src="assets/js/ng-js/order-attemper-coach.js"></script>
+
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=HOFULaz7rGABUEi91zRXmE08400FlSHf&s=1"></script>
+
+
+</body>
+</html>

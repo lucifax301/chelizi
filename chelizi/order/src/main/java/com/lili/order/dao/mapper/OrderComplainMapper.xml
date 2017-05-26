@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.dao.mapper.OrderComplainMapper">
+  <sql id="setNotNull">
+    <set>
+      <if test="cid!=null">cid=#{cid},</if>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="uid!=null">uid=#{uid},</if>
+      <if test="utype!=null">utype=#{utype},</if>
+      <if test="complain!=null">complain=#{complain},</if>
+      <if test="complainTime!=null">complain_time=#{complainTime},</if>
+      <if test="mobile!=null">mobile=#{mobile},</if>
+      <if test="pic!=null">pic=#{pic},</if>
+      <if test="staffId!=null">staff_id=#{staffId},</if>
+      <if test="result!=null">result=#{result},</if>
+      <if test="cstate!=null">cstate=#{cstate},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="param1.cid!=null">cid=#{param1.cid},</if>
+      <if test="param1.orderId!=null">order_id=#{param1.orderId},</if>
+      <if test="param1.uid!=null">uid=#{param1.uid},</if>
+      <if test="param1.utype!=null">utype=#{param1.utype},</if>
+      <if test="param1.complain!=null">complain=#{param1.complain},</if>
+      <if test="param1.complainTime!=null">complain_time=#{param1.complainTime},</if>
+      <if test="param1.mobile!=null">mobile=#{param1.mobile},</if>
+      <if test="param1.pic!=null">pic=#{param1.pic},</if>
+      <if test="param1.staffId!=null">staff_id=#{param1.staffId},</if>
+      <if test="param1.result!=null">result=#{param1.result},</if>
+      <if test="param1.cstate!=null">cstate=#{param1.cstate},</if>
+    </set>
+  </sql>
+  <sql id="setNotNullparam2">
+    <set>
+      <if test="param2.cid!=null">cid=#{param2.cid},</if>
+      <if test="param2.orderId!=null">order_id=#{param2.orderId},</if>
+      <if test="param2.uid!=null">uid=#{param2.uid},</if>
+      <if test="param2.utype!=null">utype=#{param2.utype},</if>
+      <if test="param2.complain!=null">complain=#{param2.complain},</if>
+      <if test="param2.complainTime!=null">complain_time=#{param2.complainTime},</if>
+      <if test="param2.mobile!=null">mobile=#{param2.mobile},</if>
+      <if test="param2.pic!=null">pic=#{param2.pic},</if>
+      <if test="param2.staffId!=null">staff_id=#{param2.staffId},</if>
+      <if test="param2.result!=null">result=#{param2.result},</if>
+      <if test="param2.cstate!=null">cstate=#{param2.cstate},</if>
+    </set>
+  </sql>
+  <sql id="setAll">set cid=#{cid}, order_id=#{orderId}, uid=#{uid}, utype=#{utype}, complain=#{complain}, complain_time=#{complainTime}, mobile=#{mobile}, pic=#{pic}, staff_id=#{staffId}, result=#{result}, cstate=#{cstate}</sql>
+  <sql id="setAllparam1">set cid=#{param1.cid}, order_id=#{param1.orderId}, uid=#{param1.uid}, utype=#{param1.utype}, complain=#{param1.complain}, complain_time=#{param1.complainTime}, mobile=#{param1.mobile}, pic=#{param1.pic}, staff_id=#{param1.staffId}, result=#{param1.result}, cstate=#{param1.cstate}</sql>
+  <sql id="setAllparam2">set cid=#{param2.cid}, order_id=#{param2.orderId}, uid=#{param2.uid}, utype=#{param2.utype}, complain=#{param2.complain}, complain_time=#{param2.complainTime}, mobile=#{param2.mobile}, pic=#{param2.pic}, staff_id=#{param2.staffId}, result=#{param2.result}, cstate=#{param2.cstate}</sql>
+  <sql id="queryAnd">
+    <where>
+      <if test="cid!=null and cid != '' ">And cid=#{cid}</if>
+      <if test="orderId!=null and orderId != '' ">And order_id=#{orderId}</if>
+      <if test="uid!=null and uid != '' ">And uid=#{uid}</if>
+      <if test="utype!=null and utype != '' ">And utype=#{utype}</if>
+      <if test="complain!=null and complain != '' ">And complain=#{complain}</if>
+      <if test="complainTime!=null and complainTime != '' ">And complain_time=#{complainTime}</if>
+      <if test="mobile!=null and mobile != '' ">And mobile=#{mobile}</if>
+      <if test="pic!=null and pic != '' ">And pic=#{pic}</if>
+      <if test="staffId!=null and staffId != '' ">And staff_id=#{staffId}</if>
+      <if test="result!=null and result != '' ">And result=#{result}</if>
+      <if test="cstate!=null and cstate != '' ">And cstate=#{cstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOr">
+    <where>
+      <if test="cid!=null and cid != '' ">Or cid=#{cid}</if>
+      <if test="orderId!=null and orderId != '' ">Or order_id=#{orderId}</if>
+      <if test="uid!=null and uid != '' ">Or uid=#{uid}</if>
+      <if test="utype!=null and utype != '' ">Or utype=#{utype}</if>
+      <if test="complain!=null and complain != '' ">Or complain=#{complain}</if>
+      <if test="complainTime!=null and complainTime != '' ">Or complain_time=#{complainTime}</if>
+      <if test="mobile!=null and mobile != '' ">Or mobile=#{mobile}</if>
+      <if test="pic!=null and pic != '' ">Or pic=#{pic}</if>
+      <if test="staffId!=null and staffId != '' ">Or staff_id=#{staffId}</if>
+      <if test="result!=null and result != '' ">Or result=#{result}</if>
+      <if test="cstate!=null and cstate != '' ">Or cstate=#{cstate}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam1">
+    <where>
+      <if test="param1.cid!=null and param1.cid != '' ">And cid=#{param1.cid}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">And order_id=#{param1.orderId}</if>
+      <if test="param1.uid!=null and param1.uid != '' ">And uid=#{param1.uid}</if>
+      <if test="param1.utype!=null and param1.utype != '' ">And utype=#{param1.utype}</if>
+      <if test="param1.complain!=null and param1.complain != '' ">And complain=#{param1.complain}</if>
+      <if test="param1.complainTime!=null and param1.complainTime != '' ">And complain_time=#{param1.complainTime}</if>
+      <if test="param1.mobile!=null and param1.mobile != '' ">And mobile=#{param1.mobile}</if>
+      <if test="param1.pic!=null and param1.pic != '' ">And pic=#{param1.pic}</if>
+      <if test="param1.staffId!=null and param1.staffId != '' ">And staff_id=#{param1.staffId}</if>
+      <if test="param1.result!=null and param1.result != '' ">And result=#{param1.result}</if>
+      <if test="param1.cstate!=null and param1.cstate != '' ">And cstate=#{param1.cstate}</if>
+    </where>
+  </sql>
+  <sql id="queryAndparam2">
+    <where>
+      <if test="param2.cid!=null and param2.cid != '' ">And cid=#{param2.cid}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">And order_id=#{param2.orderId}</if>
+      <if test="param2.uid!=null and param2.uid != '' ">And uid=#{param2.uid}</if>
+      <if test="param2.utype!=null and param2.utype != '' ">And utype=#{param2.utype}</if>
+      <if test="param2.complain!=null and param2.complain != '' ">And complain=#{param2.complain}</if>
+      <if test="param2.complainTime!=null and param2.complainTime != '' ">And complain_time=#{param2.complainTime}</if>
+      <if test="param2.mobile!=null and param2.mobile != '' ">And mobile=#{param2.mobile}</if>
+      <if test="param2.pic!=null and param2.pic != '' ">And pic=#{param2.pic}</if>
+      <if test="param2.staffId!=null and param2.staffId != '' ">And staff_id=#{param2.staffId}</if>
+      <if test="param2.result!=null and param2.result != '' ">And result=#{param2.result}</if>
+      <if test="param2.cstate!=null and param2.cstate != '' ">And cstate=#{param2.cstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam1">
+    <where>
+      <if test="param1.cid!=null and param1.cid != '' ">Or cid=#{param1.cid}</if>
+      <if test="param1.orderId!=null and param1.orderId != '' ">Or order_id=#{param1.orderId}</if>
+      <if test="param1.uid!=null and param1.uid != '' ">Or uid=#{param1.uid}</if>
+      <if test="param1.utype!=null and param1.utype != '' ">Or utype=#{param1.utype}</if>
+      <if test="param1.complain!=null and param1.complain != '' ">Or complain=#{param1.complain}</if>
+      <if test="param1.complainTime!=null and param1.complainTime != '' ">Or complain_time=#{param1.complainTime}</if>
+      <if test="param1.mobile!=null and param1.mobile != '' ">Or mobile=#{param1.mobile}</if>
+      <if test="param1.pic!=null and param1.pic != '' ">Or pic=#{param1.pic}</if>
+      <if test="param1.staffId!=null and param1.staffId != '' ">Or staff_id=#{param1.staffId}</if>
+      <if test="param1.result!=null and param1.result != '' ">Or result=#{param1.result}</if>
+      <if test="param1.cstate!=null and param1.cstate != '' ">Or cstate=#{param1.cstate}</if>
+    </where>
+  </sql>
+  <sql id="queryOrparam2">
+    <where>
+      <if test="param2.cid!=null and param2.cid != '' ">Or cid=#{param2.cid}</if>
+      <if test="param2.orderId!=null and param2.orderId != '' ">Or order_id=#{param2.orderId}</if>
+      <if test="param2.uid!=null and param2.uid != '' ">Or uid=#{param2.uid}</if>
+      <if test="param2.utype!=null and param2.utype != '' ">Or utype=#{param2.utype}</if>
+      <if test="param2.complain!=null and param2.complain != '' ">Or complain=#{param2.complain}</if>
+      <if test="param2.complainTime!=null and param2.complainTime != '' ">Or complain_time=#{param2.complainTime}</if>
+      <if test="param2.mobile!=null and param2.mobile != '' ">Or mobile=#{param2.mobile}</if>
+      <if test="param2.pic!=null and param2.pic != '' ">Or pic=#{param2.pic}</if>
+      <if test="param2.staffId!=null and param2.staffId != '' ">Or staff_id=#{param2.staffId}</if>
+      <if test="param2.result!=null and param2.result != '' ">Or result=#{param2.result}</if>
+      <if test="param2.cstate!=null and param2.cstate != '' ">Or cstate=#{param2.cstate}</if>
+    </where>
+  </sql>
+  <insert id="addOrderComplain">
+    <!--/*新增一个对象*/-->insert into t_order_complain
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="addOrderComplainList">
+    <!--/*新增一批对象*/-->insert into t_order_complain values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.cid},#{one.orderId},#{one.uid},#{one.utype},#{one.complain},#{one.complainTime},#{one.mobile},#{one.pic},#{one.staffId},#{one.result},#{one.cstate})</foreach>
+  </insert>
+  <delete id="delOrderComplainById">
+    <!--/*根据id删除一个对象*/-->delete from t_order_complain where cid=#{cid}
+  </delete>
+  <delete id="delOrderComplainByIds">
+    <!--/*根据id删除一个对象*/-->delete from t_order_complain where cid in 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">#{item}</foreach>
+  </delete>
+  <delete id="delOrderComplainByObj">
+    <!--/*根据对象中无为空的字段删除一个或者多个对象*/-->delete from t_order_complain
+    <include refid="queryAnd"/>
+  </delete>
+  <insert id="saveOrderComplain">
+    <!--/*新增或者更新一个对象*/-->replace into t_order_complain
+    <include refid="setNotNull"/>
+  </insert>
+  <insert id="saveOrderComplainList">
+    <!--/*新增或者更新一批对象*/-->replace into t_order_complain values 
+    <foreach collection="list" item="one" index="index" separator=",">(#{one.cid},#{one.orderId},#{one.uid},#{one.utype},#{one.complain},#{one.complainTime},#{one.mobile},#{one.pic},#{one.staffId},#{one.result},#{one.cstate})</foreach>
+  </insert>
+  <update id="updateByCid">
+    <!--/*根据字段cid更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where cid=#{param2}
+  </update>
+  <update id="updateByOrderId">
+    <!--/*根据字段orderId更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where order_id=#{param2}
+  </update>
+  <update id="updateByUid">
+    <!--/*根据字段uid更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where uid=#{param2}
+  </update>
+  <update id="updateByUtype">
+    <!--/*根据字段utype更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where utype=#{param2}
+  </update>
+  <update id="updateByComplain">
+    <!--/*根据字段complain更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where complain=#{param2}
+  </update>
+  <update id="updateByComplainTime">
+    <!--/*根据字段complainTime更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where complain_time=#{param2}
+  </update>
+  <update id="updateByMobile">
+    <!--/*根据字段mobile更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where mobile=#{param2}
+  </update>
+  <update id="updateByPic">
+    <!--/*根据字段pic更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where pic=#{param2}
+  </update>
+  <update id="updateByStaffId">
+    <!--/*根据字段staffId更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where staff_id=#{param2}
+  </update>
+  <update id="updateByResult">
+    <!--/*根据字段result更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where result=#{param2}
+  </update>
+  <update id="updateByCstate">
+    <!--/*根据字段cstate更新一个或者多个对象*/-->update t_order_complain
+    <include refid="setNotNullparam1"/> where cstate=#{param2}
+  </update>
+  <update id="updateNotNullByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order_complain 
+    <include refid="setNotNullparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <update id="updateAllByObject">
+    <!--/*使用第二个对象作为条件在表中搜索，将得到的集合用第一个对象不为空的字段都进行更新*/-->update t_order_complain
+    <include refid="setAllparam1"/>
+    <include refid="queryAndparam2"/>
+  </update>
+  <select id="queryOrderComplainById" resultType="OrderComplainPo">
+    <!--/*根据主键查询一个对象*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where cid=#{param1} ${param2}
+  </select>
+  <select id="queryOrderComplainByIds" resultType="OrderComplainPo">
+    <!--/*根据ids查询多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where cid in 
+    <foreach item="item" index="index" collection="param1" open="(" separator="," close=")">#{item}</foreach> ${param2}
+  </select>
+  <select id="queryByObjectAnd" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByObjectOr" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为OR条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryOrparam1"/> ${param2}
+  </select>
+  <select id="queryByCid" resultType="OrderComplainPo">
+    <!--/*根据字段cid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where cid=#{param1} ${param2}
+  </select>
+  <select id="queryByOrderId" resultType="OrderComplainPo">
+    <!--/*根据字段orderId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where order_id=#{param1} ${param2}
+  </select>
+  <select id="queryByUid" resultType="OrderComplainPo">
+    <!--/*根据字段uid查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where uid=#{param1} ${param2}
+  </select>
+  <select id="queryByUtype" resultType="OrderComplainPo">
+    <!--/*根据字段utype查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where utype=#{param1} ${param2}
+  </select>
+  <select id="queryByComplain" resultType="OrderComplainPo">
+    <!--/*根据字段complain查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where complain=#{param1} ${param2}
+  </select>
+  <select id="queryByComplainTime" resultType="OrderComplainPo">
+    <!--/*根据字段complainTime查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where complain_time=#{param1} ${param2}
+  </select>
+  <select id="queryByMobile" resultType="OrderComplainPo">
+    <!--/*根据字段mobile查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where mobile=#{param1} ${param2}
+  </select>
+  <select id="queryByPic" resultType="OrderComplainPo">
+    <!--/*根据字段pic查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where pic=#{param1} ${param2}
+  </select>
+  <select id="queryByStaffId" resultType="OrderComplainPo">
+    <!--/*根据字段staffId查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where staff_id=#{param1} ${param2}
+  </select>
+  <select id="queryByResult" resultType="OrderComplainPo">
+    <!--/*根据字段result查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where result=#{param1} ${param2}
+  </select>
+  <select id="queryByCstate" resultType="OrderComplainPo">
+    <!--/*根据字段cstate查询一个或者多个对象，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain where cstate=#{param1} ${param2}
+  </select>
+  <select id="queryByNew0" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew1" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew2" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew3" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew4" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew5" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew6" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+  <select id="queryByNew7" resultType="OrderComplainPo">
+    <!--/*使用第一个对象所有不为空的字段作为AND条件在表中查询结果集，第二个参数为排序或者分页的sql语句*/-->select cid as cid,order_id as orderId,uid as uid,utype as utype,complain as complain,complain_time as complainTime,mobile as mobile,pic as pic,staff_id as staffId,result as result,cstate as cstate from t_order_complain
+    <include refid="queryAndparam1"/> ${param2}
+  </select>
+</mapper>

@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.school.mapper.SchoolMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.school.dto.School" >
+    <id column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="coachCount" property="coachCount" jdbcType="INTEGER" />
+    <result column="carCount" property="carCount" jdbcType="INTEGER" />
+    <result column="cityId" property="cityId" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="jstId" property="jstId" jdbcType="VARCHAR" />
+    <result column="tell" property="tell" jdbcType="VARCHAR" />
+    <result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="trfieldCount" property="trfieldCount" jdbcType="INTEGER" />
+    <result column="lge" property="lge" jdbcType="DECIMAL" />
+    <result column="lae" property="lae" jdbcType="DECIMAL" />
+    <result column="orderNum" property="orderNum" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="storeCount" property="storeCount" jdbcType="INTEGER" />
+    <result column="packageCount" property="packageCount" jdbcType="INTEGER" />
+    <result column="showState" property="showState" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lili.school.dto.SchoolWithBLOBs" extends="BaseResultMap" >
+    <result column="image" property="image" jdbcType="LONGVARCHAR" />
+    <result column="schoolInfo" property="schoolInfo" jdbcType="LONGVARCHAR" />
+    <result column="regInfo" property="regInfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    schoolId, name, coachCount, carCount, cityId, address, phoneNum, jstId, tell, score,
+    logo, icon, trfieldCount, lge, lae, orderNum, extra, storeCount, packageCount, showState
+  </sql>
+  <sql id="Blob_Column_List" >
+    image, schoolInfo, regInfo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lili.school.dto.SchoolExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.school.dto.SchoolExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_s_school
+    where schoolId = #{schoolId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_s_school
+    where schoolId = #{schoolId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lili.school.dto.SchoolExample" >
+    delete from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lili.school.dto.SchoolWithBLOBs" >
+    insert into t_s_school (schoolId, name, coachCount, 
+      carCount, cityId, address, 
+      phoneNum, jstId, tell, 
+      score, logo, icon, trfieldCount, 
+      lge, lae, orderNum, 
+      extra, storeCount, packageCount, 
+      showState, image, schoolInfo, 
+      regInfo)
+    values (#{schoolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{coachCount,jdbcType=INTEGER}, 
+      #{carCount,jdbcType=INTEGER}, #{cityId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{jstId,jdbcType=VARCHAR}, #{tell,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DOUBLE}, #{logo,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{trfieldCount,jdbcType=INTEGER}, 
+      #{lge,jdbcType=DECIMAL}, #{lae,jdbcType=DECIMAL}, #{orderNum,jdbcType=INTEGER}, 
+      #{extra,jdbcType=VARCHAR}, #{storeCount,jdbcType=INTEGER}, #{packageCount,jdbcType=INTEGER}, 
+      #{showState,jdbcType=INTEGER}, #{image,jdbcType=LONGVARCHAR}, #{schoolInfo,jdbcType=LONGVARCHAR}, 
+      #{regInfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lili.school.dto.SchoolWithBLOBs" >
+    insert into t_s_school
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        schoolId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="coachCount != null" >
+        coachCount,
+      </if>
+      <if test="carCount != null" >
+        carCount,
+      </if>
+      <if test="cityId != null" >
+        cityId,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum,
+      </if>
+      <if test="jstId != null" >
+        jstId,
+      </if>
+      <if test="tell != null" >
+        tell,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="trfieldCount != null" >
+        trfieldCount,
+      </if>
+      <if test="lge != null" >
+        lge,
+      </if>
+      <if test="lae != null" >
+        lae,
+      </if>
+      <if test="orderNum != null" >
+        orderNum,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="storeCount != null" >
+        storeCount,
+      </if>
+      <if test="packageCount != null" >
+        packageCount,
+      </if>
+      <if test="showState != null" >
+        showState,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="schoolInfo != null" >
+        schoolInfo,
+      </if>
+      <if test="regInfo != null" >
+        regInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCount != null" >
+        #{coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="carCount != null" >
+        #{carCount,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="jstId != null" >
+        #{jstId,jdbcType=VARCHAR},
+      </if>
+      <if test="tell != null" >
+        #{tell,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="trfieldCount != null" >
+        #{trfieldCount,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        #{lge,jdbcType=DECIMAL},
+      </if>
+      <if test="lae != null" >
+        #{lae,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCount != null" >
+        #{storeCount,jdbcType=INTEGER},
+      </if>
+      <if test="packageCount != null" >
+        #{packageCount,jdbcType=INTEGER},
+      </if>
+      <if test="showState != null" >
+        #{showState,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="schoolInfo != null" >
+        #{schoolInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="regInfo != null" >
+        #{regInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lili.school.dto.SchoolExample" resultType="java.lang.Integer" >
+    select count(*) from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_s_school
+    <set >
+      <if test="record.schoolId != null" >
+        schoolId = #{record.schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coachCount != null" >
+        coachCount = #{record.coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.carCount != null" >
+        carCount = #{record.carCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null" >
+        cityId = #{record.cityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null" >
+        phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jstId != null" >
+        jstId = #{record.jstId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tell != null" >
+        tell = #{record.tell,jdbcType=VARCHAR},
+      </if>
+      <if test="record.score != null" >
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.logo != null" >
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trfieldCount != null" >
+        trfieldCount = #{record.trfieldCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lge != null" >
+        lge = #{record.lge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lae != null" >
+        lae = #{record.lae,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderNum != null" >
+        orderNum = #{record.orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCount != null" >
+        storeCount = #{record.storeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.packageCount != null" >
+        packageCount = #{record.packageCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.showState != null" >
+        showState = #{record.showState,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.schoolInfo != null" >
+        schoolInfo = #{record.schoolInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.regInfo != null" >
+        regInfo = #{record.regInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_s_school
+    set schoolId = #{record.schoolId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      coachCount = #{record.coachCount,jdbcType=INTEGER},
+      carCount = #{record.carCount,jdbcType=INTEGER},
+      cityId = #{record.cityId,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      jstId = #{record.jstId,jdbcType=VARCHAR},
+      tell = #{record.tell,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=DOUBLE},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      trfieldCount = #{record.trfieldCount,jdbcType=INTEGER},
+      lge = #{record.lge,jdbcType=DECIMAL},
+      lae = #{record.lae,jdbcType=DECIMAL},
+      orderNum = #{record.orderNum,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      storeCount = #{record.storeCount,jdbcType=INTEGER},
+      packageCount = #{record.packageCount,jdbcType=INTEGER},
+      showState = #{record.showState,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=LONGVARCHAR},
+      schoolInfo = #{record.schoolInfo,jdbcType=LONGVARCHAR},
+      regInfo = #{record.regInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_s_school
+    set schoolId = #{record.schoolId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      coachCount = #{record.coachCount,jdbcType=INTEGER},
+      carCount = #{record.carCount,jdbcType=INTEGER},
+      cityId = #{record.cityId,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=VARCHAR},
+      phoneNum = #{record.phoneNum,jdbcType=VARCHAR},
+      jstId = #{record.jstId,jdbcType=VARCHAR},
+      tell = #{record.tell,jdbcType=VARCHAR},
+      score = #{record.score,jdbcType=DOUBLE},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      trfieldCount = #{record.trfieldCount,jdbcType=INTEGER},
+      lge = #{record.lge,jdbcType=DECIMAL},
+      lae = #{record.lae,jdbcType=DECIMAL},
+      orderNum = #{record.orderNum,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      storeCount = #{record.storeCount,jdbcType=INTEGER},
+      packageCount = #{record.packageCount,jdbcType=INTEGER},
+      showState = #{record.showState,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lili.school.dto.SchoolWithBLOBs" >
+    update t_s_school
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="coachCount != null" >
+        coachCount = #{coachCount,jdbcType=INTEGER},
+      </if>
+      <if test="carCount != null" >
+        carCount = #{carCount,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        cityId = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="jstId != null" >
+        jstId = #{jstId,jdbcType=VARCHAR},
+      </if>
+      <if test="tell != null" >
+        tell = #{tell,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="trfieldCount != null" >
+        trfieldCount = #{trfieldCount,jdbcType=INTEGER},
+      </if>
+      <if test="lge != null" >
+        lge = #{lge,jdbcType=DECIMAL},
+      </if>
+      <if test="lae != null" >
+        lae = #{lae,jdbcType=DECIMAL},
+      </if>
+      <if test="orderNum != null" >
+        orderNum = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCount != null" >
+        storeCount = #{storeCount,jdbcType=INTEGER},
+      </if>
+      <if test="packageCount != null" >
+        packageCount = #{packageCount,jdbcType=INTEGER},
+      </if>
+      <if test="showState != null" >
+        showState = #{showState,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="schoolInfo != null" >
+        schoolInfo = #{schoolInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="regInfo != null" >
+        regInfo = #{regInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where schoolId = #{schoolId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lili.school.dto.SchoolWithBLOBs" >
+    update t_s_school
+    set name = #{name,jdbcType=VARCHAR},
+      coachCount = #{coachCount,jdbcType=INTEGER},
+      carCount = #{carCount,jdbcType=INTEGER},
+      cityId = #{cityId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      jstId = #{jstId,jdbcType=VARCHAR},
+      tell = #{tell,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      logo = #{logo,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      trfieldCount = #{trfieldCount,jdbcType=INTEGER},
+      lge = #{lge,jdbcType=DECIMAL},
+      lae = #{lae,jdbcType=DECIMAL},
+      orderNum = #{orderNum,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      storeCount = #{storeCount,jdbcType=INTEGER},
+      packageCount = #{packageCount,jdbcType=INTEGER},
+      showState = #{showState,jdbcType=INTEGER},
+      image = #{image,jdbcType=LONGVARCHAR},
+      schoolInfo = #{schoolInfo,jdbcType=LONGVARCHAR},
+      regInfo = #{regInfo,jdbcType=LONGVARCHAR}
+    where schoolId = #{schoolId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lili.school.dto.School" >
+    update t_s_school
+    set name = #{name,jdbcType=VARCHAR},
+      coachCount = #{coachCount,jdbcType=INTEGER},
+      carCount = #{carCount,jdbcType=INTEGER},
+      cityId = #{cityId,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      phoneNum = #{phoneNum,jdbcType=VARCHAR},
+      jstId = #{jstId,jdbcType=VARCHAR},
+      tell = #{tell,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE},
+      logo = #{logo,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      trfieldCount = #{trfieldCount,jdbcType=INTEGER},
+      lge = #{lge,jdbcType=DECIMAL},
+      lae = #{lae,jdbcType=DECIMAL},
+      orderNum = #{orderNum,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      storeCount = #{storeCount,jdbcType=INTEGER},
+      packageCount = #{packageCount,jdbcType=INTEGER},
+      showState = #{showState,jdbcType=INTEGER}
+    where schoolId = #{schoolId,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.lili.school.dto.SchoolExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.lili.school.dto.SchoolExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_s_school
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

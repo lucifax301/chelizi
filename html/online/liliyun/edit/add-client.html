@@ -1,0 +1,41 @@
+<div class="edit-alert client-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="client-alert" class="content">
+	<div class="title">编辑大客户<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="big-client-edit">
+			<dl>
+				<dt>大客户全称:</dt>
+				<dd><input type="text" ng-model="item.company" class="form-control z-valid z-required" placeholder="大客户全称"></dd>
+			</dl>
+			<dl>
+				<dt>标识简称:</dt>
+				<dd><input type="text" ng-model="item.shorter" class="form-control z-valid z-required" placeholder="标识简称"></dd>
+			</dl>
+			<dl>
+				<dt>所在城市:</dt>
+				<dd>
+					<select ng-model="item.cityId" class="form-control jia-xiao z-valid z-required" id="searchCity" >
+					  <option value="">请选择城市</option>
+					  <option ng-repeat="item in citys" value="{{item.rid}}" ng-bind="item.region" dataName="{{item.region}}"></option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>客户经理:</dt>
+				<dd><input type="text" ng-model="item.manger" maxlength="11" class="form-control z-valid z-required" placeholder="经理姓名"></dd>
+			</dl>
+			<dl>
+				<dt>联系电话:</dt>
+				<dd><input type="text" ng-model="item.mobile" maxlength="18" class="form-control z-valid z-required" placeholder="联系电话"></dd>
+			</dl>
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitItemInfo()" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+	</div>
+</div>
+</div>
+</div>

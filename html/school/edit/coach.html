@@ -1,0 +1,49 @@
+<div class="edit-alert edit-coach">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-coach" class="content">
+	<div class="title">{{ editType=='add'?'设置':'编辑' }}教练的个人资料 <span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>姓名:</dt>
+				<dd><input type="text" ng-model="editData.name" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>姓别:</dt>
+				<dd>
+					<select ng-model="editData.sex" class="form-control">
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">男</option>
+					  <option value="0">女</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>电话:</dt>
+				<dd><input type="text" ng-model="editData.phoneNum" maxlength="11" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>身份证:</dt>
+				<dd><input type="text" ng-model="editData.idNumber" maxlength="18" class="form-control"></dd>
+			</dl>
+			<!-- <dl>
+				<dt>教练车:</dt>
+				<dd>
+					<select ng-model="editData.driveType" class="form-control">
+					  <option value="" selected="selected">请选择</option>
+					  <option value="1">C1</option>
+					  <option value="2">C2</option>
+					</select>
+				</dd>
+			</dl> -->
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

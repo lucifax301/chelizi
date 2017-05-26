@@ -1,0 +1,321 @@
+/*---------------
+porject:xc.lilixc.com
+author:wangwei
+time:2016-3-3
+nameSpace:w-
+---------------*/
+@import 'common.scss';
+
+/*按钮加锁*/
+.z-locked{ pointer-events:none;}
+/*学员置状态失败*/
+.change-error-students .content{width:50%;padding:0;}
+
+/*修改密码*/
+.w-change-password{font-family:"微软雅黑";}
+.w-change-password label{font-weight:300;}
+.w-change-password a.btn{padding-left:15px;padding-right:15px;letter-spacing:3px;}
+.w-change-password .error{font-size:18px;}
+.w-change-password input.form-control{width:60%;float:left;}
+.w-change-password .error,
+.w-change-password .succes{margin-left:10px;line-height:35px;}
+.w-change-password .error em{font-size:14px;font-style:normal;margin-left:5px;}
+
+/*置学员状态*/
+#queshizl{display:none;}  
+
+/*身份认证查看照片*/
+.w-identity-bg{width:680px;height:280px;border:solid 1px $table-border-color;position:fixed;left:50%;top:100px;background:$header-color;
+	z-index:10000;}
+.w-identity-bg>div{width:45%;height:85%;float:left;margin:20px 0 0 23px;}
+.w-identity-bg>div img{width:100%;height:100%;}
+.w-identity-bg .icon{width:28px;height:18px;position:absolute;left:50%;bottom:-15px;display:block;margin-left:-12px;}
+
+
+/*选择城市错误提示*/
+select.error-select{border:solid 1px red!important;}
+
+@media(max-width:768px) { 
+	.change-error-students .content{width:90%;}
+}
+
+
+
+
+
+/*----------------------------------朱国瑞css样式---------------------------------*/
+
+/*公用样式*/
+.z-common-wrap{ padding: 20px;}
+.z-common-h2{ font: normal 18px/30px 黑体,微软雅黑; color: $font-color; margin-bottom: 20px;}
+.z-common-h2 span.text{ font:normal 14px/30px 宋体; color: #666;}
+.z-common-h3{ font: normal 16px/30px 黑体,微软雅黑; color: $font-color; margin-bottom: 20px;}
+.z-common-table{ width: 100%; border-collapse: collapse;}
+.z-common-table tr > th,.z-common-table tr > td{ padding: 8px;}
+.z-common-table th{ background: #f9f9f9;}
+.z-nobord-table{ border: none;}
+.z-nobord-td th,.z-nobord-td td{ border: none!important;}
+.z-title{ background:#f8f8f8; padding: 10px 20px 6px; font-family: "微软雅黑"; font-size: 20px;}
+table.z-noborder td,table.z-noborder th{ border: none!important;}
+.z-text-line{ border-bottom: 1px solid #E7E7E7;}
+.z-caozuo{ text-align: center;}
+.z-caozuo > .btn { margin-right: 30px;}
+.z-caozuo > .btn:last{ margin-right:0;}
+.z-error-txt-wrap{ height: 34px;}
+.z-error-txt{ line-height: 24px; color: #F23151; margin: 0; }
+
+.z-border-box{ border: 1px solid #e7e7e7; border-radius: 2px; padding: 20px; height: auto; overflow: hidden;}
+.z-bg-box{ background: $header-color;}
+.z-noborder{ border: none!important;}
+.z-disblock{ display: block!important;}
+.z-mt20{ margin-top: 20px!important;}
+.z-mb20{ margin-bottom: 20px!important;}
+.z-ml20{ margin-left: 20px!important;}
+.z-mr20{ margin-right: 20px!important;}
+.z-mb10{ margin-bottom: 10px!important;}
+.z-mb20{ margin-bottom: 20px!important;}
+.z-m20{ margin:20px!important;}
+.z-mt0{ margin-top: 0!important;}
+.z-mb0{ margin-bottom: 0!important;}
+.z-mtb0{ margin: 0!important;}
+.z-p20{ padding: 20px!important;}
+.z-pt20{ padding: 20px!important;}
+.z-pb20{ padding-bottom: 20px!important;}
+.z-pl20{ padding-left: 20px!important;}
+.z-pr20{ padding-right: 20px!important;}
+.z-plr20{ padding-left: 20px; padding-right: 20px;}
+.z-p10{ padding: 10px!important;}
+.z-pl10{ padding-left: 10px!important;}
+.z-pr10{ padding-right: 10px!important;}
+.z-pb10{ padding-bottom: 10px!important;}
+.z-pt10{ padding-top: 10px!important;}
+.z-p0{ padding:0!important;}
+.z-fl{ float: left;}
+.z-fr{ float: right;}
+.z-t-c{ text-align: center;}
+.z-t-l{ text-align: left;}
+.z-t-r{ text-align: right;}
+.z-m-20{ margin: 20px;}
+.z-relative{ position: relative;}
+.z-font14{ font-size: 14px;}
+.z-font16{ font-size: 16px;}
+.z-font18{ font-size: 18px;}
+.z-font20{ font-size: 20px;}
+.z-fontgray{ color: #999;}
+.z-w-100{ width: 100px!important;}
+.z-w-per80{ width: 80%;}
+.z-w-per40{ width: 40%;}
+.z-td-p0 td{ padding: 0!important;}
+.z-auto-hide{ height: auto; overflow: hidden;}
+.z-inline-block{ display: inline-block;}
+.z-p3{ padding: 3px;}
+.z-text-border{ border: 1px solid #CACACA;}
+.z-radius3{ border-radius: 3px;}
+.z-font24{ font-size: 24px;}
+
+/*排序小图标*/
+.orderby{ width: 7px; height:9px; background: url(../img/ico-ordersort.gif) left bottom; display: inline-block; margin-left: 5px; cursor: pointer;}
+.orderby:hover{ background-position: right bottom;}
+.sortbydesc{ background-position: left top;}
+.sortbyasc{ background-position: left bottom;}
+.sortbydesc:hover{ background-position: right top;}
+.sortbyasc:hover{ background-position: right bottom;}
+
+/*-------常用head---------*/
+.z-common-head{ border-bottom: 1px solid #e7e7e7; padding: 15px 20px; background:#f8f8f8;}
+/*普通标题*/
+.z-common-head .z-title {background: #F8F8F8;padding:0;font-size: 20px;font-family: "微软雅黑"; }
+.z-common-head .z-title a{ color: #333;}
+.z-common-head .z-title a:hover{ color: #000; text-decoration: none;}
+
+
+/*带TAB的*/
+.z-common-head .table-li a {text-decoration: none;color: #333; }
+/*头部带内容的*/
+.z-common-head .z-top{ margin-top: 20px;}
+.z-common-head .z-top .inline-text{ display: inline-block; margin-right: 20px; font-size:18px; line-height: 34px; font-family: 微软雅黑;}
+.z-common-head .z-top .right-btn{ float: right;}
+/*内容区*/
+.z-common-content{ padding: 20px;}
+/*表单样式*/
+.text-require{ color: #ff0000;}
+.z-edit-alert-textarea{ width: 900px; min-height: 600px;}
+.common-table .search .line .input-group{ width: 40%;}
+
+/*表单较验*/
+.z-form-group{ padding-bottom: 23px; position: relative; margin-bottom: 0; line-height: 34px;}
+.z-form-group .z-error-txt{ position: absolute; left:0; bottom: 5px; line-height: 18px; font-size: 12px;}
+
+/*仿checkbox滑动UI*/
+.z-checkbox-ui{ display: inline-block; width: 30px; height: 16px; border-radius: 8px; background: #4990E2; padding: 1px; position: relative; border: 1px solid #4990E2;}
+.z-checkbox-ui span{ width: 12px; height: 12px; border-radius: 6px; background:#fff; position: absolute; right: 0; top: 0;}
+.z-checkbox-ui.on{background: #4990E2; border: 1px solid #4990E2;}/*默认为开启样式*/
+.z-checkbox-ui.on span{ right: 0px!important; left: auto!important; border: 1px solid #4990E2!important;}
+.z-checkbox-ui.off{background: #f8f8f8!important; border: 1px solid #cdcdcd!important;}
+.z-checkbox-ui.off span{ left: 0px!important; right: auto!important; border: 1px solid #cdcdcd!important;}
+/*带数量增减的输入框*/
+.z-num-control{ display: inline-block; width: 160px; height: 34px; border: 1px solid $border-color; border-radius: 3px; position: relative; text-align: center;}
+.z-num-ctl-l,.z-num-ctl-r{ display: block; width: 30px; line-height: 34px; text-align: center; cursor: pointer; position: absolute; top: 0; font-size: 16px;}
+.z-num-ctl-l{ left: 0; border-right: 1px solid $border-color;}
+.z-num-ctl-r{ right: 0; border-left: 1px solid $border-color;}
+.z-num-txt input{ width: 80px; line-height: 20px; padding: 6px; border: none; background: none;}
+
+/*报名包图片大小*/
+.signpack-listpic{ width: 54px; height: 20px;}
+.content-sign-up-pack-list .senior-search{margin: 20px 0 0px;}
+
+/*------------报名包详情------------------*/
+.sign-pack-text{ font-size: 14px; color:#666;}
+/*基础信息*/
+.sign-pack-info .text-info{ float: left; width: 275px;}
+.sign-pack-info .text-info p{ color: #909090; height: auto; overflow: hidden;}
+.sign-pack-info .text-info p span.fl{ float: left; width: 80px; display: inline-block; color: #909090;}
+.sign-pack-info .text-info p span.fr{ float: left; display: inline-block; color: #3d3d3d; width:190px;}
+
+.sign-pack-info .img-info{ margin-left: 300px;}
+.sign-pack-info .img-block{ padding: 4px; border: 1px solid #e7e7e7; background:#f8f8f8;  margin: 0px 2.5%; width:45%; max-width: 385px; text-align: center; float: left;}
+.sign-pack-info .img-block img{ max-width: 100%;}
+.sign-pack-info .img-block p{ margin: 10px; text-align: center;}
+/*报考说明、报考资料、课时说明、课时费*/
+.sign-pack-text li{margin-bottom: 10px; }
+.sign-pack-text ol li{ list-style-type: decimal; list-style-position: inside;}
+.sign-pack-charge p{ background: url(../img/z-bg-textlineDot.png) repeat-x left center; height: auto; overflow: hidden;}
+.sign-pack-charge p span{ display: inline-block; background: #fff;}
+/*服务标准，售后保障*/
+.sign-pack-serv p{ margin-bottom: 5px; color: #666;}
+/*------------报名包新增------------*/
+.signin-pack-add{ padding-bottom: 50px;}
+.signin-pack-add .inlineInput label{ line-height: 34px; margin: 0;}
+.signin-pack-add .base-info-table tr > td{ border: none;}
+.signin-pack-add .base-info-table tr > td label{ font-weight: normal;}
+.signin-pack-add .signPackUpload .form-group{ width: 48%; float: left; max-width: 380px; background: #f8f8f8; padding: 10px;}
+.signin-pack-add .signPackUpload .form-group:nth-child(1){ margin-right: 4%;}
+.signin-pack-add .signPackUpload .input-group { width: 100%;}
+.signin-pack-add .signPackUpload .file-drop-zone-title{ font-size: 20px; padding: 60px 10px;}
+.signin-pack-add .signPackUpload p.text{ text-align: center; color: $light-color; margin:10px 0 0;}
+
+/*自动收缩按钮*/
+.z-toggle-h2{ position: relative;}
+.z-toggle-h2 .ico-toggle-open{ width: 20px; height: 20px; border-radius: 10px; text-align: center; position: absolute; right: 10px; top: 5px; display: inline-block; line-height: 20px; background: $light-color; color: #fff!important; cursor: pointer;}
+.item-auto-wrap{ position: relative; padding-left: 100px; margin-bottom: 50px; height: auto; overflow: hidden;}
+.item-auto-wrap > label{ position: absolute; left: 0; top: 0; line-height: 34px;}
+.item-auto-item{ height: auto; overflow: hidden; position: relative;}
+.item-auto-item .item-auto-label{ line-height: 34px;}
+.item-auto-item .item-auto-text2{ margin-bottom: 0;}
+.item-auto-wrap .signPackUpload .form-group{ width: 50%; min-width: 320px;}
+
+/*自动新增按钮*/
+.item-auto-wrap .item-btn-add{cursor:pointer; float: left;}
+.item-auto-wrap .z-ico-del,.item-auto-wrap .z-ico-add{ position: absolute; top: 10px; width: 16px; height: 16px; text-align: center; border: 1px solid #999; color: #999; right: 0; border-radius: 8px; line-height: 14px;}
+.item-auto-wrap .z-ico-add{ color: $menu-color; border-color: $menu-color; position: relative; top: 2px; float: left; margin-right: 10px;}
+.item-auto-wrap .z-text-add { color: $menu-color;}
+.item-auto-wrap .checkbox-item{ width: 150px; float: left; line-height: 34px;}
+.item-auto-wrap .checkbox-item input{ margin: 0 10px 0 0;}
+
+/*普通关闭按钮*/
+.z-icobtn-close{ width: 24px; height: 24px; border: 3px solid #fff; background: #333; color: #fff; text-align: center; box-shadow: 0 0 10px #333; font-size:14px; line-height: 20px; display: inline-block; border-radius: 15px;}
+.signPackUpload .form-group .form-exist-img-wrap{ position: absolute; width: 100%; height: 100%; top: 0; left: 0; text-align: center; z-index: 2; background: #fff;}
+.signPackUpload .form-group .form-exist-img-wrap img{ max-width: 100%; max-height: 100%; display: block;}
+.signPackUpload .form-group .form-exist-img-wrap .z-icobtn-close{ position: absolute; right: -5px; top: -5px;}
+
+/*报名协议*/
+.agreement-alert .main .content{ width: 900px; min-height: 600px;}
+
+/*学员封号*/
+.student-lock-alert .main div.content{ width: 400px;}
+.student-lock-alert input[type=radio]{ margin: 0 5px 0 0;}
+.student-body .daterangepicker.dropdown-menu{ z-index: 9999;}
+.student-lock-edit > div{ float: left; width: 33.33%; line-height: 34px;}
+/*教练封号*/
+.coach-lock-alert .main div.content{ width: 400px;}
+.coach-lock-alert input[type=radio]{ margin: 0 5px 0 0;}
+.coach-body .daterangepicker.dropdown-menu{ z-index: 9999;}
+.coach-lock-edit > div{ float: left; width: 33.33%; line-height: 34px;}
+/*新增优惠券条件*/
+table.table-coupon-condi-add{ margin-bottom: 0;}
+table.table-coupon-condi-add>tbody>tr>th{ vertical-align: middle;}
+.check-box-item{ line-height: 34px; float: left; margin-left: 30px;}
+.check-box-item input{ margin: 0 5px 0 0;}
+.radio-box{ line-height: 34px;}
+.radio-box input{ margin: 0 5px 0 0; margin-left: 30px;}
+.shade-wrap{ position: relative; width: 100%; height: 100%; height: auto; overflow: hidden;}
+.shade-color{ position: absolute; z-index: 2; width: 100%; height: 100%; top: 0; left: 0; background: #fff; opacity: 0.8;}
+.coupon-condi-body .z-error-txt{ margin: 0; line-height: 34px; display: none;}
+/*新增优惠券*/
+.z-table-coupon-add td{ padding: 0!important;}
+.z-table-coupon-add .form-group{ padding-left: 120px; padding-bottom: 30px; position: relative; margin-bottom: 0; }
+.z-table-coupon-add .form-group label{ line-height: 34px; position: absolute; left: 0; top: 0; font-weight: normal; text-align: right; width: 100px;}
+.z-table-coupon-add .form-group .z-error-txt{ position: absolute; left: 120px; bottom: 0; line-height: 18px; bottom: 12px;}
+.z-table-coupon-add .item-auto-wrap{ padding: 0; margin-bottom: 15px;}
+.z-table-coupon-add .item-auto-wrap label.item-auto-del{ top: 0;}
+.z-table-coupon-add .item-auto-wrap .item-auto-item{ padding-bottom: 0;}
+.z-table-coupon-add .item-auto-wrap .item-auto-item p.z-error-txt{ display: none;}
+
+.z-table-coupon-add .item-auto-radio{ line-height: 34px;}
+.z-table-coupon-add .item-auto-radio input{ margin: 0 5px 0 20px;}
+.z-table-coupon-add .item-auto-btn{ padding-left: 120px; margin-top: 10px;}
+.z-table-coupon-add .send-way{ position: relative; padding-left: 100px; height: 34px;}
+.z-table-coupon-add .send-way .inputbox{ width: 100px; position: absolute; top: 0; left: 0; line-height: 34px;}
+.z-table-coupon-add .send-way input{ margin:0 5px 0 0;}
+.unavaible-rule{ padding-left:120px; color: #999;}
+.sel-listen-way{ display: none;}
+.color-swatch{ display: inline-block; width: 20px; height: 20px; border: 1px solid #999; margin-right: 10px;}
+/*消息中心*/
+.z-table-msg-center{ border: 1px solid #e9e9e9;}
+.z-table-msg-center th{ background: #F8F8F8; border-bottom: 2px solid #e9e9e9; font-size: 16px;}
+.z-table-msg-center td{ color: #c3c3c3; vertical-align: middle;}
+.z-table-msg-center td p{ margin: 0; color: #666;}
+.z-table-msg-center td.msg-content p,.z-table-msg-center td a{ color: #4990E2; text-decoration: none;}
+/*充值方案详情*/
+.z-data-recharge-privi .top { font-size: 20px;}
+.z-table-nobord-tb{ border-top: none; border-bottom: none;}
+.z-table-nobord-tb tr:first-child td{ border-top: none!important;}
+.z-table-nobord-tb tr:last-child td{ border-bottom: none!important;}
+.z-table-nobord-tb tr td:first-child{ background: #f8f8f8!important}
+/*新增充值方案*/
+.z-add-recharge-pri-plan input[type=radio]{ margin-top: 0; margin-right: 5px;}
+.z-add-recharge-pri-plan .step-min{ width: 39%; margin-right: 2%;}
+.z-add-recharge-pri-plan .step-max{ width: 39%;}
+.z-add-recharge-pri-plan .check-box-item{ margin:0 20px 0 0;}
+.z-add-recharge-pri-plan .form-group,.z-add-recharge-pri-plan label{ line-height: 34px; font-weight: normal; margin-bottom: 0;}
+.z-add-recharge-pri-plan .item-auto-wrap label{ position: relative; height: 34px;}
+.z-add-recharge-pri-plan .item-auto-wrap .z-ico-del{ top: 8px; right: 10px;}
+.z-add-recharge-pri-plan .privi-time-wrap{ height: auto; overflow: hidden;}
+.z-add-recharge-pri-plan .privi-time-start,.z-add-recharge-pri-plan .privi-time-end{ width: 30%; float: left;}
+.z-add-recharge-pri-plan .privi-time-label{ width: 15%; float: left; text-align: right;}
+
+/*导入大客户学员*/
+.succ-import{ position: relative; padding:20px 180px 20px 20px;}
+.succ-import span.tag{ color: #4990E2; padding: 0 5px;}
+.succ-import .buttonwrap{ position: absolute; right: 20px; top: 25px;}
+.succ-import p{ margin-bottom: 0;}
+.succ-ico{ position: absolute; top: 15px; left: 15px;}
+.succ-tit{ font: normal 16px/1.5 微软雅黑;}
+
+/*配置角色权限 -- 新建角色*/
+.role-permission-add .item-auto-wrap{ color: #666; font-size: 12px; margin: 0; padding: 10px 20px 10px 160px; min-height: 54px;}
+.role-permission-add .item-auto-wrap > label{ top: 10px; padding-left: 35px;}
+.role-permission-add .item-auto-wrap > label span{ font-size: 12px;}
+.role-permission-add input[type=checkbox],.role-permission-add input[type=radio]{ margin:0 10px 0 0}
+.role-permission-add .z-toggle-h2{ border-bottom: 2px solid #E7E7E7; padding: 5px 10px; background: #f6f6f6;}
+.role-permission-add .z-toggle-h2 span{ color: #002a80}
+.role-permission-add .z-toggle-h2 span.ico-toggle-open{ top: 10px;}
+.role-permission-add .permission-item div .item-auto-wrap:nth-child(even){ background: #f9f9f9;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

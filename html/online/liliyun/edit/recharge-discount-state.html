@@ -1,0 +1,17 @@
+
+<div class="edit-alert edit-alert-width recharge-discount-state">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">审核优惠充值<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<div>已勾选了 <span class="mainColor">{{ idList.length }}</span> 位学员<span ng-if="verifyType=='vFail'">，请提交审核不通过的理由</span></div>
+		<textarea id="vFailReason" placeholder="请输入不通过的理由" class="form-control" rows="3" ng-if="verifyType=='vFail'"></textarea>
+		<div class="chaozuo margin-top-30" >
+			<a class="btn btn-sm btn-default closeAlert">取消</a>
+			<a ng-click="submitRDState()" class="btn btn-sm btn-primary">确认</a>
+		</div>
+	</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.finance.mapper.dao.cms.TaskFailDetailDao">
+	<resultMap id="BaseResultMap" type="com.lili.finance.model.cms.TaskFailDetail">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="task_id" property="taskId" jdbcType="INTEGER" />
+		<result column="rowA" property="rowa" jdbcType="VARCHAR" />
+		<result column="rowB" property="rowb" jdbcType="VARCHAR" />
+		<result column="rowC" property="rowc" jdbcType="VARCHAR" />
+		<result column="rowD" property="rowd" jdbcType="VARCHAR" />
+		<result column="rowE" property="rowe" jdbcType="VARCHAR" />
+		<result column="rowF" property="rowf" jdbcType="VARCHAR" />
+		<result column="rowG" property="rowg" jdbcType="VARCHAR" />
+		<result column="rowH" property="rowh" jdbcType="VARCHAR" />
+		<result column="rowI" property="rowi" jdbcType="VARCHAR" />
+		<result column="rowJ" property="rowj" jdbcType="VARCHAR" />
+		<result column="rowK" property="rowk" jdbcType="VARCHAR" />
+		<result column="rowL" property="rowl" jdbcType="VARCHAR" />
+		<result column="rowM" property="rowm" jdbcType="VARCHAR" />
+		<result column="rowN" property="rown" jdbcType="VARCHAR" />
+		<result column="rowO" property="rowo" jdbcType="VARCHAR" />
+		<result column="rowP" property="rowp" jdbcType="VARCHAR" />
+		<result column="rowQ" property="rowq" jdbcType="VARCHAR" />
+		<result column="rowR" property="rowr" jdbcType="VARCHAR" />
+		<result column="rowS" property="rows" jdbcType="VARCHAR" />
+		<result column="rowT" property="rowt" jdbcType="VARCHAR" />
+		<result column="rowU" property="rowu" jdbcType="VARCHAR" />
+		<result column="rowV" property="rowv" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id, task_id, rowA, rowB, rowC, rowD, rowE, rowF, rowG, rowH, rowI, rowJ,
+		rowK, rowL,
+		rowM, rowN, rowO, rowP, rowQ, rowR, rowS, rowT, rowU, rowV
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_task_fail_detail
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_task_fail_detail
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.lili.finance.model.cms.TaskFailDetail">
+		insert into t_task_fail_detail (id, task_id, rowA,
+		rowB, rowC, rowD, rowE,
+		rowF, rowG, rowH, rowI,
+		rowJ, rowK, rowL, rowM,
+		rowN, rowO, rowP, rowQ,
+		rowR, rowS, rowT, rowU,
+		rowV)
+		values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER},
+		#{rowa,jdbcType=VARCHAR},
+		#{rowb,jdbcType=VARCHAR}, #{rowc,jdbcType=VARCHAR}, #{rowd,jdbcType=VARCHAR},
+		#{rowe,jdbcType=VARCHAR},
+		#{rowf,jdbcType=VARCHAR}, #{rowg,jdbcType=VARCHAR}, #{rowh,jdbcType=VARCHAR},
+		#{rowi,jdbcType=VARCHAR},
+		#{rowj,jdbcType=VARCHAR}, #{rowk,jdbcType=VARCHAR}, #{rowl,jdbcType=VARCHAR},
+		#{rowm,jdbcType=VARCHAR},
+		#{rown,jdbcType=VARCHAR}, #{rowo,jdbcType=VARCHAR}, #{rowp,jdbcType=VARCHAR},
+		#{rowq,jdbcType=VARCHAR},
+		#{rowr,jdbcType=VARCHAR}, #{rows,jdbcType=VARCHAR}, #{rowt,jdbcType=VARCHAR},
+		#{rowu,jdbcType=VARCHAR},
+		#{rowv,jdbcType=VARCHAR})
+	</insert>
+	
+	<insert id="insertSelective" parameterType="com.lili.finance.model.cms.TaskFailDetail">
+		insert into t_task_fail_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="taskId != null">
+				task_id,
+			</if>
+			<if test="rowa != null">
+				rowA,
+			</if>
+			<if test="rowb != null">
+				rowB,
+			</if>
+			<if test="rowc != null">
+				rowC,
+			</if>
+			<if test="rowd != null">
+				rowD,
+			</if>
+			<if test="rowe != null">
+				rowE,
+			</if>
+			<if test="rowf != null">
+				rowF,
+			</if>
+			<if test="rowg != null">
+				rowG,
+			</if>
+			<if test="rowh != null">
+				rowH,
+			</if>
+			<if test="rowi != null">
+				rowI,
+			</if>
+			<if test="rowj != null">
+				rowJ,
+			</if>
+			<if test="rowk != null">
+				rowK,
+			</if>
+			<if test="rowl != null">
+				rowL,
+			</if>
+			<if test="rowm != null">
+				rowM,
+			</if>
+			<if test="rown != null">
+				rowN,
+			</if>
+			<if test="rowo != null">
+				rowO,
+			</if>
+			<if test="rowp != null">
+				rowP,
+			</if>
+			<if test="rowq != null">
+				rowQ,
+			</if>
+			<if test="rowr != null">
+				rowR,
+			</if>
+			<if test="rows != null">
+				rowS,
+			</if>
+			<if test="rowt != null">
+				rowT,
+			</if>
+			<if test="rowu != null">
+				rowU,
+			</if>
+			<if test="rowv != null">
+				rowV,
+			</if>
+		</trim>
+		
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="taskId != null">
+				#{taskId,jdbcType=INTEGER},
+			</if>
+			<if test="rowa != null">
+				#{rowa,jdbcType=VARCHAR},
+			</if>
+			<if test="rowb != null">
+				#{rowb,jdbcType=VARCHAR},
+			</if>
+			<if test="rowc != null">
+				#{rowc,jdbcType=VARCHAR},
+			</if>
+			<if test="rowd != null">
+				#{rowd,jdbcType=VARCHAR},
+			</if>
+			<if test="rowe != null">
+				#{rowe,jdbcType=VARCHAR},
+			</if>
+			<if test="rowf != null">
+				#{rowf,jdbcType=VARCHAR},
+			</if>
+			<if test="rowg != null">
+				#{rowg,jdbcType=VARCHAR},
+			</if>
+			<if test="rowh != null">
+				#{rowh,jdbcType=VARCHAR},
+			</if>
+			<if test="rowi != null">
+				#{rowi,jdbcType=VARCHAR},
+			</if>
+			<if test="rowj != null">
+				#{rowj,jdbcType=VARCHAR},
+			</if>
+			<if test="rowk != null">
+				#{rowk,jdbcType=VARCHAR},
+			</if>
+			<if test="rowl != null">
+				#{rowl,jdbcType=VARCHAR},
+			</if>
+			<if test="rowm != null">
+				#{rowm,jdbcType=VARCHAR},
+			</if>
+			<if test="rown != null">
+				#{rown,jdbcType=VARCHAR},
+			</if>
+			<if test="rowo != null">
+				#{rowo,jdbcType=VARCHAR},
+			</if>
+			<if test="rowp != null">
+				#{rowp,jdbcType=VARCHAR},
+			</if>
+			<if test="rowq != null">
+				#{rowq,jdbcType=VARCHAR},
+			</if>
+			<if test="rowr != null">
+				#{rowr,jdbcType=VARCHAR},
+			</if>
+			<if test="rows != null">
+				#{rows,jdbcType=VARCHAR},
+			</if>
+			<if test="rowt != null">
+				#{rowt,jdbcType=VARCHAR},
+			</if>
+			<if test="rowu != null">
+				#{rowu,jdbcType=VARCHAR},
+			</if>
+			<if test="rowv != null">
+				#{rowv,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.lili.finance.model.cms.TaskFailDetail">
+		update t_task_fail_detail
+		<set>
+			<if test="taskId != null">
+				task_id = #{taskId,jdbcType=INTEGER},
+			</if>
+			<if test="rowa != null">
+				rowA = #{rowa,jdbcType=VARCHAR},
+			</if>
+			<if test="rowb != null">
+				rowB = #{rowb,jdbcType=VARCHAR},
+			</if>
+			<if test="rowc != null">
+				rowC = #{rowc,jdbcType=VARCHAR},
+			</if>
+			<if test="rowd != null">
+				rowD = #{rowd,jdbcType=VARCHAR},
+			</if>
+			<if test="rowe != null">
+				rowE = #{rowe,jdbcType=VARCHAR},
+			</if>
+			<if test="rowf != null">
+				rowF = #{rowf,jdbcType=VARCHAR},
+			</if>
+			<if test="rowg != null">
+				rowG = #{rowg,jdbcType=VARCHAR},
+			</if>
+			<if test="rowh != null">
+				rowH = #{rowh,jdbcType=VARCHAR},
+			</if>
+			<if test="rowi != null">
+				rowI = #{rowi,jdbcType=VARCHAR},
+			</if>
+			<if test="rowj != null">
+				rowJ = #{rowj,jdbcType=VARCHAR},
+			</if>
+			<if test="rowk != null">
+				rowK = #{rowk,jdbcType=VARCHAR},
+			</if>
+			<if test="rowl != null">
+				rowL = #{rowl,jdbcType=VARCHAR},
+			</if>
+			<if test="rowm != null">
+				rowM = #{rowm,jdbcType=VARCHAR},
+			</if>
+			<if test="rown != null">
+				rowN = #{rown,jdbcType=VARCHAR},
+			</if>
+			<if test="rowo != null">
+				rowO = #{rowo,jdbcType=VARCHAR},
+			</if>
+			<if test="rowp != null">
+				rowP = #{rowp,jdbcType=VARCHAR},
+			</if>
+			<if test="rowq != null">
+				rowQ = #{rowq,jdbcType=VARCHAR},
+			</if>
+			<if test="rowr != null">
+				rowR = #{rowr,jdbcType=VARCHAR},
+			</if>
+			<if test="rows != null">
+				rowS = #{rows,jdbcType=VARCHAR},
+			</if>
+			<if test="rowt != null">
+				rowT = #{rowt,jdbcType=VARCHAR},
+			</if>
+			<if test="rowu != null">
+				rowU = #{rowu,jdbcType=VARCHAR},
+			</if>
+			<if test="rowv != null">
+				rowV = #{rowv,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<update id="updateByPrimaryKey" parameterType="com.lili.finance.model.cms.TaskFailDetail">
+		update t_task_fail_detail
+		set task_id = #{taskId,jdbcType=INTEGER},
+		rowA = #{rowa,jdbcType=VARCHAR},
+		rowB = #{rowb,jdbcType=VARCHAR},
+		rowC = #{rowc,jdbcType=VARCHAR},
+		rowD = #{rowd,jdbcType=VARCHAR},
+		rowE = #{rowe,jdbcType=VARCHAR},
+		rowF = #{rowf,jdbcType=VARCHAR},
+		rowG = #{rowg,jdbcType=VARCHAR},
+		rowH = #{rowh,jdbcType=VARCHAR},
+		rowI = #{rowi,jdbcType=VARCHAR},
+		rowJ = #{rowj,jdbcType=VARCHAR},
+		rowK = #{rowk,jdbcType=VARCHAR},
+		rowL = #{rowl,jdbcType=VARCHAR},
+		rowM = #{rowm,jdbcType=VARCHAR},
+		rowN = #{rown,jdbcType=VARCHAR},
+		rowO = #{rowo,jdbcType=VARCHAR},
+		rowP = #{rowp,jdbcType=VARCHAR},
+		rowQ = #{rowq,jdbcType=VARCHAR},
+		rowR = #{rowr,jdbcType=VARCHAR},
+		rowS = #{rows,jdbcType=VARCHAR},
+		rowT = #{rowt,jdbcType=VARCHAR},
+		rowU = #{rowu,jdbcType=VARCHAR},
+		rowV = #{rowv,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

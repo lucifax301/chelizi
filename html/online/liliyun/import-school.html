@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ImportSchool">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>导入驾校资源</title>
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepickerV2.1.css">
+	<link rel="stylesheet" href="assets/css/main.css?v=69e7c759711473298817659">
+	<style type="text/css">.PopLayer-body-msg span{ display: none;}.PopLayer-body b{ display: block; padding: 0 30px;}</style>
+	<script src="assets/common/js/commonStart.js?v=2212439cc61473298817674"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash order-detail">
+		<div class="z-title">导入驾校资源</div>
+		<div class="z-bg-box z-p20">
+			<h3 class="z-common-h2 z-mtb0 z-font16">签约驾校的资源可通过导入数据表的方式更新喱喱数据库</h3>
+			<p>1.先点击“下载数据表模板”下载Excel数据表格，<span class="error">数据从第四行开始导入</span>（即默认数据不要删除）
+			<p>2.各详情导入界面只会显示导入失败的数据，操作人员在导入完成之后，对相应导入失败的数据做单独处理，也可在Excel中修改后再次导入，已存在的数据会做更新处理。</p>
+			<p>3.成功的数据不会做出失败提示。</p>
+			<p>4.每当驾校需要更新驾校的资源信息，通过线下收集数据按指定格式汇成表格，分类导入即可完成数据更新</p>
+			<p>5.考虑到各项资源之间的绑定关系，存在绑定关系的数据需要按照指定的先后顺序进行导数据：教练 > 训练场/学员/车；</p>
+			<p>6.导入新签驾校数据，需要先在[资源管理>驾校]里新增的驾校才可以开始导入数据</p>
+		</div>
+		<div class="clearfix"></div>
+		<div class="padding-20">
+			<div class="table-margin common-table">
+				<div class="header">导入驾校资源</div>
+				<div class="content">
+					<div class="search">
+						<div class="line">
+							<div>筛选时间</div>
+							<ul>
+								<li ng-click="getDataForTime($event,'all')" class="active">全部</li>
+								<li ng-click="getDataForTime($event,'0')">最近7天</li>
+								<li ng-click="getDataForTime($event,'1')">最近15天</li>
+							</ul>
+							<div class="input-prepend input-group">
+								<span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+								<input type="text" style="width: 320px" name="reservation" id="reservation" class="form-control" placeholder="自定义时间筛选" />
+							</div>
+						</div>
+					</div>
+					<div class="senior-search row">
+						<div class="col-xs-12 col-sm-6 col-md-8">
+							<a class="btn btn-sm btn-primary" ng-click="importFile()" ng-if="121001|isAccessShow">导入驾校资源</a>
+							<a class="btn btn-sm btn-primary margin-left-15" href="javascript:;" ng-click="downLoadTemp()">下载数据表模板</a>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-4 select text-right">
+							<span>每页</span>
+							<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+								<option value="10" selected="selected">10</option>
+								<option value="20">20</option>
+								<option value="50">50</option>
+								<option value="100">100</option>
+							</select>
+							<span>条记录</span>
+						</div>
+					</div>
+					<p style="margin-top: -20px;">请<span class="error">务必阅读</span>数据表模板中的分表<span class="error">《导入规范》！</span>并严格按照模板中的格式要求，以确保数据能够正确导入。</p>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<tr>
+								<td><b>导表时间</b></td>
+								<td><b>表编号</b></td>
+								<td><b>数据表类型</b></td>
+								<td><b>总数据</b></td>
+								<td><b>失败数据</b></td>
+								<td><b>操作人</b></td>
+							</tr>
+							<tr ng-repeat="item in datas">
+								<td><span ng-bind="item.createtime | timeTex"></span></td>
+								<td>
+									<a target="_blank" href="import-school-excel-show-{{item.filetype}}.html?billNo={{item.billNo}}" ng-bind="item.billNo" ng-if="item.sum>item.sucsum" ></a>
+									<span ng-if="item.sum==item.sucsum" ng-bind="item.billNo"></span>
+								</td>
+								<td ng-bind="item.filetype | importSchoolFileType"></td>
+								<td ng-bind="item.sum"></td>
+								<td ng-class="[item.sum==item.sucsum?'':'error']" ng-bind="item.sum - item.sucsum"></td>
+								<td ng-bind="item.creatorName"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="page">
+						<div id="copot-page" class="copot-page"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/common/daterangepicker/js/momentV2.1.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepickerV2.1.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=8e779b7bab1473298817674"></script>
+<script src="assets/js/ng-js/import-school.js?v=67be36ab661473298817690"></script>
+</body>
+</html>

@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lili.order.mapper.dao.OrderMapper">
+    
+    
+	<sql id="Base_Column_List">
+	    order_id as orderId,coach_id as coachId,course_id as courseId,price as price,learn_addr as learnAddr,
+	    student_id as studentId,dltype as dltype,lge as lge,lae as lae,stu_addr as stuAddr,pstart as pstart,pend as pend,
+	    clz_num as clzNum,order_state as orderState,rstart as rstart,rend as rend,cstart as cstart,cend as cend,
+	    pay_state as payState,need_trans as needTrans,trans_state as transState,pay_id as payId,
+	    gtime as gtime,atime as atime,otype as otype,coorder as coorder,ccid as ccid ,car_no as carNo
+	    ,date_format(gtime,'%Y-%m-%d %h:%m:%s') as gtimeStr,course_name as courseName,car_id as carId
+	    ,pay_total as payTotal, coupon_total as couponTotal,coupon,pay_time as payTime,place_lge as placeLge
+	    ,place_lae as placeLae, coupon
+	</sql>
+	
+	<sql id="InsuranceOrder_Column_List">
+	    insuranceId,studentId,name,phoneNum,cityId,cityName,price,year,insuranceNumber,payTime,effectTime,invalidTime,operationTime,
+	    compensateTime,compensate,compensateRemark,payState,payWay,refundTime,refundPrice,refundRemark,visitTime,visitState,visitRemark,refundState
+	</sql>
+
+	<sql id="Example_Where_Clause">
+		where 1=1
+		<trim suffixOverrides=",">
+	        <if test="orderState != null and orderState != ''">  
+	            <![CDATA[order_state = #{orderState} ]]>  
+	        </if>  
+	        <if test="payState != null and payState != ''">  
+	            <![CDATA[AND pay_state = #{payState}]]>  
+	        </if>  
+	        <if test="studentId != null and studentId != ''">  
+	            <![CDATA[AND student_id = #{studentId}]]>  
+	        </if>  
+	        <if test="coachId != null and coachId != ''">  
+	            <![CDATA[AND coach_id = #{coachId}]]>  
+	        </if>  
+	        <if test="orderId != null and orderId != ''">  
+	            <![CDATA[AND order_id = #{orderId}]]>  
+	        </if>  
+	        <if test="carNo != null and carNo != ''">  
+	            <![CDATA[AND car_no = #{carNo}]]>  
+	        </if>  
+	        <if test="carId != null and carId != ''">  
+	            <![CDATA[AND car_id = #{carId}]]>  
+	        </if>  
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND rstart >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND rend <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+	        <if test="subject != null and subject != ''">  
+	            <![CDATA[AND course_id = #{subject}]]>  
+	        </if>  
+		</trim>
+	</sql>
+	
+	<select id="queryIsHangUpList" resultType="java.lang.Integer" parameterType="java.lang.String" >
+		select
+			count(1)
+		from t_order
+			where pay_state not in (0,2)
+			<trim suffixOverrides=",">
+				<if test="_parameter != null and _parameter != ''">
+					and order_id in (#{_parameter})
+				</if>
+				<if test="_parameter == null or _parameter == ''">
+					and order_id in ('')
+				</if>
+			</trim>
+	</select>
+	
+	
+  <sql id="setNotNullparam1">
+    <set>
+      <if test="orderId!=null">order_id=#{orderId},</if>
+      <if test="coachId!=null">coach_id=#{coachId},</if>
+      <if test="courseId!=null">course_id=#{courseId},</if>
+      <if test="price!=null">price=#{price},</if>
+      <if test="learnAddr!=null">learn_addr=#{learnAddr},</if>
+      <if test="studentId!=null">student_id=#{studentId},</if>
+      <if test="dltype!=null">dltype=#{dltype},</if>
+      <if test="lge!=null">lge=#{lge},</if>
+      <if test="lae!=null">lae=#{lae},</if>
+      <if test="stuAddr!=null">stu_addr=#{stuAddr},</if>
+      <if test="pstart!=null">pstart=#{pstart},</if>
+      <if test="pend!=null">pend=#{pend},</if>
+      <if test="clzNum!=null">clz_num=#{clzNum},</if>
+      <if test="orderState!=null">order_state=#{orderState},</if>
+      <if test="rstart!=null">rstart=#{rstart},</if>
+      <if test="rend!=null">rend=#{rend},</if>
+      <if test="cstart!=null">cstart=#{cstart},</if>
+      <if test="cend!=null">cend=#{cend},</if>
+      <if test="payState!=null">pay_state=#{payState},</if>
+      <if test="needTrans!=null">need_trans=#{needTrans},</if>
+      <if test="transState!=null">trans_state=#{transState},</if>
+      <if test="payId!=null">pay_id=#{payId},</if>
+      <if test="gtime!=null">gtime=#{gtime},</if>
+      <if test="atime!=null">atime=#{atime},</if>
+      <if test="otype!=null">otype=#{otype},</if>
+      <if test="coorder!=null">coorder=#{coorder},</if>
+      <if test="ccid!=null">ccid=#{ccid},</if>
+      <if test="unitPrice!=null">unit_price=#{unitPrice},</if>
+      <if test="transPrice!=null">trans_price=#{transPrice},</if>
+      <if test="placeId!=null">place_id=#{placeId},</if>
+      <if test="transName!=null">trans_name=#{transName},</if>
+      <if test="carId!=null">car_id=#{carId},</if>
+      <if test="carName!=null">car_name=#{carName},</if>
+      <if test="carImg!=null">car_img=#{carImg},</if>
+      <if test="carNo!=null">car_no=#{carNo},</if>
+      <if test="insId!=null">ins_id=#{insId},</if>
+      <if test="insPrice!=null">ins_price=#{insPrice},</if>
+      <if test="insName!=null">ins_name=#{insName},</if>
+      <if test="coachName!=null">coach_name=#{coachName},</if>
+      <if test="coachImg!=null">coach_img=#{coachImg},</if>
+      <if test="coachMobile!=null">coach_mobile=#{coachMobile},</if>
+      <if test="coachStar!=null">coach_star=#{coachStar},</if>
+      <if test="stuName!=null">stu_name=#{stuName},</if>
+      <if test="stuImg!=null">stu_img=#{stuImg},</if>
+      <if test="stuMobile!=null">stu_mobile=#{stuMobile},</if>
+      <if test="courseName!=null">course_name=#{courseName},</if>
+    </set>
+  </sql>
+  
+  
+  <select id="findExportBatch" resultType="com.lili.order.model.Order">
+	SELECT 
+	b.order_id as orderId,b.coach_id as coachId,b.course_id as courseId,b.price as price,b.learn_addr as learnAddr
+	,b.student_id as studentId,b.cstart as cstart,b.cend as cend,b.car_no as carNo
+	,a.name coachName,e.name studentName,b.dltype as dltype,b.lge as lge,b.lae as lae,b.stu_addr as stuAddr,b.pstart as pstart,b.pend as pend,
+	    b.clz_num as clzNum,b.order_state as orderState,b.rstart as rstart,b.rend as rend,
+	    b.pay_state as payState,b.need_trans as needTrans,b.trans_state as transState,b.pay_id as payId,
+	    b.gtime as gtime,b.atime as atime,b.otype as otype,b.coorder as coorder,b.ccid as ccid 
+	    ,date_format(b.gtime,'%Y-%m-%d %h:%m:%s') as gtimeStr,b.course_name as courseName,b.car_id as carId
+		,b.pay_time as payTime,a.phoneNum as coachPhoneNum,e.phoneNum as studentPhoneNum
+	from 
+	 t_order b 
+	left join t_u_coach a on b.coach_id = a.coachId
+	inner join t_s_school c on a.schoolId = c.schoolId
+	inner join t_u_student e on b.student_id = e.studentId
+		where
+		1=1
+		<trim suffixOverrides=",">
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+	        <if test="payState != null and payState != ''">  
+	            <![CDATA[AND pay_state = #{payState}]]>  
+	        </if>  
+	        <if test="payState == 0">  
+	            <![CDATA[AND pay_state = 0]]>  
+	        </if>  
+	        <if test="orderId != null and orderId != ''">  
+	            <![CDATA[AND order_id = #{orderId}]]>  
+	        </if>  
+	        <if test="studentId != null and studentId != ''">  
+	            <![CDATA[AND student_id = #{studentId}]]>  
+	        </if>  
+	        <if test="coachId != null and coachId != ''">  
+	            <![CDATA[AND coach_id = #{coachId}]]>  
+	        </if>  
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND rstart >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND rend <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+	        
+			<if test="subject != null and subject != ''">
+				AND b.course_id in (${subject})
+			</if>
+	        
+	        <if test="orderState != null and orderState != ''">  
+	            <![CDATA[AND order_state = #{orderState}]]>  
+	        </if>  
+	        <if test="carId != null and carId != ''">  
+	            <![CDATA[AND car_id = #{carId}]]>  
+	        </if>  
+	        <if test="otype != null and otype != ''">  
+	            <![CDATA[AND otype = #{otype}]]>  
+	        </if>  
+	        <if test="orderState == 0">  
+	            <![CDATA[AND order_state = 0]]>  
+	        </if>  
+	        
+	        <if test="coachName != null and coachName != ''">  
+	            <![CDATA[AND a.name = #{coachName}]]>  
+	        </if>  
+	        <if test="studentName != null and studentName != ''">  
+	            <![CDATA[AND e.name = #{studentName}]]>  
+	        </if>  
+	        <if test="studentPhoneNum != null and studentPhoneNum != ''">  
+	            <![CDATA[AND e.phoneNum = #{studentPhoneNum}]]>  
+	        </if>  
+	        <if test="coachPhoneNum != null and coachPhoneNum != ''">  
+	            <![CDATA[AND a.phoneNum = #{coachPhoneNum}]]>  
+	        </if>  
+		</trim>
+	
+		order by b.rstart desc
+		limit 0,1000
+  </select>
+  
+	<select id="findMID" resultType="java.lang.Long">
+		select 
+		a.coachId
+		from t_order b
+		left join t_u_coach a on b.coach_id = a.coachId
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+		</trim>
+		order by b.order_id desc
+		limit #{rowNum},1
+	</select>
+	
+	
+	
+	<select id="findBatchTotal" resultType="java.lang.Long">
+		select
+		count(b.order_id) 
+		from 
+		t_order b
+		left join t_u_coach a on b.coach_id = a.coachId
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="(payState != null and payState != '') or payState == 0">
+				and  pay_state = #{payState} 
+			</if>
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and a.schoolId = #{schoolNo}
+			</if>
+			<if test="schoolNo == 0">
+				and a.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and a.schoolId = #{schoolId} ]]>  
+			</if>
+	        <if test="orderId != null and orderId != ''">  
+	            <![CDATA[AND order_id = #{orderId}]]>  
+	        </if>  
+	        <if test="dltype != null and dltype != ''">  
+	            <![CDATA[AND dltype = #{dltype}]]>  
+	        </if>  
+	        <if test="studentId != null and studentId != ''">  
+	            <![CDATA[AND student_id = #{studentId}]]>  
+	        </if>  
+	        <if test="coachId != null and coachId != ''">  
+	            <![CDATA[AND coach_id = #{coachId}]]>  
+	        </if>  
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND rstart >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND rend <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+			<if test="subject != null and subject != ''">
+				AND b.course_id in (${subject})
+			</if>
+	        <if test="orderState != null and orderState != ''">  
+	            <![CDATA[AND order_state = #{orderState}]]>  
+	        </if>  
+	        <if test="orderState == 0">  
+	            <![CDATA[AND order_state = 0]]>  
+	        </if>  
+	        <if test="carId != null and carId != ''">  
+	            <![CDATA[AND car_id = #{carId}]]>  
+	        </if>  
+	        <if test="otype != null and otype != ''">  
+	            <![CDATA[AND otype = #{otype}]]>  
+	        </if>  
+	        
+	        <if test="coachName != null and coachName != ''">  
+	            <![CDATA[AND b.coach_name = #{coachName}]]>  
+	        </if>  
+	        <if test="studentName != null and studentName != ''">  
+	            <![CDATA[AND b.stu_name = #{studentName}]]>  
+	        </if>  
+	        <if test="studentPhoneNum != null and studentPhoneNum != ''">  
+	            <![CDATA[AND b.stu_mobile = #{studentPhoneNum}]]>  
+	        </if>  
+	        <if test="coachPhoneNum != null and coachPhoneNum != ''">  
+	            <![CDATA[AND b.coach_mobile = #{coachPhoneNum}]]>  
+	        </if>  
+		</trim>
+	</select>
+
+	<select id="findPayWay" resultType="com.lili.order.model.Order">
+		select payWay,orderId  from t_u_money u where
+		orderId in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="findSustainTime" resultType="com.lili.order.model.Order">
+		select UNIX_TIMESTAMP(now())-UNIX_TIMESTAMP(gtime) sustainTime,order_id as orderId
+		from t_order where
+		order_id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and pay_time is null
+	</select>
+   
+  <select id="findJxBatch" resultType="com.lili.order.model.Order">
+	SELECT 
+	b.order_id as orderId,b.coach_id as coachId,b.course_id as courseId,b.price as price,b.learn_addr as learnAddr
+	,b.student_id as studentId,b.cstart as cstart,b.cend as cend,b.car_no as carNo
+	,b.coach_name coachName,b.stu_name studentName,b.dltype as dltype,b.lge as lge,b.lae as lae,b.stu_addr as stuAddr,b.pstart as pstart,b.pend as pend,
+	    b.clz_num as clzNum,b.order_state as orderState,b.rstart as rstart,b.rend as rend,
+	    b.pay_state as payState,b.need_trans as needTrans,b.trans_state as transState,b.pay_id as payId,
+	    b.gtime as gtime,b.atime as atime,b.otype as otype,b.coorder as coorder,b.ccid as ccid 
+	    ,date_format(b.gtime,'%Y-%m-%d %h:%m:%s') as gtimeStr,b.course_name as courseName,b.car_id as carId
+		,b.pay_time as payTime,b.coach_mobile as coachPhoneNum,b.stu_mobile as studentPhoneNum,b.pay_total as payTotal,tcc.score,tcc.one_word as oneWord
+	from 
+	 t_order b left join t_coach_comment tcc on b.order_id=tcc.order_id
+	left join t_u_coach a on b.coach_id = a.coachId
+	inner join t_s_school c on a.schoolId = c.schoolId
+		where 1=1
+	            
+			<if test="(payState != null and payState != '') or payState == 0">
+				and  pay_state = #{payState} 
+			</if>
+		<trim suffixOverrides=",">
+	       <!--  <if test="payState != null and payState != ''">  
+	            <![CDATA[AND pay_state = #{payState, jdbcType=INTEGER}]]>  
+	        </if>   -->
+	        
+			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
+				and c.schoolId = #{schoolNo}
+			</if>
+			<if test="sustainTime != null and sustainTime != '' or sustainTime == 0">
+				<![CDATA[and (to_days(now()) - to_days(rend)) >=#{sustainTime}]]>  
+			</if>
+			<if test="schoolNo == 0">
+				and c.schoolId = 0
+			</if>
+			<if test="cmsChannel == 2">
+				<![CDATA[ and c.schoolId = #{schoolId} ]]>  
+			</if>
+	        <if test="orderId != null and orderId != ''">  
+	            <![CDATA[AND b.order_id = #{orderId}]]>  
+	        </if>  
+	        <if test="dltype != null and dltype != ''">  
+	            <![CDATA[AND b.dltype = #{dltype}]]>  
+	        </if>  
+	        <if test="studentId != null and studentId != ''">  
+	            <![CDATA[AND b.student_id = #{studentId}]]>  
+	        </if>  
+	        <if test="coachId != null and coachId != ''">  
+	            <![CDATA[AND b.coach_id = #{coachId}]]>  
+	        </if>  
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND rstart >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND rend <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+			<if test="subject != null and subject != ''">
+				AND b.course_id in (${subject})
+			</if>
+	        <if test="orderState != null and orderState != ''">  
+	            <![CDATA[AND order_state = #{orderState}]]>  
+	        </if>  
+	        <if test="orderState == 0">  
+	            <![CDATA[AND order_state = 0]]>  
+	        </if>  
+	        <if test="carId != null and carId != ''">  
+	            <![CDATA[AND car_id = #{carId}]]>  
+	        </if>  
+	        <if test="otype != null and otype != ''">  
+	            <![CDATA[AND otype = #{otype}]]>  
+	        </if>  
+	        
+	        <if test="coachName != null and coachName != ''">  
+	            <![CDATA[AND b.coach_name = #{coachName}]]>  
+	        </if>  
+	        <if test="studentName != null and studentName != ''">  
+	            <![CDATA[AND b.stu_name = #{studentName}]]>  
+	        </if>  
+	        <if test="studentPhoneNum != null and studentPhoneNum != ''">  
+	            <![CDATA[AND b.stu_mobile = #{studentPhoneNum}]]>  
+	        </if>  
+	        <if test="coachPhoneNum != null and coachPhoneNum != ''">  
+	            <![CDATA[AND b.coach_mobile = #{coachPhoneNum}]]>  
+	        </if>  
+		</trim>
+	
+<!--	and a.schoolId = #{schoolId} -->
+	order by rstart desc
+	limit #{pageNo},#{pageSize}
+  </select>
+  
+  <select id="findLiliBatch" resultType="com.lili.order.model.Order">
+	SELECT 
+	b.order_id as orderId,b.coach_id as coachId,b.course_id as courseId,b.price as price,b.learn_addr as learnAddr
+	,b.student_id as studentId,b.cstart as cstart,b.cend as cend,b.car_no as carNo
+	,b.coach_name coachName,b.stu_name studentName,b.dltype as dltype,b.lge as lge,b.lae as lae,b.stu_addr as stuAddr,b.pstart as pstart,b.pend as pend,
+	    b.clz_num as clzNum,b.order_state as orderState,b.rstart as rstart,b.rend as rend,
+	    b.pay_state as payState,b.need_trans as needTrans,b.trans_state as transState,b.pay_id as payId,
+	    b.gtime as gtime,b.atime as atime,b.otype as otype,b.coorder as coorder,b.ccid as ccid 
+	    ,date_format(b.gtime,'%Y-%m-%d %h:%m:%s') as gtimeStr,b.course_name as courseName,b.car_id as carId
+		,b.pay_time as payTime,b.coach_mobile as coachPhoneNum,b.stu_mobile as studentPhoneNum,b.pay_total as payTotal,tcc.score,tcc.one_word as oneWord
+	from 
+	 t_order b left join t_coach_comment tcc on b.order_id=tcc.order_id
+		where 1=1
+	            
+			<if test="(payState != null and payState != '') or payState == 0">
+				and  pay_state = #{payState} 
+			</if>
+		<trim suffixOverrides=",">
+	        
+			<if test="sustainTime != null and sustainTime != '' or sustainTime == 0">
+				<![CDATA[and (to_days(now()) - to_days(rend)) >=#{sustainTime}]]>  
+			</if>
+	        <if test="orderId != null and orderId != ''">  
+	            <![CDATA[AND b.order_id = #{orderId}]]>  
+	        </if>  
+	        <if test="dltype != null and dltype != ''">  
+	            <![CDATA[AND b.dltype = #{dltype}]]>  
+	        </if>  
+	        <if test="studentId != null and studentId != ''">  
+	            <![CDATA[AND b.student_id = #{studentId}]]>  
+	        </if>  
+	        <if test="coachId != null and coachId != ''">  
+	            <![CDATA[AND b.coach_id = #{coachId}]]>  
+	        </if>  
+	        <if test="startTime != null and startTime != ''">  
+	            <![CDATA[AND b.rstart >= DATE_FORMAT(#{startTime},'%Y-%m-%d %H:%i:%s')]]>  
+	        </if>  
+	        <if test="endTime != null and endTime != ''">  
+	            <![CDATA[AND b.rend <= DATE_ADD(DATE_FORMAT(#{endTime},'%Y-%m-%d %H:%i:%s'), INTERVAL 1 DAY)]]>  
+	        </if>  
+			<if test="subject != null and subject != ''">
+				AND b.course_id in (${subject})
+			</if>
+	        <if test="orderState != null and orderState != ''">  
+	            <![CDATA[AND order_state = #{orderState}]]>  
+	        </if>  
+	        <if test="orderState == 0">  
+	            <![CDATA[AND order_state = 0]]>  
+	        </if>  
+	        <if test="carId != null and carId != ''">  
+	            <![CDATA[AND car_id = #{carId}]]>  
+	        </if>  
+	        <if test="otype != null and otype != ''">  
+	            <![CDATA[AND otype = #{otype}]]>  
+	        </if>  
+	        
+	        <if test="coachName != null and coachName != ''">  
+	            <![CDATA[AND b.coach_name = #{coachName}]]>  
+	        </if>  
+	        <if test="studentName != null and studentName != ''">  
+	            <![CDATA[AND b.stu_name = #{studentName}]]>  
+	        </if>  
+	        <if test="studentPhoneNum != null and studentPhoneNum != ''">  
+	            <![CDATA[AND b.stu_mobile = #{studentPhoneNum}]]>  
+	        </if>  
+	        <if test="coachPhoneNum != null and coachPhoneNum != ''">  
+	            <![CDATA[AND b.coach_mobile = #{coachPhoneNum}]]>  
+	        </if>  
+		</trim>
+	
+	order by rstart desc
+	limit #{pageNo},#{pageSize}
+  </select>
+  
+  <select id="findOne" resultType="com.lili.order.model.Order">
+    select 
+	 <include refid="Base_Column_List" />,
+	 a.name as coachName,c.name as studentName,
+	 (select payWay from t_u_money u where b.order_id=u.orderId order by u.operateTime asc limit 1) as payWay
+    from t_order b inner join t_u_coach a on b.coach_id = a.coachId inner join t_u_student c on b.student_id = c.studentId 
+	where b.order_id = #{orderId}  
+<!-- 	 and a.schoolId = #{schoolId}  -->
+  </select>
+  
+	
+	<select id="findTimeByStudentId"  resultType="java.lang.Long">
+		SELECT SUM(TIMESTAMPDIFF(HOUR,rstart,rend))
+		FROM t_u_mycoaches AS t1
+		LEFT JOIN t_order AS t2 ON t1.studentId = #{studentId} AND t1.`studentId` =
+		t2.`student_id` AND t1.`coachId` = t2.`coach_id`
+		WHERE 
+	    <![CDATA[order_state > 3 AND order_state <= 7]]>  
+	 	and t1.status = 0
+	</select>
+
+
+	<select id="findCOByStudentId" resultType="com.lili.order.model.STOVo">
+		SELECT
+		t2.`name` coachName,t2.`phoneNum` phoneNum,COUNT(t3.`order_id`) totalOrderNum
+		,SUM(pay_total) totalMoney,SUM(t4.`score`)/COUNT(t4.`order_id`) avgScore
+		,t2.`coachId` coachId,t2.headIcon coachIcon
+		FROM t_u_mycoaches AS t1
+		JOIN t_u_coach AS t2 ON  t1.`coachId` = t2.`coachId`
+		left JOIN t_order AS t3 ON t1.`studentId` = t3.`student_id` AND t1.`coachId` = t3.`coach_id`
+		LEFT JOIN t_coach_comment AS t4 ON t3.`order_id` = t4.`order_id`
+	 	where t1.status = 0
+	 	and t1.studentId = #{studentId}
+	</select>
+	
+	
+  <update id="updateByIds" parameterType="java.lang.String" >
+    update t_order
+    set 
+    order_state=0 
+		WHERE 
+			<if test="_parameter != null and _parameter != ''">
+				 order_id in (${_parameter})
+			</if>
+			<if test="_parameter == null or _parameter == ''">
+				 order_id in ('')
+			</if>
+    
+  </update>
+  
+   <select id="findTotalOrder"  resultType="java.lang.Integer">
+    select count(1) from t_order b 
+    		 	left join t_u_coach a on b.coach_id = a.coachId
+				inner join t_s_school c on a.schoolId = c.schoolId
+				inner join t_u_student e on b.student_id = e.studentId
+		 <if test="cmsChannel == 2">
+	    	where a.schoolId =#{schoolId}
+		</if>
+  </select>
+  
+  <select id="findTeachTimeByCoachId"  resultType="int" parameterType="com.lili.order.model.OrderBDTO">
+		 SELECT IFNULL(SUM(TIMESTAMPDIFF(MINUTE,rstart,rend)),0)
+		FROM t_order where coach_id=#{coachId} and order_state in (4,5,6,7,10)
+		<if test="startTime != null and startTime != ''">  
+		and	rstart>=#{startTime} 
+		</if>
+		<![CDATA[and rstart<#{endTime} ]]>
+		 
+	</select>
+	
+	<select id="findInsuranceTotal" parameterType="com.lili.order.model.InsuranceOrderBDTO" resultType="int">
+	   select count(*) from t_insurance_order 
+	    <trim prefix="where"  prefixOverrides="and">
+	      <if test="cityId != null and cityId != ''">  
+	            <![CDATA[AND cityId = #{cityId}]]>  
+	      </if> 
+	       <if test="name!= null and name != ''">  
+	           and name like '%${name}%'
+	      </if>  
+	       <if test="phoneNum != null and phoneNum != ''">  
+	           and phoneNum like '%${phoneNum}%'
+	      </if>  
+	       <if test="year != null and year != ''">  
+	           and year = #{year}
+	      </if>  
+	       <if test=" compensate != null">  
+	           and compensate = #{compensate}
+	      </if>  
+	       <if test=" refundState != null">  
+	           and refundState = #{refundState}
+	      </if>  
+	       <if test=" startTime != null and startTime != '' and endTime != null and endTime != '' ">  
+	           and invalidTime between #{startTime} and #{endTime}
+	      </if>  
+	       <if test=" studentId != null and studentId != ''">  
+	            and studentId = #{studentId}
+	      </if>  
+	       <if test=" insuranceId != null and insuranceId != ''">  
+	            and insuranceId = #{insuranceId}
+	      </if> 
+	       <if test=" insuranceNumber != null and insuranceNumber != ''">  
+	            and insuranceNumber = #{insuranceNumber}
+	      </if> 
+		</trim>
+	</select>
+	
+	<select id="findInsuranceList" parameterType="com.lili.order.model.InsuranceOrderBDTO" resultType="com.lili.order.model.InsuranceOrderBDTO">
+	   select  <include refid="InsuranceOrder_Column_List" /> from t_insurance_order 
+	   <trim prefix="where"  prefixOverrides="and">
+	      <if test="cityId != null and cityId != ''">  
+	            <![CDATA[AND cityId = #{cityId}]]>  
+	      </if> 
+	       <if test="name!= null and name != ''">  
+	           and name like '%${name}%'
+	      </if>  
+	       <if test="phoneNum != null and phoneNum != ''">  
+	           and phoneNum like '%${phoneNum}%'
+	      </if>  
+	       <if test="year != null and year != ''">  
+	           and year = #{year}
+	      </if>  
+	       <if test=" compensate != null">  
+	           and compensate = #{compensate}
+	      </if>  
+	       <if test=" refundState != null">  
+	           and refundState = #{refundState}
+	      </if>  
+	       <if test=" startTime != null and startTime != '' and endTime != null and endTime != '' ">  
+	           and invalidTime between #{startTime} and #{endTime}
+	      </if>  
+	       <if test=" studentId != null and studentId != ''">  
+	            and studentId = #{studentId}
+	      </if>  
+	       <if test=" insuranceId != null and insuranceId != ''">  
+	            and insuranceId = #{insuranceId}
+	      </if> 
+	       <if test=" insuranceNumber != null and insuranceNumber != ''">  
+	            and insuranceNumber = #{insuranceNumber}
+	      </if> 
+		</trim>
+     	order by payTime desc limit #{pageNo},#{pageSize}
+	</select>
+	
+	<select id="findInsuranceById" parameterType="string" resultType="com.lili.order.model.InsuranceOrderBDTO">
+	   select  <include refid="InsuranceOrder_Column_List" /> from t_insurance_order where insuranceId = #{insuranceId}
+	</select>
+	
+	<update id="updateInsurance" parameterType="com.lili.order.model.InsuranceOrderBDTO">
+	  update t_insurance_order
+	  <set>
+			<if test="insuranceNumber != null and insuranceNumber !='' ">
+				insuranceNumber = #{insuranceNumber},
+			</if>
+			<if test="effectTime != null and effectTime !='' " >
+				effectTime = #{effectTime},
+			</if>
+			<if test="invalidTime != null and invalidTime !='' " >
+				invalidTime = #{invalidTime},
+			</if>
+			<if test="compensateTime != null" >
+				compensateTime = #{compensateTime},
+			</if>
+			<if test="compensate != null" >
+				compensate = #{compensate},
+			</if>
+			<if test="compensateRemark != null and compensateRemark !='' " >
+				compensateRemark = #{compensateRemark},
+			</if>
+			<if test="refundTime != null" >
+				refundTime = #{refundTime},
+			</if>
+			<if test="refundPrice != null and refundPrice !='' " >
+				refundPrice = #{refundPrice},
+			</if>
+			<if test="refundRemark != null and refundRemark !='' " >
+				refundRemark = #{refundRemark},
+			</if>
+			<if test="visitTime != null" >
+				visitTime = #{visitTime},
+			</if>
+			<if test="visitState != null" >
+				visitState = #{visitState},
+			</if>
+			<if test="visitRemark != null and visitRemark !='' " >
+				visitRemark = #{visitRemark},
+			</if>
+			<if test=" refundState != null">  
+	            refundState = #{refundState}
+	        </if>  
+		</set>
+		where insuranceId = #{insuranceId}
+	</update>
+
+</mapper>

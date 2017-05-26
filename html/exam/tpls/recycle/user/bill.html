@@ -1,0 +1,26 @@
+<div class="bill-box">
+	<div ng-repeat='item in billdata'>
+		<div class="time" ng-if='item.span'>{{item.month}}月（元）</div>
+		<div class="list" ng-if='!item.span'>
+			<div class="text1 y-comment">
+				<span class="fl">{{item.remark}}</span>
+				<span class="fr f18" ng-class="{true:'add'}[item.changevalue>0]" >
+					<i ng-if="(item.changevalue>0)">+</i>{{item.changevalue|priceTex}}
+				</span>
+			</div>
+			<div class="text2 y-comment">
+				<span class="fl">{{item.payway | payway}}支付</span>
+				<span class="fr">{{item.operatetime | date : 'MM-dd HH:mm'}}</span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="c-showmore" ng-show="showmore">正在加载数据...</div>
+	<div class="c-showmore" ng-show="showmore_end">已经加载完了</div>
+	<div class="text-center mt30 pt30 f15 blod" ng-show='showmore_none'>
+		<img src="img/user/datanone.png" class="mt50" style="width: auto;">
+		<br><br>
+		您暂时还没有账单
+	</div>
+	
+</div>

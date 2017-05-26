@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="longExamController">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>长考看板</title>
+	<link rel="stylesheet" href="assets/css/main.css?v=457ff08fce1470826781001">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/daterangepicker.css">
+	<link rel="stylesheet" href="assets/common/daterangepicker/css/datetimepicker.css">
+	<script src="assets/common/js/commonStart.js?v=572ba7063a1470826781007"></script>
+</head>
+<body>
+
+<div id="content" class="content main-content">
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>长考看板</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">课程列表</div>
+			<div class="content">
+				<div class="search">
+					<div class="line">
+						<div>创建日期</div>
+						<ul>
+							<li ng-click="getDataForCTime($event,'')" class="active">全部</li>
+							<li ng-click="getDataForCTime($event,'0')">最近7天</li>
+							<li ng-click="getDataForCTime($event,'1')">最近15天</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+							<input type="text" style="width: 200px" class="form-control" id="cdate" placeholder="自定义时间筛选" ng-model="cdate"/>
+						</div>
+					</div>
+					<div class="line">
+						<div>上车日期</div>
+						<ul>
+							<li ng-click="getDataForSTime($event,'')" class="active">全部</li>
+							<li ng-click="getDataForSTime($event,'0')">最近7天</li>
+							<li ng-click="getDataForSTime($event,'1')">最近15天</li>
+						</ul>
+						<div class="input-prepend input-group">
+							<span class="add-on input-group-addon">
+								<i class="glyphicon glyphicon-calendar fa fa-calendar">
+								</i>
+							</span>
+							<input type="text" style="width: 200px" class="form-control" id="sdate" placeholder="自定义时间筛选" ng-model="sdate"/>
+						</div>
+					</div>
+					<div class="line">
+						<div>长考状态</div>
+						<ul>
+							<li ng-click="getDataForState($event,'')" class="active">全部</li>
+							<li ng-click="getDataForState($event,0)">未确认</li>
+							<li ng-click="getDataForState($event,1)">待长考</li>
+							<li ng-click="getDataForState($event,2)">已长考</li>
+							<li ng-click="getDataForState($event,3)">已取消</li>
+						</ul>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a class="btn btn-sm btn-primary" ng-click="addItem()">新建长考课程</a>
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						 <option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+						<tr>
+							<td><b>创建时间</b></td>
+							<td><b>长考编号</b></td>
+							<td><b>上车日期</b></td>
+							<td><b>上车时间</b></td>
+							<td><b>上车地点</b></td>
+							<td><b>教练</b></td>
+							<td><b>联系电话</b></td>
+							<td><b>训练车</b></td>
+							<td><b>携带物品</b></td>
+							<td><b>已安排人数</b></td>
+							<td><b>不及格人数</b></td>
+							<td><b>长考状态</b></td>	
+							<td><b>操作</b></td>		
+						</tr>
+						<tr ng-repeat="data in datas">
+							<td ng-bind="data.ctime | timeTex"></td>
+							<td><a href="long-exam-details.html?ltId={{data.ltId}}" ng-bind="data.ltId"></a></td>
+							<td ng-bind="data.classDate | timeTexYMD"></td>
+							<td ng-bind="data.classTime"></td>
+							<td ng-bind="data.classPlace"></td>
+							<td ng-bind="data.contactName"></td>
+							<td ng-bind="data.contactMobile"></td>
+							<td ng-bind="data.carNo"></td>
+							<td ng-bind="data.carrys"></td>
+							<td ng-bind="data.total"></td>
+							<td ng-bind="data.failed"></td>
+							<td ng-bind="data.state | longtrainStateText" ng-class="{'text-red' : data.state == 3 , 'text-green' : data.state == 2}"></td>
+							<td>
+								<a href="javascript:void(0)" ng-click="editItem(data)" ng-if="data.state == 0">编辑</a>
+								<a href="javascript:void(0)" ng-click="comfirmLesson(data)" ng-if="data.state == 0">确认开课</a>
+								<a href="javascript:void(0)" ng-click="cancelLesson(data)" ng-if="data.state == 1" class="text-red">取消课程</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+<div id="edit-win" class="edit-alert">
+	<div class="mask"></div>
+	<div class="main">
+	<div id="edit-form" class="content">
+		<div class="title">编辑长考课程 <span ng-click="closeWin()"></span></div>
+		<div class="con-main">
+			<form>
+				<dl>
+					<dt>带教教练:</dt>
+					<dd>
+						<div class="input-group">
+						  <input type="hidden" ng-model="editData.ltId">
+						  <input type="text" ng-model="editData.contactMobile" class="form-control" placeholder="教练电话">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="searchCoach()">搜索</a>
+					      </span>
+						</div>
+						<div id="coachInfo" class="margin-top-10"></div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>教练车:</dt>
+					<dd>
+						<div class="input-group">
+						  <input type="text" ng-model="editData.carNo" class="form-control" placeholder="车牌号">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="searchCar()">搜索</a>
+					      </span>
+						</div>
+						<div id="carInfo" class="margin-top-10"></div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>上车日期:</dt>
+					<dd>
+						<input type="text" class="form-control classsDate" ng-model="editData.classDate" ng-readonly="true" data-date-format="yyyy-mm-dd" placeholder="上车日期">
+					</dd>
+				</dl>
+				<dl>
+					<dt>上车时间:</dt>
+					<dd>
+					<div class="form-inline">
+						<input type="text" class="form-control timepicker" ng-readonly="true" 
+						ng-model="editData.classTime_s" style="width:80px" data-date-format="hh:ii" placeholder="时间起"> --
+						<input type="text" class="form-control timepicker" ng-readonly="true" 
+						ng-model="editData.classTime_e" style="width:80px" data-date-format="hh:ii" placeholder="时间止">
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dt>上车地点:</dt>
+					<dd><textarea row="2" class="form-control" ng-model="editData.classPlace" placeholder="上车地点"></textarea></dd>
+				</dl>
+				<dl>
+					<dt>携带物品:</dt>
+					<dd><textarea row="2" class="form-control" ng-model="editData.carrys" placeholder="携带物品"></textarea></dd>
+				</dl>
+				<div class="chaozuo">
+					<a class="btn btn-sm btn-default" ng-click="closeWin()">取消</a>
+					<a class="btn btn-sm btn-primary" ng-click="submitItemInfo()" >确认</a>
+				</div>	
+			</form>		
+		</div>
+	</div>
+	</div>
+</div>		
+<!-- script -->
+<script src="assets/common/daterangepicker/js/moment.js"></script>
+<script src="assets/common/daterangepicker/js/daterangepicker.js"></script>
+<script src="assets/common/daterangepicker/js/datetimepicker.js"></script>
+<script src="assets/js/ng-js/angular-factory.js?v=6ce0c67ce71470826781015"></script>
+<script src="assets/js/ng-js/long-exam.js?v=1133c2be741470826781025"></script>
+</body>
+</html>
