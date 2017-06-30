@@ -1,11 +1,11 @@
 /**********************************************后台配置**************************************************************************/ 
 window.startConfig={
-	bathUrl:"http://xc.res.com:8080/school/",                           //99服务器 文件根目录
+	bathUrl:"http://39.108.11.184/school/",                           //99服务器 文件根目录
 };
 /*------------------------ start 布局写入  ------------------------*/
 window==window.top && document.write('\
 	<div class="index-left" id="index-left">\
-		<div class="logo">喱喱云1.9.0</div>\
+		<div class="logo">考场预约系统</div>\
 		<span class="iphone-nav-but ion-navicon" id="iphone-nav-but"></span>\
 		<div class="clearfix"></div>\
 		<ul class="admin-nav" id="admin-nav">\
@@ -14,7 +14,7 @@ window==window.top && document.write('\
 	</div>\
 	<div class="index-right">\
 		<div class="top" id="top">\
-			<div class="pull-left logo"><img src="'+startConfig.bathUrl+'assets/img/logo.png"><span>喱喱云1.9.0</span>-<span id="school-name"></span></div>\
+			<div class="pull-left logo"><span>考场预约系统</span>-<span id="school-name"></span></div>\
 			<div class="pull-right top-right">\
 				<div class="second-level-menu nav-slide">\
 					<div><span class="ion-android-person"></span><span class="ion-arrow-down-b"></span></div>\
