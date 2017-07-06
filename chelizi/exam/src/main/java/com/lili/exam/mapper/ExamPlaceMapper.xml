@@ -98,6 +98,17 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <select id="selectBySPKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    
+    a.id, a.name, a.type, a.area, a.contact, a.mobile, a.address, a.lge, a.lae, a.city, a.cityId, a.school, a.schoolId, 
+    a.days, a.state, a.ctime, a.mtime, a.extra
+    
+    from t_exam_place a join t_s_school b on a.schoolId=b.schoolId
+    where b.examkey = #{examkey}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

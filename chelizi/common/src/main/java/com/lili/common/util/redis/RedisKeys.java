@@ -298,6 +298,9 @@ public class RedisKeys {
 		 * 通过驾校id获取对应考场信息
 		 */
 		public static final String EXAM_PLACE_SCHOOL = "exam.place.school.";
+		
+		public static final String EXAM_PLACE_SCHOOL_SPKEY = "exam.place.school.spkey.";
+		
 		/**
 		 * 获取约考场城市
 		 */

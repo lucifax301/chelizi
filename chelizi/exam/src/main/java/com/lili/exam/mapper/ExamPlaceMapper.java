@@ -20,6 +20,8 @@ public interface ExamPlaceMapper {
     List<ExamPlace> selectByExampleWithRowbounds(ExamPlaceExample example, RowBounds rowBounds);
 
     List<ExamPlace> selectByExample(ExamPlaceExample example);
+    
+    List<ExamPlace> selectBySPKey(String examkey);
 
     ExamPlace selectByPrimaryKey(Integer id);
 

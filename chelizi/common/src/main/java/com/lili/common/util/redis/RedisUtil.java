@@ -486,4 +486,17 @@ public class RedisUtil
 		});
 	}
 	
+	public <T>  Long incr(final String key)
+	{
+		return redisTemplate.execute(new RedisCallback<Long>()
+		{
+			@Override
+			public Long doInRedis(RedisConnection connection) throws DataAccessException
+			{
+				Long id = connection.incr(redisTemplate.getStringSerializer().serialize(key));
+				return id;
+			}
+		});
+	}
+	
 }

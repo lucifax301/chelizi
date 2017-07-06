@@ -146,7 +146,20 @@ public class ExamPlaceManagerImpl implements ExamPlaceManager {
 		return ep;
 	}
 	
-	
+	@Override
+	public List<ExamPlace> getExamPlaceBySPKey(String examkey) {
+		List<ExamPlace> list = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_SCHOOL_SPKEY + examkey);
+		if(null == list){
+			
+			List<ExamPlace> data = examPlaceMapper.selectBySPKey(examkey);
+			if(null != data ){
+				
+				redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_SCHOOL_SPKEY + examkey, data,RedisKeys.EXPIRE.WEEK);
+				return data;
+			}
+		}
+		return list;
+	}
 	
 	
 

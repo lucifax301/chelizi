@@ -67,8 +67,20 @@ public class ExamPlaceClass implements Serializable {
     private String extra;
 
     private static final long serialVersionUID = 1L;
+    
+    private String innerinfo;
+    
+    
 
-    public Integer getId() {
+    public String getInnerinfo() {
+		return innerinfo;
+	}
+
+	public void setInnerinfo(String innerinfo) {
+		this.innerinfo = innerinfo;
+	}
+
+	public Integer getId() {
         return id;
     }
 

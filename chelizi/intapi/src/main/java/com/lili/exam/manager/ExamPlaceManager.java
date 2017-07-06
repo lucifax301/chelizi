@@ -66,6 +66,8 @@ public interface ExamPlaceManager {
 	 */
 	ExamPlace getExamPlaceBySchoolId(Integer schoolId);
 	
+	
+	public List<ExamPlace> getExamPlaceBySPKey(String examkey);
 }
 
 
