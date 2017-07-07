@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamVipCoachMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamVipCoach" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="vipId" property="vipId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, name,  mobile,  schoolId,vipId
+  </sql>
+  
+  <select id="countExamCoachVip" parameterType="com.lili.exam.dto.ExamVipCoach" resultType="java.lang.Integer" >
+    select count(*) from t_exam_vip_coach where vipId=#{vipId}
+    
+      <if test="name != null and name !=''" >
+      	and name like %#{name}%
+      </if>
+    
+  </select>
+  <select id="selectByExampleCoach" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    select
+    <include refid="Base_Column_List" />
+    from t_exam_vip_coach where vipId=#{vipId}
+    
+      <if test="name != null and name !=''" >
+      	and name like %#{name}%
+      </if>
+    
+    order by id desc
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_vip_coach
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    delete from t_exam_vip_coach
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    insert into t_exam_vip_coach (id, name, mobile, 
+      vipId, 
+      schoolId
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},  #{mobile,jdbcType=VARCHAR}, 
+     
+      #{schoolId,jdbcType=INTEGER}, #{vipId,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="batchInsertExamVipCoach" parameterType="java.util.List" >
+    insert into t_exam_vip_coach (id, name, mobile, 
+      vipId, 
+      schoolId
+      )
+    values 
+    <foreach collection="list" item="item" index="index" open="" close="" separator=",">
+    (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR},  #{item.mobile,jdbcType=VARCHAR}, 
+     
+      #{item.schoolId,jdbcType=INTEGER}, #{item.vipId,jdbcType=INTEGER}
+      )
+      </foreach>
+  </insert>
+  
+  <update id="updateExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    update t_exam_vip_coach
+    <set >
+      <if test="name != null and name !=''" >
+        name = #{name},
+      </if>
+      <if test="mobile != null and mobile !=''" >
+        mobile = #{mobile},
+      </if>
+      
+    </set>
+    where id=#{id}
+  </update>
+  
+</mapper>

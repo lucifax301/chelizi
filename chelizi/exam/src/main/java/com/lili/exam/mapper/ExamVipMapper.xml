@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamVipMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamVip" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="c1count" property="c1count" jdbcType="INTEGER" />
+    <result column="c2count" property="c2count" jdbcType="INTEGER" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, name,  mobile, c1count, c2count, school, schoolId
+  </sql>
+  
+  <select id="countExamVip" parameterType="com.lili.exam.dto.ExamVip" resultType="java.lang.Integer" >
+    select count(*) from t_exam_vip where schoolId=#{schoolId}
+    <if test="_parameter != null" >
+      <if test="name != null and name !=''" >
+      	and name like %#{name}%
+      </if>
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVip" >
+    select
+    <include refid="Base_Column_List" />
+    from t_exam_vip where schoolId=#{schoolId}
+    <if test="_parameter != null" >
+      <if test="name != null and name !=''" >
+      	and name like %#{name}%
+      </if>
+    </if>
+    order by id desc
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVip" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_vip
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteExamVip" parameterType="com.lili.exam.dto.ExamVip" >
+    delete from t_exam_vip
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertExamVip" parameterType="com.lili.exam.dto.ExamVip" >
+    insert into t_exam_vip (id, name, mobile, 
+      c1count, c2count school, 
+      schoolId,  state, 
+      ctime, mtime, extra
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},  #{mobile,jdbcType=VARCHAR}, 
+      #{c1count,jdbcType=INTEGER}, #{c2count,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR}, 
+      #{schoolId,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{extra,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  
+  <update id="updateExamVip" parameterType="com.lili.exam.dto.ExamVip" >
+    update t_exam_vip
+    <set >
+      <if test="name != null and name !=''" >
+        name = #{name},
+      </if>
+      <if test="mobile != null and mobile !=''" >
+        mobile = #{mobile},
+      </if>
+      <if test="c1count != null" >
+        c1count = #{c1count},
+      </if>
+      <if test="c2count != null" >
+        c2count = #{c2count},
+      </if>
+    </set>
+    where id=#{id}
+  </update>
+  
+</mapper>

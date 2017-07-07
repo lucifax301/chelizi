@@ -15,6 +15,7 @@ import com.lili.coach.manager.RegionManager;
 import com.lili.common.util.Page;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceCity;
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassVo;
@@ -85,6 +86,42 @@ public class ExamPlaceController {
 		ReqResult r = ReqResult.getSuccess();
 		try {
 			List<ExamPlaceVo> data =examPlaceManager.getExamPlaces(cityId,type);
+			r.setData(data);
+		} catch (Exception e) {
+			log.error("controller: authcode get timestamp failed=" + e.getMessage(), e);
+			e.printStackTrace();
+			r.setCode(ResultCode.ERRORCODE.EXCEPTION);
+			r.setMsgInfo(ResultCode.ERRORINFO.EXCEPTION);
+		}
+		
+		return r.getResult();
+	}
+	
+	/**
+	 * 根据特定key获取相关驾校的考场集合
+	 * @param userId
+	 * @param userType
+	 * @param v
+	 * @param timestamp
+	 * @param sign
+	 * @param cityId
+	 * @param type
+	 * @return
+	 */
+	@RequestMapping(value = "/sp", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getExamPlaceBySPKey(
+			@RequestParam String userId, 
+			@RequestParam String userType,
+			@RequestParam(required=false) String v,
+			@RequestParam String timestamp,
+			@RequestParam String sign,
+			@RequestParam String examkey,
+			@RequestParam String type
+			) {
+		ReqResult r = ReqResult.getSuccess();
+		try {
+			List<ExamPlace> data =examPlaceManager.getExamPlaceBySPKey(examkey);
 			r.setData(data);
 		} catch (Exception e) {
 			log.error("controller: authcode get timestamp failed=" + e.getMessage(), e);
