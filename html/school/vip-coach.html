@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="Student">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>大客户</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script src="assets/common/js/commonStart.js"></script>
+</head>
+<body>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>大客户教练</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">大客户教练列表</div>
+			<div class="content">
+				<div class="search">
+					
+					<div class="line">
+						<div>大客户查询</div>
+						<div class="input-group">
+					      <input type="text" ng-model="name" class="form-control" placeholder="输入名称查询">
+					      <span class="input-group-btn">
+					        <a class="btn btn-default" ng-click="getDataForSearch()">搜索</a>
+					      </span>
+					    </div>
+					</div>
+				</div>
+				<div class="senior-search row">
+					<div class="col-xs-12 col-sm-4">
+						<a ng-click="vipCoachEdit('add')" class="btn btn-sm btn-primary">新增教练</a>
+						
+					</div>
+					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
+						<span>每页</span>
+						<select ng-model="pageSize" ng-change="getDataForPage()" class="form-control">
+							<option value="10" selected="selected">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						  	<option value="100">100</option>
+						</select>
+						<span>条记录</span>
+					</div>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-with-style">
+					  <tr>
+					  	<td><b>教练名称</b></td>
+					  	<td><b>手机号</b></td>
+					  	<td><b>操作</b></td>
+					  </tr>
+					  <tr ng-repeat="data in datas">
+					  	<td ng-bind="data.name"></td>
+					  	<td ng-bind="data.mobile"></td>
+					  	
+					  	<td class="operation"><span class="edit"  ng-click="vipCoachEdit('edit',data)">编辑</span>
+					  		
+					  		
+					  	</td>
+					  </tr>
+					</table>
+				</div>
+				<div class="page">
+					<div id="copot-page" class="copot-page"></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 教练车信息编辑 | 新增 -->
+		<ng-include src="'edit/vip-coach.html'" onload="vipCoachEditLoad()" ></ng-include>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/vip-coach.js"></script>
+</body>
+</html>

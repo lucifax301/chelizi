@@ -1,0 +1,35 @@
+<div class="edit-alert">
+<div class="mask"></div>
+<div class="main">
+<div id="edit-content" class="content">
+	<div class="title">{{ editType=='add'?'新增':'编辑' }}大客户的基本资料<span class="closeAlert"></span></div>
+	<div class="con-main">
+		<form class="student-edit">
+			<dl>
+				<dt>大客户名称:</dt>
+				<dd><input type="text" ng-model="editData.name" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>手机号:</dt>
+				<dd><input type="text" ng-model="editData.mobile" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>c1数量:</dt>
+				<dd><input type="text" ng-model="editData.c1count" class="form-control"></dd>
+			</dl>
+			<dl>
+				<dt>c2数量:</dt>
+				<dd><input type="text" ng-model="editData.c2count" class="form-control"></dd>
+			</dl>
+			
+			
+			<div class="chaozuo">
+				<a class="btn btn-sm btn-default closeAlert" ng-click="closeAlert()">取消</a>
+				<a ng-click="submitEditMsg($event)" class="btn btn-sm btn-primary">确认</a>
+			</div>	
+		</form>
+		
+	</div>
+</div>
+</div>
+</div>

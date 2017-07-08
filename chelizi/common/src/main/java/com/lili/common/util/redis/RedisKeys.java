@@ -82,6 +82,8 @@ public class RedisKeys {
          * USER_CAR_LIST + coachId -----> Car
          */
         public static final String USER_CAR_LIST = "user.car.list.";
+        
+        public static final String SCHOOL_CAR_LIST = "school.car.list.";
 
         /**
          * COACH_VO + coachId -----> Coach

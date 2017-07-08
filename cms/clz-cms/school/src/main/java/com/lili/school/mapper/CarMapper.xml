@@ -135,6 +135,9 @@
 		from  t_p_car 
 		Where 1=1 and
 		(
+		<if test="schoolId != null ">
+			 schoolId = #{schoolId} 
+		</if>
 		<if test="driveNumber != null and driveNumber != ''">
 			 driveNumber = #{driveNumber} 
 		</if>

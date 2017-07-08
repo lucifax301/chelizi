@@ -529,7 +529,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									.andPstartBetween(date2, date3);
 							int todayOrderCount = examPlaceOrderMapper
 									.countByExample(example2);
-							if (isInner) {
+							if (isInner) {    
 								if (todayOrderCount >= order_limit_inner) {
 									res.setCode(ResultCode.ERRORCODE.FAILED);
 									res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
@@ -627,7 +627,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									duration = duration + genData.getDuration();
 									orderData.add(genData);
 								}
-							} else { //外部教练
+							} else { //内部预留没实效
 								if (isC1) {
 									// （1）检查排班空位情况 内部教练-预留有效-c1
 									if (cls.getC1inner() <= cls

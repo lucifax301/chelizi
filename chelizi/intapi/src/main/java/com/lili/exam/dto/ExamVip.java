@@ -1,6 +1,7 @@
 package com.lili.exam.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ExamVip implements Serializable {
 
@@ -19,6 +20,38 @@ public class ExamVip implements Serializable {
 	private int schoolId;
 	
 	private int state;
+	
+	private Date ctime;
+	
+	private String extra;
+	
+	private Date mtime;
+	
+	
+
+	public Date getCtime() {
+		return ctime;
+	}
+
+	public void setCtime(Date ctime) {
+		this.ctime = ctime;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
+
+	public void setExtra(String extra) {
+		this.extra = extra;
+	}
+
+	public Date getMtime() {
+		return mtime;
+	}
+
+	public void setMtime(Date mtime) {
+		this.mtime = mtime;
+	}
 
 	public int getId() {
 		return id;

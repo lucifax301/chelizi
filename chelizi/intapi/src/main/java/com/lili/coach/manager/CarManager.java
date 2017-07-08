@@ -96,5 +96,7 @@ public interface CarManager {
 	public void deleteCarCheck(CarCheck record);
 
 	public int deleteCoachCar(CoachCar coachCar);
+	
+	public List<Car> getCarBySchoolId(Integer schoolId);
 
 }

@@ -14,6 +14,8 @@ public interface ExamVipMapper {
     int insertExamVip(ExamVip examvip);
 
     List<ExamVip> select(ExamVip examvip,RowBounds rowBounds);
+    
+    List<ExamVip> selectAll(ExamVip examvip);
 
     ExamVip selectByPrimaryKey(ExamVip examvip);
 

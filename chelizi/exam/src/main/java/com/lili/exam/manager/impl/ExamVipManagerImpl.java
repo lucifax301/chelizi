@@ -55,7 +55,37 @@ public class ExamVipManagerImpl implements ExamVipManager {
 		return new Page<ExamVip>(data,pNo,pSize,total);
 	}
 	
+	@Override
+	public int countExamVip(ExamVip examVip){
+		return examVipMapper.countExamVip(examVip);
+	}
 	
+	@Override
+	public List<ExamVip> getExamVipList(ExamVip examVip,String pageNo, String pageSize) {
+		
+		int pNo =1;
+		int pSize = 100;
+		if(StringUtil.isNotNullAndNotEmpty(pageNo) && StringUtil.isNotNullAndNotEmpty(pageSize)){
+			pNo = Integer.parseInt(pageNo.trim());
+			if(pNo <= 0){
+				pNo =1;
+			}
+			pSize =	Integer.parseInt(pageSize.trim());
+			if(pSize <= 0){
+				pSize =100;
+			}
+		}
+		RowBounds rowBounds = new RowBounds((pNo -1)*pSize, pSize);//(offset,limit)
+		List<ExamVip> data = examVipMapper.select(examVip, rowBounds);
+		return data;
+	}
+	
+	@Override
+	public List<ExamVip> getExamVipList(ExamVip examVip) {
+		
+		List<ExamVip> data = examVipMapper.selectAll(examVip);
+		return data;
+	}
 
 	@Override
 	public ExamVip getExamVipOne(Integer id) {

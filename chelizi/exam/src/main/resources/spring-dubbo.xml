@@ -29,5 +29,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <dubbo:service interface="com.lili.exam.manager.ExamPlaceOrderManager" ref="examPlaceOrderManager" />
     <dubbo:service interface="com.lili.exam.manager.ExamPlaceWhitelistManager" ref="examPlaceWhitelistManager" />
     <dubbo:service interface="com.lili.exam.manager.ExamPlaceRechargeManager" ref="examPlaceRechargeManager" />
+    
+    <dubbo:service interface="com.lili.exam.manager.ExamVipManager" ref="examVipManager" />
 
+	
 </beans>

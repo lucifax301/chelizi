@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.lili.access.util.AccessWebUtil;
 import com.lili.cms.constant.Constant;
 import com.lili.cms.entity.ResponseMessage;
 import com.lili.coach.dto.Region;
@@ -34,11 +35,16 @@ import com.lili.exam.dto.ExamPlaceOrder;
 import com.lili.exam.dto.ExamPlaceRechargeGears;
 import com.lili.exam.dto.ExamPlaceRechargeSchool;
 import com.lili.exam.dto.ExamPlaceWhitelist;
+import com.lili.exam.dto.ExamVip;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamPlaceRechargeManager;
 import com.lili.exam.manager.ExamPlaceWhitelistManager;
+import com.lili.exam.manager.ExamVipManager;
+import com.lili.school.model.Car;
+import com.lili.school.model.CarNBDTO;
+import com.lili.school.service.CMSCarService;
 import com.lili.user.model.User;
 
 @Controller
@@ -62,6 +68,10 @@ public class ExamPlaceController extends BaseController{
 	@Autowired
 	private ExamPlaceRechargeManager examPlaceRechargeManager;
 	
+	@Autowired
+	CMSCarService cmsCarService;
+	@Autowired
+	ExamVipManager examVipManager;
 	
 	/**
 	 * 测试，获取服务器时间
@@ -221,7 +231,7 @@ public class ExamPlaceController extends BaseController{
 	@RequestMapping(value = "/class", method = RequestMethod.POST)
 	@ResponseBody
 	public Object addExamPlaceClass(
-			@RequestParam String placeId,
+			//@RequestParam String placeId,
 			@RequestParam String pdate,
 			@RequestParam String pstart,
 			@RequestParam String outerPrice, 
@@ -234,10 +244,14 @@ public class ExamPlaceController extends BaseController{
 			@RequestParam String innerExpire,
 			@RequestParam String favorType, 
 			@RequestParam String favorIn,
-			@RequestParam String favorOut
+			@RequestParam String favorOut,
+			HttpServletRequest request
 			) {
 		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
+			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			
 			int intC1 = Integer.parseInt(c1.trim());
 			int intC2 = Integer.parseInt(c2.trim());
 			int intC1inner = Integer.parseInt(c1inner.trim());
@@ -272,7 +286,7 @@ public class ExamPlaceController extends BaseController{
 			    	}
 			    	
 					ExamPlaceClass record = new ExamPlaceClass();
-					record.setPlaceId(Integer.parseInt(placeId.trim()));
+					record.setPlaceId(ep.getId());
 					record.setOuterPrice(Integer.parseInt(outerPrice.trim()));
 					record.setInnerPrice(Integer.parseInt(innerPrice.trim()));
 					record.setMinHours(intMinHours);
@@ -505,6 +519,48 @@ public class ExamPlaceController extends BaseController{
 		
 	}
 	
+	@RequestMapping(value = "/cars", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getCars(HttpServletRequest request
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
+		try {
+			CarNBDTO dto=new CarNBDTO();
+			dto.setSchoolId(currentUser.getSchoolId());
+			List<Car> cars=cmsCarService.findCar(dto);
+			int c1=0;
+			int c2=0;
+			for(Car car:cars){
+				if(car.getDriveType()==1){
+					c1++;
+				}
+				if(car.getDriveType()==2){
+					c2++;
+				}
+			}
+			
+			int c1inner=0;
+			int c2inner=0;
+			ExamVip examVip=new ExamVip();
+			examVip.setSchoolId(currentUser.getSchoolId().intValue());
+			List<ExamVip> vips= examVipManager.getExamVipList(examVip);
+			for(ExamVip vip:vips){
+				c1inner+=vip.getC1count();
+				c2inner+=vip.getC2count();
+			}
+			res.addResult("c1", c1);
+			res.addResult("c2", c2);
+			res.addResult("c1inner", c1inner);
+			res.addResult("c2inner", c2inner);
+		} catch (Exception e) {
+			log.error("controller: ExamPlaceController getExamPlaceClass failed=" + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return res.build();
+		
+	}
+	
 	/**
 	 * 根据排班id获取排班信息
 	 * @param classId
@@ -538,13 +594,15 @@ public class ExamPlaceController extends BaseController{
 	@RequestMapping(value = "/class/date", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getExamPlaceClassDate(
-			@RequestParam String placeId,
+			//@RequestParam String placeId,
 			@RequestParam String pdate,
-			@RequestParam String days
+			@RequestParam String days,HttpServletRequest request
 			){
 		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
-			List<ExamPlaceClassDate> data = examPlaceClassManager.getExamPlaceClassDate(placeId, pdate,days);
+			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			List<ExamPlaceClassDate> data = examPlaceClassManager.getExamPlaceClassDate(ep.getId()+"", pdate,days);
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {

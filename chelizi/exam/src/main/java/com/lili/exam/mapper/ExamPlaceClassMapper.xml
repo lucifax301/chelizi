@@ -33,6 +33,8 @@
     <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="innerinfo" property="innerinfo" jdbcType="VARCHAR" />
+    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -583,6 +585,10 @@
       <if test="extra != null" >
         extra = #{extra,jdbcType=VARCHAR},
       </if>
+      <if test="innerinfo != null" >
+        innerinfo = #{innerinfo},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

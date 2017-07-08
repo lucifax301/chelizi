@@ -182,6 +182,30 @@ public class CarManagerImpl implements CarManager {
             }
 		}
 	}
+	
+	
+	@Override
+	public List<Car> getCarBySchoolId(Integer schoolId) {
+		
+		if(null == schoolId){
+			return null;
+		}else{
+			List<Car> list=redisUtil.get(REDISKEY.SCHOOL_CAR_LIST + schoolId);
+			if(list!=null){
+				return list;
+			}
+		    else
+		    {
+		    	CarExample example = new CarExample();
+				CarExample.Criteria criteria = example.createCriteria();
+				criteria.andSchoolIdEqualTo(schoolId.intValue());
+		        List<Car> cars = carMapper.selectByExample(example);
+		        redisUtil.set(REDISKEY.SCHOOL_CAR_LIST + schoolId, cars,3600*24);
+		        return cars;
+
+            }
+		}
+	}
 
 	@Override
 	public int addCarList(List<Car> cars) {

@@ -13,7 +13,7 @@
     id, name,  mobile,  schoolId,vipId
   </sql>
   
-  <select id="countExamCoachVip" parameterType="com.lili.exam.dto.ExamVipCoach" resultType="java.lang.Integer" >
+  <select id="countExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" resultType="java.lang.Integer" >
     select count(*) from t_exam_vip_coach where vipId=#{vipId}
     
       <if test="name != null and name !=''" >
@@ -21,7 +21,7 @@
       </if>
     
   </select>
-  <select id="selectByExampleCoach" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVipCoach" >
+  <select id="select" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVipCoach" >
     select
     <include refid="Base_Column_List" />
     from t_exam_vip_coach where vipId=#{vipId}
@@ -52,7 +52,7 @@
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},  #{mobile,jdbcType=VARCHAR}, 
      
-      #{schoolId,jdbcType=INTEGER}, #{vipId,jdbcType=INTEGER}
+      #{vipId,jdbcType=INTEGER},#{schoolId,jdbcType=INTEGER}
       )
   </insert>
   

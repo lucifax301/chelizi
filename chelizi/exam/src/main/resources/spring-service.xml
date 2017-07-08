@@ -17,5 +17,5 @@ http://www.springframework.org/schema/task http://www.springframework.org/schema
 <bean id="examPlaceOrderManager" class="com.lili.exam.manager.impl.ExamPlaceOrderManagerImpl"></bean>
 <bean id="examPlaceWhitelistManager" class="com.lili.exam.manager.impl.ExamPlaceWhitelistManagerImpl"></bean>
 <bean id="examPlaceRechargeManager" class="com.lili.exam.manager.impl.ExamPlaceRechargeManagerImpl"></bean>
-
+<bean id="examVipManager" class="com.lili.exam.manager.impl.ExamVipManagerImpl"></bean>
 </beans>

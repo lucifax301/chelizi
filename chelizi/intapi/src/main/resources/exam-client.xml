@@ -18,4 +18,6 @@ http://code.alibabatech.com/schema/dubbo        http://code.alibabatech.com/sche
     <dubbo:reference id="examPlaceOrderManager" interface="com.lili.exam.manager.ExamPlaceOrderManager" check="false" />
     <dubbo:reference id="examPlaceWhitelistManager" interface="com.lili.exam.manager.ExamPlaceWhitelistManager" check="false" />
     <dubbo:reference id="examPlaceRechargeManager" interface="com.lili.exam.manager.ExamPlaceRechargeManager" check="false" />
+    
+    <dubbo:reference id="examVipManager" interface="com.lili.exam.manager.ExamVipManager" check="false" />
 </beans>
