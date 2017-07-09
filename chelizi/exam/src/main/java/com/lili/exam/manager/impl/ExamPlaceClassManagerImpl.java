@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
 import com.lili.coach.dto.Coach;
@@ -29,6 +29,7 @@ import com.lili.common.util.redis.RedisUtil;
 import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassDate;
@@ -39,6 +40,9 @@ import com.lili.exam.dto.ExamPlaceFavorKey;
 import com.lili.exam.dto.ExamPlaceOrder;
 import com.lili.exam.dto.ExamPlaceOrderExample;
 import com.lili.exam.dto.ExamPlaceWhitelistExample;
+import com.lili.exam.dto.ExamVip;
+import com.lili.exam.dto.ExamVipBookInfo;
+import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
@@ -77,6 +81,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	ExamPlaceMapper examPlaceMapper;
 	@Autowired
 	RedisUtil redisUtil;
+	@Autowired
+	ExamVipManagerImpl examVipManagerImpl;
 
 	@Override
 	public ReqResult addExamPlaceClass(ExamPlaceClass record) {
@@ -492,125 +498,306 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	@Override
 	public List<ExamPlaceClassVo> getExamPlaceClassInfo(String userId,
 			String userType, String placeId, String pdate, String drtype) {
-    	try {
-    		List<ExamPlaceClass> classes = getExamPlaceClass(placeId, pdate);
-    		if(null != classes && classes.size()>0){
-    			List<ExamPlaceClassVo> data = new ArrayList<ExamPlaceClassVo>();
-        		//（1）查询用户身份，是否是驾校内部教练
-        		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
-        		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
-        		
-        		//boolean isInner = (coach.getIsImport().intValue() == 1 && null != coach.getSchoolId() &&  null != ep.getSchoolId() && coach.getSchoolId().intValue() == ep.getSchoolId().intValue());
-        		//集团内部驾校的教练才属于内部教练
-				//boolean isInner = (coach.getIsImport().intValue() == 1 && exam_inner_place.contains(coach.getSchoolId().toString()));
-				// 集团内部同步的数据不准确，采用白名单的形式校验内部教练	20160929
-				boolean isInner = isInWhitelist(coach.getPhoneNum(),coach.getSchoolId());
-				boolean isC1 = "1".equals(drtype.trim());
-				byte drive = Byte.parseByte(drtype.trim());
+		//
+		
+		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
+		if(ep.getServicetype()==0){
+	    	try {
+	    		List<ExamPlaceClass> classes = getExamPlaceClass(placeId, pdate);
+	    		if(null != classes && classes.size()>0){
+	    			List<ExamPlaceClassVo> data = new ArrayList<ExamPlaceClassVo>();
+	        		//（1）查询用户身份，是否是驾校内部教练
+	        		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
+	        		
+	        		
+	        		//boolean isInner = (coach.getIsImport().intValue() == 1 && null != coach.getSchoolId() &&  null != ep.getSchoolId() && coach.getSchoolId().intValue() == ep.getSchoolId().intValue());
+	        		//集团内部驾校的教练才属于内部教练
+					//boolean isInner = (coach.getIsImport().intValue() == 1 && exam_inner_place.contains(coach.getSchoolId().toString()));
+					// 集团内部同步的数据不准确，采用白名单的形式校验内部教练	20160929
+					boolean isInner = isInWhitelist(coach.getPhoneNum(),coach.getSchoolId());
+					boolean isC1 = "1".equals(drtype.trim());
+					byte drive = Byte.parseByte(drtype.trim());
+					
+	    			for(int i=0;i<classes.size();i++){
+	    				ExamPlaceClass cls = classes.get(i);
+	    				ExamPlaceClassVo d = new ExamPlaceClassVo();
+	    				d.setId(cls.getId());
+	    				d.setPlaceId(cls.getPlaceId());
+	    				d.setPstart(cls.getPstart());
+	    				d.setPend(cls.getPend());
+	    				d.setRstart(cls.getRstart());
+	    				d.setRend(cls.getRend());
+	    				d.setFavorType(cls.getFavorType());
+	    				// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
+	    				Date d0 = cls.getRstart();
+	    				int innerExpire = cls.getInnerExpire(); //内部失效时间，天
+	    				boolean isExpire = false;//是否已失效
+	    				if(innerExpire == 0){ //预留给内部失效天数=0，未设置失效天数，则不失效
+	    					isExpire = false;
+	    				}else {
+	        		    	Calendar gdate = Calendar.getInstance(); 
+	        		    	gdate.setTime(d0);
+	        		    	gdate.add(gdate.DATE, -1 * innerExpire);
+	        		    	String aa = new SimpleDateFormat("yyyy-MM-dd").format(gdate.getTime()) + " " + exam_inner_expire_time;
+	        		    	Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(aa);
+	        		    	isExpire = d1.before(new Date());  //从计划上课时间的日期-失效天数 + 失效时间点 <= 现在时间  ==> 已失效
+	    				}
+	    				
+	    		    	if(isInner){	//内部教练-享受内部价格
+	    		    		d.setPrice(cls.getInnerPrice() * cls.getDuration());
+	    		    		if(isExpire){
+	        		    		//内部预留已失效
+	            				if(isC1){
+	            					d.setC(cls.getC1());
+	            					d.setCbook(cls.getC1book());
+	            				}else{
+	            					d.setC(cls.getC2());
+	            					d.setCbook(cls.getC2book());
+	            				}
+	    		    		}else {
+	        		    		//内部预留有效
+	            				if(isC1){
+	            					d.setC(cls.getC1inner());
+	            					d.setCbook(cls.getC1bookInner());
+	            				}else{
+	            					d.setC(cls.getC2inner());
+	            					d.setCbook(cls.getC2bookInner());
+	            				}
+	    		    		}
+	    		    	}else {
+	    		    		//外部教练-享受外部价格
+	    		    		d.setPrice(cls.getOuterPrice() * cls.getDuration());
+	    		    		if(isExpire){
+	        		    		//内部预留已失效
+	            				if(isC1){
+	            					d.setC(cls.getC1());
+	            					d.setCbook(cls.getC1book());
+	            				}else{
+	            					d.setC(cls.getC2());
+	            					d.setCbook(cls.getC2book());
+	            				}
+	    		    		}else {
+	        		    		//内部预留有效
+	            				if(isC1){
+	            					d.setC(cls.getC1outer());
+	            					d.setCbook(cls.getC1bookOuter());
+	            				}else{
+	            					d.setC(cls.getC2outer());
+	            					d.setCbook(cls.getC2bookOuter());
+	            				}
+	    		    		}
+	    		    	}
+	    		    	
+	    				//是否已经约过该排班
+	    				if(hasBookClass(Long.parseLong(userId),cls.getId(),drive)){
+	    					d.setState(1); //排班状态：0-可约；1-已约；2-不可约；3-已过期
+	    				}else {
+	    					if(d.getC() == d.getCbook()){
+	    						d.setState(2);
+	    					}else {
+	    						d.setState(0);
+	    					}
+	        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
+	    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
+	        		    	Date now = new Date();
+	        		    	Date endTime = cls.getRend();
+	        		    	if(now.after(endTime)){
+	        		    		d.setState(3);
+	        		    	}
+	    					
+	    				}
+	
+	    				data.add(d);
+	    			}
+					
+	        		return data;
+	    		}else {
+	    			return null;
+	    		}
+	
+	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{//提供车模式
+			try {
+				ExamVip examVip=new ExamVip();
+				examVip.setSchoolId(ep.getSchoolId());
+				List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
 				
-    			for(int i=0;i<classes.size();i++){
-    				ExamPlaceClass cls = classes.get(i);
-    				ExamPlaceClassVo d = new ExamPlaceClassVo();
-    				d.setId(cls.getId());
-    				d.setPlaceId(cls.getPlaceId());
-    				d.setPstart(cls.getPstart());
-    				d.setPend(cls.getPend());
-    				d.setRstart(cls.getRstart());
-    				d.setRend(cls.getRend());
-    				d.setFavorType(cls.getFavorType());
-    				// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
-    				Date d0 = cls.getRstart();
-    				int innerExpire = cls.getInnerExpire(); //内部失效时间，天
-    				boolean isExpire = false;//是否已失效
-    				if(innerExpire == 0){ //预留给内部失效天数=0，未设置失效天数，则不失效
-    					isExpire = false;
-    				}else {
-        		    	Calendar gdate = Calendar.getInstance(); 
-        		    	gdate.setTime(d0);
-        		    	gdate.add(gdate.DATE, -1 * innerExpire);
-        		    	String aa = new SimpleDateFormat("yyyy-MM-dd").format(gdate.getTime()) + " " + exam_inner_expire_time;
-        		    	Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(aa);
-        		    	isExpire = d1.before(new Date());  //从计划上课时间的日期-失效天数 + 失效时间点 <= 现在时间  ==> 已失效
-    				}
-    				
-    		    	if(isInner){	//内部教练-享受内部价格
-    		    		d.setPrice(cls.getInnerPrice() * cls.getDuration());
-    		    		if(isExpire){
-        		    		//内部预留已失效
-            				if(isC1){
-            					d.setC(cls.getC1());
-            					d.setCbook(cls.getC1book());
-            				}else{
-            					d.setC(cls.getC2());
-            					d.setCbook(cls.getC2book());
-            				}
-    		    		}else {
-        		    		//内部预留有效
-            				if(isC1){
-            					d.setC(cls.getC1inner());
-            					d.setCbook(cls.getC1bookInner());
-            				}else{
-            					d.setC(cls.getC2inner());
-            					d.setCbook(cls.getC2bookInner());
-            				}
-    		    		}
-    		    	}else {
-    		    		//外部教练-享受外部价格
-    		    		d.setPrice(cls.getOuterPrice() * cls.getDuration());
-    		    		if(isExpire){
-        		    		//内部预留已失效
-            				if(isC1){
-            					d.setC(cls.getC1());
-            					d.setCbook(cls.getC1book());
-            				}else{
-            					d.setC(cls.getC2());
-            					d.setCbook(cls.getC2book());
-            				}
-    		    		}else {
-        		    		//内部预留有效
-            				if(isC1){
-            					d.setC(cls.getC1outer());
-            					d.setCbook(cls.getC1bookOuter());
-            				}else{
-            					d.setC(cls.getC2outer());
-            					d.setCbook(cls.getC2bookOuter());
-            				}
-    		    		}
-    		    	}
-    		    	
-    				//是否已经约过该排班
-    				if(hasBookClass(Long.parseLong(userId),cls.getId(),drive)){
-    					d.setState(1); //排班状态：0-可约；1-已约；2-不可约；3-已过期
-    				}else {
-    					if(d.getC() == d.getCbook()){
-    						d.setState(2);
-    					}else {
-    						d.setState(0);
-    					}
-        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
-    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
-        		    	Date now = new Date();
-        		    	Date endTime = cls.getRend();
-        		    	if(now.after(endTime)){
-        		    		d.setState(3);
-        		    	}
-    					
-    				}
-
-    				data.add(d);
-    			}
-				
-        		return data;
-    		}else {
-    			return null;
-    		}
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
+	    		List<ExamPlaceClass> classes = getExamPlaceClass(placeId, pdate);
+	    		if(null != classes && classes.size()>0){
+	    			List<ExamPlaceClassVo> data = new ArrayList<ExamPlaceClassVo>();
+	        		//（1）查询用户身份，是否是驾校内部教练
+	        		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
+	        		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+	        		
+	        		//boolean isInner = (coach.getIsImport().intValue() == 1 && null != coach.getSchoolId() &&  null != ep.getSchoolId() && coach.getSchoolId().intValue() == ep.getSchoolId().intValue());
+	        		//集团内部驾校的教练才属于内部教练
+					//boolean isInner = (coach.getIsImport().intValue() == 1 && exam_inner_place.contains(coach.getSchoolId().toString()));
+					// 集团内部同步的数据不准确，采用白名单的形式校验内部教练	20160929
+					//boolean isInner = isInWhitelist(coach.getPhoneNum(),coach.getSchoolId());
+	        		boolean isInner=(examVipCoach!=null);
+	        		
+					boolean isC1 = "1".equals(drtype.trim());
+					byte drive = Byte.parseByte(drtype.trim());
+					
+	    			for(int i=0;i<classes.size();i++){
+	    				ExamPlaceClass cls = classes.get(i);
+	    				ExamPlaceClassVo d = new ExamPlaceClassVo();
+	    				
+	    				//大客户的具体约考情况
+	    				String innerinfostr=cls.getInnerinfo();
+	    				ExamInnerInfo innerinfo=null;
+	    				if(innerinfostr!=null&&innerinfostr.length()>0)
+	    					innerinfo= JSON.parse(innerinfostr, ExamInnerInfo.class);
+	    				
+	    				
+	    				d.setId(cls.getId());
+	    				d.setPlaceId(cls.getPlaceId());
+	    				d.setPstart(cls.getPstart());
+	    				d.setPend(cls.getPend());
+	    				d.setRstart(cls.getRstart());
+	    				d.setRend(cls.getRend());
+	    				d.setFavorType(cls.getFavorType());
+	    				// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
+	    				Date d0 = cls.getRstart();
+	    				int innerExpire = cls.getInnerExpire(); //内部失效时间，天
+	    				boolean isExpire = false;//是否已失效
+	    				if(innerExpire == 0){ //预留给内部失效天数=0，未设置失效天数，则不失效
+	    					isExpire = false;
+	    				}else {
+	        		    	Calendar gdate = Calendar.getInstance(); 
+	        		    	gdate.setTime(d0);
+	        		    	gdate.add(gdate.DATE, -1 * innerExpire);
+	        		    	String aa = new SimpleDateFormat("yyyy-MM-dd").format(gdate.getTime()) + " " + exam_inner_expire_time;
+	        		    	Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(aa);
+	        		    	isExpire = d1.before(new Date());  //从计划上课时间的日期-失效天数 + 失效时间点 <= 现在时间  ==> 已失效
+	    				}
+	    				
+	    		    	if(isInner){	//内部教练-享受内部价格
+	    		    		d.setPrice(cls.getInnerPrice() * cls.getDuration());
+	    		    		if(isExpire){
+	        		    		//内部预留已失效
+	            				if(isC1){
+	            					d.setC(cls.getC1());
+	            					d.setCbook(cls.getC1book());
+	            				}else{
+	            					d.setC(cls.getC2());
+	            					d.setCbook(cls.getC2book());
+	            				}
+	    		    		}else {
+	        		    		//内部预留有效
+	    		    			ExamVipBookInfo matchvip=null;
+	    		    			if(innerinfo!=null){
+	    		    				List<ExamVipBookInfo> vipbookinfo=innerinfo.getBookinfo();
+            						
+            						if(vipbookinfo!=null){
+            							for(ExamVipBookInfo bi:vipbookinfo){
+            								if(bi.getVipId()==examVipCoach.getVipId()){
+            									matchvip=bi;
+            									break;
+            								}
+            							}
+            							
+            						}
+	    		    			}
+	    		    			
+	            				if(isC1){
+	            					if(matchvip!=null){
+            							d.setC(matchvip.getC1());
+            							d.setCbook(matchvip.getC1book());
+            						}else{
+            							if(examVips!=null){
+	            							for(ExamVip ex:examVips){
+	            								if(examVipCoach.getVipId()==ex.getId()){
+	            									d.setC(ex.getC1count());
+	            									d.setCbook(0);
+	            								}
+	            							}
+            							}
+            						}
+	            					//d.setC(cls.getC1inner());
+	            					//d.setCbook(cls.getC1bookInner());
+	            				}else{
+	            					if(matchvip!=null){
+            							d.setC(matchvip.getC2());
+            							d.setCbook(matchvip.getC2book());
+            						}else{
+            							if(examVips!=null){
+	            							for(ExamVip ex:examVips){
+	            								if(examVipCoach.getVipId()==ex.getId()){
+	            									d.setC(ex.getC2count());
+	            									d.setCbook(0);
+	            								}
+	            							}
+            							}
+            						}
+	            					
+	            					//d.setC(cls.getC2inner());
+	            					//d.setCbook(cls.getC2bookInner());
+	            				}
+	    		    		}
+	    		    	}else {
+	    		    		//外部教练-享受外部价格
+	    		    		d.setPrice(cls.getOuterPrice() * cls.getDuration());
+	    		    		if(isExpire){
+	        		    		//内部预留已失效
+	            				if(isC1){
+	            					d.setC(cls.getC1());
+	            					d.setCbook(cls.getC1book());
+	            				}else{
+	            					d.setC(cls.getC2());
+	            					d.setCbook(cls.getC2book());
+	            				}
+	    		    		}else {
+	        		    		//内部预留有效
+	            				if(isC1){
+	            					d.setC(cls.getC1outer());
+	            					d.setCbook(cls.getC1bookOuter());
+	            				}else{
+	            					d.setC(cls.getC2outer());
+	            					d.setCbook(cls.getC2bookOuter());
+	            				}
+	    		    		}
+	    		    	}
+	    		    	
+	    				//是否已经约过该排班
+	    				if(hasBookClass(Long.parseLong(userId),cls.getId(),drive)){
+	    					d.setState(1); //排班状态：0-可约；1-已约；2-不可约；3-已过期
+	    				}else {
+	    					if(d.getC() == d.getCbook()){
+	    						d.setState(2);
+	    					}else {
+	    						d.setState(0);
+	    					}
+	        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
+	    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
+	        		    	Date now = new Date();
+	        		    	Date endTime = cls.getRend();
+	        		    	if(now.after(endTime)){
+	        		    		d.setState(3);
+	        		    	}
+	    					
+	    				}
+	
+	    				data.add(d);
+	    			}
+					
+	        		return data;
+	    		}else {
+	    			return null;
+	    		}
+	
+	
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
     	return null;
 	}
+	
+	
 
 
 	public boolean hasBookClass(long coachId, Integer classId,Byte drtype) {

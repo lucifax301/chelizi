@@ -19,6 +19,8 @@ public interface ExamVipCoachMapper {
     List<ExamVipCoach> select(ExamVipCoach examvip,RowBounds rowBounds);
 
     ExamVipCoach selectByPrimaryKey(ExamVipCoach examvip);
+    
+    ExamVipCoach get(ExamVipCoach examvip);
 
     int updateExamVipCoach(ExamVipCoach examvip);
 }

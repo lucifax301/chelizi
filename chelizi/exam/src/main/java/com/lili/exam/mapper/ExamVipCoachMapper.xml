@@ -40,6 +40,14 @@
     from t_exam_vip_coach
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="get" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_vip_coach
+    where mobile = #{mobile} and schoolId=#{schoolId}
+  </select>
+  
   <delete id="deleteExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" >
     delete from t_exam_vip_coach
     where id = #{id,jdbcType=INTEGER}

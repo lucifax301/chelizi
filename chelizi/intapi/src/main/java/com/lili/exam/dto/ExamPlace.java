@@ -40,10 +40,22 @@ public class ExamPlace implements Serializable {
     private Date mtime;
 
     private String extra;
+    
+    private int servicetype;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    
+    
+    public int getServicetype() {
+		return servicetype;
+	}
+
+	public void setServicetype(int servicetype) {
+		this.servicetype = servicetype;
+	}
+
+	public Integer getId() {
         return id;
     }
 

@@ -32,5 +32,7 @@ public interface ExamVipManager {
 	
 	ExamVipCoach getExamVipCoach(Integer id);
 	
+	ExamVipCoach getExamVipCoach(String mobile,int schoolId);
+	
 	Page<ExamVipCoach> getExamVipCoach(ExamVipCoach examVipCoach,String pageNo, String pageSize);
 }

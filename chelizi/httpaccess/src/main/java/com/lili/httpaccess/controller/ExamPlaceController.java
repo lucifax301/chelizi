@@ -146,6 +146,7 @@ public class ExamPlaceController {
 	 */
 	@RequestMapping(value = "/class", method = RequestMethod.GET)
 	@ResponseBody
+	@Deprecated
 	public Object getExamPlaceClass(
 			@RequestParam String userId, 
 			@RequestParam String userType,
@@ -229,11 +230,15 @@ public class ExamPlaceController {
 			@RequestParam String sign,
 			@RequestParam String classId,
 			@RequestParam String drtype,
-			@RequestParam(required = false) String carNo
+			@RequestParam(required = false) String carNo,
+			@RequestParam String placeId
 			) {
 		ReqResult r = ReqResult.getSuccess();
 		try {
-			r = examPlaceOrderManager.addExamPlaceOrder(userId,userType,classId,drtype,carNo);
+			if(carNo!=null)
+				r = examPlaceOrderManager.addExamPlaceOrder(userId,userType,classId,drtype,carNo);
+			else
+				r = examPlaceOrderManager.addCarModelExamPlaceOrder(userId, userType, classId, drtype, placeId);
 		} catch (Exception e) {
 			log.error("controller: get getExamPlaceClass failed=" + e.getMessage(), e);
 			e.printStackTrace();

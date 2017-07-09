@@ -25,6 +25,18 @@ public interface ExamPlaceOrderManager {
 	 */
 	ReqResult addExamPlaceOrder(String userId, String userType, String classId,
 			String drtype,String carNo);
+	
+	/**
+	 * 提供车模式
+	 * @param userId
+	 * @param userType
+	 * @param classId
+	 * @param drtype
+	 * @param carNo
+	 * @return
+	 */
+	ReqResult addCarModelExamPlaceOrder(String userId, String userType, String classId,
+			String drtype,String placeId);
 
 	/**
 	 * 取消排班订单

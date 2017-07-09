@@ -115,6 +115,14 @@ public class ExamVipManagerImpl implements ExamVipManager {
 		p.setId(id);
 		return examVipCoachMapper.selectByPrimaryKey(p);
 	}
+	
+	@Override
+	public ExamVipCoach getExamVipCoach(String mobile,int schoolId) {
+		ExamVipCoach p=new ExamVipCoach();
+		p.setMobile(mobile);
+		p.setSchoolId(schoolId);
+		return examVipCoachMapper.get(p);
+	}
 
 	@Override
 	public Page<ExamVipCoach> getExamVipCoach(ExamVipCoach examVipCoach,

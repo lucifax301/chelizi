@@ -1,6 +1,7 @@
 package com.lili.exam.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExamInnerInfo implements Serializable {
@@ -8,6 +9,11 @@ public class ExamInnerInfo implements Serializable {
 	private List<ExamVipBookInfo> bookinfo;
 	
 	private List<String> bookcar;
+	
+	public ExamInnerInfo(){
+		this.bookinfo=new ArrayList();
+		this.bookcar=new ArrayList();
+	}
 
 	public List<ExamVipBookInfo> getBookinfo() {
 		return bookinfo;
