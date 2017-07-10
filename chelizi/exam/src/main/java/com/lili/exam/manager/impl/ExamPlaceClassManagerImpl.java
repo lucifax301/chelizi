@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
 import com.lili.coach.dto.Coach;
@@ -651,8 +651,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	    				String innerinfostr=cls.getInnerinfo();
 	    				ExamInnerInfo innerinfo=null;
 	    				if(innerinfostr!=null&&innerinfostr.length()>0)
-	    					innerinfo= JSON.parse(innerinfostr, ExamInnerInfo.class);
-	    				
+	    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
 	    				
 	    				d.setId(cls.getId());
 	    				d.setPlaceId(cls.getPlaceId());
@@ -695,6 +694,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
             						
             						if(vipbookinfo!=null){
             							for(ExamVipBookInfo bi:vipbookinfo){
+            								
             								if(bi.getVipId()==examVipCoach.getVipId()){
             									matchvip=bi;
             									break;

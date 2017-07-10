@@ -98,7 +98,7 @@
     id, placeId, pstart, pend, rstart, rend, remark, duration, outerPrice, innerPrice, 
     minHours, c1, c1inner, c1outer, c1book, c1bookInner, c1bookOuter, c2, c2inner, c2outer, 
     c2book, c2bookInner, c2bookOuter, innerExpire, favorType, favorIn, favorOut, state, 
-    ctime, mtime, extra
+    ctime, mtime, extra,innerinfo
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceClassExample" >
     select
