@@ -46,6 +46,7 @@ import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
+import com.lili.exam.manager.ExamVipManager;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
 import com.lili.exam.mapper.ExamPlaceMapper;
@@ -82,7 +83,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	@Autowired
 	RedisUtil redisUtil;
 	@Autowired
-	ExamVipManagerImpl examVipManagerImpl;
+	ExamVipManager examVipManagerImpl;
 
 	@Override
 	public ReqResult addExamPlaceClass(ExamPlaceClass record) {

@@ -116,8 +116,7 @@ public class ExamPlaceController {
 			@RequestParam(required=false) String v,
 			@RequestParam String timestamp,
 			@RequestParam String sign,
-			@RequestParam String examkey,
-			@RequestParam String type
+			@RequestParam String examkey
 			) {
 		ReqResult r = ReqResult.getSuccess();
 		try {

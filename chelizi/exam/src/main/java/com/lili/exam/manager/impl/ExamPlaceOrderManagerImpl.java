@@ -55,6 +55,7 @@ import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
+import com.lili.exam.manager.ExamVipManager;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
 import com.lili.exam.mapper.ExamPlaceMapper;
@@ -103,7 +104,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	RedisUtil redisUtil;
 
 	@Autowired
-	ExamVipManagerImpl examVipManagerImpl;
+	ExamVipManager examVipManagerImpl;
 	
 	ExecutorService threadPool = Executors.newCachedThreadPool();
 
@@ -1139,6 +1140,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										examVipBookInfo.setC1book(0);
 										examVipBookInfo.setC2(examVip.getC2count());
 										examVipBookInfo.setC2book(0);
+										examVipBookInfo.setVipId(examVip.getId());
 										innerinfo.getBookinfo().add(examVipBookInfo);
 									}
 									
@@ -1217,6 +1219,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										examVipBookInfo.setC1book(0);
 										examVipBookInfo.setC2(examVip.getC2count());
 										examVipBookInfo.setC2book(0);
+										examVipBookInfo.setVipId(examVip.getId());
 										innerinfo.getBookinfo().add(examVipBookInfo);
 									}
 									
