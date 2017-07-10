@@ -1022,6 +1022,13 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
+									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
@@ -1064,6 +1071,13 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
+									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
@@ -1085,6 +1099,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 							} else { //内部预留没实效
 								if (isC1) {
 									
+									// （1）检查排班空位情况 内部教练-预留有效-c1
+									if (cls.getC1inner() <= cls
+											.getC1bookInner()) {
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("排班已约满，无法再预约！");
+										return res;
+									}
+									
 									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
 									List<String> bookcars=null;
 									List<ExamVipBookInfo> bookinfo=null;
@@ -1120,13 +1142,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										innerinfo.getBookinfo().add(examVipBookInfo);
 									}
 									
-									// （1）检查排班空位情况 内部教练-预留有效-c1
-									if (cls.getC1inner() <= cls
-											.getC1bookInner()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
+									
 									
 									if(examVipBookInfo.getC1()<=examVipBookInfo.getC1book()){
 										res.setCode(ResultCode.ERRORCODE.FAILED);
@@ -1136,6 +1152,13 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
+									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									examVipBookInfo.setC1book(examVipBookInfo.getC1book()+1);
@@ -1154,7 +1177,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									favorGen = favorGen + genData.getFavorGen();
 									duration = duration + genData.getDuration();
 									orderData.add(genData);
-								} else {
+								} else {//c2
+									if (cls.getC2inner() <= cls
+											.getC2bookInner()) {
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("排班已约满，无法再预约！");
+										return res;
+									}
+									
 									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
 									List<String> bookcars=null;
 									List<ExamVipBookInfo> bookinfo=null;
@@ -1190,12 +1220,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										innerinfo.getBookinfo().add(examVipBookInfo);
 									}
 									
-									if (cls.getC2inner() <= cls
-											.getC2bookInner()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
+									
 									
 									if(examVipBookInfo.getC2()<=examVipBookInfo.getC2book()){
 										res.setCode(ResultCode.ERRORCODE.FAILED);
@@ -1205,6 +1230,13 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
+									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									examVipBookInfo.setC2book(examVipBookInfo.getC2book()+1);
@@ -1254,6 +1286,13 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
+									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
@@ -1295,6 +1334,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
@@ -1340,6 +1385,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
@@ -1382,6 +1433,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									}
 									//获取一辆空闲车
 									Car car=pickcar(allcars,bookcars,drtype);
+									
+									if(car==null){
+										res.setCode(ResultCode.ERRORCODE.FAILED);
+										res.setMsgInfo("车辆已经约满，无法再预约！");
+										return res;
+									}
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));

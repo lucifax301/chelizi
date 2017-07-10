@@ -7,8 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lili.coach.dto.Car;
 import com.lili.common.util.Page;
 import com.lili.common.util.StringUtil;
+import com.lili.common.util.redis.RedisUtil;
+import com.lili.common.util.redis.RedisKeys.REDISKEY;
 import com.lili.exam.dto.ExamVip;
 import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamVipManager;
@@ -24,6 +27,9 @@ public class ExamVipManagerImpl implements ExamVipManager {
 	
 	@Autowired
 	private ExamVipCoachMapper examVipCoachMapper;
+	
+	@Autowired
+	private RedisUtil redisUtil;
 	
 	@Override
 	public int addExamVip(ExamVip examVip) {
@@ -89,9 +95,15 @@ public class ExamVipManagerImpl implements ExamVipManager {
 
 	@Override
 	public ExamVip getExamVipOne(Integer id) {
-		ExamVip p=new ExamVip();
-		p.setId(id);
-		return examVipMapper.selectByPrimaryKey(p);
+		
+		ExamVip e=redisUtil.get(REDISKEY.SCHOOL_VIP_INFO + id);
+		if(e==null){
+			ExamVip p=new ExamVip();
+			p.setId(id);
+			e= examVipMapper.selectByPrimaryKey(p);
+			redisUtil.set(REDISKEY.SCHOOL_VIP_INFO + id, e,3600*24);
+		}
+		return e;
 	}
 
 	@Override
@@ -118,10 +130,16 @@ public class ExamVipManagerImpl implements ExamVipManager {
 	
 	@Override
 	public ExamVipCoach getExamVipCoach(String mobile,int schoolId) {
-		ExamVipCoach p=new ExamVipCoach();
-		p.setMobile(mobile);
-		p.setSchoolId(schoolId);
-		return examVipCoachMapper.get(p);
+		
+		ExamVipCoach e=redisUtil.get(REDISKEY.SCHOOL_VIP_COACH + schoolId+"."+mobile);
+		if(e==null){
+			ExamVipCoach p=new ExamVipCoach();
+			p.setMobile(mobile);
+			p.setSchoolId(schoolId);
+			e=examVipCoachMapper.get(p);
+			redisUtil.set(REDISKEY.SCHOOL_VIP_COACH + schoolId+"."+mobile, e,3600*24);
+		}
+		return e;
 	}
 
 	@Override

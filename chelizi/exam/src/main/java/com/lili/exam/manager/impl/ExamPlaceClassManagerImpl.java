@@ -623,7 +623,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			try {
 				ExamVip examVip=new ExamVip();
 				examVip.setSchoolId(ep.getSchoolId());
-				List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+				//List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
 				
 	    		List<ExamPlaceClass> classes = getExamPlaceClass(placeId, pdate);
 	    		if(null != classes && classes.size()>0){
@@ -704,18 +704,28 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	    		    			}
 	    		    			
 	            				if(isC1){
-	            					if(matchvip!=null){
+	            					if(matchvip!=null){//排班信息里已经有这个大客户预约信息
             							d.setC(matchvip.getC1());
             							d.setCbook(matchvip.getC1book());
             						}else{
-            							if(examVips!=null){
-	            							for(ExamVip ex:examVips){
-	            								if(examVipCoach.getVipId()==ex.getId()){
-	            									d.setC(ex.getC1count());
-	            									d.setCbook(0);
-	            								}
-	            							}
+            							ExamVip ex=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+            							if(ex!=null){
+            								d.setC(ex.getC1count());
+            								d.setCbook(0);
+            							}else{
+            								//教练是大客户的教练，却找不到大客户?异常
+            								log.error("can not find vip["+examVipCoach.getVipId()+"],error");
+            								d.setC(0);
+            								d.setCbook(0);
             							}
+//            							if(examVips!=null){
+//	            							for(ExamVip ex:examVips){
+//	            								if(examVipCoach.getVipId()==ex.getId()){
+//	            									d.setC(ex.getC1count());
+//	            									d.setCbook(0);
+//	            								}
+//	            							}
+//            							}
             						}
 	            					//d.setC(cls.getC1inner());
 	            					//d.setCbook(cls.getC1bookInner());
@@ -724,14 +734,24 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
             							d.setC(matchvip.getC2());
             							d.setCbook(matchvip.getC2book());
             						}else{
-            							if(examVips!=null){
-	            							for(ExamVip ex:examVips){
-	            								if(examVipCoach.getVipId()==ex.getId()){
-	            									d.setC(ex.getC2count());
-	            									d.setCbook(0);
-	            								}
-	            							}
+            							ExamVip ex=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+            							if(ex!=null){
+            								d.setC(ex.getC2count());
+            								d.setCbook(0);
+            							}else{
+            								//教练是大客户的教练，却找不到大客户?异常
+            								log.error("can not find vip["+examVipCoach.getVipId()+"],error");
+            								d.setC(0);
+            								d.setCbook(0);
             							}
+//            							if(examVips!=null){
+//	            							for(ExamVip ex:examVips){
+//	            								if(examVipCoach.getVipId()==ex.getId()){
+//	            									d.setC(ex.getC2count());
+//	            									d.setCbook(0);
+//	            								}
+//	            							}
+//            							}
             						}
 	            					
 	            					//d.setC(cls.getC2inner());

@@ -109,6 +109,10 @@ public class RedisKeys {
          */
         public static final String STUDENT_VIP_INFO = "student.vip.info.";
         
+        public static final String SCHOOL_VIP_INFO = "school.vip.info.";
+        
+        public static final String SCHOOL_VIP_COACH = "school.vip.coach.";
+        
         /**
          * USER_ONLINE_STATE + coachId ----> isOnline(true,false)
          */
