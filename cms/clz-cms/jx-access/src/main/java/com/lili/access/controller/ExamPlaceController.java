@@ -245,6 +245,8 @@ public class ExamPlaceController extends BaseController{
 			@RequestParam String favorType, 
 			@RequestParam String favorIn,
 			@RequestParam String favorOut,
+			@RequestParam(required=false) String type,
+			@RequestParam(required=false) String innerinfo,
 			HttpServletRequest request
 			) {
 		ResponseMessage res = new ResponseMessage<>();
@@ -308,6 +310,9 @@ public class ExamPlaceController extends BaseController{
 					record.setRstart(d0);
 					record.setRend(d1);
 					record.setDuration((int) hour);
+					
+					record.setInnerinfo(innerinfo);
+					record.setType("1".equals(type)?1:0);
 					
 					ReqResult rr = examPlaceClassManager.addExamPlaceClass(record);//改为放在managerImpl中可以减少对dubbo服务的调用次数
 					if(! rr.isSuccess()){

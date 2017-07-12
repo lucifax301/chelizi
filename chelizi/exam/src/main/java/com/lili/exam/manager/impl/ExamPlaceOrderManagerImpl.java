@@ -1032,6 +1032,28 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
+									
+									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+									bookinfo=innerinfo.getBookinfo();
+									ExamVipBookInfo examVipBookInfo=null;
+									for(ExamVipBookInfo bi:bookinfo){
+										if(bi.getVipId()==examVip.getId()){
+											examVipBookInfo=bi;
+											break;
+										}
+									}
+									if(examVipBookInfo==null){
+										examVipBookInfo=new ExamVipBookInfo();
+										examVipBookInfo.setC1(examVip.getC1count());
+										examVipBookInfo.setC1book(0);
+										examVipBookInfo.setC2(examVip.getC2count());
+										examVipBookInfo.setC2book(0);
+										examVipBookInfo.setVipId(examVip.getId());
+										innerinfo.getBookinfo().add(examVipBookInfo);
+									}
+									
+									examVipBookInfo.setC1book(examVipBookInfo.getC1book()+1);
+									
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
 									
 									// （2）增加位置使用
@@ -1081,6 +1103,29 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									
 									//添加一辆预定车到列表
 									innerinfo.getBookcar().add(car.getCarNo());
+									
+									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+									bookinfo=innerinfo.getBookinfo();
+									ExamVipBookInfo examVipBookInfo=null;
+									for(ExamVipBookInfo bi:bookinfo){
+										if(bi.getVipId()==examVip.getId()){
+											examVipBookInfo=bi;
+											break;
+										}
+									}
+									if(examVipBookInfo==null){
+										examVipBookInfo=new ExamVipBookInfo();
+										examVipBookInfo.setC1(examVip.getC1count());
+										examVipBookInfo.setC1book(0);
+										examVipBookInfo.setC2(examVip.getC2count());
+										examVipBookInfo.setC2book(0);
+										examVipBookInfo.setVipId(examVip.getId());
+										innerinfo.getBookinfo().add(examVipBookInfo);
+									}
+									
+									examVipBookInfo.setC2book(examVipBookInfo.getC2book()+1);
+									
+									
 									cls.setInnerinfo(JSON.toJSONString(innerinfo));
 									
 									// （2.1）增加位置使用
@@ -1873,7 +1918,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										break;
 									}
 								}
-								examVipBookInfo.setC1book(examVipBookInfo.getC2book()-1);
+								examVipBookInfo.setC2book(examVipBookInfo.getC2book()-1);
 								
 								cls.setInnerinfo(JSON.toJSONString(innerinfo));
 		    				}

@@ -115,6 +115,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				res.setMsgInfo("排班时间冲突！");
 				return res;
 			}
+			
+			
 			examPlaceClassMapper.insertSelective(record);
 			//20161114有新增排班时，清除今天的排班查询
 			String dayStr = new SimpleDateFormat("yyyy-MM-dd").format(d0);

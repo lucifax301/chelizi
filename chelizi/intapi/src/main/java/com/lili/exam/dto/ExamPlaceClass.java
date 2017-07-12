@@ -70,9 +70,19 @@ public class ExamPlaceClass implements Serializable {
     
     private String innerinfo;
     
+    private int type;
+    
     
 
-    public String getInnerinfo() {
+    public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getInnerinfo() {
 		return innerinfo;
 	}
 

@@ -251,6 +251,9 @@
       <if test="extra != null" >
         extra,
       </if>
+      <if test="innerinfo != null" >
+        innerinfo,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -345,6 +348,9 @@
       </if>
       <if test="extra != null" >
         #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="innerinfo != null" >
+        #{innerinfo},
       </if>
     </trim>
   </insert>
