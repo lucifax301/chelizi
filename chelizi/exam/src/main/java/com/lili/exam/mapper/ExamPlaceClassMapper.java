@@ -2,7 +2,10 @@ package com.lili.exam.mapper;
 
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassExample;
+import com.lili.exam.dto.ExamPlacePayOrder;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
@@ -30,4 +33,6 @@ public interface ExamPlaceClassMapper {
     int updateByPrimaryKeySelective(ExamPlaceClass record);
 
     int updateByPrimaryKey(ExamPlaceClass record);
+    
+    
 }

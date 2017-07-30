@@ -6,6 +6,7 @@ import java.util.List;
 import com.lili.common.util.Page;
 import com.lili.common.vo.ReqResult;
 import com.lili.exam.dto.ExamPlaceOrder;
+import com.lili.exam.dto.ExamPlacePayOrder;
 import com.lili.pay.vo.PayVo;
 
 /**
@@ -62,6 +63,9 @@ public interface ExamPlaceOrderManager {
 	 * @param endTime 
 	 */
 	void postPayState(PayVo payVo, byte stageStateSucc, Date endTime);
+	
+	void postPayState(String orderId, String payWay,
+			byte stageStateSucc, Date endTime);
 	
 	/**
 	 * 更改订单状态
@@ -136,6 +140,16 @@ public interface ExamPlaceOrderManager {
 	 * @return
 	 */
 	List <Integer> getExamPlaceOrder(Integer placeId);
+	
+	public void postPayState(ExamPlacePayOrder payVo, byte stageStateSucc, Date endTime);
+	
+	public List<ExamPlacePayOrder> getUnpayOrder();
+	
+	public void expireOrder(ExamPlacePayOrder order);
+	
+	public void confirmOrder(ExamPlacePayOrder order);
+	
+	public Page<ExamPlacePayOrder> getPayOrder(ExamPlacePayOrder p,String pageNo,String pageSize);
 }
 
 

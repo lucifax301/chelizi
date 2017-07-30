@@ -12,13 +12,16 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
+import com.lili.coach.dto.Car;
 import com.lili.coach.dto.Coach;
+import com.lili.coach.manager.CarManager;
 import com.lili.coach.manager.CoachManager;
 import com.lili.common.constant.JpushConstant;
 import com.lili.common.util.BeanCopy;
@@ -29,6 +32,9 @@ import com.lili.common.util.redis.RedisUtil;
 import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.dto.ExamCarDate;
+import com.lili.exam.dto.ExamCarState;
+import com.lili.exam.dto.ExamDateCarInfo;
 import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceClass;
@@ -47,6 +53,7 @@ import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamVipManager;
+import com.lili.exam.mapper.ExamCarDateMapper;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
 import com.lili.exam.mapper.ExamPlaceMapper;
@@ -84,6 +91,16 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	RedisUtil redisUtil;
 	@Autowired
 	ExamVipManager examVipManagerImpl;
+	
+	@Autowired
+	ExamCarDateMapper examCarDateMapper;
+	
+	@Autowired
+	private CarManager carManager;
+	
+	private static SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+	
+	private static SimpleDateFormat timeformat=new SimpleDateFormat("HH:mm");
 
 	@Override
 	public ReqResult addExamPlaceClass(ExamPlaceClass record) {
@@ -96,16 +113,19 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			ExamPlaceClassExample example = new ExamPlaceClassExample();
 			example.createCriteria()
 					.andPlaceIdEqualTo(placeId)
+					.andTypeEqualTo(record.getType())
 					.andPstartGreaterThan(d0)
 					.andStateNotEqualTo((byte) 1) //'排班状态：0-正常；1-已关闭；2-已延迟',
 					.andPstartLessThan(d1);
 			example.or(example.createCriteria()
 					.andPlaceIdEqualTo(placeId)
+					.andTypeEqualTo(record.getType())
 					.andPendGreaterThan(d0)
 					.andStateNotEqualTo((byte) 1) //'排班状态：0-正常；1-已关闭；2-已延迟',
 					.andPendLessThan(d1));
 			example.or(example.createCriteria()
 					.andPlaceIdEqualTo(placeId)
+					.andTypeEqualTo(record.getType())
 					.andPstartLessThanOrEqualTo(d0)
 					.andStateNotEqualTo((byte) 1) //'排班状态：0-正常；1-已关闭；2-已延迟',
 					.andPendGreaterThanOrEqualTo(d1));
@@ -116,6 +136,31 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				return res;
 			}
 			
+			ExamPlace ep = getExamPlaceById(placeId);
+			ExamCarDate examCarDate=new ExamCarDate();
+			examCarDate.setSchoolId(ep.getSchoolId());
+			examCarDate.setDate(format.format(d0));
+			ExamCarDate eexamCarDate=examCarDateMapper.selectByDate(examCarDate);
+			//没有当天的车使用记录，插入一条
+			if(eexamCarDate==null){
+				eexamCarDate=new ExamCarDate();
+				eexamCarDate.setSchoolId(ep.getSchoolId());
+				eexamCarDate.setDate(format.format(d0));
+				
+				List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+				List<ExamCarState> ecslist=new ArrayList();
+				//0-24,每半小时一个0
+				String bitmap="000000000000000000000000000000000000000000000000";
+				for(Car car:allcars){
+					ExamCarState ecs=new ExamCarState();
+					ecs.setBitmap(bitmap);
+					ecs.setCarno(car.getCarNo());
+					ecslist.add(ecs);
+				}
+				String carliststr=JSON.toJSONString(ecslist);
+				eexamCarDate.setCarlist(carliststr);
+			}
+			examCarDateMapper.insertExamCarDate(eexamCarDate);
 			
 			examPlaceClassMapper.insertSelective(record);
 			//20161114有新增排班时，清除今天的排班查询
@@ -434,6 +479,112 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		return 0;
 	}
 	
+	@Override
+	public Map getExamPlaceCarClassInfo(String userId,
+			String userType, String placeId, String pdate, String drtype){
+		//获取一天对的排版信息
+		Map map=new HashMap();
+		List<ExamPlaceClassVo> clss=this.getExamPlaceClassInfo(userId, userType, placeId, pdate, drtype);
+		map.put("clss", clss);
+		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
+		
+//		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
+//		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+//		
+//		//内部
+//		if(examVipCoach!=null){
+//			
+//		}
+		
+		//获取一天的车使用情况
+		ExamCarDate examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
+		
+		String carlist=examCarDate.getCarlist();
+		List<ExamCarState> cars=JSON.parseArray(carlist, ExamCarState.class);
+		
+		
+		List<ExamDateCarInfo> result=new ArrayList();	
+		
+		for(ExamCarState car:cars){
+			List<ExamPlaceClassVo> newclss=new ArrayList();
+			for(ExamPlaceClassVo vo:clss){
+				ExamPlaceClassVo newvo=new ExamPlaceClassVo();
+				BeanUtils.copyProperties(vo, newvo);
+				if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
+					changeClassBitmap(newvo);
+					int used=usedcar(newvo,car);
+					newvo.setUsed(used);
+				}
+				newclss.add(newvo);
+			}
+			ExamDateCarInfo carinfo=new ExamDateCarInfo();
+			carinfo.setCarno(car.getCarno());
+			carinfo.setClss(newclss);
+			result.add(carinfo);
+		}
+		map.put("carlist", result);
+		return map;
+	}
+	
+	String factor="111111111111111111111111111111111111111111111111";
+	
+	/**
+	 * 
+	 * @param vo
+	 * @param carState
+	 * @return 1 被使用, 0 空闲没被使用
+	 */
+	private int usedcar(ExamPlaceClassVo vo,ExamCarState carState){
+		long bitmap=Long.parseLong(carState.getBitmap(),2)^Long.parseLong(factor,2);
+		if(Long.toBinaryString((Long.parseLong(vo.getBitmap(),2)&bitmap)).equals(vo.getBitmap()))
+			return 0;
+		return 1;
+	}
+	
+	/**
+	 * 转换排版的日期区间成bitmap   0000000000111100000	
+	 * @param vo
+	 */
+	private void changeClassBitmap(ExamPlaceClassVo vo){
+		Date d0=vo.getPstart();
+		Date d1=vo.getPend();
+		int hour=d0.getHours();
+		int bindex=hour*2+1;
+		int minute=d0.getMinutes();
+		if(minute==30) bindex++;
+		
+		hour=d1.getHours();
+		int eindex=hour*2+1;
+		minute=d1.getMinutes();
+		if(minute==30) eindex++;
+		int i=1;
+		StringBuilder builder=new StringBuilder();
+		while(i<bindex){
+			builder.append("0");
+			i++;
+		}
+		while(i>=bindex&&i<=eindex){
+			builder.append("1");
+		}
+		while(i<=48){
+			builder.append("0");
+		}
+		vo.setBitmap(builder.toString());
+	}
+	
+	private ExamCarDate getExamCarDate(Integer placeId,int schoolId,String date){
+		ExamCarDate ep = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date);
+		if (null == ep) {
+			ExamCarDate examCarDate=new ExamCarDate();
+			examCarDate.setSchoolId(schoolId);
+			examCarDate.setDate(date);
+			ep=examCarDateMapper.selectByDate(examCarDate);
+			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date, ep,
+					RedisKeys.EXPIRE.WEEK);
+		}
+
+		return ep;
+	}
 
 	@Override
 	public List<ExamPlaceClassDate>  getExamPlaceClassDate(String placeId,String pdate,String days) {
@@ -635,15 +786,20 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	        		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
 	        		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
 	        		
-	        		//boolean isInner = (coach.getIsImport().intValue() == 1 && null != coach.getSchoolId() &&  null != ep.getSchoolId() && coach.getSchoolId().intValue() == ep.getSchoolId().intValue());
-	        		//集团内部驾校的教练才属于内部教练
-					//boolean isInner = (coach.getIsImport().intValue() == 1 && exam_inner_place.contains(coach.getSchoolId().toString()));
-					// 集团内部同步的数据不准确，采用白名单的形式校验内部教练	20160929
-					//boolean isInner = isInWhitelist(coach.getPhoneNum(),coach.getSchoolId());
 	        		boolean isInner=(examVipCoach!=null);
 	        		
 					boolean isC1 = "1".equals(drtype.trim());
 					byte drive = Byte.parseByte(drtype.trim());
+					
+					for(int i=classes.size()-1;i>=0;i--){
+						ExamPlaceClass cls = classes.get(i);
+						if(isInner&&cls.getType()==0){//普通排班移除
+							classes.remove(i);
+						}
+						if(!isInner&&cls.getType()==1){//移除大客户排版
+							classes.remove(i);
+						}
+					}
 					
 	    			for(int i=0;i<classes.size();i++){
 	    				ExamPlaceClass cls = classes.get(i);
@@ -688,6 +844,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	            					d.setC(cls.getC2());
 	            					d.setCbook(cls.getC2book());
 	            				}
+	            				if(d.getC().intValue()==d.getCbook().intValue()){
+	            					d.setUsed(1);
+	            				}
 	    		    		}else {
 	        		    		//内部预留有效
 	    		    			ExamVipBookInfo matchvip=null;
@@ -711,54 +870,21 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
             							d.setC(matchvip.getC1());
             							d.setCbook(matchvip.getC1book());
             						}else{
-            							ExamVip ex=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-            							if(ex!=null){
-            								d.setC(ex.getC1count());
-            								d.setCbook(0);
-            							}else{
-            								//教练是大客户的教练，却找不到大客户?异常
-            								log.error("can not find vip["+examVipCoach.getVipId()+"],error");
-            								d.setC(0);
-            								d.setCbook(0);
-            							}
-//            							if(examVips!=null){
-//	            							for(ExamVip ex:examVips){
-//	            								if(examVipCoach.getVipId()==ex.getId()){
-//	            									d.setC(ex.getC1count());
-//	            									d.setCbook(0);
-//	            								}
-//	            							}
-//            							}
+            							d.setC(0);
+        								d.setCbook(0);
             						}
-	            					//d.setC(cls.getC1inner());
-	            					//d.setCbook(cls.getC1bookInner());
 	            				}else{
 	            					if(matchvip!=null){
             							d.setC(matchvip.getC2());
             							d.setCbook(matchvip.getC2book());
             						}else{
-            							ExamVip ex=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-            							if(ex!=null){
-            								d.setC(ex.getC2count());
-            								d.setCbook(0);
-            							}else{
-            								//教练是大客户的教练，却找不到大客户?异常
-            								log.error("can not find vip["+examVipCoach.getVipId()+"],error");
-            								d.setC(0);
-            								d.setCbook(0);
-            							}
-//            							if(examVips!=null){
-//	            							for(ExamVip ex:examVips){
-//	            								if(examVipCoach.getVipId()==ex.getId()){
-//	            									d.setC(ex.getC2count());
-//	            									d.setCbook(0);
-//	            								}
-//	            							}
-//            							}
+            							d.setC(0);
+        								d.setCbook(0);
             						}
 	            					
-	            					//d.setC(cls.getC2inner());
-	            					//d.setCbook(cls.getC2bookInner());
+	            				}
+	            				if(d.getC().intValue()==d.getCbook().intValue()){
+	            					d.setUsed(1);
 	            				}
 	    		    		}
 	    		    	}else {
@@ -783,6 +909,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	            					d.setCbook(cls.getC2bookOuter());
 	            				}
 	    		    		}
+	    		    		if(d.getC().intValue()==d.getCbook().intValue()){
+            					d.setUsed(1);
+            				}
 	    		    	}
 	    		    	
 	    				//是否已经约过该排班

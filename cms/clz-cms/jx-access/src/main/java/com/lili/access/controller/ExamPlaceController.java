@@ -32,6 +32,7 @@ import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassDate;
 import com.lili.exam.dto.ExamPlaceOrder;
+import com.lili.exam.dto.ExamPlacePayOrder;
 import com.lili.exam.dto.ExamPlaceRechargeGears;
 import com.lili.exam.dto.ExamPlaceRechargeSchool;
 import com.lili.exam.dto.ExamPlaceWhitelist;
@@ -507,13 +508,15 @@ public class ExamPlaceController extends BaseController{
 	 */
 	@RequestMapping(value = "/class", method = RequestMethod.GET)
 	@ResponseBody
-	public Object getExamPlaceClass(
-			@RequestParam String placeId,
+	public Object getExamPlaceClass(HttpServletRequest request,
+			//@RequestParam String placeId,
 			@RequestParam String pdate
 			){
 		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
-			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(placeId, pdate);
+			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate);
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {
@@ -563,6 +566,57 @@ public class ExamPlaceController extends BaseController{
 			e.printStackTrace();
 		}
 		return res.build();
+		
+	}
+	
+	@RequestMapping(value = "/allvip", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getAllVips(HttpServletRequest request
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
+		
+			ExamVip p=new ExamVip();
+			
+			p.setSchoolId(currentUser.getSchoolId().intValue());
+			List<ExamVip> vips= examVipManager.getExamVipList(p);
+			res.addResult("data", vips);
+		
+		
+		return res.build(); 
+		
+	}
+	
+	@RequestMapping(value = "/payorder", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getPayOrder(HttpServletRequest request,@RequestParam String pageNo,
+			@RequestParam String pageSize
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
+			
+			ExamPlace ep= examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			
+			ExamPlacePayOrder p=new ExamPlacePayOrder();
+			p.setPlaceId(ep.getId());
+			Page<ExamPlacePayOrder> data=examPlaceOrderManager.getPayOrder(p,pageNo,pageSize);
+			res.addResult("pageData", data);
+		return res.build(); 
+		
+	}
+	
+	@RequestMapping(value = "/payorder", method = RequestMethod.POST)
+	@ResponseBody
+	public Object payOrder(HttpServletRequest request
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		String payOrderId=request.getParameter("payOrderId");
+		User currentUser = AccessWebUtil.getSessionUser(request);
+		ExamPlacePayOrder p=new ExamPlacePayOrder();
+		p.setPayorderId(payOrderId);
+		examPlaceOrderManager.confirmOrder(p);
+			
+		return res.build(); 
 		
 	}
 	

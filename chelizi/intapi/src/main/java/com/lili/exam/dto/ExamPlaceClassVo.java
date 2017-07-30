@@ -36,7 +36,29 @@ public class ExamPlaceClassVo implements Serializable {
      */
     private Integer state;
     
-    /**
+    private int used;
+    
+    private String bitmap;
+    
+    
+    
+    public int getUsed() {
+		return used;
+	}
+
+	public void setUsed(int used) {
+		this.used = used;
+	}
+
+	public String getBitmap() {
+		return bitmap;
+	}
+
+	public void setBitmap(String bitmap) {
+		this.bitmap = bitmap;
+	}
+
+	/**
      * 优惠方案
      */
     private Integer favorType;

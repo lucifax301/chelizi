@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lili.common.vo.ReqResult;
+import com.lili.exam.dto.ExamDateCarInfo;
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassDate;
 import com.lili.exam.dto.ExamPlaceClassVo;
@@ -100,6 +101,9 @@ public interface ExamPlaceClassManager {
 	 * @return
 	 */
 	boolean isInWhitelist(String phoneNum, Integer schoolId);
+	
+	public Map getExamPlaceCarClassInfo(String userId,
+			String userType, String placeId, String pdate, String drtype);
 }
 
 

@@ -1,6 +1,7 @@
 package com.lili.httpaccess.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,6 +198,32 @@ public class ExamPlaceController {
 		ReqResult r = ReqResult.getSuccess();
 		try {
 			List<ExamPlaceClassVo> data = examPlaceClassManager.getExamPlaceClassInfo(userId,userType,placeId,pdate,drtype);
+			r.setData(data);
+		} catch (Exception e) {
+			log.error("controller: get getExamPlaceClass failed=" + e.getMessage(), e);
+			e.printStackTrace();
+			r.setCode(ResultCode.ERRORCODE.EXCEPTION);
+			r.setMsgInfo(ResultCode.ERRORINFO.EXCEPTION);
+		}
+		
+		return r.getResult();
+	}
+	
+	@RequestMapping(value = "/car/list", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getExamPlaceClassCar(
+			@RequestParam String userId, 
+			@RequestParam String userType,
+			@RequestParam(required=false) String v,
+			@RequestParam String timestamp,
+			@RequestParam String sign,
+			@RequestParam String placeId,
+			@RequestParam String pdate,
+			@RequestParam String drtype
+			) {
+		ReqResult r = ReqResult.getSuccess();
+		try {
+			Map data = examPlaceClassManager.getExamPlaceCarClassInfo(userId, userType, placeId, pdate, drtype);
 			r.setData(data);
 		} catch (Exception e) {
 			log.error("controller: get getExamPlaceClass failed=" + e.getMessage(), e);

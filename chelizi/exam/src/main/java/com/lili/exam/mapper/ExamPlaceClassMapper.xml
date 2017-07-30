@@ -254,6 +254,9 @@
       <if test="innerinfo != null" >
         innerinfo,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -351,6 +354,9 @@
       </if>
       <if test="innerinfo != null" >
         #{innerinfo},
+      </if>
+      <if test="type != null" >
+        #{type},
       </if>
     </trim>
   </insert>

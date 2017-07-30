@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamCarDateMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamCarDate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="carlist" property="carlist" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, date,  carlist,schoolId
+  </sql>
+  
+  <select id="countExamCarDate" parameterType="com.lili.exam.dto.ExamCarDate" resultType="java.lang.Integer" >
+    select count(*) from t_exam_car_date where schoolId=#{schoolId}
+    <if test="_parameter != null" >
+      <if test="date != null and date !=''" >
+      	and date= #{date}
+      </if>
+    </if>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamCarDate" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_car_date
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDate" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamCarDate" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_car_date
+    where schoolId=#{schoolId} and date = #{date}
+  </select>
+  
+  <delete id="deleteExamCarDate" parameterType="com.lili.exam.dto.ExamCarDate" >
+    delete from t_exam_car_date
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertExamCarDate" parameterType="com.lili.exam.dto.ExamCarDate" >
+    insert into t_exam_car_date (id, date, carlist, 
+      schoolId 
+      
+      )
+    values (#{id,jdbcType=INTEGER}, #{date,jdbcType=VARCHAR},  #{carlist,jdbcType=VARCHAR}, 
+      #{schoolId,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  
+  <update id="updateExamCarDate" parameterType="com.lili.exam.dto.ExamCarDate" >
+    update t_exam_car_date
+    set carlist=#{carlist}
+    
+    where id=#{id}
+  </update>
+  
+</mapper>

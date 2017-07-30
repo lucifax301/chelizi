@@ -40,6 +40,8 @@ import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqConstants;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.dto.ExamCarDate;
+import com.lili.exam.dto.ExamCarState;
 import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceClass;
@@ -47,6 +49,7 @@ import com.lili.exam.dto.ExamPlaceFavor;
 import com.lili.exam.dto.ExamPlaceFavorKey;
 import com.lili.exam.dto.ExamPlaceOrder;
 import com.lili.exam.dto.ExamPlaceOrderExample;
+import com.lili.exam.dto.ExamPlacePayOrder;
 import com.lili.exam.dto.ExamPlaceWhitelist;
 import com.lili.exam.dto.ExamPlaceWhitelistExample;
 import com.lili.exam.dto.ExamVip;
@@ -56,6 +59,8 @@ import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamVipManager;
+import com.lili.exam.mapper.ExamCarDateMapper;
+import com.lili.exam.mapper.ExamPayMapper;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
 import com.lili.exam.mapper.ExamPlaceMapper;
@@ -87,6 +92,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	@Autowired
 	ExamPlaceMapper examPlaceMapper;
 	@Autowired
+	ExamPayMapper examPayMapper;
+	
+	@Autowired
 	private MoneyManager moneyManager;
 	@Resource(name = "jpushProducer")
 	private DefaultMQProducer jpushProducer;
@@ -105,7 +113,10 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 	@Autowired
 	ExamVipManager examVipManagerImpl;
-	
+
+	@Autowired
+	ExamCarDateMapper examCarDateMapper;
+
 	ExecutorService threadPool = Executors.newCachedThreadPool();
 
 	// @Override
@@ -409,6 +420,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	// });
 	// }
 
+	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
 	// @Transactional
 	@Override
 	public ReqResult addExamPlaceOrder(String userId, String userType,
@@ -494,10 +507,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					// 尝试加锁，最多等待2秒，上锁以后10秒自动解锁
 					boolean hasLock = lock.tryLock(2, 10, TimeUnit.SECONDS);
 					if (hasLock) {
-						log.debug("Good-->got lock!" + Thread.currentThread().getName() 
-								+";current classId=" + clses[i] 
-										+";current userId=" + userId
-										+";current time=" + System.currentTimeMillis());
+						log.debug("Good-->got lock!"
+								+ Thread.currentThread().getName()
+								+ ";current classId=" + clses[i]
+								+ ";current userId=" + userId
+								+ ";current time=" + System.currentTimeMillis());
 
 						ExamPlaceClass cls = getExamPlaceClassOne(Integer
 								.parseInt(clses[i])); // 20161110在资源查询之前就必须锁定！
@@ -536,7 +550,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									.andPstartBetween(date2, date3);
 							int todayOrderCount = examPlaceOrderMapper
 									.countByExample(example2);
-							if (isInner) {    
+							if (isInner) {
 								if (todayOrderCount >= order_limit_inner) {
 									res.setCode(ResultCode.ERRORCODE.FAILED);
 									res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
@@ -605,7 +619,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC1book(cls.getC1book() + 1);
 									cls.setC1bookInner(cls.getC1bookInner() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -624,7 +638,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC2book(cls.getC2book() + 1);
 									cls.setC2bookInner(cls.getC2bookInner() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -634,7 +648,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									duration = duration + genData.getDuration();
 									orderData.add(genData);
 								}
-							} else { //内部预留没实效
+							} else { // 内部预留没实效
 								if (isC1) {
 									// （1）检查排班空位情况 内部教练-预留有效-c1
 									if (cls.getC1inner() <= cls
@@ -647,7 +661,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC1book(cls.getC1book() + 1);
 									cls.setC1bookInner(cls.getC1bookInner() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -667,7 +681,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC2book(cls.getC2book() + 1);
 									cls.setC2bookInner(cls.getC2bookInner() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -692,7 +706,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC1book(cls.getC1book() + 1);
 									cls.setC1bookOuter(cls.getC1bookOuter() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -711,7 +725,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC2book(cls.getC2book() + 1);
 									cls.setC2bookOuter(cls.getC2bookOuter() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -734,7 +748,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC1book(cls.getC1book() + 1);
 									cls.setC1bookOuter(cls.getC1bookOuter() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -754,7 +768,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 									cls.setC2book(cls.getC2book() + 1);
 									cls.setC2bookOuter(cls.getC2bookOuter() + 1);
 									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
+									// examPlaceClassManager.updateExamPlaceClass(cls);
 									updateExamPlaceClass(cls);
 									// （3）生成订单
 									ExamPlaceOrder genData = genExamPlaceOrderSyn(
@@ -770,10 +784,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						// redisUtil.delete(RedisKeys.REDISKEY.LOCK_PRE +
 						// "placeOrder." + clses[i]);
 					} else {
-						log.debug("Good-->got no lock!" + Thread.currentThread().getName() 
-								+";current classId=" + clses[i] 
-										+";current userId=" + userId
-										+";current time=" + System.currentTimeMillis());
+						log.debug("Good-->got no lock!"
+								+ Thread.currentThread().getName()
+								+ ";current classId=" + clses[i]
+								+ ";current userId=" + userId
+								+ ";current time=" + System.currentTimeMillis());
 						res.setCode(ResultCode.ERRORCODE.ORDER_LOCK);
 						res.setMsgInfo("当前车道已有教练正在排队，请稍后再试！");
 						// 20161108 争抢坑位的时候，坑位忙则直接返回，让用户重新发起
@@ -785,10 +800,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					if (lock != null) {
 						try {
 							lock.unlock();
-							log.debug("Good-->now unlock!" + Thread.currentThread().getName() 
-									+";current classId=" + clses[i] 
-											+";current userId=" + userId
-											+";current time=" + System.currentTimeMillis());
+							log.debug("Good-->now unlock!"
+									+ Thread.currentThread().getName()
+									+ ";current classId=" + clses[i]
+									+ ";current userId=" + userId
+									+ ";current time="
+									+ System.currentTimeMillis());
 						} catch (Exception e) {
 						}
 					}
@@ -824,17 +841,243 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return res;
 	}
 	
+	private ReqResult checkbeforebook(Map<String,String[]> map,String userId, String userType,
+			String classId, String drtype, String placeId){
+		ReqResult res = ReqResult.getSuccess();
+		try{
+		java.util.Iterator<String> it = map.keySet().iterator();
+		
+		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
+
+		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
+		ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
+				coach.getPhoneNum(), ep.getSchoolId());
+		boolean isInner = (examVipCoach != null);
+
+		boolean isC1 = "1".equals(drtype.trim());
+
+		
+		while (it.hasNext()) {
+			String carno = it.next();
+			String[] clses = map.get(carno);
+
+			for (int i = 0; i < clses.length; i++) {
+
+				ExamPlaceClass cls = getExamPlaceClassOne(Integer
+						.parseInt(clses[i])); // 20161110在资源查询之前就必须锁定！
+
+				// 前置检查，如果已经预约了这个排班，则不能再约
+				List<Byte> state1 = new ArrayList<Byte>();
+				state1.add((byte) 4);
+				state1.add((byte) 5);
+				ExamPlaceOrderExample example1 = new ExamPlaceOrderExample();
+				example1.createCriteria()
+						.andClassIdEqualTo(
+								Integer.parseInt(clses[i]))
+						.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+						.andCoachIdEqualTo(Long.parseLong(userId));
+				int oldData1 = examPlaceOrderMapper
+						.countByExample(example1);
+				if (oldData1 > 0) {
+					res.setCode(ResultCode.ERRORCODE.FAILED);
+					res.setMsgInfo("您已预约该场次，不能重复预约！");
+					return res;
+				}
+				
+				boolean hasPreChecked = false;
+				
+				if (!hasPreChecked) {
+					// 20161010 前置检查，内部一天限约一场；外部一天限约两场。
+					ExamPlaceOrderExample example2 = new ExamPlaceOrderExample();
+					String aa2 = new SimpleDateFormat("yyyy-MM-dd")
+							.format(cls.getPstart()) + " 00:00:00";
+					String bb2 = new SimpleDateFormat("yyyy-MM-dd")
+							.format(cls.getPstart()) + " 23:59:59";
+					Date date2 = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss").parse(aa2);
+					Date date3 = new SimpleDateFormat(
+							"yyyy-MM-dd HH:mm:ss").parse(bb2);
+					example2.createCriteria()
+							.andStateNotIn(state1)
+							// '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+							.andCoachIdEqualTo(
+									Long.parseLong(userId))
+							.andPstartBetween(date2, date3);
+					int todayOrderCount = examPlaceOrderMapper
+							.countByExample(example2);
+					if (isInner) {
+						// if (todayOrderCount >= order_limit_inner)
+						// {
+						// res.setCode(ResultCode.ERRORCODE.FAILED);
+						// res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
+						// return res;
+						// }
+						// // 如果已经约了一场，再一次连约两场有个坑
+						// if (todayOrderCount + clses.length >=
+						// order_limit_inner + 1) {
+						// res.setCode(ResultCode.ERRORCODE.FAILED);
+						// res.setMsgInfo("教练每天限约" +
+						// order_limit_inner
+						// + "场！");
+						// return res;
+						// }
+					} else {
+						// if (todayOrderCount >= order_limit_outer)
+						// {
+						// res.setCode(ResultCode.ERRORCODE.FAILED);
+						// res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
+						// return res;
+						// }
+						// // 如果已经约了一场，再一次连约两场有个坑
+						// if (todayOrderCount + clses.length >=
+						// order_limit_outer + 1) {
+						// res.setCode(ResultCode.ERRORCODE.FAILED);
+						// res.setMsgInfo("教练每天限约" +
+						// order_limit_outer
+						// + "场！");
+						// return res;
+						// }
+					}
+
+					hasPreChecked = true;
+				}
+
+				// redisUtil.setAll(RedisKeys.REDISKEY.LOCK_PRE +
+				// "placeOrder." + clses[i],"working",120);
+				String orderId = StringUtil.getOrderId();
+
+
+				// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
+				Date d0 = cls.getPstart();
+				boolean isExpire=false;
+
+				Date now = new Date();
+				Date endTime = cls.getRend();
+				if (now.after(endTime)) {
+					res.setCode(ResultCode.ERRORCODE.FAILED);
+					res.setMsgInfo("该排班已过期，不能预约！");
+					return res;
+				}
+
+				ExamCarDate eexamCarDate = this.getExamCarDate(
+						Integer.parseInt(placeId),
+						ep.getSchoolId(), format.format(d0));
+
+				boolean used = this.isused(eexamCarDate, carno,
+						this.changeClassBitmap(cls));
+
+				if (used) {
+					res.setCode(ResultCode.ERRORCODE.FAILED);
+					res.setMsgInfo(carno + "已经被占用");
+					return res;
+				}
+
+				if (isInner) { // 内部教练
+					if (isExpire) { // 内部预留已失效
+						if (isC1) {
+							// （1）检查排班空位情况 内部教练-预留失效-c1
+							if (cls.getC1() <= cls.getC1book()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						} else {
+							if (cls.getC2() <= cls.getC2book()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						}
+					} else { // 内部预留没实效
+						if (isC1) {
+
+							// （1）检查排班空位情况 内部教练-预留有效-c1
+							if (cls.getC1inner() <= cls
+									.getC1bookInner()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						} else {// c2
+							if (cls.getC2inner() <= cls
+									.getC2bookInner()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						}
+
+					}
+				} else { // 外部教练
+					if (isExpire) { // 内部预留已失效
+						if (isC1) { // c1
+							// （1）检查排班空位情况
+							if (cls.getC1() <= cls.getC1book()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						} else { // c2
+							if (cls.getC2() <= cls.getC2book()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						}
+					} else { // 内部预留有效
+						if (isC1) { // c1
+							// （1）检查排班空位情况
+							if (cls.getC1outer() <= cls
+									.getC1bookOuter()) { // 外部空位已排满，则不能继续排
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+
+						} else { // c2
+							if (cls.getC2outer() <= cls
+									.getC2bookOuter()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+
+						}
+					}
+
+				}
+
+			}
+		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+			log.warn(ex.toString());
+			res.setCode(ResultCode.ERRORCODE.FAILED);
+			res.setMsgInfo("系统检查异常！");
+			return res;
+		}
+		return res;
+	}
+
 	/**
 	 * 提供车模式
 	 */
 	@Override
 	public ReqResult addCarModelExamPlaceOrder(String userId, String userType,
-			String classId, String drtype,String placeId) {
+			String classId, String drtype, String placeId) {
 		ReqResult res = ReqResult.getSuccess();
 		List<ExamPlaceOrder> orderData = new ArrayList<ExamPlaceOrder>();
 		// 中间生成优惠统计
 		int favorGen = 0;
 		int duration = 0;
+		int payTotal=0;
 		try {
 			// 前置检查，如果有尚未支付的订单，则不能填写新订单
 			ExamPlaceOrderExample example = new ExamPlaceOrderExample();
@@ -847,10 +1090,21 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				res.setMsgInfo("您有约考场订单尚未支付，请先支付或取消！");
 				return res;
 			}
-			String[] clses = classId.split(",");
+			// 多辆车多个排班
+			// carno:classid-classid-classid,carno:classid-classid
+			String[] tmpclses = classId.split(",");
+
+			Map<String, String[]> map = new HashMap();
+			for (int i = 0; i < tmpclses.length; i++) {
+				String[] binfo = tmpclses[i].split(":");
+				String carno = binfo[0];
+				String[] cinfo = binfo[1].split("-");
+				map.put(carno, cinfo);
+			}
+
 			// （1）查询用户身份，是否是驾校内部教练
 			Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
-			
+
 			// 如果是内部教练
 			// boolean isInner = (coach.getIsImport().intValue() == 1 && null !=
 			// coach.getSchoolId() && null != ep.getSchoolId() &&
@@ -859,683 +1113,908 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			// boolean isInner = (coach.getIsImport().intValue() == 1 &&
 			// exam_inner_place.contains(coach.getSchoolId().toString()));
 			// 集团内部同步的数据不准确，采用白名单的形式校验内部教练 20160929
-//			boolean isInner = isInWhitelist(coach.getPhoneNum(),
-//					coach.getSchoolId());
+			// boolean isInner = isInWhitelist(coach.getPhoneNum(),
+			// coach.getSchoolId());
 			ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
-			ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
-			boolean isInner=(examVipCoach!=null);
-			
+			ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
+					coach.getPhoneNum(), ep.getSchoolId());
+			boolean isInner = (examVipCoach != null);
+
 			boolean isC1 = "1".equals(drtype.trim());
 
-			Integer order_limit_inner = Integer
-					.parseInt(exam_order_limit_inner);
-			Integer order_limit_outer = Integer
-					.parseInt(exam_order_limit_outer);
+			// Integer order_limit_inner = Integer
+			// .parseInt(exam_order_limit_inner);
+			// Integer order_limit_outer = Integer
+			// .parseInt(exam_order_limit_outer);
 			// 20161010 前置检查，内部一天限约一场；外部一天限约两场。
-			if (isInner) {
-				if (clses.length >= order_limit_inner + 1) {
-					res.setCode(ResultCode.ERRORCODE.FAILED);
-					res.setMsgInfo("教练每天限约" + order_limit_inner + "场！");
-					return res;
-				}
-			} else {
-				if (clses.length >= order_limit_outer + 1) {
-					res.setCode(ResultCode.ERRORCODE.FAILED);
-					res.setMsgInfo("教练每天限约" + order_limit_outer + "场！");
-					return res;
-				}
-			}
+			// if (isInner) {
+			// if (clses.length >= order_limit_inner + 1) {
+			// res.setCode(ResultCode.ERRORCODE.FAILED);
+			// res.setMsgInfo("教练每天限约" + order_limit_inner + "场！");
+			// return res;
+			// }
+			// } else {
+			// if (clses.length >= order_limit_outer + 1) {
+			// res.setCode(ResultCode.ERRORCODE.FAILED);
+			// res.setMsgInfo("教练每天限约" + order_limit_outer + "场！");
+			// return res;
+			// }
+			// }
 
 			boolean hasPreChecked = false;
 
 			// （3）虽然是多个不同的排班，却都是来自同一个考场的
-			//int placeId = 1;
-			for (int i = 0; i < clses.length; i++) {
-				RLock lock = null;
-				try {
-					lock = redissonClient.getLock(RedisKeys.REDISKEY.LOCK_PRE
-							+ "placeOrder." + clses[i]); // 对同一个排班要锁定资源
-					// 尝试加锁，最多等待2秒，上锁以后10秒自动解锁
-					boolean hasLock = lock.tryLock(2, 10, TimeUnit.SECONDS);
-					if (hasLock) {
-						log.debug("Good-->got lock!" + Thread.currentThread().getName() 
-								+";current classId=" + clses[i] 
-										+";current userId=" + userId
-										+";current time=" + System.currentTimeMillis());
+			// int placeId = 1;
 
-						ExamPlaceClass cls = getExamPlaceClassOne(Integer
-								.parseInt(clses[i])); // 20161110在资源查询之前就必须锁定！
-						//ExamPlace ep = getExamPlaceById(cls.getPlaceId());
+			
 
-						// 前置检查，如果已经预约了这个排班，则不能再约
-						List<Byte> state1 = new ArrayList<Byte>();
-						state1.add((byte) 4);
-						state1.add((byte) 5);
-						ExamPlaceOrderExample example1 = new ExamPlaceOrderExample();
-						example1.createCriteria()
-								.andClassIdEqualTo(Integer.parseInt(clses[i]))
-								.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
-								.andCoachIdEqualTo(Long.parseLong(userId));
-						int oldData1 = examPlaceOrderMapper
-								.countByExample(example1);
-						if (oldData1 > 0) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
-							res.setMsgInfo("您已预约该场次，不能重复预约！");
-							return res;
-						}
-						if (!hasPreChecked) {
-							// 20161010 前置检查，内部一天限约一场；外部一天限约两场。
-							ExamPlaceOrderExample example2 = new ExamPlaceOrderExample();
-							String aa2 = new SimpleDateFormat("yyyy-MM-dd")
-									.format(cls.getPstart()) + " 00:00:00";
-							String bb2 = new SimpleDateFormat("yyyy-MM-dd")
-									.format(cls.getPstart()) + " 23:59:59";
-							Date date2 = new SimpleDateFormat(
-									"yyyy-MM-dd HH:mm:ss").parse(aa2);
-							Date date3 = new SimpleDateFormat(
-									"yyyy-MM-dd HH:mm:ss").parse(bb2);
-							example2.createCriteria().andStateNotIn(state1)
-									// '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
-									.andCoachIdEqualTo(Long.parseLong(userId))
-									.andPstartBetween(date2, date3);
-							int todayOrderCount = examPlaceOrderMapper
-									.countByExample(example2);
-							if (isInner) {    
-								if (todayOrderCount >= order_limit_inner) {
-									res.setCode(ResultCode.ERRORCODE.FAILED);
-									res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
-									return res;
-								}
-								// 如果已经约了一场，再一次连约两场有个坑
-								if (todayOrderCount + clses.length >= order_limit_inner + 1) {
-									res.setCode(ResultCode.ERRORCODE.FAILED);
-									res.setMsgInfo("教练每天限约" + order_limit_inner
-											+ "场！");
-									return res;
-								}
-							} else {
-								if (todayOrderCount >= order_limit_outer) {
-									res.setCode(ResultCode.ERRORCODE.FAILED);
-									res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
-									return res;
-								}
-								// 如果已经约了一场，再一次连约两场有个坑
-								if (todayOrderCount + clses.length >= order_limit_outer + 1) {
-									res.setCode(ResultCode.ERRORCODE.FAILED);
-									res.setMsgInfo("教练每天限约" + order_limit_outer
-											+ "场！");
-									return res;
-								}
+			RLock lock = null;
+			try {
+				// lock = redissonClient.getLock(RedisKeys.REDISKEY.LOCK_PRE
+				// + "placeOrder." + clses[i]); // 对同一个排班要锁定资源
+				lock = redissonClient.getLock(RedisKeys.REDISKEY.LOCK_PRE
+						+ "place." + placeId); // 对同一个排班要锁定资源
+				// 尝试加锁，最多等待2秒，上锁以后10秒自动解锁
+				boolean hasLock = lock.tryLock(2, 10, TimeUnit.SECONDS);
+				if (hasLock) {
+					log.debug("Good-->got lock!"
+							+ Thread.currentThread().getName()
+							+ ";current placeId=" + placeId
+							+ ";current userId=" + userId + ";current time="
+							+ System.currentTimeMillis());
+					
+					ReqResult checkresult=checkbeforebook(map, userId, userType, classId, drtype, placeId);
+					
+					if(!checkresult.isSuccess()){
+						return checkresult;
+					}
+					
+					java.util.Iterator<String> it = map.keySet().iterator();
+					
+					String payorderid=StringUtil.getOrderId();
+					
+					
+					while (it.hasNext()) {
+						String carno = it.next();
+						String[] clses = map.get(carno);
+
+						for (int i = 0; i < clses.length; i++) {
+
+							ExamPlaceClass cls = getExamPlaceClassOne(Integer
+									.parseInt(clses[i])); // 20161110在资源查询之前就必须锁定！
+							// ExamPlace ep =
+							// getExamPlaceById(cls.getPlaceId());
+
+							// 前置检查，如果已经预约了这个排班，则不能再约
+							List<Byte> state1 = new ArrayList<Byte>();
+							state1.add((byte) 4);
+							state1.add((byte) 5);
+							ExamPlaceOrderExample example1 = new ExamPlaceOrderExample();
+							example1.createCriteria()
+									.andClassIdEqualTo(
+											Integer.parseInt(clses[i]))
+									.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+									.andCoachIdEqualTo(Long.parseLong(userId));
+							int oldData1 = examPlaceOrderMapper
+									.countByExample(example1);
+							if (oldData1 > 0) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("您已预约该场次，不能重复预约！");
+								return res;
 							}
-							hasPreChecked = true;
-						}
-
-						// redisUtil.setAll(RedisKeys.REDISKEY.LOCK_PRE +
-						// "placeOrder." + clses[i],"working",120);
-						String orderId = StringUtil.getOrderId();
-						//placeId = ep.getId();
-
-						// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
-						Date d0 = cls.getPstart();
-						int innerExpire = cls.getInnerExpire(); // 内部失效时间，天
-						Calendar gdate = Calendar.getInstance();
-						gdate.add(gdate.DATE, innerExpire);
-						String aa = new SimpleDateFormat("yyyy-MM-dd")
-								.format(gdate.getTime()) + " 23:59:59";
-						Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-								.parse(aa);
-						boolean isExpire = d1.after(d0);
-
-						// 20161009 如果已经到了计划上课时间，则不允许再预约！
-						// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
-						Date now = new Date();
-						Date endTime = cls.getRend();
-						if (now.after(endTime)) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
-							res.setMsgInfo("该排班已过期，不能预约！");
-							return res;
-						}
-						
-						if (isInner) { // 内部教练
-							if (isExpire) { // 内部预留已失效
-								if (isC1) {
-									// （1）检查排班空位情况 内部教练-预留失效-c1
-									if (cls.getC1() <= cls.getC1book()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									
-									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-									bookinfo=innerinfo.getBookinfo();
-									ExamVipBookInfo examVipBookInfo=null;
-									for(ExamVipBookInfo bi:bookinfo){
-										if(bi.getVipId()==examVip.getId()){
-											examVipBookInfo=bi;
-											break;
-										}
-									}
-									if(examVipBookInfo==null){
-										examVipBookInfo=new ExamVipBookInfo();
-										examVipBookInfo.setC1(examVip.getC1count());
-										examVipBookInfo.setC1book(0);
-										examVipBookInfo.setC2(examVip.getC2count());
-										examVipBookInfo.setC2book(0);
-										examVipBookInfo.setVipId(examVip.getId());
-										innerinfo.getBookinfo().add(examVipBookInfo);
-									}
-									
-									examVipBookInfo.setC1book(examVipBookInfo.getC1book()+1);
-									
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2）增加位置使用
-									cls.setC1book(cls.getC1book() + 1);
-									cls.setC1bookInner(cls.getC1bookInner() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
+							if (!hasPreChecked) {
+								// 20161010 前置检查，内部一天限约一场；外部一天限约两场。
+								ExamPlaceOrderExample example2 = new ExamPlaceOrderExample();
+								String aa2 = new SimpleDateFormat("yyyy-MM-dd")
+										.format(cls.getPstart()) + " 00:00:00";
+								String bb2 = new SimpleDateFormat("yyyy-MM-dd")
+										.format(cls.getPstart()) + " 23:59:59";
+								Date date2 = new SimpleDateFormat(
+										"yyyy-MM-dd HH:mm:ss").parse(aa2);
+								Date date3 = new SimpleDateFormat(
+										"yyyy-MM-dd HH:mm:ss").parse(bb2);
+								example2.createCriteria()
+										.andStateNotIn(state1)
+										// '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+										.andCoachIdEqualTo(
+												Long.parseLong(userId))
+										.andPstartBetween(date2, date3);
+								int todayOrderCount = examPlaceOrderMapper
+										.countByExample(example2);
+								if (isInner) {
+									// if (todayOrderCount >= order_limit_inner)
+									// {
+									// res.setCode(ResultCode.ERRORCODE.FAILED);
+									// res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
+									// return res;
+									// }
+									// // 如果已经约了一场，再一次连约两场有个坑
+									// if (todayOrderCount + clses.length >=
+									// order_limit_inner + 1) {
+									// res.setCode(ResultCode.ERRORCODE.FAILED);
+									// res.setMsgInfo("教练每天限约" +
+									// order_limit_inner
+									// + "场！");
+									// return res;
+									// }
 								} else {
-									if (cls.getC2() <= cls.getC2book()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									
-									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-									bookinfo=innerinfo.getBookinfo();
-									ExamVipBookInfo examVipBookInfo=null;
-									for(ExamVipBookInfo bi:bookinfo){
-										if(bi.getVipId()==examVip.getId()){
-											examVipBookInfo=bi;
-											break;
-										}
-									}
-									if(examVipBookInfo==null){
-										examVipBookInfo=new ExamVipBookInfo();
-										examVipBookInfo.setC1(examVip.getC1count());
-										examVipBookInfo.setC1book(0);
-										examVipBookInfo.setC2(examVip.getC2count());
-										examVipBookInfo.setC2book(0);
-										examVipBookInfo.setVipId(examVip.getId());
-										innerinfo.getBookinfo().add(examVipBookInfo);
-									}
-									
-									examVipBookInfo.setC2book(examVipBookInfo.getC2book()+1);
-									
-									
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2.1）增加位置使用
-									cls.setC2book(cls.getC2book() + 1);
-									cls.setC2bookInner(cls.getC2bookInner() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
+									// if (todayOrderCount >= order_limit_outer)
+									// {
+									// res.setCode(ResultCode.ERRORCODE.FAILED);
+									// res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
+									// return res;
+									// }
+									// // 如果已经约了一场，再一次连约两场有个坑
+									// if (todayOrderCount + clses.length >=
+									// order_limit_outer + 1) {
+									// res.setCode(ResultCode.ERRORCODE.FAILED);
+									// res.setMsgInfo("教练每天限约" +
+									// order_limit_outer
+									// + "场！");
+									// return res;
+									// }
 								}
-							} else { //内部预留没实效
-								if (isC1) {
-									
-									// （1）检查排班空位情况 内部教练-预留有效-c1
-									if (cls.getC1inner() <= cls
-											.getC1bookInner()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									
-									
-									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-									bookinfo=innerinfo.getBookinfo();
-									ExamVipBookInfo examVipBookInfo=null;
-									for(ExamVipBookInfo bi:bookinfo){
-										if(bi.getVipId()==examVip.getId()){
-											examVipBookInfo=bi;
-											break;
+								hasPreChecked = true;
+							}
+
+							// redisUtil.setAll(RedisKeys.REDISKEY.LOCK_PRE +
+							// "placeOrder." + clses[i],"working",120);
+							String orderId = StringUtil.getOrderId();
+							// placeId = ep.getId();
+
+							// 20161005 需求变更：内部教练和外部教练都受到内部预留空位的约束
+							Date d0 = cls.getPstart();
+//							int innerExpire = cls.getInnerExpire(); // 内部失效时间，天
+//							Calendar gdate = Calendar.getInstance();
+//							gdate.add(gdate.DATE, innerExpire);
+//							String aa = new SimpleDateFormat("yyyy-MM-dd")
+//									.format(gdate.getTime()) + " 23:59:59";
+//							Date d1 = new SimpleDateFormat(
+//									"yyyy-MM-dd HH:mm:ss").parse(aa);
+//							boolean isExpire = d1.after(d0);
+							boolean isExpire=false;
+
+							// 20161009 如果已经到了计划上课时间，则不允许再预约！
+							// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
+							Date now = new Date();
+							Date endTime = cls.getRend();
+							if (now.after(endTime)) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("该排班已过期，不能预约！");
+								return res;
+							}
+
+							ExamCarDate eexamCarDate = this.getExamCarDate(
+									Integer.parseInt(placeId),
+									ep.getSchoolId(), format.format(d0));
+
+							boolean used = this.isused(eexamCarDate, carno,
+									this.changeClassBitmap(cls));
+
+							if (used) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo(carno + "已经被占用");
+								return res;
+							}
+							
+							
+							
+							if (isInner) { // 内部教练
+								if (isExpire) { // 内部预留已失效
+									if (isC1) {
+										// （1）检查排班空位情况 内部教练-预留失效-c1
+										if (cls.getC1() <= cls.getC1book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
 										}
-									}
-									if(examVipBookInfo==null){
-										examVipBookInfo=new ExamVipBookInfo();
-										examVipBookInfo.setC1(examVip.getC1count());
-										examVipBookInfo.setC1book(0);
-										examVipBookInfo.setC2(examVip.getC2count());
-										examVipBookInfo.setC2book(0);
-										examVipBookInfo.setVipId(examVip.getId());
-										innerinfo.getBookinfo().add(examVipBookInfo);
-									}
-									
-									
-									
-									if(examVipBookInfo.getC1()<=examVipBookInfo.getC1book()){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									examVipBookInfo.setC1book(examVipBookInfo.getC1book()+1);
-									
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									// （2）增加位置使用
-									cls.setC1book(cls.getC1book() + 1);
-									cls.setC1bookInner(cls.getC1bookInner() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
-								} else {//c2
-									if (cls.getC2inner() <= cls
-											.getC2bookInner()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									
-									
-									ExamVip examVip=examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
-									bookinfo=innerinfo.getBookinfo();
-									ExamVipBookInfo examVipBookInfo=null;
-									for(ExamVipBookInfo bi:bookinfo){
-										if(bi.getVipId()==examVip.getId()){
-											examVipBookInfo=bi;
-											break;
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
 										}
+
+										ExamVip examVip = examVipManagerImpl
+												.getExamVipOne(examVipCoach
+														.getVipId());
+										bookinfo = innerinfo.getBookinfo();
+										ExamVipBookInfo examVipBookInfo = null;
+										for (ExamVipBookInfo bi : bookinfo) {
+											if (bi.getVipId() == examVip
+													.getId()) {
+												examVipBookInfo = bi;
+												break;
+											}
+										}
+										if (examVipBookInfo == null) {
+											examVipBookInfo = new ExamVipBookInfo();
+											examVipBookInfo.setC1(examVip
+													.getC1count());
+											examVipBookInfo.setC1book(0);
+											examVipBookInfo.setC2(examVip
+													.getC2count());
+											examVipBookInfo.setC2book(0);
+											examVipBookInfo.setVipId(examVip
+													.getId());
+											innerinfo.getBookinfo().add(
+													examVipBookInfo);
+										}
+
+										examVipBookInfo
+												.setC1book(examVipBookInfo
+														.getC1book() + 1);
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2）增加位置使用
+										cls.setC1book(cls.getC1book() + 1);
+										cls.setC1bookInner(cls.getC1bookInner() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
+									} else {
+										if (cls.getC2() <= cls.getC2book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										ExamVip examVip = examVipManagerImpl
+												.getExamVipOne(examVipCoach
+														.getVipId());
+										bookinfo = innerinfo.getBookinfo();
+										ExamVipBookInfo examVipBookInfo = null;
+										for (ExamVipBookInfo bi : bookinfo) {
+											if (bi.getVipId() == examVip
+													.getId()) {
+												examVipBookInfo = bi;
+												break;
+											}
+										}
+										if (examVipBookInfo == null) {
+											examVipBookInfo = new ExamVipBookInfo();
+											examVipBookInfo.setC1(examVip
+													.getC1count());
+											examVipBookInfo.setC1book(0);
+											examVipBookInfo.setC2(examVip
+													.getC2count());
+											examVipBookInfo.setC2book(0);
+											examVipBookInfo.setVipId(examVip
+													.getId());
+											innerinfo.getBookinfo().add(
+													examVipBookInfo);
+										}
+
+										examVipBookInfo
+												.setC2book(examVipBookInfo
+														.getC2book() + 1);
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2.1）增加位置使用
+										cls.setC2book(cls.getC2book() + 1);
+										cls.setC2bookInner(cls.getC2bookInner() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
 									}
-									if(examVipBookInfo==null){
-										examVipBookInfo=new ExamVipBookInfo();
-										examVipBookInfo.setC1(examVip.getC1count());
-										examVipBookInfo.setC1book(0);
-										examVipBookInfo.setC2(examVip.getC2count());
-										examVipBookInfo.setC2book(0);
-										examVipBookInfo.setVipId(examVip.getId());
-										innerinfo.getBookinfo().add(examVipBookInfo);
+								} else { // 内部预留没实效
+									if (isC1) {
+
+										// （1）检查排班空位情况 内部教练-预留有效-c1
+										if (cls.getC1inner() <= cls
+												.getC1bookInner()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										ExamVip examVip = examVipManagerImpl
+												.getExamVipOne(examVipCoach
+														.getVipId());
+										bookinfo = innerinfo.getBookinfo();
+										ExamVipBookInfo examVipBookInfo = null;
+										for (ExamVipBookInfo bi : bookinfo) {
+											if (bi.getVipId() == examVip
+													.getId()) {
+												examVipBookInfo = bi;
+												break;
+											}
+										}
+										if (examVipBookInfo == null) {
+											examVipBookInfo = new ExamVipBookInfo();
+											examVipBookInfo.setC1(examVip
+													.getC1count());
+											examVipBookInfo.setC1book(0);
+											examVipBookInfo.setC2(examVip
+													.getC2count());
+											examVipBookInfo.setC2book(0);
+											examVipBookInfo.setVipId(examVip
+													.getId());
+											innerinfo.getBookinfo().add(
+													examVipBookInfo);
+										}
+
+										if (examVipBookInfo.getC1() <= examVipBookInfo
+												.getC1book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										examVipBookInfo
+												.setC1book(examVipBookInfo
+														.getC1book() + 1);
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+										// （2）增加位置使用
+										cls.setC1book(cls.getC1book() + 1);
+										cls.setC1bookInner(cls.getC1bookInner() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
+									} else {// c2
+										if (cls.getC2inner() <= cls
+												.getC2bookInner()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										ExamVip examVip = examVipManagerImpl
+												.getExamVipOne(examVipCoach
+														.getVipId());
+										bookinfo = innerinfo.getBookinfo();
+										ExamVipBookInfo examVipBookInfo = null;
+										for (ExamVipBookInfo bi : bookinfo) {
+											if (bi.getVipId() == examVip
+													.getId()) {
+												examVipBookInfo = bi;
+												break;
+											}
+										}
+										if (examVipBookInfo == null) {
+											examVipBookInfo = new ExamVipBookInfo();
+											examVipBookInfo.setC1(examVip
+													.getC1count());
+											examVipBookInfo.setC1book(0);
+											examVipBookInfo.setC2(examVip
+													.getC2count());
+											examVipBookInfo.setC2book(0);
+											examVipBookInfo.setVipId(examVip
+													.getId());
+											innerinfo.getBookinfo().add(
+													examVipBookInfo);
+										}
+
+										if (examVipBookInfo.getC2() <= examVipBookInfo
+												.getC2book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										examVipBookInfo
+												.setC2book(examVipBookInfo
+														.getC2book() + 1);
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2.1）增加位置使用
+										cls.setC2book(cls.getC2book() + 1);
+										cls.setC2bookInner(cls.getC2bookInner() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
 									}
-									
-									
-									
-									if(examVipBookInfo.getC2()<=examVipBookInfo.getC2book()){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
+
+								}
+							} else { // 外部教练
+								if (isExpire) { // 内部预留已失效
+									if (isC1) { // c1
+										// （1）检查排班空位情况
+										if (cls.getC1() <= cls.getC1book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2）增加位置使用
+										cls.setC1book(cls.getC1book() + 1);
+										cls.setC1bookOuter(cls.getC1bookOuter() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
+									} else { // c2
+										if (cls.getC2() <= cls.getC2book()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2.1）增加位置使用
+										cls.setC2book(cls.getC2book() + 1);
+										cls.setC2bookOuter(cls.getC2bookOuter() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
 									}
-									
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
+								} else { // 内部预留有效
+									if (isC1) { // c1
+										// （1）检查排班空位情况
+										if (cls.getC1outer() <= cls
+												.getC1bookOuter()) { // 外部空位已排满，则不能继续排
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+
+										// （2）增加位置使用
+										cls.setC1book(cls.getC1book() + 1);
+										cls.setC1bookOuter(cls.getC1bookOuter() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
+									} else { // c2
+										if (cls.getC2outer() <= cls
+												.getC2bookOuter()) {
+											res.setCode(ResultCode.ERRORCODE.FAILED);
+											res.setMsgInfo("排班已约满，无法再预约！");
+											return res;
+										}
+
+										List<ExamVipBookInfo> bookinfo = null;
+
+										// 获取排版当前的大客户预定情况
+										String innerinfostr = cls
+												.getInnerinfo();
+										ExamInnerInfo innerinfo = null;
+										if (innerinfostr != null
+												&& innerinfostr.length() > 0)
+											innerinfo = JSON.parseObject(
+													innerinfostr,
+													ExamInnerInfo.class);
+										if (innerinfo != null) {
+
+										} else {
+											// 初始化一个对象进行保存
+											innerinfo = new ExamInnerInfo();
+										}
+
+										cls.setInnerinfo(JSON
+												.toJSONString(innerinfo));
+										// （2.1）增加位置使用
+										cls.setC2book(cls.getC2book() + 1);
+										cls.setC2bookOuter(cls.getC2bookOuter() + 1);
+										// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
+										// examPlaceClassManager.updateExamPlaceClass(cls);
+										updateExamPlaceClass(cls);
+
+										String carlist = eexamCarDate
+												.getCarlist();
+										List<ExamCarState> cars = JSON
+												.parseArray(carlist,
+														ExamCarState.class);
+										for (ExamCarState car : cars) {
+											if (car.getCarno().equals(carno)) {
+												String newbitmap = changeCarBitmap(
+														cls, car);
+												car.setBitmap(newbitmap);
+												break;
+											}
+										}
+										eexamCarDate.setCarlist(JSON
+												.toJSONString(cars));
+										this.updateExamCarDate(eexamCarDate,
+												Integer.parseInt(placeId));
+
+										// （3）生成订单
+										Car car = new Car();
+										car.setCarNo(carno);
+										ExamPlaceOrder genData = genExamPlaceOrderSyn(
+												orderId, ep, cls, coach,
+												drtype, isInner, car, favorGen);
+										favorGen = favorGen
+												+ genData.getFavorGen();
+										duration = duration
+												+ genData.getDuration();
+										orderData.add(genData);
 									}
-									
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									examVipBookInfo.setC2book(examVipBookInfo.getC2book()+1);
-									
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2.1）增加位置使用
-									cls.setC2book(cls.getC2book() + 1);
-									cls.setC2bookInner(cls.getC2bookInner() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
 								}
 
 							}
-						} else { // 外部教练
-							if (isExpire) { // 内部预留已失效
-								if (isC1) { // c1
-									// （1）检查排班空位情况
-									if (cls.getC1() <= cls.getC1book()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2）增加位置使用
-									cls.setC1book(cls.getC1book() + 1);
-									cls.setC1bookOuter(cls.getC1bookOuter() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
-								} else { // c2
-									if (cls.getC2() <= cls.getC2book()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2.1）增加位置使用
-									cls.setC2book(cls.getC2book() + 1);
-									cls.setC2bookOuter(cls.getC2bookOuter() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
-								}
-							} else { // 内部预留有效
-								if (isC1) { // c1
-									// （1）检查排班空位情况
-									if (cls.getC1outer() <= cls
-											.getC1bookOuter()) { // 外部空位已排满，则不能继续排
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									
-									// （2）增加位置使用
-									cls.setC1book(cls.getC1book() + 1);
-									cls.setC1bookOuter(cls.getC1bookOuter() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
-								} else { // c2
-									if (cls.getC2outer() <= cls
-											.getC2bookOuter()) {
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("排班已约满，无法再预约！");
-										return res;
-									}
-									
-									List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());;
-									List<String> bookcars=null;
-									List<ExamVipBookInfo> bookinfo=null;
-									
-									//获取排版当前的大客户预定情况
-									String innerinfostr=cls.getInnerinfo();
-				    				ExamInnerInfo innerinfo=null;
-				    				if(innerinfostr!=null&&innerinfostr.length()>0)
-				    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-									if(innerinfo!=null){
-										bookcars=innerinfo.getBookcar();
-									}else{
-										//初始化一个对象进行保存
-										innerinfo=new ExamInnerInfo();
-									}
-									//获取一辆空闲车
-									Car car=pickcar(allcars,bookcars,drtype);
-									
-									if(car==null){
-										res.setCode(ResultCode.ERRORCODE.FAILED);
-										res.setMsgInfo("车辆已经约满，无法再预约！");
-										return res;
-									}
-									//添加一辆预定车到列表
-									innerinfo.getBookcar().add(car.getCarNo());
-									cls.setInnerinfo(JSON.toJSONString(innerinfo));
-									// （2.1）增加位置使用
-									cls.setC2book(cls.getC2book() + 1);
-									cls.setC2bookOuter(cls.getC2bookOuter() + 1);
-									// examPlaceClassMapper.updateByPrimaryKeySelective(cls);
-									//examPlaceClassManager.updateExamPlaceClass(cls);
-									updateExamPlaceClass(cls);
-									// （3）生成订单
-									ExamPlaceOrder genData = genExamPlaceOrderSyn(
-											orderId, ep, cls, coach, drtype,
-											isInner, car, favorGen);
-									favorGen = favorGen + genData.getFavorGen();
-									duration = duration + genData.getDuration();
-									orderData.add(genData);
-								}
-							}
+							// redisUtil.delete(RedisKeys.REDISKEY.LOCK_PRE +
+							// "placeOrder." + clses[i]);
 
 						}
-						// redisUtil.delete(RedisKeys.REDISKEY.LOCK_PRE +
-						// "placeOrder." + clses[i]);
-					} else {
-						log.debug("Good-->got no lock!" + Thread.currentThread().getName() 
-								+";current classId=" + clses[i] 
-										+";current userId=" + userId
-										+";current time=" + System.currentTimeMillis());
-						res.setCode(ResultCode.ERRORCODE.ORDER_LOCK);
-						res.setMsgInfo("当前车道已有教练正在排队，请稍后再试！");
-						// 20161108 争抢坑位的时候，坑位忙则直接返回，让用户重新发起
-						return res;
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					if (lock != null) {
-						try {
-							lock.unlock();
-							log.debug("Good-->now unlock!" + Thread.currentThread().getName() 
-									+";current classId=" + clses[i] 
-											+";current userId=" + userId
-											+";current time=" + System.currentTimeMillis());
-						} catch (Exception e) {
-						}
+					
+					for(ExamPlaceOrder order:orderData){
+						payTotal+=order.getPayTotal();
 					}
-					// redisUtil.delete(RedisKeys.REDISKEY.LOCK_PRE +
-					// "placeOrder." + clses[i]);
+					
+					ExamPlacePayOrder examPlacePayOrder=new ExamPlacePayOrder();
+					examPlacePayOrder.setPayorderId(payorderid);
+					examPlacePayOrder.setCtime(new Date());
+					examPlacePayOrder.setPayTotal(payTotal);
+					examPlacePayOrder.setDuration(duration);
+					examPlacePayOrder.setCoachId(Integer.parseInt(userId));
+					examPlacePayOrder.setCoachMobile(coach.getPhoneNum());
+					examPlacePayOrder.setCoachName(coach.getName());
+					examPayMapper.insert(examPlacePayOrder);
+					
+				} else {
+					log.debug("Good-->got no lock!"
+							+ Thread.currentThread().getName()
+							+ ";current placeId=" + placeId
+							+ ";current userId=" + userId + ";current time="
+							+ System.currentTimeMillis());
+					res.setCode(ResultCode.ERRORCODE.ORDER_LOCK);
+					res.setMsgInfo("当前车道已有教练正在排队，请稍后再试！");
+					// 20161108 争抢坑位的时候，坑位忙则直接返回，让用户重新发起
+					return res;
 				}
-
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (lock != null) {
+					try {
+						lock.unlock();
+						log.debug("Good-->now unlock!"
+								+ Thread.currentThread().getName()
+								+ ";current placeId=" + placeId
+								+ ";current userId=" + userId
+								+ ";current time=" + System.currentTimeMillis());
+					} catch (Exception e) {
+					}
+				}
+				// redisUtil.delete(RedisKeys.REDISKEY.LOCK_PRE +
+				// "placeOrder." + clses[i]);
 			}
 			// 增加本批订单所生成的优惠 //20160926改为订单完成后才赠送
 			// ExamPlaceFavorKey key = new ExamPlaceFavorKey();
@@ -1563,28 +2042,28 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		}
 		return res;
 	}
-	
-	private Car pickcar(List<Car> allcars,List<String> book,String drtype){
-		for(Car car:allcars){
-			if(car.getDriveType().intValue()!=Integer.parseInt(drtype)){//c1,c2不匹配
+
+	private Car pickcar(List<Car> allcars, List<String> book, String drtype) {
+		for (Car car : allcars) {
+			if (car.getDriveType().intValue() != Integer.parseInt(drtype)) {// c1,c2不匹配
 				continue;
 			}
-			boolean hasbook=false;
-			if(book!=null){
-				for(String carno:book){
-					if(car.getCarNo().equals(carno)){
-						hasbook=true;
+			boolean hasbook = false;
+			if (book != null) {
+				for (String carno : book) {
+					if (car.getCarNo().equals(carno)) {
+						hasbook = true;
 						break;
 					}
 				}
 			}
-			
-			if(!hasbook){//没有被使用
+
+			if (!hasbook) {// 没有被使用
 				return car;
 			}
 		}
-		
-		//没有空闲车辆
+
+		// 没有空闲车辆
 		return null;
 	}
 
@@ -1621,37 +2100,41 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			order.setOrderId(orderId);
 			order.setPlaceId(ep.getId());
 			order.setPlaceName(ep.getName());
-			//获取进考场当天不重复的6位随机数
+			// 获取进考场当天不重复的6位随机数
 			Integer code = null;
 			boolean flag = false;
-			String pstart = new SimpleDateFormat("yyyy-MM-dd").format(cls.getPstart());
+			String pstart = new SimpleDateFormat("yyyy-MM-dd").format(cls
+					.getPstart());
 			while (!flag) {
 				code = RandomUtil.next(100000, 999999);
-				flag = redisUtil.setNX(RedisKeys.REDISKEY.EXAM_PLACE_CODE + pstart + "." + code , code, 
-				(int)(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pstart + " 23:59:59").getTime() - new Date().getTime() / 1000));
+				flag = redisUtil
+						.setNX(RedisKeys.REDISKEY.EXAM_PLACE_CODE + pstart
+								+ "." + code,
+								code,
+								(int) (new SimpleDateFormat(
+										"yyyy-MM-dd HH:mm:ss").parse(
+										pstart + " 23:59:59").getTime() - new Date()
+										.getTime() / 1000));
 			}
 			order.setCode(code);
 			// 20161107 驾校教练有异常数据
-/*			if (null != coach.getImportSrc()
-					&& !"".equals(coach.getImportSrc())) {
-				order.setSchool(coach.getImportSrc());
-			} else {
-				if (isInner) {
-					order.setSchool(getSchoolInWhitelist(coach.getPhoneNum()));
-				} else {
-					order.setSchool("未知驾校");
-				}
-			}*/
+			/*
+			 * if (null != coach.getImportSrc() &&
+			 * !"".equals(coach.getImportSrc())) {
+			 * order.setSchool(coach.getImportSrc()); } else { if (isInner) {
+			 * order.setSchool(getSchoolInWhitelist(coach.getPhoneNum())); }
+			 * else { order.setSchool("未知驾校"); } }
+			 */
 			// 20161122驾校教练很多离职和转驾校的，系统同步的数据不准确，以白名单中驾校数据为准
 			if (isInner) {
 				order.setSchool(getSchoolInWhitelist(coach.getPhoneNum()));
 			} else if (null != coach.getImportSrc()
 					&& !"".equals(coach.getImportSrc())) {
 				order.setSchool(coach.getImportSrc());
-			}else {
+			} else {
 				order.setSchool("未知驾校");
 			}
-			
+
 			order.setType(Byte.valueOf(ep.getType())); // 科目类型从哪里取？？
 			order.setState((byte) 0);
 			order.setPstart(cls.getPstart());
@@ -1676,14 +2159,16 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				// 不优惠
 			} else {
 				ExamPlaceFavor favor = examPlaceFavorMapper
-						.selectByPrimaryKey(key); //获取考场配置的优惠信息
+						.selectByPrimaryKey(key); // 获取考场配置的优惠信息
 				if (null != favor) {
-					int getFavorOut = 0; //送的学时。和金额单位一致，乘了100
+					int getFavorOut = 0; // 送的学时。和金额单位一致，乘了100
 					if (favorType == 1) { // 1-返课时；2-返金额',//不管是哪种优惠，单位都统一了
-						getFavorOut = favor.getFavorOut(); //赠送的优惠课时
+						getFavorOut = favor.getFavorOut(); // 赠送的优惠课时
 
 						int course = getFavorOut / 100;// 已有的优惠课时
-						if (course >= 2) { // 20160922 cls.getFavorIn() FlavorIn为累计几个小时才优惠的条件 要求优惠满2小时才可以使用
+						if (course >= 2) { // 20160922 cls.getFavorIn()
+											// FlavorIn为累计几个小时才优惠的条件
+											// 要求优惠满2小时才可以使用
 							// 本次有可使用的优惠
 							favorUse = cls.getFavorIn() * 100; // 每次组多抵扣2小时
 							favor.setFavorOut(getFavorOut - favorUse); // 只减去已使用的。增加的在全部订单生成后再一起增加，避免同批订单消费同批生成的优惠。
@@ -1698,28 +2183,31 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						order.setFavorUse(favorUse);
 						order.setFavorLeft(getFavorOut + favorGen + fg); // 获赠的学时总计为库中剩余+本次生成+与同批订单生成的优惠s
 					} else if (favorType == 2) {
-						//在完成训练订单时返金额到教练账户
-//						getFavorOut = favor.getFavorOut2();
-//
-//						int money = getFavorOut;// 已有的优惠金额，单位分
-//						if (money >= 2) { // 20161114 按课时计算
-//															// 要求优惠满400元才可以使用
-//							// 本次有可使用的优惠
-//							favorUse = cls.getFavorIn(); // 单位统一了，都是分
-//							favor.setFavorOut(getFavorOut - favorUse); // 只减去已使用的。增加的在全部订单生成后再一起增加，避免同批订单消费同批生成的优惠。
-//							examPlaceFavorMapper.updateByPrimaryKeySelective(favor);
-//						} else {
-//							// 本次没有可使用的优惠
-//							// 20161010 只有未使用优惠券的订单，才发放优惠
-//							favorGen = (cls.getDuration() * cls.getOuterPrice() / cls
-//									.getFavorIn()) * cls.getFavorOut(); // 50=
-//																		// (2 *
-//																		// 20000/40000)*
-//																		// 10000
-//						}
+						// 在完成训练订单时返金额到教练账户
+						// getFavorOut = favor.getFavorOut2();
+						//
+						// int money = getFavorOut;// 已有的优惠金额，单位分
+						// if (money >= 2) { // 20161114 按课时计算
+						// // 要求优惠满400元才可以使用
+						// // 本次有可使用的优惠
+						// favorUse = cls.getFavorIn(); // 单位统一了，都是分
+						// favor.setFavorOut(getFavorOut - favorUse); //
+						// 只减去已使用的。增加的在全部订单生成后再一起增加，避免同批订单消费同批生成的优惠。
+						// examPlaceFavorMapper.updateByPrimaryKeySelective(favor);
+						// } else {
+						// // 本次没有可使用的优惠
+						// // 20161010 只有未使用优惠券的订单，才发放优惠
+						// favorGen = (cls.getDuration() * cls.getOuterPrice() /
+						// cls
+						// .getFavorIn()) * cls.getFavorOut(); // 50=
+						// // (2 *
+						// // 20000/40000)*
+						// // 10000
+						// }
 					}
-//					order.setFavorUse(favorUse);
-//					order.setFavorLeft(getFavorOut + favorGen + fg); // 获赠的学时总计为库中剩余+本次生成+与同批订单生成的优惠
+					// order.setFavorUse(favorUse);
+					// order.setFavorLeft(getFavorOut + favorGen + fg); //
+					// 获赠的学时总计为库中剩余+本次生成+与同批订单生成的优惠
 				} else {
 					// 20161010 只有未使用优惠券的订单，才发放优惠
 					favorGen = (cls.getDuration() / cls.getFavorIn())
@@ -1734,14 +2222,15 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			if (favorType == 0) {
 				order.setRemark("您已预约考场成功，请准时到场。考场资源有限，取消预约请谨慎。");
 			} else if (favorType == 1) {
-//				order.setRemark("本次约考获得" + ep.getName() + "赠送" + favorGen
-//						/ 100.00 + "个小时，获赠满" + cls.getFavorIn()
-//						+ "个小时可以抵扣下次约考费用，考场资源有限，取消预约请谨慎。");
+				// order.setRemark("本次约考获得" + ep.getName() + "赠送" + favorGen
+				// / 100.00 + "个小时，获赠满" + cls.getFavorIn()
+				// + "个小时可以抵扣下次约考费用，考场资源有限，取消预约请谨慎。");
 				order.setRemark("本次预约将获得该考场赠送的" + favorGen / 100.00 + "小时练考时间");
 			} else if (favorType == 2) {
-				//计算返金额的额度
+				// 计算返金额的额度
 				int returnMoney = cls.getDuration() * cls.getFavorOut();
-				order.setRemark("本次预约将获得" +  returnMoney / 100.00 + "元返现，订单完成后会发放到钱包");
+				order.setRemark("本次预约将获得" + returnMoney / 100.00
+						+ "元返现，订单完成后会发放到钱包");
 				order.setReturnTotal(returnMoney);
 			}
 
@@ -1760,10 +2249,10 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			order.setExtra(cls.getC1book() + "-" + cls.getC2book() + '-'
 					+ (cls.getC1book() + cls.getC2book()));
 			examPlaceOrderMapper.insertSelective(order);
-			log.debug("Good-->order created!" + Thread.currentThread().getName() 
-					+";current classId=" + cls.getId() 
-							+";current userId=" + order.getCoachId()
-							+";current time=" + System.currentTimeMillis());
+			log.debug("Good-->order created!"
+					+ Thread.currentThread().getName() + ";current classId="
+					+ cls.getId() + ";current userId=" + order.getCoachId()
+					+ ";current time=" + System.currentTimeMillis());
 			return order;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1832,20 +2321,23 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						if (hour >= 12) {
 							// 退款返全额
 							needPayBack = true;
-							ratio = 1.0;							
+							ratio = 1.0;
 							order.setRefundTotal(order.getPayTotal());
-							order.setRemark("订单取消成功,退款" + (order.getRefundTotal()/ 100.00) + "元");
-							
+							order.setRemark("订单取消成功,退款"
+									+ (order.getRefundTotal() / 100.00) + "元");
+
 						} else {
 							// 退款返80%
 							needPayBack = true;
 							ratio = Double.parseDouble(exam_refund_ratio);
 							int payTotal = order.getPayTotal();
-							//退款金额
+							// 退款金额
 							int refundTotal = (int) (payTotal * ratio);
 							order.setRefundTotal(refundTotal);
-							order.setRemark("订单取消成功,退款" + (refundTotal / 100.00) + "元,收取取消订单手续费" +
-									((payTotal - refundTotal) / 100.00) + "元,退款比例为:" + ratio);
+							order.setRemark("订单取消成功,退款"
+									+ (refundTotal / 100.00) + "元,收取取消订单手续费"
+									+ ((payTotal - refundTotal) / 100.00)
+									+ "元,退款比例为:" + ratio);
 						}
 
 					} else if (order.getState() == 2 || order.getState() == 3) {
@@ -1856,43 +2348,54 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						res.setCode(ResultCode.ERRORCODE.EXCEPTION);
 						res.setMsgInfo("该订单已取消或已关闭，不允许重复取消！");
 						return res;
-					} else { //未付款
+					} else { // 未付款
 						order.setRemark("用户取消了订单！");
 					}
 					// （2.1）取消订单
 					order.setState((byte) 4); // 订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
 					order.setFavorGen(0);
 					order.setMtime(new Date());
-					//order.setPayTotal(order.getPriceTotal()Total() - order.getCouponTotal()); //更新实际支付的金额
+					// order.setPayTotal(order.getPriceTotal()Total() -
+					// order.getCouponTotal()); //更新实际支付的金额
 					updateExamPlaceOrder(order);
 					// （2.2）恢复订单所占空位 为了快速扫描，可异步执行！
-					ExamPlaceClass cls = getExamPlaceClassOne(order.getClassId());
+					ExamPlaceClass cls = getExamPlaceClassOne(order
+							.getClassId());
 					if (order.getDrtype() == 1) { // 练考车型：1-C1；2-C2
 						cls.setC1book(cls.getC1book() - 1);
 						if (order.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
 							cls.setC1bookInner(cls.getC1bookInner() - 1);
-							
-							String innerinfostr=cls.getInnerinfo();
-		    				ExamInnerInfo innerinfo=null;
-		    				if(innerinfostr!=null&&innerinfostr.length()>0)
-		    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-							if(innerinfo!=null){
-			    				innerinfo.getBookcar().remove(order.getCarNo());
-	
-								ExamPlace ep = getExamPlaceById(order.getPlaceId());
-								ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(order.getCoachMobile(), ep.getSchoolId());
-								List<ExamVipBookInfo> bookinfo=innerinfo.getBookinfo();
-								ExamVipBookInfo examVipBookInfo=null;
-								for(ExamVipBookInfo bi:bookinfo){
-									if(bi.getVipId()==examVipCoach.getVipId()){
-										examVipBookInfo=bi;
+
+							String innerinfostr = cls.getInnerinfo();
+							ExamInnerInfo innerinfo = null;
+							if (innerinfostr != null
+									&& innerinfostr.length() > 0)
+								innerinfo = JSON.parseObject(innerinfostr,
+										ExamInnerInfo.class);
+							if (innerinfo != null) {
+								innerinfo.getBookcar().remove(order.getCarNo());
+
+								ExamPlace ep = getExamPlaceById(order
+										.getPlaceId());
+								ExamVipCoach examVipCoach = examVipManagerImpl
+										.getExamVipCoach(
+												order.getCoachMobile(),
+												ep.getSchoolId());
+								List<ExamVipBookInfo> bookinfo = innerinfo
+										.getBookinfo();
+								ExamVipBookInfo examVipBookInfo = null;
+								for (ExamVipBookInfo bi : bookinfo) {
+									if (bi.getVipId() == examVipCoach
+											.getVipId()) {
+										examVipBookInfo = bi;
 										break;
 									}
 								}
-								examVipBookInfo.setC1book(examVipBookInfo.getC1book()-1);
+								examVipBookInfo.setC1book(examVipBookInfo
+										.getC1book() - 1);
 								cls.setInnerinfo(JSON.toJSONString(innerinfo));
 							}
-							
+
 						} else {
 							cls.setC1bookOuter(cls.getC1bookOuter() - 1);
 						}
@@ -1900,36 +2403,43 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						cls.setC2book(cls.getC2book() - 1);
 						if (order.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
 							cls.setC2bookInner(cls.getC2bookInner() - 1);
-							
-							String innerinfostr=cls.getInnerinfo();
-		    				ExamInnerInfo innerinfo=null;
-		    				if(innerinfostr!=null&&innerinfostr.length()>0)
-		    					innerinfo= JSON.parseObject(innerinfostr, ExamInnerInfo.class);
-		    				if(innerinfo!=null){
+
+							String innerinfostr = cls.getInnerinfo();
+							ExamInnerInfo innerinfo = null;
+							if (innerinfostr != null
+									&& innerinfostr.length() > 0)
+								innerinfo = JSON.parseObject(innerinfostr,
+										ExamInnerInfo.class);
+							if (innerinfo != null) {
 								innerinfo.getBookcar().remove(order.getCarNo());
-	
-								ExamPlace ep = getExamPlaceById(order.getPlaceId());
-								ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(order.getCoachMobile(), ep.getSchoolId());
-								List<ExamVipBookInfo> bookinfo=innerinfo.getBookinfo();
-								ExamVipBookInfo examVipBookInfo=null;
-								for(ExamVipBookInfo bi:bookinfo){
-									if(bi.getVipId()==examVipCoach.getVipId()){
-										examVipBookInfo=bi;
+
+								ExamPlace ep = getExamPlaceById(order
+										.getPlaceId());
+								ExamVipCoach examVipCoach = examVipManagerImpl
+										.getExamVipCoach(
+												order.getCoachMobile(),
+												ep.getSchoolId());
+								List<ExamVipBookInfo> bookinfo = innerinfo
+										.getBookinfo();
+								ExamVipBookInfo examVipBookInfo = null;
+								for (ExamVipBookInfo bi : bookinfo) {
+									if (bi.getVipId() == examVipCoach
+											.getVipId()) {
+										examVipBookInfo = bi;
 										break;
 									}
 								}
-								examVipBookInfo.setC2book(examVipBookInfo.getC2book()-1);
-								
+								examVipBookInfo.setC2book(examVipBookInfo
+										.getC2book() - 1);
+
 								cls.setInnerinfo(JSON.toJSONString(innerinfo));
-		    				}
+							}
 						} else {
 							cls.setC2bookOuter(cls.getC2bookOuter() - 1);
 						}
 
 					}
-					
-					
-					
+
 					cls.setMtime(new Date());
 					updateExamPlaceClass(cls);
 					// （2.3）恢复所占优惠
@@ -1966,7 +2476,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	public List<ExamPlaceOrder> getExamPlaceOrder(String orderId) {
 		List<ExamPlaceOrder> data = new ArrayList<ExamPlaceOrder>();
 		try {
-			if(null != orderId && !"".equals(orderId)){
+			if (null != orderId && !"".equals(orderId)) {
 				List<String> oIds = new ArrayList<String>();
 				String[] orders = orderId.split(",");
 				for (String a : orders) {
@@ -1974,7 +2484,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					// 20161114从缓存中一个个查
 					data.add(getExamPlaceOrderOne(a));
 				}
-			}else {
+			} else {
 				return null;
 			}
 			/*
@@ -2025,6 +2535,28 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 	}
 
+	@Override
+	public void postPayState(ExamPlacePayOrder payVo, byte stageStateSucc, Date endTime) {
+		
+		examPayMapper.update(payVo);
+
+		ExamPlaceOrder p=new ExamPlaceOrder();
+		p.setPayorderId(payVo.getPayorderId());
+		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
+		for(ExamPlaceOrder record:orders){
+			record.setPayTime(new Date());
+			record.setState((byte)1);
+			examPlaceOrderMapper.updateByPrimaryKeySelective(record);
+			// 清除订单缓存
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
+					+ record.getOrderId());
+		}
+		
+
+	}
+
+	
+	@Override
 	public void postPayState(String orderId, String payWay,
 			byte stageStateSucc, Date endTime) {
 		try {
@@ -2221,7 +2753,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			if (null != orderId && !"".equals(orderId.trim())) {
 				criteria.andOrderIdLike("%" + orderId + "%");
 			}
-			//criteria.multiColumnOrClause();
+			// criteria.multiColumnOrClause();
 			int total = examPlaceOrderMapper.countByExample(example);
 			example.setOrderByClause("drtype,school,pstart desc");
 
@@ -2261,7 +2793,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				criteria.andStateEqualTo(Byte.parseByte(state.trim()));
 			} else {
 				// 如果没有传订单状态，则查询去掉已取消的，免得太多了
-				//criteria.andStateNotEqualTo((byte) 4); // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+				// criteria.andStateNotEqualTo((byte) 4); //
+				// '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
 			}
 			if (null != userId && !"".equals(userId)) {
 				criteria.andCoachIdEqualTo(Long.parseLong(userId));
@@ -2351,22 +2884,25 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	public void updateExamPlaceOrder(ExamPlaceOrder record) {
 		try {
 			record.setMtime(new Date());
-/*			redisUtil.setAll(
-					RedisKeys.REDISKEY.EXAM_PLACE_ORDER + record.getOrderId(),
-					record, RedisKeys.EXPIRE.WEEK); // 写表 与 写缓存 顺序是否需要调整？
-*/			examPlaceOrderMapper.updateByPrimaryKeySelective(record);
-			//清除订单缓存
-			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER + record.getOrderId());
+			/*
+			 * redisUtil.setAll( RedisKeys.REDISKEY.EXAM_PLACE_ORDER +
+			 * record.getOrderId(), record, RedisKeys.EXPIRE.WEEK); // 写表 与 写缓存
+			 * 顺序是否需要调整？
+			 */examPlaceOrderMapper.updateByPrimaryKeySelective(record);
+			// 清除订单缓存
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
+					+ record.getOrderId());
 			ExamPlaceOrder order = getExamPlaceOrderOne(record.getOrderId());
-			//清除是否已约课缓存
-			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_CLASS_BOOK +order.getClassId() + "." 
-			+ order.getCoachId() + "." + order.getDrtype());
+			// 清除是否已约课缓存
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_CLASS_BOOK
+					+ order.getClassId() + "." + order.getCoachId() + "."
+					+ order.getDrtype());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	//************************************************************************************************************
+	// ************************************************************************************************************
 	// 20161115为避免服务间调用的消耗，部分代码冗余
 	/**
 	 * 用户是否在白名单内。白名单教练属于内部教练，享受内部价格
@@ -2422,15 +2958,135 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 		return ep;
 	}
-	
+
+	private String changeCarBitmap(ExamPlaceClass vo, ExamCarState car) {
+		Date d0 = vo.getPstart();
+		Date d1 = vo.getPend();
+		int hour = d0.getHours();
+		int bindex = hour * 2 + 1;
+		int minute = d0.getMinutes();
+		if (minute == 30)
+			bindex++;
+
+		hour = d1.getHours();
+		int eindex = hour * 2 + 1;
+		minute = d1.getMinutes();
+		if (minute == 30)
+			eindex++;
+		int i = 1;
+		StringBuilder builder = new StringBuilder();
+		while (i < bindex) {
+			builder.append("0");
+			i++;
+		}
+		while (i >= bindex && i <= eindex) {
+			builder.append("1");
+		}
+		while (i <= 48) {
+			builder.append("0");
+		}
+		return Long.toBinaryString(Long.parseLong(builder.toString(), 2)
+				| Long.parseLong(car.getBitmap()));
+	}
+
+	private String changeClassBitmap(ExamPlaceClass vo) {
+		Date d0 = vo.getPstart();
+		Date d1 = vo.getPend();
+		int hour = d0.getHours();
+		int bindex = hour * 2 + 1;
+		int minute = d0.getMinutes();
+		if (minute == 30)
+			bindex++;
+
+		hour = d1.getHours();
+		int eindex = hour * 2 + 1;
+		minute = d1.getMinutes();
+		if (minute == 30)
+			eindex++;
+		int i = 1;
+		StringBuilder builder = new StringBuilder();
+		while (i < bindex) {
+			builder.append("0");
+			i++;
+		}
+		while (i >= bindex && i <= eindex) {
+			builder.append("1");
+		}
+		while (i <= 48) {
+			builder.append("0");
+		}
+		return builder.toString();
+	}
+
+	private ExamCarDate getExamCarDate(Integer placeId, int schoolId,
+			String date) {
+		ExamCarDate ep = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE
+				+ placeId + "." + date);
+		if (null == ep) {
+			ExamCarDate examCarDate = new ExamCarDate();
+			examCarDate.setSchoolId(schoolId);
+			examCarDate.setDate(date);
+			ep = examCarDateMapper.selectByDate(examCarDate);
+			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId
+					+ "." + date, ep, RedisKeys.EXPIRE.WEEK);
+		}
+
+		return ep;
+	}
+
+	public void updateExamCarDate(ExamCarDate record, Integer placeId) {
+
+		examCarDateMapper.updateExamCarDate(record);
+		redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId + "."
+				+ record.getDate());
+
+	}
+
+	String factor = "111111111111111111111111111111111111111111111111";
+
+	/**
+	 * 
+	 * @param vo
+	 * @param carState
+	 * @return 1 被使用, 0 空闲没被使用
+	 */
+	private int usedcar(String classbitmap, ExamCarState carState) {
+		long bitmap = Long.parseLong(carState.getBitmap(), 2)
+				^ Long.parseLong(factor, 2);
+		if (Long.toBinaryString((Long.parseLong(classbitmap, 2) & bitmap))
+				.equals(classbitmap))
+			return 0;
+		return 1;
+	}
+
+	private boolean isused(ExamCarDate eexamCarDate, String carno,
+			String classbitmap) {
+		String carlist = eexamCarDate.getCarlist();
+		List<ExamCarState> cars = JSON.parseArray(carlist, ExamCarState.class);
+		for (ExamCarState car : cars) {
+			if (car.getCarno().equals(carno)) {
+
+				int used = usedcar(classbitmap, car);
+				if (used == 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public int updateExamPlaceClass(ExamPlaceClass record) {
 		try {
 			record.setMtime(new Date());
-			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CLASS + record.getId(), record, RedisKeys.EXPIRE.WEEK); //写表 与 写缓存 顺序是否需要调整？
+			redisUtil.setAll(
+					RedisKeys.REDISKEY.EXAM_PLACE_CLASS + record.getId(),
+					record, RedisKeys.EXPIRE.WEEK); // 写表 与 写缓存 顺序是否需要调整？
 			examPlaceClassMapper.updateByPrimaryKeySelective(record);
-			//20161114有排班更新时，清除今天的排班查询
-			String dayStr = new SimpleDateFormat("yyyy-MM-dd").format(record.getPstart());
-			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_DAY + record.getPlaceId()+ "." + dayStr);
+			// 20161114有排班更新时，清除今天的排班查询
+			String dayStr = new SimpleDateFormat("yyyy-MM-dd").format(record
+					.getPstart());
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_DAY
+					+ record.getPlaceId() + "." + dayStr);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2438,7 +3094,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	}
 
 	@Override
-	public List <Integer> getExamPlaceIncome(Integer placeId) { 
+	public List<Integer> getExamPlaceIncome(Integer placeId) {
 		return examPlaceOrderMapper.selectIncome(placeId);
 	}
 
@@ -2446,7 +3102,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	public ReqResult validCode(Integer placeId, Integer code) {
 		ReqResult result = ReqResult.getSuccess();
 		result.setData("isValid", 0);
-		
+
 		ExamPlaceOrder order = new ExamPlaceOrder();
 		order.setCode(code);
 		order.setPlaceId(placeId);
@@ -2454,26 +3110,26 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		if (order == null) {
 			result.setMsgInfo("该验证码不存在");
 			return result;
-		} 
+		}
 		Date start = order.getPstart();
 		Date end = order.getPend();
-		String msg = "(" + new SimpleDateFormat("MM月dd日 HH:mm").format(start) + "-" 
-		+ new SimpleDateFormat("HH:mm").format(end) + "场次)";
+		String msg = "(" + new SimpleDateFormat("MM月dd日 HH:mm").format(start)
+				+ "-" + new SimpleDateFormat("HH:mm").format(end) + "场次)";
 		Date now = new Date();
 		if (order.getCodeValid() == 1) {
 			result.setMsgInfo("已验证" + msg);
-			result.setData("validTime",order.getValidTime());
+			result.setData("validTime", order.getValidTime());
 			return result;
 		}
-		if (now.before(new Date(start.getTime() - 1000 * 3 * 60 * 60))) { //当前时间在预约开始时间之前三小时验证有效
+		if (now.before(new Date(start.getTime() - 1000 * 3 * 60 * 60))) { // 当前时间在预约开始时间之前三小时验证有效
 			result.setMsgInfo("时间未到" + msg);
-		} else if (now.after(end)) { //当前时间在预约结束时间之后
+		} else if (now.after(end)) { // 当前时间在预约结束时间之后
 			result.setMsgInfo("已过期" + msg);
 		} else {
 			result.setData("isValid", 1);
 			ExamPlaceOrder updateBean = new ExamPlaceOrder();
 			updateBean.setOrderId(order.getOrderId());
-			updateBean.setCodeValid((byte)1);
+			updateBean.setCodeValid((byte) 1);
 			updateBean.setValidTime(new Date());
 			examPlaceOrderMapper.updateByPrimaryKeySelective(updateBean);
 			result.setMsgInfo("预约今天" + msg);
@@ -2484,6 +3140,63 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	@Override
 	public List<Integer> getExamPlaceOrder(Integer placeId) {
 		return examPlaceOrderMapper.selectOrderCount(placeId);
+	}
+
+	@Override
+	public List<ExamPlacePayOrder> getUnpayOrder() {
+		ExamPlacePayOrder examPlacePayOrder=new ExamPlacePayOrder();
+		examPlacePayOrder.setState(0);
+		Date now=new Date();
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(now);
+		calendar.add(Calendar.MINUTE, -5);
+		Date ctime=calendar.getTime();
+		examPlacePayOrder.setCtime(ctime);
+		List<ExamPlacePayOrder> orders=examPayMapper.select(examPlacePayOrder);
+		
+		return orders;
+	}
+
+	@Override
+	public void expireOrder(ExamPlacePayOrder order) {
+		order.setState(2);
+		order.setPayTime(new Date());
+		examPayMapper.update(order);
+		
+	}
+	
+	@Override
+	public void confirmOrder(ExamPlacePayOrder order) {
+		order.setState(1);
+		order.setPayTime(new Date());
+		examPayMapper.update(order);
+		
+	}
+	
+	@Override
+	public Page<ExamPlacePayOrder> getPayOrder(ExamPlacePayOrder p,String pageNo,String pageSize) {
+		int total = examPayMapper.count(p);
+		
+
+		int pNo = 1;
+		int pSize = 100;
+		if (StringUtil.isNotNullAndNotEmpty(pageNo)
+				&& StringUtil.isNotNullAndNotEmpty(pageSize)) {
+			pNo = Integer.parseInt(pageNo.trim());
+			if (pNo <= 0) {
+				pNo = 1;
+			}
+			pSize = Integer.parseInt(pageSize.trim());
+			if (pSize <= 0) {
+				pSize = 100;
+			}
+		}
+		RowBounds rowBounds = new RowBounds((pNo - 1) * pSize, pSize);// (offset,limit)
+
+		List<ExamPlacePayOrder> data=examPayMapper.list(p,rowBounds);
+		return new Page<ExamPlacePayOrder>(data, pNo, pSize, total);
+		
+		
 	}
 
 }

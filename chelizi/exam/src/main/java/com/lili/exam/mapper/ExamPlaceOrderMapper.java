@@ -38,4 +38,6 @@ public interface ExamPlaceOrderMapper {
     List<Integer> selectOrderCount(Integer placeId);
     
     ExamPlaceOrder selectCode(ExamPlaceOrder record);
+    
+    List<ExamPlaceOrder> selectByPayorderid(ExamPlaceOrder record);
 }

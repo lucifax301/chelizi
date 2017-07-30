@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamPayMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamPlacePayOrder" >
+    <result column="payorderId" property="payorderId" jdbcType="VARCHAR" />
+    <result column="placeId" property="placeId" jdbcType="INTEGER" />
+    <result column="coachId" property="coachId" jdbcType="INTEGER" />
+    <result column="coachName" property="coachName" jdbcType="VARCHAR" />
+    <result column="coachMobile" property="coachMobile" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="INTEGER" />
+    <result column="payTotal" property="payTotal" jdbcType="INTEGER" />
+    <result column="payTime" property="payTime" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="ctime" property="ctime" jdbcType="DATE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    payorderId, placeId,  coachId,coachName,coachMobile,duration,payTotal,payTime,state,ctime
+  </sql>
+  
+  <select id="count" parameterType="com.lili.exam.dto.ExamPlacePayOrder" resultType="java.lang.Integer" >
+    select count(*) from t_exam_place_pay_order where placeId=#{placeId}
+    
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_pay_order
+    where payorderId = #{payorderId}
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_pay_order
+    where placeId=#{placeId}
+    <if test="state !=null ">
+    	and state=#{state}
+    </if>
+    <if test="ctime !=null">
+    	and <![CDATA[ ctime<=#{ctime} ]]>
+    </if>
+  </select>
+  
+  <select id="list" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_pay_order
+    where placeId=#{placeId}
+    <if test="state !=null ">
+    	and state=#{state}
+    </if>
+    <if test="ctime !=null">
+    	and <![CDATA[ ctime<=#{ctime} ]]>
+    </if>
+    order by ctime desc
+  </select>
+  
+  <insert id="insert" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    insert into t_exam_place_pay_order (payorderId, placeId, coachId, 
+      coachName ,coachMobile,duration,payTotal,ctime
+      
+      )
+    values (#{payorderId}, #{placeId},  #{coachId}, 
+      #{coachName},#{coachMobile},#{duration},#{payTotal},now()
+      )
+  </insert>
+  
+  
+  <update id="update" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    update t_exam_place_pay_order
+    set payTime=#{payTime},state=#{state}
+    
+    where payorderId=#{payorderId}
+  </update>
+  
+  <update id="expire" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    update t_exam_place_pay_order
+    set payTime=#{payTime},state=2
+    
+    where payorderId=#{payorderId}  and state=0
+  </update>
+  
+</mapper>

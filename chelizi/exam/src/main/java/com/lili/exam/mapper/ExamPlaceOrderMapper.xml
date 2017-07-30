@@ -839,4 +839,13 @@
 			AND DATE(validTime) = curdate()
 	</select>
 	
+	<select id="selectByPayorderid" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			t_exam_place_order
+		WHERE
+			payorderId = #{payorderId}
+	</select>
+	
 </mapper>

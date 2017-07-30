@@ -84,11 +84,23 @@ public class ExamPlaceOrder implements Serializable {
     
     private Byte codeValid;
     
-    private Date validTime; 
+    private Date validTime;
+    
+    private String payorderId;
 
     private static final long serialVersionUID = 1L;
 
-    public String getOrderId() {
+    
+    
+    public String getPayorderId() {
+		return payorderId;
+	}
+
+	public void setPayorderId(String payorderId) {
+		this.payorderId = payorderId;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 

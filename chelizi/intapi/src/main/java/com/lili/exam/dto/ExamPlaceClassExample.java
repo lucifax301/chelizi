@@ -175,6 +175,11 @@ public class ExamPlaceClassExample {
             return (Criteria) this;
         }
 
+        public Criteria andTypeEqualTo(Integer value) {
+            addCriterion("type =", value, "type");
+            return (Criteria) this;
+        }
+        
         public Criteria andPlaceIdEqualTo(Integer value) {
             addCriterion("placeId =", value, "placeId");
             return (Criteria) this;
