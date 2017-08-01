@@ -159,8 +159,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				}
 				String carliststr=JSON.toJSONString(ecslist);
 				eexamCarDate.setCarlist(carliststr);
+				examCarDateMapper.insertExamCarDate(eexamCarDate);
 			}
-			examCarDateMapper.insertExamCarDate(eexamCarDate);
+			
 			
 			examPlaceClassMapper.insertSelective(record);
 			//20161114有新增排班时，清除今天的排班查询
@@ -565,9 +566,11 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		}
 		while(i>=bindex&&i<=eindex){
 			builder.append("1");
+			i++;
 		}
 		while(i<=48){
 			builder.append("0");
+			i++;
 		}
 		vo.setBitmap(builder.toString());
 	}

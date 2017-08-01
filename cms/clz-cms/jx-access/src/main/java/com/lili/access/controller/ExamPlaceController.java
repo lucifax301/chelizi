@@ -512,6 +512,7 @@ public class ExamPlaceController extends BaseController{
 			//@RequestParam String placeId,
 			@RequestParam String pdate
 			){
+		
 		ResponseMessage res = new ResponseMessage<>();
 		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {

@@ -2981,9 +2981,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		}
 		while (i >= bindex && i <= eindex) {
 			builder.append("1");
+			i++;
 		}
 		while (i <= 48) {
 			builder.append("0");
+			i++;
 		}
 		return Long.toBinaryString(Long.parseLong(builder.toString(), 2)
 				| Long.parseLong(car.getBitmap()));
@@ -3011,9 +3013,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		}
 		while (i >= bindex && i <= eindex) {
 			builder.append("1");
+			i++;
 		}
 		while (i <= 48) {
 			builder.append("0");
+			i++;
 		}
 		return builder.toString();
 	}
@@ -3161,16 +3165,28 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	public void expireOrder(ExamPlacePayOrder order) {
 		order.setState(2);
 		order.setPayTime(new Date());
+		//examPayMapper.update(order);
 		examPayMapper.update(order);
-		
+
+		ExamPlaceOrder p=new ExamPlaceOrder();
+		p.setPayorderId(order.getPayorderId());
+		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
+		for(ExamPlaceOrder record:orders){
+			record.setPayTime(new Date());
+			record.setState((byte)4);
+			examPlaceOrderMapper.cancel(record);
+			// 清除订单缓存
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
+					+ record.getOrderId());
+		}
 	}
 	
 	@Override
 	public void confirmOrder(ExamPlacePayOrder order) {
 		order.setState(1);
 		order.setPayTime(new Date());
-		examPayMapper.update(order);
-		
+		//examPayMapper.update(order);
+		this.postPayState(order, (byte)1, new Date());
 	}
 	
 	@Override

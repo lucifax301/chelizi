@@ -12,6 +12,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
     $s.c2 = 0;
     $s.c1inner = 0;
     $s.c2inner = 0;
+    $s.innerPrice=0;
 
 
     /*获取指定日期及之后若干天的排班情况和日期数据*/
@@ -40,8 +41,8 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             success:function(data){
                 $s.c1 = JSON.parse(data.result.c1);
                 $s.c2 = JSON.parse(data.result.c2);
-                $s.c1inner = JSON.parse(data.result.c1inner);
-                $s.c2inner = JSON.parse(data.result.c2inner);
+                //$s.c1inner = JSON.parse(data.result.c1inner);
+                //$s.c2inner = JSON.parse(data.result.c2inner);
                 $s.$apply();
             }
         });

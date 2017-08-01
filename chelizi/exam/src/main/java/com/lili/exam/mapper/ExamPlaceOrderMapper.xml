@@ -732,6 +732,134 @@
     </set>
     where orderId = #{orderId,jdbcType=VARCHAR}
   </update>
+  
+  <update id="cancel" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
+    update t_exam_place_order
+    <set >
+      <if test="classId != null" >
+        classId = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="placeId != null" >
+        placeId = #{placeId,jdbcType=INTEGER},
+      </if>
+      <if test="placeName != null" >
+        placeName = #{placeName,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="drtype != null" >
+        drtype = #{drtype,jdbcType=TINYINT},
+      </if>
+      <if test="coachId != null" >
+        coachId = #{coachId,jdbcType=BIGINT},
+      </if>
+      <if test="coachName != null" >
+        coachName = #{coachName,jdbcType=VARCHAR},
+      </if>
+      <if test="coachMobile != null" >
+        coachMobile = #{coachMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="coachImg != null" >
+        coachImg = #{coachImg,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        coachType = #{coachType,jdbcType=TINYINT},
+      </if>
+      <if test="carNo != null" >
+        carNo = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="favorUse != null" >
+        favorUse = #{favorUse,jdbcType=INTEGER},
+      </if>
+      <if test="favorGen != null" >
+        favorGen = #{favorGen,jdbcType=INTEGER},
+      </if>
+      <if test="favorLeft != null" >
+        favorLeft = #{favorLeft,jdbcType=INTEGER},
+      </if>
+      <if test="favorInfo != null" >
+        favorInfo = #{favorInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="favorType != null" >
+        favorType = #{favorType,jdbcType=INTEGER},
+      </if>
+      <if test="delay != null" >
+        delay = #{delay,jdbcType=INTEGER},
+      </if>
+      <if test="delayInfo != null" >
+        delayInfo = #{delayInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="priceTotal != null" >
+        priceTotal = #{priceTotal,jdbcType=INTEGER},
+      </if>
+      <if test="couponTotal != null" >
+        couponTotal = #{couponTotal,jdbcType=INTEGER},
+      </if>
+      <if test="returnTotal != null" >
+        returnTotal = #{returnTotal,jdbcType=INTEGER},
+      </if>
+      <if test="refundTotal != null" >
+        refundTotal = #{refundTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTotal != null" >
+        payTotal = #{payTotal,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        payTime = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payWay != null" >
+        payWay = #{payWay,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="pstart != null" >
+        pstart = #{pstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pend != null" >
+        pend = #{pend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rstart != null" >
+        rstart = #{rstart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rend != null" >
+        rend = #{rend,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null" >
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null" >
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+ 	  <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="codeValid != null" >
+        codeValid = #{codeValid,jdbcType=TINYINT},
+      </if>
+      <if test="validTime != null" >
+        validTime = #{validTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderId = #{orderId,jdbcType=VARCHAR} and state=0
+  </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceOrder" >
     update t_exam_place_order
     set classId = #{classId,jdbcType=INTEGER},

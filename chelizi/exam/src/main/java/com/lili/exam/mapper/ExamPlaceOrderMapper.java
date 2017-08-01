@@ -30,6 +30,8 @@ public interface ExamPlaceOrderMapper {
     int updateByExample(@Param("record") ExamPlaceOrder record, @Param("example") ExamPlaceOrderExample example);
 
     int updateByPrimaryKeySelective(ExamPlaceOrder record);
+    
+    int cancel(ExamPlaceOrder record);
 
     int updateByPrimaryKey(ExamPlaceOrder record);
     

@@ -300,6 +300,12 @@ public class RedisKeys {
 		 * exam.place.+ id 考场信息
 		 */
 		public static final String EXAM_PLACE = "exam.place.";
+		
+		/**
+		 * exam.place.+ id 考场信息+.date
+		 */
+		public static final String EXAM_PLACE_CAR_DATE = "exam.place.car.";
+		
 		/**
 		 * 通过驾校id获取对应考场信息
 		 */

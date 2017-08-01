@@ -19,7 +19,6 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         type:'get',
         url:config.basePath+"examPlace/class/date",
         data:{
-            "placeId":1,
             "pdate":$filter('date')(new Date(), "yyyy-MM-dd"),
             "days":14
         },
@@ -36,7 +35,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             type:"get",
             url:config.basePath+"examPlace/class",
             data:{
-                placeId:1,
+                
                 pdate:$s.theDay
             },
             success:function(data){
@@ -276,7 +275,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             }
 
             var submitJson={
-                placeId:1,
+                
                 pdate:arrangeDaysArrSubmit.join(","),
                 pstart:arrangeTimeArr.join(","),
                 outerPrice:$s.outerPrice*100,
