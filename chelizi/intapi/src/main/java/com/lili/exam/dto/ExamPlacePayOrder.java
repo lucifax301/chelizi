@@ -2,6 +2,7 @@ package com.lili.exam.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ExamPlacePayOrder implements Serializable {
 
@@ -26,6 +27,18 @@ public class ExamPlacePayOrder implements Serializable {
 	private Date ctime;
 	
 	private Date mtime;
+	
+	private List<ExamPlaceOrder> orders;
+	
+	
+
+	public List<ExamPlaceOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<ExamPlaceOrder> orders) {
+		this.orders = orders;
+	}
 
 	public String getPayorderId() {
 		return payorderId;

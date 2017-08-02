@@ -40,6 +40,8 @@
     <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
     <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="payorderId" property="payorderId" jdbcType="VARCHAR" />
+    
     <result column="code" property="code" jdbcType="INTEGER" />
     <result column="codeValid" property="codeValid" jdbcType="TINYINT" />
     <result column="validTime" property="validTime" jdbcType="TIMESTAMP" />
@@ -106,7 +108,7 @@
     orderId, classId, placeId, placeName, school, type, drtype, coachId, coachName, coachMobile, 
     coachImg, coachType, carNo, device, duration, favorUse, favorGen, favorLeft, favorInfo, 
     favorType, delay, delayInfo, priceTotal, couponTotal, returnTotal, refundTotal, payTotal, payTime, payWay, 
-    state, pstart, pend, rstart, rend, remark, ctime, mtime, extra, code, codeValid ,validTime
+    state, pstart, pend, rstart, rend, remark, ctime, mtime, extra, code, codeValid ,validTime,payorderId
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" >
     select
@@ -295,6 +297,9 @@
       <if test="validTime != null" >
         validTime,
       </if>
+      <if test="payorderId != null" >
+        payorderId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderId != null" >
@@ -420,6 +425,10 @@
       <if test="validTime != null" >
         #{validTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="payorderId != null" >
+        #{payorderId},
+      </if>
+      
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.lili.exam.dto.ExamPlaceOrderExample" resultType="java.lang.Integer" >

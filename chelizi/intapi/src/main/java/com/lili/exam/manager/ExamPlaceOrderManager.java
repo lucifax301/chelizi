@@ -49,6 +49,9 @@ public interface ExamPlaceOrderManager {
 	ReqResult cancelExamPlaceClassOrder(String userId, String userType,
 			String orderId);
 	
+	ReqResult cancelCarExamPlaceClassOrder(String userId, String userType,
+			String orderId);
+	
 	/**
 	 * 根据订单id获取订单
 	 * @param orderId 订单id。多个用逗号,隔开

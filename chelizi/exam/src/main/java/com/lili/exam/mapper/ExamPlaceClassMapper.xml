@@ -34,7 +34,7 @@
     <result column="mtime" property="mtime" jdbcType="TIMESTAMP" />
     <result column="extra" property="extra" jdbcType="VARCHAR" />
     <result column="innerinfo" property="innerinfo" jdbcType="VARCHAR" />
-    
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -98,7 +98,7 @@
     id, placeId, pstart, pend, rstart, rend, remark, duration, outerPrice, innerPrice, 
     minHours, c1, c1inner, c1outer, c1book, c1bookInner, c1bookOuter, c2, c2inner, c2outer, 
     c2book, c2bookInner, c2bookOuter, innerExpire, favorType, favorIn, favorOut, state, 
-    ctime, mtime, extra,innerinfo
+    ctime, mtime, extra,innerinfo,type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceClassExample" >
     select
