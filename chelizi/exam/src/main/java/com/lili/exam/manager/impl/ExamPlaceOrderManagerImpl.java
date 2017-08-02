@@ -1980,6 +1980,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					
 					ExamPlacePayOrder examPlacePayOrder=new ExamPlacePayOrder();
 					examPlacePayOrder.setPayorderId(payorderid);
+					examPlacePayOrder.setPlaceId(Integer.parseInt(placeId));
 					examPlacePayOrder.setCtime(new Date());
 					examPlacePayOrder.setPayTotal(payTotal);
 					examPlacePayOrder.setDuration(duration);
@@ -2988,7 +2989,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			i++;
 		}
 		return Long.toBinaryString(Long.parseLong(builder.toString(), 2)
-				| Long.parseLong(car.getBitmap()));
+				| Long.parseLong(car.getBitmap(),2));
 	}
 
 	private String changeClassBitmap(ExamPlaceClass vo) {
@@ -3021,6 +3022,39 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		}
 		return builder.toString();
 	}
+	
+	private String changeClassBitmap(ExamPlaceOrder vo) {
+		Date d0 = vo.getPstart();
+		Date d1 = vo.getPend();
+		int hour = d0.getHours();
+		int bindex = hour * 2 + 1;
+		int minute = d0.getMinutes();
+		if (minute == 30)
+			bindex++;
+
+		hour = d1.getHours();
+		int eindex = hour * 2 + 1;
+		minute = d1.getMinutes();
+		if (minute == 30)
+			eindex++;
+		int i = 1;
+		StringBuilder builder = new StringBuilder();
+		while (i < bindex) {
+			builder.append("0");
+			i++;
+		}
+		while (i >= bindex && i <= eindex) {
+			builder.append("1");
+			i++;
+		}
+		while (i <= 48) {
+			builder.append("0");
+			i++;
+		}
+		return builder.toString();
+	}
+	
+	
 
 	private ExamCarDate getExamCarDate(Integer placeId, int schoolId,
 			String date) {
@@ -3055,8 +3089,10 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	 * @return 1 被使用, 0 空闲没被使用
 	 */
 	private int usedcar(String classbitmap, ExamCarState carState) {
+		//000110000 ^ 111111111=>111001111
 		long bitmap = Long.parseLong(carState.getBitmap(), 2)
 				^ Long.parseLong(factor, 2);
+		//class 0000000011
 		if (Long.toBinaryString((Long.parseLong(classbitmap, 2) & bitmap))
 				.equals(classbitmap))
 			return 0;
@@ -3163,6 +3199,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 	@Override
 	public void expireOrder(ExamPlacePayOrder order) {
+		ExamPlace ep = getExamPlaceById(order.getPlaceId());
+		
+		
 		order.setState(2);
 		order.setPayTime(new Date());
 		//examPayMapper.update(order);
@@ -3172,12 +3211,39 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
 		for(ExamPlaceOrder record:orders){
+			ExamCarDate eexamCarDate = this.getExamCarDate(
+					order.getPlaceId(),
+					ep.getSchoolId(), format.format(record.getPstart()));
+			
 			record.setPayTime(new Date());
 			record.setState((byte)4);
 			examPlaceOrderMapper.cancel(record);
 			// 清除订单缓存
 			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
 					+ record.getOrderId());
+			
+			//car 
+			String carlist = eexamCarDate
+					.getCarlist();
+			List<ExamCarState> cars = JSON
+					.parseArray(carlist,
+							ExamCarState.class);
+			for (ExamCarState car : cars) {
+				if (car.getCarno().equals(record.getCarNo())) {
+					//订单时间区间转bitmap
+					String clssbitmap=changeClassBitmap(record);
+					String newbitmap=Long.toBinaryString(Long.parseLong(clssbitmap, 2)
+							^ Long.parseLong(car.getBitmap(),2));
+					
+					car.setBitmap(newbitmap);
+					break;
+				}
+			}
+			eexamCarDate.setCarlist(JSON
+					.toJSONString(cars));
+
+			this.updateExamCarDate(eexamCarDate,
+					order.getPlaceId());
 		}
 	}
 	
