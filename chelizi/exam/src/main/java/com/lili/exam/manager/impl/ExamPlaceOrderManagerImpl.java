@@ -2980,7 +2980,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			builder.append("0");
 			i++;
 		}
-		while (i >= bindex && i <= eindex) {
+		while (i >= bindex && i < eindex) {
 			builder.append("1");
 			i++;
 		}
@@ -2988,8 +2988,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			builder.append("0");
 			i++;
 		}
-		return Long.toBinaryString(Long.parseLong(builder.toString(), 2)
+		String tmpbitmap=Long.toBinaryString(Long.parseLong(builder.toString(), 2)
 				| Long.parseLong(car.getBitmap(),2));
+		while(tmpbitmap.length()<48){
+			tmpbitmap="0"+tmpbitmap;
+		}
+		return tmpbitmap;
 	}
 
 	private String changeClassBitmap(ExamPlaceClass vo) {
@@ -3012,7 +3016,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			builder.append("0");
 			i++;
 		}
-		while (i >= bindex && i <= eindex) {
+		while (i >= bindex && i < eindex) {
 			builder.append("1");
 			i++;
 		}
@@ -3043,7 +3047,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			builder.append("0");
 			i++;
 		}
-		while (i >= bindex && i <= eindex) {
+		while (i >= bindex && i < eindex) {
 			builder.append("1");
 			i++;
 		}
@@ -3093,7 +3097,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		long bitmap = Long.parseLong(carState.getBitmap(), 2)
 				^ Long.parseLong(factor, 2);
 		//class 0000000011
-		if (Long.toBinaryString((Long.parseLong(classbitmap, 2) & bitmap))
+		String tmpbitmap=Long.toBinaryString((Long.parseLong(classbitmap, 2) & bitmap));
+		while(tmpbitmap.length()<48){
+			tmpbitmap="0"+tmpbitmap;
+		}
+		if (tmpbitmap
 				.equals(classbitmap))
 			return 0;
 		return 1;
@@ -3234,7 +3242,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					String clssbitmap=changeClassBitmap(record);
 					String newbitmap=Long.toBinaryString(Long.parseLong(clssbitmap, 2)
 							^ Long.parseLong(car.getBitmap(),2));
-					
+					while(newbitmap.length()<48){
+						newbitmap="0"+newbitmap;
+					}
 					car.setBitmap(newbitmap);
 					break;
 				}

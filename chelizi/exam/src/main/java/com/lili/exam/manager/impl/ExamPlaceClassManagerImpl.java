@@ -499,31 +499,43 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		
 		//获取一天的车使用情况
 		ExamCarDate examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
-		
-		String carlist=examCarDate.getCarlist();
-		List<ExamCarState> cars=JSON.parseArray(carlist, ExamCarState.class);
-		
-		
-		List<ExamDateCarInfo> result=new ArrayList();	
-		
-		for(ExamCarState car:cars){
-			List<ExamPlaceClassVo> newclss=new ArrayList();
-			for(ExamPlaceClassVo vo:clss){
-				ExamPlaceClassVo newvo=new ExamPlaceClassVo();
-				BeanUtils.copyProperties(vo, newvo);
-				if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
-					changeClassBitmap(newvo);
-					int used=usedcar(newvo,car);
-					newvo.setUsed(used);
+		if(examCarDate!=null){
+			String carlist=examCarDate.getCarlist();
+			List<ExamCarState> cars=JSON.parseArray(carlist, ExamCarState.class);
+			
+			
+			List<ExamDateCarInfo> result=new ArrayList();	
+			
+			for(ExamCarState car:cars){
+				List<ExamPlaceClassVo> newclss=new ArrayList();
+				for(ExamPlaceClassVo vo:clss){
+					ExamPlaceClassVo newvo=new ExamPlaceClassVo();
+					BeanUtils.copyProperties(vo, newvo);
+					if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
+						changeClassBitmap(newvo);
+						int used=usedcar(newvo,car);
+						newvo.setUsed(used);
+					}
+					newclss.add(newvo);
 				}
-				newclss.add(newvo);
+				ExamDateCarInfo carinfo=new ExamDateCarInfo();
+				carinfo.setCarno(car.getCarno());
+				carinfo.setClss(newclss);
+				result.add(carinfo);
 			}
-			ExamDateCarInfo carinfo=new ExamDateCarInfo();
-			carinfo.setCarno(car.getCarno());
-			carinfo.setClss(newclss);
-			result.add(carinfo);
+			map.put("carlist", result);
+		}else{
+			List<ExamDateCarInfo> result=new ArrayList();
+			
+			List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+			for(Car car:allcars){
+				ExamDateCarInfo carinfo=new ExamDateCarInfo();
+				carinfo.setCarno(car.getCarNo());
+				result.add(carinfo);
+			}
+			
+			map.put("carlist", result);
 		}
-		map.put("carlist", result);
 		return map;
 	}
 	
