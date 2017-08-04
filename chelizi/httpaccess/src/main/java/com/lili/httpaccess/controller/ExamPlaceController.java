@@ -367,11 +367,16 @@ public class ExamPlaceController {
 			@RequestParam(required=false) String v,
 			@RequestParam String timestamp,
 			@RequestParam String sign,
-			@RequestParam String orderId
+			@RequestParam String orderId,
+			@RequestParam(required=false)  String carmodel
 			) {
 		ReqResult r = ReqResult.getSuccess();
 		try {
-			r = examPlaceOrderManager.cancelExamPlaceClassOrder(userId,userType,orderId);
+			if("1".equals(carmodel)){
+				r = examPlaceOrderManager.cancelCarExamPlaceClassOrder(userId,userType,orderId);
+			}else{
+				r = examPlaceOrderManager.cancelExamPlaceClassOrder(userId,userType,orderId);
+			}
 		} catch (Exception e) {
 			log.error("controller: get cancelExamPlaceClassOrder failed=" + e.getMessage(), e);
 			e.printStackTrace();
