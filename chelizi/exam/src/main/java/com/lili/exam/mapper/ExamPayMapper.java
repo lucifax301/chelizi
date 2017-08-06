@@ -14,6 +14,10 @@ public interface ExamPayMapper {
      List<ExamPlacePayOrder> select(ExamPlacePayOrder examPlacePayOrder);
      
      List<ExamPlacePayOrder> list(ExamPlacePayOrder examPlacePayOrder,RowBounds rowBounds);
+     
+     List<ExamPlacePayOrder> listone(ExamPlacePayOrder examPlacePayOrder,RowBounds rowBounds);
+     
+     int countone(ExamPlacePayOrder examPlacePayOrder);
     
      ExamPlacePayOrder selectByPrimaryKey(ExamPlacePayOrder examPlacePayOrder);
 

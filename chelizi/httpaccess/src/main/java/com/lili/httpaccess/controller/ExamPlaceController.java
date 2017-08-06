@@ -21,6 +21,7 @@ import com.lili.exam.dto.ExamPlaceCity;
 import com.lili.exam.dto.ExamPlaceClass;
 import com.lili.exam.dto.ExamPlaceClassVo;
 import com.lili.exam.dto.ExamPlaceOrder;
+import com.lili.exam.dto.ExamPlacePayOrder;
 import com.lili.exam.dto.ExamPlaceVo;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
@@ -297,14 +298,19 @@ public class ExamPlaceController {
 			@RequestParam String sign,
 			@RequestParam String state,
 			@RequestParam String pageNo,
-			@RequestParam String pageSize
-			
+			@RequestParam String pageSize,
+			@RequestParam(required=false) String carmodel
 
 			) {
 		ReqResult r = ReqResult.getSuccess();
 		try {
-			Page<ExamPlaceOrder> data = examPlaceOrderManager.getMyExamPlaceOrder(userId,userType,state,pageNo,pageSize);
-			r.setData(data);
+			if("1".equals(carmodel)){
+				Page<ExamPlacePayOrder> data = examPlaceOrderManager.getMyExamPlacePayOrder(userId,userType,state,pageNo,pageSize);
+				r.setData(data);
+			}else{
+				Page<ExamPlaceOrder> data = examPlaceOrderManager.getMyExamPlaceOrder(userId,userType,state,pageNo,pageSize);
+				r.setData(data);
+			}
 		} catch (Exception e) {
 			log.error("controller: get getExamPlaceClass failed=" + e.getMessage(), e);
 			e.printStackTrace();

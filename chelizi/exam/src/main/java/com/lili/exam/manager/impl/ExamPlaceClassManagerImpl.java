@@ -506,7 +506,19 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			
 			List<ExamDateCarInfo> result=new ArrayList();	
 			
+			List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+			
 			for(ExamCarState car:cars){
+				boolean match=false;
+				for(Car ocar:allcars){
+					if(car.getCarno().equals(ocar.getCarNo())){
+						if(ocar.getDriveType().intValue()==Integer.parseInt(drtype)){
+							match=true;
+						}
+						break;
+					}
+				}
+				if(!match) continue;
 				List<ExamPlaceClassVo> newclss=new ArrayList();
 				for(ExamPlaceClassVo vo:clss){
 					ExamPlaceClassVo newvo=new ExamPlaceClassVo();

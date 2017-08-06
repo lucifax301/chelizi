@@ -868,13 +868,15 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 				// 前置检查，如果已经预约了这个排班，则不能再约
 				List<Byte> state1 = new ArrayList<Byte>();
-				state1.add((byte) 4);
-				state1.add((byte) 5);
+//				state1.add((byte) 4);
+//				state1.add((byte) 5);
+				state1.add((byte) 0);
+				state1.add((byte) 1);
 				ExamPlaceOrderExample example1 = new ExamPlaceOrderExample();
 				example1.createCriteria()
 						.andClassIdEqualTo(
-								Integer.parseInt(clses[i]))
-						.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+								Integer.parseInt(clses[i])).andStateIn(state1)
+						//.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
 						.andCoachIdEqualTo(Long.parseLong(userId));
 				int oldData1 = examPlaceOrderMapper
 						.countByExample(example1);
@@ -885,7 +887,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				}
 				
 				boolean hasPreChecked = false;
-				
+				Integer order_limit_outer = Integer
+						.parseInt(exam_order_limit_outer);
 				if (!hasPreChecked) {
 					// 20161010 前置检查，内部一天限约一场；外部一天限约两场。
 					ExamPlaceOrderExample example2 = new ExamPlaceOrderExample();
@@ -922,21 +925,21 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						// return res;
 						// }
 					} else {
-						// if (todayOrderCount >= order_limit_outer)
-						// {
-						// res.setCode(ResultCode.ERRORCODE.FAILED);
-						// res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
-						// return res;
-						// }
-						// // 如果已经约了一场，再一次连约两场有个坑
-						// if (todayOrderCount + clses.length >=
-						// order_limit_outer + 1) {
-						// res.setCode(ResultCode.ERRORCODE.FAILED);
-						// res.setMsgInfo("教练每天限约" +
-						// order_limit_outer
-						// + "场！");
-						// return res;
-						// }
+//						 if (todayOrderCount >= order_limit_outer)
+//						 {
+//						 res.setCode(ResultCode.ERRORCODE.FAILED);
+//						 res.setMsgInfo("您该日预约次数已达到上限，不能再预约！");
+//						 return res;
+//						 }
+//						 // 如果已经约了一场，再一次连约两场有个坑
+//						 if (todayOrderCount + clses.length >=
+//						 order_limit_outer + 1) {
+//						 res.setCode(ResultCode.ERRORCODE.FAILED);
+//						 res.setMsgInfo("教练每天限约" +
+//						 order_limit_outer
+//						 + "场！");
+//						 return res;
+//						 }
 					}
 
 					hasPreChecked = true;
@@ -2663,6 +2666,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return null;
 	}
 
+
+	
 	@Override
 	public Page<ExamPlaceOrder> getMyExamPlaceOrder(String userId,
 			String userType, String state, String pageNo, String pageSize) {
@@ -3169,6 +3174,41 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return new Page<ExamPlacePayOrder>(data, pNo, pSize, total);
 		
 		
+	}
+	
+	@Override
+	public Page<ExamPlacePayOrder> getMyExamPlacePayOrder(String userId,
+			String userType, String state, String pageNo, String pageSize) {
+		try {
+			ExamPlacePayOrder p=new ExamPlacePayOrder();
+			p.setState(Integer.parseInt(state));
+			p.setCoachId(Integer.parseInt(userId));
+			
+			
+			int total = examPayMapper.countone(p);
+			
+
+			int pNo = 1;
+			int pSize = 100;
+			if (StringUtil.isNotNullAndNotEmpty(pageNo)
+					&& StringUtil.isNotNullAndNotEmpty(pageSize)) {
+				pNo = Integer.parseInt(pageNo.trim());
+				if (pNo <= 0) {
+					pNo = 1;
+				}
+				pSize = Integer.parseInt(pageSize.trim());
+				if (pSize <= 0) {
+					pSize = 100;
+				}
+			}
+			RowBounds rowBounds = new RowBounds((pNo - 1) * pSize, pSize);// (offset,limit)
+
+			List<ExamPlacePayOrder> data=examPayMapper.listone(p,rowBounds);
+			return new Page<ExamPlacePayOrder>(data, pNo, pSize, total);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
