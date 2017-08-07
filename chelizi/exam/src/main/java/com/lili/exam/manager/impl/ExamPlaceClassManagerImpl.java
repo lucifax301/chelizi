@@ -486,6 +486,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		//获取一天对的排版信息
 		Map map=new HashMap();
 		List<ExamPlaceClassVo> clss=this.getExamPlaceClassInfo(userId, userType, placeId, pdate, drtype);
+		if(clss==null||clss.size()==0){
+			map.put("carlist", null);
+			return map;
+		}
 		map.put("clss", clss);
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
 		

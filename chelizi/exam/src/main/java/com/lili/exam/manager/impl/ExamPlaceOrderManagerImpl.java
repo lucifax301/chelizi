@@ -3181,7 +3181,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			String userType, String state, String pageNo, String pageSize) {
 		try {
 			ExamPlacePayOrder p=new ExamPlacePayOrder();
-			p.setState(Integer.parseInt(state));
+			if(state!=null&&state.length()>0)
+				p.setState(Integer.parseInt(state));
 			p.setCoachId(Integer.parseInt(userId));
 			
 			
@@ -3204,11 +3205,55 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			RowBounds rowBounds = new RowBounds((pNo - 1) * pSize, pSize);// (offset,limit)
 
 			List<ExamPlacePayOrder> data=examPayMapper.listone(p,rowBounds);
+			
+			List<ExamPlaceOrder> orders=this.getMyExamPlaceOrder(userId, userType, state);
+			for(ExamPlacePayOrder payorder:data){
+				for(ExamPlaceOrder order:orders){
+					if(payorder.getOrders()==null)payorder.setOrders(new ArrayList());
+					if(payorder.getPayorderId().equals(order.getPayorderId())){
+						payorder.getOrders().add(order);
+					}
+				}
+			}
+			
 			return new Page<ExamPlacePayOrder>(data, pNo, pSize, total);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private List<ExamPlaceOrder> getMyExamPlaceOrder(String userId,
+			String userType, String state) {
+		
+			ExamPlaceOrderExample example = new ExamPlaceOrderExample();
+			ExamPlaceOrderExample.Criteria criteria = example.createCriteria();
+
+			if (null != state && !"".equals(state.trim())) {
+				criteria.andStateEqualTo(Byte.parseByte(state.trim()));
+			} else {
+				// 如果没有传订单状态，则查询去掉已取消的，免得太多了
+				// criteria.andStateNotEqualTo((byte) 4); //
+				// '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
+			}
+			if (null != userId && !"".equals(userId)) {
+				criteria.andCoachIdEqualTo(Long.parseLong(userId));
+			} else {
+				return null;
+			}
+			int total = examPlaceOrderMapper.countByExample(example);
+			example.setOrderByClause("payTime desc,rstart desc");
+
+			int pNo = 1;
+			int pSize = 100;
+			
+			RowBounds rowBounds = new RowBounds((pNo - 1) * pSize, pSize);// (offset,limit)
+
+			List<ExamPlaceOrder> data = examPlaceOrderMapper
+					.selectByExampleWithRowbounds(example, rowBounds);
+			return data;
+
+		
 	}
 
 }
