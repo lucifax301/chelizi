@@ -855,7 +855,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		boolean isInner = (examVipCoach != null);
 
 		boolean isC1 = "1".equals(drtype.trim());
-
+		//clssid-c1,count
+		//
+		Map<String,Integer> totalcount=new HashMap();
 		
 		while (it.hasNext()) {
 			String carno = it.next();
@@ -1057,6 +1059,53 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 				}
 
+				if(isC1){
+					if(!totalcount.containsKey(clses[i]+"c1")){
+						totalcount.put(clses[i]+"c1", 1);
+					}else{
+						totalcount.put(clses[i]+"c1", totalcount.get(clses[i]+"c1")+ 1);
+					}
+				}else{
+					if(!totalcount.containsKey(clses[i]+"c2")){
+						totalcount.put(clses[i]+"c2", 1);
+					}else{
+						totalcount.put(clses[i]+"c2", totalcount.get(clses[i]+"c2")+ 1);
+					}
+				}
+				
+				if (isInner) {
+					if(isC1){
+						if (cls.getC1inner()-cls
+								.getC1bookInner() <=totalcount.get(clses[i]+"c1") ) {
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！！");
+							return res;
+						}
+					}else{
+						if (cls.getC2inner()-cls
+								.getC2bookInner() <=totalcount.get(clses[i]+"c2") ) {
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！！");
+							return res;
+						}
+					}
+				}else{
+					if(isC1){
+						if (cls.getC1outer()-cls
+								.getC1bookOuter() <=totalcount.get(clses[i]+"c1")) { // 外部空位已排满，则不能继续排
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！！");
+							return res;
+						}
+					}else{
+						if (cls.getC2outer()-cls
+								.getC2bookOuter() <= totalcount.get(clses[i]+"c2")) {
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！！");
+							return res;
+						}
+					}
+				}
 			}
 		}
 		}catch(Exception ex){
