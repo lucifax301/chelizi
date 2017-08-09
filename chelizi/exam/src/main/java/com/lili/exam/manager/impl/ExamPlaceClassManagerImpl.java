@@ -532,6 +532,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						int used=usedcar(newvo,car);
 						newvo.setUsed(used);
 					}
+					if(newvo.getState()!=2&&newvo.getUsed()==1){
+						newvo.setState(2);
+					}
 					newclss.add(newvo);
 				}
 				ExamDateCarInfo carinfo=new ExamDateCarInfo();
@@ -565,7 +568,13 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	 */
 	private int usedcar(ExamPlaceClassVo vo,ExamCarState carState){
 		long bitmap=Long.parseLong(carState.getBitmap(),2)^Long.parseLong(factor,2);
-		if(Long.toBinaryString((Long.parseLong(vo.getBitmap(),2)&bitmap)).equals(vo.getBitmap()))
+		System.out.println("car:"+carState.getCarno()+" "+Long.toBinaryString(bitmap)+" "+vo.getBitmap());
+		
+		String newbitmap=Long.toBinaryString((Long.parseLong(vo.getBitmap(),2)&bitmap));
+		while(newbitmap.length()<48){
+			newbitmap="0"+newbitmap;
+		}
+		if(newbitmap.equals(vo.getBitmap()))
 			return 0;
 		return 1;
 	}
