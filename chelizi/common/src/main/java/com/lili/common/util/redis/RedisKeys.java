@@ -333,6 +333,9 @@ public class RedisKeys {
 		 * 考场预约订单
 		 */
 		public static final String EXAM_PLACE_ORDER = "exam.place.order.";
+		
+		public static final String EXAM_PLACE_PAY_ORDER = "exam.place.pay.order.";
+		
 		/**
 		 * 考场人员白名单记录	在添加修改白名单记录后需要更新这个缓存
 		 */

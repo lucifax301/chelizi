@@ -339,12 +339,18 @@ public class ExamPlaceController {
 			@RequestParam(required=false) String v,
 			@RequestParam String timestamp,
 			@RequestParam String sign,
-			@RequestParam String orderId
+			@RequestParam String orderId,
+			@RequestParam(required=false) String carmodel
 			) {
 		ReqResult r = ReqResult.getSuccess();
 		try {
-			List<ExamPlaceOrder> data = examPlaceOrderManager.getExamPlaceOrder(orderId);
-			r.setData(data);
+			if("1".equals(carmodel)){
+				List<ExamPlacePayOrder> data = examPlaceOrderManager.getExamPlacePayOrder(orderId);
+				r.setData(data);
+			}else{
+				List<ExamPlaceOrder> data = examPlaceOrderManager.getExamPlaceOrder(orderId);
+				r.setData(data);
+			}
 		} catch (Exception e) {
 			log.error("controller: get getExamPlaceClass failed=" + e.getMessage(), e);
 			e.printStackTrace();

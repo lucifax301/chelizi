@@ -2431,6 +2431,52 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		}
 		return data;
 	}
+	
+	@Override
+	public List<ExamPlacePayOrder> getExamPlacePayOrder(String orderId) {
+		List<ExamPlacePayOrder> data = new ArrayList<ExamPlacePayOrder>();
+		try {
+			if (null != orderId && !"".equals(orderId)) {
+				List<String> oIds = new ArrayList<String>();
+				String[] orders = orderId.split(",");
+				for (String a : orders) {
+					oIds.add(a);
+					// 20161114从缓存中一个个查
+					
+					ExamPlacePayOrder payorder=getExamPlacePayOrderOne(a);
+					data.add(payorder);
+					ExamPlaceOrder p=new ExamPlaceOrder();
+					p.setPayorderId(orderId);
+					List<ExamPlaceOrder> oorders= examPlaceOrderMapper.selectByPayorderid(p);
+					payorder.setOrders(oorders);
+				}
+			} else {
+				return null;
+			}
+			/*
+			 * ExamPlaceOrderExample example = new ExamPlaceOrderExample();
+			 * example.createCriteria().andOrderIdIn(oIds);
+			 * 
+			 * data = examPlaceOrderMapper.selectByExample(example);
+			 */
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public ExamPlacePayOrder getExamPlacePayOrderOne(String orderId) {
+		ExamPlacePayOrder p=new ExamPlacePayOrder();
+		p.setPayorderId(orderId);
+		ExamPlacePayOrder order = redisUtil
+				.get(RedisKeys.REDISKEY.EXAM_PLACE_PAY_ORDER + orderId);
+		if (null == order) {
+			order = examPayMapper.selectByPrimaryKey(p);
+			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_PAY_ORDER + orderId,
+					order, RedisKeys.EXPIRE.WEEK);
+		}
+		return order;
+	}
 
 	public ExamPlaceOrder getExamPlaceOrderOne(String orderId) {
 		ExamPlaceOrder order = redisUtil
@@ -3255,7 +3301,11 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 			List<ExamPlacePayOrder> data=examPayMapper.listone(p,rowBounds);
 			
-			List<ExamPlaceOrder> orders=this.getMyExamPlaceOrder(userId, userType, state);
+			String newstate=state;
+			if("2".equals(state)){
+				newstate="4";
+			}
+			List<ExamPlaceOrder> orders=this.getMyExamPlaceOrder(userId, userType, newstate);
 			for(ExamPlacePayOrder payorder:data){
 				for(ExamPlaceOrder order:orders){
 					if(payorder.getOrders()==null)payorder.setOrders(new ArrayList());
