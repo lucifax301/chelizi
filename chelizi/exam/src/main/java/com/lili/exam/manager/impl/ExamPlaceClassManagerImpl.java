@@ -421,7 +421,104 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		return res;
 	}
 
-	
+	@Override
+	public ReqResult closeCarExamPlaceClass(String classId, String remark) {
+		ReqResult res = ReqResult.getSuccess();
+		try {
+			String[] clses = classId.split(","); 
+			for(int i=0;i<clses.length;i++){
+				ExamPlaceClass cls = getExamPlaceClassOne(Integer.parseInt(clses[i]));
+				if(null == cls){
+					res.setCode(ResultCode.ERRORCODE.EXCEPTION);
+					res.setMsgInfo("排班不存在！");
+					return res;
+				}
+				Date now = new Date();
+				if(cls.getRend().before(now)){
+					res.setCode(ResultCode.ERRORCODE.EXCEPTION);
+					res.setMsgInfo("排班已过期！");
+					return res;
+					
+				}
+				
+				ExamPlaceOrderExample example = new ExamPlaceOrderExample();
+				List<Byte> states = new ArrayList<Byte>();
+				states.add((byte) 0); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
+				states.add((byte) 1);
+				states.add((byte) 2); 
+				example.createCriteria()
+						.andClassIdEqualTo(cls.getId())
+						.andStateIn(states);							
+				List<ExamPlaceOrder> orders = examPlaceOrderMapper.selectByExample(example);
+				
+				if(orders!=null&&orders.size()>0){
+					res.setCode(ResultCode.ERRORCODE.EXCEPTION);
+					res.setMsgInfo("排班被使用，不能关闭！");
+					return res;
+				}
+				
+				cls.setState((byte) 1);	//'排班状态：0-正常；1-已关闭；2-已延迟'
+				cls.setRemark(remark);
+				//cls.setMtime(new Date());
+				updateExamPlaceClass(cls);
+				//对于已经使用该排班生成的订单，也需要修改相应订单。
+				
+//				if(null != orders && orders.size() > 0){
+//					for(ExamPlaceOrder order:orders){
+//						//如已支付，则退款
+//						if(order.getState() ==1 || order.getState() == 2){
+//							order.setRefundTotal(order.getPayTotal()); //全额退款
+//							moneyManager.handleExamPlaceRefund(order, 1.0); //20161010后台关闭的订单，全额退款。
+//						}
+//						//关闭订单
+//						order.setState((byte) 5); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
+//						order.setRemark(remark);
+//						order.setMtime(new Date());
+//						updateExamPlaceOrder(order);
+//						
+//						//通知教练订单已被关闭
+//						JpushMsg jmsg = new JpushMsg();
+//					    Map<String,String> extras=new HashMap<String,String>();
+//					    extras.put("orderId", order.getOrderId());
+//					    extras.put("remark", remark);
+//					    jmsg.setExtras(extras);
+//						jmsg.setAlter("您预约考场的订单已被关闭！如已支付，退款将返回到您的余额账户中。");
+//						jmsg.setUserId(order.getCoachId());
+//						jmsg.setOrderId(order.getOrderId());
+//					    jmsg.setOperate(JpushConstant.OPERATE.ORDER_CLOSE);//如果有extras，则operate要放在extra之后
+//						Message jpush = new Message();
+//						jpush.setKeys(order.getOrderId());
+//						jpush.setTopic(jpushProducer.getCreateTopicKey());
+//						jpush.setTags(JpushConstant.RMQTAG.JPUSH2COACH);
+//						jpush.setBody(SerializableUtil.serialize(jmsg));
+//						jpushProducer.send(jpush);
+//						
+//						//（2.3）恢复所占优惠
+//						if(order.getFavorUse() != 0){
+//							ExamPlaceFavorKey key = new ExamPlaceFavorKey();
+//							key.setPlaceId(order.getPlaceId());
+//							key.setUserId(order.getCoachId());
+//							ExamPlaceFavor record = examPlaceFavorMapper.selectByPrimaryKey(key);
+//							if(null != record){
+//								record.setFavorOut(record.getFavorOut() + order.getFavorUse()); //恢复已使用优惠  //生成的优惠在结束后才增加，这里不需要恢复
+//								//record.setDuration(record.getDuration() - order.getDuration()); //恢复增加的时长 //时长在结束后才增加，这里不需要恢复
+//								examPlaceFavorMapper.updateByPrimaryKeySelective(record);
+//							}
+//						}
+//
+//					}
+//					
+//				}
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 
 	@Override
 	public List<ExamPlaceClass> getExamPlaceClass(String placeId,String pdate) {

@@ -104,6 +104,8 @@ public interface ExamPlaceClassManager {
 	
 	public Map getExamPlaceCarClassInfo(String userId,
 			String userType, String placeId, String pdate, String drtype);
+	
+	public ReqResult closeCarExamPlaceClass(String classId, String remark);
 }
 
 

@@ -12,8 +12,36 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
     $s.c2 = 0;
     $s.c1inner = 0;
     $s.c2inner = 0;
-    $s.innerPrice=0;
-
+    $s.c1max = 0;
+    $s.c2max = 0;
+    $s.type=1;
+    $s.outerPrice=0;
+	//for changji
+	// {"bookinfo":[{"c1":5,"c1book":0,"c2":2,"c2book":1,"vipId":0},{"c1":5,"c1book":-1,"c2":2,"c2book":-6,"vipId":1}]} 
+	
+	$s.bookinfo = [];
+	$s.innerinfo={};
+	// 获取大客户系列表
+	$.AJAX({
+        type:'get',
+        url:config.basePath+"examPlace/allvip",
+        async: false,
+        success:function(data){
+            $s.bookinfo = angular.fromJson(data.result.data)
+            console.log(111111111, $s.bookinfo)
+            // $s.$apply();
+        }
+    });
+    $.AJAX({
+        type:'get',
+        url:config.basePath+"examPlace/cars",
+        success:function(data){
+          $s.c1max = parseInt(data.result.c1);
+          $s.c2max = parseInt(data.result.c2);
+          $s.c1 = JSON.parse(data.result.c1);
+          $s.c2 = JSON.parse(data.result.c2);
+        }
+    });
 
     /*获取指定日期及之后若干天的排班情况和日期数据*/
     $.AJAX({
@@ -26,29 +54,9 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         },
         success:function(data){
             $s.getDaysInfo = JSON.parse(data.result.pageData);
-            console.log($s.getDaysInfo)
             $s.$apply();
         }
     });
-    
-    $s.getCars = function(){
-        $.AJAX({
-            type:'get',
-            url:config.basePath+"examPlace/cars",
-            data:{
-                
-            },
-            success:function(data){
-                $s.c1 = JSON.parse(data.result.c1);
-                $s.c2 = JSON.parse(data.result.c2);
-                //$s.c1inner = JSON.parse(data.result.c1inner);
-                //$s.c2inner = JSON.parse(data.result.c2inner);
-                $s.$apply();
-            }
-        });
-    }
-    
-    $s.getCars();
 
     /*获取某一天排班信息*/
     $s.getArrangeList=function(){
@@ -57,7 +65,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             url:config.basePath+"examPlace/class/new",
             data:{
                 //placeId:1,
-                type:0,
+                type:1,
                 pdate:$s.theDay
             },
             success:function(data){
@@ -295,8 +303,37 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             if($s.c2<$s.c2inner){
                 Layer.alert({width:400,height:160,title:"预留C2数量不能大于C2总数量!",header:"操作提示"});return false;
             }
-
+			
+			//判断车辆总数
+			var c1Totla=0,
+				c2Total=0
+			for(var i =0;i<$s.bookinfo.length;i++){
+				$s.bookinfo[i].vipId=$s.bookinfo[i].id;
+				$s.bookinfo[i].c1book = 0
+				$s.bookinfo[i].c2book = 0
+				c1Totla += parseInt($s.bookinfo[i].c1)
+				c2Total += parseInt($s.bookinfo[i].c2)
+				if($s.bookinfo[i].c1 > $s.bookinfo[i].c1count){
+					Layer.alert({width:400,height:160,title:$s.bookinfo[i].name+"的C1车辆总数不能大于"+$s.bookinfo[i].c1count+"辆",header:"操作提示"});return false;
+				}
+				if($s.bookinfo[i].c2 > $s.bookinfo[i].c2count){
+					Layer.alert({width:400,height:160,title:$s.bookinfo[i].name+"的C2车辆总数不能大于"+$s.bookinfo[i].c2count+"辆",header:"操作提示"});return false;
+				}
+			}
+			if(c1Totla>$s.c1max){
+				Layer.alert({width:400,height:160,title:"所有大客户的C1车辆总数不能大于"+$s.c1max+"辆",header:"操作提示"});return false;
+			}
+			if(c2Total>$s.c2max){
+				Layer.alert({width:400,height:160,title:"所有大客户的C2车辆总数不能大于"+$s.c2max+"辆",header:"操作提示"});return false;
+			}
+			console.log($s.bookinfo)
+			console.log($.innerinfo)
+			$s.c1inner=c1Totla;
+			$s.c2inner=c2Total;
+			$s.innerinfo['bookinfo']=$s.bookinfo;
             var submitJson={
+            	innerinfo:angular.toJson($s.innerinfo),
+            	//bookinfo: angular.toJson($s.bookinfo),
                 //placeId:1,
                 pdate:arrangeDaysArrSubmit.join(","),
                 pstart:arrangeTimeArr.join(","),
@@ -311,6 +348,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
                 favorType:$s.favorType,
                 favorIn:$s.favorIn,
                 favorOut:$s.favorOut*100,
+                type:1
             }
             $.AJAX({
                 url:config.basePath+"examPlace/class",

@@ -1280,5 +1280,22 @@
             return typeTex;
         }
     })
-
+	/****支付订单状态 *********/
+    app.filter('payOrderState',function(){
+        return function(type){
+            var typeTex = "";
+            switch(type){
+                case 0:
+                    typeTex="未支付"; break;
+                case 1:
+                    typeTex="已支付"; break;
+                case 2:
+                    typeTex="过期取消"; break;
+                default:
+                    typeTex = "未知";
+            }
+            return typeTex;
+        }
+    })
+	
 })(window, window.angular);

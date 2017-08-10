@@ -479,17 +479,30 @@ public class ExamPlaceController extends BaseController{
 	@ResponseBody
 	public Object closeExamPlaceClass(
 			@RequestParam String classId,
-			@RequestParam String remark
+			@RequestParam String remark,
+			@RequestParam(required=false) String carmodel
 			) {
 		ResponseMessage res = new ResponseMessage<>();
 		try {
-			ReqResult rr = examPlaceClassManager.closeExamPlaceClass(classId,remark);
-			if(! rr.isSuccess()){
-				res.addResult("pageData", null);
-				res.setCode(-1);
-				res.setMsg(rr.getMsgInfo());
-				return res.build();
+			if("1".equals(carmodel)){
+				ReqResult rr = examPlaceClassManager.closeCarExamPlaceClass(classId,remark);
+				if(! rr.isSuccess()){
+					res.addResult("pageData", null);
+					res.setCode(-1);
+					res.setMsg(rr.getMsgInfo());
+					return res.build();
+				}
+			}else{
+				ReqResult rr = examPlaceClassManager.closeExamPlaceClass(classId,remark);
+				if(! rr.isSuccess()){
+					res.addResult("pageData", null);
+					res.setCode(-1);
+					res.setMsg(rr.getMsgInfo());
+					return res.build();
+				}
 			}
+			
+			
 			
 		} catch (Exception e) {
 			log.error("controller: ExamPlaceController updateExamPlaceClass failed=" + e.getMessage(), e);
@@ -518,6 +531,42 @@ public class ExamPlaceController extends BaseController{
 		try {
 			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
 			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate);
+			res.addResult("pageData", data);
+			
+		} catch (Exception e) {
+			log.error("controller: ExamPlaceController getExamPlaceClass failed=" + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return res.build();
+		
+	}
+	
+	@RequestMapping(value = "/class/new", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getExamPlaceClassNew(HttpServletRequest request,
+			//@RequestParam String placeId,
+			@RequestParam String pdate,
+			@RequestParam String type
+			){
+		
+		ResponseMessage res = new ResponseMessage<>();
+		User currentUser = AccessWebUtil.getSessionUser(request);
+		try {
+			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate);
+			
+				for(int i=data.size()-1;i>=0;i--){
+					if("1".equals(type)){
+						if(data.get(i).getType()==0){
+							data.remove(i);
+						}
+					}else{
+						if(data.get(i).getType()==1){
+							data.remove(i);
+						}
+					}
+				}
+			
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {

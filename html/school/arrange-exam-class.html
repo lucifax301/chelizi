@@ -27,7 +27,8 @@
 			<div class="header">排班管理</div>
 			<div class="content">
 				<div>
-					<a href="arrange-exam-class-add.html" class="btn btn-sm btn-primary">新增排班</a>
+					<!--<a href="arrange-exam-class-add.html" class="btn btn-sm btn-primary">新增排班</a>-->
+					<a href="arrange-exam-class-add-carmodel.html" class="btn btn-sm btn-primary">新增排班</a>
 					<a href="arrange-exam-vipclass-add.html" class="btn btn-sm btn-primary">新增大客户排班</a>
 				</div>
                 <div class="z-index-days">
@@ -68,7 +69,7 @@
                         </td>
                     </tr>
                     <tr ng-repeat="item in getTheday" ng-class="{true:'z-tr-disable'}[item.state==1]">
-                        <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span></th>
+                        <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span><span ng-bind="(item.type==1)?'大客户排班':'普通排班'"></span></th>
                         <td>
                             <span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
                             <span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>

@@ -60,7 +60,7 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
             type:"get",
             url:config.basePath+"examPlace/class",
             data:{
-                placeId:1,
+                //placeId:1,
                 pdate:$s.theDay
             },
             success:function(data){
@@ -257,7 +257,7 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
                 type:'get',
                 url:config.basePath+"examPlace/class/date",
                 data:{
-                    "placeId":1,
+                    //"placeId":1,
                     "pdate":new Date().date("y-m-d"),
                     "days":14
                 },

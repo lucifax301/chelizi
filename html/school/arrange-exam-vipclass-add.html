@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="app" ng-controller="ArrangeExamClassAdd">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>新增排班</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
+	<script src="assets/common/js/commonStart.js"></script>
+    <script>
+        //判断非广仁考场的帐号登录则跳出
+//      var requiredId = "grjxkc";
+//      if(window.location.host=="uatjx.lilixc.com"){requiredId = "szgrjx";}
+//      if(sessionStorage.getItem("schoolUserName")!=requiredId){
+//          window.location.href="datas/data-statistics.html"
+//      }
+    </script>
+</head>
+<body>
+	<style>
+		.numerror{
+			position: absolute;
+			top: 36px;
+			left: 35%;
+			color: #D30E0E;
+			font-size: 12px;
+		}
+	</style>
+<!-- main 区域 -->
+<div id="content" class="content main-content" >
+	<!-- 主体内容 -->
+	<div class="common-style withdraw-cash">
+		<div class="title"><h1>排班管理 &gt; 新增排班</h1></div>
+		<div class="table-margin common-table">
+			<div class="header">排班管理 &gt; 新增排班</div>
+			<div class="content">
+                <form id="addForm">
+                <table class="z-form-col2 z-arrange-exam-form z-noborder">
+                	<tr class="z-input-valid">
+                        <td><label for="">大客户列表：<span class="z-fontred">*</span></label></td>
+                        <td>
+                        	<div class="vip-box" ng-repeat="item in bookinfo">
+                        		<div class="vipname" style="width: 120px" ng-bind="item.name"></div>
+                        		<div class="input-text input-group vip-input">
+                        			<div class="title">C1车次：</div>
+	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c1">
+	                                <span class="input-group-addon">车次</span>
+	                                <p ng-show="item.c1>item.c1count" class="numerror" ng-bind="'不得大于'+item.c1count+'辆'"></p>
+	                            </div>
+	                            <div class="input-text input-group vip-input">
+	                            	<div class="title">C2车次：</div>
+	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c2">
+	                                <span class="input-group-addon">车次</span>
+	                                <p ng-show="item.c2>item.c2count" class="numerror" ng-bind="'不得大于'+item.c2count+'辆'"></p>
+	                            </div>
+                        	</div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td width="140"><label for="">预约日期：<span class="z-fontred">*</span></label></td>
+                        <td>
+                            <div class="input-text">
+                                <div class="z-arrange-days z-select-days">
+                                    <li ng-repeat="day in getDaysInfo" ng-class="{true:'noArrangeClass'}[day.cls==0]">
+                                        <input type="checkbox" class="arrange-day" value="{{day.pdate}}" ng-click="selectDay($event)">
+                                        <div>{{day.pdate | timeTexMD}}<span>{{day.day | weekDay}}</span></div>
+                                        <i class="class-mark"></i>
+                                    </li>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--
+                    	作者：offline
+                    	时间：2017-08-01
+                    	描述：
+                    
+                    <tr class="z-input-valid">
+                        <td><label for="">外部价格：<span class="z-fontred">*</span></label></td>
+                        <td>
+                            <div class="input-text input-group z-full">
+                                <input type="text" name="schoolName" placeholder="外部价格" datatype="/^([1-9][\d]{0,3})(\.[\d]{1,2})?$/|/^(0)(\.[\d]{1,2})$/|/^10000$/" errormsg="外部价格的区间：0.01≤金额≤10000" nullmsg="请输入外部价格" class="form-control" ng-model="outerPrice">
+                                <span class="input-group-addon">元/小时</span>
+                            </div>
+                        </td>
+                    </tr>
+                    -->
+                    <tr class="z-input-valid">
+                        <td><label for="">内部价格：<span class="z-fontred">*</span></label></td>
+                        <td>
+                            <div class="input-text input-group z-full">
+                                <input type="text" name="schoolName" placeholder="内部价格" datatype="/^([1-9][\d]{0,3})(\.[\d]{1,2})?$/|/^(0)(\.[\d]{1,2})$/|/^10000$/|/^0$/"  errormsg="内部价格的区间：0≤金额≤10000" nullmsg="请输入内部价格" class="form-control" ng-model="innerPrice">
+                                <span class="input-group-addon">元/小时</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">最小预约时间段：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <select name="" class="form-control" ng-model="minHours">
+                                    <option value="2">2小时</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td valign="top"><label class="z-mt10">预约时间段：<span class="z-fontred">*</span></label></td>
+                        <td>
+                            <div class="input-text form-inline item-auto-exam">
+                                <div class="item-auto-item z-mb10" id="itemAuto0">
+                                    <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" class="form-control date-time date-time-from" >
+                                    <span class="z-ml10 z-mr10">到</span>
+                                    <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" class="form-control date-time date-time-to" >
+                                </div>
+                                <div class="item-auto-btn z-fr"><button ng-click="zItemAdd($event,'gen')" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加时间段</button></div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <!--
+                    	作者：offline
+                    	时间：2017-08-01
+                    	描述：
+                    
+                    <tr class="z-input-valid">
+                        <td><label for="">最小时间段内车数：</label></td>
+                        <td>
+                            <div class="input-text"><span class="z-font22 z-mr10" ng-bind="!(c1||c2)?0:(c1+c2)"></span>车</div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">C1车数：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <input type="number" name="schoolName" placeholder="请输入C1车数,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0或不填写" nullmsg="请输入C1车数，没有的话请填0" class="form-control c1valid" ng-model="c1" ignore="ignore">
+                                <span>没有的话，请填0或不填写</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">C2车数：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <input type="number" name="schoolName" placeholder="请输入C2车数,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0或不填写" nullmsg="请输入C2车数，没有的话请填0" class="form-control c2valid" ng-model="c2" ignore="ignore">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">C1中预留给内部：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <input type="number" name="schoolName" placeholder="C1中预留给内部的数量,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0" nullmsg="请输入C1中预留给内部的数量,没有的话请填0或不填写" class="form-control c1valid" ng-model="c1inner" ignore="ignore">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">C2中预留给内部：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <input type="number" name="schoolName" placeholder="C2中预留给内部的数量,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0" nullmsg="请输入C2中预留给内部的数量,没有的话请填0或不填写" class="form-control c2valid" ng-model="c2inner" ignore="ignore">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="z-input-valid">
+                        <td><label for="">预留给内部失效天数：</label></td>
+                        <td>
+                            <div class="input-text">
+                                <input type="number" name="schoolName" placeholder="练考前内部预留将于多少天前失效" datatype="/^[0-9]+$/" errormsg="请输入非负整数" nullmsg="请输入预留给内部失效时间" class="form-control" ng-model="innerExpire" ignore="ignore">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;"><div class="z-pt10">优惠配置：</div></td>
+                        <td>
+                            <div class="exam-rc-conf">
+                                <div class="z-mb20">
+                                    <input type="radio" ng-click="showRc($event,1)" class="z-checkbox z-mr20" ng-checked="favorType==1" name="favortype">返课时
+                                    <div class="exam-rctime form-inline z-inline">
+                                        <select name="" class="form-control" ng-model="favorIn">
+                                            <option value="2" selected>累计2小时</option>
+                                        </select>
+                                        <span class="z-ml10 z-mr10">返</span>
+                                        <select name="" class="form-control" ng-model="favorOut">
+                                            <option value="0.5" selected>0.5学时</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input type="radio" ng-click="showRc($event,2)" class="z-checkbox z-mr20" ng-checked="favorType==2" name="favortype" disabled>返金额
+                                    <div class="exam-rcmoney form-inline z-inline" style="display: none;">
+                                        <select name="" class="form-control" ng-model="favorIn">
+                                            <option value="2">累计2小时</option>
+                                        </select>
+                                        <span class="z-ml10 z-mr10">返</span>
+                                        <select name="" class="form-control" ng-model="favorOut">
+                                            <option value="50">50元</option>
+                                        </select>
+                                    </div>
+                                </div>
+				<div>
+                                    <input type="radio" ng-click="showRc($event,0)" class="z-checkbox z-mr20" ng-checked="favorType==0" name="favortype">不优惠
+                                    
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    -->
+                </table>
+                <div class="z-caozuo z-mt20">
+                    <a class="btn btn-default btn-sm" href="#">返回</a>
+                    <button class="btn btn-primary btn-sm" ng-click="submitMsg()" id="btn_submit">提交</button>
+                </div>
+                </form>
+			</div>
+		</div>
+	</div>	
+</div>
+<!-- script -->
+<script src="assets/js/ng-js/arrange-exam-vipclass-add.js"></script>
+<script src="assets/common/js/Validform_v5.3.2_min.js"></script>
+<script src="assets/common/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
+</body>
+</html>
