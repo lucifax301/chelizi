@@ -9,9 +9,9 @@
     <result column="coachMobile" property="coachMobile" jdbcType="VARCHAR" />
     <result column="duration" property="duration" jdbcType="INTEGER" />
     <result column="payTotal" property="payTotal" jdbcType="INTEGER" />
-    <result column="payTime" property="payTime" jdbcType="DATE" />
+    <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="ctime" property="ctime" jdbcType="DATE" />
+    <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -38,6 +38,25 @@
   </select>
   
   <select id="select" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_place_pay_order
+    where 1=1
+    <if test="placeId>0">
+    	and placeId=#{placeId}
+    </if>
+    <if test="state !=null ">
+    	and state=#{state}
+    </if>
+    <if test="btime !=null">
+    	and <![CDATA[ #{btime}<=ctime ]]>
+    </if>
+    <if test="etime !=null">
+    	and <![CDATA[ #{etime}>=ctime ]]>
+    </if>
+  </select>
+  
+  <select id="selectunpay" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
     select 
     <include refid="Base_Column_List" />
     from t_exam_place_pay_order

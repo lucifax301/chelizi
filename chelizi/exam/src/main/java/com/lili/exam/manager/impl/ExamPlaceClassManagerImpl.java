@@ -548,6 +548,35 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
     	return null;
 	}
 	
+	
+	@Override
+	public List<ExamPlaceClass> getExamPlaceClass(String placeId,String pdate,String type) {
+		//可以增加缓存，但在新增排班或者更改排班时，需要同时更新缓存 TODO
+    	try {
+    		List<ExamPlaceClass> clses = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "."+type+"." + pdate);
+    		if(null == clses){
+    			Date d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 00:00:00");
+    			Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 23:59:59");
+    			ExamPlaceClassExample example = new ExamPlaceClassExample();
+    			example.createCriteria()
+    					.andPlaceIdEqualTo(Integer.parseInt(placeId)).andTypeEqualTo(Integer.parseInt(type))
+    					.andPstartBetween(d0, d1)
+    					.andStateNotEqualTo((byte) 1);//'排班状态：0-正常；1-已关闭；2-已延迟',
+//    			example.or(example.createCriteria()
+//    					.andPlaceIdEqualTo(Integer.parseInt(placeId))
+//    					.andPendBetween(d0, d1)
+//    					.andStateNotEqualTo((byte) 1));//'排班状态：0-正常；1-已关闭；2-已延迟',
+    			example.setOrderByClause("pstart asc");
+    			clses = examPlaceClassMapper.selectByExample(example);
+    			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "." + pdate, clses, RedisKeys.EXPIRE.WEEK);
+    		}
+    		return clses;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return null;
+	}
+	
 
 	@Override
 	public ExamPlaceClass getExamPlaceClassOne(Integer id) {
@@ -608,7 +637,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			List<ExamDateCarInfo> result=new ArrayList();	
 			
 			List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
-			
+			Date now=new Date();
 			for(ExamCarState car:cars){
 				boolean match=false;
 				for(Car ocar:allcars){
@@ -621,7 +650,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				}
 				if(!match) continue;
 				List<ExamPlaceClassVo> newclss=new ArrayList();
+				
 				for(ExamPlaceClassVo vo:clss){
+					if(vo.getPstart().before(now)) continue;
 					ExamPlaceClassVo newvo=new ExamPlaceClassVo();
 					BeanUtils.copyProperties(vo, newvo);
 					if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
@@ -786,6 +817,50 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		return data;
 	}
 
+	@Override
+	public List<ExamPlaceClassDate>  getExamPlaceClassDate(String placeId,String pdate,String days,String type) {
+		
+		
+		// version 2
+		List<ExamPlaceClassDate> data= new ArrayList<ExamPlaceClassDate>();
+		try {
+			//（1）根据days算出未来的日期
+			Date date = new SimpleDateFormat("yyyy-MM-dd").parse(pdate); //初始时间
+			int day = Integer.parseInt(days.trim());
+			int pid = Integer.parseInt(placeId);
+			for(int i=0;i<day;i++){
+		    	Calendar gdate = Calendar.getInstance(); 
+		    	gdate.setTime(date);
+		    	gdate.add(gdate.DATE, i);
+		    	Date d0 = gdate.getTime();
+		    	Date d1 = new Date(d0.getTime() + (24*60*60 -1)*1000 );
+		    	
+				ExamPlaceClassExample example = new ExamPlaceClassExample();
+				example.createCriteria()
+						.andPlaceIdEqualTo(pid).andTypeEqualTo(Integer.parseInt(type))
+						.andStateNotEqualTo((byte) 1)  //'排班状态：0-正常；1-已关闭；2-已延迟',
+						.andPstartBetween(d0, d1);
+//				example.or(example.createCriteria()
+//						.andPlaceIdEqualTo(pid)
+//						.andStateNotEqualTo((byte) 1)  //'排班状态：0-正常；1-已关闭；2-已延迟',
+//						.andPendBetween(d0, d1));
+				int count = examPlaceClassMapper.countByExample(example);
+				ExamPlaceClassDate a = new ExamPlaceClassDate();
+				a.setPdate(d0);
+				a.setCls(count);
+				a.setDay(gdate.get(Calendar.DAY_OF_WEEK) -1); //0--6对于星期几
+		    	data.add(a);
+		    	
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+
+	
 	@Override
 	public List<ExamPlaceClassVo> getExamPlaceClassInfo(String userId,
 			String userType, String placeId, String pdate, String drtype) {

@@ -113,7 +113,7 @@ public class BaseController {
 	 */
 	protected void sendExcel(HttpServletResponse response, Workbook wb,String name) throws IOException {
 		String fileName =  new String(name.getBytes("UTF-8"),"ISO8859-1")  
-		+ DateUtil.getCurrentMillis() + ".xls";
+		+ DateUtil.getCurrentMillis() + ".xlsx";
 		WebUtil.sendExcel(response, wb, fileName);
 	}
 

@@ -17,7 +17,7 @@
     select count(*) from t_exam_vip_coach where vipId=#{vipId}
     
       <if test="name != null and name !=''" >
-      	and name like %#{name}%
+      	and name like  CONCAT("%",CONCAT(${name},"%")) 
       </if>
     
   </select>
@@ -27,7 +27,7 @@
     from t_exam_vip_coach where vipId=#{vipId}
     
       <if test="name != null and name !=''" >
-      	and name like %#{name}%
+      	and name like CONCAT("%",CONCAT(${name},"%"))
       </if>
     
     order by id desc

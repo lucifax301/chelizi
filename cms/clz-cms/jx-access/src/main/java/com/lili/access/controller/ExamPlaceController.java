@@ -9,6 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,6 +29,7 @@ import com.google.gson.Gson;
 import com.lili.access.util.AccessWebUtil;
 import com.lili.cms.constant.Constant;
 import com.lili.cms.entity.ResponseMessage;
+import com.lili.cms.util.DateUtil;
 import com.lili.coach.dto.Region;
 import com.lili.coach.dto.School;
 import com.lili.coach.manager.CoachManager;
@@ -43,6 +51,7 @@ import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamPlaceRechargeManager;
 import com.lili.exam.manager.ExamPlaceWhitelistManager;
 import com.lili.exam.manager.ExamVipManager;
+import com.lili.order.model.Order;
 import com.lili.school.model.Car;
 import com.lili.school.model.CarNBDTO;
 import com.lili.school.service.CMSCarService;
@@ -523,14 +532,15 @@ public class ExamPlaceController extends BaseController{
 	@ResponseBody
 	public Object getExamPlaceClass(HttpServletRequest request,
 			//@RequestParam String placeId,
-			@RequestParam String pdate
+			@RequestParam String pdate,
+			@RequestParam String type
 			){
 		
 		ResponseMessage res = new ResponseMessage<>();
 		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
 			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
-			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate);
+			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate,type);
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {
@@ -655,6 +665,67 @@ public class ExamPlaceController extends BaseController{
 		
 	}
 	
+	@RequestMapping(value = "/payorder/export", method = RequestMethod.GET)
+	@ResponseBody
+	public void exportPayOrder(HttpServletRequest request,HttpServletResponse response
+			) throws Exception{
+		
+		User currentUser = AccessWebUtil.getSessionUser(request);
+			
+			ExamPlace ep= examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
+			
+			ExamPlacePayOrder p=(ExamPlacePayOrder)buildObject(request,ExamPlacePayOrder.class);
+			p.setPlaceId(ep.getId());
+			List<ExamPlacePayOrder> list=examPlaceOrderManager.getPayOrder(p);
+			Workbook wb = getWorkbook(list);
+			sendExcel(response, wb, Constant.SHEET_ORDER_FILE_NAME);
+		
+	}
+	
+	public static final String[] excelHeader = { "订单号",  "教练", "预约时长", "支付金额","预约时间","订单状态"};
+	
+	public Workbook getWorkbook(List<ExamPlacePayOrder> list){
+
+		 Workbook wb = null; 
+			try {
+				wb = new SXSSFWorkbook(1000);  //内存里一次只留多少行,几十万行无压力，不怕OOM
+				Sheet sheet = wb.createSheet(Constant.SHEET_ORDER_FILE_NAME);  //设置工作表标题
+				Row row = sheet.createRow((int) 0);  
+				CellStyle style = wb.createCellStyle();  
+				style.setAlignment(HSSFCellStyle.ALIGN_CENTER);   // 水平居中
+
+				// 产生表格标题行  
+				for (int i = 0; i < excelHeader.length; i++) {  
+				    Cell cell = row.createCell(i);  
+				    cell.setCellValue(excelHeader[i]);  
+				    cell.setCellStyle(style);  
+				}  
+				
+				
+				// 遍历集合数据，产生数据行 
+				ExamPlacePayOrder order = null;
+				for (int i = 0; i < list.size(); i++) {  
+				    row = sheet.createRow(i + 1);  
+				    row.setRowStyle(style);
+				    order = list.get(i);  
+				    row.createCell(0).setCellValue(order.getPayorderId());  
+				    row.createCell(1).setCellValue(order.getCoachName());  
+				    row.createCell(2).setCellValue(order.getDuration());  
+				    row.createCell(3).setCellValue(order.getPayTotal()/100);
+				    row.createCell(4).setCellValue(DateUtil.formatDatetime(order.getCtime()));  
+				    row.createCell(5).setCellValue(order.getState().intValue()==0?"未支付":order.getState().intValue()==1?"已支付":order.getState().intValue()==2?"过期取消":"退款取消");  
+				     
+				}
+			} 
+			catch (Exception e) {
+				e.printStackTrace();
+				access.error("|||exception e :" + e.getMessage() + " when export order");
+			}  
+		
+		
+		return wb;
+	}
+	
 	@RequestMapping(value = "/payorder", method = RequestMethod.POST)
 	@ResponseBody
 	public Object payOrder(HttpServletRequest request
@@ -665,6 +736,23 @@ public class ExamPlaceController extends BaseController{
 		ExamPlacePayOrder p=new ExamPlacePayOrder();
 		p.setPayorderId(payOrderId);
 		examPlaceOrderManager.confirmOrder(p);
+			
+		return res.build(); 
+		
+	}
+	
+	@RequestMapping(value = "/cancelpayorder", method = RequestMethod.POST)
+	@ResponseBody
+	public Object cancelpayOrder(HttpServletRequest request
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		String payOrderId=request.getParameter("payOrderId");
+		String placeId=request.getParameter("placeId");
+		User currentUser = AccessWebUtil.getSessionUser(request);
+		ExamPlacePayOrder p=new ExamPlacePayOrder();
+		p.setPayorderId(payOrderId);
+		p.setPlaceId(Integer.parseInt(placeId));
+		examPlaceOrderManager.cancelPayedOrder(p);
 			
 		return res.build(); 
 		
@@ -705,13 +793,15 @@ public class ExamPlaceController extends BaseController{
 	public Object getExamPlaceClassDate(
 			//@RequestParam String placeId,
 			@RequestParam String pdate,
-			@RequestParam String days,HttpServletRequest request
+			@RequestParam String days,
+			@RequestParam String type,
+			HttpServletRequest request
 			){
 		ResponseMessage res = new ResponseMessage<>();
 		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
 			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
-			List<ExamPlaceClassDate> data = examPlaceClassManager.getExamPlaceClassDate(ep.getId()+"", pdate,days);
+			List<ExamPlaceClassDate> data = examPlaceClassManager.getExamPlaceClassDate(ep.getId()+"", pdate,days,type);
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {

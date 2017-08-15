@@ -21,7 +21,7 @@
     select count(*) from t_exam_vip where schoolId=#{schoolId}
     <if test="_parameter != null" >
       <if test="name != null and name !=''" >
-      	and name like %#{name}%
+      	and name like CONCAT("%",CONCAT(#{name,jdbcType=VARCHAR},"%"))
       </if>
     </if>
   </select>
@@ -31,7 +31,7 @@
     from t_exam_vip where schoolId=#{schoolId}
     <if test="_parameter != null" >
       <if test="name != null and name !=''" >
-      	and name like %#{name}%
+      	and name like CONCAT("%",CONCAT(#{name,jdbcType=VARCHAR},"%"))
       </if>
     </if>
     order by id desc

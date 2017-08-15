@@ -1291,6 +1291,8 @@
                     typeTex="已支付"; break;
                 case 2:
                     typeTex="过期取消"; break;
+                case 3:
+                    typeTex="退款取消"; break;    
                 default:
                     typeTex = "未知";
             }

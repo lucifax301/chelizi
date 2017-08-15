@@ -106,6 +106,10 @@ public interface ExamPlaceClassManager {
 			String userType, String placeId, String pdate, String drtype);
 	
 	public ReqResult closeCarExamPlaceClass(String classId, String remark);
+	
+	public List<ExamPlaceClassDate>  getExamPlaceClassDate(String placeId,String pdate,String days,String type);
+	
+	public List<ExamPlaceClass> getExamPlaceClass(String placeId,String pdate,String type);
 }
 
 

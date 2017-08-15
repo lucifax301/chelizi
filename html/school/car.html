@@ -26,15 +26,7 @@
 							<li ng-click="getDataForCarType($event,3)">其他</li>
 						</ul>
 					</div>
-					<div class="line">
-						<div>汽车等级</div>
-						<ul>
-							<li ng-click="getDataForAccountStatus($event,'')" class="active">全部</li>
-							<li ng-click="getDataForAccountStatus($event,1)">普通</li>
-							<li ng-click="getDataForAccountStatus($event,2)">舒适</li>
-							<li ng-click="getDataForAccountStatus($event,3)">豪华</li>
-						</ul>
-					</div>
+					
 					<div class="line">
 						<div>车牌查询</div>
 						<div class="input-group">
@@ -64,23 +56,25 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-with-style">
 					  <tr>
-					  	<td><b>教练车牌号</b></td>
+					  	<td><b>车号</b></td>
+					  	<td><b>车牌号</b></td>
 					  	<td><b>所属</b></td>
-					  	<td><b>车型类别</b></td>
+					  	
 					  	<td><b>驾驶类别</b></td>
-					  	<td><b>里程(公里)</b></td>
-					  	<td><b>汽车等级</b></td>
-					  	<td><b>行驶证编号</b></td>
+					  	
+					  	
+					  	
 					  	<td><b>操作</b></td>
 					  </tr>
 					  <tr ng-repeat="data in datas">
 					  	<td><a href="car-details.html?carId={{data.carId}}" ng-bind="data.carNo"></a></td>
+					  	<td ng-bind="data.remark"></td>
 					  	<td ng-bind="data.schoolName"></td>
-					  	<td ng-bind="data.carType"></td>
+					  	
 					  	<td ng-bind="data.driveType | applyCarTypeTex"></td>
-					  	<td ng-bind="data.mileage"></td>
-					  	<td ng-bind="data.carLevel | carLevelText"></td>
-					  	<td ng-bind="data.driveNumber"></td>
+					  	
+					  	
+					  	
 					  	<td class="operation"><span class="edit" ng-if="100504|isButtonShow" ng-click="carEdit('edit',data)">编辑</span></td>
 					  </tr>
 					</table>

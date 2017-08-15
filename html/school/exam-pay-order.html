@@ -27,11 +27,11 @@
 	<script src="assets/common/js/commonStart.js"></script>
     <script>
         //判断非广仁考场的帐号登录则跳出
-        var requiredId = "grjxkc";
-        if(window.location.host=="uatjx.lilixc.com"){requiredId = "szgrjx";}
-        if(sessionStorage.getItem("schoolUserName")!=requiredId){
-            window.location.href="datas/data-statistics.html"
-        }
+//      var requiredId = "grjxkc";
+//      if(window.location.host=="uatjx.lilixc.com"){requiredId = "szgrjx";}
+//      if(sessionStorage.getItem("schoolUserName")!=requiredId){
+//          window.location.href="datas/data-statistics.html"
+//      }
     </script>
 </head>
 <body>
@@ -87,6 +87,7 @@
 						<div class="col-xs-12 col-sm-4">
 							<!--<a ng-click="orderDataExport()" class="btn btn-sm btn-primary margin-left-15">数据导出</a>-->
                             <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-primary" >打印</a>
+                            <a href="javascript:;" ng-click="downloadpayorder()" class="btn btn-sm btn-primary" >下载</a>
 						</div>
 						<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
 							<span>每页</span>
@@ -107,9 +108,9 @@
 								<td class="noprint"><b>教练姓名</b></td>
                                 <td class="noprint"><b>预约时长</b></td>
                                 <td class="noprint"><b>支付金额</b></td>
-								<td class="noprint"><b>支付时间</b></td>
+								<td class="noprint"><b>确认时间</b></td>
 								<td><b>订单状态</b></td>
-								<td class="noprint"><b>创建时间</b></td>
+								<td class="noprint"><b>预约时间</b></td>
 								<td class="noprint"><b>操作</b></td>
 								<!--<td class="noprint"><b>操作</b></td>-->
                             </tr>
@@ -124,7 +125,8 @@
                                 <td class="noprint" ng-bind="data.ctime|timeTex"></td>
                                 <td class="noprint">
                             		<a href="javascript:;" ng-click="payOrder(data)" ng-if="data.state==0">确认付款</a>
-                            		<a href="javascript:;" ng-if="data.state==1">已付款</a>
+                            		<a href="javascript:;" ng-click="cancelOrder(data)" ng-if="data.state==1">取消退款</a>
+                            		<!--<a href="javascript:;" ng-if="data.state==1">已付款</a>-->
                                 </td>
                                 <!--<td class="noprint"><a ng-if="data.state<=1" href="javascript:;" ng-click="closeOrder(data)">关闭订单</a></td>-->
 							</tr>

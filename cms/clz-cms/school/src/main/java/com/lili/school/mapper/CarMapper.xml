@@ -16,10 +16,11 @@
 		<result column="carLevel" property="carLevel" jdbcType="INTEGER" />
 		<result column="driveType" property="driveType" jdbcType="INTEGER" />
 		<result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId
+		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId,remark
 	</sql>
 
 	<sql id="Example_Where_Clause">
@@ -37,7 +38,7 @@
   <select id="findOne"  resultMap="BaseResultMap">
 		select distinct
 		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance
-		,b.carLevel,b.driveType,b.schoolId,c.name as schoolName
+		,b.carLevel,b.driveType,b.schoolId,c.name as schoolName,b.remark
 		from t_p_car b
 		left join t_u_coach a on a.coachCarId = b.carId
 		left join t_u_coachcar e on b.carId = e.carId and a.coachId = e.coachId
@@ -52,7 +53,7 @@
   <select id="findOneForCoach"  resultMap="BaseResultMap">
 		select 
 		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance
-		,b.carLevel,b.driveType,b.schoolId,a.name as coachName
+		,b.carLevel,b.driveType,b.schoolId,a.name as coachName,b.remark
 		from t_p_car b
 		left JOIN t_u_coachcar e ON e.isExist = 0 and b.carId = e.carId 
 		left JOIN t_u_coach a ON a.coachId = e.coachId 
@@ -64,7 +65,7 @@
   
 	<select id="findExportBatch" resultMap="BaseResultMap">
 		select
-		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName
+		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName,b.remark
 		from  t_p_car b inner join t_s_school a on a.schoolId = b.schoolId
 		Where 1=1
 		<!-- b.carId in (${carIds}) -->
@@ -101,7 +102,7 @@
 		select
 		b.carId,b.carType,b.carNo,b.driveNumber,b.drivePhoto,b.UsePerson,b.age
 		,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName
-		,b.schoolId
+		,b.schoolId,b.remark
 		from  t_p_car b inner join t_s_school a on a.schoolId = b.schoolId
 		Where 1=1
 			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
@@ -131,7 +132,7 @@
 	
 	<select id="findCar" parameterType="com.lili.school.model.CarNBDTO" resultMap="BaseResultMap">
 		select
-		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId
+		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId,remark
 		from  t_p_car 
 		Where 1=1 and
 		(
@@ -206,6 +207,9 @@
 			<if test="carLevel != null">
 				carLevel,
 			</if>
+			<if test="remark != null">
+				remark,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="carType != null">
@@ -228,6 +232,9 @@
 			</if>
 			<if test="carLevel != null">
 				#{carLevel,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark},
 			</if>
 		</trim>
 	</insert>
@@ -346,6 +353,9 @@
 	      </if>
 	      <if test="insuranceCo != null" >
 	        insuranceCo = #{insuranceCo,jdbcType=VARCHAR},
+	      </if>
+	      <if test="remark != null" >
+	        remark = #{remark,jdbcType=VARCHAR},
 	      </if>
 	    </set>
     	where carId = #{carId,jdbcType=INTEGER}

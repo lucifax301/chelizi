@@ -3177,10 +3177,10 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		Date now=new Date();
 		Calendar calendar=Calendar.getInstance();
 		calendar.setTime(now);
-		calendar.add(Calendar.MINUTE, -5);
+		calendar.add(Calendar.MINUTE, -30);
 		Date ctime=calendar.getTime();
 		examPlacePayOrder.setCtime(ctime);
-		List<ExamPlacePayOrder> orders=examPayMapper.select(examPlacePayOrder);
+		List<ExamPlacePayOrder> orders=examPayMapper.selectunpay(examPlacePayOrder);
 		
 		return orders;
 	}
@@ -3194,7 +3194,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		order.setPayTime(new Date());
 		//examPayMapper.update(order);
 		examPayMapper.update(order);
-
+		redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_PAY_ORDER + order.getPayorderId());
 		ExamPlaceOrder p=new ExamPlaceOrder();
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
@@ -3236,6 +3236,59 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					order.getPlaceId());
 		}
 	}
+
+	@Override
+	public void cancelPayedOrder(ExamPlacePayOrder order) {
+		ExamPlace ep = getExamPlaceById(order.getPlaceId());
+		
+		
+		order.setState(3);
+		order.setPayTime(new Date());
+		//examPayMapper.update(order);
+		examPayMapper.update(order);
+		redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_PAY_ORDER + order.getPayorderId());
+		ExamPlaceOrder p=new ExamPlaceOrder();
+		p.setPayorderId(order.getPayorderId());
+		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
+		for(ExamPlaceOrder record:orders){
+			ExamCarDate eexamCarDate = this.getExamCarDate(
+					order.getPlaceId(),
+					ep.getSchoolId(), format.format(record.getPstart()));
+			
+			record.setPayTime(new Date());
+			record.setState((byte)4);
+			examPlaceOrderMapper.cancel(record);
+			// 清除订单缓存
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
+					+ record.getOrderId());
+			
+			//car 
+			String carlist = eexamCarDate
+					.getCarlist();
+			List<ExamCarState> cars = JSON
+					.parseArray(carlist,
+							ExamCarState.class);
+			for (ExamCarState car : cars) {
+				if (car.getCarno().equals(record.getCarNo())) {
+					//订单时间区间转bitmap
+					String clssbitmap=changeClassBitmap(record);
+					String newbitmap=Long.toBinaryString(Long.parseLong(clssbitmap, 2)
+							^ Long.parseLong(car.getBitmap(),2));
+					while(newbitmap.length()<48){
+						newbitmap="0"+newbitmap;
+					}
+					car.setBitmap(newbitmap);
+					break;
+				}
+			}
+			eexamCarDate.setCarlist(JSON
+					.toJSONString(cars));
+
+			this.updateExamCarDate(eexamCarDate,
+					order.getPlaceId());
+		}
+	}
+
 	
 	@Override
 	public void confirmOrder(ExamPlacePayOrder order) {
@@ -3267,6 +3320,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 		List<ExamPlacePayOrder> data=examPayMapper.list(p,rowBounds);
 		return new Page<ExamPlacePayOrder>(data, pNo, pSize, total);
+		
+		
+	}
+	
+	@Override
+	public List<ExamPlacePayOrder> getPayOrder(ExamPlacePayOrder p) {
+		List<ExamPlacePayOrder> data=examPayMapper.select(p);
+		return data;
 		
 		
 	}

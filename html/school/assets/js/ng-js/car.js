@@ -8,7 +8,7 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 	$s.carType="";           //所学车型
 	$s.carLevel="";   //汽车等级
 	$s.carNo="";              //高级查询
-
+	$s.remark="";
 	// /*模拟数据*/
 	// $s.data={
 	// 	pages:10,
@@ -151,6 +151,7 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 	function editCarJson(url){
 		var json={
 				carNo:$s.editData.carNo,
+				remark:$s.editData.remark,
 			//	carLevel:parseInt($s.editData.carLevel),
 			//	driveNumber:$s.editData.driveNumber,
 				driveType:parseInt($s.editData.driveType)
@@ -168,7 +169,8 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 	$s.submitEditMsg=function($event){
 		var json=$s.editType=="add"?editCarJson("car/add"):editCarJson("car/update");
 
-		if(!$s.editData.carNo || !regCombination('special').test($s.editData.carNo)){
+		//if(!$s.editData.carNo || !regCombination('special').test($s.editData.carNo)){
+		if(!$s.editData.carNo ){
 			Layer.alert({type:"msg",title:"请填写车牌号"});
 			return false;	
 		}

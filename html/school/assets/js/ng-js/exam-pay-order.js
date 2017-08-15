@@ -82,6 +82,33 @@ app.controller("ExamGroundOrder",["$scope","$filter",function($s,$filter){
         return json;
     };
 
+	$s.cancelOrder=function(itemData){
+		console.log(itemData)
+        Layer.confirm({width:350,height:160,title:"确认退款取消"+itemData.coachName+"的订单？",header:"确认"},function(){
+			$.AJAX({
+				url: config.basePath+"examPlace/cancelpayorder",
+				type : "POST",
+				data: {
+					payOrderId: itemData.payorderId,
+					placeId:itemData.placeId
+				},
+				success : function(data){
+					Layer.miss({width:250,height:90,title:"操作成功",closeMask:true});
+					$s.getDataList();
+				}
+			});
+		});
+	}
+	
+	$s.downloadpayorder=function(){
+		//调起数据导出
+		dataExportForIframe({
+			getSearchs:getJson($s.defaultPage).data,
+			total:$s.total,
+			url:'examPlace/payorder/export',
+		});
+	}
+
     /*hash值改变的时候加载数据列表*/
     window.onhashchange=function(){
         win.showLoading();

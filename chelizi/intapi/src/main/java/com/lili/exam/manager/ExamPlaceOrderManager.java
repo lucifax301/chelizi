@@ -158,6 +158,10 @@ public interface ExamPlaceOrderManager {
 			String userType, String state, String pageNo, String pageSize);
 	
 	public List<ExamPlacePayOrder> getExamPlacePayOrder(String orderId);
+	
+	public List<ExamPlacePayOrder> getPayOrder(ExamPlacePayOrder p);
+	
+	public void cancelPayedOrder(ExamPlacePayOrder order);
 }
 
 
