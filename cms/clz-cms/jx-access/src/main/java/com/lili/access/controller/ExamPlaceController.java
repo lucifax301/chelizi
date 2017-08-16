@@ -651,14 +651,33 @@ public class ExamPlaceController extends BaseController{
 	@ResponseBody
 	public Object getPayOrder(HttpServletRequest request,@RequestParam String pageNo,
 			@RequestParam String pageSize
-			){
+			) throws Exception{
 		ResponseMessage res = new ResponseMessage<>();
 		User currentUser = AccessWebUtil.getSessionUser(request);
+			String pdate=request.getParameter("pdate");
+			String state=request.getParameter("state");
+			Date d0 = null;
+			Date d1 = null;
+			if (pdate.contains(",")) {
+				String p1 = pdate.split(",")[0];
+				String p2 = pdate.split(",")[1];
+				String t1 = "00:00:00";
+				String t2 = "23:59:59";
+				d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.parse(p1 + " " + t1);
+				d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.parse(p2 + " " + t2);
+			}
 			
 			ExamPlace ep= examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
 			
 			ExamPlacePayOrder p=new ExamPlacePayOrder();
 			p.setPlaceId(ep.getId());
+			p.setBtime(d0);
+			p.setEtime(d1);
+			if(state!=null&&state.length()>0){
+				p.setState(Integer.parseInt(state));
+			}
 			Page<ExamPlacePayOrder> data=examPlaceOrderManager.getPayOrder(p,pageNo,pageSize);
 			res.addResult("pageData", data);
 		return res.build(); 
@@ -671,11 +690,29 @@ public class ExamPlaceController extends BaseController{
 			) throws Exception{
 		
 		User currentUser = AccessWebUtil.getSessionUser(request);
-			
+		String pdate=request.getParameter("pdate");
+		String state=request.getParameter("state");
+		Date d0 = null;
+		Date d1 = null;
+		if (pdate!=null&&pdate.contains(",")) {
+			String p1 = pdate.split(",")[0];
+			String p2 = pdate.split(",")[1];
+			String t1 = "00:00:00";
+			String t2 = "23:59:59";
+			d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+					.parse(p1 + " " + t1);
+			d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+					.parse(p2 + " " + t2);
+		}
 			ExamPlace ep= examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
 			
 			ExamPlacePayOrder p=(ExamPlacePayOrder)buildObject(request,ExamPlacePayOrder.class);
 			p.setPlaceId(ep.getId());
+			p.setBtime(d0);
+			p.setEtime(d1);
+			if(state!=null&&state.length()>0){
+				p.setState(Integer.parseInt(state));
+			}
 			List<ExamPlacePayOrder> list=examPlaceOrderManager.getPayOrder(p);
 			Workbook wb = getWorkbook(list);
 			sendExcel(response, wb, Constant.SHEET_ORDER_FILE_NAME);
@@ -871,6 +908,25 @@ public class ExamPlaceController extends BaseController{
 		ResponseMessage res = new ResponseMessage<>();
 		try {
 			List<ExamPlaceOrder> data = examPlaceOrderManager.getExamPlaceOrder(orderId);
+			res.addResult("pageData", data);
+			
+		} catch (Exception e) {
+			log.error("controller: ExamPlaceController getExamPlaceOrderOne failed=" + e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return res.build();
+		
+	}
+	
+	@RequestMapping(value = "/payorder/info", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getExamPlacePayOrderInfo(
+			@RequestParam String orderId
+			
+			){
+		ResponseMessage res = new ResponseMessage<>();
+		try {
+			List<ExamPlacePayOrder> data = examPlaceOrderManager.getExamPlacePayOrder(orderId);
 			res.addResult("pageData", data);
 			
 		} catch (Exception e) {

@@ -49,6 +49,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         url:config.basePath+"examPlace/class/date",
         data:{
             //"placeId":1,
+            "type":1,
             "pdate":$filter('date')(new Date(), "yyyy-MM-dd"),
             "days":14
         },

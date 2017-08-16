@@ -53,7 +53,7 @@
                         <th style="background: none;">当日信息</th>
                         <td>
                             <span class="z-fl">外部均价:<span ng-bind="(outerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
-                            <span class="z-fr">内部均价:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
+                            <!--<span class="z-fr">内部均价:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>-->
                         </td>
                         <td><span class="z-fl" ng-bind="'C1数:'+c1All"></span><span class="z-fr">预留数:<span ng-bind="c1innerAll"></span></span></td>
                         <td><span class="z-fl" ng-bind="'C2数:'+c2All"></span><span class="z-fr">预留数:<span ng-bind="c2innerAll"></span></span></td>
@@ -68,7 +68,7 @@
                         <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span></th>
                         <td>
                             <span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
-                            <span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>
+                            <!--<span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>-->
                         </td>
                         <td><span class="z-fl" ng-bind="'C1数:'+item.c1"></span><span class="z-fr">预留数:<span ng-bind="item.c1inner"></span></span></td>
                         <td><span class="z-fl" ng-bind="'C2数:'+item.c2"></span><span class="z-fr">预留数:<span ng-bind="item.c2inner"></span></span></td>

@@ -23,8 +23,11 @@
     <if test="state !=null ">
     	and state=#{state}
     </if>
-    <if test="ctime !=null">
-    	and <![CDATA[ ctime<=#{ctime} ]]>
+    <if test="btime !=null">
+    	and <![CDATA[ #{btime}<=ctime ]]>
+    </if>
+    <if test="etime !=null">
+    	and <![CDATA[ #{etime}>=ctime ]]>
     </if>
     
   </select>
@@ -80,8 +83,11 @@
     <if test="state !=null ">
     	and state=#{state}
     </if>
-    <if test="ctime !=null">
-    	and <![CDATA[ ctime<=#{ctime} ]]>
+    <if test="btime !=null">
+    	and <![CDATA[ #{btime}<=ctime ]]>
+    </if>
+    <if test="etime !=null">
+    	and <![CDATA[ #{etime}>=ctime ]]>
     </if>
     order by ctime desc
   </select>

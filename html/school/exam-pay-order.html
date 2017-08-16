@@ -116,7 +116,7 @@
                             </tr>
 							<tr ng-repeat="data in datas">
                                 <td class="onlyprint">{{(defaultPage-1)*pageSize+$index+1}}</td>
-                                <td class="noprint"><a target="_blank" href="javascript:" class="layerBubble" ng-bind="data.payorderId"></a></td>
+                                <td class="noprint"><a target="_blank" href="exam-pay-order-details.html?orderId={{data.payorderId}}" data-bubble="{{ data.payorderId }}" class="layerBubble" ng-bind="data.payorderId"></a></td>
                                 <td class="noprint" ng-bind="data.coachName"></td>
                                 <td class="noprint" ng-bind="data.duration + '小时'"></td>
                                 <td class="noprint" ng-bind="data.payTotal/100 + '元'"></td>

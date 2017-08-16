@@ -155,11 +155,11 @@
 								<td class="noprint"><b>订单金额(元)</b></td>
 								<td class="noprint"><b>支付金额(元)</b></td>
 								<td class="noprint"><b>订单状态</b></td>
-								<td class="noprint"><b>订单备注</b></td>
+								<!--<td class="noprint"><b>订单备注</b></td>-->
                                 <td class="onlyprint"><b>练考车牌</b></td>
 								<td class="onlyprint"><b>进场确认</b></td>
 								<td class="onlyprint"><b>离场确认</b></td>
-								<td class="onlyprint" style="width: 8em"><b>备注</b></td>
+								<!--<td class="onlyprint" style="width: 8em"><b>备注</b></td>-->
 								<!--<td class="noprint"><b>操作</b></td>-->
                             </tr>
 							<tr ng-repeat="data in datas">
@@ -178,7 +178,7 @@
                                 <td class="noprint" ng-bind="data.priceTotal/100"></td>
                                 <td class="noprint" ng-bind="data.payTotal/100"></td>
                                 <td class="noprint" ng-bind="data.state|examOrderState"></td>
-                                <td class="noprint" ng-bind="data.remark"></td>
+                                <!--<td class="noprint" ng-bind="data.remark"></td>-->
                                 <td class="onlyprint" ng-bind="data.carNo"></td>
                                 <td class="onlyprint"></td>
                                 <td class="onlyprint"></td>
