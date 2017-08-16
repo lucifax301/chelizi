@@ -2527,7 +2527,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			record.setState((byte)1);
 			examPlaceOrderMapper.updateByPrimaryKeySelective(record);
 			// 清除订单缓存
-			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_ORDER
+			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_PAY_ORDER
 					+ record.getOrderId());
 		}
 		
