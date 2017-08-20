@@ -32,8 +32,7 @@ import com.lili.common.util.redis.RedisUtil;
 import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
-import com.lili.exam.dto.ExamCarDate;
-import com.lili.exam.dto.ExamCarState;
+import com.lili.exam.dto.ExamCarDateNew;
 import com.lili.exam.dto.ExamDateCarInfo;
 import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
@@ -53,7 +52,7 @@ import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamVipManager;
-import com.lili.exam.mapper.ExamCarDateMapper;
+import com.lili.exam.mapper.ExamCarDateNewMapper;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
 import com.lili.exam.mapper.ExamPlaceMapper;
@@ -93,7 +92,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	ExamVipManager examVipManagerImpl;
 	
 	@Autowired
-	ExamCarDateMapper examCarDateMapper;
+	ExamCarDateNewMapper examCarDateMapper;
 	
 	@Autowired
 	private CarManager carManager;
@@ -136,31 +135,31 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				return res;
 			}
 			
-			ExamPlace ep = getExamPlaceById(placeId);
-			ExamCarDate examCarDate=new ExamCarDate();
-			examCarDate.setSchoolId(ep.getSchoolId());
-			examCarDate.setDate(format.format(d0));
-			ExamCarDate eexamCarDate=examCarDateMapper.selectByDate(examCarDate);
-			//没有当天的车使用记录，插入一条
-			if(eexamCarDate==null){
-				eexamCarDate=new ExamCarDate();
-				eexamCarDate.setSchoolId(ep.getSchoolId());
-				eexamCarDate.setDate(format.format(d0));
-				
-				List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
-				List<ExamCarState> ecslist=new ArrayList();
-				//0-24,每半小时一个0
-				String bitmap="000000000000000000000000000000000000000000000000";
-				for(Car car:allcars){
-					ExamCarState ecs=new ExamCarState();
-					ecs.setBitmap(bitmap);
-					ecs.setCarno(car.getCarNo());
-					ecslist.add(ecs);
-				}
-				String carliststr=JSON.toJSONString(ecslist);
-				eexamCarDate.setCarlist(carliststr);
-				examCarDateMapper.insertExamCarDate(eexamCarDate);
-			}
+//			ExamPlace ep = getExamPlaceById(placeId);
+//			ExamCarDate examCarDate=new ExamCarDate();
+//			examCarDate.setSchoolId(ep.getSchoolId());
+//			examCarDate.setDate(format.format(d0));
+//			ExamCarDate eexamCarDate=examCarDateMapper.selectByDate(examCarDate);
+//			//没有当天的车使用记录，插入一条
+//			if(eexamCarDate==null){
+//				eexamCarDate=new ExamCarDate();
+//				eexamCarDate.setSchoolId(ep.getSchoolId());
+//				eexamCarDate.setDate(format.format(d0));
+//				
+//				List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+//				List<ExamCarState> ecslist=new ArrayList();
+//				//0-24,每半小时一个0
+//				String bitmap="000000000000000000000000000000000000000000000000";
+//				for(Car car:allcars){
+//					ExamCarState ecs=new ExamCarState();
+//					ecs.setBitmap(bitmap);
+//					ecs.setCarno(car.getCarNo());
+//					ecslist.add(ecs);
+//				}
+//				String carliststr=JSON.toJSONString(ecslist);
+//				eexamCarDate.setCarlist(carliststr);
+//				examCarDateMapper.insertExamCarDate(eexamCarDate);
+//			}
 			
 			
 			examPlaceClassMapper.insertSelective(record);
@@ -628,20 +627,39 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 //		}
 		
 		//获取一天的车使用情况
-		ExamCarDate examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
+		List<ExamCarDateNew> examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
 		if(examCarDate!=null){
-			String carlist=examCarDate.getCarlist();
-			List<ExamCarState> cars=JSON.parseArray(carlist, ExamCarState.class);
+			
+			List<ExamCarDateNew> cars=examCarDate;
 			
 			
 			List<ExamDateCarInfo> result=new ArrayList();	
 			
 			List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
 			Date now=new Date();
-			for(ExamCarState car:cars){
+			
+			for(Car ocar:allcars){
+				boolean hasdate=false;
+				for(ExamCarDateNew car:cars){
+					if(car.getCarId()==ocar.getCarId()){
+						hasdate=true;break;
+					}
+				}
+				if(!hasdate){
+					ExamCarDateNew examCarDateNew=new ExamCarDateNew();
+					examCarDateNew.setCarId(ocar.getCarId());
+					examCarDateNew.setCarno(ocar.getCarNo());
+					String bitmap="000000000000000000000000000000000000000000000000";
+					examCarDateNew.setBitmap(bitmap);
+					cars.add(examCarDateNew);
+				}
+			}
+			
+			for(ExamCarDateNew car:cars){
 				boolean match=false;
 				for(Car ocar:allcars){
-					if(car.getCarno().equals(ocar.getCarNo())){
+					if(car.getCarId()==ocar.getCarId()){
+						car.setCarno(car.getCarno());
 						if(ocar.getDriveType().intValue()==Integer.parseInt(drtype)){
 							match=true;
 						}
@@ -655,15 +673,18 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					if(vo.getPstart().before(now)) continue;
 					ExamPlaceClassVo newvo=new ExamPlaceClassVo();
 					BeanUtils.copyProperties(vo, newvo);
+					
 					if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
 						changeClassBitmap(newvo);
 						int used=usedcar(newvo,car);
 						newvo.setUsed(used);
 					}
+					
 					if(newvo.getState()!=2&&newvo.getUsed()==1){
 						newvo.setState(2);
 					}
 					newclss.add(newvo);
+					
 				}
 				ExamDateCarInfo carinfo=new ExamDateCarInfo();
 				carinfo.setCarno(car.getCarno());
@@ -694,9 +715,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	 * @param carState
 	 * @return 1 被使用, 0 空闲没被使用
 	 */
-	private int usedcar(ExamPlaceClassVo vo,ExamCarState carState){
+	private int usedcar(ExamPlaceClassVo vo,ExamCarDateNew carState){
+		System.out.println(vo.getBitmap()+"-------"+carState.getBitmap());
 		long bitmap=Long.parseLong(carState.getBitmap(),2)^Long.parseLong(factor,2);
-		System.out.println("car:"+carState.getCarno()+" "+Long.toBinaryString(bitmap)+" "+vo.getBitmap());
 		
 		String newbitmap=Long.toBinaryString((Long.parseLong(vo.getBitmap(),2)&bitmap));
 		while(newbitmap.length()<48){
@@ -740,18 +761,27 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		vo.setBitmap(builder.toString());
 	}
 	
-	private ExamCarDate getExamCarDate(Integer placeId,int schoolId,String date){
-		ExamCarDate ep = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date);
-		if (null == ep) {
-			ExamCarDate examCarDate=new ExamCarDate();
-			examCarDate.setSchoolId(schoolId);
-			examCarDate.setDate(date);
-			ep=examCarDateMapper.selectByDate(examCarDate);
-			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date, ep,
-					RedisKeys.EXPIRE.WEEK);
-		}
+//	private ExamCarDate getExamCarDate(Integer placeId,int schoolId,String date){
+//		ExamCarDate ep = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date);
+//		if (null == ep) {
+//			ExamCarDate examCarDate=new ExamCarDate();
+//			examCarDate.setSchoolId(schoolId);
+//			examCarDate.setDate(date);
+//			ep=examCarDateMapper.selectByDate(examCarDate);
+//			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId+"."+date, ep,
+//					RedisKeys.EXPIRE.WEEK);
+//		}
+//
+//		return ep;
+//	}
+	
+	private List<ExamCarDateNew> getExamCarDate(Integer placeId,int schoolId,String date){
+		ExamCarDateNew examCarDate=new ExamCarDateNew();
+		examCarDate.setSchoolId(schoolId);
+		examCarDate.setDate(date);
+		List list=examCarDateMapper.selectByDate(examCarDate);
 
-		return ep;
+		return list;
 	}
 
 	@Override
@@ -1003,12 +1033,16 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					boolean isC1 = "1".equals(drtype.trim());
 					byte drive = Byte.parseByte(drtype.trim());
 					
+					List<ExamPlaceClass> vipclass=new ArrayList();
+					
 					for(int i=classes.size()-1;i>=0;i--){
 						ExamPlaceClass cls = classes.get(i);
 						if(isInner&&cls.getType()==0){//普通排班移除
 							classes.remove(i);
 						}
 						if(!isInner&&cls.getType()==1){//移除大客户排版
+							//如果是普通客户，把大客户排班放到临时list来做比较
+							vipclass.add(cls);
 							classes.remove(i);
 						}
 					}

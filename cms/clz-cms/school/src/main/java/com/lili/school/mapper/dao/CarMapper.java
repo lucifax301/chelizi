@@ -62,6 +62,8 @@ public interface CarMapper {
 	public Long insertOne(Car car) throws Exception;
 
 	public Long updateOne(Car car) throws Exception;
+	
+	public Long delete(Car car) throws Exception;
 
 	public List<Car> findByStudentId(long studentId) throws Exception;
 

@@ -95,6 +95,25 @@ public class CMSCarServiceImpl implements CMSCarService {
 		}
 		return new ResponseMessage("车辆信息已存在");
 	}
+	
+	@Override
+	public ResponseMessage deleteOne(LogCommon logCommon, Car car) throws Exception {
+		CarNBDTO dto = new CarNBDTO();
+		dto.setCarId(car.getCarId());
+		dto.setCarNo(car.getCarNo());
+		dto.setDriveNumber(car.getDriveNumber());
+		
+			if (cmsCarManager.deleteOne(car) <= 0) {
+				return new ResponseMessage("删除失败");
+			} else {
+				if (logCommon != null) {
+					logCommon.setRelateId(String.valueOf(car.getCarId()));
+				}
+				return new ResponseMessage();
+			}
+		
+		
+	}
 
 	@Override
 	public List<Car> getExportSource(CarBDTO dto) throws Exception {

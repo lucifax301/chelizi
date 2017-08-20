@@ -146,6 +146,23 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 			$s.editType="add";
 		}
 	}
+	
+	$s.carDel=function(data){
+		Layer.confirm({width:350,height:160,title:"确认删除车辆"+data.carNo+"？",header:"确认"},function(){
+			$.AJAX({
+				url: config.basePath+"car/delete",
+				type : "POST",
+				data: {
+					carId: data.carId
+				},
+				success : function(data){
+					Layer.miss({width:250,height:90,title:"操作成功",closeMask:true});
+					$s.getDataList();
+				}
+			});
+		});
+	}
+	
 
 	/*参数配置函数*/
 	function editCarJson(url){

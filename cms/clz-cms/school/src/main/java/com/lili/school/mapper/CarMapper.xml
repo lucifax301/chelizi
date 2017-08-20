@@ -104,7 +104,7 @@
 		,b.mileage,b.performance,b.carLevel,b.driveType,a.name as schoolName
 		,b.schoolId,b.remark
 		from  t_p_car b inner join t_s_school a on a.schoolId = b.schoolId
-		Where 1=1
+		Where 1=1 and b.del=0
 			<if test="schoolNo != null and schoolNo != '' and cmsChannel == 1">
 				and a.schoolId = #{schoolNo}
 			</if>
@@ -358,6 +358,12 @@
 	        remark = #{remark,jdbcType=VARCHAR},
 	      </if>
 	    </set>
+    	where carId = #{carId,jdbcType=INTEGER}
+	</update>
+	
+	<update id="delete" parameterType="com.lili.school.model.Car">
+	    update t_p_car
+	    set del=1
     	where carId = #{carId,jdbcType=INTEGER}
 	</update>
 

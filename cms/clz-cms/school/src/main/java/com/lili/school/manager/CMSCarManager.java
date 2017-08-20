@@ -61,4 +61,6 @@ public interface CMSCarManager {
 	public Long insertCarInfo(Car car);
 
 	public CarCheckVo queryRegCarInfo(Integer carId) throws Exception;
+	
+	public Long deleteOne(Car car)  throws Exception;
 }

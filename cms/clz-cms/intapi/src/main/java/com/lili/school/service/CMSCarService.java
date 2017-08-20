@@ -95,5 +95,7 @@ public interface CMSCarService {
 	 * @return
 	 */
 	public CarCheckVo queryRegCarInfo(Integer carId) throws Exception;
+	
+	public ResponseMessage deleteOne(LogCommon logCommon, Car car) throws Exception;
 
 }

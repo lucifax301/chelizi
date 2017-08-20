@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lili.exam.mapper.ExamCarDateNewMapper" >
+  <resultMap id="BaseResultMap" type="com.lili.exam.dto.ExamCarDateNew" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="bitmap" property="bitmap" jdbcType="VARCHAR" />
+    <result column="carno" property="carno" jdbcType="VARCHAR" />
+    <result column="schoolId" property="schoolId" jdbcType="INTEGER" />
+    <result column="carId" property="carId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, date,bitmap,carno,  carId,schoolId
+  </sql>
+  
+  <select id="countExamCarDate" parameterType="com.lili.exam.dto.ExamCarDateNew" resultType="java.lang.Integer" >
+    select count(*) from t_exam_car_date_new where schoolId=#{schoolId}
+    <if test="date != null and date !=''" >
+      	and date= #{date}
+      </if>
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamCarDateNew" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_car_date_new
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByDate" resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamCarDateNew" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exam_car_date_new
+    where schoolId=#{schoolId} and date = #{date}
+  </select>
+  
+  <delete id="deleteExamCarDate" parameterType="com.lili.exam.dto.ExamCarDateNew" >
+    delete from t_exam_car_date_new
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insertExamCarDate" parameterType="com.lili.exam.dto.ExamCarDateNew" >
+    insert into t_exam_car_date_new (date,carno, carId, bitmap,
+      schoolId 
+      
+      )
+    values (#{date,jdbcType=VARCHAR},#{carno ,jdbcType=VARCHAR},  #{carId,jdbcType=INTEGER},
+    #{bitmap,jdbcType=VARCHAR}, 
+      #{schoolId,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  
+  <update id="updateExamCarDate" parameterType="com.lili.exam.dto.ExamCarDateNew" >
+    update t_exam_car_date_new
+    set bitmap=#{bitmap}
+    
+    where id=#{id}
+  </update>
+  
+</mapper>

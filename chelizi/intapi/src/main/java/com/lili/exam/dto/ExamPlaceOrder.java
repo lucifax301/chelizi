@@ -29,7 +29,7 @@ public class ExamPlaceOrder implements Serializable {
     private Byte coachType;
 
     private String carNo;
-
+    
     private String device;
 
     private Integer duration;
@@ -89,10 +89,9 @@ public class ExamPlaceOrder implements Serializable {
     private String payorderId;
 
     private static final long serialVersionUID = 1L;
+    
 
-    
-    
-    public String getPayorderId() {
+	public String getPayorderId() {
 		return payorderId;
 	}
 

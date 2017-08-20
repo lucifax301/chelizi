@@ -40,8 +40,7 @@ import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqConstants;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
-import com.lili.exam.dto.ExamCarDate;
-import com.lili.exam.dto.ExamCarState;
+import com.lili.exam.dto.ExamCarDateNew;
 import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
 import com.lili.exam.dto.ExamPlaceClass;
@@ -60,6 +59,7 @@ import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.exam.manager.ExamVipManager;
 import com.lili.exam.mapper.ExamCarDateMapper;
+import com.lili.exam.mapper.ExamCarDateNewMapper;
 import com.lili.exam.mapper.ExamPayMapper;
 import com.lili.exam.mapper.ExamPlaceClassMapper;
 import com.lili.exam.mapper.ExamPlaceFavorMapper;
@@ -115,7 +115,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	ExamVipManager examVipManagerImpl;
 
 	@Autowired
-	ExamCarDateMapper examCarDateMapper;
+	ExamCarDateNewMapper examCarDateMapper;
 
 	ExecutorService threadPool = Executors.newCachedThreadPool();
 
@@ -964,7 +964,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					return res;
 				}
 
-				ExamCarDate eexamCarDate = this.getExamCarDate(
+				List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 						Integer.parseInt(placeId),
 						ep.getSchoolId(), format.format(d0));
 
@@ -1234,7 +1234,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 							Date d0 = cls.getPstart();
 							boolean isExpire=false;
 
-							ExamCarDate eexamCarDate = this.getExamCarDate(
+							List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 									Integer.parseInt(placeId),
 									ep.getSchoolId(), format.format(d0));
 							
@@ -1292,18 +1292,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										
 										updateExamPlaceClass(cls);
 										//更新车的占位情况
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1363,17 +1363,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										cls.setC2bookInner(cls.getC2bookInner() + 1);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1443,17 +1444,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1519,17 +1521,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										cls.setC2bookInner(cls.getC2bookInner() + 1);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1574,17 +1577,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										cls.setC1bookOuter(cls.getC1bookOuter() + 1);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1623,17 +1627,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										cls.setC2bookOuter(cls.getC2bookOuter() + 1);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1676,18 +1681,19 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										cls.setC1bookOuter(cls.getC1bookOuter() + 1);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(
 														cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1728,17 +1734,18 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 										// examPlaceClassManager.updateExamPlaceClass(cls);
 										updateExamPlaceClass(cls);
 
-										String carlist = eexamCarDate.getCarlist();
-										List<ExamCarState> cars = JSON.parseArray(carlist,ExamCarState.class);
-										for (ExamCarState car : cars) {
+										
+										List<ExamCarDateNew> cars = eexamCarDate;
+										for (ExamCarDateNew car : cars) {
 											if (car.getCarno().equals(carno)) {
 												String newbitmap = changeCarBitmap(cls, car);
 												car.setBitmap(newbitmap);
+												this.updateExamCarDate(car,Integer.parseInt(placeId));
 												break;
 											}
 										}
-										eexamCarDate.setCarlist(JSON.toJSONString(cars));
-										this.updateExamCarDate(eexamCarDate,Integer.parseInt(placeId));
+										
+										
 
 										// （3）生成订单
 										Car car = new Car();
@@ -1813,29 +1820,29 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return res;
 	}
 
-	private Car pickcar(List<Car> allcars, List<String> book, String drtype) {
-		for (Car car : allcars) {
-			if (car.getDriveType().intValue() != Integer.parseInt(drtype)) {// c1,c2不匹配
-				continue;
-			}
-			boolean hasbook = false;
-			if (book != null) {
-				for (String carno : book) {
-					if (car.getCarNo().equals(carno)) {
-						hasbook = true;
-						break;
-					}
-				}
-			}
-
-			if (!hasbook) {// 没有被使用
-				return car;
-			}
-		}
-
-		// 没有空闲车辆
-		return null;
-	}
+//	private Car pickcar(List<Car> allcars, List<String> book, String drtype) {
+//		for (Car car : allcars) {
+//			if (car.getDriveType().intValue() != Integer.parseInt(drtype)) {// c1,c2不匹配
+//				continue;
+//			}
+//			boolean hasbook = false;
+//			if (book != null) {
+//				for (String carno : book) {
+//					if (car.getCarNo().equals(carno)) {
+//						hasbook = true;
+//						break;
+//					}
+//				}
+//			}
+//
+//			if (!hasbook) {// 没有被使用
+//				return car;
+//			}
+//		}
+//
+//		// 没有空闲车辆
+//		return null;
+//	}
 
 	/**
 	 * 同步方式生成订单
@@ -2257,7 +2264,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
 		for(ExamPlaceOrder record:orders){
-			ExamCarDate eexamCarDate = this.getExamCarDate(
+			List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 					order.getPlaceId(),
 					ep.getSchoolId(), format.format(record.getPstart()));
 			
@@ -2269,12 +2276,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					+ record.getOrderId());
 			
 			//car 
-			String carlist = eexamCarDate
-					.getCarlist();
-			List<ExamCarState> cars = JSON
-					.parseArray(carlist,
-							ExamCarState.class);
-			for (ExamCarState car : cars) {
+			
+			List<ExamCarDateNew> cars = eexamCarDate;
+			for (ExamCarDateNew car : cars) {
 				if (car.getCarno().equals(record.getCarNo())) {
 					//订单时间区间转bitmap
 					String clssbitmap=changeClassBitmap(record);
@@ -2284,12 +2288,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						newbitmap="0"+newbitmap;
 					}
 					car.setBitmap(newbitmap);
+					this.updateExamCarDate(car,order.getPlaceId());
 					break;
 				}
 			}
-			eexamCarDate.setCarlist(JSON.toJSONString(cars));
-
-			this.updateExamCarDate(eexamCarDate,order.getPlaceId());
+			
+			
 			
 			// （2.2）恢复订单所占空位 为了快速扫描，可异步执行！
 			ExamPlaceClass cls = getExamPlaceClassOne(record.getClassId());
@@ -2940,7 +2944,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return ep;
 	}
 
-	private String changeCarBitmap(ExamPlaceClass vo, ExamCarState car) {
+	private String changeCarBitmap(ExamPlaceClass vo, ExamCarDateNew car) {
 		Date d0 = vo.getPstart();
 		Date d1 = vo.getPend();
 		int hour = d0.getHours();
@@ -3040,28 +3044,44 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	
 	
 
-	private ExamCarDate getExamCarDate(Integer placeId, int schoolId,
+	private List<ExamCarDateNew> getExamCarDate(Integer placeId, int schoolId,
 			String date) {
-		ExamCarDate ep = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE
-				+ placeId + "." + date);
-		if (null == ep) {
-			ExamCarDate examCarDate = new ExamCarDate();
-			examCarDate.setSchoolId(schoolId);
-			examCarDate.setDate(date);
-			ep = examCarDateMapper.selectByDate(examCarDate);
-			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId
-					+ "." + date, ep, RedisKeys.EXPIRE.WEEK);
-		}
+		ExamCarDateNew examCarDate = new ExamCarDateNew();
+		examCarDate.setSchoolId(schoolId);
+		examCarDate.setDate(date);
+		List<ExamCarDateNew> ep = examCarDateMapper.selectByDate(examCarDate);
 
+		List<Car> allcars=carManager.getCarBySchoolId(schoolId);
+		
+		for(Car ocar:allcars){
+			boolean hasdate=false;
+			for(ExamCarDateNew car:ep){
+				if(car.getCarId()==ocar.getCarId()){
+					car.setCarno(ocar.getCarNo());
+					hasdate=true;break;
+				}
+			}
+			if(!hasdate){
+				ExamCarDateNew examCarDateNew=new ExamCarDateNew();
+				examCarDateNew.setCarId(ocar.getCarId());
+				examCarDateNew.setCarno(ocar.getCarNo());
+				examCarDateNew.setDate(date);
+				examCarDateNew.setSchoolId(schoolId);
+				String bitmap="000000000000000000000000000000000000000000000000";
+				examCarDateNew.setBitmap(bitmap);
+				ep.add(examCarDateNew);
+			}
+		}
+		
 		return ep;
 	}
 
-	public void updateExamCarDate(ExamCarDate record, Integer placeId) {
-
-		examCarDateMapper.updateExamCarDate(record);
-		redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_CAR_DATE + placeId + "."
-				+ record.getDate());
-
+	public void updateExamCarDate(ExamCarDateNew record, Integer placeId) {
+		if(record.getId()>0){
+			examCarDateMapper.updateExamCarDate(record);
+		}else{
+			examCarDateMapper.insertExamCarDate(record);
+		}
 	}
 
 	String factor = "111111111111111111111111111111111111111111111111";
@@ -3072,7 +3092,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	 * @param carState
 	 * @return 1 被使用, 0 空闲没被使用
 	 */
-	private int usedcar(String classbitmap, ExamCarState carState) {
+	private int usedcar(String classbitmap, ExamCarDateNew carState) {
 		//000110000 ^ 111111111=>111001111
 		long bitmap = Long.parseLong(carState.getBitmap(), 2)
 				^ Long.parseLong(factor, 2);
@@ -3087,11 +3107,10 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		return 1;
 	}
 
-	private boolean isused(ExamCarDate eexamCarDate, String carno,
+	private boolean isused(List<ExamCarDateNew> cars, String carno,
 			String classbitmap) {
-		String carlist = eexamCarDate.getCarlist();
-		List<ExamCarState> cars = JSON.parseArray(carlist, ExamCarState.class);
-		for (ExamCarState car : cars) {
+		
+		for (ExamCarDateNew car : cars) {
 			if (car.getCarno().equals(carno)) {
 
 				int used = usedcar(classbitmap, car);
@@ -3199,7 +3218,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
 		for(ExamPlaceOrder record:orders){
-			ExamCarDate eexamCarDate = this.getExamCarDate(
+			List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 					order.getPlaceId(),
 					ep.getSchoolId(), format.format(record.getPstart()));
 			
@@ -3211,12 +3230,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					+ record.getOrderId());
 			
 			//car 
-			String carlist = eexamCarDate
-					.getCarlist();
-			List<ExamCarState> cars = JSON
-					.parseArray(carlist,
-							ExamCarState.class);
-			for (ExamCarState car : cars) {
+			
+			List<ExamCarDateNew> cars = eexamCarDate;
+			for (ExamCarDateNew car : cars) {
 				if (car.getCarno().equals(record.getCarNo())) {
 					//订单时间区间转bitmap
 					String clssbitmap=changeClassBitmap(record);
@@ -3226,14 +3242,12 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						newbitmap="0"+newbitmap;
 					}
 					car.setBitmap(newbitmap);
+					this.updateExamCarDate(car,order.getPlaceId());
 					break;
 				}
 			}
-			eexamCarDate.setCarlist(JSON
-					.toJSONString(cars));
-
-			this.updateExamCarDate(eexamCarDate,
-					order.getPlaceId());
+			
+			
 		}
 	}
 
@@ -3251,7 +3265,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
 		for(ExamPlaceOrder record:orders){
-			ExamCarDate eexamCarDate = this.getExamCarDate(
+			List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 					order.getPlaceId(),
 					ep.getSchoolId(), format.format(record.getPstart()));
 			
@@ -3263,12 +3277,9 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					+ record.getOrderId());
 			
 			//car 
-			String carlist = eexamCarDate
-					.getCarlist();
-			List<ExamCarState> cars = JSON
-					.parseArray(carlist,
-							ExamCarState.class);
-			for (ExamCarState car : cars) {
+			
+			List<ExamCarDateNew> cars =eexamCarDate;
+			for (ExamCarDateNew car : cars) {
 				if (car.getCarno().equals(record.getCarNo())) {
 					//订单时间区间转bitmap
 					String clssbitmap=changeClassBitmap(record);
@@ -3278,14 +3289,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						newbitmap="0"+newbitmap;
 					}
 					car.setBitmap(newbitmap);
+					this.updateExamCarDate(car,
+							order.getPlaceId());
 					break;
 				}
 			}
-			eexamCarDate.setCarlist(JSON
-					.toJSONString(cars));
+			
 
-			this.updateExamCarDate(eexamCarDate,
-					order.getPlaceId());
+			
 		}
 	}
 

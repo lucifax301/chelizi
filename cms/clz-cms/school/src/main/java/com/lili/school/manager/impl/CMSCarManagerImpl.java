@@ -61,6 +61,13 @@ public class CMSCarManagerImpl implements CMSCarManager{
 		}
 		return carMapper.updateOne(car);
 	}
+	
+	@Override
+	public Long deleteOne(Car car)  throws Exception{
+		redisUtil.delete(REDISKEY.CAR_INFO + car.getCarId().toString());
+		
+		return carMapper.delete(car);
+	}
 
 	@Override
 	public Integer findExist(CarNBDTO dto) throws Exception {

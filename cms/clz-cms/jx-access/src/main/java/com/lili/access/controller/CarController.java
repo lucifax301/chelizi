@@ -97,6 +97,18 @@ public class CarController extends BaseController{
 		
 	}
 	
+	@RequestMapping(value="/delete", method= RequestMethod.POST)
+    @ResponseBody
+    public String del(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		try {
+			Car car = (Car) buildObject(request, Car.class);
+			LogCommon log = initLogParams(request, LogConstant.MENU_ID_CAR, LogConstant.ACTION_UPDATE);
+			return cmsCarService.deleteOne(log,car).build();
+		} catch (UnsupportedEncodingException e) {
+			throw new Exception("异常:" + e.getMessage());
+		}
+		
+	}
 
 	/**
 	 * 导出EXCEL

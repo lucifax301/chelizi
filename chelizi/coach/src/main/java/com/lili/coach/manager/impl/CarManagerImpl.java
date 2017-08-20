@@ -200,7 +200,8 @@ public class CarManagerImpl implements CarManager {
 				CarExample.Criteria criteria = example.createCriteria();
 				criteria.andSchoolIdEqualTo(schoolId.intValue());
 		        List<Car> cars = carMapper.selectByExample(example);
-		        redisUtil.set(REDISKEY.SCHOOL_CAR_LIST + schoolId, cars,3600*24);
+		        //redisUtil.set(REDISKEY.SCHOOL_CAR_LIST + schoolId, cars,3600*24);
+		        redisUtil.set(REDISKEY.SCHOOL_CAR_LIST + schoolId, cars,300);
 		        return cars;
 
             }
