@@ -717,6 +717,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	 */
 	private int usedcar(ExamPlaceClassVo vo,ExamCarDateNew carState){
 		System.out.println(vo.getBitmap()+"-------"+carState.getBitmap());
+		//000000000000000000000000000000000001111110000000-->111111111111111111111111110000001111111
 		long bitmap=Long.parseLong(carState.getBitmap(),2)^Long.parseLong(factor,2);
 		
 		String newbitmap=Long.toBinaryString((Long.parseLong(vo.getBitmap(),2)&bitmap));
@@ -750,7 +751,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			builder.append("0");
 			i++;
 		}
-		while(i>=bindex&&i<=eindex){
+		while(i>=bindex&&i<eindex){
 			builder.append("1");
 			i++;
 		}

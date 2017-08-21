@@ -858,7 +858,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		//clssid-c1,count
 		//
 		Map<String,Integer> totalcount=new HashMap();
-		
+		Map<String,ExamVipBookInfo> vips=new HashMap();
 		while (it.hasNext()) {
 			String carno = it.next();
 			String[] clses = map.get(carno);
@@ -997,7 +997,6 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						}
 					} else { // 内部预留没实效
 						if (isC1) {
-
 							// （1）检查排班空位情况 内部教练-预留有效-c1
 							if (cls.getC1inner() <= cls
 									.getC1bookInner()) {
@@ -1005,10 +1004,93 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								res.setMsgInfo("排班已约满，无法再预约！");
 								return res;
 							}
+							
+							List<ExamVipBookInfo> bookinfo = null;
+
+							// 获取排版当前的大客户预定情况
+							String innerinfostr = cls.getInnerinfo();
+							ExamInnerInfo innerinfo = null;
+							if (innerinfostr != null&& innerinfostr.length() > 0)
+								innerinfo = JSON.parseObject(innerinfostr,ExamInnerInfo.class);
+							if (innerinfo != null) {
+
+							} else {
+								// 初始化一个对象进行保存
+								innerinfo = new ExamInnerInfo();
+							}
+
+							ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+							bookinfo = innerinfo.getBookinfo();
+							ExamVipBookInfo examVipBookInfo = null;
+							for (ExamVipBookInfo bi : bookinfo) {
+								if (bi.getVipId() == examVip.getId()) {
+									examVipBookInfo = bi;
+									break;
+								}
+							}
+							if (examVipBookInfo == null) {
+								examVipBookInfo = new ExamVipBookInfo();
+								examVipBookInfo.setC1(examVip.getC1count());
+								examVipBookInfo.setC1book(0);
+								examVipBookInfo.setC2(examVip.getC2count());
+								examVipBookInfo.setC2book(0);
+								examVipBookInfo.setVipId(examVip.getId());
+								innerinfo.getBookinfo().add(examVipBookInfo);
+							}
+							if(!vips.containsKey(clses[i])){
+								vips.put(clses[i], examVipBookInfo);
+							}
+							if (examVipBookInfo.getC1() <= examVipBookInfo.getC1book()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
 
 						} else {// c2
+							
 							if (cls.getC2inner() <= cls
 									.getC2bookInner()) {
+								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setMsgInfo("排班已约满，无法再预约！");
+								return res;
+							}
+							
+							List<ExamVipBookInfo> bookinfo = null;
+
+							// 获取排版当前的大客户预定情况
+							String innerinfostr = cls.getInnerinfo();
+							ExamInnerInfo innerinfo = null;
+							if (innerinfostr != null&& innerinfostr.length() > 0)
+								innerinfo = JSON.parseObject(innerinfostr,ExamInnerInfo.class);
+							if (innerinfo != null) {
+
+							} else {
+								// 初始化一个对象进行保存
+								innerinfo = new ExamInnerInfo();
+							}
+
+							ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+							bookinfo = innerinfo.getBookinfo();
+							ExamVipBookInfo examVipBookInfo = null;
+							for (ExamVipBookInfo bi : bookinfo) {
+								if (bi.getVipId() == examVip.getId()) {
+									examVipBookInfo = bi;
+									break;
+								}
+							}
+							if (examVipBookInfo == null) {
+								examVipBookInfo = new ExamVipBookInfo();
+								examVipBookInfo.setC1(examVip.getC1count());
+								examVipBookInfo.setC1book(0);
+								examVipBookInfo.setC2(examVip.getC2count());
+								examVipBookInfo.setC2book(0);
+								examVipBookInfo.setVipId(examVip.getId());
+								innerinfo.getBookinfo().add(examVipBookInfo);
+							}
+							if(!vips.containsKey(clses[i])){
+								vips.put(clses[i], examVipBookInfo);
+							}
+							if (examVipBookInfo.getC2() <= examVipBookInfo.getC2book()) {
 								res.setCode(ResultCode.ERRORCODE.FAILED);
 								res.setMsgInfo("排班已约满，无法再预约！");
 								return res;
@@ -1076,30 +1158,46 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				if (isInner) {
 					if(isC1){
 						if (cls.getC1inner()-cls
-								.getC1bookInner() <=totalcount.get(clses[i]+"c1") ) {
+								.getC1bookInner() <totalcount.get(clses[i]+"c1") ) {
 							res.setCode(ResultCode.ERRORCODE.FAILED);
 							res.setMsgInfo("排班已约满，无法再预约！！");
+							return res;
+						}
+						
+						//验证每个大客户每个排班的
+						ExamVipBookInfo examVipBookInfo=vips.get(clses[i]);
+						if (examVipBookInfo.getC1()-examVipBookInfo.getC1book() < totalcount.get(clses[i]+"c1")) {
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！");
 							return res;
 						}
 					}else{
 						if (cls.getC2inner()-cls
-								.getC2bookInner() <=totalcount.get(clses[i]+"c2") ) {
+								.getC2bookInner() <totalcount.get(clses[i]+"c2") ) {
 							res.setCode(ResultCode.ERRORCODE.FAILED);
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}
+						ExamVipBookInfo examVipBookInfo=vips.get(clses[i]);
+						if (examVipBookInfo.getC2()-examVipBookInfo.getC2book() < totalcount.get(clses[i]+"c2")) {
+							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setMsgInfo("排班已约满，无法再预约！");
+							return res;
+						}
 					}
+					
+					
 				}else{
 					if(isC1){
 						if (cls.getC1outer()-cls
-								.getC1bookOuter() <=totalcount.get(clses[i]+"c1")) { // 外部空位已排满，则不能继续排
+								.getC1bookOuter() <totalcount.get(clses[i]+"c1")) { // 外部空位已排满，则不能继续排
 							res.setCode(ResultCode.ERRORCODE.FAILED);
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}
 					}else{
 						if (cls.getC2outer()-cls
-								.getC2bookOuter() <= totalcount.get(clses[i]+"c2")) {
+								.getC2bookOuter() < totalcount.get(clses[i]+"c2")) {
 							res.setCode(ResultCode.ERRORCODE.FAILED);
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
