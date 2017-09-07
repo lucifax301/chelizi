@@ -69,7 +69,7 @@
                         </td>
                     </tr>
                     <tr ng-repeat="item in getTheday" ng-class="{true:'z-tr-disable'}[item.state==1]">
-                        <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span><span ng-bind="(item.type==1)?'大客户排班':'普通排班'"></span></th>
+                        <th><span ng-bind="item.rstart|timeTexHM"></span>-<span ng-bind="item.rend|timeTexHM"></span><span ng-bind="(item.type==1)?'大客户排班':'普通排班'"></span></th>
                         <td>
                             <span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
                             <!--<span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>-->

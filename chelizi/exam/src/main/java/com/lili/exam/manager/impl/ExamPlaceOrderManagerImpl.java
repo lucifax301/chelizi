@@ -1091,7 +1091,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								vips.put(clses[i], examVipBookInfo);
 							}
 							if (examVipBookInfo.getC2() <= examVipBookInfo.getC2book()) {
-								res.setCode(ResultCode.ERRORCODE.FAILED);
+								res.setCode("6");
 								res.setMsgInfo("排班已约满，无法再预约！");
 								return res;
 							}
@@ -1159,7 +1159,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					if(isC1){
 						if (cls.getC1inner()-cls
 								.getC1bookInner() <totalcount.get(clses[i]+"c1") ) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}
@@ -1167,20 +1167,20 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						//验证每个大客户每个排班的
 						ExamVipBookInfo examVipBookInfo=vips.get(clses[i]);
 						if (examVipBookInfo.getC1()-examVipBookInfo.getC1book() < totalcount.get(clses[i]+"c1")) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！");
 							return res;
 						}
 					}else{
 						if (cls.getC2inner()-cls
 								.getC2bookInner() <totalcount.get(clses[i]+"c2") ) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}
 						ExamVipBookInfo examVipBookInfo=vips.get(clses[i]);
 						if (examVipBookInfo.getC2()-examVipBookInfo.getC2book() < totalcount.get(clses[i]+"c2")) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！");
 							return res;
 						}
@@ -1191,14 +1191,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					if(isC1){
 						if (cls.getC1outer()-cls
 								.getC1bookOuter() <totalcount.get(clses[i]+"c1")) { // 外部空位已排满，则不能继续排
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}
 					}else{
 						if (cls.getC2outer()-cls
 								.getC2bookOuter() < totalcount.get(clses[i]+"c2")) {
-							res.setCode(ResultCode.ERRORCODE.FAILED);
+							res.setCode("6");
 							res.setMsgInfo("排班已约满，无法再预约！！");
 							return res;
 						}

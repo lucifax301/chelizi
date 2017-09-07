@@ -56,7 +56,8 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 			    "carType": $s.carType,
 			    "carLevel": $s.carLevel,
 			    "carNo": $s.carNo,
-			    "schoolName":$s.schoolName
+			    "schoolName":$s.schoolName,
+			    "remark":$s.remark
 			}
 		};
 		return json;

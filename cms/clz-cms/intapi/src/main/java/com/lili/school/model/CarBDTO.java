@@ -26,7 +26,16 @@ public class CarBDTO extends BasePagedEntity{
 	private String exportIds;
 	private String carIds;
 	
+	private String remark;
 	
+	
+	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	public String getCarIds() {
 		return carIds;
 	}

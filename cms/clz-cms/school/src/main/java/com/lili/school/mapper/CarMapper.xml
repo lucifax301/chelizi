@@ -126,6 +126,9 @@
 			<if test="carId != null and carId != ''">
 				and carId = #{carId}
 			</if>
+			<if test="remark != null and remark != ''">
+				and b.remark like CONCAT("%",CONCAT(${remark},"%")) 
+			</if>
 			order by carId desc
 	</select>
 	
@@ -134,7 +137,7 @@
 		select
 		carId,carType,carNo,driveNumber,drivePhoto,UsePerson,age,mileage,performance,carLevel,driveType,schoolId,remark
 		from  t_p_car 
-		Where 1=1 and
+		Where 1=1 and del=0
 		(
 		<if test="schoolId != null ">
 			 schoolId = #{schoolId} 

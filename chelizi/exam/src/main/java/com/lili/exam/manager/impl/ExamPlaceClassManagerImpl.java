@@ -161,10 +161,73 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 //				examCarDateMapper.insertExamCarDate(eexamCarDate);
 //			}
 			
+			String dayStr = new SimpleDateFormat("yyyy-MM-dd").format(d0);
+			
+			if(record.getType()==0){//普通排班
+				List<ExamPlaceClass> classes = getExamPlaceClass(placeId+"", dayStr);
+				for(ExamPlaceClass cls:classes){
+					if(cls.getType()==1){
+						boolean isoccur=isoccur(changeClassBitmap(record),changeClassBitmap(cls));
+						if(isoccur){
+							//重新算外部分配车数量
+							ExamPlace ep = getExamPlaceById(placeId);
+							List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+							int c1=0;
+							int c2=0;
+							for(Car car:allcars){
+								if(car.getDriveType()==1){
+									c1++;
+								}
+								if(car.getDriveType()==2){
+									c2++;
+								}
+							}
+							
+							record.setC1(c1-cls.getC1inner());
+							record.setC2(c2-cls.getC2inner());
+							record.setC1outer(c1-cls.getC1inner());
+							record.setC2outer(c2-cls.getC2inner());
+							break;
+						}
+					}
+				}
+			}else{//大客户排班
+				List<ExamPlaceClass> classes = getExamPlaceClass(placeId+"", dayStr);
+				for(ExamPlaceClass cls:classes){
+					if(cls.getType()==0){
+						boolean isoccur=isoccur(changeClassBitmap(record),changeClassBitmap(cls));
+						if(isoccur){
+							//更新交集普通排班的c1,c2,c1outer,c2outer
+							ExamPlace ep = getExamPlaceById(placeId);
+							List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
+							int c1=0;
+							int c2=0;
+							for(Car car:allcars){
+								if(car.getDriveType()==1){
+									c1++;
+								}
+								if(car.getDriveType()==2){
+									c2++;
+								}
+							}
+							//总量-大客户排班量
+							int newc1=c1-record.getC1inner();
+							int newc2=c2-record.getC2inner();
+							newc1=cls.getC1()>newc1?newc1:cls.getC1();
+							newc2=cls.getC2()>newc2?newc2:cls.getC2();
+							cls.setC1(newc1);
+							cls.setC1outer(newc1);
+							cls.setC2(newc2);
+							cls.setC2outer(newc2);
+							examPlaceClassMapper.updateC1C2(cls);
+						}
+					}
+				}
+			}
 			
 			examPlaceClassMapper.insertSelective(record);
 			//20161114有新增排班时，清除今天的排班查询
-			String dayStr = new SimpleDateFormat("yyyy-MM-dd").format(d0);
+			
 			redisUtil.delete(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "." + dayStr);
 			
 		} catch (Exception e) {
@@ -618,13 +681,15 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		map.put("clss", clss);
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
 		
-//		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
-//		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
-//		
-//		//内部
-//		if(examVipCoach!=null){
-//			
-//		}
+		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
+		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+		
+		//内部
+		if(examVipCoach!=null){
+			map.put("vip", "1");
+		}else{
+			map.put("vip", "0");
+		}
 		
 		//获取一天的车使用情况
 		List<ExamCarDateNew> examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
@@ -729,6 +794,13 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		return 1;
 	}
 	
+	private boolean isoccur(String bitmap1,String bitmap2){
+		if((Long.parseLong(bitmap1, 2)&Long.parseLong(bitmap2, 2))==0){//没有交集
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * 转换排版的日期区间成bitmap   0000000000111100000	
 	 * @param vo
@@ -760,6 +832,35 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			i++;
 		}
 		vo.setBitmap(builder.toString());
+	}
+	
+	private String changeClassBitmap(ExamPlaceClass vo){
+		Date d0=vo.getPstart();
+		Date d1=vo.getPend();
+		int hour=d0.getHours();
+		int bindex=hour*2+1;
+		int minute=d0.getMinutes();
+		if(minute==30) bindex++;
+		
+		hour=d1.getHours();
+		int eindex=hour*2+1;
+		minute=d1.getMinutes();
+		if(minute==30) eindex++;
+		int i=1;
+		StringBuilder builder=new StringBuilder();
+		while(i<bindex){
+			builder.append("0");
+			i++;
+		}
+		while(i>=bindex&&i<eindex){
+			builder.append("1");
+			i++;
+		}
+		while(i<=48){
+			builder.append("0");
+			i++;
+		}
+		return builder.toString();
 	}
 	
 //	private ExamCarDate getExamCarDate(Integer placeId,int schoolId,String date){

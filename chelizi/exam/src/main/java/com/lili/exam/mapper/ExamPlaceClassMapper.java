@@ -34,5 +34,5 @@ public interface ExamPlaceClassMapper {
 
     int updateByPrimaryKey(ExamPlaceClass record);
     
-    
+    int updateC1C2(ExamPlaceClass record);
 }

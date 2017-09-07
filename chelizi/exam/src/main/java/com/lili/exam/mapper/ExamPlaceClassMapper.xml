@@ -638,6 +638,20 @@
       extra = #{extra,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <update id="updateC1C2" parameterType="com.lili.exam.dto.ExamPlaceClass" >
+    update t_exam_place_class
+    set 
+      c1 = #{c1,jdbcType=INTEGER},
+      c1inner = #{c1inner,jdbcType=INTEGER},
+      c1outer = #{c1outer,jdbcType=INTEGER},
+      c2 = #{c2,jdbcType=INTEGER},
+      c2inner = #{c2inner,jdbcType=INTEGER},
+      c2outer = #{c2outer,jdbcType=INTEGER}
+      
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
   <select resultMap="BaseResultMap" parameterType="com.lili.exam.dto.ExamPlaceClassExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >
