@@ -11,6 +11,16 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
 	$s.carLevel="";   //汽车等级
 	$s.carNo="";              //高级查询
 
+  //获取大客户列表
+  $.AJAX({
+      type:'get',
+      url:config.basePath+"examPlace/allvip",
+      async:false,
+      success:function(data){
+          $s.allvip = JSON.parse(data.result.data);
+      }
+  });
+
     /*获取指定日期及之后若干天的排班情况和日期数据*/
     $s.getDays = function(){
         $.AJAX({
@@ -22,7 +32,8 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
                 "days":14
             },
             success:function(data){
-            	$s.getDaysInfo = JSON.parse(data.result.pageData);
+            	clsdata=JSON.parse(data.result.pageData);
+                $s.getDaysInfo = JSON.parse(data.result.pageData);
                 $s.$apply();
             }
         });
@@ -75,6 +86,24 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
                         }
                         //只要有一项子排班非关闭，就允许关闭当日所有排班
                         if($s.getTheday[i].state!=1){$s.canShut=true;}
+                        //格式转换
+                        $s.getTheday[i].innerinfo = JSON.parse($s.getTheday[i].innerinfo);
+                        for(var j = 0 in $s.getTheday[i].innerinfo.bookinfo){
+                          for(var k = 0 in $s.allvi){
+                            if($s.getTheday[i].innerinfo.bookinfo[j].vipId == $s.allvi[k].id){
+                              $s.getTheday[i].innerinfo.bookinfo[j].name = $s.allvi[k].name
+                            }
+                          }
+                        }
+//                      $s.getTheday[i].innerinfo.bookinfo.map(item => {
+//                        $s.allvip.map(j=>{
+//                          if(item.vipId == j.id){
+//                            console.log(item.vipId,j.id)
+//                            item.name = j.name
+//                          }
+//                        })
+//                      })
+                        console.log($s.getTheday[i].innerinfo)
                         //以下参数用于统计当日的整体概况信息
                         $s.c1All += $s.getTheday[i].c1;
                         $s.c1innerAll += $s.getTheday[i].c1inner;
@@ -182,7 +211,7 @@ app.controller("ArrangeExamClass",["$scope","$filter",function($s,$filter){
 		$s.defaultPage=location.hash.substring(2) || 1;
 		$s.getDataList();
 	}
-	
+
 	/*按所学车型筛选列表数据*/
 	$s.getDataForCarType=function($event,type){
 		$($event.target).addClass('active').siblings().removeClass("active");

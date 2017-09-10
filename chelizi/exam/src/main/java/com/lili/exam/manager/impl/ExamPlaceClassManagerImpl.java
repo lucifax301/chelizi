@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Resource;
 
@@ -19,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
+import com.aliyuncs.exceptions.ClientException;
 import com.lili.coach.dto.Car;
 import com.lili.coach.dto.Coach;
 import com.lili.coach.manager.CarManager;
@@ -32,6 +36,7 @@ import com.lili.common.util.redis.RedisUtil;
 import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.SmsUtil;
 import com.lili.exam.dto.ExamCarDateNew;
 import com.lili.exam.dto.ExamDateCarInfo;
 import com.lili.exam.dto.ExamInnerInfo;
@@ -100,6 +105,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	private static SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 	
 	private static SimpleDateFormat timeformat=new SimpleDateFormat("HH:mm");
+	
+	private static SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	@Override
 	public ReqResult addExamPlaceClass(ExamPlaceClass record) {
@@ -316,7 +323,30 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		return res;
 	}
 
+	private void sendDelay(Coach coach,String oldtime,String newtime){
+		String message="{\"name\":\""+coach.getName()+"\", \"old\":\""+oldtime+"\",\"time\":\""+newtime+"\"}";
+		try {
+			SmsUtil.sendSms(coach.getPhoneNum(), "SMS_94740013", message);
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void doSendDelay(Set<Long> users,ExamPlaceClass cls){
+		Iterator<Long> it= users.iterator();
+		Date pstart=cls.getPstart();
+		Date rstart=cls.getRstart();
+		while(it.hasNext()){
+			long coachid=it.next();
+			Coach coach = coachManager.getCoachInfo(coachid);
+			sendDelay(coach,dateformat.format(pstart),dateformat.format(rstart));
+		}
+	}
 
+	//SMS_94400001 name time
+	
 	@Override
 	public ReqResult delayExamPlaceClass(String classId, String num,
 			String remark) {
@@ -353,6 +383,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						.andClassIdEqualTo(cls.getId())
 						.andStateIn(states);							
 				List<ExamPlaceOrder> orders = examPlaceOrderMapper.selectByExample(example);
+				Set<Long> users=new TreeSet();
 				if(null != orders && orders.size() > 0){
 					for(ExamPlaceOrder order:orders){
 						order.setRstart(d0);
@@ -360,7 +391,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						order.setRemark(remark);
 						//order.setMtime(new Date());
 						updateExamPlaceOrder(order);
-						
+						users.add(order.getCoachId());
 						//通知教练已延班
 						JpushMsg jmsg = new JpushMsg();
 					    Map<String,String> extras=new HashMap<String,String>();
@@ -381,6 +412,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						
 					}
 					
+				}
+				
+				if(users.size()>0){
+					this.doSendDelay(users, cls);
 				}
 				
 			}
@@ -482,6 +517,25 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		}
 		return res;
 	}
+	
+	private void sendClose(Coach coach,String time){
+		String message="{\"name\":\""+coach.getName()+"\", \"time\":\""+time+"\"}";
+		try {
+			SmsUtil.sendSms(coach.getPhoneNum(), "SMS_94605111", message);
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void doCloseSend(List<ExamPlaceOrder> orders){
+		for(ExamPlaceOrder record:orders){
+			Coach coach = coachManager.getCoachInfo(record.getCoachId());
+			ExamPlaceClass cls = getExamPlaceClassOne(record.getClassId());
+			Date rstart=cls.getRstart();
+			sendClose(coach,dateformat.format(rstart));
+		}
+	}
 
 	@Override
 	public ReqResult closeCarExamPlaceClass(String classId, String remark) {
@@ -503,6 +557,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					
 				}
 				
+				
 				ExamPlaceOrderExample example = new ExamPlaceOrderExample();
 				List<Byte> states = new ArrayList<Byte>();
 				states.add((byte) 0); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
@@ -512,12 +567,13 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						.andClassIdEqualTo(cls.getId())
 						.andStateIn(states);							
 				List<ExamPlaceOrder> orders = examPlaceOrderMapper.selectByExample(example);
-				
+				/* comment 20170910
 				if(orders!=null&&orders.size()>0){
 					res.setCode(ResultCode.ERRORCODE.EXCEPTION);
 					res.setMsgInfo("排班被使用，不能关闭！");
 					return res;
 				}
+				*/
 				
 				cls.setState((byte) 1);	//'排班状态：0-正常；1-已关闭；2-已延迟'
 				cls.setRemark(remark);
@@ -525,18 +581,18 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				updateExamPlaceClass(cls);
 				//对于已经使用该排班生成的订单，也需要修改相应订单。
 				
-//				if(null != orders && orders.size() > 0){
-//					for(ExamPlaceOrder order:orders){
+				if(null != orders && orders.size() > 0){
+					for(ExamPlaceOrder order:orders){
 //						//如已支付，则退款
 //						if(order.getState() ==1 || order.getState() == 2){
 //							order.setRefundTotal(order.getPayTotal()); //全额退款
 //							moneyManager.handleExamPlaceRefund(order, 1.0); //20161010后台关闭的订单，全额退款。
 //						}
-//						//关闭订单
-//						order.setState((byte) 5); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
-//						order.setRemark(remark);
-//						order.setMtime(new Date());
-//						updateExamPlaceOrder(order);
+						//关闭订单
+						order.setState((byte) 5); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
+						order.setRemark(remark);
+						order.setMtime(new Date());
+						updateExamPlaceOrder(order);
 //						
 //						//通知教练订单已被关闭
 //						JpushMsg jmsg = new JpushMsg();
@@ -568,9 +624,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 //							}
 //						}
 //
-//					}
-//					
-//				}
+					}
+					
+					doCloseSend(orders);
+				}
 				
 			}
 			

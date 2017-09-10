@@ -22,9 +22,9 @@
 <div id="content" class="content main-content" >
 	<!-- 主体内容 -->
 	<div class="common-style withdraw-cash">
-		<div class="title"><h1>排班管理</h1></div>
+		<div class="title"><h1>普通客户排班</h1></div>
 		<div class="table-margin common-table">
-			<div class="header">排班管理</div>
+			<div class="header">普通客户排班</div>
 			<div class="content">
 				<div>
 					<!--<a href="arrange-exam-class-add.html" class="btn btn-sm btn-primary">新增排班</a>-->
@@ -42,7 +42,7 @@
                                     <div ng-repeat="day in getDaysInfo" ng-class="{true:'noArrangeClass'}[day.cls==0]" ng-click="setTheDay($event,day.pdate)">{{day.pdate|timeTexMD}}<span>{{day.day|weekDay}}</span><i class="class-mark"></i></div>
                                 </div>
                             </td>
-                            <td width="100"><input type="text" name="customDate" id="customDate" class="form-control z-ml10 arrange-cdate" placeholder="自定义时间" ng-model="customDate" /></td>
+                            <td width="100"></td>
                         </tr>
                     </table>
                 </div>
@@ -56,11 +56,11 @@
                     <tr ng-if="getTheday.length>0" style="background: #e6f4fc;">
                         <th style="background: none;">当日信息</th>
                         <td>
-                            <span class="z-fl">外部均价:<span ng-bind="(outerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
+                            <span class="z-fl">价格:<span ng-bind="(outerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
                             <!--<span class="z-fr">内部均价:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>-->
                         </td>
-                        <td><span class="z-fl" ng-bind="'C1数:'+c1All"></span><span class="z-fr">预留数:<span ng-bind="c1innerAll"></span></span></td>
-                        <td><span class="z-fl" ng-bind="'C2数:'+c2All"></span><span class="z-fr">预留数:<span ng-bind="c2innerAll"></span></span></td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+c1All"></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+c2All"></span></td>
                         <td><span class="arrange-process"><span class="proc-in" style="width: {{(c1bookAll + c2bookAll)/(c1All + c2All)*100}}%" ng-bind="(((c1bookAll + c2bookAll)/(c1All + c2All)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(c1bookAll + c2bookAll)+'/'+(c1All + c2All)"></span></td>
                         <td class="edit">
                             <a href="javascript:;" ng-click="shutClass(getTheday,'all')" ng-class="{false:'z-noAction'}[canShut]">关闭</a>
@@ -69,13 +69,13 @@
                         </td>
                     </tr>
                     <tr ng-repeat="item in getTheday" ng-class="{true:'z-tr-disable'}[item.state==1]">
-                        <th><span ng-bind="item.rstart|timeTexHM"></span>-<span ng-bind="item.rend|timeTexHM"></span><span ng-bind="(item.type==1)?'大客户排班':'普通排班'"></span></th>
+                        <th><span ng-bind="item.rstart|timeTexHM"></span>-<span ng-bind="item.rend|timeTexHM"></span></th>
                         <td>
-                            <span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
+                            <span class="z-fl">价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>
                             <!--<span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>-->
                         </td>
-                        <td><span class="z-fl" ng-bind="'C1数:'+item.c1"></span><span class="z-fr">预留数:<span ng-bind="item.c1inner"></span></span></td>
-                        <td><span class="z-fl" ng-bind="'C2数:'+item.c2"></span><span class="z-fr">预留数:<span ng-bind="item.c2inner"></span></span></td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+item.c1"></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+item.c2"></span></td>
                         <td><span class="arrange-process"><span class="proc-in" style="width: {{(item.c1book + item.c2book)/(item.c1 + item.c2)*100}}%" ng-bind="(((item.c1book + item.c2book)/(item.c1 + item.c2)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(item.c1book + item.c2book)+'/'+(item.c1 + item.c2)"></span></td>
                         <td class="edit">
                             <!--<a href="arrange-exam-class-edit.html?classId={{item.id}}" ng-class="{true:'z-noAction'}[(item.noEdit==true)||(item.state==1)]">编辑</a>-->

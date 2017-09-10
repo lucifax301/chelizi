@@ -119,8 +119,8 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 		var json={
 				name:$s.editData.name,
 				mobile:$s.editData.mobile,
-				c1count:$s.editData.c1count,
-				c2count:parseInt($s.editData.c2count)
+				c1count:0,
+				c2count:0
 			};
 		if($s.editType=="edit"){
 			angular.extend(json,{id:$s.editData.id});
@@ -139,14 +139,14 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 			Layer.alert({type:"msg",title:"请填写大客户名称"});
 			return false;	
 		}
-		if(!$s.editData.c1count || !regCombination('*').test($s.editData.c1count)|| !regCombination('number').test($s.editData.c1count)){
-			Layer.alert({type:"msg",title:"请填写c1数量"});
-			return false;
-		}
-		if(!$s.editData.c2count || !regCombination('*').test($s.editData.c2count)|| !regCombination('number').test($s.editData.c2count)){
-			Layer.alert({type:"msg",title:"请填写c2数量"});
-			return false;
-		}
+		//if(!$s.editData.c1count || !regCombination('*').test($s.editData.c1count)|| !regCombination('number').test($s.editData.c1count)){
+		//	Layer.alert({type:"msg",title:"请填写c1数量"});
+		//	return false;
+		//}
+		//if(!$s.editData.c2count || !regCombination('*').test($s.editData.c2count)|| !regCombination('number').test($s.editData.c2count)){
+		//	Layer.alert({type:"msg",title:"请填写c2数量"});
+		//	return false;
+		//}
 		
 		
 		$.AJAX({

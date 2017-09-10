@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.Message;
+import com.aliyuncs.exceptions.ClientException;
 import com.lili.coach.dto.Car;
 import com.lili.coach.dto.Coach;
 import com.lili.coach.manager.CarManager;
@@ -40,6 +41,7 @@ import com.lili.common.vo.JpushMsg;
 import com.lili.common.vo.ReqConstants;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.exam.SmsUtil;
 import com.lili.exam.dto.ExamCarDateNew;
 import com.lili.exam.dto.ExamInnerInfo;
 import com.lili.exam.dto.ExamPlace;
@@ -421,6 +423,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 	// }
 
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	
+	private static SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	// @Transactional
 	@Override
@@ -3348,6 +3352,25 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			
 		}
 	}
+	
+	private void sendDelay(Coach coach,String time){
+		String message="{\"name\":\""+coach.getName()+"\", \"time\":\""+time+"\"}";
+		try {
+			SmsUtil.sendSms(coach.getPhoneNum(), "SMS_94400001", message);
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void doCancelSend(List<ExamPlaceOrder> orders){
+		for(ExamPlaceOrder record:orders){
+			Coach coach = coachManager.getCoachInfo(record.getCoachId());
+			ExamPlaceClass cls = getExamPlaceClassOne(record.getClassId());
+			Date rstart=cls.getRstart();
+			sendDelay(coach,dateformat.format(rstart));
+		}
+	}
 
 	@Override
 	public void cancelPayedOrder(ExamPlacePayOrder order) {
@@ -3362,6 +3385,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		ExamPlaceOrder p=new ExamPlaceOrder();
 		p.setPayorderId(order.getPayorderId());
 		List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
+		
 		for(ExamPlaceOrder record:orders){
 			List<ExamCarDateNew> eexamCarDate = this.getExamCarDate(
 					order.getPlaceId(),
@@ -3396,6 +3420,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 			
 		}
+		
+		doCancelSend(orders);
 	}
 
 	

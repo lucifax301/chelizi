@@ -7,7 +7,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
     $s.favorType = "1";//优惠配置：1-返课时；2-返金额
     $s.favorIn=2;
     $s.favorOut=0.5;
-    $s.minHours = 2;//最低时间段
+    $s.minHours = 3;//最低时间段
     $s.c1 = 0;
     $s.c2 = 0;
     $s.c1inner = 0;
@@ -17,8 +17,8 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
     $s.type=1;
     $s.outerPrice=0;
 	//for changji
-	// {"bookinfo":[{"c1":5,"c1book":0,"c2":2,"c2book":1,"vipId":0},{"c1":5,"c1book":-1,"c2":2,"c2book":-6,"vipId":1}]} 
-	
+	// {"bookinfo":[{"c1":5,"c1book":0,"c2":2,"c2book":1,"vipId":0},{"c1":5,"c1book":-1,"c2":2,"c2book":-6,"vipId":1}]}
+
 	$s.bookinfo = [];
 	$s.innerinfo={};
 	// 获取大客户系列表
@@ -28,7 +28,6 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         async: false,
         success:function(data){
             $s.bookinfo = angular.fromJson(data.result.data)
-            console.log(111111111, $s.bookinfo)
             // $s.$apply();
         }
     });
@@ -42,14 +41,13 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
           $s.c2 = JSON.parse(data.result.c2);
         }
     });
-
     /*获取指定日期及之后若干天的排班情况和日期数据*/
     $.AJAX({
         type:'get',
         url:config.basePath+"examPlace/class/date",
         data:{
             //"placeId":1,
-            "type":1,
+		"type":1,
             "pdate":$filter('date')(new Date(), "yyyy-MM-dd"),
             "days":14
         },
@@ -155,14 +153,14 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         var thisMinVal = thisFormObj.val().substr(3);
         var thisNumVal = parseInt(thisFormObj.val().replace(/:/,""));
         //当选择了22点之后的时段，则必定跨天了，非法
-        if(thisFormObj.hasClass("date-time-from")&&thisNumVal>2200){
-            Layer.alert({width:400,height:160,title:"2小时后的结束时段不能跨天哦",header:"操作提示"});
+        if(thisFormObj.hasClass("date-time-from")&&thisNumVal>(24-$s.minHours)*100){
+            Layer.alert({width:400,height:160,title:$s.minHours+"小时后的结束时段不能跨天哦",header:"操作提示"});
             thisFormObj.val("");
             return false;
         }
         //如果是起始段，自动填充下一时段的值（后推二小时），并较验该值
         if((thisHourVal>=0)&&thisFormObj.hasClass("date-time-from")){
-            var nextHourVal = (thisHourVal==22)?00:(thisHourVal+2);
+            var nextHourVal = (thisHourVal==(24-$s.minHours))?00:(thisHourVal+$s.minHours);
             nextHourVal = (nextHourVal<10)?"0"+nextHourVal.toString():nextHourVal.toString();
             thisFormObj.parent(".item-auto-item").children(".date-time-to").val(nextHourVal+":"+thisMinVal).removeClass("Validform_error");
             checkTimepicker(thisFormObj.parent(".item-auto-item").children(".date-time-to"));
@@ -304,7 +302,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             if($s.c2<$s.c2inner){
                 Layer.alert({width:400,height:160,title:"预留C2数量不能大于C2总数量!",header:"操作提示"});return false;
             }
-			
+
 			//判断车辆总数
 			var c1Totla=0,
 				c2Total=0
@@ -314,12 +312,6 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
 				$s.bookinfo[i].c2book = 0
 				c1Totla += parseInt($s.bookinfo[i].c1)
 				c2Total += parseInt($s.bookinfo[i].c2)
-				if($s.bookinfo[i].c1 > $s.bookinfo[i].c1count){
-					Layer.alert({width:400,height:160,title:$s.bookinfo[i].name+"的C1车辆总数不能大于"+$s.bookinfo[i].c1count+"辆",header:"操作提示"});return false;
-				}
-				if($s.bookinfo[i].c2 > $s.bookinfo[i].c2count){
-					Layer.alert({width:400,height:160,title:$s.bookinfo[i].name+"的C2车辆总数不能大于"+$s.bookinfo[i].c2count+"辆",header:"操作提示"});return false;
-				}
 			}
 			if(c1Totla>$s.c1max){
 				Layer.alert({width:400,height:160,title:"所有大客户的C1车辆总数不能大于"+$s.c1max+"辆",header:"操作提示"});return false;
@@ -357,7 +349,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
                 data:submitJson,
                 success:function(data){
                     Layer.miss({width:250,height:90,title:"操作成功！",closeMask:true});
-                    setTimeout(function(){window.location.href="arrange-exam-class.html"},1500)
+                    setTimeout(function(){window.location.href="arrange-exam-vipclass.html"},1500)
                 }
             })
             return false;

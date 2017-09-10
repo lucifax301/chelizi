@@ -656,6 +656,8 @@ public class ExamPlaceController extends BaseController{
 		User currentUser = AccessWebUtil.getSessionUser(request);
 			String pdate=request.getParameter("pdate");
 			String state=request.getParameter("state");
+			String coachName=request.getParameter("coachName");
+			String coachMobile=request.getParameter("coachMobile");
 			Date d0 = null;
 			Date d1 = null;
 			if (pdate.contains(",")) {
@@ -672,6 +674,8 @@ public class ExamPlaceController extends BaseController{
 			ExamPlace ep= examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
 			
 			ExamPlacePayOrder p=new ExamPlacePayOrder();
+			p.setCoachName(coachName);
+			p.setCoachMobile(coachMobile);
 			p.setPlaceId(ep.getId());
 			p.setBtime(d0);
 			p.setEtime(d1);

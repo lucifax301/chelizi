@@ -89,6 +89,12 @@
     <if test="etime !=null">
     	and <![CDATA[ #{etime}>=ctime ]]>
     </if>
+    <if test="coachName !=null and coachName != ''">
+    	and coachName like CONCAT("%",CONCAT(#{coachName},"%")) 
+    </if>
+    <if test="coachMobile !=null and coachMobile != ''">
+    	and coachMobile like CONCAT("%",CONCAT(#{coachMobile},"%")) 
+    </if>
     order by ctime desc
   </select>
   

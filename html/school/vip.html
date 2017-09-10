@@ -48,16 +48,16 @@
 					<table class="table table-bordered table-striped table-with-style">
 					  <tr>
 					  	<td><b>大客户名称</b></td>
-					  	<td><b>手机号</b></td>
-					  	<td><b>C1预留数量</b></td>
-					  	<td><b>C2预留数量</b></td>
+					  	<td><b>联系人手机号</b></td>
+					  	<!--<td><b>C1预留数量</b></td>
+					  	<td><b>C2预留数量</b></td>-->
 					  	<td><b>操作</b></td>
 					  </tr>
 					  <tr ng-repeat="data in datas">
 					  	<td ng-bind="data.name"></td>
 					  	<td ng-bind="data.mobile"></td>
-					  	<td ng-bind="data.c1count"></td>
-					  	<td ng-bind="data.c2count"></td>
+					  	<!--<td ng-bind="data.c1count"></td>
+					  	<td ng-bind="data.c2count"></td>-->
 					  	<td class="operation"><span class="edit"  ng-click="vipEdit('edit',data)">编辑</span>
 					  		
 					  		<a href="vip-coach.html?vipId={{data.id}}" >教练列表</a>

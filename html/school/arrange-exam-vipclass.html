@@ -41,7 +41,7 @@
                                     <div ng-repeat="day in getDaysInfo" ng-class="{true:'noArrangeClass'}[day.cls==0]" ng-click="setTheDay($event,day.pdate)">{{day.pdate|timeTexMD}}<span>{{day.day|weekDay}}</span><i class="class-mark"></i></div>
                                 </div>
                             </td>
-                            <td width="100"><input type="text" name="customDate" id="customDate" class="form-control z-ml10 arrange-cdate" placeholder="自定义时间" ng-model="customDate" /></td>
+                            <td width="100"></td>
                         </tr>
                     </table>
                 </div>
@@ -56,11 +56,15 @@
                         <th style="background: none;">当日信息</th>
                         <td>
                             <!--<span class="z-fl">外部均价:<span ng-bind="(outerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>-->
-                            <span class="z-fr">内部均价:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
+                            <span class="z-fr">价格:<span ng-bind="(innerPriceAll/(getTheday.length*100))|number:0"></span>元/小时</span>
                         </td>
-                        <td><span class="z-fl" ng-bind="'C1数:'+c1All"></span><span class="z-fr">预留数:<span ng-bind="c1innerAll"></span></span></td>
-                        <td><span class="z-fl" ng-bind="'C2数:'+c2All"></span><span class="z-fr">预留数:<span ng-bind="c2innerAll"></span></span></td>
-                        <td><span class="arrange-process"><span class="proc-in" style="width: {{(c1bookAll + c2bookAll)/(c1All + c2All)*100}}%" ng-bind="(((c1bookAll + c2bookAll)/(c1All + c2All)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(c1bookAll + c2bookAll)+'/'+(c1All + c2All)"></span></td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+c1innerAll""></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+c2innerAll"></span></td>
+                        <td>
+                          <span class="arrange-process">
+                            <span class="proc-in" style="width: {{(c1bookAll + c2bookAll)/(c1All + c2All)*100}}%" ng-bind="(((c1bookAll + c2bookAll)/(c1All + c2All)*100)|number:2)+'%'"></span>
+                          </span>
+                        </td>
                         <td class="edit">
                             <a href="javascript:;" ng-click="shutClass(getTheday,'all')" ng-class="{false:'z-noAction'}[canShut]">关闭</a>
                             <!--<a href="javascript:;" ng-click="delayClass(item,$index)" ng-class="{true:'z-noAction'}[item.pstart!=item.rstart]" class="z-plr5">延班</a>-->
@@ -68,14 +72,27 @@
                         </td>
                     </tr>
                     <tr ng-repeat="item in getTheday" ng-class="{true:'z-tr-disable'}[item.state==1]">
-                        <th><span ng-bind="item.pstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span><span ng-bind="(item.type==1)?'大客户排班':'普通排班'"></span></th>
+                        <th><span ng-bind="item.rstart|timeTexHM"></span>-<span ng-bind="item.pend|timeTexHM"></span></th>
                         <td>
                             <!--<span class="z-fl">外部价格:<span ng-bind="item.outerPrice/100"></span>元/小时</span>-->
-                            <span class="z-fr">内部价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>
+                            <span class="z-fr">价格:<span ng-bind="item.innerPrice/100"></span>元/小时</span>
                         </td>
-                        <td><span class="z-fl" ng-bind="'C1数:'+item.c1"></span><span class="z-fr">预留数:<span ng-bind="item.c1inner"></span></span></td>
-                        <td><span class="z-fl" ng-bind="'C2数:'+item.c2"></span><span class="z-fr">预留数:<span ng-bind="item.c2inner"></span></span></td>
-                        <td><span class="arrange-process"><span class="proc-in" style="width: {{(item.c1book + item.c2book)/(item.c1 + item.c2)*100}}%" ng-bind="(((item.c1book + item.c2book)/(item.c1 + item.c2)*100)|number:2)+'%'"></span></span><span class="z-fr" ng-bind="'预约进度:'+(item.c1book + item.c2book)+'/'+(item.c1 + item.c2)"></span></td>
+                        <td><span class="z-fl" ng-bind="'C1数:'+item.c1inner"></span></td>
+                        <td><span class="z-fl" ng-bind="'C2数:'+item.c2inner"></span></td>
+                        <td class="vipdetail-pop">
+                          <span class="arrange-process">
+                            <span class="proc-in" style="width: {{(item.c1book + item.c2book)/(item.c1 + item.c2)*100}}%" ng-bind="(((item.c1book + item.c2book)/(item.c1 + item.c2)*100)|number:2)+'%'"></span>
+                          </span>
+                          <span class="z-fr ">
+                            <span ng-bind="'预约进度:'+(item.c1book + item.c2book)+'/'+(item.c1inner + item.c2inner)"></span>
+                          </span>
+                          <div class="vipdetail">
+                              <p>大客户排版情况</p>
+                              <p ng-repeat="x in item.innerinfo.bookinfo">
+                                {{x.name}}  已约C1:{{x.c1book}}人 已约 C2:{{x.c2book}}人
+                              </p>
+                            </div>
+                        </td>
                         <td class="edit">
                             <!--<a href="arrange-exam-class-edit.html?classId={{item.id}}" ng-class="{true:'z-noAction'}[(item.noEdit==true)||(item.state==1)]">编辑</a>-->
                             <a href="javascript:;" ng-click="shutClass(item)" ng-bind="(item.state==1)?'已关闭':'关闭'" ng-class="{true:'z-noAction'}[item.state==1]"></a>
@@ -104,10 +121,45 @@
         <!--<ng-include src="'edit/arrange-exam-class-shut.html'" onload="shutClassLoad()" ></ng-include>-->
         <!-- 延迟排班 -->
         <ng-include src="'edit/arrange-exam-class-delay.html'" onload="delayClassLoad()" ></ng-include>
-	</div>	
+	</div>
 </div>
 <script src="assets/js/ng-js/arrange-exam-vipclass.js"></script>
 <script src="assets/common/datetimepicker/js/jquery.datetimepicker.full.min.js"></script>
-
+<style>
+  .vipdetail-pop{
+    position: relative;
+  }
+  .vipdetail-pop:hover .vipdetail{
+    display: block;
+  }
+  .vipdetail{
+    display: none;
+    position: absolute;
+    top: -1px;
+    left: 100%;
+    width: 213px;
+    background: rgb(230, 244, 252);
+    z-index: 10;
+    border:1px solid #4990E2;
+    padding: 10px;
+    margin-left: 8px;
+  }
+  .vipdetail:before{
+    content: '';
+    display: block;
+    position: absolute;
+    left: -8px;
+    top: 11px;
+    z-index: 20;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-right: 8px solid #4990E2;
+    border-bottom: 6px solid transparent;
+  }
+  .vipdetail p{
+    font-size: 12px;
+  }
+</style>
 </body>
 </html>

@@ -1,7 +1,9 @@
 package exam;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -91,57 +93,77 @@ public class TestSMS {
     }
     
     public static void main(String args[]) throws Exception{
-    	SendSmsResponse res=sendSms();
-    	System.out.println(res.getCode());
-    	System.out.println(res.getMessage());
-    	 System.out.println("RequestId=" + res.getRequestId());
-         System.out.println("BizId=" + res.getBizId());
-         
-         Thread.sleep(3000L);
-//    	String bizid="231410904796955912";
-//    	QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(bizid);
-//        System.out.println("短信明细查询接口返回数据----------------");
-//        System.out.println("Code=" + querySendDetailsResponse.getCode());
-//        System.out.println("Message=" + querySendDetailsResponse.getMessage());
-//        int i = 0;
-//        for(QuerySendDetailsResponse.SmsSendDetailDTO smsSendDetailDTO : querySendDetailsResponse.getSmsSendDetailDTOs())
-//        {
-//            System.out.println("SmsSendDetailDTO["+i+"]:");
-//            System.out.println("Content=" + smsSendDetailDTO.getContent());
-//            System.out.println("ErrCode=" + smsSendDetailDTO.getErrCode());
-//            System.out.println("OutId=" + smsSendDetailDTO.getOutId());
-//            System.out.println("PhoneNum=" + smsSendDetailDTO.getPhoneNum());
-//            System.out.println("ReceiveDate=" + smsSendDetailDTO.getReceiveDate());
-//            System.out.println("SendDate=" + smsSendDetailDTO.getSendDate());
-//            System.out.println("SendStatus=" + smsSendDetailDTO.getSendStatus());
-//            System.out.println("Template=" + smsSendDetailDTO.getTemplateCode());
-//        }
-//        System.out.println("TotalCount=" + querySendDetailsResponse.getTotalCount());
-//        System.out.println("RequestId=" + querySendDetailsResponse.getRequestId());
+//    	SendSmsResponse res=sendSms();
+//    	System.out.println(res.getCode());
+//    	System.out.println(res.getMessage());
+//    	 System.out.println("RequestId=" + res.getRequestId());
+//         System.out.println("BizId=" + res.getBizId());
+//         
+//         Thread.sleep(3000L);
+////    	String bizid="231410904796955912";
+////    	QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(bizid);
+////        System.out.println("短信明细查询接口返回数据----------------");
+////        System.out.println("Code=" + querySendDetailsResponse.getCode());
+////        System.out.println("Message=" + querySendDetailsResponse.getMessage());
+////        int i = 0;
+////        for(QuerySendDetailsResponse.SmsSendDetailDTO smsSendDetailDTO : querySendDetailsResponse.getSmsSendDetailDTOs())
+////        {
+////            System.out.println("SmsSendDetailDTO["+i+"]:");
+////            System.out.println("Content=" + smsSendDetailDTO.getContent());
+////            System.out.println("ErrCode=" + smsSendDetailDTO.getErrCode());
+////            System.out.println("OutId=" + smsSendDetailDTO.getOutId());
+////            System.out.println("PhoneNum=" + smsSendDetailDTO.getPhoneNum());
+////            System.out.println("ReceiveDate=" + smsSendDetailDTO.getReceiveDate());
+////            System.out.println("SendDate=" + smsSendDetailDTO.getSendDate());
+////            System.out.println("SendStatus=" + smsSendDetailDTO.getSendStatus());
+////            System.out.println("Template=" + smsSendDetailDTO.getTemplateCode());
+////        }
+////        System.out.println("TotalCount=" + querySendDetailsResponse.getTotalCount());
+////        System.out.println("RequestId=" + querySendDetailsResponse.getRequestId());
+//
+//         //查明细
+//         if(res.getCode() != null && res.getCode().equals("OK")) {
+//             QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(res.getBizId());
+//             System.out.println("短信明细查询接口返回数据----------------");
+//             System.out.println("Code=" + querySendDetailsResponse.getCode());
+//             System.out.println("Message=" + querySendDetailsResponse.getMessage());
+//             int i = 0;
+//             for(QuerySendDetailsResponse.SmsSendDetailDTO smsSendDetailDTO : querySendDetailsResponse.getSmsSendDetailDTOs())
+//             {
+//                 System.out.println("SmsSendDetailDTO["+i+"]:");
+//                 System.out.println("Content=" + smsSendDetailDTO.getContent());
+//                 System.out.println("ErrCode=" + smsSendDetailDTO.getErrCode());
+//                 System.out.println("OutId=" + smsSendDetailDTO.getOutId());
+//                 System.out.println("PhoneNum=" + smsSendDetailDTO.getPhoneNum());
+//                 System.out.println("ReceiveDate=" + smsSendDetailDTO.getReceiveDate());
+//                 System.out.println("SendDate=" + smsSendDetailDTO.getSendDate());
+//                 System.out.println("SendStatus=" + smsSendDetailDTO.getSendStatus());
+//                 System.out.println("Template=" + smsSendDetailDTO.getTemplateCode());
+//             }
+//             System.out.println("TotalCount=" + querySendDetailsResponse.getTotalCount());
+//             System.out.println("RequestId=" + querySendDetailsResponse.getRequestId());
+//         }
+    	Runtime run = Runtime.getRuntime();
+    	TestM mm=new TestM();
+    	TestM mm2=new TestM();
+    	System.out.println(run.totalMemory());
+    	System.out.println(run.freeMemory());
+    	List list=new ArrayList();
+    	list.add(new TestM());
 
-         //查明细
-         if(res.getCode() != null && res.getCode().equals("OK")) {
-             QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(res.getBizId());
-             System.out.println("短信明细查询接口返回数据----------------");
-             System.out.println("Code=" + querySendDetailsResponse.getCode());
-             System.out.println("Message=" + querySendDetailsResponse.getMessage());
-             int i = 0;
-             for(QuerySendDetailsResponse.SmsSendDetailDTO smsSendDetailDTO : querySendDetailsResponse.getSmsSendDetailDTOs())
-             {
-                 System.out.println("SmsSendDetailDTO["+i+"]:");
-                 System.out.println("Content=" + smsSendDetailDTO.getContent());
-                 System.out.println("ErrCode=" + smsSendDetailDTO.getErrCode());
-                 System.out.println("OutId=" + smsSendDetailDTO.getOutId());
-                 System.out.println("PhoneNum=" + smsSendDetailDTO.getPhoneNum());
-                 System.out.println("ReceiveDate=" + smsSendDetailDTO.getReceiveDate());
-                 System.out.println("SendDate=" + smsSendDetailDTO.getSendDate());
-                 System.out.println("SendStatus=" + smsSendDetailDTO.getSendStatus());
-                 System.out.println("Template=" + smsSendDetailDTO.getTemplateCode());
-             }
-             System.out.println("TotalCount=" + querySendDetailsResponse.getTotalCount());
-             System.out.println("RequestId=" + querySendDetailsResponse.getRequestId());
-         }
+//    	byte[] bb=new byte[1024*1024*10];
+//    	System.out.println(bb.length);
+//    	while(true){
+//    		System.out.println("111");
+//    		list.add(new byte[1024*1024*10]);
+//    		Thread.currentThread().sleep(1000);
+//    		
+//    	}
     }
     
-    
+    //static TestM mm=new TestM();
+}
+
+class TestM{
+	static byte[] data=new byte[1024*1024*10];
 }
