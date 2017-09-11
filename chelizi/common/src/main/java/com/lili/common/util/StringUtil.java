@@ -7,8 +7,9 @@
 package com.lili.common.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -165,8 +166,13 @@ public class StringUtil
 //    public static String getUuid32(){
 //    	return UUID.randomUUID().toString().replaceAll("-", "");
 //    }
+    static AtomicInteger integer=new AtomicInteger(0);
+    static java.text.SimpleDateFormat format=new java.text.SimpleDateFormat("yyyyMMddHHmmss");
     public static String getOrderId(){
-    	return UUID.randomUUID().toString().replaceAll("-", "");
+    	if(integer.get()>100) integer.set(0);
+    	String orderid=format.format(new Date())+System.currentTimeMillis()+integer.incrementAndGet();
+    	return orderid;
+    	//return UUID.randomUUID().toString().replaceAll("-", "");
     }
     
     public static String listToStr(List<String> list){

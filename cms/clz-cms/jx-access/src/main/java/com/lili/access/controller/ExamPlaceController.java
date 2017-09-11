@@ -658,6 +658,7 @@ public class ExamPlaceController extends BaseController{
 			String state=request.getParameter("state");
 			String coachName=request.getParameter("coachName");
 			String coachMobile=request.getParameter("coachMobile");
+			String payorderId=request.getParameter("payorderId");
 			Date d0 = null;
 			Date d1 = null;
 			if (pdate.contains(",")) {
@@ -677,6 +678,7 @@ public class ExamPlaceController extends BaseController{
 			p.setCoachName(coachName);
 			p.setCoachMobile(coachMobile);
 			p.setPlaceId(ep.getId());
+			p.setPayorderId(payorderId);
 			p.setBtime(d0);
 			p.setEtime(d1);
 			if(state!=null&&state.length()>0){
