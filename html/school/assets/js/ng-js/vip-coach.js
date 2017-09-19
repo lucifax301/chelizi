@@ -157,6 +157,23 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 		});/*AJAX end*/
 	}
 
+	$s.vipCoachDel=function(data){
+		Layer.confirm({width:350,height:160,title:"确认删除大客户教练"+data.name+"？",header:"确认"},function(){
+			$.AJAX({
+				url: config.basePath+"vipcoach/delete",
+				type : "POST",
+				data: {
+					id: data.id
+				},
+				success : function(data){
+					Layer.miss({width:250,height:90,title:"操作成功",closeMask:true});
+					$s.getDataList();
+				}
+			});
+		});
+	}
+	
+
 	/*取消时执行*/
 	$s.closeAlert=function(){
 		$s.getDataList(); //取消时还原页面数据

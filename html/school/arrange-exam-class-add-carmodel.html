@@ -21,9 +21,9 @@
 <div id="content" class="content main-content" >
 	<!-- 主体内容 -->
 	<div class="common-style withdraw-cash">
-		<div class="title"><h1>排班管理 &gt; 新增排班</h1></div>
+		<div class="title"><h1>普通客户排班 &gt; 新增排班</h1></div>
 		<div class="table-margin common-table">
-			<div class="header">排班管理 &gt; 新增排班</div>
+			<div class="header">普通客户排班 &gt; 新增排班</div>
 			<div class="content">
                 <form id="addForm">
                 <table class="z-form-col2 z-arrange-exam-form z-noborder">
@@ -70,7 +70,7 @@
                         <td>
                             <div class="input-text">
                                 <select name="" class="form-control" ng-model="minHours">
-                                    <option value="2">2小时</option>
+                                    <option value="1">1小时</option>
                                 </select>
                             </div>
                         </td>
@@ -84,7 +84,7 @@
                                     <span class="z-ml10 z-mr10">到</span>
                                     <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" class="form-control date-time date-time-to" >
                                 </div>
-                                <div class="item-auto-btn z-fr"><button ng-click="zItemAdd($event,'gen')" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加时间段</button></div>
+                                <div class="item-auto-btn z-fr z-mb10"><button ng-click="zItemAdd($event,'gen')" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加时间段</button></div>
                             </div>
 
                         </td>

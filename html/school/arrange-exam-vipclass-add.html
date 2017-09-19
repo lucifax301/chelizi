@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>新增大客户排班</title>
+	<title>新增排班</title>
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
 	<script src="assets/common/js/commonStart.js"></script>
@@ -30,28 +30,30 @@
 <div id="content" class="content main-content" >
 	<!-- 主体内容 -->
 	<div class="common-style withdraw-cash">
-		<div class="title"><h1>排班管理 &gt; 新增大客户排班</h1></div>
+		<div class="title"><h1>大客户排班 &gt; 新增排班</h1></div>
 		<div class="table-margin common-table">
-			<div class="header">排班管理 &gt; 新增大客户排班</div>
+			<div class="header">大客户排班 &gt; 新增排班</div>
 			<div class="content">
                 <form id="addForm">
                 <table class="z-form-col2 z-arrange-exam-form z-noborder">
                 	<tr class="z-input-valid">
                         <td><label for="">大客户列表：<span class="z-fontred">*</span></label></td>
                         <td>
+                          <div class="z-fontred">当前排班最大支持车辆限制：
+                            <span class="z-ml10">C1：{{c1max}}车辆</span>
+                            <span class="z-ml10">C2：{{c2max}}车辆</span>
+                          </div>
                         	<div class="vip-box" ng-repeat="item in bookinfo">
                         		<div class="vipname" style="width: 120px" ng-bind="item.name"></div>
                         		<div class="input-text input-group vip-input">
-                        			<div class="title">C1车次：</div>
+                        			<div class="title">C1车辆：</div>
 	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c1">
-	                                <span class="input-group-addon">车次</span>
-	                                <p ng-show="item.c1>item.c1count" class="numerror" ng-bind="'不得大于'+item.c1count+'辆'"></p>
+	                                <span class="input-group-addon">车辆</span>
 	                            </div>
 	                            <div class="input-text input-group vip-input">
-	                            	<div class="title">C2车次：</div>
+	                            	<div class="title">C2车辆：</div>
 	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c2">
-	                                <span class="input-group-addon">车次</span>
-	                                <p ng-show="item.c2>item.c2count" class="numerror" ng-bind="'不得大于'+item.c2count+'辆'"></p>
+	                                <span class="input-group-addon">车辆</span>
 	                            </div>
                         	</div>
                         </td>
@@ -74,7 +76,7 @@
                     	作者：offline
                     	时间：2017-08-01
                     	描述：
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">外部价格：<span class="z-fontred">*</span></label></td>
                         <td>
@@ -99,7 +101,7 @@
                         <td>
                             <div class="input-text">
                                 <select name="" class="form-control" ng-model="minHours">
-                                    <option value="2">2小时</option>
+                                    <option value="3">3小时</option>
                                 </select>
                             </div>
                         </td>
@@ -122,7 +124,7 @@
                     	作者：offline
                     	时间：2017-08-01
                     	描述：
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">最小时间段内车数：</label></td>
                         <td>
@@ -200,7 +202,7 @@
                                 </div>
 				<div>
                                     <input type="radio" ng-click="showRc($event,0)" class="z-checkbox z-mr20" ng-checked="favorType==0" name="favortype">不优惠
-                                    
+
                                 </div>
                             </div>
                         </td>
@@ -214,7 +216,7 @@
                 </form>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 <!-- script -->
 <script src="assets/js/ng-js/arrange-exam-vipclass-add.js"></script>

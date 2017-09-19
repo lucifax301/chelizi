@@ -12,6 +12,8 @@ public interface ExamVipManager {
 	
 	int updateExamVip(ExamVip examVip);
 	
+	public int delExamVip(ExamVip examVip);
+	
 	Page<ExamVip> getExamVip(ExamVip examVip,String pageNo, String pageSize);
 	
 	List<ExamVip> getExamVipList(ExamVip examVip,String pageNo, String pageSize);

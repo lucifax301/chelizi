@@ -68,7 +68,7 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 		}
 
 		boolean cExist = coachManager.isExist(mo);
-		boolean sExist = studentManager.isExist(mo);
+		//boolean sExist = studentManager.isExist(mo);
 		int ut = 0;
 		int rt = 0;
 		try {
@@ -88,11 +88,11 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 					return r;
 				}
 			} else if (ut == ReqConstants.USER_TYPE_STUDENT) {
-				if (sExist) {
-					r.setCode(ResultCode.ERRORCODE.MOBILE_EXIST);
-					r.setMsgInfo(ResultCode.ERRORINFO.MOBILE_EXIST);
-					return r;
-				}
+//				if (sExist) {
+//					r.setCode(ResultCode.ERRORCODE.MOBILE_EXIST);
+//					r.setMsgInfo(ResultCode.ERRORINFO.MOBILE_EXIST);
+//					return r;
+//				}
 			} else {
 				// 参数错误
 				r.setCode(ResultCode.ERRORCODE.PARAMERROR);
@@ -109,11 +109,11 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 					return r;
 				}
 			} else if (ut == ReqConstants.USER_TYPE_STUDENT) {
-				if (!sExist) {
-					r.setCode(ResultCode.ERRORCODE.NO_USER);
-					r.setMsgInfo(ResultCode.ERRORINFO.NO_USER);
-					return r;
-				}
+//				if (!sExist) {
+//					r.setCode(ResultCode.ERRORCODE.NO_USER);
+//					r.setMsgInfo(ResultCode.ERRORINFO.NO_USER);
+//					return r;
+//				}
 			} else {
 				// 参数错误
 				r.setCode(ResultCode.ERRORCODE.PARAMERROR);
@@ -129,11 +129,11 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 					return r;
 				}
 			} else if (ut == ReqConstants.USER_TYPE_STUDENT) {
-				if (!sExist) {
-					r.setCode(ResultCode.ERRORCODE.NO_USER);
-					r.setMsgInfo(ResultCode.ERRORINFO.NO_USER);
-					return r;
-				}
+//				if (!sExist) {
+//					r.setCode(ResultCode.ERRORCODE.NO_USER);
+//					r.setMsgInfo(ResultCode.ERRORINFO.NO_USER);
+//					return r;
+//				}
 			} else {
 				// 参数错误
 				r.setCode(ResultCode.ERRORCODE.PARAMERROR);
@@ -147,10 +147,10 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 				r.setMsgInfo(ResultCode.ERRORINFO.PARAMERROR);
 				return r;
 			} else if (ut == ReqConstants.USER_TYPE_STUDENT) {
-				if (!sExist) {
-					//设置超级用户标示
-					redisUtil.setAll(REDISKEY.TAG_SUPER_STUDENT + mo, true,0);
-				}
+//				if (!sExist) {
+//					//设置超级用户标示
+//					redisUtil.setAll(REDISKEY.TAG_SUPER_STUDENT + mo, true,0);
+//				}
 			} else {
 				// 参数错误
 				r.setCode(ResultCode.ERRORCODE.PARAMERROR);

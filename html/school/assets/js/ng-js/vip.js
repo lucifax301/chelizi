@@ -113,6 +113,22 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 			$s.editType="add";
 		}
 	}
+	
+	$s.vipDelete=function(data){
+		Layer.confirm({width:350,height:160,title:"确认删除大客户"+data.name+"？",header:"确认"},function(){
+			$.AJAX({
+				url: config.basePath+"vip/delete",
+				type : "POST",
+				data: {
+					id: data.id
+				},
+				success : function(data){
+					Layer.miss({width:250,height:90,title:"操作成功",closeMask:true});
+					$s.getDataList();
+				}
+			});
+		});
+	}
 
 	/*参数配置函数*/
 	function editVipJson(url){

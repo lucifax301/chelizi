@@ -174,6 +174,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				List<ExamPlaceClass> classes = getExamPlaceClass(placeId+"", dayStr);
 				for(ExamPlaceClass cls:classes){
 					if(cls.getType()==1){
+						System.out.println(cls.getId()+" "+changeClassBitmap(record)+" "+changeClassBitmap(cls)+" "+isoccur(changeClassBitmap(record),changeClassBitmap(cls)));
 						boolean isoccur=isoccur(changeClassBitmap(record),changeClassBitmap(cls));
 						if(isoccur){
 							//重新算外部分配车数量
@@ -672,7 +673,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	public List<ExamPlaceClass> getExamPlaceClass(String placeId,String pdate,String type) {
 		//可以增加缓存，但在新增排班或者更改排班时，需要同时更新缓存 TODO
     	try {
-    		List<ExamPlaceClass> clses = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "."+type+"." + pdate);
+    		List<ExamPlaceClass> clses = null;//redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "."+type+"." + pdate);
     		if(null == clses){
     			Date d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 00:00:00");
     			Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 23:59:59");
@@ -687,7 +688,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 //    					.andStateNotEqualTo((byte) 1));//'排班状态：0-正常；1-已关闭；2-已延迟',
     			example.setOrderByClause("pstart asc");
     			clses = examPlaceClassMapper.selectByExample(example);
-    			redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "." + pdate, clses, RedisKeys.EXPIRE.WEEK);
+    			//redisUtil.setAll(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "." + type+"."+pdate, clses, RedisKeys.EXPIRE.WEEK);
     		}
     		return clses;
 		} catch (Exception e) {

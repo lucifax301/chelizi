@@ -12,9 +12,9 @@
 <div id="content" class="content main-content" >
 	<!-- 主体内容 -->
 	<div class="common-style withdraw-cash">
-		<div class="title"><h1>大客户教练</h1></div>
+		<div class="title"><h1>大客户</h1></div>
 		<div class="table-margin common-table">
-			<div class="header">大客户教练列表</div>
+			<div class="header">大客户列表</div>
 			<div class="content">
 				<div class="search">
 					
@@ -30,7 +30,7 @@
 				</div>
 				<div class="senior-search row">
 					<div class="col-xs-12 col-sm-4">
-						<a ng-click="vipCoachEdit('add')" class="btn btn-sm btn-primary">新增教练</a>
+						<a ng-click="vipEdit('add')" class="btn btn-sm btn-primary">新增大客户</a>
 						
 					</div>
 					<div class="col-xs-12 col-sm-offset-4 col-sm-4 select text-right">
@@ -47,18 +47,21 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped table-with-style">
 					  <tr>
-					  	<td><b>教练名称</b></td>
-					  	<td><b>手机号</b></td>
+					  	<td><b>大客户名称</b></td>
+					  	<td><b>联系人手机号</b></td>
+					  	<!--<td><b>C1预留数量</b></td>
+					  	<td><b>C2预留数量</b></td>-->
 					  	<td><b>操作</b></td>
 					  </tr>
 					  <tr ng-repeat="data in datas">
 					  	<td ng-bind="data.name"></td>
 					  	<td ng-bind="data.mobile"></td>
-					  	
+					  	<!--<td ng-bind="data.c1count"></td>
+					  	<td ng-bind="data.c2count"></td>-->
 					  	<td class="operation">
-					  		<span class="edit"  ng-click="vipCoachEdit('edit',data)">编辑</span>
-					  		<span class="edit"  ng-click="vipCoachDel(data)">删除</span>
-					  		
+					  		<span class="edit"  ng-click="vipEdit('edit',data)">编辑</span>
+					  		<span class="edit"  ng-click="vipDelete(data)">删除</span>
+					  		<a href="vip-coach.html?vipId={{data.id}}" >教练列表</a>
 					  	</td>
 					  </tr>
 					</table>
@@ -70,10 +73,10 @@
 		</div>
 		
 		<!-- 教练车信息编辑 | 新增 -->
-		<ng-include src="'edit/vip-coach.html'" onload="vipCoachEditLoad()" ></ng-include>
+		<ng-include src="'edit/vip.html'" onload="vipEditLoad()" ></ng-include>
 	</div>	
 </div>
 <!-- script -->
-<script src="assets/js/ng-js/vip-coach.js"></script>
+<script src="assets/js/ng-js/vip.js"></script>
 </body>
 </html>

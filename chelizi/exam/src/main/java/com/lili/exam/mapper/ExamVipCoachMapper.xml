@@ -53,6 +53,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   
+  <delete id="deleteExamVipCoachByVip" parameterType="com.lili.exam.dto.ExamVipCoach" >
+    delete from t_exam_vip_coach
+    where vipId = #{vipId,jdbcType=INTEGER}
+  </delete>
+  
   <insert id="insertExamVipCoach" parameterType="com.lili.exam.dto.ExamVipCoach" >
     insert into t_exam_vip_coach (id, name, mobile, 
       vipId, 

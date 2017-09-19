@@ -866,7 +866,7 @@
         validTime = #{validTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where orderId = #{orderId,jdbcType=VARCHAR} and state=0
+    where orderId = #{orderId,jdbcType=VARCHAR} 
   </update>
   
   <update id="updateByPrimaryKey" parameterType="com.lili.exam.dto.ExamPlaceOrder" >

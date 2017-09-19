@@ -37,38 +37,64 @@
 		<ul class="table-li">
 			<li ng-click="tableSwitch($event)" class="active">订单信息</li>
 		</ul>
-		<div class="order-table" id="order-table">
+		<div class="order-table" id="order-table" style="padding-bottom: 0;">
 			<!-- 订单信息 -->
 			<div>
-				<table class="table table-bordered table-with-style">
+				<table class="table table-bordered table-with-style" style="margin-bottom: 0;">
 				  <tr>
 				  	<td class="t-150"><b>练考信息</b></td>
 				  	<td><span ng-bind="data.orderinfo"></span></td>
 				  	<td class="t-150"><b>教练姓名</b></td>
 				  	<td ng-bind="data.coachName"></td>
 				  </tr>
-				  
+
 				  <tr>
 				  	<td class="t-150"><b>教练电话</b></td>
 				  	<td ng-bind="data.coachMobile"></td>
 				  	<td class="t-150"><b>预约时长（小时）</b></td>
 				  	<td ng-bind="data.duration"></td>
 				  </tr>
-				  
-				  
+
+
                     <tr>
                         <td class="t-150"><b>订单金额（元）</b></td>
                         <td ng-bind="data.payTotal/100"></td>
                         <td class="t-150"><b>订单状态</b></td>
                         <td ng-bind="data.state|payOrderState"></td>
                     </tr>
-                    
-                    
+
+
 				</table><!-- 订单信息结束 -->
 			</div>
 			<!-- 操作日志 -->
-			
 		</div>
+		<div class="padding-20">
+    	<div class="table-margin common-table">
+        <div class="header"></span>子订单列表 </div>
+    	  <div class="table-responsive" ng-if="data.orders.length > 0" style="padding: 20px;">
+          <table class="table table-bordered table-striped z-font12">
+            <tr>
+              <td class="onlyprint"><b>序号</b></td>
+              <td class="noprint"><b>订单号</b></td>
+              <td class="noprint"><b>车辆</b></td>
+              <td class="noprint"><b>排版时间</b></td>
+              <td class="noprint"><b>预约时长</b></td>
+              <td class="noprint"><b>价格</b></td>
+              <td class="noprint"><b>状态</b></td>
+            </tr>
+            <tr ng-repeat="item in data.orders">
+            <td class="onlyprint" ng-bind="$index + 1"></td>
+            <td class="onlyprint" ng-bind="item.orderId"></td>
+            <td class="onlyprint" ng-bind="item.carNo"></td>
+            <td class="onlyprint" ng-bind="item.rstart | timeTexYMDHI"></td>
+            <td class="onlyprint" ng-bind="item.duration"></td>
+            <td class="onlyprint" ng-bind="item.payTotal/100+'元'"></td>
+            <td class="onlyprint" ng-bind="item.state|examOrderState"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
 	</div>
 </div>
 <script src="assets/js/ng-js/exam-pay-order-details.js"></script>

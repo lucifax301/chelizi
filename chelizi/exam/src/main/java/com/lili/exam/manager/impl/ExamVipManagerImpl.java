@@ -40,6 +40,14 @@ public class ExamVipManagerImpl implements ExamVipManager {
 	public int updateExamVip(ExamVip examVip) {
 		return examVipMapper.updateExamVip(examVip);
 	}
+	
+	@Override
+	public int delExamVip(ExamVip examVip) {
+		ExamVipCoach evc=new ExamVipCoach();
+		evc.setVipId(examVip.getId());
+		examVipCoachMapper.deleteExamVipCoachByVip(evc);
+		return examVipMapper.deleteExamVip(examVip);
+	}
 
 	@Override
 	public Page<ExamVip> getExamVip(ExamVip examVip,String pageNo, String pageSize) {

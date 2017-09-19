@@ -11,6 +11,8 @@ public interface ExamVipCoachMapper {
     int countExamVipCoach(ExamVipCoach examvip);
 
     int deleteExamVipCoach(ExamVipCoach examvip);
+    
+    int deleteExamVipCoachByVip(ExamVipCoach examvip);
 
     int insertExamVipCoach(ExamVipCoach examvip);
     
