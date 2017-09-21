@@ -178,6 +178,9 @@
 			<if test="carId != null and carId != '' and carId != 0">
 				and carId != #{carId}
 			</if>
+			<if test="schoolId != null ">
+			 and schoolId = #{schoolId} 
+			</if>
 	</select>
 	
 	<insert id="insertCoachCar" parameterType="com.lili.school.model.CarNBDTO">

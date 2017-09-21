@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.lili.access.util.AccessWebUtil;
 import com.lili.cms.constant.Constant;
 import com.lili.cms.constant.LogConstant;
 import com.lili.log.model.LogCommon;
@@ -27,6 +28,7 @@ import com.lili.school.model.Car;
 import com.lili.school.model.CarBDTO;
 import com.lili.school.model.CarNBDTO;
 import com.lili.school.service.CMSCarService;
+import com.lili.user.model.User;
 
 
 @Controller
@@ -78,6 +80,8 @@ public class CarController extends BaseController{
     public String coach(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		try {
 			CarNBDTO dto = (CarNBDTO) buildObject(request, CarNBDTO.class);
+			User currentUser = AccessWebUtil.getSessionUser(request);
+			dto.setSchoolId(currentUser.getSchoolId());
 			return cmsCarService.findOneForCoach(dto).build();
 		} catch (Exception e) {
 			throw new Exception("异常:" + e.getMessage());

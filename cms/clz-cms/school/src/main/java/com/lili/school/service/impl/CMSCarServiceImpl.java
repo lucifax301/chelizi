@@ -43,6 +43,7 @@ public class CMSCarServiceImpl implements CMSCarService {
 		CarNBDTO dto = new CarNBDTO();
 		dto.setCarId(car.getCarId());
 		dto.setCarNo(car.getCarNo());
+		dto.setSchoolId(car.getSchoolId());
 		dto.setDriveNumber(car.getDriveNumber());
 		if (cmsCarManager.findExist(dto) <= 0) {
 			if (cmsCarManager.insertOne(car) <= 0) {

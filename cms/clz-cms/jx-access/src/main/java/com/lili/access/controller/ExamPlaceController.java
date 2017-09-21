@@ -540,8 +540,13 @@ public class ExamPlaceController extends BaseController{
 		User currentUser = AccessWebUtil.getSessionUser(request);
 		try {
 			ExamPlace ep = examPlaceManager.getExamPlaceBySchoolId(currentUser.getSchoolId().intValue());
-			List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate,type);
-			res.addResult("pageData", data);
+			if("3".equals(type)){
+				List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate);
+				res.addResult("pageData", data);
+			}else{
+				List<ExamPlaceClass> data = examPlaceClassManager.getExamPlaceClass(ep.getId()+"", pdate,type);
+				res.addResult("pageData", data);
+			}
 			
 		} catch (Exception e) {
 			log.error("controller: ExamPlaceController getExamPlaceClass failed=" + e.getMessage(), e);
