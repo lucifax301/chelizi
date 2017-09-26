@@ -126,6 +126,10 @@ public class ExamVipManagerImpl implements ExamVipManager {
 
 	@Override
 	public int delExamVipCoach(ExamVipCoach examVipCoach) {
+		ExamVipCoach exist=examVipCoachMapper.selectByPrimaryKey(examVipCoach);
+		if(exist!=null){
+			redisUtil.delete(REDISKEY.SCHOOL_VIP_COACH + exist.getSchoolId()+"."+exist.getMobile());
+		}
 		return examVipCoachMapper.deleteExamVipCoach(examVipCoach);
 	}
 
@@ -145,7 +149,7 @@ public class ExamVipManagerImpl implements ExamVipManager {
 			p.setMobile(mobile);
 			p.setSchoolId(schoolId);
 			e=examVipCoachMapper.get(p);
-			redisUtil.set(REDISKEY.SCHOOL_VIP_COACH + schoolId+"."+mobile, e,3600*24);
+			redisUtil.set(REDISKEY.SCHOOL_VIP_COACH + schoolId+"."+mobile, e,3600*1);
 		}
 		return e;
 	}
