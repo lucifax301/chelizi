@@ -52,7 +52,7 @@ import com.lili.exam.dto.ExamPlaceOrderExample;
 import com.lili.exam.dto.ExamPlaceWhitelistExample;
 import com.lili.exam.dto.ExamVip;
 import com.lili.exam.dto.ExamVipBookInfo;
-import com.lili.exam.dto.ExamVipCoach;
+//import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
@@ -744,10 +744,26 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
 		
 		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
-		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+		//ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+		ExamVip examVip=new ExamVip();
+		examVip.setSchoolId(ep.getSchoolId());
+		List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+		ExamVip evip=null;
+		if(examVips!=null){
+			for(ExamVip vip:examVips){
+				if(coach.getPhoneNum().equals(vip.getMobile())){
+					evip=vip;break;
+				}
+			}
+		}
 		
 		//内部
-		if(examVipCoach!=null){
+//		if(examVipCoach!=null){
+//			map.put("vip", "1");
+//		}else{
+//			map.put("vip", "0");
+//		}
+		if(evip!=null){
 			map.put("vip", "1");
 		}else{
 			map.put("vip", "0");
@@ -1183,16 +1199,25 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			try {
 				ExamVip examVip=new ExamVip();
 				examVip.setSchoolId(ep.getSchoolId());
-				//List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+				List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
 				
 	    		List<ExamPlaceClass> classes = getExamPlaceClass(placeId, pdate);
 	    		if(null != classes && classes.size()>0){
 	    			List<ExamPlaceClassVo> data = new ArrayList<ExamPlaceClassVo>();
 	        		//（1）查询用户身份，是否是驾校内部教练
 	        		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
-	        		ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+	        		//ExamVipCoach examVipCoach=examVipManagerImpl.getExamVipCoach(coach.getPhoneNum(), ep.getSchoolId());
+	        		ExamVip evip=null;
+	        		if(examVips!=null){
+	        			for(ExamVip vip:examVips){
+	        				if(coach.getPhoneNum().equals(vip.getMobile())){
+	        					evip=vip;break;
+	        				}
+	        			}
+	        		}
 	        		
-	        		boolean isInner=(examVipCoach!=null);
+	        		//boolean isInner=(examVipCoach!=null);
+	        		boolean isInner=(evip!=null);
 	        		
 					boolean isC1 = "1".equals(drtype.trim());
 					byte drive = Byte.parseByte(drtype.trim());
@@ -1267,7 +1292,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
             						if(vipbookinfo!=null){
             							for(ExamVipBookInfo bi:vipbookinfo){
             								
-            								if(bi.getVipId()==examVipCoach.getVipId()){
+            								//if(bi.getVipId()==examVipCoach.getVipId()){
+            								if(bi.getVipId()==evip.getId()){
             									matchvip=bi;
             									break;
             								}
