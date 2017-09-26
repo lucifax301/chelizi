@@ -233,6 +233,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				}
 			}
 			
+			if(record.getC1()==0&&record.getC2()==0){
+				return res;
+			}
+			
 			examPlaceClassMapper.insertSelective(record);
 			//20161114有新增排班时，清除今天的排班查询
 			
@@ -280,7 +284,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					example.createCriteria()
 							.andPlaceIdEqualTo(placeId)
 							.andPstartGreaterThan(d0)
-							.andPstartLessThan(d1);
+							.andPstartLessThan(d1).andTypeEqualTo(cls.getType());
 					example.or(example.createCriteria()
 							.andPlaceIdEqualTo(placeId)
 							.andPendGreaterThan(d0)
@@ -1055,7 +1059,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	public List<ExamPlaceClassVo> getExamPlaceClassInfo(String userId,
 			String userType, String placeId, String pdate, String drtype) {
 		//
-		
+		System.out.println("==============placeid:"+placeId);
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
 		if(ep.getServicetype()==0){
 	    	try {
@@ -1206,6 +1210,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 							classes.remove(i);
 						}
 					}
+					System.out.println("=============clsss:"+classes.size());
 					
 	    			for(int i=0;i<classes.size();i++){
 	    				ExamPlaceClass cls = classes.get(i);
