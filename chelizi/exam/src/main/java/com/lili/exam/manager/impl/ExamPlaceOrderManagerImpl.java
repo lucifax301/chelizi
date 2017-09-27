@@ -55,7 +55,7 @@ import com.lili.exam.dto.ExamPlaceWhitelist;
 import com.lili.exam.dto.ExamPlaceWhitelistExample;
 import com.lili.exam.dto.ExamVip;
 import com.lili.exam.dto.ExamVipBookInfo;
-import com.lili.exam.dto.ExamVipCoach;
+//import com.lili.exam.dto.ExamVipCoach;
 import com.lili.exam.manager.ExamPlaceClassManager;
 import com.lili.exam.manager.ExamPlaceManager;
 import com.lili.exam.manager.ExamPlaceOrderManager;
@@ -854,9 +854,21 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 		Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
 
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
-		ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
-				coach.getPhoneNum(), ep.getSchoolId());
-		boolean isInner = (examVipCoach != null);
+//		ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
+//				coach.getPhoneNum(), ep.getSchoolId());
+		ExamVip examVip2=new ExamVip();
+		examVip2.setSchoolId(ep.getSchoolId());
+		List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip2);
+		ExamVip evip=null;
+		if(examVips!=null){
+			for(ExamVip vip:examVips){
+				if(coach.getPhoneNum().equals(vip.getMobile())){
+					evip=vip;break;
+				}
+			}
+		}
+		//boolean isInner = (examVipCoach != null);
+		boolean isInner = (evip != null);
 
 		boolean isC1 = "1".equals(drtype.trim());
 		//clssid-c1,count
@@ -884,12 +896,20 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								Integer.parseInt(clses[i])).andStateIn(state1)
 						//.andStateNotIn(state1) // '订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭',
 						.andCoachIdEqualTo(Long.parseLong(userId));
-				int oldData1 = examPlaceOrderMapper
-						.countByExample(example1);
-				if (oldData1 > 0) {
-					res.setCode(ResultCode.ERRORCODE.FAILED);
-					res.setMsgInfo("您已预约该场次，不能重复预约！");
-					return res;
+//				int oldData1 = examPlaceOrderMapper
+//						.countByExample(example1);
+//				if (oldData1 > 0) {
+//					res.setCode(ResultCode.ERRORCODE.FAILED);
+//					res.setMsgInfo("您已预约该场次，不能重复预约！");
+//					return res;
+//				}
+				List<ExamPlaceOrder> eorders= examPlaceOrderMapper.selectByExample(example1);
+				for(ExamPlaceOrder eo:eorders){
+					if(eo.getCarNo().equals(carno)){
+						res.setCode(ResultCode.ERRORCODE.FAILED);
+						res.setMsgInfo("您已预约该车，不能重复预约！");
+						return res;
+					}
 				}
 				
 				boolean hasPreChecked = false;
@@ -982,6 +1002,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				}
 
 				if (isInner) { // 内部教练
+					System.out.println("c===========innner");
 					if (isExpire) { // 内部预留已失效
 						if (isC1) {
 							// （1）检查排班空位情况 内部教练-预留失效-c1
@@ -1023,22 +1044,23 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								innerinfo = new ExamInnerInfo();
 							}
 
-							ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+							//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+							
 							bookinfo = innerinfo.getBookinfo();
 							ExamVipBookInfo examVipBookInfo = null;
 							for (ExamVipBookInfo bi : bookinfo) {
-								if (bi.getVipId() == examVip.getId()) {
+								if (bi.getVipId() == evip.getId()) {
 									examVipBookInfo = bi;
 									break;
 								}
 							}
 							if (examVipBookInfo == null) {
 								examVipBookInfo = new ExamVipBookInfo();
-								examVipBookInfo.setC1(examVip.getC1count());
+								examVipBookInfo.setC1(evip.getC1count());
 								examVipBookInfo.setC1book(0);
-								examVipBookInfo.setC2(examVip.getC2count());
+								examVipBookInfo.setC2(evip.getC2count());
 								examVipBookInfo.setC2book(0);
-								examVipBookInfo.setVipId(examVip.getId());
+								examVipBookInfo.setVipId(evip.getId());
 								innerinfo.getBookinfo().add(examVipBookInfo);
 							}
 							if(!vips.containsKey(clses[i])){
@@ -1073,22 +1095,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								innerinfo = new ExamInnerInfo();
 							}
 
-							ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+							//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
 							bookinfo = innerinfo.getBookinfo();
 							ExamVipBookInfo examVipBookInfo = null;
 							for (ExamVipBookInfo bi : bookinfo) {
-								if (bi.getVipId() == examVip.getId()) {
+								if (bi.getVipId() == evip.getId()) {
 									examVipBookInfo = bi;
 									break;
 								}
 							}
 							if (examVipBookInfo == null) {
 								examVipBookInfo = new ExamVipBookInfo();
-								examVipBookInfo.setC1(examVip.getC1count());
+								examVipBookInfo.setC1(evip.getC1count());
 								examVipBookInfo.setC1book(0);
-								examVipBookInfo.setC2(examVip.getC2count());
+								examVipBookInfo.setC2(evip.getC2count());
 								examVipBookInfo.setC2book(0);
-								examVipBookInfo.setVipId(examVip.getId());
+								examVipBookInfo.setVipId(evip.getId());
 								innerinfo.getBookinfo().add(examVipBookInfo);
 							}
 							if(!vips.containsKey(clses[i])){
@@ -1104,6 +1126,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 					}
 				} else { // 外部教练
+					System.out.println("c===========outer");
 					if (isExpire) { // 内部预留已失效
 						if (isC1) { // c1
 							// （1）检查排班空位情况
@@ -1158,7 +1181,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 						totalcount.put(clses[i]+"c2", totalcount.get(clses[i]+"c2")+ 1);
 					}
 				}
-				
+				System.out.println("c===============check2");
 				if (isInner) {
 					if(isC1){
 						if (cls.getC1inner()-cls
@@ -1193,6 +1216,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					
 				}else{
 					if(isC1){
+						System.out.println("====="+cls.getC1outer()+" "+cls.getC1bookOuter()+" "+totalcount.get(clses[i]+"c1"));
 						if (cls.getC1outer()-cls
 								.getC1bookOuter() <totalcount.get(clses[i]+"c1")) { // 外部空位已排满，则不能继续排
 							res.setCode("6");
@@ -1260,9 +1284,21 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			Coach coach = coachManager.getCoachInfo(Long.parseLong(userId));
 			
 			ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
-			ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
-					coach.getPhoneNum(), ep.getSchoolId());
-			boolean isInner = (examVipCoach != null);
+//			ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(
+//					coach.getPhoneNum(), ep.getSchoolId());
+//			boolean isInner = (examVipCoach != null);
+			ExamVip examVip2=new ExamVip();
+			examVip2.setSchoolId(ep.getSchoolId());
+			List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip2);
+			ExamVip evip=null;
+			if(examVips!=null){
+				for(ExamVip vip:examVips){
+					if(coach.getPhoneNum().equals(vip.getMobile())){
+						evip=vip;break;
+					}
+				}
+			}
+			boolean isInner = (evip != null);
 
 			boolean isC1 = "1".equals(drtype.trim());
 
@@ -1342,6 +1378,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 							
 							
 							if (isInner) { // 内部教练
+								System.out.println("=========inner");
 								if (isExpire) { // 内部预留已失效
 									if (isC1) {
 										// （1）检查排班空位情况 内部教练-预留失效-c1
@@ -1365,22 +1402,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 											innerinfo = new ExamInnerInfo();
 										}
 
-										ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+										//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
 										bookinfo = innerinfo.getBookinfo();
 										ExamVipBookInfo examVipBookInfo = null;
 										for (ExamVipBookInfo bi : bookinfo) {
-											if (bi.getVipId() == examVip.getId()) {
+											if (bi.getVipId() == evip.getId()) {
 												examVipBookInfo = bi;
 												break;
 											}
 										}
 										if (examVipBookInfo == null) {
 											examVipBookInfo = new ExamVipBookInfo();
-											examVipBookInfo.setC1(examVip.getC1count());
+											examVipBookInfo.setC1(evip.getC1count());
 											examVipBookInfo.setC1book(0);
-											examVipBookInfo.setC2(examVip.getC2count());
+											examVipBookInfo.setC2(evip.getC2count());
 											examVipBookInfo.setC2book(0);
-											examVipBookInfo.setVipId(examVip.getId());
+											examVipBookInfo.setVipId(evip.getId());
 											innerinfo.getBookinfo().add(examVipBookInfo);
 										}
 
@@ -1437,22 +1474,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 											innerinfo = new ExamInnerInfo();
 										}
 
-										ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+										//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
 										bookinfo = innerinfo.getBookinfo();
 										ExamVipBookInfo examVipBookInfo = null;
 										for (ExamVipBookInfo bi : bookinfo) {
-											if (bi.getVipId() == examVip.getId()) {
+											if (bi.getVipId() == evip.getId()) {
 												examVipBookInfo = bi;
 												break;
 											}
 										}
 										if (examVipBookInfo == null) {
 											examVipBookInfo = new ExamVipBookInfo();
-											examVipBookInfo.setC1(examVip.getC1count());
+											examVipBookInfo.setC1(evip.getC1count());
 											examVipBookInfo.setC1book(0);
-											examVipBookInfo.setC2(examVip.getC2count());
+											examVipBookInfo.setC2(evip.getC2count());
 											examVipBookInfo.setC2book(0);
-											examVipBookInfo.setVipId(examVip.getId());
+											examVipBookInfo.setVipId(evip.getId());
 											innerinfo.getBookinfo().add(examVipBookInfo);
 										}
 
@@ -1512,22 +1549,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 											innerinfo = new ExamInnerInfo();
 										}
 
-										ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+										//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
 										bookinfo = innerinfo.getBookinfo();
 										ExamVipBookInfo examVipBookInfo = null;
 										for (ExamVipBookInfo bi : bookinfo) {
-											if (bi.getVipId() == examVip.getId()) {
+											if (bi.getVipId() == evip.getId()) {
 												examVipBookInfo = bi;
 												break;
 											}
 										}
 										if (examVipBookInfo == null) {
 											examVipBookInfo = new ExamVipBookInfo();
-											examVipBookInfo.setC1(examVip.getC1count());
+											examVipBookInfo.setC1(evip.getC1count());
 											examVipBookInfo.setC1book(0);
-											examVipBookInfo.setC2(examVip.getC2count());
+											examVipBookInfo.setC2(evip.getC2count());
 											examVipBookInfo.setC2book(0);
-											examVipBookInfo.setVipId(examVip.getId());
+											examVipBookInfo.setVipId(evip.getId());
 											innerinfo.getBookinfo().add(examVipBookInfo);
 										}
 
@@ -1589,22 +1626,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 											innerinfo = new ExamInnerInfo();
 										}
 
-										ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
+										//ExamVip examVip = examVipManagerImpl.getExamVipOne(examVipCoach.getVipId());
 										bookinfo = innerinfo.getBookinfo();
 										ExamVipBookInfo examVipBookInfo = null;
 										for (ExamVipBookInfo bi : bookinfo) {
-											if (bi.getVipId() == examVip.getId()) {
+											if (bi.getVipId() == evip.getId()) {
 												examVipBookInfo = bi;
 												break;
 											}
 										}
 										if (examVipBookInfo == null) {
 											examVipBookInfo = new ExamVipBookInfo();
-											examVipBookInfo.setC1(examVip.getC1count());
+											examVipBookInfo.setC1(evip.getC1count());
 											examVipBookInfo.setC1book(0);
-											examVipBookInfo.setC2(examVip.getC2count());
+											examVipBookInfo.setC2(evip.getC2count());
 											examVipBookInfo.setC2book(0);
-											examVipBookInfo.setVipId(examVip.getId());
+											examVipBookInfo.setVipId(evip.getId());
 											innerinfo.getBookinfo().add(examVipBookInfo);
 										}
 
@@ -1649,6 +1686,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 								}
 							} else { // 外部教练
+								System.out.println("=======outer");
 								if (isExpire) { // 内部预留已失效
 									if (isC1) { // c1
 										// （1）检查排班空位情况
@@ -1755,6 +1793,8 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 								} else { // 内部预留有效
 									if (isC1) { // c1
 										// （1）检查排班空位情况
+										System.out.println("=========="+cls.getC1outer()+" "+cls
+												.getC1bookOuter());
 										if (cls.getC1outer() <= cls
 												.getC1bookOuter()) { // 外部空位已排满，则不能继续排
 											res.setCode(ResultCode.ERRORCODE.FAILED);
@@ -2257,16 +2297,27 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 								ExamPlace ep = getExamPlaceById(order
 										.getPlaceId());
-								ExamVipCoach examVipCoach = examVipManagerImpl
-										.getExamVipCoach(
-												order.getCoachMobile(),
-												ep.getSchoolId());
+//								ExamVipCoach examVipCoach = examVipManagerImpl
+//										.getExamVipCoach(
+//												order.getCoachMobile(),
+//												ep.getSchoolId());
+								ExamVip examVip=new ExamVip();
+								examVip.setSchoolId(ep.getSchoolId());
+								List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+								ExamVip evip=null;
+								if(examVips!=null){
+									for(ExamVip vip:examVips){
+										if(order.getCoachMobile().equals(vip.getMobile())){
+											evip=vip;break;
+										}
+									}
+								}
+								
 								List<ExamVipBookInfo> bookinfo = innerinfo
 										.getBookinfo();
 								ExamVipBookInfo examVipBookInfo = null;
 								for (ExamVipBookInfo bi : bookinfo) {
-									if (bi.getVipId() == examVipCoach
-											.getVipId()) {
+									if (bi.getVipId() == evip.getId()) {
 										examVipBookInfo = bi;
 										break;
 									}
@@ -2295,16 +2346,26 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 
 								ExamPlace ep = getExamPlaceById(order
 										.getPlaceId());
-								ExamVipCoach examVipCoach = examVipManagerImpl
-										.getExamVipCoach(
-												order.getCoachMobile(),
-												ep.getSchoolId());
+//								ExamVipCoach examVipCoach = examVipManagerImpl
+//										.getExamVipCoach(
+//												order.getCoachMobile(),
+//												ep.getSchoolId());
+								ExamVip examVip=new ExamVip();
+								examVip.setSchoolId(ep.getSchoolId());
+								List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+								ExamVip evip=null;
+								if(examVips!=null){
+									for(ExamVip vip:examVips){
+										if(order.getCoachMobile().equals(vip.getMobile())){
+											evip=vip;break;
+										}
+									}
+								}
 								List<ExamVipBookInfo> bookinfo = innerinfo
 										.getBookinfo();
 								ExamVipBookInfo examVipBookInfo = null;
 								for (ExamVipBookInfo bi : bookinfo) {
-									if (bi.getVipId() == examVipCoach
-											.getVipId()) {
+									if (bi.getVipId() == evip.getId()) {
 										examVipBookInfo = bi;
 										break;
 									}
@@ -2412,11 +2473,22 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					if (innerinfo != null) {
 						innerinfo.getBookcar().remove(record.getCarNo());
 						
-						ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(record.getCoachMobile(),ep.getSchoolId());
+						//ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(record.getCoachMobile(),ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
 						List<ExamVipBookInfo> bookinfo = innerinfo.getBookinfo();
 						ExamVipBookInfo examVipBookInfo = null;
 						for (ExamVipBookInfo bi : bookinfo) {
-							if (bi.getVipId() == examVipCoach.getVipId()) {
+							if (bi.getVipId() == evip.getId()) {
 								examVipBookInfo = bi;
 								break;
 							}
@@ -2443,16 +2515,26 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					if (innerinfo != null) {
 						innerinfo.getBookcar().remove(record.getCarNo());
 
-						ExamVipCoach examVipCoach = examVipManagerImpl
-								.getExamVipCoach(
-										order.getCoachMobile(),
-										ep.getSchoolId());
+//						ExamVipCoach examVipCoach = examVipManagerImpl
+//								.getExamVipCoach(
+//										order.getCoachMobile(),
+//										ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
 						List<ExamVipBookInfo> bookinfo = innerinfo
 								.getBookinfo();
 						ExamVipBookInfo examVipBookInfo = null;
 						for (ExamVipBookInfo bi : bookinfo) {
-							if (bi.getVipId() == examVipCoach
-									.getVipId()) {
+							if (bi.getVipId() == evip.getId()) {
 								examVipBookInfo = bi;
 								break;
 							}
@@ -3349,7 +3431,99 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 				}
 			}
 			
+			ExamPlaceClass cls = getExamPlaceClassOne(record.getClassId());
 			
+			if (record.getDrtype() == 1) { // 练考车型：1-C1；2-C2
+				cls.setC1book(cls.getC1book() - 1);
+				if (record.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
+					cls.setC1bookInner(cls.getC1bookInner() - 1);
+
+					String innerinfostr = cls.getInnerinfo();
+					ExamInnerInfo innerinfo = null;
+					if (innerinfostr != null&& innerinfostr.length() > 0)
+						innerinfo = JSON.parseObject(innerinfostr,ExamInnerInfo.class);
+					if (innerinfo != null) {
+						innerinfo.getBookcar().remove(record.getCarNo());
+						
+						//ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(record.getCoachMobile(),ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
+						List<ExamVipBookInfo> bookinfo = innerinfo.getBookinfo();
+						ExamVipBookInfo examVipBookInfo = null;
+						for (ExamVipBookInfo bi : bookinfo) {
+							if (bi.getVipId() == evip.getId()) {
+								examVipBookInfo = bi;
+								break;
+							}
+						}
+						examVipBookInfo.setC1book(examVipBookInfo
+								.getC1book() - 1);
+						cls.setInnerinfo(JSON.toJSONString(innerinfo));
+					}
+
+				} else {
+					cls.setC1bookOuter(cls.getC1bookOuter() - 1);
+				}
+			} else {
+				cls.setC2book(cls.getC2book() - 1);
+				if (record.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
+					cls.setC2bookInner(cls.getC2bookInner() - 1);
+
+					String innerinfostr = cls.getInnerinfo();
+					ExamInnerInfo innerinfo = null;
+					if (innerinfostr != null
+							&& innerinfostr.length() > 0)
+						innerinfo = JSON.parseObject(innerinfostr,
+								ExamInnerInfo.class);
+					if (innerinfo != null) {
+						innerinfo.getBookcar().remove(record.getCarNo());
+
+//									ExamVipCoach examVipCoach = examVipManagerImpl
+//											.getExamVipCoach(
+//													order.getCoachMobile(),
+//													ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
+						List<ExamVipBookInfo> bookinfo = innerinfo
+								.getBookinfo();
+						ExamVipBookInfo examVipBookInfo = null;
+						for (ExamVipBookInfo bi : bookinfo) {
+							if (bi.getVipId() == evip.getId()) {
+								examVipBookInfo = bi;
+								break;
+							}
+						}
+						examVipBookInfo.setC2book(examVipBookInfo
+								.getC2book() - 1);
+
+						cls.setInnerinfo(JSON.toJSONString(innerinfo));
+					}
+				} else {
+					cls.setC2bookOuter(cls.getC2bookOuter() - 1);
+				}
+
+			}
+
+			cls.setMtime(new Date());
+			updateExamPlaceClass(cls);
 		}
 	}
 	
@@ -3418,7 +3592,100 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			}
 			
 
+			// （2.2）恢复订单所占空位 为了快速扫描，可异步执行！
+			ExamPlaceClass cls = getExamPlaceClassOne(record.getClassId());
 			
+			if (record.getDrtype() == 1) { // 练考车型：1-C1；2-C2
+				cls.setC1book(cls.getC1book() - 1);
+				if (record.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
+					cls.setC1bookInner(cls.getC1bookInner() - 1);
+
+					String innerinfostr = cls.getInnerinfo();
+					ExamInnerInfo innerinfo = null;
+					if (innerinfostr != null&& innerinfostr.length() > 0)
+						innerinfo = JSON.parseObject(innerinfostr,ExamInnerInfo.class);
+					if (innerinfo != null) {
+						innerinfo.getBookcar().remove(record.getCarNo());
+						
+						//ExamVipCoach examVipCoach = examVipManagerImpl.getExamVipCoach(record.getCoachMobile(),ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
+						List<ExamVipBookInfo> bookinfo = innerinfo.getBookinfo();
+						ExamVipBookInfo examVipBookInfo = null;
+						for (ExamVipBookInfo bi : bookinfo) {
+							if (bi.getVipId() == evip.getId()) {
+								examVipBookInfo = bi;
+								break;
+							}
+						}
+						examVipBookInfo.setC1book(examVipBookInfo
+								.getC1book() - 1);
+						cls.setInnerinfo(JSON.toJSONString(innerinfo));
+					}
+
+				} else {
+					cls.setC1bookOuter(cls.getC1bookOuter() - 1);
+				}
+			} else {
+				cls.setC2book(cls.getC2book() - 1);
+				if (record.getCoachType() == 1) { // 教练类型：1-内部教练；2-外部教练
+					cls.setC2bookInner(cls.getC2bookInner() - 1);
+
+					String innerinfostr = cls.getInnerinfo();
+					ExamInnerInfo innerinfo = null;
+					if (innerinfostr != null
+							&& innerinfostr.length() > 0)
+						innerinfo = JSON.parseObject(innerinfostr,
+								ExamInnerInfo.class);
+					if (innerinfo != null) {
+						innerinfo.getBookcar().remove(record.getCarNo());
+
+//									ExamVipCoach examVipCoach = examVipManagerImpl
+//											.getExamVipCoach(
+//													order.getCoachMobile(),
+//													ep.getSchoolId());
+						ExamVip examVip=new ExamVip();
+						examVip.setSchoolId(ep.getSchoolId());
+						List<ExamVip> examVips=examVipManagerImpl.getExamVipList(examVip);
+						ExamVip evip=null;
+						if(examVips!=null){
+							for(ExamVip vip:examVips){
+								if(record.getCoachMobile().equals(vip.getMobile())){
+									evip=vip;break;
+								}
+							}
+						}
+						List<ExamVipBookInfo> bookinfo = innerinfo
+								.getBookinfo();
+						ExamVipBookInfo examVipBookInfo = null;
+						for (ExamVipBookInfo bi : bookinfo) {
+							if (bi.getVipId() == evip.getId()) {
+								examVipBookInfo = bi;
+								break;
+							}
+						}
+						examVipBookInfo.setC2book(examVipBookInfo
+								.getC2book() - 1);
+
+						cls.setInnerinfo(JSON.toJSONString(innerinfo));
+					}
+				} else {
+					cls.setC2bookOuter(cls.getC2bookOuter() - 1);
+				}
+
+			}
+
+			cls.setMtime(new Date());
+			updateExamPlaceClass(cls);
 		}
 		
 		doCancelSend(orders);
