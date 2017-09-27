@@ -155,6 +155,10 @@ app.controller("Student",["$scope","$filter",function($s,$filter){
 			Layer.alert({type:"msg",title:"请填写大客户名称"});
 			return false;	
 		}
+		if(!$s.editData.mobile || !regCombination('*').test($s.editData.mobile)){
+                        Layer.alert({type:"msg",title:"请填写大客户手机号"});
+                        return false;
+                }
 		//if(!$s.editData.c1count || !regCombination('*').test($s.editData.c1count)|| !regCombination('number').test($s.editData.c1count)){
 		//	Layer.alert({type:"msg",title:"请填写c1数量"});
 		//	return false;

@@ -3,16 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 	<title>考场预约订单详情</title>
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script src="assets/common/js/commonStart.js"></script>
     <script>
         //判断非广仁考场的帐号登录则跳出
-        var requiredId = "grjxkc";
-        if(window.location.host=="uatjx.lilixc.com"){requiredId = "szgrjx";}
-        if(sessionStorage.getItem("schoolUserName")!=requiredId){
-            window.location.href="datas/data-statistics.html"
-        }
+//      var requiredId = "grjxkc";
+//      if(window.location.host=="uatjx.lilixc.com"){requiredId = "szgrjx";}
+//      if(sessionStorage.getItem("schoolUserName")!=requiredId){
+//          window.location.href="datas/data-statistics.html"
+//      }
     </script>
 </head>
 <body>
@@ -68,8 +71,8 @@
 				  <tr>
 				  	<td class="t-150"><b>预约时长（小时）</b></td>
 				  	<td ng-bind="data.duration"></td>
-				  	<td class="t-150"><b>可获优惠</b></td>
-				  	<td ng-bind="data.favorGen/100"></td>
+					<td class="t-150"><b>启动顺延时间</b></td>
+					<td ng-bind="data.mtime|timeTex"></td>
 				  </tr>
 				  <tr>
 				  	<td class="t-150"><b>是否顺延（分钟）</b></td>
@@ -77,6 +80,7 @@
 				  	<td class="t-150"><b>顺延原因</b></td>
 				  	<td ng-bind="data.delayInfo"></td>
 				  </tr>
+				  <!--
                     <tr>
                         <td class="t-150"><b>订单金额（元）</b></td>
                         <td ng-bind="data.priceTotal/100"></td>
@@ -89,39 +93,40 @@
                         <td class="t-150"><b>优惠金额</b></td>
                         <td ng-bind="data.couponTotal/100"></td>
                     </tr>
+					-->
                     <tr>
+					<!--
                         <td class="t-150"><b>订单备注</b></td>
                         <td ng-bind="data.remark"></td>
+					-->
                         <td class="t-150"><b>支付时间</b></td>
                         <td ng-bind="data.payTime|timeTex"></td>
-                    </tr>
-                    <tr>
-                        <td class="t-150"><b>支付方式</b></td>
+						<td class="t-150"><b>支付方式</b></td>
                         <td ng-bind="data.payWay|payWayType"></td>
-                        <td class="t-150"><b>考场名称</b></td>
-                        <td ng-bind="data.placeName"></td>
                     </tr>
-                    <tr>
+                    <tr>                        
+                        <td class="t-150"><b>考场名称</b></td>
+                        <td ng-bind="data.placeName"></td>						
                         <td class="t-150"><b>面积范围（m²）</b></td>
                         <td ng-bind="data.area"></td>
+                    </tr>
+                    <tr>
                         <td class="t-150"><b>考场联系电话</b></td>
                         <td ng-bind="data.mobile"></td>
-                    </tr>
-                    <tr>
                         <td class="t-150"><b>所属城市</b></td>
                         <td ng-bind="data.city"></td>
-                        <td class="t-150"><b>所属驾校</b></td>
-                        <td ng-bind="data.school"></td>
                     </tr>
                     <tr>
+                        <td class="t-150"><b>所属驾校</b></td>
+                        <td ng-bind="data.school"></td>
                         <td class="t-150"><b>考场地址</b></td>
                         <td ng-bind="data.address"></td>
+                    </tr>
+                    <tr>
                         <td class="t-150"><b>取消订单时间</b></td>
                         <td ng-bind="data.postState | postStateTex"></td>
                     </tr>
                     <tr>
-                        <td class="t-150"><b>启动顺延时间</b></td>
-                        <td ng-bind="data.mtime|timeTex"></td>
                         <td class="t-150"><b></b></td>
                         <td></td>
                     </tr>

@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 	<title>排班管理</title>
 	<link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
@@ -81,7 +84,7 @@
                             <!--<a href="arrange-exam-class-edit.html?classId={{item.id}}" ng-class="{true:'z-noAction'}[(item.noEdit==true)||(item.state==1)]">编辑</a>-->
                             <a href="javascript:;" ng-click="shutClass(item)" ng-bind="(item.state==1)?'已关闭':'关闭'" ng-class="{true:'z-noAction'}[item.state==1]"></a>
                             <a href="javascript:;" ng-click="delayClass(item,$index)" ng-class="{true:'z-noAction'}[(item.pstart!=item.rstart)||(item.state==1)]" ng-bind="(item.pstart!=item.rstart)?'已延班':'延班'"></a>
-                            <a href="javascript:;" ng-click="copyClass(item)" ng-class="{true:'z-noAction'}[item.state==1]">复制</a>
+                            <!--<a href="javascript:;" ng-click="copyClass(item)" ng-class="{true:'z-noAction'}[item.state==1]">复制</a>-->
                             <a href="exam-ground-order.html?pstart={{item.pstart}}&pend={{item.pend}}&classId={{item.id}}&currentOrder=1" target="_blank">订单</a>
                         </td>
                     </tr>

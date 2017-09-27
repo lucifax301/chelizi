@@ -3,17 +3,29 @@ var app=angular.module("app",["ngFilter"]);
 /*main 控制器*/
 app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
 
-    $s.allTimesArr = {};//多选已排日期时，获取时段集合
+    $s.allTimesArr = [];//多选已排日期时，获取时段集合
     $s.favorType = "1";//优惠配置：1-返课时；2-返金额
     $s.favorIn=2;
     $s.favorOut=0.5;
-    $s.minHours = 2;//最低时间段
+    $s.minHours = 1;//最低时间段
     $s.c1 = 0;
     $s.c2 = 0;
     $s.c1inner = 0;
     $s.c2inner = 0;
     $s.innerPrice=0;
+    $s.checkDay = ''
+    $s.ttheDay = ''
 
+	$s.timelist= [
+		{
+			pstart: '',
+			pend: ''
+		}
+	]
+	$s.baseTimelist = {
+		pstart: '',
+		pend: ''
+	}
 
     /*获取指定日期及之后若干天的排班情况和日期数据*/
     $.AJAX({
@@ -21,7 +33,7 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
         url:config.basePath+"examPlace/class/date",
         data:{
             //"placeId":1,
-            "type":0,
+		type:0,
             "pdate":$filter('date')(new Date(), "yyyy-MM-dd"),
             "days":14
         },
@@ -31,219 +43,352 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             $s.$apply();
         }
     });
-    
+
     $s.getCars = function(){
         $.AJAX({
             type:'get',
             url:config.basePath+"examPlace/cars",
             data:{
-                
+
             },
             success:function(data){
-                $s.c1 = JSON.parse(data.result.c1);
-                $s.c2 = JSON.parse(data.result.c2);
+//              $s.c1 = JSON.parse(data.result.c1);
+//              $s.c2 = JSON.parse(data.result.c2);
                 //$s.c1inner = JSON.parse(data.result.c1inner);
                 //$s.c2inner = JSON.parse(data.result.c2inner);
+                $s.maxC1 = JSON.parse(data.result.c1);
+                $s.maxC2 = JSON.parse(data.result.c2);
+                $s.remainC1 = $s.maxC1
+                $s.remainC2 = $s.maxC2
                 $s.$apply();
             }
         });
     }
-    
     $s.getCars();
 
     /*获取某一天排班信息*/
     $s.getArrangeList=function(){
         $.AJAX({
             type:"get",
-            url:config.basePath+"examPlace/class/new",
+            url:config.basePath+"examPlace/class",
             data:{
                 //placeId:1,
-                type:0,
+                type: 3,
                 pdate:$s.theDay
             },
+            async: false,
             success:function(data){
+            	if(!data.result.pageData)return
                 $s.getTheday = JSON.parse(data.result.pageData);
+                console.log($s.getTheday)
                 var timesArrTemp = [];//该数组为当日时间段集合
                 for (var i=0;i<$s.getTheday.length;i++){
-                    var timeItemTemp = [new Date($s.getTheday[i].pstart).date("hi"),new Date($s.getTheday[i].pend).date("hi")];
+                    var timeItemTemp = {
+                      pstart_v: parseInt(new Date($s.getTheday[i].pstart).date("hi"))==0?2400:parseInt(new Date($s.getTheday[i].pstart).date("hi")),
+                      pend_v: parseInt(new Date($s.getTheday[i].pend).date("hi"))==0?2400:parseInt(new Date($s.getTheday[i].pend).date("hi")),
+                      c1outer: $s.getTheday[i].c1outer,
+                      c1inner: $s.getTheday[i].c1inner,
+                      c2outer: $s.getTheday[i].c2outer,
+                      c2inner: $s.getTheday[i].c2inner,
+                      type: $s.getTheday[i].type
+                    }
                     timesArrTemp.push(timeItemTemp)
                 }
-                $s.allTimesArr[$s.theDay]=timesArrTemp;
+                // $s.allTimesArr[$s.theDay]=timesArrTemp;
+                $s.allTimesArr[0] = timesArrTemp
                 console.log($s.allTimesArr)
-                $s.$apply();
+                $s.totalRemain()
             }
         });
     };
 
+	$s.$watch('checkDay',function(newValue,oldValue, scope){
+		$s.theDay = new Date(newValue).date('y-m-d')
+		console.log($s.theDay)
+		$s.getArrangeList();
+	});
+	$s.showTimeSelect= function(){
+		var lasttime = $s.timelist[$s.timelist.length-1]
+		$s.timelist.push({});
+		if(lasttime.pend_v && lasttime.pend_v+$s.minHours*100 < 2400){
+			$s.timelist[$s.timelist.length-1].pend = $s.timeToString(lasttime.pend_v + $s.minHours*100 )
+			$s.timelist[$s.timelist.length-1].pend_v = lasttime.pend_v + $s.minHours*100 
+			$s.timelist[$s.timelist.length-1].pstart = $s.timeToString(lasttime.pstart_v + $s.minHours*100 )
+			$s.timelist[$s.timelist.length-1].pstart_v = lasttime.pstart_v + $s.minHours*100 
+		}
+		setTimeout(function(){
+			$('.date-time').datetimepicker(datePickerOptions);
+		},200)
+	}
+	$s.$watch('timelist',function(newValue,oldValue, scope){
+		$s.theDay = new Date(newValue).date('y-m-d')
+		console.log($s.theDay)
+	});
+	$s.setPstart = function(item){
+		item.pstart_v = parseInt(item.pstart.replace(":",""));
+		if(item.pstart_v+$s.minHours*100>2400){
+			Layer.alert({width:400,height:160,title:$s.minHours+"小时后的结束时段不能跨天哦",header:"操作提示"});
+			item.pend = ''
+			item.pstart = ''
+			item.pend_v = ''
+			item.pstart_v = ''
+		}else{
+			item.pend = $s.timeToString(item.pstart_v+$s.minHours*100)
+			item.pend_v = item.pstart_v+$s.minHours*100
+		}
+		$s.timeAcross(item)
+		$s.totalRemain()
+	}
+	$s.setPend = function(item){
+		item.pend_v = parseInt(item.pend.replace(":",""));
+		if(item.pend_v -$s.minHours*100<0){
+			Layer.alert({width:400,height:160,title:$s.minHours+"小时后的结束时段不能跨天哦",header:"操作提示"});
+			item.pend = ''
+			item.pstart = ''
+			item.pend_v = ''
+			item.pstart_v = ''
+		}else{
+			item.pstart = $s.timeToString(item.pend_v-$s.minHours*100)
+			item.pstart_v = item.pend_v-$s.minHours*100
+		}
+    $s.timeAcross(item)
+    $s.totalRemain()
+	}
+	$s.timeToString = function(time){
+		var H = parseInt(time/100)
+		return (H<10?'0':'')+ H + ':' + ((time-H*100)<10?'0':'') + (time-H*100)
+	}
+	$s.timeAcross = function(json){
+		var repeat = 0,
+			bad = false
+		angular.forEach($s.timelist, function(item,index){
+			if(json.pstart_v == item.pstart_v){
+				repeat++
+			}else if(item.pstart_v < json.pstart_v &&  json.pstart_v < item.pend_v){
+				bad = true
+			}else if(item.pstart_v < json.pend_v &&  json.pend_v < item.pend_v){
+        bad = true
+      }
+		});
+		if(repeat > 1)bad = true
+		if(bad){
+			Layer.alert({width:400,height:160,title:"时间存在相同或交叉",header:"操作提示"});
+			json.pstart = ''
+			json.pend = ''
+			json.pstart_v = ''
+			json.pend_v = ''
 
+		}
+	}
+	$s.totalRemain = function (){
+	  var minC1outer = 0,
+	      maxC1inner = 0,
+	      minC2outer = 0,
+        	maxC2inner = 0
+    if($s.allTimesArr[0]){
+    	angular.forEach($s.timelist,function(item){
+    	  angular.forEach($s.allTimesArr[0],function(order){
+    	  	if(order.type == 1){
+    	  		if(item.pstart_v && order.pstart_v <= item.pstart_v &&  item.pstart_v < order.pend_v){
+		            maxC1inner = $s.HHV(maxC1inner,order.c1inner)
+		            maxC2inner = $s.HHV(maxC2inner,order.c2inner)
+		       	}else if(item.pend_v && order.pstart_v < item.pend_v &&  item.pend_v <= order.pend_v){
+		            maxC1inner = $s.HHV(maxC1inner,order.c1inner)
+		            maxC2inner = $s.HHV(maxC2inner,order.c2inner)
+		        }
+    	  	}else if(order.type==0){
+    	  		if(item.pstart_v && order.pstart_v <= item.pstart_v &&  item.pstart_v < order.pend_v){
+		    	    minC1outer = $s.HHV(minC1outer,order.c1outer)
+		            minC2outer = $s.HHV(minC2outer,order.c2outer)
+		        }else if(item.pend_v && order.pstart_v < item.pend_v &&  item.pend_v <= order.pend_v){
+		            minC1outer = $s.HHV(minC1outer,order.c1outer)
+		            minC2outer = $s.HHV(minC2outer,order.c2outer)
+		        }
+    	  	}
+          })
+    	})
+  	}
+    $s.remainC1 = $s.maxC1 - minC1outer - maxC1inner
+    $s.remainC2 = $s.maxC2 - minC2outer - maxC2inner
+    console.log($s.remainC1,$s.remainC2)
+	}
+  $s.HHV = function(v1,v2){
+    return v1>v2?v1:v2
+  }
+  $s.LLV = function(v1,v2){
+    return v1<v2?v1:v2
+  }
     /*选择日期,并将所选的已有排班的所有时间段拉出来集合*/
-    $s.selectDay = function($event){
-        //alert($($event.target).prop('checked'))
-        var evTarget = $($event.target);
-        //针对已有排班的选择重点较验,实时获取所选日期的所有时段集合，供后面选择时段时较验用
-        if(!evTarget.parent("li").hasClass("noArrangeClass")){
-            if(evTarget.prop('checked')==true){
-                $s.theDay = new Date(evTarget.val()).date('y-m-d')
-                $s.getArrangeList();
-            }
-            else{
-                $s.theDay = new Date(evTarget.val()).date('y-m-d')
-                delete $s.allTimesArr[$s.theDay];
-            }
-            //因涉及到多日较验，提倡先选好了日期再去选时段，只要是重选了日期，后面的时段要重新设置
-            $("#itemAuto0").siblings(".item-auto-item").remove()
-            $("#itemAuto0").children("input").val("");
-        }
-    }
+//  $s.selectDay = function($event){
+//      //alert($($event.target).prop('checked'))
+//      var evTarget = $($event.target);
+//      //针对已有排班的选择重点较验,实时获取所选日期的所有时段集合，供后面选择时段时较验用
+//      if(!evTarget.parent("li").hasClass("noArrangeClass")){
+//          if(evTarget.prop('checked')==true){
+//              $s.theDay = new Date(evTarget.val()).date('y-m-d')
+//              $s.getArrangeList();
+//          }
+//          else{
+//              $s.theDay = new Date(evTarget.val()).date('y-m-d')
+//              delete $s.allTimesArr[$s.theDay];
+//          }
+//          //因涉及到多日较验，提倡先选好了日期再去选时段，只要是重选了日期，后面的时段要重新设置
+//          $("#itemAuto0").siblings(".item-auto-item").remove()
+//          $("#itemAuto0").children("input").val("");
+//      }
+//  }
 
     /*时间段表单*/
     var datePickerOptions = {datepicker:false, format:'H:i', step:30};
     //不允许手动输入，只能从控件中设置值
-    $('.date-time').datetimepicker(datePickerOptions).on("keydown",function(){return false;});
+    setTimeout(function(){$('.date-time').datetimepicker(datePickerOptions).on("keydown",function(){return false;});},200)
+
+
 
     /*勾选优惠配置*/
     $s.showRc = function($event,rctype){
         $s.favorType = rctype;
     }
-
-    /*自增时间段*/
-    var itemAddId = 1;
-    $s.zItemAdd = function($event){
-        $s.autoFormItemTPL = '<div class="item-auto-item z-mb10" id="itemAuto'+itemAddId+'">\
-            <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" class="form-control date-time date-time-from" >\
-            <span class="z-ml10 z-mr10">到</span>\
-            <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" class="form-control date-time date-time-to" >\
-            <span class="item-auto-label item-auto-del"><span class="z-ico-del">X</span></span>\
-            </div>';
-        //点增加按钮时动态插入的HTML内容
-        $($event.target).parent(".item-auto-btn").before($s.autoFormItemTPL);
-        //更新时间选择器
-        $('.date-time').datetimepicker(datePickerOptions);
-        //如果之前合法地有一项起始时间段都有值，则此项起始时间默认从上一项推后2小时
-        var thisTempObj = $("#itemAuto"+itemAddId);
-        var prevTempFrom = thisTempObj.prev(".item-auto-item").children(".date-time-from").val();
-        var prevTempTo = thisTempObj.prev(".item-auto-item").children(".date-time-to").val();
-        if(prevTempFrom && prevTempTo){
-            thisTempObj.children(".date-time-from").val(prevTempTo);
-            autoNextTime(thisTempObj.children(".date-time-from"));
-        }
-        itemAddId++
-    }
-
-    /*自减时间段*/
-    $(".item-auto-exam").on("click",".z-ico-del",function(){
-        $(this).parent(".item-auto-label").parent(".item-auto-item").slideUp("normal").remove();
-    })
-
-    /*时间段失去焦点时，自动较验并填写下一项*/
-    $(".item-auto-exam").on("blur",".date-time",function(){
-        //不管是起始段还是结束时段，先较验一遍
-        checkTimepicker($(this));
-        autoNextTime($(this));
-    })
-    /*根据起始值自动填写结束值的函数*/
-    function autoNextTime(thisFormObj){
-        var thisHourVal = parseInt(thisFormObj.val().substring(0,2));
-        var thisMinVal = thisFormObj.val().substr(3);
-        var thisNumVal = parseInt(thisFormObj.val().replace(/:/,""));
-        //当选择了22点之后的时段，则必定跨天了，非法
-        if(thisFormObj.hasClass("date-time-from")&&thisNumVal>2200){
-            Layer.alert({width:400,height:160,title:"2小时后的结束时段不能跨天哦",header:"操作提示"});
-            thisFormObj.val("");
-            return false;
-        }
-        //如果是起始段，自动填充下一时段的值（后推二小时），并较验该值
-        if((thisHourVal>=0)&&thisFormObj.hasClass("date-time-from")){
-            var nextHourVal = (thisHourVal==22)?00:(thisHourVal+2);
-            nextHourVal = (nextHourVal<10)?"0"+nextHourVal.toString():nextHourVal.toString();
-            thisFormObj.parent(".item-auto-item").children(".date-time-to").val(nextHourVal+":"+thisMinVal).removeClass("Validform_error");
-            checkTimepicker(thisFormObj.parent(".item-auto-item").children(".date-time-to"));
-        }
-    }
-    /*较验时间段的合法性函数*/
-    function checkTimepicker(curObj){
-        //当被较验项是结束时间段且为00:00时，自动变为24:00
-        var curTime = ((curObj.hasClass("date-time-to"))&&(curObj.val()=="00:00"))?"24:00":curObj.val();
-        console.log(curTime);
-        var curTimeData = "";
-        if(curTime!=""){
-            curTimeData = parseInt(curTime.replace(":",""));
-            //判断开始时间段应该小于结束时间段
-            var anotherTime = curObj.siblings(".date-time").val();
-            if(anotherTime!=""){
-                var anotherTimeData = parseInt(anotherTime.replace(":",""))
-                //当前项是起始项且起始项大于等于结束项  ||  当前项是结束项且起始项大于等于结束项
-                if(((curObj.hasClass("date-time-from"))&&(curTimeData >= anotherTimeData))||((curObj.hasClass("date-time-to"))&&(curTimeData <= anotherTimeData)&&(parseInt(curTimeData)!=0000))){
-
-                    Layer.alert({width:400,height:160,title:"起始时间必须早于结束时间!",header:"操作提示"});
-                    curObj.parent(".item-auto-item").children("input").val("");
-                    return false;
-                }
-                //if((anotherTimeData - curTimeData)%($s.minHours*100)!=0){//最初设计的起止时差为最小时段倍数，因产品逻辑问题，改为起止差须等于最小时段
-                if(Math.abs(anotherTimeData - curTimeData)!=($s.minHours*100)){
-                    console.log(anotherTimeData +"-"+ curTimeData)
-                    Layer.alert({width:400,height:160,title:"预约时间段限制为"+$s.minHours+"小时",header:"操作提示"});
-                    curObj.parent(".item-auto-item").children("input").val("");return;
-                }
-            }
-            //将时间转成数字，先针对当前新增的时段，逐条判断大小，在区间中则表示有交叉(为空的不比较，因为后面还有一关较验为空项)
-            $(".item-auto-item").each(function(){
-                if($(this).attr("id")!=curObj.parent(".item-auto-item").attr("id")){
-                    var fromTime = $(this).children(".date-time-from").val();
-                    var toTime = $(this).children(".date-time-to").val();
-                    toTime = (toTime=="00:00") ? "24:00" : toTime;
-                    if(fromTime && toTime){
-                        var fromTimeData = parseInt(fromTime.replace(":",""));
-                        var toTimeData = parseInt(toTime.replace(":",""));
-                        //jiaocha1：所填值位于当前遍历项的起始值之间，判为交叉
-                        var jiaocha1= (curTimeData > fromTimeData)&&(curTimeData < toTimeData);
-                        //jiaocha2：所填值为结束时间段，并且它的起始值小于当前遍历项的起始值，并且它的结束值大于当前遍历项的结束值，判为包含，类似交叉
-                        var jiaocha2 = (curObj.hasClass("date-time-to"))&&(parseInt(curObj.siblings(".date-time-from").val().replace(":",""))<fromTimeData)&&(parseInt(curTime.replace(":",""))>toTimeData)
-                        //jiaocha3:当前值为起始值，且该起始值等于当前遍历项的起始值
-                        var jiaocha3 = (curObj.hasClass("date-time-from"))&&(curTime==fromTime)
-                        //jiaocha4:当前值为结束值，且该结束值等于当前遍历项的结束值
-                        var jiaocha4 = (curObj.hasClass("date-time-to"))&&(curTime==toTime)
-                        if(jiaocha1||jiaocha2||jiaocha3||jiaocha4){
-                            console.log(curTimeData+"+"+fromTimeData+"+"+toTimeData)
-                            Layer.alert({width:400,height:160,title:"不能存在交叉时间段!",header:"操作提示"});
-                            curObj.parent(".item-auto-item").children("input").val("");
-                            return false;
-                        }
-
-                    }
-                }
-            })
-            //针对勾选的已有排班的日期，全部遍历过一遍
-            for(var item in $s.allTimesArr){
-                var itemArr = $s.allTimesArr[item];
-                console.log($s.allTimesArr[item]);
-                for(var i=0;i<itemArr.length;i++){
-                    var fromTime = itemArr[i][0];
-                    var toTime = itemArr[i][1];
-                    toTime = (toTime=="0000") ? "2400" : toTime;
-
-                    var fromTimeData = parseInt(fromTime);
-                    var toTimeData = parseInt(toTime);
-                    //console.log(curTimeData+","+fromTimeData+","+toTimeData);
-                    //jiaocha1：所填值位于当前遍历项的起始值之间，判为交叉
-                    var jiaocha1= (curTimeData > fromTimeData)&&(curTimeData < toTimeData);
-                    //jiaocha2：所填值为结束时间段，并且它的起始值小于当前遍历项的起始值，并且它的结束值大于当前遍历项的结束值，判为包含，类似交叉
-                    var jiaocha2 = (curObj.hasClass("date-time-to"))&&(parseInt(curObj.siblings(".date-time-from").val().replace(":",""))<fromTimeData)&&(parseInt(curTime.replace(":",""))>toTimeData)
-                    //jiaocha3:当前值为起始值，且该起始值等于当前遍历项的起始值
-                    var jiaocha3 = (curObj.hasClass("date-time-from"))&&(curTimeData==fromTimeData)
-                    //jiaocha4:当前值为结束值，且该结束值等于当前遍历项的结束值
-                    var jiaocha4 = (curObj.hasClass("date-time-to"))&&(curTimeData==toTimeData)
-                    if(jiaocha1||jiaocha2||jiaocha3||jiaocha4){
-                        //console.log(curTimeData+"+"+fromTimeData+"+"+toTimeData)
-                        Layer.alert({width:400,height:160,title:"时段交叉!请关注"+item+"日排班",header:"操作提示"});
-                        curObj.parent(".item-auto-item").children("input").val("");
-                        return false;
-                    }
-                }
-            }
-
-        }
-    }
+//
+//  /*自增时间段*/
+//  var itemAddId = 1;
+//  $s.zItemAdd = function($event){
+//      $s.autoFormItemTPL = '<div class="item-auto-item z-mb10" id="itemAuto'+itemAddId+'">\
+//          <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" class="form-control date-time date-time-from" >\
+//          <span class="z-ml10 z-mr10">到</span>\
+//          <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" class="form-control date-time date-time-to" >\
+//          <span class="item-auto-label item-auto-del"><span class="z-ico-del">X</span></span>\
+//          </div>';
+//      //点增加按钮时动态插入的HTML内容
+//      $($event.target).parent(".item-auto-btn").before($s.autoFormItemTPL);
+//      //更新时间选择器
+//      $('.date-time').datetimepicker(datePickerOptions);
+//      //如果之前合法地有一项起始时间段都有值，则此项起始时间默认从上一项推后2小时
+//      var thisTempObj = $("#itemAuto"+itemAddId);
+//      var prevTempFrom = thisTempObj.prev(".item-auto-item").children(".date-time-from").val();
+//      var prevTempTo = thisTempObj.prev(".item-auto-item").children(".date-time-to").val();
+//      if(prevTempFrom && prevTempTo){
+//          thisTempObj.children(".date-time-from").val(prevTempTo);
+//          autoNextTime(thisTempObj.children(".date-time-from"));
+//      }
+//      itemAddId++
+//  }
+//
+//  /*自减时间段*/
+//  $(".item-auto-exam").on("click",".z-ico-del",function(){
+//      $(this).parent(".item-auto-label").parent(".item-auto-item").slideUp("normal").remove();
+//  })
+//
+//  /*时间段失去焦点时，自动较验并填写下一项*/
+//  $(".item-auto-exam").on("blur",".date-time",function(){
+//      //不管是起始段还是结束时段，先较验一遍
+//      checkTimepicker($(this));
+//      autoNextTime($(this));
+//  })
+//  /*根据起始值自动填写结束值的函数*/
+//  function autoNextTime(thisFormObj){
+//      var thisHourVal = parseInt(thisFormObj.val().substring(0,2));
+//      var thisMinVal = thisFormObj.val().substr(3);
+//      var thisNumVal = parseInt(thisFormObj.val().replace(/:/,""));
+//      //当选择了22点之后的时段，则必定跨天了，非法
+//      if(thisFormObj.hasClass("date-time-from")&&thisNumVal>(24-$s.minHours)*100){
+//          Layer.alert({width:400,height:160,title:$s.minHours+"小时后的结束时段不能跨天哦",header:"操作提示"});
+//          thisFormObj.val("");
+//          return false;
+//      }
+//      //如果是起始段，自动填充下一时段的值（后推二小时），并较验该值
+//      if((thisHourVal>=0)&&thisFormObj.hasClass("date-time-from")){
+//          var nextHourVal = (thisHourVal==(24-$s.minHours))?00:(thisHourVal+$s.minHours);
+//          nextHourVal = (nextHourVal<10)?"0"+nextHourVal.toString():nextHourVal.toString();
+//          thisFormObj.parent(".item-auto-item").children(".date-time-to").val(nextHourVal+":"+thisMinVal).removeClass("Validform_error");
+//          checkTimepicker(thisFormObj.parent(".item-auto-item").children(".date-time-to"));
+//      }
+//  }
+//  /*较验时间段的合法性函数*/
+//  function checkTimepicker(curObj){
+//      //当被较验项是结束时间段且为00:00时，自动变为24:00
+//      var curTime = ((curObj.hasClass("date-time-to"))&&(curObj.val()=="00:00"))?"24:00":curObj.val();
+//      console.log(curTime);
+//      var curTimeData = "";
+//      if(curTime!=""){
+//          curTimeData = parseInt(curTime.replace(":",""));
+//          //判断开始时间段应该小于结束时间段
+//          var anotherTime = curObj.siblings(".date-time").val();
+//          if(anotherTime!=""){
+//              var anotherTimeData = parseInt(anotherTime.replace(":",""))
+//              //当前项是起始项且起始项大于等于结束项  ||  当前项是结束项且起始项大于等于结束项
+//              if(((curObj.hasClass("date-time-from"))&&(curTimeData >= anotherTimeData))||((curObj.hasClass("date-time-to"))&&(curTimeData <= anotherTimeData)&&(parseInt(curTimeData)!=0000))){
+//
+//                  Layer.alert({width:400,height:160,title:"起始时间必须早于结束时间!",header:"操作提示"});
+//                  curObj.parent(".item-auto-item").children("input").val("");
+//                  return false;
+//              }
+//              //if((anotherTimeData - curTimeData)%($s.minHours*100)!=0){//最初设计的起止时差为最小时段倍数，因产品逻辑问题，改为起止差须等于最小时段
+//              	console.log(Math.abs(anotherTimeData - curTimeData))
+//              if(Math.abs(anotherTimeData - curTimeData)!=($s.minHours*100)){
+//                  console.log(anotherTimeData +"-"+ curTimeData)
+//                  Layer.alert({width:400,height:160,title:"预约时间段限制为"+$s.minHours+"小时",header:"操作提示"});
+//                  curObj.parent(".item-auto-item").children("input").val("");return;
+//              }
+//          }
+//          //将时间转成数字，先针对当前新增的时段，逐条判断大小，在区间中则表示有交叉(为空的不比较，因为后面还有一关较验为空项)
+//          $(".item-auto-item").each(function(){
+//              if($(this).attr("id")!=curObj.parent(".item-auto-item").attr("id")){
+//                  var fromTime = $(this).children(".date-time-from").val();
+//                  var toTime = $(this).children(".date-time-to").val();
+//                  toTime = (toTime=="00:00") ? "24:00" : toTime;
+//                  if(fromTime && toTime){
+//                      var fromTimeData = parseInt(fromTime.replace(":",""));
+//                      var toTimeData = parseInt(toTime.replace(":",""));
+//                      //jiaocha1：所填值位于当前遍历项的起始值之间，判为交叉
+//                      var jiaocha1= (curTimeData > fromTimeData)&&(curTimeData < toTimeData);
+//                      //jiaocha2：所填值为结束时间段，并且它的起始值小于当前遍历项的起始值，并且它的结束值大于当前遍历项的结束值，判为包含，类似交叉
+//                      var jiaocha2 = (curObj.hasClass("date-time-to"))&&(parseInt(curObj.siblings(".date-time-from").val().replace(":",""))<fromTimeData)&&(parseInt(curTime.replace(":",""))>toTimeData)
+//                      //jiaocha3:当前值为起始值，且该起始值等于当前遍历项的起始值
+//                      var jiaocha3 = (curObj.hasClass("date-time-from"))&&(curTime==fromTime)
+//                      //jiaocha4:当前值为结束值，且该结束值等于当前遍历项的结束值
+//                      var jiaocha4 = (curObj.hasClass("date-time-to"))&&(curTime==toTime)
+//                      if(jiaocha1||jiaocha2||jiaocha3||jiaocha4){
+//                          console.log(curTimeData+"+"+fromTimeData+"+"+toTimeData)
+//                          Layer.alert({width:400,height:160,title:"不能存在交叉时间段!",header:"操作提示"});
+//                          curObj.parent(".item-auto-item").children("input").val("");
+//                          return false;
+//                      }
+//
+//                  }
+//              }
+//          })
+//          //针对勾选的已有排班的日期，全部遍历过一遍
+//          for(var item in $s.allTimesArr){
+//              var itemArr = $s.allTimesArr[item];
+//              console.log($s.allTimesArr[item]);
+//              for(var i=0;i<itemArr.length;i++){
+//                  var fromTime = itemArr[i][0];
+//                  var toTime = itemArr[i][1];
+//                  toTime = (toTime=="0000") ? "2400" : toTime;
+//
+//                  var fromTimeData = parseInt(fromTime);
+//                  var toTimeData = parseInt(toTime);
+//                  //console.log(curTimeData+","+fromTimeData+","+toTimeData);
+//                  //jiaocha1：所填值位于当前遍历项的起始值之间，判为交叉
+//                  var jiaocha1= (curTimeData > fromTimeData)&&(curTimeData < toTimeData);
+//                  //jiaocha2：所填值为结束时间段，并且它的起始值小于当前遍历项的起始值，并且它的结束值大于当前遍历项的结束值，判为包含，类似交叉
+//                  var jiaocha2 = (curObj.hasClass("date-time-to"))&&(parseInt(curObj.siblings(".date-time-from").val().replace(":",""))<fromTimeData)&&(parseInt(curTime.replace(":",""))>toTimeData)
+//                  //jiaocha3:当前值为起始值，且该起始值等于当前遍历项的起始值
+//                  var jiaocha3 = (curObj.hasClass("date-time-from"))&&(curTimeData==fromTimeData)
+//                  //jiaocha4:当前值为结束值，且该结束值等于当前遍历项的结束值
+//                  var jiaocha4 = (curObj.hasClass("date-time-to"))&&(curTimeData==toTimeData)
+//                  if(jiaocha1||jiaocha2||jiaocha3||jiaocha4){
+//                      //console.log(curTimeData+"+"+fromTimeData+"+"+toTimeData)
+//                      Layer.alert({width:400,height:160,title:"时段交叉!请关注"+item+"日排班",header:"操作提示"});
+//                      curObj.parent(".item-auto-item").children("input").val("");
+//                      return false;
+//                  }
+//              }
+//          }
+//
+//      }
+//  }
 
     //表单验证及提交
     $("#addForm").Validform({
@@ -290,13 +435,12 @@ app.controller("ArrangeExamClassAdd",["$scope","$filter",function($s,$filter){
             if(($s.c1 + $s.c2)==0){
                 Layer.alert({width:400,height:160,title:"C1数量和C2数量之和必须大于0!",header:"操作提示"});return false;
             }
-            if($s.c1<$s.c1inner){
-                Layer.alert({width:400,height:160,title:"预留C1数量不能大于C1总数量!",header:"操作提示"});return false;
+            if($s.c1 > $s.remainC1){
+                Layer.alert({width:400,height:160,title:"预留C1数量不能大于C1剩余数量!",header:"操作提示"});return false;
             }
-            if($s.c2<$s.c2inner){
-                Layer.alert({width:400,height:160,title:"预留C2数量不能大于C2总数量!",header:"操作提示"});return false;
+            if($s.c2 >  $s.remainC2){
+                Layer.alert({width:400,height:160,title:"预留C2数量不能大于C2剩余数量!",header:"操作提示"});return false;
             }
-
             var submitJson={
                 //placeId:1,
                 pdate:arrangeDaysArrSubmit.join(","),

@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 	<title>新增排班</title>
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
@@ -33,9 +36,11 @@
                             <div class="input-text">
                                 <div class="z-arrange-days z-select-days">
                                     <li ng-repeat="day in getDaysInfo" ng-class="{true:'noArrangeClass'}[day.cls==0]">
-                                        <input type="checkbox" class="arrange-day" value="{{day.pdate}}" ng-click="selectDay($event)">
-                                        <div>{{day.pdate | timeTexMD}}<span>{{day.day | weekDay}}</span></div>
-                                        <i class="class-mark"></i>
+                                    	<label>
+	                                        <input type="radio" class="arrange-day" value="{{day.pdate}}" ng-model="$parent.checkDay" name="checkDay" ng-click="selectDay($event)">
+	                                        <div>{{day.pdate | timeTexMD}}<span>{{day.day | weekDay}}</span></div>
+	                                        <i class="class-mark"></i>
+                                        </label>
                                     </li>
                                 </div>
                             </div>
@@ -54,7 +59,7 @@
                     	作者：offline
                     	时间：2017-08-01
                     	描述：
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">内部价格：<span class="z-fontred">*</span></label></td>
                         <td>
@@ -79,6 +84,21 @@
                         <td valign="top"><label class="z-mt10">预约时间段：<span class="z-fontred">*</span></label></td>
                         <td>
                             <div class="input-text form-inline item-auto-exam">
+                                <div class="item-auto-item z-mb10" id="itemAuto0" ng-repeat="item in timelist">
+                                    <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" name="pstart{{$index}}" class="form-control date-time date-time-from" ng-model="item.pstart" ng-change="setPstart(item)">
+                                    <span class="z-ml10 z-mr10">到</span>
+                                    <input type="text" placeholder="请选择结束时间" datatype="*" errormsg="请选择结束时间" nullmsg="请选择结束时间" name="pend{{$index}}"  class="form-control date-time date-time-to" ng-model="item.pend" ng-change="setPend(item)">
+                                    <span class="item-auto-label item-auto-del" ng-if="$index>0" ng-click="timelist.splice($index,1) "><span class="z-ico-del">X</span></span>
+                                </div>
+                                <div class="item-auto-btn z-fr z-mb10"><button ng-click="showTimeSelect()" type="button" class="btn btn-primary btn-sm btn-genrule"><span>⊕</span>增加时间段</button></div>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <!--<tr class="z-input-valid">
+                        <td valign="top"><label class="z-mt10">预约时间段：<span class="z-fontred">*</span></label></td>
+                        <td>
+                            <div class="input-text form-inline item-auto-exam">
                                 <div class="item-auto-item z-mb10" id="itemAuto0">
                                     <input type="text" placeholder="请选择起始时间" datatype="*" errormsg="请选择起始时间" nullmsg="请选择起始时间" class="form-control date-time date-time-from" >
                                     <span class="z-ml10 z-mr10">到</span>
@@ -88,12 +108,12 @@
                             </div>
 
                         </td>
-                    </tr>
+                    </tr>-->
                     <!--
                     	作者：offline
                     	时间：2017-08-01
                     	描述：
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">最小时间段内车数：</label></td>
                         <td>
@@ -107,15 +127,22 @@
                             <div class="input-text">
                                 <input type="number" name="schoolName" placeholder="请输入C1车数,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0或不填写" nullmsg="请输入C1车数，没有的话请填0" class="form-control c1valid" ng-model="c1" ignore="ignore">
                                 <span>没有的话，请填0或不填写</span>
+                                <span
+                                  ng-bind="'当前剩余C1车'+remainC1+'辆'"
+                                  style="position: absolute; top: 6px;left: 110%;color: red;width: 200px;"></span>
                             </div>
+
                         </td>
                     </tr>
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">C2车数：</label></td>
                         <td>
                             <div class="input-text">
                                 <input type="number" name="schoolName" placeholder="请输入C2车数,没有的话请填0或不填写" datatype="/^[0-9]+$/" errormsg="请输入非负整数，没有的话请填0或不填写" nullmsg="请输入C2车数，没有的话请填0" class="form-control c2valid" ng-model="c2" ignore="ignore">
+                                <span
+                                  ng-bind="'当前剩余C2车'+remainC2+'辆'"
+                                  style="position: absolute; top: 6px;left: 110%;color: red;width: 200px;"></span>
                             </div>
                         </td>
                     </tr>
@@ -123,7 +150,7 @@
                     	作者：offline
                     	时间：2017-08-02
                     	描述：
-                    
+
                     <tr class="z-input-valid">
                         <td><label for="">C1中预留给内部：</label></td>
                         <td>
@@ -178,7 +205,7 @@
                                 </div>
 				<div>
                                     <input type="radio" ng-click="showRc($event,0)" class="z-checkbox z-mr20" ng-checked="favorType==0" name="favortype">不优惠
-                                    
+
                                 </div>
                             </div>
                         </td>
@@ -192,7 +219,7 @@
                 </form>
 			</div>
 		</div>
-	</div>	
+	</div>
 </div>
 <!-- script -->
 <script src="assets/js/ng-js/arrange-exam-class-add-carmodel.js"></script>

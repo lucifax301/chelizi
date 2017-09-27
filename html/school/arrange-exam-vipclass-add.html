@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 	<title>新增排班</title>
 	<link rel="stylesheet" href="assets/css/main.css">
 	<link rel="stylesheet" href="assets/common/datetimepicker/css/jquery.datetimepicker.css">
@@ -46,12 +49,12 @@
                         	<div class="vip-box" ng-repeat="item in bookinfo">
                         		<div class="vipname" style="width: 120px" ng-bind="item.name"></div>
                         		<div class="input-text input-group vip-input">
-                        			<div class="title">C1车辆：</div>
+                        			<div class="title">预留C1车辆：</div>
 	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c1">
 	                                <span class="input-group-addon">车辆</span>
 	                            </div>
 	                            <div class="input-text input-group vip-input">
-	                            	<div class="title">C2车辆：</div>
+	                            	<div class="title">预留C2车辆：</div>
 	                                <input type="text" name="schoolName" placeholder="0" datatype="/0|(^[1-9]+\d*$)/" errormsg="请输入正整数" nullmsg="请输入个数" class="form-control" ng-model="item.c2">
 	                                <span class="input-group-addon">车辆</span>
 	                            </div>
