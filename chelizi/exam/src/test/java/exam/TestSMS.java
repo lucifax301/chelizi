@@ -150,7 +150,7 @@ public class TestSMS {
     	System.out.println(run.freeMemory());
     	List list=new ArrayList();
     	list.add(new TestM());
-
+System.out.print(System.currentTimeMillis());
 //    	byte[] bb=new byte[1024*1024*10];
 //    	System.out.println(bb.length);
 //    	while(true){

@@ -1075,7 +1075,6 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	public List<ExamPlaceClassVo> getExamPlaceClassInfo(String userId,
 			String userType, String placeId, String pdate, String drtype) {
 		//
-		System.out.println("==============placeid:"+placeId);
 		ExamPlace ep = getExamPlaceById(Integer.parseInt(placeId));
 		if(ep.getServicetype()==0){
 	    	try {

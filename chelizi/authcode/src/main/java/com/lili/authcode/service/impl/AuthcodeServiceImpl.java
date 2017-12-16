@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.lili.authcode.dto.Notice;
 import com.lili.authcode.manager.NoticeManager;
 import com.lili.authcode.service.AuthcodeService;
@@ -182,8 +183,14 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 			redisUtil.setAll(REDISKEY.COACH_AUTHCODE + mo, code,300);
 			if (rt == ReqConstants.REQ_TYPE_REGISTER) {
 				// sms.SendMessage("尊敬的教练，感谢您的注册，您的验证码为："+code, mo+";");
-				sms.SMSSendMessage(mo, "90128", codes);
-
+				//sms.SMSSendMessage(mo, "90128", codes);
+				String message="{\"authcode\":\""+code+"\"}";
+				try {
+					SmsUtil.sendSms(mo, "SMS_116560357", message);
+				} catch (ClientException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (rt == ReqConstants.REQ_TYPE_FIND_PASSWORD) {
 				// sms.SendMessage("尊敬的教练，您正在找回密码，您的验证码为："+code, mo+";");
 				sms.SMSSendMessage(mo, "90128", codes);
