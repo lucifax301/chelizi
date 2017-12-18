@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+<context:property-placeholder location="classpath:dubbo.properties" />
+<!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="dubbo-server"  />
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+   <dubbo:registry address="${zookeeper.addr}" file="dubbo.coach.cache" /> 
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="20881" threadpool="fixed" threads="1000"/>
+    <dubbo:consumer timeout="${dubbo.timeout}" />
+ 
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service id="coachService" interface="com.lili.coach.service.CoachService" ref="coachServiceLocal" />
+    <dubbo:service id="courseService" interface="com.lili.course.service.CourseService" ref="courseServiceLocal" />
+    <dubbo:service id="courseSManager" interface="com.lili.coach.manager.CourseSManager" ref="courseSManagerLocal" />
+    <dubbo:service id="coachManager" interface="com.lili.coach.manager.CoachManager" ref="coachManagerLocal" />
+    <dubbo:service id="coachCarManager" interface="com.lili.coach.manager.CoachCarManager" ref="coachCarManagerLocal" />
+    <dubbo:service id="carManager" interface="com.lili.coach.manager.CarManager" ref="carManagerLocal" />
+    <!-- <dubbo:service id="schoolManager" interface="com.lili.coach.manager.SchoolManager" ref="schoolManagerLocal" /> -->
+    <dubbo:service id="trfieldManager" interface="com.lili.coach.manager.TrfieldManager" ref="trfieldManagerLocal" />
+    <dubbo:service id="trfieldsManager" interface="com.lili.coach.manager.TrfieldsManager" ref="trfieldsManagerLocal" />
+    <dubbo:service id="trfieldRawManager" interface="com.lili.coach.manager.TrfieldRawManager" ref="trfieldRawManagerLocal" />
+    <!-- <dubbo:service id="noticeManager" interface="com.lili.coach.manager.NoticeManager" ref="noticeManagerLocal" /> -->
+    <dubbo:service id="arrangeTimeManager" interface="com.lili.coach.manager.ArrangeTimeManager" ref="arrangeTimeManagerLocal" />
+    <dubbo:service id="regionManager" interface="com.lili.coach.manager.RegionManager" ref="regionManagerLocal" />
+    <dubbo:service id="brandCarManager" interface="com.lili.coach.manager.BrandCarManager" ref="brandCarManagerLocal" />
+    <dubbo:service id="coachErrorAppealManager" interface="com.lili.coach.manager.CoachErrorAppealManager" ref="coachErrorAppealManagerLocal" />
+    
+    <dubbo:service interface="com.lili.authcode.service.AuthcodeService" ref="authcodeService" />
+    <dubbo:service interface="com.lili.authcode.service.EmailService" ref="emailService" />
+    <dubbo:service interface="com.lili.authcode.manager.NoticeManager" ref="noticeManager" />
+    
+    <dubbo:service interface="com.lili.exam.manager.ExamPlaceManager" ref="examPlaceManager" />
+    <dubbo:service interface="com.lili.exam.manager.ExamPlaceClassManager" ref="examPlaceClassManager" />
+    <dubbo:service interface="com.lili.exam.manager.ExamPlaceOrderManager" ref="examPlaceOrderManager" />
+    <dubbo:service interface="com.lili.exam.manager.ExamPlaceWhitelistManager" ref="examPlaceWhitelistManager" />
+    <dubbo:service interface="com.lili.exam.manager.ExamPlaceRechargeManager" ref="examPlaceRechargeManager" />
+    <dubbo:service interface="com.lili.exam.manager.ExamVipManager" ref="examVipManager" />
+    
+    <dubbo:service interface="com.lili.file.service.FileService" ref="fileService" />
+    <dubbo:service interface="com.lili.file.manager.FileManager" ref="fileManager" />
+    <dubbo:service interface="com.lili.file.manager.ConfigManager" ref="configManager" />
+    <dubbo:service interface="com.lili.device.manager.DeviceManager" ref="deviceManager" />
+    <dubbo:service interface="com.lili.file.service.PosterService" ref="posterService" />
+    <dubbo:service interface="com.lili.file.service.GetAndPostService" ref="getAndPostService" />
+    <dubbo:service interface="com.lili.file.manager.PosterManager" ref="posterManager" />
+    <dubbo:service interface="com.lili.file.manager.CoursenewManager" ref="coursenewManager" />
+    <dubbo:service interface="com.lili.file.manager.HtmlObjectManager" ref="htmlObjectManager" />
+    
+    <dubbo:service id="logService" interface="com.lili.log.service.LogService" ref="logServiceLocal" />
+    <dubbo:service id="logOperateManager" interface="com.lili.log.service.LogOperateManager" ref="logOperateManagerLocal" />
+    <dubbo:service id="logComplainManager" interface="com.lili.log.service.LogComplainManager" ref="logComplainManagerLocal" />
+</beans>

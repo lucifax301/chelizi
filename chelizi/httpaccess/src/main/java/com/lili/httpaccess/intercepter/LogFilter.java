@@ -187,11 +187,11 @@ public class LogFilter implements Filter {
 				//operate.setExtra(executeTime1+""); //临时记录control执行时间，用于比较判断是否日志服务耗时太多
 				logger.info(operate.getUserId()+"|"+operate.getUserType()+"|"+operate.getRequestUrl()+"|"+operate.getRequestMethod()+"|"+operate.getRemoteHost()+"|"+operate.getRemotePort()+"|"+operate.getResponseCode()+"|"+operate.getExecuteTime()+"|"+params.toString());
 				//直接通过mq发送消息
-				Message msg=new Message();
-				msg.setTopic(logProducer.getCreateTopicKey());
-				msg.setTags(OrderConstant.RMQTAG.LOGACCESS);
-				msg.setBody(SerializableUtil.serialize(operate));
-				logProducer.send(msg);
+//				Message msg=new Message();
+//				msg.setTopic(logProducer.getCreateTopicKey());
+//				msg.setTags(OrderConstant.RMQTAG.LOGACCESS);
+//				msg.setBody(SerializableUtil.serialize(operate));
+//				logProducer.send(msg);
 				
 			} catch (Exception e) {
 				e.printStackTrace();

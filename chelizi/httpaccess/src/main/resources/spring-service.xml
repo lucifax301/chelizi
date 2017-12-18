@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+<bean id="coachServiceLocal" class="com.lili.coach.service.impl.CoachServiceImpl"></bean>
+<bean id="courseServiceLocal" class="com.lili.coach.service.impl.CourseServiceImpl"></bean>
+<bean id="courseSManagerLocal" class="com.lili.coach.manager.impl.CourseSManagerImpl"></bean>
+<bean id="coachManagerLocal" class="com.lili.coach.manager.impl.CoachManagerImpl"></bean>
+<bean id="coachCarManagerLocal" class="com.lili.coach.manager.impl.CoachCarManagerImpl"></bean>
+<bean id="carManagerLocal" class="com.lili.coach.manager.impl.CarManagerImpl"></bean>
+<bean id="schoolManagerLocal" class="com.lili.coach.manager.impl.SchoolManagerImpl"></bean>
+<bean id="trfieldManagerLocal" class="com.lili.coach.manager.impl.TrfieldManagerImpl"></bean>
+<bean id="trfieldsManagerLocal" class="com.lili.coach.manager.impl.TrfieldsManagerImpl"></bean>
+<bean id="trfieldRawManagerLocal" class="com.lili.coach.manager.impl.TrfieldRawManagerImpl"></bean>
+<!-- <bean id="noticeManagerLocal" class="com.lili.coach.manager.impl.NoticeManagerImpl"></bean> -->
+<bean id="arrangeTimeManagerLocal" class="com.lili.coach.manager.impl.ArrangeTimeManagerImpl"></bean>
+<bean id="regionManagerLocal" class="com.lili.coach.manager.impl.RegionManagerImpl"></bean>
+<bean id="brandCarManagerLocal" class="com.lili.coach.manager.impl.BrandCarManagerImpl"></bean>
+<bean id="coachErrorAppealManagerLocal" class="com.lili.coach.manager.impl.CoachErrorAppealManagerImpl"></bean>
+
+<bean id="authcodeService" class="com.lili.authcode.service.impl.AuthcodeServiceImpl"></bean>
+<bean id="emailService" class="com.lili.authcode.service.impl.EmailServiceImpl"></bean>
+<bean id="sms" class="com.lili.smsmessage.service.impl.SMSMessageerviceImpl"></bean>
+<bean id="noticeManager" class="com.lili.authcode.manager.impl.NoticeManagerImpl"></bean>
+
+<bean id="examPlaceManager" class="com.lili.exam.manager.impl.ExamPlaceManagerImpl"></bean>
+<bean id="examPlaceClassManager" class="com.lili.exam.manager.impl.ExamPlaceClassManagerImpl"></bean>
+<bean id="examPlaceOrderManager" class="com.lili.exam.manager.impl.ExamPlaceOrderManagerImpl"></bean>
+<bean id="examPlaceWhitelistManager" class="com.lili.exam.manager.impl.ExamPlaceWhitelistManagerImpl"></bean>
+<bean id="examPlaceRechargeManager" class="com.lili.exam.manager.impl.ExamPlaceRechargeManagerImpl"></bean>
+<bean id="examVipManager" class="com.lili.exam.manager.impl.ExamVipManagerImpl"></bean>
+
+<bean id="fileService" class="com.lili.file.service.impl.FileServiceImpl"></bean>
+<bean id="fileManager" class="com.lili.file.manager.impl.FileManagerImpl"></bean>
+<bean id="configManager" class="com.lili.file.manager.impl.ConfigManagerImpl"></bean>
+<bean id="deviceManager" class="com.lili.file.manager.impl.DeviceManagerImpl"></bean>
+<bean id="posterService" class="com.lili.file.service.impl.PosterServiceImpl"></bean>
+<bean id="getAndPostService" class="com.lili.file.service.impl.GetAndPostServiceImpl"></bean>
+<bean id="posterManager" class="com.lili.file.manager.impl.PosterManagerImpl"></bean>
+<bean id="coursenewManager" class="com.lili.file.manager.impl.CoursenewManagerImpl"></bean>
+<bean id="htmlObjectManager" class="com.lili.file.manager.impl.HtmlObjectManagerImpl"></bean>
+
+<bean id="logServiceLocal" class="com.lili.log.service.impl.LogServiceImpl"></bean>
+<bean id="logOperateManagerLocal" class="com.lili.log.service.impl.LogOperateManagerImpl"></bean>
+<bean id="logComplainManagerLocal" class="com.lili.log.service.impl.LogComplainManagerImpl"></bean>
+</beans>
