@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lili.common.util.BeanCopy;
-import com.lili.order.dao.mapper.RegionMapper;
+import com.lili.order.dao.mapper.OrderRegionMapper;
 import com.lili.order.dao.po.RegionPo;
 import com.lili.order.service.RegionService;
 import com.lili.order.vo.RegionQuery;
@@ -16,7 +16,7 @@ import com.lili.order.vo.RegionVo;
 public class RegionServiceImpl implements RegionService {
 
 	@Autowired
-	RegionMapper regionMapper;;
+	OrderRegionMapper regionMapper;;
 	public void addRegion(RegionVo regionVo) throws Exception {
 		RegionPo po=BeanCopy.copyAll(regionVo,RegionPo.class);
 		regionMapper.addRegion(po);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Date;
 import com.lili.order.dao.po.RegionPo;
 
-public interface RegionMapper{
+public interface OrderRegionMapper{
 
   public void addRegion(RegionPo regionPo);
   public void addRegionList(List<RegionPo> regionPoList);
