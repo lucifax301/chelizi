@@ -14,6 +14,7 @@ import com.lili.common.vo.ReqConstants;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
 import com.lili.exam.dto.ExamPlaceOrder;
+import com.lili.exam.dto.ExamPlacePayOrder;
 import com.lili.exam.manager.ExamPlaceOrderManager;
 import com.lili.log.service.LogService;
 import com.lili.log.vo.PayLogVo;
@@ -46,18 +47,35 @@ public class ExamPlacePurpose implements IPayPurpose {
         }
         String orderId = redisUtil.get(REDISKEY.PRE_PAY_ORDER_SHORT + payVo.getPayOrderId());
 		// 支付预处理，重新确定订单价格等信息。约考场订单，可能多个订单一起支付。
-		List<ExamPlaceOrder> orders = examPlaceOrderManager.getExamPlaceOrder(orderId);
-		if(null != orders && orders.size() >0){
-			int priceAll = 0;
-			int couponAll = 0;
-			for(ExamPlaceOrder order:orders){
-				priceAll = priceAll + order.getPayTotal().intValue();
-				couponAll = couponAll + order.getCouponTotal().intValue();
+        //comment 20171227
+		//List<ExamPlaceOrder> orders = examPlaceOrderManager.getExamPlaceOrder(orderId);
+		
+		//modify by devil 20171227
+		//之前的orderid是exam orderid
+		//现在改成大支付订单
+		List<ExamPlacePayOrder> payorder=examPlaceOrderManager.getExamPlacePayOrder(orderId);
+		if(payorder!=null&&payorder.size()>0){
+			if(payorder.size()>1){
+				throw new RuntimeException("payorder size large than 1:"+orderId);
 			}
+			int priceAll=payorder.get(0).getPayTotal();
 			payVo.setPayValue(priceAll);
-			payVo.setDiscountMoney(couponAll);
+			payVo.setDiscountMoney(0);
 			return 0;
 		}
+		
+		//comment 20171227
+//		if(null != orders && orders.size() >0){
+//			int priceAll = 0;
+//			int couponAll = 0;
+//			for(ExamPlaceOrder order:orders){
+//				priceAll = priceAll + order.getPayTotal().intValue();
+//				couponAll = couponAll + order.getCouponTotal().intValue();
+//			}
+//			payVo.setPayValue(priceAll);
+//			payVo.setDiscountMoney(couponAll);
+//			return 0;
+//		}
 		
 		return null;
 	}

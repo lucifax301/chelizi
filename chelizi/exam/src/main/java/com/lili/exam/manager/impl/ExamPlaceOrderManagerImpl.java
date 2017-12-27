@@ -2734,6 +2734,26 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 			// }
 			// 如果是支付成功了
 			if (ReqConstants.STAGE_STATE_SUCC == stageStateSucc) {
+				
+				//改成payorderid
+				ExamPlacePayOrder payorder=new ExamPlacePayOrder();
+				payorder.setPayTime(endTime);
+				payorder.setPayorderId(orderId);
+				payorder.setState(1);
+				examPayMapper.update(payorder);
+				
+				ExamPlaceOrder p=new ExamPlaceOrder();
+				p.setPayorderId(orderId);
+				List<ExamPlaceOrder> orders= examPlaceOrderMapper.selectByPayorderid(p);
+				for(ExamPlaceOrder order:orders){
+					order.setState((byte) 1); // 订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
+					order.setPayWay(payWay);
+					order.setPayTime(endTime);
+					updateExamPlaceOrder(order);
+				}
+				
+				/*
+				 * comment 20171227
 				ExamPlaceOrder record = new ExamPlaceOrder();
 				record.setState((byte) 1); // 订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
 				record.setPayWay(payWay);
@@ -2747,7 +2767,7 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					record.setOrderId(id);
 					updateExamPlaceOrder(record);
 				}
-
+				*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
