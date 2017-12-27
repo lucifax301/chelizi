@@ -20,6 +20,19 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 public class RedisUtil
 {
+	static int db=0;
+	static{
+		String redisdb=System.getProperty("redis.db");
+		if(redisdb!=null){
+			try{
+			db=Integer.parseInt(redisdb);
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+		}
+		System.out.println("redisdb---------------"+db);
+	}
+	
 	@Resource(name="redisTemplate")
     protected RedisTemplate<Serializable, Serializable> redisTemplate;
 
@@ -39,6 +52,8 @@ public class RedisUtil
 		this.redisUtilRemote = redisUtilRemote;
 	}
 	
+	
+	
 	public <T> void set(final String key, final T value,final int liveSecond)
     {
         redisTemplate.execute(new RedisCallback<T>()
@@ -47,6 +62,8 @@ public class RedisUtil
 			@Override
             public T doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 connection.set(redisTemplate.getStringSerializer().serialize(key),
                         ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
                 if (liveSecond > 0) {
@@ -72,6 +89,8 @@ public class RedisUtil
 			@Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 Boolean r =  connection.setNX(redisTemplate.getStringSerializer().serialize(key),
                         ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
                 if (liveSecond > 0) {
@@ -93,6 +112,8 @@ public class RedisUtil
 			@Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 Boolean r =  connection.setNX(redisTemplate.getStringSerializer().serialize(key),
                         ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
                 return r;
@@ -108,6 +129,8 @@ public class RedisUtil
 			@Override
             public T doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 byte[] keys = redisTemplate.getStringSerializer().serialize(key);
                 byte[] value = connection.get(keys);
                 T r=null;
@@ -128,6 +151,8 @@ public class RedisUtil
 			@Override
             public Set<T> doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 byte[] patterns = redisTemplate.getStringSerializer().serialize(pattern);
                 Set<byte[]> values = connection.keys(patterns);
                 Set<T> r = new HashSet<>();
@@ -152,6 +177,8 @@ public class RedisUtil
 			@Override
             public Set<T> doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 byte[] patterns = redisTemplate.getStringSerializer().serialize(pattern);
                 Set<byte[]> values = connection.keys(patterns);
                 Set<T> r = new HashSet<>();
@@ -177,6 +204,8 @@ public class RedisUtil
 			@Override
             public T doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
             	if(null == aa || aa.size()==0){
             		return null;
             	}
@@ -211,12 +240,15 @@ public class RedisUtil
 		    		@Override
 		    		public List<T> doInRedis(RedisConnection connection) throws DataAccessException
 		    		{
+		    			if(db>0)
+		            		connection.select(db);
 		    			byte[][] kk = new byte[ids.size()][];
 		    			for(int i=0;i<ids.size();i++){
 		    				String k = prefix+ids.get(i);
 		    				byte[] ks = redisTemplate.getStringSerializer().serialize(k);
 		    				kk[i]= ks;
 		    			}
+		    			
 		    			List<byte[]> value = connection.mGet(kk);
 		    			List<T> r=new ArrayList<T>();
 		    			
@@ -245,6 +277,8 @@ public class RedisUtil
 		    		@Override
 		    		public Map<String,Object> doInRedis(RedisConnection connection) throws DataAccessException
 		    		{
+		    			if(db>0)
+		            		connection.select(db);
 		    			byte[][] kk = new byte[ids.size()][];
 		    			for(int i=0;i<ids.size();i++){
 		    				String k = prefix+ids.get(i);
@@ -283,6 +317,8 @@ public class RedisUtil
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 byte[] keys = redisTemplate.getStringSerializer().serialize(key);
                 if (connection.exists(keys))
                 {
@@ -311,6 +347,8 @@ public class RedisUtil
 			@Override
 			public String doInRedis(RedisConnection connection)
 					throws DataAccessException {
+				if(db>0)
+            		connection.select(db);
 				byte[] keys = redisTemplate.getStringSerializer()
 						.serialize(key);
 				if (connection.exists(keys)) {
@@ -332,6 +370,8 @@ public class RedisUtil
 			@Override
             public T doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 connection.set(redisTemplate.getStringSerializer().serialize(key),
                         ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
                 if (liveSecond > 0) {
@@ -352,6 +392,8 @@ public class RedisUtil
 			@Override
             public T doInRedis(RedisConnection connection) throws DataAccessException
             {
+            	if(db>0)
+            		connection.select(db);
                 connection.set(redisTemplate.getStringSerializer().serialize(key),
                         ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
                 if (liveSecond > 0) {
@@ -369,6 +411,8 @@ public class RedisUtil
 					@Override
 		            public T doInRedis(RedisConnection connection) throws DataAccessException
 		            {
+		            	if(db>0)
+		            		connection.select(db);
 		            	connection.zAdd(redisTemplate.getStringSerializer().serialize(key), score, ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
 		                
 		                return null;
@@ -383,6 +427,8 @@ public class RedisUtil
 					@Override
 		            public T doInRedis(RedisConnection connection) throws DataAccessException
 		            {
+		            	if(db>0)
+		            		connection.select(db);
 		            	connection.zRem(redisTemplate.getStringSerializer().serialize(key), ((RedisSerializer<T>)redisTemplate.getValueSerializer()).serialize(value));
 		            	
 		                return null;
@@ -396,6 +442,8 @@ public class RedisUtil
 					@Override
 		            public T doInRedis(RedisConnection connection) throws DataAccessException
 		            {
+						if(db>0)
+		            		connection.select(db);
 		            	connection.zRemRangeByScore(redisTemplate.getStringSerializer().serialize(key), min, max);
 		                return null;
 		            }
@@ -408,6 +456,8 @@ public class RedisUtil
 			@Override
 			public T doInRedis(RedisConnection connection) throws DataAccessException
 			{
+				if(db>0)
+            		connection.select(db);
 				connection.zRemRange(redisTemplate.getStringSerializer().serialize(key), start, end);
 				return null;
 			}
@@ -429,6 +479,8 @@ public class RedisUtil
 		    		@Override
 		    		public List<T> doInRedis(RedisConnection connection) throws DataAccessException
 		    		{
+		    			if(db>0)
+		            		connection.select(db);
 		    			Set<byte[]> set= connection.zRange(redisTemplate.getStringSerializer().serialize(key), offset, length+offset);
 		    			List<T> list=new ArrayList<T>();
 		    			java.util.Iterator<byte[]> it= set.iterator();
@@ -456,6 +508,8 @@ public class RedisUtil
 			@Override
 			public List<T> doInRedis(RedisConnection connection) throws DataAccessException
 			{
+				if(db>0)
+            		connection.select(db);
 				Set<byte[]> set= connection.zRevRange(redisTemplate.getStringSerializer().serialize(key), offset, length+offset);
 				List<T> list=new ArrayList<T>();
 				java.util.Iterator<byte[]> it= set.iterator();
@@ -480,6 +534,8 @@ public class RedisUtil
 			@Override
 			public Long doInRedis(RedisConnection connection) throws DataAccessException
 			{
+				if(db>0)
+            		connection.select(db);
 				Long size = connection.zCard(redisTemplate.getStringSerializer().serialize(key));
 				return size;
 			}
@@ -493,6 +549,8 @@ public class RedisUtil
 			@Override
 			public Long doInRedis(RedisConnection connection) throws DataAccessException
 			{
+				if(db>0)
+            		connection.select(db);
 				Long id = connection.incr(redisTemplate.getStringSerializer().serialize(key));
 				return id;
 			}
