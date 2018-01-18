@@ -193,7 +193,14 @@ public class AuthcodeServiceImpl implements AuthcodeService {
 				}
 			} else if (rt == ReqConstants.REQ_TYPE_FIND_PASSWORD) {
 				// sms.SendMessage("尊敬的教练，您正在找回密码，您的验证码为："+code, mo+";");
-				sms.SMSSendMessage(mo, "90128", codes);
+				//sms.SMSSendMessage(mo, "90128", codes);
+				String message="{\"authcode\":\""+code+"\"}";
+				try {
+					SmsUtil.sendSms(mo, "SMS_122296186", message);
+				} catch (ClientException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else if (ut == ReqConstants.USER_TYPE_STUDENT) {
 			redisUtil.setAll(REDISKEY.STUDENT_AUTHCODE + mo, code,300);
