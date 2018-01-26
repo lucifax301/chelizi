@@ -43,11 +43,13 @@
 		</dependency>
 
 		<!-- yunlian duan xin need jars, deployed in local -->
+		<!--  
 		<dependency>
 			<groupId>com.yuntongxun</groupId>
 			<artifactId>ccp-rest-sdk</artifactId>
 			<version>2.7.0.RELEASE</version>
 		</dependency>
+		-->
 		<!-- mail -->
 		<dependency>
 		    <groupId>javax.mail</groupId>
