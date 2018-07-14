@@ -874,9 +874,15 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						exluceCars=redisUtil.get("exam.place.class.car.vip."+pdate);
 					}
 					
+					System.out.println("exluceCars:"+exluceCars);
+					if(exluceCars!=null){
+						System.out.println("exluceCars size:"+exluceCars.size());
+					}
+					
 					if(exluceCars!=null&&exluceCars.size()>0){
-						for(int j=result.size()-1;j>=0;j--){
-							for(String ecar:exluceCars){
+						for(String ecar:exluceCars){
+							for(int j=result.size()-1;j>=0;j--){
+								System.out.println("remove car:"+ecar);
 								if(result.get(j).getCarno().equals(ecar)){
 									result.remove(j);
 								}
@@ -900,10 +906,12 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 									}
 								}
 							}else{
+								System.out.println("carcount:"+carcount);
 								for(int j=result.size()-1;j>=0;j--){
 									//ExamDateCarInfo car=result.get(j);
 									count++;
 									if(count>carcount) {
+										System.out.println("remove car index:"+j);
 										result.remove(j);
 									}else{
 										inluceCars.add(result.get(j).getCarno());
