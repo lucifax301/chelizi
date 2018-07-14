@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.redisson.RedissonClient;
+import org.redisson.core.RLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -93,6 +96,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	ExamPlaceMapper examPlaceMapper;
 	@Autowired
 	RedisUtil redisUtil;
+	@Autowired
+	private RedissonClient redissonClient;
 	@Autowired
 	ExamVipManager examVipManagerImpl;
 	
@@ -768,9 +773,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		}else{
 			map.put("vip", "0");
 		}
-		
+		boolean isC1 = "1".equals(drtype.trim());
 		//获取一天的车使用情况
 		List<ExamCarDateNew> examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
+		int carcount=0;
 		if(examCarDate!=null){
 			
 			List<ExamCarDateNew> cars=examCarDate;
@@ -780,6 +786,26 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			
 			List<Car> allcars=carManager.getCarBySchoolId(ep.getSchoolId());
 			Date now=new Date();
+			
+			//add vip class count filter
+			List<ExamPlaceClass> classes = getExamPlaceClass(placeId+"", pdate);
+			
+			if(evip!=null){//is  vip
+				for(ExamPlaceClass oneclss:classes){
+					if(oneclss.getType()==1){
+						carcount=isC1?oneclss.getC1inner():oneclss.getC2inner();
+						break;
+					}
+				}
+			}else{
+				for(ExamPlaceClass oneclss:classes){
+					if(oneclss.getType()==0){
+						carcount=isC1?oneclss.getC1outer():oneclss.getC2outer();
+						break;
+					}
+				}
+			}
+			//end add 
 			
 			for(Car ocar:allcars){
 				boolean hasdate=false;
@@ -834,6 +860,104 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				carinfo.setClss(newclss);
 				result.add(carinfo);
 			}
+			RLock lock = null;
+			lock = redissonClient.getLock("exam.place.class.car.lock."+pdate); // 对同一个排班要锁定资源
+			// 尝试加锁，最多等待2秒，上锁以后5秒自动解锁
+			try{
+				boolean hasLock = lock.tryLock(2, 5, TimeUnit.SECONDS);
+				if(hasLock){
+					int count=0;
+					List<String> exluceCars = null;//new ArrayList<String>();
+					if(evip!=null){
+						exluceCars=redisUtil.get("exam.place.class.car.nonvip."+pdate);
+					}else{
+						exluceCars=redisUtil.get("exam.place.class.car.vip."+pdate);
+					}
+					
+					if(exluceCars!=null&&exluceCars.size()>0){
+						for(int j=result.size()-1;j>=0;j--){
+							for(String ecar:exluceCars){
+								if(result.get(j).getCarno().equals(ecar)){
+									result.remove(j);
+								}
+							}
+						}
+					}else{
+						List<String> inluceCars = new ArrayList<String>();
+						
+						if(evip!=null){
+							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.vip."+pdate);
+							if(hasinluceCars!=null){
+								for(int j=result.size()-1;j>=0;j--){
+									boolean find=false;
+									for(String ecar:hasinluceCars){
+										if(result.get(j).getCarno().equals(ecar)){
+											find=true;break;
+										}
+									}
+									if(!find){
+										result.remove(j);
+									}
+								}
+							}else{
+								for(int j=result.size()-1;j>=0;j--){
+									//ExamDateCarInfo car=result.get(j);
+									count++;
+									if(count>carcount) {
+										result.remove(j);
+									}else{
+										inluceCars.add(result.get(j).getCarno());
+									}
+								}
+								redisUtil.set("exam.place.class.car.vip."+pdate, inluceCars,24*3600);
+							}
+						}else{
+							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.nonvip."+pdate);
+							if(hasinluceCars!=null){
+								for(int j=result.size()-1;j>=0;j--){
+									boolean find=false;
+									for(String ecar:hasinluceCars){
+										if(result.get(j).getCarno().equals(ecar)){
+											find=true;break;
+										}
+									}
+									if(!find){
+										result.remove(j);
+									}
+								}
+							}else{
+								for(int j=result.size()-1;j>=0;j--){
+									//ExamDateCarInfo car=result.get(j);
+									count++;
+									if(count>carcount) {
+										result.remove(j);
+									}else{
+										inluceCars.add(result.get(j).getCarno());
+									}
+								}
+								redisUtil.set("exam.place.class.car.nonvip."+pdate, inluceCars,24*3600);
+							}
+						}
+						
+					}
+				}else{
+					throw new RuntimeException("系统繁忙,请稍后再试.");
+				}
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}finally{
+				if (lock != null) {
+					try {
+						lock.unlock();
+						log.debug("Good-->now unlock!"
+								+ Thread.currentThread().getName()
+								+ System.currentTimeMillis());
+					} catch (Exception e) {
+					}
+				}
+			}
+			
+			
 			map.put("carlist", result);
 		}else{
 			List<ExamDateCarInfo> result=new ArrayList();
