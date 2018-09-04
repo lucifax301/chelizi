@@ -579,14 +579,14 @@ public class FileController {
 			/**
 			 * 校验教练的版本是否低于2.0，教练端的微信手续费2%问题
 			 */
-			if (Integer.parseInt(userType) == 1) {
-				if ((null != v && !"".equals(v) && (VersionUtil.compareVersion(v, "2.1.0") < 0))) { //版本低于2.1
-					r.setCode(ResultCode.ERRORCODE.EXCEPTION);
-					r.setMsgInfo("请更新到最新版本。");
-					return r.getResult();
-				}
-			}
-			
+//			if (Integer.parseInt(userType) == 1) {
+//				if ((null != v && !"".equals(v) && (VersionUtil.compareVersion(v, "2.1.0") < 0))) { //版本低于2.1
+//					r.setCode(ResultCode.ERRORCODE.EXCEPTION);
+//					r.setMsgInfo("请更新到最新版本。");
+//					return r.getResult();
+//				}
+//			}
+//			
 			if (Integer.parseInt(payPurpose) == 2){
 				if (agent.contains("okhttp"))
 					schoolManager.postEnrollSource("Android", payOrderId);
