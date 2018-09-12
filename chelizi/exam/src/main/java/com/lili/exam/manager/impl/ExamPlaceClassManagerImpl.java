@@ -651,9 +651,11 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 
 	@Override
 	public List<ExamPlaceClass> getExamPlaceClass(String placeId,String pdate) {
+		System.out.println("getExamPlaceClass placeId:"+placeId+" "+pdate);
 		//可以增加缓存，但在新增排班或者更改排班时，需要同时更新缓存 TODO
     	try {
     		List<ExamPlaceClass> clses = redisUtil.get(RedisKeys.REDISKEY.EXAM_PLACE_DAY + placeId+ "." + pdate);
+    		System.out.println(clses);
     		if(null == clses){
     			Date d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 00:00:00");
     			Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 23:59:59");
@@ -774,6 +776,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			map.put("vip", "0");
 		}
 		boolean isC1 = "1".equals(drtype.trim());
+		String dtype=isC1?"c1":"c2";
 		//获取一天的车使用情况
 		List<ExamCarDateNew> examCarDate=getExamCarDate(Integer.parseInt(placeId),ep.getSchoolId(),pdate);
 		int carcount=0;
@@ -869,9 +872,9 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					int count=0;
 					List<String> exluceCars = null;//new ArrayList<String>();
 					if(evip!=null){
-						exluceCars=redisUtil.get("exam.place.class.car.nonvip."+pdate);
+						exluceCars=redisUtil.get("exam.place.class.car.nonvip."+dtype+"."+pdate);
 					}else{
-						exluceCars=redisUtil.get("exam.place.class.car.vip."+pdate);
+						exluceCars=redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
 					}
 					
 					System.out.println("exluceCars:"+exluceCars);
@@ -892,7 +895,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						List<String> inluceCars = new ArrayList<String>();
 						
 						if(evip!=null){
-							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.vip."+pdate);
+							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
 							if(hasinluceCars!=null){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
@@ -917,10 +920,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 										inluceCars.add(result.get(j).getCarno());
 									}
 								}
-								redisUtil.set("exam.place.class.car.vip."+pdate, inluceCars,24*3600);
+								redisUtil.set("exam.place.class.car.vip."+dtype+"."+pdate, inluceCars,24*3600);
 							}
 						}else{
-							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.nonvip."+pdate);
+							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.nonvip."+dtype+"."+pdate);
 							if(hasinluceCars!=null){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
@@ -943,7 +946,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 										inluceCars.add(result.get(j).getCarno());
 									}
 								}
-								redisUtil.set("exam.place.class.car.nonvip."+pdate, inluceCars,24*3600);
+								redisUtil.set("exam.place.class.car.nonvip."+dtype+"."+pdate, inluceCars,24*3600);
 							}
 						}
 						
@@ -1354,9 +1357,10 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					byte drive = Byte.parseByte(drtype.trim());
 					
 					List<ExamPlaceClass> vipclass=new ArrayList();
-					
+					System.out.println(coach.getPhoneNum()+" isInner:"+isInner);
 					for(int i=classes.size()-1;i>=0;i--){
 						ExamPlaceClass cls = classes.get(i);
+						System.out.println("cls type:"+cls.getType());
 						if(isInner&&cls.getType()==0){//普通排班移除
 							classes.remove(i);
 						}
