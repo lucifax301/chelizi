@@ -775,6 +775,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		}else{
 			map.put("vip", "0");
 		}
+		log.info("coach:"+coach.getPhoneNum()+" is vip:"+(evip!=null));
 		boolean isC1 = "1".equals(drtype.trim());
 		String dtype=isC1?"c1":"c2";
 		//获取一天的车使用情况
@@ -795,22 +796,34 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			
 			if(evip!=null){//is  vip
 				for(ExamPlaceClass oneclss:classes){
+					if(oneclss.getPstart().before(now)) continue;
 					if(oneclss.getType()==1){
-						carcount=isC1?oneclss.getC1inner():oneclss.getC2inner();
+						int count=isC1?oneclss.getC1inner():oneclss.getC2inner();
+						carcount=(count>carcount)?count:carcount;
 						break;
 					}
 				}
 			}else{
 				for(ExamPlaceClass oneclss:classes){
+					if(oneclss.getPstart().before(now)) continue;
 					if(oneclss.getType()==0){
-						carcount=isC1?oneclss.getC1outer():oneclss.getC2outer();
+						int count=isC1?oneclss.getC1outer():oneclss.getC2outer();
+						carcount=(count>carcount)?count:carcount;
 						break;
 					}
 				}
 			}
 			//end add 
+			log.info("allcars size:"+allcars.size()+" and carcount:"+carcount);
 			
 			for(Car ocar:allcars){
+				boolean match=false;
+				if(ocar.getDriveType().intValue()==Integer.parseInt(drtype)){
+					match=true;
+				}
+				log.info("cardate:"+ocar.getCarNo()+" match drtype:"+match);
+				if(!match) continue;
+				
 				boolean hasdate=false;
 				for(ExamCarDateNew car:cars){
 					if(car.getCarId()==ocar.getCarId()){
@@ -826,43 +839,53 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					cars.add(examCarDateNew);
 				}
 			}
+			//cars 所有c1 or c2类型的车时间列表
 			
+			log.info("current has all cardate size:"+cars);
+			log.info("current drtype:"+drtype);
 			for(ExamCarDateNew car:cars){
-				boolean match=false;
-				for(Car ocar:allcars){
-					if(car.getCarId()==ocar.getCarId()){
-						car.setCarno(car.getCarno());
-						if(ocar.getDriveType().intValue()==Integer.parseInt(drtype)){
-							match=true;
-						}
-						break;
-					}
-				}
-				if(!match) continue;
+				
+//				boolean match=false;
+//				for(Car ocar:allcars){
+//					if(car.getCarId()==ocar.getCarId()){
+//						car.setCarno(car.getCarno());
+//						if(ocar.getDriveType().intValue()==Integer.parseInt(drtype)){
+//							match=true;
+//						}
+//						break;
+//					}
+//				}
+//				log.info("cardate:"+car.getCarno()+" match drtype:"+match);
+//				if(!match) continue;
 				List<ExamPlaceClassVo> newclss=new ArrayList();
 				
 				for(ExamPlaceClassVo vo:clss){
 					if(vo.getPstart().before(now)) continue;
 					ExamPlaceClassVo newvo=new ExamPlaceClassVo();
 					BeanUtils.copyProperties(vo, newvo);
-					
+					log.info("classvo used:"+newvo.getUsed());
 					if(newvo.getUsed()==0){//此班别从数量看还可以用，判断车此时区是否可用
 						changeClassBitmap(newvo);
 						int used=usedcar(newvo,car);
 						newvo.setUsed(used);
 					}
-					
+					log.info("classvo bitmap:"+newvo.getBitmap());
+					log.info("car     bitmap:"+car.getBitmap());
+					log.info("class vo final used:"+newvo.getUsed());
+					//排班状态：0-可约；1-已约；2-不可约；
 					if(newvo.getState()!=2&&newvo.getUsed()==1){
 						newvo.setState(2);
 					}
+					log.info("class vo final state:"+newvo.getState());
 					newclss.add(newvo);
-					
+					log.info("cardate:"+car.getCarno()+" clss :"+newvo+" state:"+newvo.getState()+" used:"+newvo.getUsed());
 				}
 				ExamDateCarInfo carinfo=new ExamDateCarInfo();
 				carinfo.setCarno(car.getCarno());
 				carinfo.setClss(newclss);
 				result.add(carinfo);
 			}
+			log.info("current has all match cardate size:"+result);
 			RLock lock = null;
 			lock = redissonClient.getLock("exam.place.class.car.lock."+pdate); // 对同一个排班要锁定资源
 			// 尝试加锁，最多等待2秒，上锁以后5秒自动解锁
@@ -877,16 +900,16 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						exluceCars=redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
 					}
 					
-					System.out.println("exluceCars:"+exluceCars);
+					log.info("exluceCars:"+exluceCars);
 					if(exluceCars!=null){
-						System.out.println("exluceCars size:"+exluceCars.size());
+						log.info("exluceCars size:"+exluceCars.size());
 					}
 					
 					if(exluceCars!=null&&exluceCars.size()>0){
 						for(String ecar:exluceCars){
 							for(int j=result.size()-1;j>=0;j--){
-								System.out.println("remove car:"+ecar);
 								if(result.get(j).getCarno().equals(ecar)){
+									log.info("remove car:"+ecar);
 									result.remove(j);
 								}
 							}
@@ -896,6 +919,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						
 						if(evip!=null){
 							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
+							log.info("vip hasinluceCars:"+hasinluceCars);
 							if(hasinluceCars!=null){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
@@ -908,22 +932,25 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 										result.remove(j);
 									}
 								}
+								log.info("after filter cars:"+result.size());
 							}else{
 								System.out.println("carcount:"+carcount);
 								for(int j=result.size()-1;j>=0;j--){
 									//ExamDateCarInfo car=result.get(j);
 									count++;
 									if(count>carcount) {
-										System.out.println("remove car index:"+j);
+										log.info("remove car index:"+j);
 										result.remove(j);
 									}else{
 										inluceCars.add(result.get(j).getCarno());
 									}
 								}
+								log.info("after filter cars:"+result.size());
 								redisUtil.set("exam.place.class.car.vip."+dtype+"."+pdate, inluceCars,24*3600);
 							}
 						}else{
 							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.nonvip."+dtype+"."+pdate);
+							log.info("nonvip hasinluceCars:"+hasinluceCars);
 							if(hasinluceCars!=null){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
@@ -936,6 +963,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 										result.remove(j);
 									}
 								}
+								log.info("after filter cars:"+result.size());
 							}else{
 								for(int j=result.size()-1;j>=0;j--){
 									//ExamDateCarInfo car=result.get(j);
@@ -946,6 +974,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 										inluceCars.add(result.get(j).getCarno());
 									}
 								}
+								log.info("after filter cars:"+result.size());
 								redisUtil.set("exam.place.class.car.nonvip."+dtype+"."+pdate, inluceCars,24*3600);
 							}
 						}
@@ -968,6 +997,15 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 				}
 			}
 			
+			log.info("######response:");
+			for(ExamDateCarInfo info: result){
+				log.info("car:"+info.getCarno());
+				List<ExamPlaceClassVo> rclss =info.getClss();
+				for(ExamPlaceClassVo vo:rclss){
+					log.info("state:"+vo.getState()+" used:"+vo.getUsed());
+				}
+			}
+			log.info("######end response");
 			
 			map.put("carlist", result);
 		}else{
