@@ -843,6 +843,8 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 			
 			log.info("current has all cardate size:"+cars);
 			log.info("current drtype:"+drtype);
+			
+			List<ExamPlaceOrder> orders = getBookClass(coach.getCoachId(),pdate,drtype);
 			for(ExamCarDateNew car:cars){
 				
 //				boolean match=false;
@@ -872,8 +874,14 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					log.info("classvo bitmap:"+newvo.getBitmap());
 					log.info("car     bitmap:"+car.getBitmap());
 					log.info("class vo final used:"+newvo.getUsed());
+					if(newvo.getState()==0){
+						boolean booked=checkBook(orders,car.getCarno(),vo);
+						if(booked){
+							newvo.setState(1);
+						}
+					}
 					//排班状态：0-可约；1-已约；2-不可约；
-					if(newvo.getState()!=2&&newvo.getUsed()==1){
+					if(newvo.getState()==0&&newvo.getUsed()==1){
 						newvo.setState(2);
 					}
 					log.info("class vo final state:"+newvo.getState());
@@ -1525,23 +1533,36 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 	    		    	}
 	    		    	
 	    				//是否已经约过该排班
-	    				if(hasBookClass(Long.parseLong(userId),cls.getId(),drive)){
-	    					d.setState(1); //排班状态：0-可约；1-已约；2-不可约；3-已过期
-	    				}else {
-	    					if(d.getC() == d.getCbook()){
-	    						d.setState(2);
-	    					}else {
-	    						d.setState(0);
-	    					}
-	        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
-	    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
-	        		    	Date now = new Date();
-	        		    	Date endTime = cls.getRend();
-	        		    	if(now.after(endTime)){
-	        		    		d.setState(3);
-	        		    	}
-	    					
-	    				}
+//	    				if(hasBookClass(Long.parseLong(userId),cls.getId(),drive)){
+//	    					//d.setState(1); //排班状态：0-可约；1-已约；2-不可约；3-已过期
+//	    				}else {
+//	    					if(d.getC() == d.getCbook()){
+//	    						d.setState(2);
+//	    					}else {
+//	    						d.setState(0);
+//	    					}
+//	        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
+//	    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
+//	        		    	Date now = new Date();
+//	        		    	Date endTime = cls.getRend();
+//	        		    	if(now.after(endTime)){
+//	        		    		d.setState(3);
+//	        		    	}
+//	    					
+//	    				}
+	    				
+	    				if(d.getC() == d.getCbook()){
+    						d.setState(2);
+    					}else {
+    						d.setState(0);
+    					}
+        		    	// 20161009 如果已经到了计划上课时间，则不允许再预约！
+    					// 20161122考场方要求，在实际上课时间结束前，都是允许预约的！
+        		    	Date now = new Date();
+        		    	Date endTime = cls.getRend();
+        		    	if(now.after(endTime)){
+        		    		d.setState(3);
+        		    	}
 	
 	    				data.add(d);
 	    			}
@@ -1587,6 +1608,40 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 		
 		return check;
 
+	}
+	
+	public List<ExamPlaceOrder> getBookClass(long coachId, String pdate,String drtype) {
+		try{
+		byte drive = Byte.parseByte(drtype.trim());
+		ExamPlaceOrderExample example = new ExamPlaceOrderExample();
+		List<Byte> states = new ArrayList<Byte>();
+		Date d0 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 00:00:00");
+		Date d1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(pdate + " 23:59:59");
+		states.add((byte) 4); //订单状态：0-未支付；1-已支付；2-练考中；3-已完成；4-已取消；5-已关闭'
+		states.add((byte) 5);
+		example.createCriteria().andPstartBetween(d0, d1)
+				//.andClassIdEqualTo(classId)
+				.andCoachIdEqualTo(coachId)
+				.andDrtypeEqualTo(drive)
+				.andStateNotIn(states);							
+		List<ExamPlaceOrder> orders = examPlaceOrderMapper.selectByExample(example);
+		
+		
+		return orders;
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
+	public boolean checkBook(List<ExamPlaceOrder> orders,String carno,ExamPlaceClassVo vo){
+		if(orders==null) return false;
+		for(ExamPlaceOrder order:orders){
+			if(order.getClassId().intValue()==vo.getId().intValue()&&order.getCarNo().equals(carno)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	
