@@ -839,6 +839,18 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 					cars.add(examCarDateNew);
 				}
 			}
+			
+			for(int i=cars.size()-1;i>=0;i--){
+				ExamCarDateNew car = cars.get(i);
+				for(Car ocar:allcars){
+					if(car.getCarId()==ocar.getCarId()){
+						if(ocar.getDriveType().intValue()!=Integer.parseInt(drtype)){
+							cars.remove(i);
+						}
+					}
+				}
+			}
+			
 			//cars 所有c1 or c2类型的车时间列表
 			
 			log.info("current has all cardate size:"+cars);
@@ -928,7 +940,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						if(evip!=null){
 							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
 							log.info("vip hasinluceCars:"+hasinluceCars);
-							if(hasinluceCars!=null){
+							if(hasinluceCars!=null&&hasinluceCars.size()>0){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
 									for(String ecar:hasinluceCars){
@@ -959,7 +971,7 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 						}else{
 							List<String> hasinluceCars = redisUtil.get("exam.place.class.car.nonvip."+dtype+"."+pdate);
 							log.info("nonvip hasinluceCars:"+hasinluceCars);
-							if(hasinluceCars!=null){
+							if(hasinluceCars!=null&&hasinluceCars.size()>0){
 								for(int j=result.size()-1;j>=0;j--){
 									boolean find=false;
 									for(String ecar:hasinluceCars){
