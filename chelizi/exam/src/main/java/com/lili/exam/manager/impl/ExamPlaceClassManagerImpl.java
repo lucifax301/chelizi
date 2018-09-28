@@ -934,7 +934,42 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 								}
 							}
 						}
-					}else{
+						
+						if(result.size()>carcount){
+							
+							for(int j=result.size()-1;j>=carcount;j--){
+								//ExamDateCarInfo car=result.get(j);
+//								count++;
+//								if(count>carcount) {
+//									log.info("remove car index:"+j);
+//									result.remove(j);
+//								}
+								log.info("remove car index:"+j);
+								result.remove(j);
+							}
+//							List<String> hasinluceCars=null;
+//							if(evip!=null){
+//								hasinluceCars=redisUtil.get("exam.place.class.car.vip."+dtype+"."+pdate);
+//							}else{
+//								hasinluceCars=redisUtil.get("exam.place.class.car.nonvip."+dtype+"."+pdate);
+//							}
+//							if(hasinluceCars==null||hasinluceCars.size()==0){
+//								
+//								
+//							}else{
+//								if(hasinluceCars.size()>carcount){
+//									for(int j=hasinluceCars.size()-1;j>=0;j--){
+//										//ExamDateCarInfo car=result.get(j);
+//										count++;
+//										if(count>carcount) {
+//											log.info("remove car index:"+j);
+//											hasinluceCars.remove(j);
+//										}
+//									}
+//								}
+//							}
+						}
+					}else{//no exclude cars
 						List<String> inluceCars = new ArrayList<String>();
 						
 						if(evip!=null){
@@ -981,6 +1016,16 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 									}
 									if(!find){
 										result.remove(j);
+									}
+								}
+								if(hasinluceCars.size()>carcount){
+									while(hasinluceCars.size()>carcount){
+										hasinluceCars.remove(hasinluceCars.size()-1);
+									}
+								}
+								if(result.size()>carcount){
+									while(result.size()>carcount){
+										result.remove(result.size()-1);
 									}
 								}
 								log.info("after filter cars:"+result.size());
