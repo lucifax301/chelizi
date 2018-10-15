@@ -196,10 +196,19 @@ public class ExamPlaceClassManagerImpl implements ExamPlaceClassManager {
 								}
 							}
 							
-							record.setC1(c1-cls.getC1inner());
-							record.setC2(c2-cls.getC2inner());
-							record.setC1outer(c1-cls.getC1inner());
-							record.setC2outer(c2-cls.getC2inner());
+							int newc1=c1-cls.getC1inner();
+							int newc2=c2-cls.getC2inner();
+							newc1=record.getC1()>newc1?newc1:record.getC1();
+							newc2=record.getC2()>newc2?newc2:record.getC2();
+							
+//							record.setC1(c1-cls.getC1inner());
+//							record.setC2(c2-cls.getC2inner());
+//							record.setC1outer(c1-cls.getC1inner());
+//							record.setC2outer(c2-cls.getC2inner());
+							record.setC1(newc1);
+							record.setC2(newc2);
+							record.setC1outer(newc1);
+							record.setC2outer(newc2);
 							break;
 						}
 					}
