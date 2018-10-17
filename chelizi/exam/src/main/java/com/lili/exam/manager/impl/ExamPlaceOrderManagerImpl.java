@@ -1919,6 +1919,14 @@ public class ExamPlaceOrderManagerImpl implements ExamPlaceOrderManager {
 					examPlacePayOrder.setCoachId(Integer.parseInt(userId));
 					examPlacePayOrder.setCoachMobile(coach.getPhoneNum());
 					examPlacePayOrder.setCoachName(coach.getName());
+					Date pdate = orderData.get(0).getPstart();
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(pdate);
+					calendar.set(Calendar.HOUR_OF_DAY, 0);
+					calendar.set(Calendar.MINUTE, 0);
+					calendar.set(Calendar.SECOND, 0);
+					pdate = calendar.getTime();
+					examPlacePayOrder.setPdate(pdate);
 					examPayMapper.insert(examPlacePayOrder);
 					
 					examPlacePayOrder.setOrders(orderData);

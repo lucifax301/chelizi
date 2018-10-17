@@ -34,8 +34,17 @@ public class ExamPlacePayOrder implements Serializable {
 	
 	private List<ExamPlaceOrder> orders;
 	
+	private Date pdate;
 	
 	
+
+	public Date getPdate() {
+		return pdate;
+	}
+
+	public void setPdate(Date pdate) {
+		this.pdate = pdate;
+	}
 
 	public Date getBtime() {
 		return btime;

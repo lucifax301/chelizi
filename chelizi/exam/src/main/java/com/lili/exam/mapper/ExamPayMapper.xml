@@ -11,11 +11,12 @@
     <result column="payTotal" property="payTotal" jdbcType="INTEGER" />
     <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
     <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="pdate" property="pdate" jdbcType="TIMESTAMP" />
     <result column="ctime" property="ctime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    payorderId, placeId,  coachId,coachName,coachMobile,duration,payTotal,payTime,state,ctime
+    payorderId, placeId,  coachId,coachName,coachMobile,duration,payTotal,payTime,state,pdate,ctime
   </sql>
   
   <select id="count" parameterType="com.lili.exam.dto.ExamPlacePayOrder" resultType="java.lang.Integer" >
@@ -52,10 +53,10 @@
     	and state=#{state}
     </if>
     <if test="btime !=null">
-    	and <![CDATA[ #{btime}<=ctime ]]>
+    	and <![CDATA[ #{btime}<=pdate ]]>
     </if>
     <if test="etime !=null">
-    	and <![CDATA[ #{etime}>=ctime ]]>
+    	and <![CDATA[ #{etime}>=pdate ]]>
     </if>
   </select>
   
@@ -129,11 +130,11 @@
   
   <insert id="insert" parameterType="com.lili.exam.dto.ExamPlacePayOrder" >
     insert into t_exam_place_pay_order (payorderId, placeId, coachId, 
-      coachName ,coachMobile,duration,payTotal,ctime
+      coachName ,coachMobile,duration,payTotal,pdate,ctime
       
       )
     values (#{payorderId}, #{placeId},  #{coachId}, 
-      #{coachName},#{coachMobile},#{duration},#{payTotal},now()
+      #{coachName},#{coachMobile},#{duration},#{payTotal},#{pdate},now()
       )
   </insert>
   
