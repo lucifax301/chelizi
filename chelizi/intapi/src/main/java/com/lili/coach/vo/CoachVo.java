@@ -190,8 +190,16 @@ public class CoachVo implements Serializable {
     
     private Integer teachStudent;
     
+    private String rongToken;    
+    
     
 	
+	public String getRongToken() {
+		return rongToken;
+	}
+	public void setRongToken(String rongToken) {
+		this.rongToken = rongToken;
+	}
 	public Integer getCheckDrState() {
 		return checkDrState;
 	}

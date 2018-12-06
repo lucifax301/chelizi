@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	http://code.alibabatech.com/schema/dubbo 
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	
+	
+	<bean id="controllerInterceptor" class="com.lili.common.controller.intercepter.DbRouteIntercepter"></bean>
+	<aop:config>
+		<aop:pointcut expression="@annotation(org.springframework.web.bind.annotation.RequestMapping)" id="controllercut"/>
+		
+		<aop:aspect id="controllerAspect" ref="controllerInterceptor" order="1">
+		<aop:before method="before"  pointcut-ref="controllercut"/>
+		<aop:after method="after" pointcut-ref="controllercut"/>
+		<aop:around method="around" pointcut-ref="controllercut"/>
+		</aop:aspect>
+	</aop:config>
+</beans>

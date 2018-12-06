@@ -181,6 +181,48 @@ public class CoachInfoVo implements Serializable {
     
     private String checkDrRemark;
 	
+    private Integer carsCount;
+    
+    private String extra;
+    
+    private Date reviveTime;
+    
+    private Integer state;
+    
+    
+    
+	public Integer getCarsCount() {
+		return carsCount;
+	}
+
+	public void setCarsCount(Integer carsCount) {
+		this.carsCount = carsCount;
+	}
+
+	public String getExtra() {
+		return extra;
+	}
+
+	public void setExtra(String extra) {
+		this.extra = extra;
+	}
+
+	public Date getReviveTime() {
+		return reviveTime;
+	}
+
+	public void setReviveTime(Date reviveTime) {
+		this.reviveTime = reviveTime;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
 	public String getDrPhoto() {
 		return drPhoto;
 	}

@@ -54,6 +54,28 @@ public class CoachClassTemp implements Serializable {
     private Integer schoolId;
 
     private String remark;
+    
+    private double lae;
+    
+    private double lge;
+    
+    
+
+	public double getLae() {
+		return lae;
+	}
+
+	public void setLae(double lae) {
+		this.lae = lae;
+	}
+
+	public double getLge() {
+		return lge;
+	}
+
+	public void setLge(double lge) {
+		this.lge = lge;
+	}
 
 	public Integer getId() {
 		return id;

@@ -1,0 +1,2 @@
+dbRouteConsumer=com.lili.common.dubbo.DbRouteConsumerFilter
+dbRouteProvider=com.lili.common.dubbo.DbRouteProviderFilter
