@@ -16,6 +16,7 @@ import com.lili.common.vo.ReqResult;
 import com.lili.coupon.service.CouponService;
 import com.lili.log.service.LogService;
 import com.lili.order.service.OrderService;
+import com.lili.pay.config.ExamPayConfig;
 import com.lili.pay.config.WXPayConfig;
 import com.lili.pay.config.ZFBPayConfig;
 import com.lili.pay.mapper.dao.PerformanceDtoMapper;
@@ -42,6 +43,8 @@ public abstract class PayAction
 
     @Autowired
     protected WXPayConfig wxPayConfig;
+    @Autowired
+    protected ExamPayConfig examPayConfig;
 
     @Autowired
     protected RedisUtil redisUtil;

@@ -99,6 +99,40 @@
         <property name="notifyUrl" value="${qq.pay.notifyUrl}"/>
         <property name="callBackUrl" value="${qq.pay.callbackUrl}"/>
     </bean>
+    
+    <bean id="hhkc_wxPayConfig" class="com.lili.pay.config.WXPayConfig">
+        <property name="keysMap">
+            <map>
+                <entry key="2" value="${hhkc.wx.pay.student.enterprise.key}"/>
+            </map>
+        </property>
+        <property name="appIDMap">
+            <map>
+                <entry key="2" value="${hhkc.wx.pay.student.enterprise.appID}"/>
+            </map>
+        </property>
+        <property name="mchIDMap">
+            <map>
+                <entry key="2" value="${wx.pay.student.enterprise.mchID}"/>
+            </map>
+        </property>
+        <property name="certLocalPath" value="${wx.pay.certLocalPath}"/>
+        <property name="certPassword" value="${wx.pay.certPassword}"/>
+        <property name="useThreadToDoReport" value="${wx.pay.useThreadToDoReport}"/>
+        <property name="notifyUrl" value="${hhkc.wx.pay.notifyUrl}"/>
+        <property name="ip" value="${wx.pay.ip}"/>
+        <property name="tradeType" value="${wx.pay.tradeType}"/>
+        <property name="orderExpire" value="${wx.pay.orderExpire}"/>
+        <property name="chargeNotifyUrl" value="${wx.charge.notifyUrl}"/>
+    </bean>
+    
+    <bean id="examPayConfig" class="com.lili.pay.config.ExamPayConfig">
+    <property name="configs">
+            <map>
+                <entry key="hhkc" value-ref="hhkc_wxPayConfig"/>
+            </map>
+        </property>
+    </bean>
 </beans>
 
 

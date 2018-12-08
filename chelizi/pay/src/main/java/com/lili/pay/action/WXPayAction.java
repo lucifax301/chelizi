@@ -12,10 +12,12 @@ import com.lili.common.constant.OrderConstant;
 import com.lili.common.util.BeanCopy;
 import com.lili.common.util.HttpUtil;
 import com.lili.common.util.SerializableUtil;
+import com.lili.common.util.ThreadTruck;
 import com.lili.common.util.TimeUtil;
 import com.lili.common.util.redis.RedisKeys.REDISKEY;
 import com.lili.common.vo.ReqResult;
 import com.lili.common.vo.ResultCode;
+import com.lili.pay.config.WXPayConfig;
 import com.lili.pay.vo.PayClientVer;
 import com.lili.pay.vo.PayInfoVo;
 import com.lili.pay.vo.PayMessage;
@@ -102,6 +104,22 @@ public class WXPayAction extends PayAction
                 }
             }
 
+            String kc = (String)ThreadTruck.get("route_db");
+            System.out.println("examPayConfig:"+examPayConfig);
+            System.out.println(examPayConfig.getConfigs());
+            WXPayConfig kcwxPayConfig = examPayConfig.getConfig(kc);
+            
+//            UnifiedOrderReqData unifiedOrderReqData = new UnifiedOrderReqData(payVo.getPayPurpose().getDesc(),
+//                    payVo.getCouponId() + ","
+//                            + String.valueOf(discount),
+//                    payVo.getPayOrderId(), payVo.getPayValue(),
+//                    dev_info, "127.0.0.1", TimeUtil.getDateFormat(new Date(), "yyyyMMddHHmmss"), TimeUtil.getDateFormat(
+//                            TimeUtil.addDate(
+//                                    new Date(), wxPayConfig.getOrderExpire()), "yyyyMMddHHmmss"),
+//                    Configure.getNotifyUrl(), wxPayConfig.getAppId(payVo.getClientVer().getType()),
+//                    wxPayConfig.getKey(payVo.getClientVer().getType()), payType, openId,
+//                    wxPayConfig.getMchId(payVo.getClientVer().getType()));
+            
             UnifiedOrderReqData unifiedOrderReqData = new UnifiedOrderReqData(payVo.getPayPurpose().getDesc(),
                     payVo.getCouponId() + ","
                             + String.valueOf(discount),
@@ -109,14 +127,17 @@ public class WXPayAction extends PayAction
                     dev_info, "127.0.0.1", TimeUtil.getDateFormat(new Date(), "yyyyMMddHHmmss"), TimeUtil.getDateFormat(
                             TimeUtil.addDate(
                                     new Date(), wxPayConfig.getOrderExpire()), "yyyyMMddHHmmss"),
-                    Configure.getNotifyUrl(), wxPayConfig.getAppId(payVo.getClientVer().getType()),
-                    wxPayConfig.getKey(payVo.getClientVer().getType()), payType, openId,
-                    wxPayConfig.getMchId(payVo.getClientVer().getType()));
+                                    kcwxPayConfig.getNotifyUrl(), kcwxPayConfig.getAppId(payVo.getClientVer().getType()),
+                                    kcwxPayConfig.getKey(payVo.getClientVer().getType()), payType, openId,
+                                    kcwxPayConfig.getMchId(payVo.getClientVer().getType()));
+            
             //（1）商户后台收到用户支付单，调用微信支付统一下单接口。
             //商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再在APP里面调起支付。
             //sdk调用统一下单接口，生成预支付订单。
-            WXPay.doUnifiedOrderBusiness(unifiedOrderReqData, wxPayConfig.getKey(payVo.getClientVer().getType()),
-                    wxPayConfig.getMchId(payVo.getClientVer().getType()),
+//            WXPay.doUnifiedOrderBusiness(unifiedOrderReqData, wxPayConfig.getKey(payVo.getClientVer().getType()),
+//                    wxPayConfig.getMchId(payVo.getClientVer().getType()),
+            WXPay.doUnifiedOrderBusiness(unifiedOrderReqData, kcwxPayConfig.getKey(payVo.getClientVer().getType()),
+            		kcwxPayConfig.getMchId(payVo.getClientVer().getType()),
                     //商户需要自己监听被扫支付业务逻辑可能触发的各种分支事件，并做好合理的响应处理
                     new ResultListener()
                     {

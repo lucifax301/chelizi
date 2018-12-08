@@ -11,7 +11,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.lili.common.util.ThreadTruck;
 
 public class CrossFilter implements Filter {
 	private static final boolean debug = true;
@@ -53,6 +56,12 @@ public class CrossFilter implements Filter {
 		}
 
 		Throwable problem = null;
+		String kc = ((HttpServletRequest)request).getHeader("kc");
+		
+		
+		if(kc!=null){
+			ThreadTruck.put("route_db", kc);
+		}
 		try {
 			chain.doFilter(request, response);
 		} catch (Throwable t) {
