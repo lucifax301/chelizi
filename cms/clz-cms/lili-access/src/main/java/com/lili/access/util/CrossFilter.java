@@ -11,7 +11,10 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.lili.common.util.ThreadTruck;
 
 public class CrossFilter implements Filter {
 	private static final boolean debug = true;
@@ -49,10 +52,16 @@ public class CrossFilter implements Filter {
 			HttpServletResponse alteredResponse = (HttpServletResponse) response;
 			//i need to find a way to make sure this only gets called on 200-300 http responses
 			//TODO see above comment
-			addHeadersFor200Response(alteredResponse);
+			addHeadersFor200Response((HttpServletRequest)request,alteredResponse);
 		}
 
 		Throwable problem = null;
+		String kc = ((HttpServletRequest)request).getHeader("kc");
+		
+		
+		if(kc!=null){
+			ThreadTruck.put("route_db", kc);
+		}
 		try {
 			chain.doFilter(request, response);
 		} catch (Throwable t) {
@@ -132,12 +141,25 @@ public class CrossFilter implements Filter {
 		return stackTrace;
 	}
 
-	private void addHeadersFor200Response(HttpServletResponse response) {
+	private void addHeadersFor200Response(HttpServletRequest request ,HttpServletResponse response) {
 		// externalize the Allow-Origin
 		//表明它允许"http://foo.org"发起跨域请求
 		//response.setHeader("Access-Control-Allow-Origin", "http://xc.res.com:8080");
 //		response.setHeader("Access-Control-Allow-Origin", "http://jx.lilixc.com");
-		response.setHeader("Access-Control-Allow-Origin", filterConfig.getInitParameter("origin"));
+		String referer = request.getHeader("Referer");
+		String kc = request.getHeader("kc");
+		System.out.println("##########kc value:"+kc);
+		String server = null;
+		if(referer.startsWith("http://")){
+			server = referer.substring(0, referer.indexOf("/", "http://".length()));
+		}else if(referer.startsWith("https://")){
+			server = referer.substring(0, referer.indexOf("/", "https://".length()));
+		}
+		System.out.println("server:"+server);
+		if(server==null){
+			server = filterConfig.getInitParameter("origin");
+		}
+		response.setHeader("Access-Control-Allow-Origin", server);
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		response.setHeader("Access-Control-Allow-Headers", "X-PINGOTHER, Origin, X-Requested-With, Content-Type, Accept");
 		//表明在1728000秒内，不需要再发送预检验请求，可以缓存该结果
