@@ -20,6 +20,7 @@ import com.lili.cms.constant.Constant;
 import com.lili.cms.entity.ResponseMessage;
 import com.lili.cms.util.EncryptUtil;
 import com.lili.cms.util.WebUtil;
+import com.lili.common.util.ThreadTruck;
 import com.lili.school.service.CMSSchoolService;
 import com.lili.user.model.Permission;
 import com.lili.user.model.User;
@@ -84,6 +85,15 @@ public class LoginController extends BaseController{
 		if(user0.getSchoolId() == 0){
 			access.info("login:failed" +  "|" + "account:" +  getParamStr(request, "account") + " belongs to jx");
 			return errorMessage(response);
+		}
+		
+		String key = (String)ThreadTruck.get("route_db");
+		String checkdomain=System.getProperty("checkdomain", "0");
+		if("1".equals(checkdomain)){
+			if(!user0.getDomain().equals(key)){
+				access.info("login:failed" +  "|" + "account:" + getParamStr(request, "account") + " ,wrong domain");
+				return errorMessage(response);
+			}
 		}
 		
 		//经过双重加密的密码

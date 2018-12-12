@@ -30,7 +30,19 @@ public class User extends BaseEntity implements Cloneable {
 	
 	private Date updateTime;
 	
+	private String domain;
 	
+	
+	
+	
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
 	private List<Privilege> privileges;
 	
 	

@@ -10,9 +10,10 @@
 		<result column="email" property="email" jdbcType="VARCHAR" />
 		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
 		<result column="enabled" property="enabled" jdbcType="TINYINT" />
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id,account,username,password,schoolId,phoneNum,email,enabled,creator,createTime,updator,updateTime
+		id,account,username,password,schoolId,phoneNum,email,enabled,creator,createTime,updator,updateTime,domain
 	</sql>
 
 	<select id="findBatch" parameterType="com.lili.user.model.UserBDTO"
